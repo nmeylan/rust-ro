@@ -1,19 +1,20 @@
+use async_trait::async_trait;
+use sqlx::Error;
+use sqlx::postgres::PgQueryResult;
+
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::repository::{CharacterRepository, HotKeyRepository, InventoryRepository, ItemRepository, LoginRepository, MobRepository, Repository, ScriptVariableRepository};
+use crate::repository::{
+    CharacterRepository, HotKeyRepository, InventoryRepository, ItemRepository, LoginRepository, MobRepository, Repository,
+    ScriptVariableRepository,
+};
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
-use async_trait::async_trait;
-use sqlx::postgres::PgQueryResult;
-use sqlx::Error;
 
 #[derive(Default)]
 pub struct MockedRepository;
 
-
-impl Repository for MockedRepository {
-
-}
+impl Repository for MockedRepository {}
 
 impl HotKeyRepository for MockedRepository {}
 
@@ -25,14 +26,17 @@ impl ScriptVariableRepository for MockedRepository {}
 
 impl LoginRepository for MockedRepository {}
 
-
 #[async_trait]
 impl InventoryRepository for MockedRepository {
     async fn character_inventory_update_add(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> {
         Ok(())
     }
 
-    async fn character_inventory_update_remove(&self, _inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _sell: bool) -> Result<(), Error> {
+    async fn character_inventory_update_remove(
+        &self,
+        _inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>,
+        _sell: bool,
+    ) -> Result<(), Error> {
         Ok(())
     }
 
@@ -47,7 +51,6 @@ impl InventoryRepository for MockedRepository {
     async fn character_inventory_wearable_item_update(&self, _items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
         Ok(Default::default())
     }
-
 }
 
 #[async_trait]

@@ -1,13 +1,12 @@
-use crate::repository::model::item_model::InventoryItemModel;
 use models::enums::class::JobName;
 use models::enums::look::LookType;
+use models::position::Position;
 
-
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::action::Damage;
 use crate::server::model::hotkey::Hotkey;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
-use models::position::Position;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
@@ -50,7 +49,7 @@ pub enum GameEvent {
     CharacterUpdateSpeed(u32, u16),
     CharacterRestoreAllHpAndSP(u32),
     CharacterRequestCardCompositionList(CharacterEquipItem),
-    CharacterSlotCard(CharacterSlotCard)
+    CharacterSlotCard(CharacterSlotCard),
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -75,7 +74,7 @@ pub struct CharacterMovement {
     pub destination: Position,
     pub current_position: Position,
     pub path: Vec<Movement>,
-    pub cancel_attack: bool
+    pub cancel_attack: bool,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -95,8 +94,8 @@ pub struct CharacterZeny {
 pub struct CharacterAddItems {
     pub char_id: u32,
     pub should_perform_check: bool, // indicate if we should perform checks before adding items to user
-    pub buy: bool, // indicate zeny should be used to buy item (zeny will be updated)
-    pub items: Vec<InventoryItemModel>
+    pub buy: bool,                  // indicate zeny should be used to buy item (zeny will be updated)
+    pub items: Vec<InventoryItemModel>,
 }
 #[derive(Debug, PartialEq, Clone)]
 pub struct CharacterRemoveItems {
@@ -110,7 +109,7 @@ pub struct CharacterRemoveItems {
 pub struct CharacterUseItem {
     pub char_id: u32,
     pub target_char_id: u32,
-    pub index: usize
+    pub index: usize,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -164,7 +163,7 @@ pub struct CharacterChangeJobLevel {
 pub struct CharacterChangeJob {
     pub char_id: u32,
     pub job: JobName,
-    pub should_reset_skills: bool
+    pub should_reset_skills: bool,
 }
 
 #[derive(Debug, PartialEq, Clone)]

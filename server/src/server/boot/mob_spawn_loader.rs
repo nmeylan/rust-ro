@@ -6,13 +6,13 @@ use std::sync::Arc;
 use std::thread;
 use std::thread::JoinHandle;
 use std::time::Instant;
+
+use configuration::configuration::Config;
 use tokio::runtime::Runtime;
 
 use crate::repository::model::mob_model::MobModel;
 use crate::server::boot::{NpcLoader, NpcLoaderTrait};
 use crate::server::model::mob_spawn::{MobSpawn, MobType};
-use configuration::configuration::Config;
-
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
@@ -39,7 +39,8 @@ impl NpcLoaderTrait<MobSpawn> for MobSpawnLoader {
             }
             // A mob "npc" definition is as below
             //
-            // <map name>,<x>,<y>,{<xs>,<ys>}	monster	<mob name>{,<mob level>}	<mob id>,<amount>,{<delay1>,<delay2>,<event>,<mob size>,<mob ai>}
+            // <map name>,<x>,<y>,{<xs>,<ys>}	monster	<mob name>{,<mob level>}	<mob
+            // id>,<amount>,{<delay1>,<delay2>,<event>,<mob size>,<mob ai>}
             let line_fragment = line.split('\t').collect::<Vec<&str>>();
             if line_fragment.len() < 4 {
                 continue;
@@ -84,8 +85,13 @@ impl NpcLoaderTrait<MobSpawn> for MobSpawnLoader {
 }
 
 impl MobSpawnLoader {
-    pub fn load_mob_spawns(config: &'static Config, mobs: HashMap<u32, MobModel>, config_root_path: &'static str, runtime: Arc<Runtime>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
-        thread::spawn(move ||{
+    pub fn load_mob_spawns(
+        config: &'static Config,
+        mobs: HashMap<u32, MobModel>,
+        config_root_path: &'static str,
+        runtime: Arc<Runtime>,
+    ) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+        thread::spawn(move || {
             let start = Instant::now();
             let npc_loader = NpcLoader {
                 conf_file: File::open(Path::new(config_root_path).join(MOB_CONF_FILE)).unwrap(),
@@ -95,12 +101,18 @@ impl MobSpawnLoader {
             let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn, MobSpawnLoader>(config).await });
             mob_spawns.iter_mut().for_each(|(_, spawns)| {
                 spawns.iter_mut().for_each(|mob_spawn| {
-                    let mob_info = mobs.get(&(mob_spawn.mob_id as u32)).unwrap_or_else(|| panic!("Can't find mob information for mob id {}", mob_spawn.mob_id));
+                    let mob_info = mobs
+                        .get(&(mob_spawn.mob_id as u32))
+                        .unwrap_or_else(|| panic!("Can't find mob information for mob id {}", mob_spawn.mob_id));
                     mob_spawn.set_info(mob_info.clone());
                 });
             });
 
-            info!("load {} mob spawns in {}ms", mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis());
+            info!(
+                "load {} mob spawns in {}ms",
+                mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()),
+                start.elapsed().as_millis()
+            );
             mob_spawns
         })
     }

@@ -1,12 +1,12 @@
-use std::{env, fs};
 use std::fmt::Formatter;
 use std::path::Path;
+use std::{env, fs};
 
-use serde::{Deserialize, Deserializer};
-use serde::de::{MapAccess, SeqAccess, Visitor};
 use configuration::bonus_type_wrapper::BonusTypeWrapper;
-use models::enums::element::Element;
 use configuration::serde_helper::deserialize_number_enum;
+use models::enums::element::Element;
+use serde::de::{MapAccess, SeqAccess, Visitor};
+use serde::{Deserialize, Deserializer};
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct BattleFixture {
@@ -111,7 +111,7 @@ pub struct BattleFixture {
     #[serde(rename = "matkMax")]
     matk_max: u16,
     #[serde(deserialize_with = "deserialize_number_enum")]
-    element: Element
+    element: Element,
 }
 #[derive(GettersAll, Debug, Clone, Default)]
 pub struct Equipments {
@@ -132,7 +132,10 @@ impl BattleFixture {
     pub fn load(path: &str) -> Vec<Self> {
         let path = Path::new(path);
         if !path.exists() {
-            panic!("fixture file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap());
+            panic!(
+                "fixture file does not exists at {}",
+                env::current_dir().unwrap().join(path).to_str().unwrap()
+            );
         }
         let fixtures: Vec<BattleFixture> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         fixtures
@@ -140,17 +143,39 @@ impl BattleFixture {
 
     pub fn all_equipments(&self) -> Vec<&Equipment> {
         let mut equipments = vec![];
-        if let Some(e) = self.equipments.weapon().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.weapon_left().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.accessory1().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.accessory2().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.upper_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.middle_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.lower_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.body().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.shoulder().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.shoes().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
-        if let Some(e) = self.equipments.shield().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.weapon().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.weapon_left().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.accessory1().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.accessory2().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.upper_headgear().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.middle_headgear().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.lower_headgear().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.body().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.shoulder().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.shoes().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
+        if let Some(e) = self.equipments.shield().as_ref().filter(|e| e.item_id() > 0) {
+            equipments.push(e)
+        }
         equipments
     }
 }
@@ -172,7 +197,7 @@ pub struct Equipment {
     #[serde(default)]
     cards: Vec<Card>,
     #[serde(default)]
-    bonuses: Vec<BonusTypeWrapper>
+    bonuses: Vec<BonusTypeWrapper>,
 }
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
@@ -181,33 +206,38 @@ pub struct Card {
     item_id: i16,
     name: String,
     #[serde(default)]
-    bonuses: Vec<BonusTypeWrapper>
+    bonuses: Vec<BonusTypeWrapper>,
 }
 
-
 fn deserialize_equipments<'de, D>(deserializer: D) -> Result<Equipments, D::Error>
-    where
-        D: Deserializer<'de>,
+where
+    D: Deserializer<'de>,
 {
-    deserializer.deserialize_map(EquipmentVisitor{})
+    deserializer.deserialize_map(EquipmentVisitor {})
 }
 
 struct EquipmentVisitor;
-impl <'de>Visitor<'de> for EquipmentVisitor {
+impl<'de> Visitor<'de> for EquipmentVisitor {
     type Value = Equipments;
 
     fn expecting(&self, _formatter: &mut Formatter) -> std::fmt::Result {
         todo!()
     }
 
-    fn visit_seq<A>(self, _seq: A) -> Result<Equipments, A::Error> where A: SeqAccess<'de> {
+    fn visit_seq<A>(self, _seq: A) -> Result<Equipments, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
         todo!()
         // while let Some(element) = seq.next_element()? {
         //     println!("{:?}", element);
         // }
     }
 
-    fn visit_map<A>(self, mut map: A) -> Result<Equipments, A::Error> where A: MapAccess<'de> {
+    fn visit_map<A>(self, mut map: A) -> Result<Equipments, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
         let mut weapon: Option<Equipment> = None;
         let mut weapon_left: Option<Equipment> = None;
         let mut body: Option<Equipment> = None;
@@ -232,10 +262,12 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
                 "upperHeadgear" => upper_headgear = map.next_value::<Option<Equipment>>()?,
                 "middleHeadgear" => middle_headgear = map.next_value::<Option<Equipment>>()?,
                 "lowerHeadgear" => lower_headgear = map.next_value::<Option<Equipment>>()?,
-                _ => { map.next_value::<Option<Equipment>>()?;}
+                _ => {
+                    map.next_value::<Option<Equipment>>()?;
+                }
             }
         }
-        Ok(Equipments{
+        Ok(Equipments {
             weapon,
             weapon_left,
             body,
@@ -250,5 +282,3 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
         })
     }
 }
-
-

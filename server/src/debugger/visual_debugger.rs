@@ -1,34 +1,33 @@
-use crate::debugger::map_instance_view::MapInstanceView;
-use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
-use crate::debugger::{frame_history, View, Window};
-use crate::repository::model::char_model::CharSelectModel;
-use crate::server::model::events::map_event::MapEvent;
-use crate::server::model::map_item::MapItem;
-use crate::server::model::map_item::MapItemType;
-use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::status_service::StatusService;
-use crate::server::state::character::Character;
-use crate::server::Server;
-use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
+use std::collections::{BTreeSet, HashMap};
+use std::path::Path;
+use std::sync::Arc;
+use std::{fs, mem, thread};
+
 use eframe::egui::{Context, ScrollArea, ViewportCommand};
-use eframe::{egui, CreationContext, HardwareAcceleration};
+use eframe::{CreationContext, HardwareAcceleration, egui};
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
 use egui_extras::{Column, TableBuilder};
 use lazy_static::lazy_static;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
-use std::collections::{BTreeSet, HashMap};
-use std::path::Path;
-use std::sync::Arc;
-use std::{fs, mem, thread};
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
-
-use crate::server::model::session::{Session, SessionRecord, SessionRecordEntry};
 #[cfg(target_os = "linux")]
 use winit::platform::x11::EventLoopBuilderExtX11;
 use winit::raw_window_handle::HasWindowHandle;
 
+use crate::debugger::map_instance_view::MapInstanceView;
+use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
+use crate::debugger::{View, Window, frame_history};
+use crate::repository::model::char_model::CharSelectModel;
+use crate::server::Server;
+use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::map_item::{MapItem, MapItemType};
+use crate::server::model::session::{Session, SessionRecord, SessionRecordEntry};
+use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::status_service::StatusService;
+use crate::server::state::character::Character;
+use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
 
 pub struct VisualDebugger {
     pub name: String,
@@ -62,8 +61,7 @@ lazy_static! {
 
 impl eframe::App for VisualDebugger {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-        self.frame_history
-            .on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
+        self.frame_history.on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
         let handle = frame.window_handle().unwrap();
         ctx.send_viewport_cmd(ViewportCommand::Title(format!("{} {}", self.name, self.frame_history.info())));
         if !self.init {
@@ -73,10 +71,7 @@ impl eframe::App for VisualDebugger {
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
             ui.horizontal_wrapped(|ui| {
                 for tab in TABS.iter() {
-                    if ui
-                        .selectable_label(self.selected_tab == *tab, *tab)
-                        .clicked()
-                    {
+                    if ui.selectable_label(self.selected_tab == *tab, *tab).clicked() {
                         self.selected_tab = tab.to_string();
                     }
                 }
@@ -90,7 +85,12 @@ impl eframe::App for VisualDebugger {
 impl VisualDebugger {
     pub async fn run(server: Arc<Server>) {
         let server_clone = server.clone();
-        let simulator_char_list = server_clone.repository.characters_list_for_simulator().await.unwrap().into_iter()
+        let simulator_char_list = server_clone
+            .repository
+            .characters_list_for_simulator()
+            .await
+            .unwrap()
+            .into_iter()
             .map(|item| (item.char_id as u32, item))
             .collect();
 
@@ -108,7 +108,10 @@ impl VisualDebugger {
                 clicked: false,
                 zoom: 1.0,
                 zoom_center: Pos2 { x: 0.0, y: 0.0 },
-                zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
+                zoom_draw_rect: Rect {
+                    min: Pos2 { x: 0.0, y: 0.0 },
+                    max: Pos2 { x: 0.0, y: 0.0 },
+                },
                 server: server.clone(),
             },
             character_tab_state: Default::default(),
@@ -144,6 +147,7 @@ impl VisualDebugger {
             eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Ok(Box::new(app)))).unwrap();
         });
     }
+
     fn ui(&mut self, ui: &mut Ui) {
         match self.selected_tab.as_str() {
             "Map" => {
@@ -181,16 +185,16 @@ impl VisualDebugger {
         if self.selected_map.is_some() {
             selected_text = self.selected_map.as_ref().unwrap();
         }
-        ComboBox::from_id_salt("Select map")
-            .selected_text(selected_text)
-            .show_ui(ui, |ui| {
-                self.server.state().map_instances()
-                    .iter()
-                    .map(|(map_name, _map)| map_name)
-                    .for_each(|map_name| {
-                        ui.selectable_value(&mut self.selected_map, Some(map_name.clone()), map_name);
-                    })
-            });
+        ComboBox::from_id_salt("Select map").selected_text(selected_text).show_ui(ui, |ui| {
+            self.server
+                .state()
+                .map_instances()
+                .iter()
+                .map(|(map_name, _map)| map_name)
+                .for_each(|map_name| {
+                    ui.selectable_value(&mut self.selected_map, Some(map_name.clone()), map_name);
+                })
+        });
     }
 
     fn character_combobox(&mut self, ui: &mut Ui) {
@@ -201,12 +205,13 @@ impl VisualDebugger {
         ComboBox::from_id_salt("Select char")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
-                self.server.state().characters()
-                    .iter()
-                    .map(|(_id, char)| char)
-                    .for_each(|char| {
-                        ui.selectable_value(&mut self.selected_char, Some((char.char_id, char.name.clone())), char.name.clone());
-                    })
+                self.server.state().characters().iter().map(|(_id, char)| char).for_each(|char| {
+                    ui.selectable_value(
+                        &mut self.selected_char,
+                        Some((char.char_id, char.name.clone())),
+                        char.name.clone(),
+                    );
+                })
             });
     }
 
@@ -221,9 +226,10 @@ impl VisualDebugger {
         let map_instance_id = map_instance.id();
         let map_items_clone = map_instance.state().map_items().clone();
         let server_characters = self.server.state().characters();
-        let characters = map_items_clone.iter()
+        let characters = map_items_clone
+            .iter()
             .filter(|(_, item)| *item.object_type() == MapItemType::Character)
-            .map(|(_, item)| { server_characters.get(&item.id()).unwrap() })
+            .map(|(_, item)| server_characters.get(&item.id()).unwrap())
             .collect::<Vec<&Character>>();
         egui::SidePanel::left(format!("{} info", map_name))
             .min_width(250.0)
@@ -249,7 +255,12 @@ impl VisualDebugger {
                             ui.separator();
                             let state = map_instance.state();
                             if let Some(mob_ref) = state.get_mob(map_item.id()) {
-                                ui.label(format!("Selected map item: {}: {} ({})", map_item.object_type(), mob_ref.name_english, map_item.id()));
+                                ui.label(format!(
+                                    "Selected map item: {}: {} ({})",
+                                    map_item.object_type(),
+                                    mob_ref.name_english,
+                                    map_item.id()
+                                ));
                                 if *map_item.object_type() == MapItemType::Mob {
                                     ui.label(format!("{},{}", mob_ref.x(), mob_ref.y()));
                                 }
@@ -260,10 +271,13 @@ impl VisualDebugger {
                             let i = self.map_instance_view.cursor_pos.as_ref().unwrap().x as u16;
                             let j = self.map_instance_view.cursor_pos.as_ref().unwrap().y as u16;
                             ui.label(format!("Cursor: {}, {}", i, j));
-                            let map_item = map_items_clone.iter().find(|(_, map_item)| {
-                                let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
-                                position.x() == i && position.y() == j
-                            }).map(|(_, map_item)| map_item);
+                            let map_item = map_items_clone
+                                .iter()
+                                .find(|(_, map_item)| {
+                                    let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
+                                    position.x() == i && position.y() == j
+                                })
+                                .map(|(_, map_item)| map_item);
                             if self.map_instance_view.clicked {
                                 self.selected_map_item = map_item.cloned();
                             }
@@ -277,33 +291,44 @@ impl VisualDebugger {
                                     let mob_ref = state.get_mob(map_item.id()).unwrap();
                                     let mob = mob_ref;
                                     ui.label("Items in Field of view");
-                                    mob.map_view.iter()
-                                        .for_each(|item| {
-                                            let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
-                                            let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
-                                            ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
-                                        });
+                                    mob.map_view.iter().for_each(|item| {
+                                        let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
+                                        let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
+                                        ui.label(format!(
+                                            "{}: {} {},{}",
+                                            item.object_type(),
+                                            item_name,
+                                            position.x(),
+                                            position.y()
+                                        ));
+                                    });
                                 } else if *map_item.object_type() == MapItemType::Character {
                                     let character = self.server.state().map_item_character(map_item).unwrap();
                                     ui.label("Items in Field of view");
-                                    let mut character_map_view: Vec<MapItem> = character.map_view.clone().into_iter().collect::<Vec<MapItem>>();
+                                    let mut character_map_view: Vec<MapItem> =
+                                        character.map_view.clone().into_iter().collect::<Vec<MapItem>>();
                                     character_map_view.sort_by_key(|a| a.id());
-                                    character_map_view.iter()
-                                        .for_each(|item| {
-                                            let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
-                                            let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
-                                            ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
-                                        });
+                                    character_map_view.iter().for_each(|item| {
+                                        let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
+                                        let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
+                                        ui.label(format!(
+                                            "{}: {} {},{}",
+                                            item.object_type(),
+                                            item_name,
+                                            position.x(),
+                                            position.y()
+                                        ));
+                                    });
                                 }
                             }
                         }
                     });
                 })
             });
-        egui::CentralPanel::default()
-            .show(ui.ctx(), |ui| {
-                self.map_instance_view.draw_map_instance_view(ui, map_instance, map_items_clone, &self.selected_map_item);
-            });
+        egui::CentralPanel::default().show(ui.ctx(), |ui| {
+            self.map_instance_view
+                .draw_map_instance_view(ui, map_instance, map_items_clone, &self.selected_map_item);
+        });
     }
 
     fn character_view(&mut self, ui: &mut Ui) {
@@ -329,7 +354,11 @@ impl VisualDebugger {
                                 ui.label(format!("matk: {}+{}", status.matk_min(), status.matk_min()));
                                 ui.label(format!("hit: {}", status.hit()));
                                 ui.label(format!("crit: {}", status.crit()));
-                                ui.label(format!("def: {}+{}", status.def(), StatusService::instance().character_vit_def(&status)));
+                                ui.label(format!(
+                                    "def: {}+{}",
+                                    status.def(),
+                                    StatusService::instance().character_vit_def(&status)
+                                ));
                                 ui.label(format!("mdef: {}", status.mdef()));
                             });
                             columns[2].vertical(|ui| {
@@ -340,30 +369,35 @@ impl VisualDebugger {
                         });
                     });
 
-
                     ui.heading("Equipment");
                     ui.group(|ui| {
                         ui.set_max_width(600.0);
                         ui.set_width(600.0);
-                        character.status.equipped_weapons().iter()
-                            .for_each(|item| { ui.label(format!("{}", WearWeaponForDisplay::new(&item, GlobalConfigService::instance()))); });
-                        character.status.equipped_gears().iter()
-                            .for_each(|item| { ui.label(format!("{}", WearGearForDisplay::new(&item, GlobalConfigService::instance()))); });
-                        character.status.equipped_ammo().map(|item| { ui.label(format!("{}", WearAmmoForDisplay::new(&item, GlobalConfigService::instance()))); });
+                        character.status.equipped_weapons().iter().for_each(|item| {
+                            ui.label(format!("{}", WearWeaponForDisplay::new(&item, GlobalConfigService::instance())));
+                        });
+                        character.status.equipped_gears().iter().for_each(|item| {
+                            ui.label(format!("{}", WearGearForDisplay::new(&item, GlobalConfigService::instance())));
+                        });
+                        character.status.equipped_ammo().map(|item| {
+                            ui.label(format!("{}", WearAmmoForDisplay::new(&item, GlobalConfigService::instance())));
+                        });
                     });
                     ui.heading("Status bonuses");
                     ui.group(|ui| {
                         ui.set_max_width(600.0);
                         ui.set_width(600.0);
-                        status.bonuses().iter()
-                            .for_each(|item| { ui.label(format!("{}", item)); });
+                        status.bonuses().iter().for_each(|item| {
+                            ui.label(format!("{}", item));
+                        });
                     });
                     ui.heading("Temporary bonuses");
                     ui.group(|ui| {
                         ui.set_max_width(600.0);
                         ui.set_width(600.0);
-                        character.status.temporary_bonuses().iter()
-                            .for_each(|item| { ui.label(format!("{}", item)); });
+                        character.status.temporary_bonuses().iter().for_each(|item| {
+                            ui.label(format!("{}", item));
+                        });
                     });
                 });
             } else {
@@ -382,14 +416,25 @@ impl VisualDebugger {
         }
         ui.horizontal_wrapped(|ui| {
             ComboBox::from_id_salt("simulator_char_select")
-                .selected_text(selected_text).show_ui(ui, |ui| {
-                self.simulator_char_list.iter()
-                    .filter(|(char_id, _)| !self.simulator.character_simulated(**char_id))
-                    .for_each(|(char_id, char)| {
-                        ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
-                                                                                                 JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
-                    })
-            });
+                .selected_text(selected_text)
+                .show_ui(ui, |ui| {
+                    self.simulator_char_list
+                        .iter()
+                        .filter(|(char_id, _)| !self.simulator.character_simulated(**char_id))
+                        .for_each(|(char_id, char)| {
+                            ui.selectable_value(
+                                &mut self.simulator_selected_char,
+                                *char_id,
+                                format!(
+                                    "{} ({} {}/{})",
+                                    char.name,
+                                    JobName::from_value(char.class as usize).as_str(),
+                                    char.base_level,
+                                    char.job_level
+                                ),
+                            );
+                        })
+                });
 
             if self.simulator_selected_char > 0 && ui.button("Join game").clicked() {
                 self.simulator.simulate(self.simulator_selected_char);
@@ -413,7 +458,13 @@ impl VisualDebugger {
                         });
                         columns[0].vertical(|ui| {
                             ui.label(format!("class: {}", JobName::from_value(selected_char.class as usize).as_str()));
-                            ui.label(format!("level: {}/{}", selected_char.base_level as usize, selected_char.job_level as usize).as_str());
+                            ui.label(
+                                format!(
+                                    "level: {}/{}",
+                                    selected_char.base_level as usize, selected_char.job_level as usize
+                                )
+                                .as_str(),
+                            );
                             ui.label(format!("hp: {}", selected_char.hp));
                             ui.label(format!("sp: {}", selected_char.sp));
                             ui.label(format!("map: {}", selected_char.last_map));
@@ -422,7 +473,6 @@ impl VisualDebugger {
                     });
                 });
             });
-
         }
         ui.separator();
         ui.heading("Running simulation");
@@ -436,51 +486,87 @@ impl VisualDebugger {
             .column(Column::exact(120.0))
             .column(Column::remainder())
             .header(14.0, |mut ui| {
-                ui.col(|ui| { ui.strong(""); });
-                ui.col(|ui| { ui.strong("Name"); });
-                ui.col(|ui| { ui.strong("Job"); });
-                ui.col(|ui| { ui.strong("Level"); });
-                ui.col(|ui| { ui.strong("City"); });
-                ui.col(|ui| { ui.strong("Location"); });
-                ui.col(|ui| { ui.strong("Replaying"); });
-                ui.col(|ui| { ui.strong("Actions"); });
-            }).body(|ui| {
-            let simulated_sessions = self.simulator.sessions();
-            let mut stop_play_session_id = 0;
-            ui.rows(20.0, simulated_sessions.len(), |mut row| {
-                let row_index = row.index();
-                let session = unsafe { simulated_sessions.get_unchecked(row_index) };
-                if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
-                    row.col(|ui| {
-                        let index = self.simulator_selected_rows_for_actions.iter().position(|i| *i == row_index);
-                        let mut is_open = index.is_some();
-                        if ui.checkbox(&mut is_open, "").changed() {
-                            if let Some(index) = index {
-                                self.simulator_selected_rows_for_actions.remove(index);
-                            } else {
-                                self.simulator_selected_rows_for_actions.push(row_index);
+                ui.col(|ui| {
+                    ui.strong("");
+                });
+                ui.col(|ui| {
+                    ui.strong("Name");
+                });
+                ui.col(|ui| {
+                    ui.strong("Job");
+                });
+                ui.col(|ui| {
+                    ui.strong("Level");
+                });
+                ui.col(|ui| {
+                    ui.strong("City");
+                });
+                ui.col(|ui| {
+                    ui.strong("Location");
+                });
+                ui.col(|ui| {
+                    ui.strong("Replaying");
+                });
+                ui.col(|ui| {
+                    ui.strong("Actions");
+                });
+            })
+            .body(|ui| {
+                let simulated_sessions = self.simulator.sessions();
+                let mut stop_play_session_id = 0;
+                ui.rows(20.0, simulated_sessions.len(), |mut row| {
+                    let row_index = row.index();
+                    let session = unsafe { simulated_sessions.get_unchecked(row_index) };
+                    if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
+                        row.col(|ui| {
+                            let index = self.simulator_selected_rows_for_actions.iter().position(|i| *i == row_index);
+                            let mut is_open = index.is_some();
+                            if ui.checkbox(&mut is_open, "").changed() {
+                                if let Some(index) = index {
+                                    self.simulator_selected_rows_for_actions.remove(index);
+                                } else {
+                                    self.simulator_selected_rows_for_actions.push(row_index);
+                                }
                             }
-                        }
-                    });
-                    row.col(|ui| { ui.label(character.name.as_str()); });
-                    row.col(|ui| { ui.label(JobName::from_value(character.get_job() as usize).as_str()); });
-                    row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level())); });
-                    row.col(|ui| { ui.label(character.current_map_name()); });
-                    row.col(|ui| { ui.label(format!("{},{}", character.x, character.y)); });
-                    row.col(|ui| { ui.label(format!("{}", if self.simulator.session_replaying.contains(&session.account_id) { "Yes"} else { "No"} )); });
-                    row.col(|ui| {
-                        if self.simulator.session_replaying.contains(&session.account_id) {
-                            if ui.button("Stop replay session").clicked() {
-                                stop_play_session_id = session.account_id;
+                        });
+                        row.col(|ui| {
+                            ui.label(character.name.as_str());
+                        });
+                        row.col(|ui| {
+                            ui.label(JobName::from_value(character.get_job() as usize).as_str());
+                        });
+                        row.col(|ui| {
+                            ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level()));
+                        });
+                        row.col(|ui| {
+                            ui.label(character.current_map_name());
+                        });
+                        row.col(|ui| {
+                            ui.label(format!("{},{}", character.x, character.y));
+                        });
+                        row.col(|ui| {
+                            ui.label(format!(
+                                "{}",
+                                if self.simulator.session_replaying.contains(&session.account_id) {
+                                    "Yes"
+                                } else {
+                                    "No"
+                                }
+                            ));
+                        });
+                        row.col(|ui| {
+                            if self.simulator.session_replaying.contains(&session.account_id) {
+                                if ui.button("Stop replay session").clicked() {
+                                    stop_play_session_id = session.account_id;
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                });
+                if stop_play_session_id > 0 {
+                    self.simulator.stop_session_replay(stop_play_session_id);
                 }
             });
-            if stop_play_session_id > 0 {
-                self.simulator.stop_session_replay(stop_play_session_id);
-            }
-        });
         ui.add_space(10.0);
         if ui.button("Choose session to replay").clicked() {
             Self::set_open(&mut self.open_windows, "Choose session to replay", true);
@@ -488,14 +574,20 @@ impl VisualDebugger {
         ui.horizontal_wrapped(|ui| {
             if let Some(ref mut session_record) = self.replay_selected_session {
                 if ui.button("Replay session").clicked() {
-                    self.simulator.replay_packet(session_record.clone(), self.simulator_selected_rows_for_actions.clone());
+                    self.simulator
+                        .replay_packet(session_record.clone(), self.simulator_selected_rows_for_actions.clone());
                 }
                 ui.label(session_record.format_entries());
             }
         });
     }
+
     fn windows(&mut self, ctx: &Context) {
-        let Self { replay_selection_window, open_windows, .. } = self;
+        let Self {
+            replay_selection_window,
+            open_windows,
+            ..
+        } = self;
 
         let mut is_open = open_windows.contains(replay_selection_window.name());
         let response = replay_selection_window.show(ctx, &mut is_open);
@@ -507,6 +599,7 @@ impl VisualDebugger {
         }
         Self::set_open(open_windows, replay_selection_window.name(), is_open);
     }
+
     fn set_open(open: &mut BTreeSet<String>, key: &'static str, is_open: bool) {
         if is_open {
             if !open.contains(key) {
@@ -532,9 +625,7 @@ impl ReplaySessionPanel {
         let mut session_records = Vec::new();
         Self::load_session_records_files(&mut session_records);
 
-        Self {
-            session_records
-        }
+        Self { session_records }
     }
 
     fn load_session_records_files(session_records: &mut Vec<SessionRecord>) {
@@ -564,14 +655,8 @@ impl Window<ReplaySelectionResponse> for ReplaySessionPanel {
             .default_height(480.0)
             .open(open)
             .resizable([true, true])
-            .show(ctx, |ui| {
-                self.ui(ui)
-            });
-        if let Some(response) = response {
-            response.inner
-        } else {
-            None
-        }
+            .show(ctx, |ui| self.ui(ui));
+        if let Some(response) = response { response.inner } else { None }
     }
 }
 
@@ -588,26 +673,39 @@ impl View<ReplaySelectionResponse> for ReplaySessionPanel {
             .column(Column::exact(120.0))
             .column(Column::remainder())
             .header(14.0, |mut ui| {
-                ui.col(|ui| { ui.strong(""); });
-                ui.col(|ui| { ui.strong("City"); });
-                ui.col(|ui| { ui.strong("Location"); });
-                ui.col(|ui| { ui.strong("Actions"); });
-            }).body(|ui| {
-            ui.rows(20.0, self.session_records.len(), |mut row| {
-                let row_index = row.index();
-                let session_record = unsafe { self.session_records.get_unchecked_mut(row_index) };
-                row.col(|ui| {
-                    if ui.button("Select").clicked() {
-                        response.session_record_selected = Some(session_record.clone());
-                    }
+                ui.col(|ui| {
+                    ui.strong("");
                 });
-                row.col(|ui| { ui.label(&session_record.map_name); });
-                row.col(|ui| { ui.label(format!("{}/{}", &session_record.position.x, &session_record.position.y)); });
-                row.col(|ui| {
-                    ui.label(session_record.format_entries());
+                ui.col(|ui| {
+                    ui.strong("City");
+                });
+                ui.col(|ui| {
+                    ui.strong("Location");
+                });
+                ui.col(|ui| {
+                    ui.strong("Actions");
+                });
+            })
+            .body(|ui| {
+                ui.rows(20.0, self.session_records.len(), |mut row| {
+                    let row_index = row.index();
+                    let session_record = unsafe { self.session_records.get_unchecked_mut(row_index) };
+                    row.col(|ui| {
+                        if ui.button("Select").clicked() {
+                            response.session_record_selected = Some(session_record.clone());
+                        }
+                    });
+                    row.col(|ui| {
+                        ui.label(&session_record.map_name);
+                    });
+                    row.col(|ui| {
+                        ui.label(format!("{}/{}", &session_record.position.x, &session_record.position.y));
+                    });
+                    row.col(|ui| {
+                        ui.label(session_record.format_entries());
+                    });
                 });
             });
-        });
         response
     }
 }

@@ -1,12 +1,13 @@
-
 #[cfg(test)]
 #[cfg(feature = "integration_tests")]
 mod tests {
+    use std::time::Duration;
+
+    use models::position::Position;
+
     use crate::server::model::events::game_event::{CharacterChangeMap, GameEvent};
     use crate::server::model::events::map_event::MapEvent;
     use crate::tests::common::integration_test::{before_all, character_join_game};
-    use models::position::Position;
-    use std::time::Duration;
 
     #[tokio::test]
     async fn concurrency_testKillMonsterWhileMoving() {
@@ -46,13 +47,13 @@ mod tests {
         let mut server_mut = server.state_mut();
         let mut character = server_mut.characters_mut().get_mut(&char_id).unwrap();
         for _ in 0..60 {
-           server.add_to_next_tick(GameEvent::CharacterChangeMap(CharacterChangeMap{
-               char_id,
-               new_map_name: "prt_fild09".to_string(),
-               new_instance_id: 0,
-               new_position: Some(Position{x: 100, y: 100, dir: 0 }),
-           }));
-           tokio::time::sleep(Duration::from_millis(30)).await;
+            server.add_to_next_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
+                char_id,
+                new_map_name: "prt_fild09".to_string(),
+                new_instance_id: 0,
+                new_position: Some(Position { x: 100, y: 100, dir: 0 }),
+            }));
+            tokio::time::sleep(Duration::from_millis(30)).await;
         }
         // Then
     }

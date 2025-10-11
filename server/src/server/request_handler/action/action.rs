@@ -1,14 +1,18 @@
-use packets::packets::{PacketCzItemPickup, PacketCzRequestAct};
-use crate::server::Server;
-use crate::server::model::request::Request;
 use models::enums::EnumWithNumberValue;
 use models::enums::action::ActionType;
+use packets::packets::{PacketCzItemPickup, PacketCzRequestAct};
+
+use crate::server::Server;
 use crate::server::model::events::game_event::{CharacterAttack, CharacterPickUpItem, GameEvent};
+use crate::server::model::request::Request;
 
 pub fn handle_pickup_item(server: &Server, context: Request) {
     let packet_cz_item_pickup = cast!(context.packet(), PacketCzItemPickup);
     let map_item_id = packet_cz_item_pickup.itaid;
-    server.add_to_next_tick(GameEvent::CharacterPickUpItem(CharacterPickUpItem { char_id: context.session().char_id.unwrap(), map_item_id }));
+    server.add_to_next_tick(GameEvent::CharacterPickUpItem(CharacterPickUpItem {
+        char_id: context.session().char_id.unwrap(),
+        map_item_id,
+    }));
 }
 
 pub fn handle_action(server: &Server, context: Request) {
@@ -26,22 +30,16 @@ pub fn handle_action(server: &Server, context: Request) {
     match action_type {
         ActionType::Attack => {}
         ActionType::Itempickup => {}
-        ActionType::Sit => {
-            server.add_to_next_tick(GameEvent::CharacterSit(char_id))
-        }
-        ActionType::Stand => {
-            server.add_to_next_tick(GameEvent::CharacterStand(char_id))
-        }
+        ActionType::Sit => server.add_to_next_tick(GameEvent::CharacterSit(char_id)),
+        ActionType::Stand => server.add_to_next_tick(GameEvent::CharacterStand(char_id)),
         ActionType::AttackNomotion => {}
         ActionType::Splash => {}
         ActionType::Skill => {}
-        ActionType::AttackRepeat => {
-            server.add_to_next_tick(GameEvent::CharacterAttack(CharacterAttack {
-                char_id,
-                target_id: packet_cz_request_act.target_gid,
-                repeat: true,
-            }))
-        }
+        ActionType::AttackRepeat => server.add_to_next_tick(GameEvent::CharacterAttack(CharacterAttack {
+            char_id,
+            target_id: packet_cz_request_act.target_gid,
+            repeat: true,
+        })),
         ActionType::AttackMultiple => {}
         ActionType::AttackMultipleNomotion => {}
         ActionType::AttackCritical => {}

@@ -1,17 +1,17 @@
-
 use std::collections::HashMap;
 use std::fs::File;
-use std::path::Path;
 use std::io::{BufRead, BufReader};
+use std::path::Path;
 use std::time::Instant;
+
 use configuration::configuration::Config;
+
 use crate::server::boot::{NpcLoader, NpcLoaderTrait};
 use crate::server::model::warp::Warp;
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_ROOT_PATH: &str = "./config/npc";
 static WARP_CONF_FILE: &str = "scripts_warps.conf";
-
 
 pub struct WarpLoader;
 impl NpcLoaderTrait<Warp> for WarpLoader {
@@ -48,7 +48,6 @@ impl NpcLoaderTrait<Warp> for WarpLoader {
         }
         Ok(warps)
     }
-
 }
 
 impl WarpLoader {
@@ -60,7 +59,11 @@ impl WarpLoader {
             parallel_execution: PARALLEL_EXECUTIONS,
         };
         let warps = npc_loader.load_npc::<Warp, WarpLoader>(config).await;
-        info!("load {} warps in {}ms", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis());
+        info!(
+            "load {} warps in {}ms",
+            warps.iter().fold(0, |memo, curr| memo + curr.1.len()),
+            start.elapsed().as_millis()
+        );
         warps
     }
 }

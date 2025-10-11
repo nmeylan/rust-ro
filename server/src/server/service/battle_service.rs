@@ -1,27 +1,25 @@
 use std::mem;
-use std::sync::mpsc::SyncSender;
 use std::sync::Once;
+use std::sync::mpsc::SyncSender;
 
 use models::enums::action::ActionType;
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
-use models::enums::EnumWithMaskValueU64;
-use models::enums::EnumStackable;
 use models::enums::size::Size;
 use models::enums::skill::SkillState;
 use models::enums::weapon::WeaponType;
-use models::status::{StatusSnapshot};
+use models::enums::{EnumStackable, EnumWithMaskValueU64, EnumWithNumberValue};
+use models::status::StatusSnapshot;
 use packets::packets::PacketZcNotifyAct;
-use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use skills::OffensiveSkill;
 
+use crate::packets::packets::Packet;
+use crate::server::model::action::Damage;
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
-use models::enums::EnumWithNumberValue;
-use crate::packets::packets::Packet;
-use crate::server::model::action::Damage;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -40,18 +38,41 @@ pub enum BattleResultMode {
 }
 
 impl BattleService {
-
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService, battle_result_mode: BattleResultMode) -> Self {
-        BattleService { client_notification_sender, status_service, configuration_service, battle_result_mode }
+    pub(crate) fn new(
+        client_notification_sender: SyncSender<Notification>,
+        status_service: &'static StatusService,
+        configuration_service: &'static GlobalConfigService,
+        battle_result_mode: BattleResultMode,
+    ) -> Self {
+        BattleService {
+            client_notification_sender,
+            status_service,
+            configuration_service,
+            battle_result_mode,
+        }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) {
+    pub fn init(
+        client_notification_sender: SyncSender<Notification>,
+        status_service: &'static StatusService,
+        configuration_service: &'static GlobalConfigService,
+    ) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(BattleService::new(client_notification_sender, status_service, configuration_service, BattleResultMode::Normal));
+            SERVICE_INSTANCE = Some(BattleService::new(
+                client_notification_sender,
+                status_service,
+                configuration_service,
+                BattleResultMode::Normal,
+            ));
         });
     }
 
-    pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> i32 {
+    pub fn calculate_damage(
+        &self,
+        source_status: &StatusSnapshot,
+        target_status: &StatusSnapshot,
+        skill: Option<&dyn OffensiveSkill>,
+    ) -> i32 {
         let mut damage = 0;
         if let Some(skill) = skill {
             if skill.is_physical() {
@@ -59,7 +80,13 @@ impl BattleService {
                 if skill.hit_count() > 1 {
                     skill_modifier /= skill.hit_count() as f32;
                 }
-                damage = self.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged(), &self.attack_element(source_status, Some(skill)));
+                damage = self.physical_damage_character_attack_monster(
+                    source_status,
+                    target_status,
+                    skill_modifier,
+                    skill.is_ranged(),
+                    &self.attack_element(source_status, Some(skill)),
+                );
                 if skill.hit_count() > 1 {
                     damage *= skill.hit_count() as i32;
                 } else {
@@ -76,17 +103,37 @@ impl BattleService {
                 }
             }
         } else {
-            let is_ranged = source_status.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
-            damage = self.physical_damage_character_attack_monster(source_status, target_status, 1.0, is_ranged, &self.attack_element(source_status, None));
+            let is_ranged = source_status
+                .right_hand_weapon()
+                .map(|w| w.weapon_type().is_ranged())
+                .unwrap_or(false);
+            damage = self.physical_damage_character_attack_monster(
+                source_status,
+                target_status,
+                1.0,
+                is_ranged,
+                &self.attack_element(source_status, None),
+            );
         }
 
         damage
     }
 
     /// (([((({(base_atk +
-    /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
-    /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool, element: &Element) -> i32 {
+    /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100)
+    ///   - VitDEF + BaneSkill + UpgradeDamage}
+    /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) *
+    ///   ElementalModifier) + Enhancements) * DamageBonusModifiers *
+    ///   DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) /
+    ///   NumberOfMultiHits
+    fn physical_damage_character_attack_monster(
+        &self,
+        source_status: &StatusSnapshot,
+        target_status: &StatusSnapshot,
+        skill_modifier: f32,
+        is_ranged: bool,
+        element: &Element,
+    ) -> i32 {
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
@@ -113,38 +160,40 @@ impl BattleService {
         atk.floor() as i32
     }
 
-
     pub fn mob_vitdef(&self, target_status: &StatusSnapshot) -> f32 {
         let mut rng = fastrand::Rng::new();
         let vitdef_lower_part = 0;
         let vitdef_higher_part = 0.max(((target_status.vit() as f32 / 20.0).floor() as i16).pow(2) - 1) as u16;
         let vitdef = match self.battle_result_mode {
-            BattleResultMode::TestMin => {target_status.vit() + vitdef_higher_part} // When mode is "min" it means when we do min damage, so mob has the higher vitdef
-            BattleResultMode::TestMax => {target_status.vit() + vitdef_lower_part}  // When mode is "max" it means when we do max damage, so mob has the lower vitdef
-            BattleResultMode::Normal => {target_status.vit() + rng.u16(vitdef_lower_part..=vitdef_higher_part)}
+            BattleResultMode::TestMin => target_status.vit() + vitdef_higher_part, /* When mode is "min" it means when we do min damage,
+                                                                                     * so mob has the higher vitdef */
+            BattleResultMode::TestMax => target_status.vit() + vitdef_lower_part, /* When mode is "max" it means when we do max damage,
+                                                                                    * so mob has the lower vitdef */
+            BattleResultMode::Normal => target_status.vit() + rng.u16(vitdef_lower_part..=vitdef_higher_part),
         };
         vitdef as f32
     }
 
-
     ///  [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1))
     pub fn player_vitdef(&self, target_status: &StatusSnapshot) -> u16 {
         let mut rng = fastrand::Rng::new();
-        let vitdef = (target_status.vit() as f32 * 0.5).floor()  as u16;
-        let vitdef_lower_part= (target_status.vit() as f32 * 0.3).floor() as u16;
-        let vitdef_higher_part= vitdef_lower_part.max(((target_status.vit().pow(2) as f32 / 150.0).floor() - 1.0 ) as u16);
+        let vitdef = (target_status.vit() as f32 * 0.5).floor() as u16;
+        let vitdef_lower_part = (target_status.vit() as f32 * 0.3).floor() as u16;
+        let vitdef_higher_part = vitdef_lower_part.max(((target_status.vit().pow(2) as f32 / 150.0).floor() - 1.0) as u16);
         // TODO handle bDef2Rate, bDef2 (and also from angelus and divine protection)
         match self.battle_result_mode {
-            BattleResultMode::TestMin => {vitdef + vitdef_lower_part}
-            BattleResultMode::TestMax => {vitdef + vitdef_higher_part}
-            BattleResultMode::Normal => {vitdef + rng.u16(vitdef_lower_part..=vitdef_higher_part)}
+            BattleResultMode::TestMin => vitdef + vitdef_lower_part,
+            BattleResultMode::TestMax => vitdef + vitdef_higher_part,
+            BattleResultMode::Normal => vitdef + rng.u16(vitdef_lower_part..=vitdef_higher_part),
         }
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
     pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, _is_ranged: bool) -> u32 {
         let mut rng = fastrand::Rng::new();
-        let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id()));
+        let weapon = source_status
+            .right_hand_weapon()
+            .map(|weapon| self.configuration_service.get_item(weapon.item_id()));
         let imposito_magnus: u32 = 0; // TODO get from status
         let mut weapon_level = 0;
         let mut weapon_attack = 0;
@@ -169,7 +218,8 @@ impl BattleService {
         let weapon_over_upgrade_min: u32 = 0;
         let mut weapon_min_attack: u32;
         let size_modifier = Self::size_modifier(source_status, target_status);
-        if work_dex >= weapon_attack { // todo || maximize power skill
+        if work_dex >= weapon_attack {
+            // todo || maximize power skill
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
             weapon_min_attack = weapon_over_upgrade_min + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
         } else {
@@ -179,44 +229,69 @@ impl BattleService {
         if source_status.right_hand_weapon_type().is_ranged() {
             let ammo_dmg = (source_status.ammo().map_or_else(|| 1.0, |ammo| (ammo.attack() - 1) as f32) * size_modifier).floor() as u32;
             weapon_max_attack += ammo_dmg;
-            let mut w1 = weapon_over_upgrade_max + ((weapon_attack * weapon_attack) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;
-            let w2 = weapon_over_upgrade_max + ((weapon_attack * work_dex) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;
-            if w1 > w2 { w1 = w2 }
-            if weapon_max_attack < w1 { weapon_max_attack = w1 }
-            weapon_min_attack = weapon_over_upgrade_min + (((weapon_attack * weapon_attack) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
-            let w = weapon_over_upgrade_min + (((weapon_attack * work_dex) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
-            if weapon_min_attack > w { weapon_min_attack = w }
+            let mut w1 = weapon_over_upgrade_max
+                + ((weapon_attack * weapon_attack) as f32 / 100.0 * size_modifier).floor() as u32
+                + (imposito_magnus as f32 * size_modifier).floor() as u32
+                + ammo_dmg;
+            let w2 = weapon_over_upgrade_max
+                + ((weapon_attack * work_dex) as f32 / 100.0 * size_modifier).floor() as u32
+                + (imposito_magnus as f32 * size_modifier).floor() as u32
+                + ammo_dmg;
+            if w1 > w2 {
+                w1 = w2
+            }
+            if weapon_max_attack < w1 {
+                weapon_max_attack = w1
+            }
+            weapon_min_attack = weapon_over_upgrade_min
+                + (((weapon_attack * weapon_attack) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
+            let w = weapon_over_upgrade_min
+                + (((weapon_attack * work_dex) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
+            if weapon_min_attack > w {
+                weapon_min_attack = w
+            }
         }
 
         match self.battle_result_mode {
-            BattleResultMode::TestMin => { weapon_min_attack }
-            BattleResultMode::TestMax => { weapon_max_attack }
-            BattleResultMode::Normal => { rng.u32(weapon_min_attack..=weapon_max_attack) }
+            BattleResultMode::TestMin => weapon_min_attack,
+            BattleResultMode::TestMax => weapon_max_attack,
+            BattleResultMode::Normal => rng.u32(weapon_min_attack..=weapon_max_attack),
         }
     }
 
-
-    /// {rnd(minMATK,maxMATK) * ItemModifier * SkillModifier * (1-MDEF/100) - INT - VIT/2} * Elemental Modifier
-    pub fn magic_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, element: &Element) -> i32 {
+    /// {rnd(minMATK,maxMATK) * ItemModifier * SkillModifier * (1-MDEF/100) -
+    /// INT - VIT/2} * Elemental Modifier
+    pub fn magic_damage_character_attack_monster(
+        &self,
+        source_status: &StatusSnapshot,
+        target_status: &StatusSnapshot,
+        skill_modifier: f32,
+        element: &Element,
+    ) -> i32 {
         let mut rng = fastrand::Rng::new();
         let matk = match self.battle_result_mode {
-            BattleResultMode::TestMin => { source_status.matk_min() }
-            BattleResultMode::TestMax => { source_status.matk_max() }
-            BattleResultMode::Normal => { rng.u16(source_status.matk_min()..=source_status.matk_max()) }
+            BattleResultMode::TestMin => source_status.matk_min(),
+            BattleResultMode::TestMax => source_status.matk_max(),
+            BattleResultMode::Normal => rng.u16(source_status.matk_min()..=source_status.matk_max()),
         } as f32;
         let elemental_modifier: f32 = Self::element_modifier(element, target_status);
         let mdef = target_status.mdef() as f32 / 100.0;
-        // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
+        // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier,
+        // skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32
+        // / 2.0, elemental_modifier);
         ((matk * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as i32
     }
 
     pub fn attack_element(&self, source_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> Element {
-         // TODO can be overidden by Enchant Poison, Aspersio
+        // TODO can be overidden by Enchant Poison, Aspersio
         if let Some(skill) = skill {
             if matches!(skill.element(), Element::Ammo) {
                 source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
             } else if matches!(skill.element(), Element::Weapon) {
-                source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
+                source_status
+                    .right_hand_weapon()
+                    .map(|weapon| *weapon.element())
+                    .unwrap_or(Element::Neutral)
             } else {
                 skill.element()
             }
@@ -224,7 +299,10 @@ impl BattleService {
             if weapon.weapon_type().is_ranged() {
                 source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
             } else {
-                source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
+                source_status
+                    .right_hand_weapon()
+                    .map(|weapon| *weapon.element())
+                    .unwrap_or(Element::Neutral)
             }
         } else {
             Element::Neutral
@@ -242,14 +320,30 @@ impl BattleService {
 
         // Notes:
         // star crumb: ignored by shield boomerang skill
-        // spirit ball, shouldcount spirit ball wehn casting fingeroffensive, otherwise use current value
+        // spirit ball, shouldcount spirit ball wehn casting fingeroffensive, otherwise
+        // use current value
         let mut current_atk = current_atk;
-        BonusType::get_enum_value(&BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
-        BonusType::get_enum_value(&BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
+        BonusType::get_enum_value(
+            &BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0),
+            &source_status.bonuses_raw(),
+        )
+        .map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
+        BonusType::get_enum_value(
+            &BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0),
+            &source_status.bonuses_raw(),
+        )
+        .map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
         current_atk
     }
 
-    pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
+    pub fn basic_attack(
+        &self,
+        character: &mut Character,
+        target: MapItemSnapshot,
+        source_status: &StatusSnapshot,
+        target_status: &StatusSnapshot,
+        tick: u128,
+    ) -> Option<Damage> {
         character.attack?;
         let attack = character.attack();
 
@@ -258,7 +352,8 @@ impl BattleService {
         if tick < attack.last_attack_tick + attack_motion as u128 {
             return None;
         }
-        if !attack.repeat { // one shot attack
+        if !attack.repeat {
+            // one shot attack
             character.clear_attack();
         } else {
             character.update_last_attack_tick(tick);
@@ -280,9 +375,17 @@ impl BattleService {
         packet_zc_notify_act3.set_damage(damage as i16);
         packet_zc_notify_act3.set_count(1);
         packet_zc_notify_act3.fill_raw();
-        self.client_notification_sender.send(
-            Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(),
-                                                     AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut()))))
+        self.client_notification_sender
+            .send(Notification::Area(AreaNotification::new(
+                character.current_map_name().clone(),
+                character.current_map_instance(),
+                AreaNotificationRangeType::Fov {
+                    x: character.x,
+                    y: character.y,
+                    exclude_id: None,
+                },
+                mem::take(packet_zc_notify_act3.raw_mut()),
+            )))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_act3 to client"));
         if damage >= 0 {
             Some(Damage {
@@ -300,150 +403,125 @@ impl BattleService {
     #[inline]
     pub fn size_modifier(source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
         // Size Modifiers for Weapons
-        // Size 	Fist 	Dagger 	1H Sword 	2H Sword 	Spear 	Spear+Peco 	Axe 	Mace 	Rod 	Bow 	Katar 	Book 	Claw 	Instrument 	Whip 	Gun 	Huuma Shuriken
-        // Small 	100 	100 	75       	75       	75  	75 	        50  	75  	100 	100 	75  	100 	100 	75 	        75 	    100 	100
-        // Medium 	100 	75  	100      	75       	75  	100 	    75  	100 	100 	100 	100 	100 	75 	    100 	    100 	100 	100
-        // Large 	100 	50  	75      	100     	100 	100 	    100 	100 	100 	75  	75 	    50 	    50 	    75 	        50 	    100 	100
+        // Size 	Fist 	Dagger 	1H Sword 	2H Sword 	Spear 	Spear+Peco 	Axe 	Mace 	Rod
+        // Bow 	Katar 	Book 	Claw 	Instrument 	Whip 	Gun 	Huuma Shuriken
+        // Small 	100 	100 	75       	75       	75  	75 	        50  	75  	100 	100 	75
+        // 100 	100 	75 	        75 	    100 	100 Medium 	100 	75  	100      	75
+        // 75  	100 	    75  	100 	100 	100 	100 	100 	75 	    100 	    100 	100 	100
+        // Large 	100 	50  	75      	100     	100 	100 	    100 	100 	100 	75  	75
+        // 50 	    50 	    75 	        50 	    100 	100
         let weapon_type = source_status.right_hand_weapon_type();
         match weapon_type {
-            WeaponType::Fist => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 1.0,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Dagger => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 0.75,
-                    Size::Large => 0.5,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Sword1H => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.75,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Sword2H => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 0.75,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
+            WeaponType::Fist => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 1.0,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
+            WeaponType::Dagger => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 0.75,
+                Size::Large => 0.5,
+                _ => 1.0,
+            },
+            WeaponType::Sword1H => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 1.0,
+                Size::Large => 0.75,
+                _ => 1.0,
+            },
+            WeaponType::Sword2H => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 0.75,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
             WeaponType::Spear1H | WeaponType::Spear2H => {
                 if source_status.state() & SkillState::Riding.as_flag() > 0 {
                     match target_status.size() {
                         Size::Small => 0.75,
                         Size::Medium => 1.0,
                         Size::Large => 1.0,
-                        _ => 1.0
+                        _ => 1.0,
                     }
                 } else {
                     match target_status.size() {
                         Size::Small => 0.75,
                         Size::Medium => 0.75,
                         Size::Large => 1.0,
-                        _ => 1.0
+                        _ => 1.0,
                     }
                 }
             }
-            WeaponType::Axe1H | WeaponType::Axe2H => {
-                match target_status.size() {
-                    Size::Small => 0.5,
-                    Size::Medium => 0.75,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Mace | WeaponType::Mace2H => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 1.0,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Staff | WeaponType::Staff2H => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 1.0,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Bow => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.75,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Knuckle => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 0.75,
-                    Size::Large => 0.5,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Musical => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.75,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Whip => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.5,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Book => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.5,
-                    _ => 1.0
-                }
-            }
-            WeaponType::Katar => {
-                match target_status.size() {
-                    Size::Small => 0.75,
-                    Size::Medium => 1.0,
-                    Size::Large => 0.75,
-                    _ => 1.0
-                }
-            }
+            WeaponType::Axe1H | WeaponType::Axe2H => match target_status.size() {
+                Size::Small => 0.5,
+                Size::Medium => 0.75,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
+            WeaponType::Mace | WeaponType::Mace2H => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 1.0,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
+            WeaponType::Staff | WeaponType::Staff2H => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 1.0,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
+            WeaponType::Bow => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 1.0,
+                Size::Large => 0.75,
+                _ => 1.0,
+            },
+            WeaponType::Knuckle => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 0.75,
+                Size::Large => 0.5,
+                _ => 1.0,
+            },
+            WeaponType::Musical => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 1.0,
+                Size::Large => 0.75,
+                _ => 1.0,
+            },
+            WeaponType::Whip => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 1.0,
+                Size::Large => 0.5,
+                _ => 1.0,
+            },
+            WeaponType::Book => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 1.0,
+                Size::Large => 0.5,
+                _ => 1.0,
+            },
+            WeaponType::Katar => match target_status.size() {
+                Size::Small => 0.75,
+                Size::Medium => 1.0,
+                Size::Large => 0.75,
+                _ => 1.0,
+            },
             WeaponType::Revolver | WeaponType::Rifle | WeaponType::Gatling | WeaponType::Shotgun | WeaponType::Grenade => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
                     Size::Large => 1.0,
-                    _ => 1.0
+                    _ => 1.0,
                 }
             }
-            WeaponType::Huuma | WeaponType::Shuriken => {
-                match target_status.size() {
-                    Size::Small => 1.0,
-                    Size::Medium => 1.0,
-                    Size::Large => 1.0,
-                    _ => 1.0
-                }
-            }
-            _ => 1.0
+            WeaponType::Huuma | WeaponType::Shuriken => match target_status.size() {
+                Size::Small => 1.0,
+                Size::Medium => 1.0,
+                Size::Large => 1.0,
+                _ => 1.0,
+            },
+            _ => 1.0,
         }
     }
 
@@ -563,7 +641,7 @@ impl BattleService {
                         1.0
                     }
                 }
-                _ => 1.0
+                _ => 1.0,
             }
         } else if target_status.element_level() == 2 {
             match target_status.element() {
@@ -581,7 +659,8 @@ impl BattleService {
                         0.25
                     } else if matches!(element, Element::Wind) {
                         1.75
-                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead)
+                    {
                         0.75
                     } else {
                         1.0
@@ -699,7 +778,7 @@ impl BattleService {
                         1.0
                     }
                 }
-                _ => 1.0
+                _ => 1.0,
             }
         } else if target_status.element_level() == 3 {
             match target_status.element() {
@@ -717,7 +796,8 @@ impl BattleService {
                         0.0
                     } else if matches!(element, Element::Wind) {
                         2.0
-                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead)
+                    {
                         0.5
                     } else {
                         1.0
@@ -831,7 +911,7 @@ impl BattleService {
                         1.0
                     }
                 }
-                _ => 1.0
+                _ => 1.0,
             }
         } else if target_status.element_level() == 4 {
             match target_status.element() {
@@ -849,7 +929,8 @@ impl BattleService {
                         0.0
                     } else if matches!(element, Element::Wind) {
                         2.0
-                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead)
+                    {
                         0.25
                     } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) {
                         0.75
@@ -866,7 +947,7 @@ impl BattleService {
                         0.0
                     } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
                         0.25
-                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) || matches!(element, Element::Poison){
+                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) || matches!(element, Element::Poison) {
                         0.75
                     } else {
                         1.0
@@ -909,7 +990,7 @@ impl BattleService {
                         0.25
                     } else if matches!(element, Element::Holy) {
                         1.25
-                    }  else if matches!(element, Element::Neutral) {
+                    } else if matches!(element, Element::Neutral) {
                         1.0
                     } else if matches!(element, Element::Poison) {
                         0.0
@@ -935,7 +1016,7 @@ impl BattleService {
                         -1.0
                     } else if matches!(element, Element::Holy) {
                         2.0
-                    }  else if matches!(element, Element::Neutral) {
+                    } else if matches!(element, Element::Neutral) {
                         1.0
                     } else if matches!(element, Element::Poison) {
                         -0.25
@@ -957,7 +1038,7 @@ impl BattleService {
                     }
                 }
                 Element::Undead => {
-                    if matches!(element, Element::Fire) || matches!(element, Element::Holy){
+                    if matches!(element, Element::Fire) || matches!(element, Element::Holy) {
                         2.0
                     } else if matches!(element, Element::Water) {
                         1.5
@@ -973,11 +1054,10 @@ impl BattleService {
                         1.0
                     }
                 }
-                _ => 1.0
+                _ => 1.0,
             }
         } else {
             1.0
         }
-
     }
 }

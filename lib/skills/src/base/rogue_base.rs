@@ -3,25 +3,22 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{*};
+use std::any::Any;
+
+use models::enums::bonus::BonusType;
+use models::enums::element::Element::*;
+use models::enums::mob::MobRace::*;
 use models::enums::skill::*;
+use models::enums::status::StatusEffect::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element::{*};
-
-use models::item::WearWeapon;
-
+use models::enums::weapon::WeaponType::*;
+use models::enums::*;
+use models::item::{NormalInventoryItem, WearWeapon};
 use models::status::StatusSnapshot;
-use models::item::NormalInventoryItem;
-use models::enums::weapon::WeaponType::{*};
-use models::enums::bonus::{BonusType};
-use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
-use models::enums::mob::MobRace::{*};
-
-use crate::{*};
 
 use crate::base::*;
-use std::any::Any;
+use crate::*;
 // RG_SNATCHER - Gank
 pub struct Gank {
     pub(crate) level: u8,
@@ -34,122 +31,171 @@ impl SkillBase for Gank {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         210
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Passive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 7.0), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 7.0),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 8.5), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 8.5),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 10.0), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 10.0),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 11.5), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 11.5),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 13.0), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 13.0),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 14.5), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 14.5),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 16.0), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 16.0),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 17.5), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 17.5),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 19.0), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 19.0),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 20.5), StatusBonusFlag::Default.as_flag(), 210),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_passive_skill(
+                BonusType::AutospellSkillIdChancePercentage(210, 20.5),
+                StatusBonusFlag::Default.as_flag(),
+                210,
+            )]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for Gank {
-}
+impl PassiveSkillBase for Gank {}
 // RG_STEALCOIN - Mug
 pub struct Mug {
     pub(crate) level: u8,
@@ -162,71 +208,90 @@ impl SkillBase for Mug {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         211
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       15
+        15
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -261,17 +326,18 @@ impl SkillBase for Mug {
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Mug {
-}
+impl InteractiveSkillBase for Mug {}
 // RG_BACKSTAP - Back Stab
 pub struct BackStab {
     pub(crate) level: u8,
@@ -284,75 +350,95 @@ impl SkillBase for BackStab {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         212
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       -1
+        -1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       16
+        16
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 16 { Ok(16) } else {Err(())}
+        if status.sp() > 16 { Ok(16) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       500
+        500
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -361,48 +447,56 @@ impl SkillBase for BackStab {
 impl OffensiveSkillBase for BackStab {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(3.400)
+            return Some(3.400);
         }
         if self.level == 2 {
-            return Some(3.800)
+            return Some(3.800);
         }
         if self.level == 3 {
-            return Some(4.200)
+            return Some(4.200);
         }
         if self.level == 4 {
-            return Some(4.600)
+            return Some(4.600);
         }
         if self.level == 5 {
-            return Some(5.000)
+            return Some(5.000);
         }
         if self.level == 6 {
-            return Some(5.400)
+            return Some(5.400);
         }
         if self.level == 7 {
-            return Some(5.800)
+            return Some(5.800);
         }
         if self.level == 8 {
-            return Some(6.200)
+            return Some(6.200);
         }
         if self.level == 9 {
-            return Some(6.600)
+            return Some(6.600);
         }
         if self.level == 10 {
-            return Some(7.000)
+            return Some(7.000);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
@@ -418,67 +512,85 @@ impl SkillBase for Stalk {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         213
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -498,17 +610,18 @@ impl SkillBase for Stalk {
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Stalk {
-}
+impl InteractiveSkillBase for Stalk {}
 // RG_RAID - Sightless Mind
 pub struct SightlessMind {
     pub(crate) level: u8,
@@ -521,67 +634,85 @@ impl SkillBase for SightlessMind {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         214
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       20
+        20
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 20 { Ok(20) } else {Err(())}
+        if status.sp() > 20 { Ok(20) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if status.state() > 0 {
@@ -591,10 +722,12 @@ impl SkillBase for SightlessMind {
             Err(())
         }
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -603,33 +736,41 @@ impl SkillBase for SightlessMind {
 impl OffensiveSkillBase for SightlessMind {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(1.600)
+            return Some(1.600);
         }
         if self.level == 2 {
-            return Some(2.000)
+            return Some(2.000);
         }
         if self.level == 3 {
-            return Some(2.400)
+            return Some(2.400);
         }
         if self.level == 4 {
-            return Some(2.800)
+            return Some(2.800);
         }
         if self.level == 5 {
-            return Some(3.200)
+            return Some(3.200);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         let mut effects = Vec::with_capacity(2);
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
@@ -698,116 +839,136 @@ impl SkillBase for DivestWeapon {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         215
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 17
+            return 17;
         }
         if self.level == 2 {
-            return 19
+            return 19;
         }
         if self.level == 3 {
-            return 21
+            return 21;
         }
         if self.level == 4 {
-            return 23
+            return 23;
         }
         if self.level == 5 {
-            return 25
+            return 25;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 17 { return Ok(17) } else {return Err(())}
+            if status.sp() >= 17 { return Ok(17) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 21 { return Ok(21) } else {return Err(())}
+            if status.sp() >= 21 { return Ok(21) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 23 { return Ok(23) } else {return Err(())}
+            if status.sp() >= 23 { return Ok(23) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 25 { return Ok(25) } else {return Err(())}
+            if status.sp() >= 25 { return Ok(25) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for DivestWeapon {
-}
+impl InteractiveSkillBase for DivestWeapon {}
 // RG_STRIPSHIELD - Divest Shield
 pub struct DivestShield {
     pub(crate) level: u8,
@@ -820,116 +981,136 @@ impl SkillBase for DivestShield {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         216
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 12
+            return 12;
         }
         if self.level == 2 {
-            return 14
+            return 14;
         }
         if self.level == 3 {
-            return 16
+            return 16;
         }
         if self.level == 4 {
-            return 18
+            return 18;
         }
         if self.level == 5 {
-            return 20
+            return 20;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 12 { return Ok(12) } else {return Err(())}
+            if status.sp() >= 12 { return Ok(12) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 14 { return Ok(14) } else {return Err(())}
+            if status.sp() >= 14 { return Ok(14) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 18 { return Ok(18) } else {return Err(())}
+            if status.sp() >= 18 { return Ok(18) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 20 { return Ok(20) } else {return Err(())}
+            if status.sp() >= 20 { return Ok(20) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for DivestShield {
-}
+impl InteractiveSkillBase for DivestShield {}
 // RG_STRIPARMOR - Divest Armor
 pub struct DivestArmor {
     pub(crate) level: u8,
@@ -942,116 +1123,136 @@ impl SkillBase for DivestArmor {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         217
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 17
+            return 17;
         }
         if self.level == 2 {
-            return 19
+            return 19;
         }
         if self.level == 3 {
-            return 21
+            return 21;
         }
         if self.level == 4 {
-            return 23
+            return 23;
         }
         if self.level == 5 {
-            return 25
+            return 25;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 17 { return Ok(17) } else {return Err(())}
+            if status.sp() >= 17 { return Ok(17) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 21 { return Ok(21) } else {return Err(())}
+            if status.sp() >= 21 { return Ok(21) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 23 { return Ok(23) } else {return Err(())}
+            if status.sp() >= 23 { return Ok(23) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 25 { return Ok(25) } else {return Err(())}
+            if status.sp() >= 25 { return Ok(25) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for DivestArmor {
-}
+impl InteractiveSkillBase for DivestArmor {}
 // RG_STRIPHELM - Divest Helm
 pub struct DivestHelm {
     pub(crate) level: u8,
@@ -1064,116 +1265,136 @@ impl SkillBase for DivestHelm {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         218
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 12
+            return 12;
         }
         if self.level == 2 {
-            return 14
+            return 14;
         }
         if self.level == 3 {
-            return 16
+            return 16;
         }
         if self.level == 4 {
-            return 18
+            return 18;
         }
         if self.level == 5 {
-            return 20
+            return 20;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 12 { return Ok(12) } else {return Err(())}
+            if status.sp() >= 12 { return Ok(12) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 14 { return Ok(14) } else {return Err(())}
+            if status.sp() >= 14 { return Ok(14) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 18 { return Ok(18) } else {return Err(())}
+            if status.sp() >= 18 { return Ok(18) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 20 { return Ok(20) } else {return Err(())}
+            if status.sp() >= 20 { return Ok(20) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for DivestHelm {
-}
+impl InteractiveSkillBase for DivestHelm {}
 // RG_INTIMIDATE - Snatch
 pub struct Snatch {
     pub(crate) level: u8,
@@ -1186,101 +1407,120 @@ impl SkillBase for Snatch {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         219
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 13
+            return 13;
         }
         if self.level == 2 {
-            return 16
+            return 16;
         }
         if self.level == 3 {
-            return 19
+            return 19;
         }
         if self.level == 4 {
-            return 22
+            return 22;
         }
         if self.level == 5 {
-            return 25
+            return 25;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 13 { return Ok(13) } else {return Err(())}
+            if status.sp() >= 13 { return Ok(13) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 22 { return Ok(22) } else {return Err(())}
+            if status.sp() >= 22 { return Ok(22) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 25 { return Ok(25) } else {return Err(())}
+            if status.sp() >= 25 { return Ok(25) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -1289,48 +1529,56 @@ impl SkillBase for Snatch {
 impl OffensiveSkillBase for Snatch {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(1.300)
+            return Some(1.300);
         }
         if self.level == 2 {
-            return Some(1.600)
+            return Some(1.600);
         }
         if self.level == 3 {
-            return Some(1.900)
+            return Some(1.900);
         }
         if self.level == 4 {
-            return Some(2.200)
+            return Some(2.200);
         }
         if self.level == 5 {
-            return Some(2.500)
+            return Some(2.500);
         }
         if self.level == 6 {
-            return Some(2.800)
+            return Some(2.800);
         }
         if self.level == 7 {
-            return Some(3.100)
+            return Some(3.100);
         }
         if self.level == 8 {
-            return Some(3.400)
+            return Some(3.400);
         }
         if self.level == 9 {
-            return Some(3.700)
+            return Some(3.700);
         }
         if self.level == 10 {
-            return Some(4.000)
+            return Some(4.000);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
@@ -1346,96 +1594,122 @@ impl SkillBase for Scribble {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         220
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       15
+        15
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 716, name_english: "Red_Gemstone".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 716,
+                name_english: "Red_Gemstone".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 716 && item.amount >= 1) {
             return Err(UseSkillFailure::RedGemstone);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Scribble {
-}
-impl GroundSkillBase for Scribble {
-}
+impl InteractiveSkillBase for Scribble {}
+impl GroundSkillBase for Scribble {}
 // RG_FLAGGRAFFITI - Piece
 pub struct Piece {
     pub(crate) level: u8,
@@ -1448,88 +1722,107 @@ impl SkillBase for Piece {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         221
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Piece {
-}
-impl GroundSkillBase for Piece {
-}
+impl InteractiveSkillBase for Piece {}
+impl GroundSkillBase for Piece {}
 // RG_CLEANER - Remover
 pub struct Remover {
     pub(crate) level: u8,
@@ -1542,88 +1835,107 @@ impl SkillBase for Remover {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         222
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       5
+        5
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 5 { Ok(5) } else {Err(())}
+        if status.sp() > 5 { Ok(5) } else { Err(()) }
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Remover {
-}
-impl GroundSkillBase for Remover {
-}
+impl InteractiveSkillBase for Remover {}
+impl GroundSkillBase for Remover {}
 // RG_GANGSTER - Slyness
 pub struct Slyness {
     pub(crate) level: u8,
@@ -1636,74 +1948,91 @@ impl SkillBase for Slyness {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         223
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Slyness {
-}
+impl InteractiveSkillBase for Slyness {}
 // RG_COMPULSION - Haggle
 pub struct Haggle {
     pub(crate) level: u8,
@@ -1716,74 +2045,91 @@ impl SkillBase for Haggle {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         224
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Haggle {
-}
+impl InteractiveSkillBase for Haggle {}
 // RG_PLAGIARISM - Intimidate
 pub struct Intimidate {
     pub(crate) level: u8,
@@ -1796,74 +2142,91 @@ impl SkillBase for Intimidate {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         225
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Intimidate {
-}
+impl InteractiveSkillBase for Intimidate {}
 // RG_CLOSECONFINE - Close Confine
 pub struct CloseConfine {
     pub(crate) level: u8,
@@ -1876,79 +2239,98 @@ impl SkillBase for CloseConfine {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         1005
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       25
+        25
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 25 { Ok(25) } else {Err(())}
+        if status.sp() > 25 { Ok(25) } else { Err(()) }
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for CloseConfine {
-}
+impl SupportiveSkillBase for CloseConfine {}

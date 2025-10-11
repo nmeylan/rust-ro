@@ -2,29 +2,23 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
-use crate::server::model::map::{Map, MAP_EXT};
-use crate::server::model::map_item::{MapItems, ToMapItem};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 
-
-use crate::server::model::events::map_event::MapEvent;
-use crate::server::model::events::client_notification::{Notification};
-
-use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
-
+use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::map::{MAP_EXT, Map};
+use crate::server::model::map_item::{MapItems, ToMapItem};
 use crate::server::model::script::Script;
+use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::warp::Warp;
-
 use crate::server::script::MapScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
-
 use crate::util::string::StringUtil;
 use crate::util::tick::delayed_tick;
-
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct MapInstanceKey {
@@ -41,6 +35,7 @@ impl MapInstanceKey {
     pub fn map_name_char(&self) -> [char; 16] {
         self.map_name
     }
+
     pub fn map_instance(&self) -> u8 {
         self.instance_id
     }
@@ -48,7 +43,7 @@ impl MapInstanceKey {
     pub fn map_without_ext(&self) -> String {
         let map_name_without_ext: String = self.map_name_string.clone();
         if map_name_without_ext.ends_with(MAP_EXT) {
-            return map_name_without_ext[0..map_name_without_ext.len()-4].to_string();
+            return map_name_without_ext[0..map_name_without_ext.len() - 4].to_string();
         }
         map_name_without_ext
     }
@@ -64,7 +59,7 @@ impl MapInstanceKey {
         Self {
             map_name: new_current_map,
             map_name_string: map_name,
-            instance_id: id
+            instance_id: id,
         }
     }
 }
@@ -81,12 +76,25 @@ pub struct MapInstance {
 unsafe impl Sync for MapInstance {}
 unsafe impl Send for MapInstance {}
 
-
 impl MapInstance {
-    pub fn from_map(vm: Arc<Vm>, map: &'static Map, id: u8, cells: Vec<u16>, client_notification_channel: SyncSender<Notification>, mut map_items: MapItems, tasks_queue: Arc<TasksQueue<MapEvent>>) -> MapInstance {
+    pub fn from_map(
+        vm: Arc<Vm>,
+        map: &'static Map,
+        id: u8,
+        cells: Vec<u16>,
+        client_notification_channel: SyncSender<Notification>,
+        mut map_items: MapItems,
+        tasks_queue: Arc<TasksQueue<MapEvent>>,
+    ) -> MapInstance {
         let mut scripts = vec![];
         map.scripts().iter().for_each(|script| {
-            let (_, instance_reference) = Vm::create_instance(vm.clone(), script.class_name.clone(), Box::new(&MapScriptHandler), script.constructor_args.clone()).unwrap();
+            let (_, instance_reference) = Vm::create_instance(
+                vm.clone(),
+                script.class_name.clone(),
+                Box::new(&MapScriptHandler),
+                script.constructor_args.clone(),
+            )
+            .unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);
@@ -100,8 +108,17 @@ impl MapInstance {
             tasks_queue,
             map,
             scripts,
-            state: MyUnsafeCell::new(MapInstanceState::new(key, map.x_size(), map.y_size(), cells, map_items,
-                                         map.mob_spawns().iter().map(|spawn| (spawn.id, MobSpawnTrack::default(spawn.id))).collect::<HashMap<u32, MobSpawnTrack>>())),
+            state: MyUnsafeCell::new(MapInstanceState::new(
+                key,
+                map.x_size(),
+                map.y_size(),
+                cells,
+                map_items,
+                map.mob_spawns()
+                    .iter()
+                    .map(|spawn| (spawn.id, MobSpawnTrack::default(spawn.id)))
+                    .collect::<HashMap<u32, MobSpawnTrack>>(),
+            )),
             shutdown: AtomicBool::new(false),
         }
     }
@@ -134,14 +151,13 @@ impl MapInstance {
         self.tasks_queue.clone()
     }
 
-    pub fn id(&self) -> u8{
+    pub fn id(&self) -> u8 {
         self.key().instance_id
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Warp> {
         for warp in self.map().warps().iter() {
-            if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
-                && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
+            if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
                 return Some(warp.clone());
             }
         }
@@ -151,7 +167,7 @@ impl MapInstance {
     pub fn get_warp(&self, warp_id: u32) -> Option<Warp> {
         for warp in self.map().warps().iter() {
             if warp.id == warp_id {
-                return Some(warp.clone())
+                return Some(warp.clone());
             }
         }
         None
@@ -160,7 +176,7 @@ impl MapInstance {
     pub fn get_script(&self, script_id: u32) -> Option<Arc<Script>> {
         for script in self.scripts.iter() {
             if script.id() == script_id {
-                return Some(script.clone())
+                return Some(script.clone());
             }
         }
         None
@@ -169,7 +185,7 @@ impl MapInstance {
     #[inline]
     pub fn get_fov_start_x(&self, x: u16, range: u16) -> u16 {
         if range > x {
-            return 0
+            return 0;
         }
         x - range
     }
@@ -177,7 +193,7 @@ impl MapInstance {
     #[inline]
     pub fn get_fov_start_y(&self, y: u16, range: u16) -> u16 {
         if range > y {
-            return 0
+            return 0;
         }
         y - range
     }
@@ -199,24 +215,31 @@ impl MapInstance {
         }
         y
     }
+
     pub fn key(&self) -> &MapInstanceKey {
         &self.key
     }
+
     pub fn client_notification_channel(&self) -> &SyncSender<Notification> {
         &self.client_notification_channel
     }
+
     pub fn map(&self) -> &Map {
         self.map
     }
+
     pub fn name(&self) -> &str {
         self.map().name()
     }
+
     pub fn name_with_ext(&self) -> &str {
         self.map().name_with_ext()
     }
+
     pub fn x_size(&self) -> u16 {
         self.map().x_size()
     }
+
     pub fn y_size(&self) -> u16 {
         self.map().y_size()
     }

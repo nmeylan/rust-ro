@@ -1,12 +1,13 @@
-use crate::repository::model::char_model::CharSelectModel;
-use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
-use models::enums::element::Element;
-use models::enums::size::Size;
 use models::enums::EnumWithStringValue;
+use models::enums::element::Element;
 use models::enums::mob::MobRace;
+use models::enums::size::Size;
 use models::status::{KnownSkill, Look, Status, StatusSnapshot};
 use models::status_bonus::{StatusBonuses, TemporaryStatusBonuses};
+
+use crate::repository::model::char_model::CharSelectModel;
+use crate::repository::model::mob_model::MobModel;
 
 pub struct StatusFromDb;
 impl StatusFromDb {
@@ -55,6 +56,7 @@ impl StatusFromDb {
             temporary_bonuses: TemporaryStatusBonuses::default(),
         }
     }
+
     pub fn from_mob_model(mob_model: &MobModel) -> StatusSnapshot {
         StatusSnapshot::new_for_mob(
             mob_model.id as u32,
@@ -79,7 +81,6 @@ impl StatusFromDb {
             Element::from_string(mob_model.element.as_str()),
             MobRace::from_string(mob_model.race.as_str()),
             mob_model.element_level as u8,
-
         )
     }
 }

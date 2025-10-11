@@ -9,12 +9,7 @@ pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
         syn::Item::Fn(fn_item) => fn_item,
         _ => panic!("expected fn"),
     };
-    let ItemFn {
-        attrs,
-        vis,
-        sig,
-        block,
-    } = fn_item;
+    let ItemFn { attrs, vis, sig, block } = fn_item;
     let function_body = block.clone();
     let fn_name = sig.ident.clone();
     let log_ns = format!("{fn_name} tooks {{}}ns");

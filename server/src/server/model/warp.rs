@@ -1,5 +1,5 @@
-use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::model::Npc;
+use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 
 #[derive(SettersAll, Clone, Debug)]
 pub struct Warp {
@@ -33,13 +33,14 @@ impl Warp {
             y_size: 0,
             dest_map_name: "".to_string(),
             to_x: 0,
-            to_y: 0
+            to_y: 0,
         }
     }
 
     pub fn x(&self) -> u16 {
         self.x
     }
+
     pub fn y(&self) -> u16 {
         self.y
     }

@@ -3,25 +3,22 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{*};
+use std::any::Any;
+
+use models::enums::bonus::BonusType;
+use models::enums::element::Element::*;
+use models::enums::mob::MobRace::*;
 use models::enums::skill::*;
+use models::enums::status::StatusEffect::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element::{*};
-
-use models::item::WearWeapon;
-
+use models::enums::weapon::WeaponType::*;
+use models::enums::*;
+use models::item::{NormalInventoryItem, WearWeapon};
 use models::status::StatusSnapshot;
-use models::item::NormalInventoryItem;
-use models::enums::weapon::WeaponType::{*};
-use models::enums::bonus::{BonusType};
-use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
-use models::enums::mob::MobRace::{*};
-
-use crate::{*};
 
 use crate::base::*;
-use std::any::Any;
+use crate::*;
 // CR_SLIMPITCHER - Aid Condensed Potion
 pub struct AidCondensedPotion {
     pub(crate) level: u8,
@@ -34,70 +31,139 @@ impl SkillBase for AidCondensedPotion {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         478
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       3
+        3
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       30
+        30
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 545, name_english: "Red_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 545, name_english: "Red_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 545, name_english: "Red_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 545, name_english: "Red_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 545, name_english: "Red_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 546, name_english: "Yellow_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 546, name_english: "Yellow_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 546, name_english: "Yellow_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 546, name_english: "Yellow_Slim_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 547, name_english: "White_Slim_Potion".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 545,
+                name_english: "Red_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 545,
+                name_english: "Red_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 545,
+                name_english: "Red_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 545,
+                name_english: "Red_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 545,
+                name_english: "Red_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 546,
+                name_english: "Yellow_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 546,
+                name_english: "Yellow_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 546,
+                name_english: "Yellow_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 546,
+                name_english: "Yellow_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 547,
+                name_english: "White_Slim_Potion".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 545 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
@@ -130,18 +196,22 @@ impl SkillBase for AidCondensedPotion {
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -176,31 +246,34 @@ impl SkillBase for AidCondensedPotion {
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         2
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl SupportiveSkillBase for AidCondensedPotion {
-}
-impl GroundSkillBase for AidCondensedPotion {
-}
+impl SupportiveSkillBase for AidCondensedPotion {}
+impl GroundSkillBase for AidCondensedPotion {}
 // CR_FULLPROTECTION - Full Protection
 pub struct FullProtection {
     pub(crate) level: u8,
@@ -213,94 +286,121 @@ impl SkillBase for FullProtection {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         479
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       40
+        40
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7139,
+                name_english: "Coating_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for FullProtection {
-}
+impl SupportiveSkillBase for FullProtection {}
 // CR_ACIDDEMONSTRATION - Acid Demonstration
 pub struct AcidDemonstration {
     pub(crate) level: u8,
@@ -313,70 +413,99 @@ impl SkillBase for AcidDemonstration {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         490
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       30
+        30
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         true
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7135, name_english: "Fire_Bottle".to_string(), amount: 1}),(NormalInventoryItem {item_id: 7136, name_english: "Acid_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7135,
+                name_english: "Fire_Bottle".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 7136,
+                name_english: "Acid_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7135 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
@@ -385,18 +514,22 @@ impl SkillBase for AcidDemonstration {
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -406,43 +539,50 @@ impl OffensiveSkillBase for AcidDemonstration {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
-            return 1
+            return 1;
         }
         if self.level == 2 {
-            return 2
+            return 2;
         }
         if self.level == 3 {
-            return 3
+            return 3;
         }
         if self.level == 4 {
-            return 4
+            return 4;
         }
         if self.level == 5 {
-            return 5
+            return 5;
         }
         if self.level == 6 {
-            return 6
+            return 6;
         }
         if self.level == 7 {
-            return 7
+            return 7;
         }
         if self.level == 8 {
-            return 8
+            return 8;
         }
         if self.level == 9 {
-            return 9
+            return 9;
         }
         if self.level == 10 {
-            return 10
+            return 10;
         }
         0
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
@@ -458,70 +598,99 @@ impl SkillBase for PlantCultivation {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         491
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         2
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 921, name_english: "Mushroom_Spore".to_string(), amount: 1}),(NormalInventoryItem {item_id: 905, name_english: "Stem".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 921,
+                name_english: "Mushroom_Spore".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 905,
+                name_english: "Stem".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 921 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
@@ -530,24 +699,26 @@ impl SkillBase for PlantCultivation {
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for PlantCultivation {
-}
-impl GroundSkillBase for PlantCultivation {
-}
+impl InteractiveSkillBase for PlantCultivation {}
+impl GroundSkillBase for PlantCultivation {}

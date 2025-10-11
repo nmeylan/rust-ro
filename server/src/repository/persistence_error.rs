@@ -1,16 +1,15 @@
 use std::error::Error as StdError;
 use std::fmt::{Display, Formatter};
+
 use sqlx::error::{DatabaseError, ErrorKind};
 
 #[derive(Debug)]
 pub struct PersistenceError {
-    pub message: String
+    pub message: String,
 }
 impl PersistenceError {
     pub fn new(message: String) -> Self {
-        Self {
-            message
-        }
+        Self { message }
     }
 }
 impl StdError for PersistenceError {}

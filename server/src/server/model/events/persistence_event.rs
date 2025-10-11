@@ -1,5 +1,7 @@
 use std::fmt::Debug;
+
 use models::enums::skill_enums::SkillEnum;
+
 use crate::repository::model::item_model::InventoryItemModel;
 
 #[derive(Debug, PartialEq)]
@@ -34,16 +36,15 @@ pub struct InventoryItemUpdate {
     pub unique_id: i64,
     pub amount: i16,
     pub identified: bool,
-    pub stackable: bool
+    pub stackable: bool,
 }
-
 
 #[derive(Debug, PartialEq)]
 pub struct DeleteItems {
     pub char_id: i32,
     pub item_inventory_id: i32,
     pub unique_id: i64,
-    pub amount: i16
+    pub amount: i16,
 }
 
 #[derive(Debug, PartialEq)]
@@ -57,4 +58,3 @@ pub struct IncreaseSkillLevel {
     pub skill: SkillEnum,
     pub increment: u8,
 }
-

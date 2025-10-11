@@ -1,8 +1,8 @@
 use proc_macro::TokenStream;
+use proc_macro2::{Ident, Span};
 use quote::quote;
 use syn::Data::Enum;
 use syn::{DeriveInput, parse_macro_input};
-use proc_macro2::{Ident, Span};
 
 pub fn with_hash(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
@@ -14,9 +14,12 @@ pub fn with_hash(input: TokenStream) -> TokenStream {
             let base_hash = format!("{}_{}", enum_name, j);
             match &variant.fields {
                 syn::Fields::Unnamed(fields) => {
-                    let args1 = fields.unnamed.iter().enumerate().map(|(i, _)| {
-                        Ident::new(format!("arg{}", i).as_str(), Span::call_site())
-                    }).collect::<Vec<Ident>>();
+                    let args1 = fields
+                        .unnamed
+                        .iter()
+                        .enumerate()
+                        .map(|(i, _)| Ident::new(format!("arg{}", i).as_str(), Span::call_site()))
+                        .collect::<Vec<Ident>>();
 
                     quote! {#enum_name::#variant_name(#(#args1)*) => {#base_hash.hash(state); #(#args1.hash(state);)*} }
                 }

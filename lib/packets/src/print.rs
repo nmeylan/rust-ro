@@ -8,7 +8,7 @@ pub trait PrettyOutput {
 impl PrettyOutput for [char] {
     fn pretty_output(&self) -> String {
         let mut result = String::new();
-        self.iter().for_each(|c|  {
+        self.iter().for_each(|c| {
             if *c != '\0' {
                 result.push(*c);
             }
@@ -59,9 +59,9 @@ impl PrettyOutput for Vec<u8> {
     }
 }
 
-fn pretty_output_primitive_array<T : Debug>(iter: Iter<T>) -> String {
+fn pretty_output_primitive_array<T: Debug>(iter: Iter<T>) -> String {
     let mut result = String::new();
-    iter.for_each(|c|  {
+    iter.for_each(|c| {
         result.push_str(format!("{:?}", c).as_str());
     });
     format!("[{}]", result)

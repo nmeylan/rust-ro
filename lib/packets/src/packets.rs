@@ -11430,52 +11430,70 @@ impl Packet for PacketUnknown {
     fn id(&self, _packetver: u32) -> &str {
         self.packet_id.as_str()
     }
+
     fn name(&self) -> &str {
         "Unknown"
     }
+
     fn debug(&self) {
-            println!("{:?}", self)
+        println!("{:?}", self)
     }
+
     fn display(&self) {
-            self.debug()
+        self.debug()
     }
+
     fn pretty_debug(&self) {
-            self.debug()
+        self.debug()
     }
+
     fn raw(&self) -> &Vec<u8> {
-            &self.raw
+        &self.raw
     }
+
     fn raw_mut(&mut self) -> &mut Vec<u8> {
-            &mut self.raw
+        &mut self.raw
     }
-    fn as_any(&self) -> &dyn Any{
+
+    fn as_any(&self) -> &dyn Any {
         self
     }
-    fn as_any_mut(&mut self) -> &mut dyn Any{
+
+    fn as_any_mut(&mut self) -> &mut dyn Any {
         self
     }
+
     fn base_len(&self, _packetver: u32) -> usize {
         0
     }
+
     fn to_json(&self, _packetver: u32) -> String {
         String::new()
     }
-    fn fill_raw(&mut self) {
-        
-    }
-    fn fill_raw_with_packetver(&mut self, _packetver: Option<u32>) {
-        
-    }
+
+    fn fill_raw(&mut self) {}
+
+    fn fill_raw_with_packetver(&mut self, _packetver: Option<u32>) {}
 }
 impl PacketUnknown {
     pub fn from(buffer: &[u8]) -> PacketUnknown {
         if buffer.len() >= 2 {
-          PacketUnknown { raw: buffer.to_vec(), packet_id: format!("0x{:02X?}{:02X?}", buffer[0], buffer[1])}
-        } else { 
-          PacketUnknown { raw: buffer.to_vec(), packet_id: "0x??".to_string()}
+            PacketUnknown {
+                raw: buffer.to_vec(),
+                packet_id: format!("0x{:02X?}{:02X?}", buffer[0], buffer[1]),
+            }
+        } else {
+            PacketUnknown {
+                raw: buffer.to_vec(),
+                packet_id: "0x??".to_string(),
+            }
         }
     }
+
     pub fn from_json(_entries: Vec<json_flat_parser::FlatJsonValue<&str>>, _packetver: u32) -> Result<Self, String> {
-          Ok(PacketUnknown { raw: vec![], packet_id: "0x??".to_string()})
+        Ok(PacketUnknown {
+            raw: vec![],
+            packet_id: "0x??".to_string(),
+        })
     }
 }

@@ -1,11 +1,12 @@
 #![allow(dead_code)]
 
 use std::net::TcpStream;
+use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, RwLock};
-use std::sync::mpsc::{SyncSender};
 
-use packets::packets::Packet;
 use configuration::configuration::Config;
+use packets::packets::Packet;
+
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::response::Response;
 use crate::server::model::session::Session;
@@ -22,7 +23,15 @@ pub struct Request<'server: 'request, 'request> {
 }
 
 impl<'server: 'request, 'request> Request<'server, 'request> {
-    pub fn new(configuration: &'server Config, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
+    pub fn new(
+        configuration: &'server Config,
+        session_id: Option<u32>,
+        packet_ver: u32,
+        socket: Arc<RwLock<TcpStream>>,
+        packet: &'request dyn Packet,
+        response_sender: SyncSender<Response>,
+        client_notification_channel: SyncSender<Notification>,
+    ) -> Self {
         Self {
             session_id,
             packet_ver,
@@ -52,7 +61,10 @@ impl<'server: 'request, 'request> Request<'server, 'request> {
     }
 
     pub fn session(&self) -> Arc<Session> {
-        self.session.as_ref().expect("Expected session to not be null in RequestContext. Ensure session exists before calling this method").clone()
+        self.session
+            .as_ref()
+            .expect("Expected session to not be null in RequestContext. Ensure session exists before calling this method")
+            .clone()
     }
 
     pub fn response_sender(&self) -> SyncSender<Response> {

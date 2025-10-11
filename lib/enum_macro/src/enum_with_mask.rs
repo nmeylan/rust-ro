@@ -1,7 +1,5 @@
-
 macro_rules! with_mask {
     ($function:ident, $trait:ident, $macro:ident, $type:ty, $max_bits:expr) => {
-
         #[proc_macro_derive($macro, attributes(mask_value, mask_all))]
         pub fn $function(input: TokenStream) -> TokenStream {
             let input = parse_macro_input!(input as DeriveInput);
@@ -108,5 +106,5 @@ macro_rules! with_mask {
             };
             TokenStream::from(res)
         }
-    }
+    };
 }

@@ -1,10 +1,12 @@
-use crate::util::hasher::NoopHasherU32;
-use hashbrown::HashMap;
-use models::position::Position;
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use std::sync::atomic::AtomicU32;
 use std::sync::atomic::Ordering::SeqCst;
+
+use hashbrown::HashMap;
+use models::position::Position;
+
+use crate::util::hasher::NoopHasherU32;
 
 pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 pub const CHARACTER_MAX_MAP_ITEM_ID: u32 = 300000;
@@ -17,7 +19,7 @@ pub enum MapItemType {
     Warp,
     Unknown,
     Npc,
-    DroppedItem
+    DroppedItem,
 }
 
 impl Display for MapItemType {
@@ -34,12 +36,10 @@ impl MapItemType {
             MapItemType::Warp => 6,
             MapItemType::Npc => 6,
             MapItemType::Unknown => 0,
-            MapItemType::DroppedItem => 0
+            MapItemType::DroppedItem => 0,
         }
     }
-
 }
-
 
 #[derive(Debug, Copy, Clone)]
 pub struct MapItem {
@@ -51,7 +51,7 @@ pub struct MapItem {
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct MapItemSnapshot {
     pub(crate) map_item: MapItem,
-    pub(crate) position: Position
+    pub(crate) position: Position,
 }
 
 impl MapItem {
@@ -62,6 +62,7 @@ impl MapItem {
             object_type: MapItemType::Unknown,
         }
     }
+
     pub fn new(id: u32, client_item_class: i16, object_type: MapItemType) -> Self {
         Self {
             id,
@@ -69,15 +70,19 @@ impl MapItem {
             object_type,
         }
     }
+
     pub fn id(&self) -> u32 {
         self.id
     }
+
     pub fn client_item_class(&self) -> i16 {
         self.client_item_class
     }
+
     pub fn object_type(&self) -> &MapItemType {
         &self.object_type
     }
+
     pub fn object_type_value(&self) -> i16 {
         self.object_type.value()
     }
@@ -85,10 +90,7 @@ impl MapItem {
 
 impl MapItemSnapshot {
     pub fn new(map_item: MapItem, position: Position) -> Self {
-        Self {
-            map_item,
-            position
-        }
+        Self { map_item, position }
     }
 
     pub fn x(&self) -> u16 {
@@ -98,6 +100,7 @@ impl MapItemSnapshot {
     pub fn y(&self) -> u16 {
         self.position.y
     }
+
     #[allow(dead_code)]
     pub fn position(&self) -> Position {
         self.position
@@ -120,8 +123,7 @@ impl PartialEq<Self> for MapItem {
     }
 }
 
-impl Eq for MapItem{}
-
+impl Eq for MapItem {}
 
 pub trait ToMapItem {
     fn to_map_item(&self) -> MapItem;
@@ -161,6 +163,7 @@ impl MapItems {
     pub fn insert(&mut self, id: u32, map_item: MapItem) {
         self.items.insert_unique_unchecked(id, map_item);
     }
+
     pub fn remove(&mut self, id: u32) {
         self.items.remove(&id);
     }

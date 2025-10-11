@@ -3,25 +3,22 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{*};
+use std::any::Any;
+
+use models::enums::bonus::BonusType;
+use models::enums::element::Element::*;
+use models::enums::mob::MobRace::*;
 use models::enums::skill::*;
+use models::enums::status::StatusEffect::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element::{*};
-
-use models::item::WearWeapon;
-
+use models::enums::weapon::WeaponType::*;
+use models::enums::*;
+use models::item::{NormalInventoryItem, WearWeapon};
 use models::status::StatusSnapshot;
-use models::item::NormalInventoryItem;
-use models::enums::weapon::WeaponType::{*};
-use models::enums::bonus::{BonusType};
-use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
-use models::enums::mob::MobRace::{*};
-
-use crate::{*};
 
 use crate::base::*;
-use std::any::Any;
+use crate::*;
 // AM_AXEMASTERY - Axe Mastery
 pub struct AxeMastery {
     pub(crate) level: u8,
@@ -34,132 +31,241 @@ impl SkillBase for AxeMastery {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         226
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Passive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 3), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 3), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 3),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 3),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 6), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 6), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 6),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 6),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 9), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 9), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 9),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 9),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 12), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 12), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 12),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 12),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 15), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 15), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 15),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 15),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 18), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 18), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 18),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 18),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 21), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 21), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 21),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 21),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 24), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 24), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 24),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 24),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 27), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 27), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 27),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 27),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 30), StatusBonusFlag::Default.as_flag(), 226),
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 30), StatusBonusFlag::Default.as_flag(), 226),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe1H, 30),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Axe2H, 30),
+                    StatusBonusFlag::Default.as_flag(),
+                    226,
+                ),
+            ]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for AxeMastery {
-}
+impl PassiveSkillBase for AxeMastery {}
 // AM_LEARNINGPOTION - Potion Research
 pub struct PotionResearch {
     pub(crate) level: u8,
@@ -172,142 +278,283 @@ impl SkillBase for PotionResearch {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         227
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Passive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(5), StatusBonusFlag::Default.as_flag(), 227),
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(5), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 1.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 1.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(10), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(10), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 2.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(10),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(10),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 2.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(15), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(15), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 3.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(15),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(15),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 3.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(20), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(20), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 4.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(20),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(20),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 4.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(25), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(25), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 5.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(25),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(25),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 5.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(30), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(30), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 6.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(30),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(30),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 6.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(35), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(35), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 7.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(35),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(35),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 7.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(40), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(40), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 8.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(40),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(40),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 8.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(45), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(45), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 9.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(45),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(45),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 9.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(50), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(50), StatusBonusFlag::Default.as_flag(), 227),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 10.0), StatusBonusFlag::Default.as_flag(), 227),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::HpRegenFromItemPercentage(50),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SpRegenFromItemPercentage(50),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::SkillIdSuccessPercentage(227, 10.0),
+                    StatusBonusFlag::Default.as_flag(),
+                    227,
+                ),
+            ]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for PotionResearch {
-}
+impl PassiveSkillBase for PotionResearch {}
 // AM_PHARMACY - Prepare Potion
 pub struct PreparePotion {
     pub(crate) level: u8,
@@ -320,86 +567,111 @@ impl SkillBase for PreparePotion {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         228
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       5
+        5
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 5 { Ok(5) } else {Err(())}
+        if status.sp() > 5 { Ok(5) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7134,
+                name_english: "Medicine_Bowl".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for PreparePotion {
-}
+impl InteractiveSkillBase for PreparePotion {}
 // AM_DEMONSTRATION - Bomb
 pub struct Bomb {
     pub(crate) level: u8,
@@ -412,91 +684,120 @@ impl SkillBase for Bomb {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         229
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         true
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7135, name_english: "Fire_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7135,
+                name_english: "Fire_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7135 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
@@ -505,38 +806,45 @@ impl SkillBase for Bomb {
 impl OffensiveSkillBase for Bomb {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(1.200)
+            return Some(1.200);
         }
         if self.level == 2 {
-            return Some(1.400)
+            return Some(1.400);
         }
         if self.level == 3 {
-            return Some(1.600)
+            return Some(1.600);
         }
         if self.level == 4 {
-            return Some(1.800)
+            return Some(1.800);
         }
         if self.level == 5 {
-            return Some(2.000)
+            return Some(2.000);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
-impl GroundSkillBase for Bomb {
-}
+impl GroundSkillBase for Bomb {}
 // AM_ACIDTERROR - Acid Terror
 pub struct AcidTerror {
     pub(crate) level: u8,
@@ -549,83 +857,110 @@ impl SkillBase for AcidTerror {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         230
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       15
+        15
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         true
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7136, name_english: "Acid_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7136,
+                name_english: "Acid_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7136 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -634,33 +969,41 @@ impl SkillBase for AcidTerror {
 impl OffensiveSkillBase for AcidTerror {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(1.400)
+            return Some(1.400);
         }
         if self.level == 2 {
-            return Some(1.800)
+            return Some(1.800);
         }
         if self.level == 3 {
-            return Some(2.200)
+            return Some(2.200);
         }
         if self.level == 4 {
-            return Some(2.600)
+            return Some(2.600);
         }
         if self.level == 5 {
-            return Some(3.000)
+            return Some(3.000);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         let mut effects = Vec::with_capacity(1);
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
@@ -703,70 +1046,139 @@ impl SkillBase for AidPotion {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         231
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       1
+        1
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         true
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 1 { Ok(1) } else {Err(())}
+        if status.sp() > 1 { Ok(1) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 501, name_english: "Red_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 502, name_english: "Orange_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 503, name_english: "Yellow_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 504, name_english: "White_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 505, name_english: "Blue_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 522, name_english: "Fruit_Of_Mastela".to_string(), amount: 1}),(NormalInventoryItem {item_id: 526, name_english: "Royal_Jelly".to_string(), amount: 1}),(NormalInventoryItem {item_id: 608, name_english: "Seed_Of_Yggdrasil".to_string(), amount: 1}),(NormalInventoryItem {item_id: 607, name_english: "Yggdrasilberry".to_string(), amount: 1}),(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 501,
+                name_english: "Red_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 502,
+                name_english: "Orange_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 503,
+                name_english: "Yellow_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 504,
+                name_english: "White_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 505,
+                name_english: "Blue_Potion".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 522,
+                name_english: "Fruit_Of_Mastela".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 526,
+                name_english: "Royal_Jelly".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 608,
+                name_english: "Seed_Of_Yggdrasil".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 607,
+                name_english: "Yggdrasilberry".to_string(),
+                amount: 1,
+            }),
+            (NormalInventoryItem {
+                item_id: 657,
+                name_english: "Berserk_Potion".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 501 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
@@ -799,14 +1211,17 @@ impl SkillBase for AidPotion {
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       500
+        500
     }
+
     #[inline(always)]
     fn _has_bonuses_to_target(&self) -> bool {
         true
     }
+
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses::new(vec![]);
@@ -825,10 +1240,12 @@ impl SkillBase for AidPotion {
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -837,14 +1254,21 @@ impl SkillBase for AidPotion {
 impl OffensiveSkillBase for AidPotion {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
@@ -860,104 +1284,132 @@ impl SkillBase for SummonFlora {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         232
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       4
+        4
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       20
+        20
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 20 { Ok(20) } else {Err(())}
+        if status.sp() > 20 { Ok(20) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7137, name_english: "MenEater_Plant_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7137,
+                name_english: "MenEater_Plant_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7137 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       500
+        500
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for SummonFlora {
-}
-impl GroundSkillBase for SummonFlora {
-}
+impl InteractiveSkillBase for SummonFlora {}
+impl GroundSkillBase for SummonFlora {}
 // AM_SPHEREMINE - Summon Marine Sphere
 pub struct SummonMarineSphere {
     pub(crate) level: u8,
@@ -970,104 +1422,132 @@ impl SkillBase for SummonMarineSphere {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         233
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Ground
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7138, name_english: "Mini_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7138,
+                name_english: "Mini_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7138 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       500
+        500
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for SummonMarineSphere {
-}
-impl GroundSkillBase for SummonMarineSphere {
-}
+impl InteractiveSkillBase for SummonMarineSphere {}
+impl GroundSkillBase for SummonMarineSphere {}
 // AM_CP_WEAPON - Alchemical Weapon
 pub struct AlchemicalWeapon {
     pub(crate) level: u8,
@@ -1080,94 +1560,121 @@ impl SkillBase for AlchemicalWeapon {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         234
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       30
+        30
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7139,
+                name_english: "Coating_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for AlchemicalWeapon {
-}
+impl SupportiveSkillBase for AlchemicalWeapon {}
 // AM_CP_SHIELD - Synthesized Shield
 pub struct SynthesizedShield {
     pub(crate) level: u8,
@@ -1180,94 +1687,121 @@ impl SkillBase for SynthesizedShield {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         235
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       25
+        25
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 25 { Ok(25) } else {Err(())}
+        if status.sp() > 25 { Ok(25) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7139,
+                name_english: "Coating_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for SynthesizedShield {
-}
+impl SupportiveSkillBase for SynthesizedShield {}
 // AM_CP_ARMOR - Synthetic Armor
 pub struct SyntheticArmor {
     pub(crate) level: u8,
@@ -1280,94 +1814,121 @@ impl SkillBase for SyntheticArmor {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         236
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       25
+        25
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 25 { Ok(25) } else {Err(())}
+        if status.sp() > 25 { Ok(25) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7139,
+                name_english: "Coating_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for SyntheticArmor {
-}
+impl SupportiveSkillBase for SyntheticArmor {}
 // AM_CP_HELM - Biochemical Helm
 pub struct BiochemicalHelm {
     pub(crate) level: u8,
@@ -1380,94 +1941,121 @@ impl SkillBase for BiochemicalHelm {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         237
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       1
+        1
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       25
+        25
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 25 { Ok(25) } else {Err(())}
+        if status.sp() > 25 { Ok(25) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7139,
+                name_english: "Coating_Bottle".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for BiochemicalHelm {
-}
+impl SupportiveSkillBase for BiochemicalHelm {}
 // AM_BIOETHICS - Bioethics
 pub struct Bioethics {
     pub(crate) level: u8,
@@ -1480,74 +2068,91 @@ impl SkillBase for Bioethics {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         238
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Passive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for Bioethics {
-}
+impl PassiveSkillBase for Bioethics {}
 // AM_CALLHOMUN - Call Homunculus
 pub struct CallHomunculus {
     pub(crate) level: u8,
@@ -1560,86 +2165,111 @@ impl SkillBase for CallHomunculus {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         243
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7142, name_english: "Germination_Breed".to_string(), amount: 1})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7142,
+                name_english: "Germination_Breed".to_string(),
+                amount: 1,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7142 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for CallHomunculus {
-}
+impl InteractiveSkillBase for CallHomunculus {}
 // AM_REST - Vaporize
 pub struct Vaporize {
     pub(crate) level: u8,
@@ -1652,78 +2282,96 @@ impl SkillBase for Vaporize {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         244
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       50
+        50
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 50 { Ok(50) } else {Err(())}
+        if status.sp() > 50 { Ok(50) } else { Err(()) }
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Vaporize {
-}
+impl InteractiveSkillBase for Vaporize {}
 // AM_RESURRECTHOMUN - Homunculus Resurrection
 pub struct HomunculusResurrection {
     pub(crate) level: u8,
@@ -1736,112 +2384,131 @@ impl SkillBase for HomunculusResurrection {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         247
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Interactive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 74
+            return 74;
         }
         if self.level == 2 {
-            return 68
+            return 68;
         }
         if self.level == 3 {
-            return 62
+            return 62;
         }
         if self.level == 4 {
-            return 56
+            return 56;
         }
         if self.level == 5 {
-            return 50
+            return 50;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 74 { return Ok(74) } else {return Err(())}
+            if status.sp() >= 74 { return Ok(74) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 68 { return Ok(68) } else {return Err(())}
+            if status.sp() >= 68 { return Ok(68) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 62 { return Ok(62) } else {return Err(())}
+            if status.sp() >= 62 { return Ok(62) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 56 { return Ok(56) } else {return Err(())}
+            if status.sp() >= 56 { return Ok(56) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 50 { return Ok(50) } else {return Err(())}
+            if status.sp() >= 50 { return Ok(50) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for HomunculusResurrection {
-}
+impl InteractiveSkillBase for HomunculusResurrection {}
 // AM_BERSERKPITCHER - Aid Berserk Potion
 pub struct AidBerserkPotion {
     pub(crate) level: u8,
@@ -1854,94 +2521,121 @@ impl SkillBase for AidBerserkPotion {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         446
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       10
+        10
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 2})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 657,
+                name_english: "Berserk_Potion".to_string(),
+                amount: 2,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 657 && item.amount >= 2) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       500
+        500
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for AidBerserkPotion {
-}
+impl SupportiveSkillBase for AidBerserkPotion {}
 // AM_TWILIGHT1 - Twilight Alchemy 1
 pub struct TwilightAlchemy1 {
     pub(crate) level: u8,
@@ -1954,98 +2648,126 @@ impl SkillBase for TwilightAlchemy1 {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         496
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       200
+        200
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 200 { Ok(200) } else {Err(())}
+        if status.sp() > 200 { Ok(200) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7134,
+                name_english: "Medicine_Bowl".to_string(),
+                amount: 200,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       3000
+        3000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       10000
+        10000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         4
     }
 }
-impl SupportiveSkillBase for TwilightAlchemy1 {
-}
+impl SupportiveSkillBase for TwilightAlchemy1 {}
 // AM_TWILIGHT2 - Twilight Alchemy 2
 pub struct TwilightAlchemy2 {
     pub(crate) level: u8,
@@ -2058,98 +2780,126 @@ impl SkillBase for TwilightAlchemy2 {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         497
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       200
+        200
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 200 { Ok(200) } else {Err(())}
+        if status.sp() > 200 { Ok(200) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7134,
+                name_english: "Medicine_Bowl".to_string(),
+                amount: 200,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       3000
+        3000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       10000
+        10000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         4
     }
 }
-impl SupportiveSkillBase for TwilightAlchemy2 {
-}
+impl SupportiveSkillBase for TwilightAlchemy2 {}
 // AM_TWILIGHT3 - Twilight Alchemy 3
 pub struct TwilightAlchemy3 {
     pub(crate) level: u8,
@@ -2162,95 +2912,123 @@ impl SkillBase for TwilightAlchemy3 {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         498
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       200
+        200
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 200 { Ok(200) } else {Err(())}
+        if status.sp() > 200 { Ok(200) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        let required_items = vec![
+            (NormalInventoryItem {
+                item_id: 7134,
+                name_english: "Medicine_Bowl".to_string(),
+                amount: 200,
+            }),
+        ];
         if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       3000
+        3000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       10000
+        10000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         4
     }
 }
-impl SupportiveSkillBase for TwilightAlchemy3 {
-}
+impl SupportiveSkillBase for TwilightAlchemy3 {}

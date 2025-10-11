@@ -1,7 +1,6 @@
 pub trait StringUtil {
     fn fill_char_array(&self, char_array: &mut [char]);
-    fn camel_to_space(&self) -> String ;
-
+    fn camel_to_space(&self) -> String;
 }
 
 impl StringUtil for String {
@@ -13,6 +12,7 @@ impl StringUtil for String {
             char_array[i] = c;
         }
     }
+
     fn camel_to_space(&self) -> String {
         let mut result = String::new();
         for (i, c) in self.chars().enumerate() {
@@ -33,6 +33,7 @@ impl StringUtil for &str {
             char_array[i] = c;
         }
     }
+
     fn camel_to_space(&self) -> String {
         let mut result = String::new();
         for (i, c) in self.chars().enumerate() {

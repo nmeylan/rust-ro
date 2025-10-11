@@ -1,19 +1,19 @@
 use std::sync::{Arc, Once};
-use base64::engine::general_purpose;
+
 use base64::Engine;
+use base64::engine::general_purpose;
+use models::enums::bonus::BonusType;
+use models::enums::class::JobName;
+use models::enums::{EnumStackable, EnumWithNumberValue, EnumWithStringValue};
+use models::item::Wearable;
+use models::status::{Status, StatusSnapshot};
+use models::status_bonus::StatusBonus;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use models::enums::class::JobName;
-use models::status::{Status, StatusSnapshot};
-use models::enums::{EnumStackable, EnumWithNumberValue, EnumWithStringValue};
-use models::enums::bonus::BonusType;
-use models::item::Wearable;
-use models::status_bonus::StatusBonus;
 
 use crate::repository::model::item_model::ItemModel;
 use crate::server::script::item_script_handler::DynamicItemScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
-
 
 static mut SERVICE_INSTANCE: Option<StatusService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -26,8 +26,12 @@ pub struct StatusService {
 
 impl StatusService {
     pub fn new(configuration_service: &'static GlobalConfigService, item_script_vm: Arc<Vm>) -> StatusService {
-        StatusService { configuration_service, item_script_vm }
+        StatusService {
+            configuration_service,
+            item_script_vm,
+        }
     }
+
     pub fn instance() -> &'static StatusService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
@@ -42,6 +46,7 @@ impl StatusService {
     pub fn to_snapshot_cached(&self, status: &Status, tick: u128) -> StatusSnapshot {
         self.to_snapshot(status)
     }
+
     //#[metrics::elapsed]
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::_from(status);
@@ -49,16 +54,14 @@ impl StatusService {
         let job_config = self.configuration_service.get_job_config(snapshot.job());
         let index_for_job_level = (status.job_level.max(1) - 1) as usize;
         let index_for_base_level = (status.base_level.max(1) - 1).min(99) as usize; // TODO if we want to scale some stats after lvl 99, need to remove min(99) and implement formula
-        job_config.bonus_stats()
-            .get(index_for_job_level)
-            .map(|bonus| {
-                snapshot.set_bonus_str(*bonus.get("str").unwrap_or(&0_i16));
-                snapshot.set_bonus_agi(*bonus.get("agi").unwrap_or(&0_i16));
-                snapshot.set_bonus_dex(*bonus.get("dex").unwrap_or(&0_i16));
-                snapshot.set_bonus_vit(*bonus.get("vit").unwrap_or(&0_i16));
-                snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_i16));
-                snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_i16));
-            });
+        job_config.bonus_stats().get(index_for_job_level).map(|bonus| {
+            snapshot.set_bonus_str(*bonus.get("str").unwrap_or(&0_i16));
+            snapshot.set_bonus_agi(*bonus.get("agi").unwrap_or(&0_i16));
+            snapshot.set_bonus_dex(*bonus.get("dex").unwrap_or(&0_i16));
+            snapshot.set_bonus_vit(*bonus.get("vit").unwrap_or(&0_i16));
+            snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_i16));
+            snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_i16));
+        });
         let mut bonuses: Vec<BonusType> = vec![];
 
         for equipment in status.equipped_weapons().iter() {
@@ -92,10 +95,11 @@ impl StatusService {
                 let item_model = self.configuration_service.get_item(equipment.card0 as i32);
                 self.collect_bonuses(status, &mut bonuses, item_model);
             }
-            if let Some(def) = item_model.defense { snapshot.set_def(snapshot.def() + def) }
+            if let Some(def) = item_model.defense {
+                snapshot.set_def(snapshot.def() + def)
+            }
             self.collect_bonuses(status, &mut bonuses, item_model);
         }
-
 
         // TODO card and item combo
 
@@ -109,16 +113,28 @@ impl StatusService {
         bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
         let hp_rebirth_modifier: f32 = if job.is_rebirth() { 1.25 } else { 1.0 };
-        snapshot.set_max_hp((job_config.base_hp()[index_for_base_level] as f32 * (1.0 + snapshot.vit() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
+        snapshot.set_max_hp(
+            (job_config.base_hp()[index_for_base_level] as f32 * (1.0 + snapshot.vit() as f32 / 100.0) * hp_rebirth_modifier).floor()
+                as u32,
+        );
         // TODO https://irowiki.org/classic/Max_SP
-        snapshot.set_max_sp((job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
+        snapshot.set_max_sp(
+            (job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier).floor()
+                as u32,
+        );
         // TODO 1 + YourLUK*0.3 + Critical Increasing Cards)*CritModifier - TargetLUK/5
         snapshot.set_crit(Self::truncate(snapshot.crit() + (1.0 + snapshot.luk() as f32 * 0.3), 1));
         snapshot.set_hit((snapshot.hit() + status.base_level as i16 + snapshot.dex() as i16).max(0));
         snapshot.set_flee((snapshot.flee() + status.base_level as i16 + snapshot.agi() as i16).max(0));
         snapshot.set_aspd(snapshot.aspd() + self.aspd(&snapshot));
-        snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
-        snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
+        snapshot.set_matk_min(
+            ((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor()
+                as u16,
+        );
+        snapshot.set_matk_max(
+            ((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor()
+                as u16,
+        );
         snapshot.set_fist_atk(self.fist_atk(&snapshot, snapshot.right_hand_weapon_type().is_ranged()));
         snapshot.set_atk_left_side(self.status_atk_left_side(&snapshot));
         self.set_status_atk_right_side(&mut snapshot);
@@ -135,19 +151,37 @@ impl StatusService {
             item_model.bonuses.iter().for_each(|bonus| bonuses.push(*bonus))
         }
     }
+
     // #[metrics::elapsed]
     #[inline]
     fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
         let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status, item_model.id as u32);
         if self.item_script_vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
-            Vm::repl_on_registered_class(self.item_script_vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
-                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e)).unwrap();
+            Vm::repl_on_registered_class(
+                self.item_script_vm.clone(),
+                format!("itemscript{}", item_model.id).as_str(),
+                Box::new(&dynamic_item_script_handler),
+                vec![],
+            )
+            .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e))
+            .unwrap();
         } else if let Some(script_compilation) = &item_model.script_compilation {
             let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
             let maybe_class = Compiler::from_binary(&script).unwrap().pop();
             Vm::bootstrap_without_init(self.item_script_vm.clone(), vec![maybe_class.unwrap()]);
-            Vm::repl_on_registered_class(self.item_script_vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
-                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message)).unwrap();
+            Vm::repl_on_registered_class(
+                self.item_script_vm.clone(),
+                format!("itemscript{}", item_model.id).as_str(),
+                Box::new(&dynamic_item_script_handler),
+                vec![],
+            )
+            .map_err(|e| {
+                error!(
+                    "Failed to execute item script for item {}, due to \n{}",
+                    item_model.id, e.message
+                )
+            })
+            .unwrap();
         }
         bonuses.extend(dynamic_item_script_handler.drain());
     }
@@ -168,6 +202,7 @@ impl StatusService {
         let aspd = status.aspd();
         (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
+
     #[inline]
     pub fn attack_delay(&self, status: &StatusSnapshot) -> u32 {
         self.attack_motion(status) / 2
@@ -178,35 +213,55 @@ impl StatusService {
     }
 
     pub fn cast_time_reduction(&self, status: &StatusSnapshot) -> f32 {
-        (1.0 - status.dex() as f32 /150.0) * (1.0 + status.cast_time())
+        (1.0 - status.dex() as f32 / 150.0) * (1.0 + status.cast_time())
     }
 
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
-    /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
-    /// http://calc.free-ro.com/
+    /// [] - Square brackets hold the same priority as normal brackets, but
+    /// indicate that the value of the contents should be rounded down to the
+    /// nearest whole number (integer) once calculated. http://calc.free-ro.com/
     fn aspd(&self, status: &StatusSnapshot) -> f32 {
         let weapon_delay = self.weapon_delay(status) as f32 / 10.0;
         let speed_modifier = 0_f32;
-        200.0 - (weapon_delay - ((((weapon_delay * (status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (status.dex() as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+        200.0
+            - (weapon_delay
+                - ((((weapon_delay * (status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (status.dex() as f32)) / 100.0).floor())
+                    / 10.0)
+                    * (1.0 - speed_modifier))
     }
 
     #[inline]
     fn weapon_delay(&self, status: &StatusSnapshot) -> u32 {
         let weapon = status.right_hand_weapon_type();
-        *self.configuration_service.get_job_config(status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+        *self
+            .configuration_service
+            .get_job_config(status.job())
+            .base_aspd()
+            .get(weapon.as_str())
+            .unwrap_or(&2000)
     }
 
     /// PRE-RE https://irowiki.org/classic/Attacks
     /// UI left side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     ///
-    /// Atk stands for Attack and gives an indication of how much damage you will do when you hit something.
-    ///The visible components of the Atk score are your Strength plus the Atk of the weapon you are using on the left and the damage bonus from any pluses the weapon might have on the right.
-    ///The real value on the left of your Atk score includes hidden bonuses from Strength, Dexterity and Luck.
-    ///For fists, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
-    ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
-    ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
-    ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
+    /// Atk stands for Attack and gives an indication of how much damage you
+    /// will do when you hit something. The visible components of the Atk
+    /// score are your Strength plus the Atk of the weapon you are using on the
+    /// left and the damage bonus from any pluses the weapon might have on the
+    /// right. The real value on the left of your Atk score includes hidden
+    /// bonuses from Strength, Dexterity and Luck. For fists, the true value
+    /// is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] where [] indicates you
+    /// round the value inside down before continuing and ^2 indicates squaring.
+    /// For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] +
+    /// [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the
+    /// value inside down before continuing and ^2 indicates squaring.
+    /// For missile weapons, the true value is equal to: DEX + [DEX/10]^2 +
+    /// [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you
+    /// round the value inside down before continuing and ^2 indicates squaring.
+    /// Not counting the value of WeaponAtk and AtkBonusCards, this true value
+    /// is often referred to as the base damage. This base damage is basically
+    /// the your Atk with bare fists.
     #[inline]
     fn status_atk_left_side(&self, status: &StatusSnapshot) -> i32 {
         let imposito_magnus = 0;
@@ -240,7 +295,7 @@ impl StatusService {
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
     #[inline]
-    pub fn set_status_atk_right_side(&self, status: &mut StatusSnapshot)  {
+    pub fn set_status_atk_right_side(&self, status: &mut StatusSnapshot) {
         let mut atk_right = 0_i32;
         let mut overupgrade_right_hand_atk_bonus = 0;
         let mut overupgrade_left_hand_atk_bonus = 0;
@@ -295,7 +350,6 @@ impl StatusService {
         status.set_overupgrade_left_hand_atk_bonus(overupgrade_left_hand_atk_bonus);
     }
 
-
     #[inline]
     pub fn character_vit_def(&self, status_snapshot: &StatusSnapshot) -> u16 {
         status_snapshot.vit() // TODO angelus multiplier
@@ -305,7 +359,8 @@ impl StatusService {
         // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
         // HPR += Math.floor( VIT / 5 );
         // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
-        let hp_regen = 1.0_f32.max((status_snapshot.max_hp() as f32 / 200.0).floor()) as u32 + (status_snapshot.vit() as f32 / 5.0).floor() as u32;
+        let hp_regen =
+            1.0_f32.max((status_snapshot.max_hp() as f32 / 200.0).floor()) as u32 + (status_snapshot.vit() as f32 / 5.0).floor() as u32;
         // TODO hp_regen bonus
         hp_regen
     }
@@ -318,7 +373,8 @@ impl StatusService {
         //  SPR += Math.floor(INT / 2 - 56);
         // }
         // SPR = Math.floor( SPR * (1 + SPR_MOD * 0.01) );
-        let mut sp_regen = 1 + (status_snapshot.max_sp() as f32 / 100.0).floor() as u32 + (status_snapshot.int() as f32 / 6.0).floor() as u32;
+        let mut sp_regen =
+            1 + (status_snapshot.max_sp() as f32 / 100.0).floor() as u32 + (status_snapshot.int() as f32 / 6.0).floor() as u32;
         if (status_snapshot.int() > 120) {
             sp_regen += ((status_snapshot.int() as f32 / 2.0) - 56.0).floor() as u32;
         }
@@ -327,13 +383,13 @@ impl StatusService {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use models::enums::bonus::BonusType;
     use models::enums::skill_enums::SkillEnum;
     use models::status::Status;
     use models::status_bonus::TemporaryStatusBonus;
+
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::server::service::status_service::StatusService;
     use crate::tests::common;
@@ -344,10 +400,22 @@ mod tests {
         common::before_all();
         let service = StatusService::new(GlobalConfigService::instance(), common::test_script_vm());
         let mut status = Status::default();
-        status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(BonusType::Agi(10), 0, 0, 1000, SkillEnum::AlIncagi.id() as u16));
+        status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(
+            BonusType::Agi(10),
+            0,
+            0,
+            1000,
+            SkillEnum::AlIncagi.id() as u16,
+        ));
         // When
         let snapshot = service.to_snapshot(&status);
         // Then
-        assert!(snapshot.bonuses().iter().any(|status_bonus| { matches!(status_bonus.bonus(), BonusType::Agi(10)) }), "missing agi bonus");
+        assert!(
+            snapshot
+                .bonuses()
+                .iter()
+                .any(|status_bonus| { matches!(status_bonus.bonus(), BonusType::Agi(10)) }),
+            "missing agi bonus"
+        );
     }
 }

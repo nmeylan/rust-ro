@@ -1,4 +1,3 @@
-
 #[derive(sqlx::FromRow, Debug, PartialEq, Clone)]
 pub struct Hotkey {
     #[sqlx(rename = "hotkey")]

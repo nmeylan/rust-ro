@@ -1,8 +1,8 @@
-use crate::enums::{EnumWithStringValue, EnumWithNumberValue};
 use enum_macro::{WithNumberValue, WithStringValue};
 
-#[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
-#[derive(Default)]
+use crate::enums::{EnumWithNumberValue, EnumWithStringValue};
+
+#[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq, Default)]
 pub enum Size {
     #[value = 0]
     Small,
@@ -11,5 +11,3 @@ pub enum Size {
     Large,
     All,
 }
-
-

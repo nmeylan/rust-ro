@@ -1,11 +1,6 @@
 use std::sync::RwLock;
 
-use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
-use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
-use rathena_script_lang_interpreter::lang::thread::Thread;
-use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
-
+use models::enums::EnumWithNumberValue;
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::item::ItemGroup;
@@ -13,10 +8,13 @@ use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::status::StatusEffect;
-use models::enums::EnumWithNumberValue;
+use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
+use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
+use rathena_script_lang_interpreter::lang::thread::Thread;
+use rathena_script_lang_interpreter::lang::value::{Native, Value};
+use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 
 use crate::server::script::constant::load_constant;
-
 
 pub struct BonusScriptHandler {
     pub(crate) bonuses: RwLock<Vec<BonusType>>,
@@ -24,13 +22,21 @@ pub struct BonusScriptHandler {
 
 #[macro_export]
 macro_rules! bonus {
-    ( $self:ident, $bonus:expr ) => {
-       $self.bonuses.write().unwrap().push($bonus)
-  };
+    ($self:ident, $bonus:expr) => {
+        $self.bonuses.write().unwrap().push($bonus)
+    };
 }
 
 impl NativeMethodHandler for BonusScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame, _source_line: &CompilationDetail, _class_name: String) {
+    fn handle(
+        &self,
+        native: &Native,
+        params: Vec<Value>,
+        execution_thread: &Thread,
+        _call_frame: &CallFrame,
+        _source_line: &CompilationDetail,
+        _class_name: String,
+    ) {
         if native.name.eq("skill") {
             let skill_name = params[0].string_value().unwrap();
             let skill = SkillEnum::from_name(skill_name.as_str());
@@ -52,7 +58,7 @@ impl NativeMethodHandler for BonusScriptHandler {
                 execution_thread.push_constant_on_stack(value);
             }
         } else {
-         //   println!("Function {} is not implemented", native.name);
+            //   println!("Function {} is not implemented", native.name);
         }
     }
 }
@@ -63,15 +69,18 @@ impl BonusScriptHandler {
             bonuses: Default::default(),
         }
     }
+
     pub fn drain(&self) -> Vec<BonusType> {
         let mut write_guard = self.bonuses.write().unwrap();
         write_guard.drain(0..).collect()
     }
+
     #[allow(dead_code)]
     pub fn clear(&self) {
         let mut write_guard = self.bonuses.write().unwrap();
         write_guard.clear();
     }
+
     pub fn handle_bonus(&self, params: Vec<Value>) {
         let bonus = params[0].string_value().unwrap();
         if params.len() == 1 {
@@ -178,7 +187,10 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::DefPercentage(value as i8));
                 }
                 "bdefratioatkclass" => {
-                    bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::from_value(value as usize)))
+                    bonus!(
+                        self,
+                        BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::from_value(value as usize))
+                    )
                 }
                 "bdelayrate" => {
                     bonus!(self, BonusType::SkillDelayIncDecPercentage(value as i8));
@@ -313,16 +325,28 @@ impl BonusScriptHandler {
             let value2 = params[2].number_value().unwrap();
             match bonus.to_lowercase().as_str() {
                 "bskillatk" => {
-                    bonus!(self, BonusType::SkillIdDamagePercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8));
+                    bonus!(
+                        self,
+                        BonusType::SkillIdDamagePercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8)
+                    );
                 }
                 "bskillheal" => {
-                    bonus!(self, BonusType::HealSkillIdPercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8));
+                    bonus!(
+                        self,
+                        BonusType::HealSkillIdPercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8)
+                    );
                 }
                 "baddskillblow" => {
-                    bonus!(self, BonusType::KnockbackWhenUsingSkillId(SkillEnum::from_name(value1.as_str()).id(), value2 as i8));
+                    bonus!(
+                        self,
+                        BonusType::KnockbackWhenUsingSkillId(SkillEnum::from_name(value1.as_str()).id(), value2 as i8)
+                    );
                 }
                 "bcastrate2" => {
-                    bonus!(self, BonusType::CastTimeWhenUsingSkillIdPercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::CastTimeWhenUsingSkillIdPercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8)
+                    )
                 }
                 _ => {}
             }
@@ -331,7 +355,10 @@ impl BonusScriptHandler {
             let value2 = params[2].number_value().unwrap();
             match bonus.to_lowercase().as_str() {
                 "baddclass" => {
-                    bonus!(self, BonusType::PhysicalDamageAgainstClassPercentage(MobClass::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::PhysicalDamageAgainstClassPercentage(MobClass::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "badddamageclass" => {
                     BonusType::PhysicalDamageAgainstMobIdPercentage(value1 as u32, value2 as i8);
@@ -340,71 +367,118 @@ impl BonusScriptHandler {
                     BonusType::ResistancePhysicalAttackFromMobIdPercentage(value1 as u32, value2 as i8);
                 }
                 "baddeff" => {
-                    bonus!(self, BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
+                    bonus!(
+                        self,
+                        BonusType::ChanceToInflictStatusOnAttackPercentage(
+                            StatusEffect::from_value(value1 as usize),
+                            value2 as f32 / 100.0
+                        )
+                    )
                 }
                 "baddeff2" => {
-                   bonus!(self, BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
+                    bonus!(
+                        self,
+                        BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(
+                            StatusEffect::from_value(value1 as usize),
+                            value2 as f32 / 100.0
+                        )
+                    )
                 }
                 "baddeffwhenhit" => {
-                    bonus!(self, BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
+                    bonus!(
+                        self,
+                        BonusType::ChanceToInflictStatusOnAttackPercentage(
+                            StatusEffect::from_value(value1 as usize),
+                            value2 as f32 / 100.0
+                        )
+                    )
                 }
                 "baddele" => {
-                    bonus!(self, BonusType::PhysicalDamageAgainstElementPercentage(Element::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::PhysicalDamageAgainstElementPercentage(Element::from_value(value1 as usize), value2 as i8)
+                    )
                 }
-                "badditemgrouphealrate" => {
-                    match ItemGroup::from_value(value1 as usize) {
-                        ItemGroup::Herb => bonus!(self, BonusType::HpRegenFromHerbPercentage(value2 as i8)),
-                        ItemGroup::Fruit => bonus!(self, BonusType::HpRegenFromFruitPercentage(value2 as i8)),
-                        ItemGroup::Meat => bonus!(self, BonusType::HpRegenFromMeatPercentage(value2 as i8)),
-                        ItemGroup::Candy => bonus!(self, BonusType::HpRegenFromCandyPercentage(value2 as i8)),
-                        ItemGroup::Juice => bonus!(self, BonusType::HpRegenFromJuicePercentage(value2 as i8)),
-                        ItemGroup::Fish => bonus!(self, BonusType::HpRegenFromFishPercentage(value2 as i8)),
-                        ItemGroup::Food => bonus!(self, BonusType::HpRegenFromFoodPercentage(value2 as i8)),
-                        ItemGroup::Potion => bonus!(self, BonusType::HpRegenFromPotionPercentage(value2 as i8)),
-                        _ => {}
-                    }
-                }
+                "badditemgrouphealrate" => match ItemGroup::from_value(value1 as usize) {
+                    ItemGroup::Herb => bonus!(self, BonusType::HpRegenFromHerbPercentage(value2 as i8)),
+                    ItemGroup::Fruit => bonus!(self, BonusType::HpRegenFromFruitPercentage(value2 as i8)),
+                    ItemGroup::Meat => bonus!(self, BonusType::HpRegenFromMeatPercentage(value2 as i8)),
+                    ItemGroup::Candy => bonus!(self, BonusType::HpRegenFromCandyPercentage(value2 as i8)),
+                    ItemGroup::Juice => bonus!(self, BonusType::HpRegenFromJuicePercentage(value2 as i8)),
+                    ItemGroup::Fish => bonus!(self, BonusType::HpRegenFromFishPercentage(value2 as i8)),
+                    ItemGroup::Food => bonus!(self, BonusType::HpRegenFromFoodPercentage(value2 as i8)),
+                    ItemGroup::Potion => bonus!(self, BonusType::HpRegenFromPotionPercentage(value2 as i8)),
+                    _ => {}
+                },
                 "badditemhealrate" => {
                     bonus!(self, BonusType::HpRegenFromItemIDPercentage(value1 as u32, value2 as i8));
                 }
                 "baddmonsterdropitem" => {
                     bonus!(self, BonusType::DropChanceItemIdPercentage(value1 as u32, value2 as i8));
                 }
-                "baddmonsterdropitemgroup" => {
-                    match ItemGroup::from_value(value1 as usize) {
-                        ItemGroup::Ore => bonus!(self, BonusType::DropChanceOrePercentage(value2 as i8)),
-                        ItemGroup::Jewel => bonus!(self, BonusType::DropChanceJewelPercentage(value2 as i8)),
-                        ItemGroup::Recovery => bonus!(self, BonusType::DropChanceRecoveryPercentage(value2 as i8)),
-                        ItemGroup::Food => bonus!(self, BonusType::DropChanceFoodPercentage(value2 as i8)),
-                        _ => {}
-                    }
-                }
+                "baddmonsterdropitemgroup" => match ItemGroup::from_value(value1 as usize) {
+                    ItemGroup::Ore => bonus!(self, BonusType::DropChanceOrePercentage(value2 as i8)),
+                    ItemGroup::Jewel => bonus!(self, BonusType::DropChanceJewelPercentage(value2 as i8)),
+                    ItemGroup::Recovery => bonus!(self, BonusType::DropChanceRecoveryPercentage(value2 as i8)),
+                    ItemGroup::Food => bonus!(self, BonusType::DropChanceFoodPercentage(value2 as i8)),
+                    _ => {}
+                },
                 "baddrace" => {
-                    bonus!(self, BonusType::PhysicalDamageAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::PhysicalDamageAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "baddrace2" => {
-                    bonus!(self, BonusType::DamageAgainstMobGroupPercentage(MobGroup::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::DamageAgainstMobGroupPercentage(MobGroup::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "baddsize" => {
-                    bonus!(self, BonusType::PhysicalDamageAgainstSizePercentage(Size::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::PhysicalDamageAgainstSizePercentage(Size::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bcomaclass" => {
-                    bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(MobClass::from_value(value1 as usize), value2 as f32 / 100.0))
+                    bonus!(
+                        self,
+                        BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(
+                            MobClass::from_value(value1 as usize),
+                            value2 as f32 / 100.0
+                        )
+                    )
                 }
                 "bcomarace" => {
-                    bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::from_value(value1 as usize),  value2 as f32 / 100.0))
+                    bonus!(
+                        self,
+                        BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(
+                            MobRace::from_value(value1 as usize),
+                            value2 as f32 / 100.0
+                        )
+                    )
                 }
                 "bcriticaladdrace" => {
-                    bonus!(self, BonusType::CriticalAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::CriticalAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bexpaddrace" => {
-                    bonus!(self, BonusType::GainExpWhenKillingRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::GainExpWhenKillingRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bgetzenynum" => {
                     bonus!(self, BonusType::GainZenyWhenKillingMonster(value1 as u16, value2 as i8));
                 }
                 "bhpdrainrate" => {
-                    bonus!(self, BonusType::HpDrainWhenAttackingPercentage(value2 as i8, (value1 / 10_i32) as i8));
+                    bonus!(
+                        self,
+                        BonusType::HpDrainWhenAttackingPercentage(value2 as i8, (value1 / 10_i32) as i8)
+                    );
                 }
                 "bhplossrate" => {
                     bonus!(self, BonusType::HpLossEveryMs(value1 as u16, value2 as u16));
@@ -413,28 +487,52 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::HpRegenEveryMs(value1 as u16, value2 as u16));
                 }
                 "bignoredefracerate" => {
-                    bonus!(self, BonusType::IgnoreDefRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::IgnoreDefRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bignoremdefracerate" => {
-                    bonus!(self, BonusType::IgnoreMDefRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::IgnoreMDefRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bignoremdefclassrate" => {
-                    bonus!(self, BonusType::IgnoreMDefClassPercentage(MobClass::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::IgnoreMDefClassPercentage(MobClass::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bmagicaddrace" => {
-                    bonus!(self, BonusType::MagicalDamageAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::MagicalDamageAgainstRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "breseff" => {
-                    bonus!(self, BonusType::ResistanceToStatusPercentage(StatusEffect::from_value(value1 as usize), (value2 / 100) as f32))
+                    bonus!(
+                        self,
+                        BonusType::ResistanceToStatusPercentage(StatusEffect::from_value(value1 as usize), (value2 / 100) as f32)
+                    )
                 }
                 "bspdrainrate" => {
-                    bonus!(self, BonusType::SpDrainWhenAttackingPercentage(value2 as i8, (value1 / 10_i32) as i8));
+                    bonus!(
+                        self,
+                        BonusType::SpDrainWhenAttackingPercentage(value2 as i8, (value1 / 10_i32) as i8)
+                    );
                 }
                 "bspdrainvaluerace" => {
-                    bonus!(self, BonusType::SpDrainWhenAttackingRace(MobRace::from_value(value1 as usize), value2 as u16))
+                    bonus!(
+                        self,
+                        BonusType::SpDrainWhenAttackingRace(MobRace::from_value(value1 as usize), value2 as u16)
+                    )
                 }
                 "bspgainrace" => {
-                    bonus!(self, BonusType::SpDrainWhenKillingRace(MobRace::from_value(value1 as usize), value2 as u16))
+                    bonus!(
+                        self,
+                        BonusType::SpDrainWhenKillingRace(MobRace::from_value(value1 as usize), value2 as u16)
+                    )
                 }
                 "bsplossrate" => {
                     bonus!(self, BonusType::SpLossEveryMs(value1 as u16, value2 as u16));
@@ -446,21 +544,34 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::SpRegenEveryMs(value2 as u16, (value1 / 10_i32) as u16));
                 }
                 "bsubclass" => {
-                    bonus!(self, BonusType::ResistanceDamageFromClassPercentage(MobClass::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::ResistanceDamageFromClassPercentage(MobClass::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bsubele" => {
-                    bonus!(self, BonusType::ResistanceDamageFromElementPercentage(Element::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::ResistanceDamageFromElementPercentage(Element::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bsubrace" => {
-                    bonus!(self, BonusType::ResistanceDamageFromRacePercentage(MobRace::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::ResistanceDamageFromRacePercentage(MobRace::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 "bsubsize" => {
-                    bonus!(self, BonusType::ResistanceDamageFromSizePercentage(Size::from_value(value1 as usize), value2 as i8))
+                    bonus!(
+                        self,
+                        BonusType::ResistanceDamageFromSizePercentage(Size::from_value(value1 as usize), value2 as i8)
+                    )
                 }
                 _ => {}
             }
         }
     }
+
     pub fn handle_bonus3(&self, params: Vec<Value>) {
         let bonus = params[0].string_value().unwrap();
         match bonus.to_lowercase().as_str() {
@@ -475,6 +586,7 @@ impl BonusScriptHandler {
             _ => {}
         }
     }
+
     pub fn handle_bonus4(&self, params: Vec<Value>) {
         let bonus = params[0].string_value().unwrap();
         match bonus.to_lowercase().as_str() {
@@ -484,6 +596,7 @@ impl BonusScriptHandler {
             _ => {}
         }
     }
+
     pub fn handle_bonus5(&self, params: Vec<Value>) {
         let bonus = params[0].string_value().unwrap();
         match bonus.to_lowercase().as_str() {
@@ -497,22 +610,36 @@ impl BonusScriptHandler {
 
 #[cfg(test)]
 mod tests {
-    use crate::server::script::bonus::BonusScriptHandler;
+    use std::sync::{Arc, RwLock};
+
     use models::enums::bonus::BonusType;
     use models::enums::element::Element;
     use rathena_script_lang_interpreter::lang::compiler::Compiler;
     use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-    use std::sync::{Arc, RwLock};
+
+    use crate::server::script::bonus::BonusScriptHandler;
 
     #[test]
     fn test_simple_bonus() {
         // Given
         let script = "bonus bStr, 10;";
-        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+        let compilation_result = Compiler::compile_script(
+            "test".to_string(),
+            script,
+            "../native_functions_list.txt",
+            rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value(),
+        );
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         // When
-        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
+        let script_handler = BonusScriptHandler {
+            bonuses: RwLock::new(vec![]),
+        };
+        Vm::repl(
+            vm.clone(),
+            compilation_result.unwrap().pop().as_ref().unwrap(),
+            Box::new(&script_handler),
+            vec![],
+        );
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(10)))
     }
@@ -521,11 +648,23 @@ mod tests {
     fn test_simple_bonus_negative() {
         // Given
         let script = "bonus bStr, -10;";
-        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::All.value());
+        let compilation_result = Compiler::compile_script(
+            "test".to_string(),
+            script,
+            "../native_functions_list.txt",
+            rathena_script_lang_interpreter::lang::compiler::DebugFlag::All.value(),
+        );
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::All.value()));
         // When
-        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
+        let script_handler = BonusScriptHandler {
+            bonuses: RwLock::new(vec![]),
+        };
+        Vm::repl(
+            vm.clone(),
+            compilation_result.unwrap().pop().as_ref().unwrap(),
+            Box::new(&script_handler),
+            vec![],
+        );
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(-10)))
     }
@@ -534,12 +673,27 @@ mod tests {
     fn test_bonus_with_constant() {
         // Given
         let script = "bonus bAtkEle,Ele_Water;";
-        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+        let compilation_result = Compiler::compile_script(
+            "test".to_string(),
+            script,
+            "../native_functions_list.txt",
+            rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value(),
+        );
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         // When
-        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
+        let script_handler = BonusScriptHandler {
+            bonuses: RwLock::new(vec![]),
+        };
+        Vm::repl(
+            vm.clone(),
+            compilation_result.unwrap().pop().as_ref().unwrap(),
+            Box::new(&script_handler),
+            vec![],
+        );
         // Then
-        assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::ElementWeapon(Element::Water)))
+        assert!(matches!(
+            script_handler.bonuses.read().unwrap()[0],
+            BonusType::ElementWeapon(Element::Water)
+        ))
     }
 }

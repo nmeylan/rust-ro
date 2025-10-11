@@ -1,13 +1,10 @@
 use std::collections::HashMap;
 
+use models::position::Position;
+use models::status::StatusSnapshot;
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::movement::{Movable, Movement};
-
-use models::position::Position;
-
-use models::status::StatusSnapshot;
-
 
 #[derive(Setters, Clone)]
 pub struct Mob {
@@ -41,16 +38,28 @@ impl Movable for Mob {
     fn movements_mut(&mut self) -> &mut Vec<Movement> {
         &mut self.movements
     }
+
     fn movements(&self) -> &Vec<Movement> {
         &self.movements
     }
+
     fn set_movement(&mut self, movements: Vec<Movement>) {
         self.movements = movements;
     }
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, damage_motion: u32, status: StatusSnapshot) -> Mob {
+    pub fn new(
+        id: u32,
+        x: u16,
+        y: u16,
+        mob_id: i16,
+        spawn_id: u32,
+        name: String,
+        name_english: String,
+        damage_motion: u32,
+        status: StatusSnapshot,
+    ) -> Mob {
         Mob {
             id,
             x,
@@ -80,6 +89,7 @@ impl Mob {
     pub fn y(&self) -> u16 {
         self.y
     }
+
     pub fn update_map_view(&mut self, map_items: Vec<MapItem>) {
         self.is_view_char = !map_items.is_empty();
         self.map_view = map_items;
@@ -88,7 +98,7 @@ impl Mob {
     pub fn update_position(&mut self, x: u16, y: u16) {
         #[cfg(feature = "debug_mob_movement")]
         {
-            if  crate::server::model::path::manhattan_distance(self.x, self.y, x, y) > 2 {
+            if crate::server::model::path::manhattan_distance(self.x, self.y, x, y) > 2 {
                 error!("mob teleported old ({},{}) new ({},{})", self.x, self.y, x, y);
             }
         }
@@ -142,6 +152,7 @@ impl Mob {
         }
         attacker_with_higher_damage
     }
+
     pub fn set_last_moved_at(&mut self, tick: u128) {
         self.last_moved_at = tick;
     }
@@ -169,7 +180,7 @@ impl ToMapItemSnapshot for Mob {
                 x: self.x,
                 y: self.y,
                 dir: 3, // TODO
-            }
+            },
         }
     }
 }

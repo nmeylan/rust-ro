@@ -41,4 +41,3 @@ pub struct ServerRegStr {
     pub index: i32,
     pub value: String,
 }
-

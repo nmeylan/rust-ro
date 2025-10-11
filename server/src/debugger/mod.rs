@@ -1,9 +1,9 @@
 use eframe::egui;
 
-pub mod visual_debugger;
 mod frame_history;
 mod map_instance_view;
 pub mod multi_player_simulator;
+pub mod visual_debugger;
 
 pub trait View<R> {
     fn ui(&mut self, ui: &mut egui::Ui) -> R;

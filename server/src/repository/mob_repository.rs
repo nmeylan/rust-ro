@@ -6,9 +6,10 @@ use crate::repository::{MobRepository, PgRepository};
 
 #[async_trait]
 impl MobRepository for PgRepository {
-
     async fn get_all_mobs(&self) -> Result<Vec<MobModel>, Error> {
-        sqlx::query_as("SELECT mob_db.*, i1.id as drop1_itemid, i2.id  as drop2_itemid, i3.id as drop3_itemid, i4.id  as drop4_itemid, i5.id  as drop5_itemid, i6.id  as drop6_itemid, i7.id  as drop7_itemid,
+        sqlx::query_as(
+            "SELECT mob_db.*, i1.id as drop1_itemid, i2.id  as drop2_itemid, i3.id as drop3_itemid, i4.id  as drop4_itemid, i5.id  as \
+             drop5_itemid, i6.id  as drop6_itemid, i7.id  as drop7_itemid,
        i8.id  as drop8_itemid,i9.id  as drop9_itemid,i10.id  as drop10_itemid,
        imvp1.id  as mvpdrop1_itemid,imvp2.id  as mvpdrop2_itemid,imvp3.id  as mvpdrop3_itemid
        FROM mob_db
@@ -25,7 +26,9 @@ impl MobRepository for PgRepository {
          LEFT OUTER JOIN item_db imvp1 ON  imvp1.name_aegis = mob_db.mvpdrop1_item
          LEFT OUTER JOIN item_db imvp2 ON  imvp2.name_aegis = mob_db.mvpdrop2_item
          LEFT OUTER JOIN item_db imvp3 ON  imvp3.name_aegis = mob_db.mvpdrop3_item
-;")
-            .fetch_all(&self.pool).await
+;",
+        )
+        .fetch_all(&self.pool)
+        .await
     }
 }

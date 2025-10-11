@@ -1,15 +1,19 @@
+use models::enums::item::ItemType;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use packets::packets::{
+    CzPurchaseItem, CzSellItem, Packet, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist,
+    PacketZcSelectDealtype, PurchaseItem, SellItem,
+};
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use packets::packets::{CzPurchaseItem, CzSellItem, Packet, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
-use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_NPC_ID, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
-use models::enums::item::ItemType;
-use models::enums::EnumWithNumberValue;
 
 use crate::repository::model::item_model::ItemModel;
-use models::enums::EnumWithStringValue;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
+use crate::server::script::{
+    GlobalVariableEntry, GlobalVariableScope, PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID,
+    VM_THREAD_CONSTANT_INDEX_NPC_ID,
+};
 use crate::server::service::global_config_service::GlobalConfigService;
 
 impl PlayerInteractionScriptHandler {
@@ -18,7 +22,10 @@ impl PlayerInteractionScriptHandler {
             let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new(GlobalConfigService::instance().packetver());
             packet_zc_select_deal_type.naid = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_NPC_ID);
             packet_zc_select_deal_type.fill_raw();
-            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_select_deal_type);
+            self.send_packet_to_char(
+                execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID),
+                &mut packet_zc_select_deal_type,
+            );
             let input_value = self.block_recv().unwrap(); // Selection: buy or sell
             let input_value = input_value[0] as i32;
             execution_thread.push_constant_on_stack(Value::new_number(input_value));
@@ -28,7 +35,10 @@ impl PlayerInteractionScriptHandler {
             let character = self.server.state().get_character_unsafe(char_id);
             let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemlist::new(self.configuration_service.packetver());
             let mut packets_sell_items = vec![];
-            character.inventory.iter().enumerate()
+            character
+                .inventory
+                .iter()
+                .enumerate()
                 .filter(|(_index, item)| item.is_some())
                 .map(|(index, item)| (index, item.as_ref().unwrap()))
                 .filter(|(_, item)| item.equip == 0)
@@ -44,18 +54,30 @@ impl PlayerInteractionScriptHandler {
                     sell_item.set_overchargeprice(price); // TODO take into account overcharge skill
                     packets_sell_items.push(sell_item);
                 });
-            packet_zc_pc_sell_itemlist.set_packet_length((PacketZcPcSellItemlist::base_len(self.configuration_service.packetver()) + packets_sell_items.len() * SellItem::base_len(self.configuration_service.packetver())) as i16);
+            packet_zc_pc_sell_itemlist.set_packet_length(
+                (PacketZcPcSellItemlist::base_len(self.configuration_service.packetver())
+                    + packets_sell_items.len() * SellItem::base_len(self.configuration_service.packetver())) as i16,
+            );
             packet_zc_pc_sell_itemlist.set_item_list(packets_sell_items.clone());
             packet_zc_pc_sell_itemlist.fill_raw();
-            self.client_notification_channel.send(Notification::Char(CharNotification::new(char_id, packet_zc_pc_sell_itemlist.raw))).unwrap();
+            self.client_notification_channel
+                .send(Notification::Char(CharNotification::new(
+                    char_id,
+                    packet_zc_pc_sell_itemlist.raw,
+                )))
+                .unwrap();
             self.await_player_click_on_sell(&mut packets_sell_items, execution_thread);
             return true;
         } else if native.name.eq("senditemlist") {
-            let (owner_reference, reference) = params[0].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "senditemlist first argument should be array name")).unwrap();
+            let (owner_reference, reference) = params[0]
+                .reference_value()
+                .map_err(|err| execution_thread.new_runtime_from_temporary(err, "senditemlist first argument should be array name"))
+                .unwrap();
             let array_items = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
-            let (owner_reference, reference) = params[1].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "senditemlist second argument should be array name")).unwrap();
+            let (owner_reference, reference) = params[1]
+                .reference_value()
+                .map_err(|err| execution_thread.new_runtime_from_temporary(err, "senditemlist second argument should be array name"))
+                .unwrap();
             let array_prices = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new(self.configuration_service.packetver());
             // Retrieve items id and price from VM array
@@ -72,14 +94,18 @@ impl PlayerInteractionScriptHandler {
                 price_overrides.push(price);
             }
             // Build array of PurchaseItem, retrieving some information from db (prices)
-            let items = item_ids.iter().map(|id| self.configuration_service.get_item(*id)).collect::<Vec<&ItemModel>>();
+            let items = item_ids
+                .iter()
+                .map(|id| self.configuration_service.get_item(*id))
+                .collect::<Vec<&ItemModel>>();
             let mut items_list: Vec<PurchaseItem> = vec![];
             for (i, _) in price_overrides.iter().enumerate().take(array_items.len()) {
                 let mut purchase_item = PurchaseItem::new(self.configuration_service.packetver());
                 let item = items.get(i).unwrap();
                 purchase_item.set_itid(item.id as u16);
                 purchase_item.set_atype(ItemType::from_string(item.item_type.as_str()).value() as u8);
-                let price = if price_overrides[i] != -1 { // when script contains price override
+                let price = if price_overrides[i] != -1 {
+                    // when script contains price override
                     price_overrides[i]
                 } else {
                     item.price_buy.unwrap()
@@ -89,9 +115,15 @@ impl PlayerInteractionScriptHandler {
                 items_list.push(purchase_item);
             }
             packet_zc_pc_purchase_itemlist.set_item_list(items_list.clone());
-            packet_zc_pc_purchase_itemlist.set_packet_length((PacketZcPcPurchaseItemlist::base_len(self.server.packetver()) + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16);
+            packet_zc_pc_purchase_itemlist.set_packet_length(
+                (PacketZcPcPurchaseItemlist::base_len(self.server.packetver())
+                    + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16,
+            );
             packet_zc_pc_purchase_itemlist.fill_raw();
-            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_pc_purchase_itemlist);
+            self.send_packet_to_char(
+                execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID),
+                &mut packet_zc_pc_purchase_itemlist,
+            );
             // Wait for player click on "buy"
             self.await_player_click_on_buy(&mut items_list, execution_thread);
             return true;
@@ -104,14 +136,18 @@ impl PlayerInteractionScriptHandler {
             let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(GlobalConfigService::instance().packetver());
             packet_zc_pc_purchase_result.set_result(result as u8);
             packet_zc_pc_purchase_result.fill_raw();
-            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_pc_purchase_result);
+            self.send_packet_to_char(
+                execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID),
+                &mut packet_zc_pc_purchase_result,
+            );
             return true;
         }
         false
     }
 
     /// We feed character global variable for the shop script.
-    /// We could execute get item logic here but we may want more flexibility for shop script, so instead we just feed global variables
+    /// We could execute get item logic here but we may want more flexibility
+    /// for shop script, so instead we just feed global variables
     fn await_player_click_on_buy(&self, items_list: &mut [PurchaseItem], execution_thread: &Thread) {
         if let Some(mut items) = self.block_recv() {
             // Once we receive player purchased items
@@ -122,27 +158,42 @@ impl PlayerInteractionScriptHandler {
             for i in 0..items_count {
                 let purchase_item_bytes = items.drain(0..CzPurchaseItem::base_len(self.server.packetver()));
                 let purchased_item = CzPurchaseItem::from(purchase_item_bytes.as_slice(), self.server.packetver());
-                // Ensure that packet with purchased item contains item from the list of available items, ignore otherwise
+                // Ensure that packet with purchased item contains item from the list of
+                // available items, ignore otherwise
                 if let Some(valid_purchased_item) = items_list.iter().find(|item| item.itid == purchased_item.itid) {
                     let item_price = valid_purchased_item.discountprice;
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "bought_nameid".to_string(), value: crate::server::script::Value::Number(purchased_item.itid as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "bought_quantity".to_string(), value: crate::server::script::Value::Number(purchased_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "bought_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "bought_nameid".to_string(),
+                        value: crate::server::script::Value::Number(purchased_item.itid as i32),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "bought_quantity".to_string(),
+                        value: crate::server::script::Value::Number(purchased_item.count as i32),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "bought_price".to_string(),
+                        value: crate::server::script::Value::Number(item_price),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
                 } else {
-                    warn!("Player {} attempted to purchased an item with id {} not available in the shop!!! ", char_id, purchased_item.itid);
+                    warn!(
+                        "Player {} attempted to purchased an item with id {} not available in the shop!!! ",
+                        char_id, purchased_item.itid
+                    );
                 }
             }
         }
     }
 
     /// We feed character global variable for the shop script.
-    /// We could execute remove item from inventory logic here but we may want more flexibility for shop script, so instead we just feed global variables
+    /// We could execute remove item from inventory logic here but we may want
+    /// more flexibility for shop script, so instead we just feed global
+    /// variables
     fn await_player_click_on_sell(&self, items_list: &mut [SellItem], execution_thread: &Thread) {
         if let Some(mut items) = self.block_recv() {
             // Once we receive player sold items
@@ -155,15 +206,24 @@ impl PlayerInteractionScriptHandler {
                 let sold_item = CzSellItem::from(sell_item_bytes.as_slice(), self.server.packetver());
                 if let Some(valid_purchased_item) = items_list.iter().find(|item| item.index == sold_item.index) {
                     let item_price = valid_purchased_item.overchargeprice;
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "sold_item_index".to_string(), value: crate::server::script::Value::Number(sold_item.index as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "sold_quantity".to_string(), value: crate::server::script::Value::Number(sold_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
-                    script_variable_store.push(
-                        GlobalVariableEntry { name: "sold_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                    );
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "sold_item_index".to_string(),
+                        value: crate::server::script::Value::Number(sold_item.index as i32),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "sold_quantity".to_string(),
+                        value: crate::server::script::Value::Number(sold_item.count as i32),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
+                    script_variable_store.push(GlobalVariableEntry {
+                        name: "sold_price".to_string(),
+                        value: crate::server::script::Value::Number(item_price),
+                        scope: GlobalVariableScope::CharTemporary,
+                        index: Some(i as usize),
+                    });
                 }
             }
         }

@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use std::sync::Arc;
+
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -8,8 +9,8 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{TestContext, create_mpsc};
 
 struct MapInstanceServiceTestContext {
     test_context: TestContext,
@@ -29,9 +30,20 @@ fn before_each_with_latch(latch_size: usize) -> MapInstanceServiceTestContext {
     let server_task_queue = Arc::new(TasksQueue::new());
     let count_down_latch = CountDownLatch::new(latch_size);
     MapInstanceServiceTestContext {
-        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender, persistence_event_receiver, count_down_latch),
+        test_context: TestContext::new(
+            client_notification_sender.clone(),
+            client_notification_receiver,
+            persistence_event_sender,
+            persistence_event_receiver,
+            count_down_latch,
+        ),
         server_task_queue: server_task_queue.clone(),
-        map_instance_service: MapInstanceService::new(client_notification_sender, GlobalConfigService::instance(), mob_service, server_task_queue),
+        map_instance_service: MapInstanceService::new(
+            client_notification_sender,
+            GlobalConfigService::instance(),
+            mob_service,
+            server_task_queue,
+        ),
     }
 }
 
@@ -42,26 +54,26 @@ mod tests {
     use std::mem;
     use std::sync::Arc;
     use std::time::Duration;
-    
+
+    use models::item::DroppedItem;
+    use models::position::Position;
     use packets::packets::PacketZcItemDisappear;
-    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
+
+    use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
     use crate::server::model::action::Damage;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
     use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
-    use models::item::DroppedItem;
     use crate::server::model::map_item::{MapItem, MapItemType};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
-    
-    use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
-    use models::position::Position;
-    use crate::tests::common::assert_helper::{NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, has_sent_notification};
-    
+    use crate::tests::common::assert_helper::{
+        NotificationExpectation, SentPacket, has_sent_notification, task_queue_contains_event_at_tick,
+    };
     use crate::tests::common::map_instance_helper::create_empty_map_instance_state;
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::map_instance_service_test::before_each;
-    use crate::util::tick::get_tick;
-    use crate::util::tick::delayed_tick;
+    use crate::util::tick::{delayed_tick, get_tick};
+    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
 
     #[test]
     fn test_mob_die_should_remove_map_item_from_map_instance_and_mob() {
@@ -78,8 +90,14 @@ mod tests {
         assert_eq!(map_instance_state.get_mob(mob_item_id).unwrap().is_present(), false);
         context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
-        assert_eq!(mem::discriminant(&map_instance_state.get_mob(mob_item_id)), mem::discriminant(&None));
-        assert_eq!(mem::discriminant(&map_instance_state.get_map_item(mob_item_id)), mem::discriminant(&None));
+        assert_eq!(
+            mem::discriminant(&map_instance_state.get_mob(mob_item_id)),
+            mem::discriminant(&None)
+        );
+        assert_eq!(
+            mem::discriminant(&map_instance_state.get_map_item(mob_item_id)),
+            mem::discriminant(&None)
+        );
     }
 
     #[test]
@@ -101,8 +119,19 @@ mod tests {
         // When
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
         // Then
-        task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(
-            CharacterKillMonster { char_id: 150000, mob_id, mob_x: x, mob_y: y, map_instance_key: map_instance_state.key().clone(), mob_base_exp: mob_model.exp as u32, mob_job_exp: mob_model.job_exp as u32 }), 0);
+        task_queue_contains_event_at_tick(
+            context.server_task_queue.clone(),
+            GameEvent::CharacterKillMonster(CharacterKillMonster {
+                char_id: 150000,
+                mob_id,
+                mob_x: x,
+                mob_y: y,
+                map_instance_key: map_instance_state.key().clone(),
+                mob_base_exp: mob_model.exp as u32,
+                mob_job_exp: mob_model.job_exp as u32,
+            }),
+            0,
+        );
     }
 
     #[test]
@@ -111,11 +140,19 @@ mod tests {
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let poring = GlobalConfigService::instance().get_mob_by_name("PORING");
-        let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
+        let mob_drop_items = MobDropItems {
+            owner_id: 150000,
+            mob_id: poring.id as i16,
+            mob_x: 10,
+            mob_y: 10,
+        };
         let mut expected_dropped_item_amount: HashMap<u32, (String, u32)> = Default::default();
         poring.drops.iter().for_each(|drop_config| {
-            // Sometime mob like "PORING" drop an item twice (like "apple") with different drop rates
-            let item_drop_amount_expectation = expected_dropped_item_amount.entry(GlobalConfigService::instance().get_item_id_from_name(drop_config.item_name.as_str())).or_insert((drop_config.item_name.clone(), 0));
+            // Sometime mob like "PORING" drop an item twice (like "apple") with different
+            // drop rates
+            let item_drop_amount_expectation = expected_dropped_item_amount
+                .entry(GlobalConfigService::instance().get_item_id_from_name(drop_config.item_name.as_str()))
+                .or_insert((drop_config.item_name.clone(), 0));
             item_drop_amount_expectation.1 += drop_config.rate as u32; // we use drop rate from configuration as we will iterate 10000 times, drop rate == expected amount of item dropped after 10000 mob killed
         });
 
@@ -123,7 +160,8 @@ mod tests {
         // When
         let mut drops_per_item: HashMap<u32, u32> = HashMap::new();
         for _ in 0..=iterations {
-            for _ in 0..10000 { // killing 10k poring
+            for _ in 0..10000 {
+                // killing 10k poring
                 let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
                 for drop in drops {
                     let item_drop_count = drops_per_item.entry(drop.item_id as u32).or_insert(0);
@@ -135,7 +173,15 @@ mod tests {
         for (item_id, (item_name, expected_drop_amount)) in expected_dropped_item_amount {
             let total_amount_dropped = drops_per_item.get(&item_id).unwrap();
             let average = (*total_amount_dropped as f32 / iterations as f32).round() as u32;
-            assert_eq_with_variance!(2, average, expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
+            assert_eq_with_variance!(
+                2,
+                average,
+                expected_drop_amount,
+                "Expected item {} to be dropped {} times but was dropped {} times",
+                item_name,
+                expected_drop_amount,
+                average
+            );
         }
     }
 
@@ -145,13 +191,21 @@ mod tests {
         let context = before_each();
         let poring = GlobalConfigService::instance().get_mob_by_name("PORING");
         let mut map_instance_state = create_empty_map_instance_state();
-        let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
+        let mob_drop_items = MobDropItems {
+            owner_id: 150000,
+            mob_id: poring.id as i16,
+            mob_x: 10,
+            mob_y: 10,
+        };
         // When
         let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
         // Then
         for drop in drops {
             assert!(map_instance_state.get_map_item(drop.map_item_id).is_some());
-            assert!(matches!(map_instance_state.get_map_item(drop.map_item_id).unwrap().object_type(), MapItemType::DroppedItem));
+            assert!(matches!(
+                map_instance_state.get_map_item(drop.map_item_id).unwrap().object_type(),
+                MapItemType::DroppedItem
+            ));
             assert!(map_instance_state.get_dropped_item(drop.map_item_id).is_some());
         }
     }
@@ -168,7 +222,17 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: 10, attacked_at: get_tick() }, map_instance_tasks_queue, get_tick());
+        context.map_instance_service.mob_being_attacked(
+            &mut map_instance_state,
+            Damage {
+                target_id: mob_item_id,
+                attacker_id: 150000,
+                damage: 10,
+                attacked_at: get_tick(),
+            },
+            map_instance_tasks_queue,
+            get_tick(),
+        );
         // Then
         assert_eq!(map_instance_state.get_mob(mob_item_id).unwrap().hp(), max_hp - 10);
     }
@@ -185,7 +249,17 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() }, map_instance_tasks_queue, get_tick());
+        context.map_instance_service.mob_being_attacked(
+            &mut map_instance_state,
+            Damage {
+                target_id: mob_item_id,
+                attacker_id: 150000,
+                damage: max_hp + 10,
+                attacked_at: get_tick(),
+            },
+            map_instance_tasks_queue,
+            get_tick(),
+        );
         context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
         assert!(map_instance_state.get_mob(mob_item_id).is_none());
@@ -204,9 +278,27 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() + 10 }, map_instance_tasks_queue.clone(), get_tick());
+        context.map_instance_service.mob_being_attacked(
+            &mut map_instance_state,
+            Damage {
+                target_id: mob_item_id,
+                attacker_id: 150000,
+                damage: max_hp + 10,
+                attacked_at: get_tick() + 10,
+            },
+            map_instance_tasks_queue.clone(),
+            get_tick(),
+        );
         // Then
-        assert_task_queue_contains_event_at_tick!(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: original_mob.id, x: original_mob.x, y: original_mob.y }), delayed_tick(10, MAP_LOOP_TICK_RATE));
+        assert_task_queue_contains_event_at_tick!(
+            map_instance_tasks_queue,
+            MapEvent::MobDeathClientNotification(MobLocation {
+                mob_id: original_mob.id,
+                x: original_mob.x,
+                y: original_mob.y
+            }),
+            delayed_tick(10, MAP_LOOP_TICK_RATE)
+        );
     }
 
     #[test]
@@ -214,13 +306,36 @@ mod tests {
         // Given
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
-        let clover = DroppedItem { map_item_id: 1000, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
+        let clover = DroppedItem {
+            map_item_id: 1000,
+            item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32,
+            location: Position { x: 50, y: 50, dir: 0 },
+            sub_location: Position { x: 3, y: 3, dir: 0 },
+            owner_id: None,
+            dropped_at: 0,
+            amount: 2,
+            is_identified: true,
+        };
         map_instance_state.insert_dropped_item(clover);
         // When
-        context.map_instance_service.remove_dropped_item_from_map(&mut map_instance_state, clover.map_item_id);
+        context
+            .map_instance_service
+            .remove_dropped_item_from_map(&mut map_instance_state, clover.map_item_id);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(50, 50, vec![SentPacket::with_id(PacketZcItemDisappear::packet_id(GlobalConfigService::instance().packetver()))]));
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue.clone(), GameEvent::MapNotifyItemRemoved(clover.map_item_id), 0);
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(50, 50, vec![SentPacket::with_id(PacketZcItemDisappear::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+        assert_task_queue_contains_event_at_tick!(
+            context.server_task_queue.clone(),
+            GameEvent::MapNotifyItemRemoved(clover.map_item_id),
+            0
+        );
     }
 }

@@ -3,25 +3,22 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{*};
+use std::any::Any;
+
+use models::enums::bonus::BonusType;
+use models::enums::element::Element::*;
+use models::enums::mob::MobRace::*;
 use models::enums::skill::*;
+use models::enums::status::StatusEffect::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element::{*};
-
-use models::item::WearWeapon;
-
+use models::enums::weapon::WeaponType::*;
+use models::enums::*;
+use models::item::{NormalInventoryItem, WearWeapon};
 use models::status::StatusSnapshot;
-use models::item::NormalInventoryItem;
-use models::enums::weapon::WeaponType::{*};
-use models::enums::bonus::{BonusType};
-use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
-use models::enums::mob::MobRace::{*};
-
-use crate::{*};
 
 use crate::base::*;
-use std::any::Any;
+use crate::*;
 // DC_DANCINGLESSON - Dance Lessons
 pub struct DanceLessons {
     pub(crate) level: u8,
@@ -34,132 +31,201 @@ impl SkillBase for DanceLessons {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         323
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Passive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Passive
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 3), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(40), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 3),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(40), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 6), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(80), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 6),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(80), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 9), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(120), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 9),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(120), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 12), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-96), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 12),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-96), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 15), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-56), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 15),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-56), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 18), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-16), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 18),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-16), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 21), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(24), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 21),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(24), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 24), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(64), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 24),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(64), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 27), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(104), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 27),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(104), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 30), StatusBonusFlag::Default.as_flag(), 323),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-112), StatusBonusFlag::Default.as_flag(), 323),]);
+                TemporaryStatusBonus::with_passive_skill(
+                    BonusType::MasteryDamageUsingWeaponType(Whip, 30),
+                    StatusBonusFlag::Default.as_flag(),
+                    323,
+                ),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-112), StatusBonusFlag::Default.as_flag(), 323),
+            ]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for DanceLessons {
-}
+impl PassiveSkillBase for DanceLessons {}
 // DC_THROWARROW - Slinging Arrow
 pub struct SlingingArrow {
     pub(crate) level: u8,
@@ -172,121 +238,151 @@ impl SkillBase for SlingingArrow {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         324
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 1
+            return 1;
         }
         if self.level == 2 {
-            return 3
+            return 3;
         }
         if self.level == 3 {
-            return 5
+            return 5;
         }
         if self.level == 4 {
-            return 7
+            return 7;
         }
         if self.level == 5 {
-            return 9
+            return 9;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 1 { return Ok(1) } else {return Err(())}
+            if status.sp() >= 1 { return Ok(1) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 3 { return Ok(3) } else {return Err(())}
+            if status.sp() >= 3 { return Ok(3) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 5 { return Ok(5) } else {return Err(())}
+            if status.sp() >= 5 { return Ok(5) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 7 { return Ok(7) } else {return Err(())}
+            if status.sp() >= 7 { return Ok(7) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 9 { return Ok(9) } else {return Err(())}
+            if status.sp() >= 9 { return Ok(9) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         if let Some(ammo_and_amount) = character_ammo {
-            if ammo_and_amount.1 >= 1 && (2 & ammo_and_amount.0.as_flag()) > 0 { Ok(1) } else { Err(()) }
+            if ammo_and_amount.1 >= 1 && (2 & ammo_and_amount.0.as_flag()) > 0 {
+                Ok(1)
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 16384 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 16384 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1500
+        1500
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -295,33 +391,41 @@ impl SkillBase for SlingingArrow {
 impl OffensiveSkillBase for SlingingArrow {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(1.000)
+            return Some(1.000);
         }
         if self.level == 2 {
-            return Some(1.400)
+            return Some(1.400);
         }
         if self.level == 3 {
-            return Some(1.800)
+            return Some(1.800);
         }
         if self.level == 4 {
-            return Some(2.200)
+            return Some(2.200);
         }
         if self.level == 5 {
-            return Some(2.600)
+            return Some(2.600);
         }
         None
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
 }
@@ -337,116 +441,139 @@ impl SkillBase for HipShaker {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         325
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Performance
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 23
+            return 23;
         }
         if self.level == 2 {
-            return 26
+            return 26;
         }
         if self.level == 3 {
-            return 29
+            return 29;
         }
         if self.level == 4 {
-            return 32
+            return 32;
         }
         if self.level == 5 {
-            return 35
+            return 35;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 23 { return Ok(23) } else {return Err(())}
+            if status.sp() >= 23 { return Ok(23) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 26 { return Ok(26) } else {return Err(())}
+            if status.sp() >= 26 { return Ok(26) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 29 { return Ok(29) } else {return Err(())}
+            if status.sp() >= 29 { return Ok(29) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 32 { return Ok(32) } else {return Err(())}
+            if status.sp() >= 32 { return Ok(32) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 35 { return Ok(35) } else {return Err(())}
+            if status.sp() >= 35 { return Ok(35) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 16384 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 16384 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl PerformanceSkillBase for HipShaker {
-}
+impl PerformanceSkillBase for HipShaker {}
 // DC_SCREAM - Dazzler
 pub struct Dazzler {
     pub(crate) level: u8,
@@ -459,105 +586,125 @@ impl SkillBase for Dazzler {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         326
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Offensive
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 12
+            return 12;
         }
         if self.level == 2 {
-            return 14
+            return 14;
         }
         if self.level == 3 {
-            return 16
+            return 16;
         }
         if self.level == 4 {
-            return 18
+            return 18;
         }
         if self.level == 5 {
-            return 20
+            return 20;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 12 { return Ok(12) } else {return Err(())}
+            if status.sp() >= 12 { return Ok(12) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 14 { return Ok(14) } else {return Err(())}
+            if status.sp() >= 14 { return Ok(14) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 18 { return Ok(18) } else {return Err(())}
+            if status.sp() >= 18 { return Ok(18) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 20 { return Ok(20) } else {return Err(())}
+            if status.sp() >= 20 { return Ok(20) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       4000
+        4000
     }
+
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
@@ -566,14 +713,21 @@ impl SkillBase for Dazzler {
 impl OffensiveSkillBase for Dazzler {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
-       1
+        1
     }
+
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }
+
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         let mut effects = Vec::with_capacity(1);
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
@@ -616,146 +770,169 @@ impl SkillBase for FocusBallet {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         327
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Performance
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 22
+            return 22;
         }
         if self.level == 2 {
-            return 24
+            return 24;
         }
         if self.level == 3 {
-            return 26
+            return 26;
         }
         if self.level == 4 {
-            return 28
+            return 28;
         }
         if self.level == 5 {
-            return 30
+            return 30;
         }
         if self.level == 6 {
-            return 32
+            return 32;
         }
         if self.level == 7 {
-            return 34
+            return 34;
         }
         if self.level == 8 {
-            return 36
+            return 36;
         }
         if self.level == 9 {
-            return 38
+            return 38;
         }
         if self.level == 10 {
-            return 40
+            return 40;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 22 { return Ok(22) } else {return Err(())}
+            if status.sp() >= 22 { return Ok(22) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 24 { return Ok(24) } else {return Err(())}
+            if status.sp() >= 24 { return Ok(24) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 26 { return Ok(26) } else {return Err(())}
+            if status.sp() >= 26 { return Ok(26) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 28 { return Ok(28) } else {return Err(())}
+            if status.sp() >= 28 { return Ok(28) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 30 { return Ok(30) } else {return Err(())}
+            if status.sp() >= 30 { return Ok(30) } else { return Err(()) }
         }
         if self.level == 6 {
-            if status.sp() >= 32 { return Ok(32) } else {return Err(())}
+            if status.sp() >= 32 { return Ok(32) } else { return Err(()) }
         }
         if self.level == 7 {
-            if status.sp() >= 34 { return Ok(34) } else {return Err(())}
+            if status.sp() >= 34 { return Ok(34) } else { return Err(()) }
         }
         if self.level == 8 {
-            if status.sp() >= 36 { return Ok(36) } else {return Err(())}
+            if status.sp() >= 36 { return Ok(36) } else { return Err(()) }
         }
         if self.level == 9 {
-            if status.sp() >= 38 { return Ok(38) } else {return Err(())}
+            if status.sp() >= 38 { return Ok(38) } else { return Err(()) }
         }
         if self.level == 10 {
-            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl PerformanceSkillBase for FocusBallet {
-}
+impl PerformanceSkillBase for FocusBallet {}
 // DC_DONTFORGETME - Slow Grace
 pub struct SlowGrace {
     pub(crate) level: u8,
@@ -768,204 +945,239 @@ impl SkillBase for SlowGrace {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         328
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Performance
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 28
+            return 28;
         }
         if self.level == 2 {
-            return 31
+            return 31;
         }
         if self.level == 3 {
-            return 34
+            return 34;
         }
         if self.level == 4 {
-            return 37
+            return 37;
         }
         if self.level == 5 {
-            return 40
+            return 40;
         }
         if self.level == 6 {
-            return 43
+            return 43;
         }
         if self.level == 7 {
-            return 46
+            return 46;
         }
         if self.level == 8 {
-            return 49
+            return 49;
         }
         if self.level == 9 {
-            return 52
+            return 52;
         }
         if self.level == 10 {
-            return 55
+            return 55;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 28 { return Ok(28) } else {return Err(())}
+            if status.sp() >= 28 { return Ok(28) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 31 { return Ok(31) } else {return Err(())}
+            if status.sp() >= 31 { return Ok(31) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 34 { return Ok(34) } else {return Err(())}
+            if status.sp() >= 34 { return Ok(34) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 37 { return Ok(37) } else {return Err(())}
+            if status.sp() >= 37 { return Ok(37) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else { return Err(()) }
         }
         if self.level == 6 {
-            if status.sp() >= 43 { return Ok(43) } else {return Err(())}
+            if status.sp() >= 43 { return Ok(43) } else { return Err(()) }
         }
         if self.level == 7 {
-            if status.sp() >= 46 { return Ok(46) } else {return Err(())}
+            if status.sp() >= 46 { return Ok(46) } else { return Err(()) }
         }
         if self.level == 8 {
-            if status.sp() >= 49 { return Ok(49) } else {return Err(())}
+            if status.sp() >= 49 { return Ok(49) } else { return Err(()) }
         }
         if self.level == 9 {
-            if status.sp() >= 52 { return Ok(52) } else {return Err(())}
+            if status.sp() >= 52 { return Ok(52) } else { return Err(()) }
         }
         if self.level == 10 {
-            if status.sp() >= 55 { return Ok(55) } else {return Err(())}
+            if status.sp() >= 55 { return Ok(55) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-8.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-8), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-8), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-11.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-11), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-11), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-14.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-14), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-14), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-17.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-17), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-17), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-23.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-23), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-23), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-26.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-26), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-26), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-29.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-29), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-29), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-32.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-32), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-32), 0, tick, 180000, 328),
+            ]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-35.0), 0, tick, 180000, 328),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-35), 0, tick, 180000, 328),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-35), 0, tick, 180000, 328),
+            ]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl PerformanceSkillBase for SlowGrace {
-}
+impl PerformanceSkillBase for SlowGrace {}
 // DC_FORTUNEKISS - Lady Luck
 pub struct LadyLuck {
     pub(crate) level: u8,
@@ -978,194 +1190,269 @@ impl SkillBase for LadyLuck {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         329
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Performance
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 43
+            return 43;
         }
         if self.level == 2 {
-            return 46
+            return 46;
         }
         if self.level == 3 {
-            return 49
+            return 49;
         }
         if self.level == 4 {
-            return 52
+            return 52;
         }
         if self.level == 5 {
-            return 55
+            return 55;
         }
         if self.level == 6 {
-            return 58
+            return 58;
         }
         if self.level == 7 {
-            return 61
+            return 61;
         }
         if self.level == 8 {
-            return 64
+            return 64;
         }
         if self.level == 9 {
-            return 67
+            return 67;
         }
         if self.level == 10 {
-            return 70
+            return 70;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 43 { return Ok(43) } else {return Err(())}
+            if status.sp() >= 43 { return Ok(43) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 46 { return Ok(46) } else {return Err(())}
+            if status.sp() >= 46 { return Ok(46) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 49 { return Ok(49) } else {return Err(())}
+            if status.sp() >= 49 { return Ok(49) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 52 { return Ok(52) } else {return Err(())}
+            if status.sp() >= 52 { return Ok(52) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 55 { return Ok(55) } else {return Err(())}
+            if status.sp() >= 55 { return Ok(55) } else { return Err(()) }
         }
         if self.level == 6 {
-            if status.sp() >= 58 { return Ok(58) } else {return Err(())}
+            if status.sp() >= 58 { return Ok(58) } else { return Err(()) }
         }
         if self.level == 7 {
-            if status.sp() >= 61 { return Ok(61) } else {return Err(())}
+            if status.sp() >= 61 { return Ok(61) } else { return Err(()) }
         }
         if self.level == 8 {
-            if status.sp() >= 64 { return Ok(64) } else {return Err(())}
+            if status.sp() >= 64 { return Ok(64) } else { return Err(()) }
         }
         if self.level == 9 {
-            if status.sp() >= 67 { return Ok(67) } else {return Err(())}
+            if status.sp() >= 67 { return Ok(67) } else { return Err(()) }
         }
         if self.level == 10 {
-            if status.sp() >= 70 { return Ok(70) } else {return Err(())}
+            if status.sp() >= 70 { return Ok(70) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(11.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(11.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(12.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(12.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(13.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(13.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(14.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(14.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(15.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(15.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(16.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(16.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(17.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(17.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(18.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(18.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(19.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(19.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), 0, tick, 120000, 329),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::Crit(20.0),
+                0,
+                tick,
+                120000,
+                329,
+            )]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl PerformanceSkillBase for LadyLuck {
-}
+impl PerformanceSkillBase for LadyLuck {}
 // DC_SERVICEFORYOU - Gypsy's Kiss
 pub struct GypsysKiss {
     pub(crate) level: u8,
@@ -1178,194 +1465,269 @@ impl SkillBase for GypsysKiss {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         330
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Performance
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
     }
+
     fn _is_ranged(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
         if self.level == 1 {
-            return 40
+            return 40;
         }
         if self.level == 2 {
-            return 45
+            return 45;
         }
         if self.level == 3 {
-            return 50
+            return 50;
         }
         if self.level == 4 {
-            return 55
+            return 55;
         }
         if self.level == 5 {
-            return 60
+            return 60;
         }
         if self.level == 6 {
-            return 65
+            return 65;
         }
         if self.level == 7 {
-            return 70
+            return 70;
         }
         if self.level == 8 {
-            return 75
+            return 75;
         }
         if self.level == 9 {
-            return 80
+            return 80;
         }
         if self.level == 10 {
-            return 85
+            return 85;
         }
         0
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::MySelf
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else { return Err(()) }
         }
         if self.level == 2 {
-            if status.sp() >= 45 { return Ok(45) } else {return Err(())}
+            if status.sp() >= 45 { return Ok(45) } else { return Err(()) }
         }
         if self.level == 3 {
-            if status.sp() >= 50 { return Ok(50) } else {return Err(())}
+            if status.sp() >= 50 { return Ok(50) } else { return Err(()) }
         }
         if self.level == 4 {
-            if status.sp() >= 55 { return Ok(55) } else {return Err(())}
+            if status.sp() >= 55 { return Ok(55) } else { return Err(()) }
         }
         if self.level == 5 {
-            if status.sp() >= 60 { return Ok(60) } else {return Err(())}
+            if status.sp() >= 60 { return Ok(60) } else { return Err(()) }
         }
         if self.level == 6 {
-            if status.sp() >= 65 { return Ok(65) } else {return Err(())}
+            if status.sp() >= 65 { return Ok(65) } else { return Err(()) }
         }
         if self.level == 7 {
-            if status.sp() >= 70 { return Ok(70) } else {return Err(())}
+            if status.sp() >= 70 { return Ok(70) } else { return Err(()) }
         }
         if self.level == 8 {
-            if status.sp() >= 75 { return Ok(75) } else {return Err(())}
+            if status.sp() >= 75 { return Ok(75) } else { return Err(()) }
         }
         if self.level == 9 {
-            if status.sp() >= 80 { return Ok(80) } else {return Err(())}
+            if status.sp() >= 80 { return Ok(80) } else { return Err(()) }
         }
         if self.level == 10 {
-            if status.sp() >= 85 { return Ok(85) } else {return Err(())}
+            if status.sp() >= 85 { return Ok(85) } else { return Err(()) }
         }
         Err(())
     }
+
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 {
+                Ok(())
+            } else {
+                Err(())
+            }
         } else {
             Err(())
         }
     }
+
     #[inline(always)]
     fn _has_bonuses_to_self(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(11), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(11),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(12), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(12),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(13), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(13),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(14), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(14),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(15), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(15),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(16), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(16),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(17), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(17),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(18), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(18),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(19), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(19),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses::new(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(20), 0, tick, 180000, 330),]);
+            return TemporaryStatusBonuses::new(vec![TemporaryStatusBonus::with_duration(
+                BonusType::MaxspPercentage(20),
+                0,
+                tick,
+                180000,
+                330,
+            )]);
         }
         TemporaryStatusBonuses::default()
     }
+
     #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl PerformanceSkillBase for GypsysKiss {
-}
+impl PerformanceSkillBase for GypsysKiss {}
 // DC_WINKCHARM - Wink of Charm
 pub struct WinkofCharm {
     pub(crate) level: u8,
@@ -1378,87 +1740,108 @@ impl SkillBase for WinkofCharm {
     fn as_any(&self) -> &dyn Any {
         self
     }
+
     fn _id(&self) -> u32 {
         1011
     }
+
     fn skill_type(&self) -> SkillType {
         SkillType::Support
     }
+
     fn _level(&self) -> u8 {
         self.level
     }
+
     #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+
     #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+
     #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+
     #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+
     #[inline(always)]
     fn _range(&self) -> i8 {
-       9
+        9
     }
+
     fn _is_ranged(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
     }
+
     #[inline(always)]
     fn _sp_cost(&self) -> u16 {
-       40
+        40
     }
+
     fn _target_type(&self) -> SkillTargetType {
         SkillTargetType::Target
     }
+
     fn _is_magic(&self) -> bool {
         false
     }
+
     fn _is_physical(&self) -> bool {
         false
     }
+
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else { Err(()) }
     }
+
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
-       1000
+        1000
     }
+
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
-       2000
+        2000
     }
+
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
+
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+
     #[inline(always)]
     fn _client_type(&self) -> usize {
         16
     }
 }
-impl SupportiveSkillBase for WinkofCharm {
-}
+impl SupportiveSkillBase for WinkofCharm {}

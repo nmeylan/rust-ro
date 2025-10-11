@@ -1,8 +1,9 @@
 use proc_macro::TokenStream;
+use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
 use syn::Data::Enum;
 use syn::{DeriveInput, parse_macro_input};
-use proc_macro2::{TokenStream as TokenStream2};
+
 use crate::helper::{get_number_value, is_numeric};
 
 pub fn with_eq(input: TokenStream) -> TokenStream {

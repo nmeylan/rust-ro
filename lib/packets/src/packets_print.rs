@@ -3,8 +3,9 @@
 
 #![allow(dead_code)]
 
+use std::fmt::{Debug, Display, Formatter};
+
 use crate::packets::*;
-use std::fmt::{Formatter, Debug, Display};
 use crate::print::PrettyOutput;
 
 impl Debug for PacketCaLogin {
@@ -15,14 +16,17 @@ impl Debug for PacketCaLogin {
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
             .field("passwd[30, 54]", &format!("{:02X?}", &self.passwd_raw))
             .field("client_type[54, 55]", &format!("{:02X?}", &self.client_type_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
         fields.push(format!("passwd(char[] as char[])[30, 54]: {}", &self.passwd.pretty_output()));
@@ -40,14 +44,17 @@ impl Debug for PacketChEnter {
             .field("user_level[10, 14]", &format!("{:02X?}", &self.user_level_raw))
             .field("client_type[14, 16]", &format!("{:02X?}", &self.client_type_raw))
             .field("sex[16, 17]", &format!("{:02X?}", &self.sex_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("auth_code(int as i32)[6, 10]: {}", &self.auth_code));
         fields.push(format!("user_level(unsigned long as u32)[10, 14]: {}", &self.user_level));
@@ -62,14 +69,17 @@ impl Debug for PacketChSelectChar {
         f.debug_struct("PacketChSelectChar")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_num[2, 3]", &format!("{:02X?}", &self.char_num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChSelectChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("char_num(unsigned char as u8)[2, 3]: {}", &self.char_num));
         write!(f, "PacketChSelectChar\n {}", fields.join(",\n "))
     }
@@ -89,14 +99,17 @@ impl Debug for PacketChMakeChar {
             .field("char_num[32, 33]", &format!("{:02X?}", &self.char_num_raw))
             .field("head_pal[33, 35]", &format!("{:02X?}", &self.head_pal_raw))
             .field("head[35, 37]", &format!("{:02X?}", &self.head_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChMakeChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("str(unsigned char as u8)[26, 27]: {}", &self.str));
         fields.push(format!("agi(unsigned char as u8)[27, 28]: {}", &self.agi));
@@ -119,14 +132,17 @@ impl Debug for PacketChMakeChar2 {
             .field("char_num[26, 27]", &format!("{:02X?}", &self.char_num_raw))
             .field("head_pal[27, 29]", &format!("{:02X?}", &self.head_pal_raw))
             .field("head[29, 31]", &format!("{:02X?}", &self.head_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChMakeChar2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("char_num(unsigned char as u8)[26, 27]: {}", &self.char_num));
         fields.push(format!("head_pal(short as i16)[27, 29]: {}", &self.head_pal));
@@ -141,14 +157,17 @@ impl Debug for PacketChDeleteChar {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("key[6, 46]", &format!("{:02X?}", &self.key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("key(char[] as char[])[6, 46]: {}", &self.key.pretty_output()));
         write!(f, "PacketChDeleteChar\n {}", fields.join(",\n "))
@@ -167,23 +186,39 @@ impl Debug for PacketAcAcceptLogin {
             .field("last_login_time[20, 46]", &format!("{:02X?}", &self.last_login_time_raw))
             .field("sex[46, 47]", &format!("{:02X?}", &self.sex_raw))
             .field("server_list[47, 79]", &format!("{:02X?}", &self.server_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAcceptLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("auth_code(int as i32)[4, 8]: {}", &self.auth_code));
         fields.push(format!("aid(unsigned long as u32)[8, 12]: {}", &self.aid));
         fields.push(format!("user_level(unsigned long as u32)[12, 16]: {}", &self.user_level));
         fields.push(format!("last_login_ip(unsigned long as u32)[16, 20]: {}", &self.last_login_ip));
-        fields.push(format!("last_login_time(char[] as char[])[20, 46]: {}", &self.last_login_time.pretty_output()));
+        fields.push(format!(
+            "last_login_time(char[] as char[])[20, 46]: {}",
+            &self.last_login_time.pretty_output()
+        ));
         fields.push(format!("sex(unsigned char as u8)[46, 47]: {}", &self.sex));
-        fields.push(format!("server_list([] as Vec)[47, 79]: {}", &self.server_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "server_list([] as Vec)[47, 79]: {}",
+            &self
+                .server_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketAcAcceptLogin\n {}", fields.join(",\n "))
     }
 }
@@ -202,25 +237,44 @@ impl Debug for PacketAcAcceptLogin2 {
             .field("twitter_auth_token[47, 63]", &format!("{:02X?}", &self.twitter_auth_token_raw))
             .field("twitter_flag[63, 64]", &format!("{:02X?}", &self.twitter_flag_raw))
             .field("server_list[64, 224]", &format!("{:02X?}", &self.server_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("auth_code(int as i32)[4, 8]: {}", &self.auth_code));
         fields.push(format!("aid(unsigned long as u32)[8, 12]: {}", &self.aid));
         fields.push(format!("user_level(unsigned long as u32)[12, 16]: {}", &self.user_level));
         fields.push(format!("last_login_ip(unsigned long as u32)[16, 20]: {}", &self.last_login_ip));
-        fields.push(format!("last_login_time(char[] as char[])[20, 46]: {}", &self.last_login_time.pretty_output()));
+        fields.push(format!(
+            "last_login_time(char[] as char[])[20, 46]: {}",
+            &self.last_login_time.pretty_output()
+        ));
         fields.push(format!("sex(unsigned char as u8)[46, 47]: {}", &self.sex));
-        fields.push(format!("twitter_auth_token(char[] as char[])[47, 63]: {}", &self.twitter_auth_token.pretty_output()));
+        fields.push(format!(
+            "twitter_auth_token(char[] as char[])[47, 63]: {}",
+            &self.twitter_auth_token.pretty_output()
+        ));
         fields.push(format!("twitter_flag(unsigned char as u8)[63, 64]: {}", &self.twitter_flag));
-        fields.push(format!("server_list([] as Vec)[64, 224]: {}", &self.server_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "server_list([] as Vec)[64, 224]: {}",
+            &self
+                .server_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketAcAcceptLogin2\n {}", fields.join(",\n "))
     }
 }
@@ -231,16 +285,22 @@ impl Debug for PacketAcRefuseLogin {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[3, 23]", &format!("{:02X?}", &self.block_date_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcRefuseLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
-        fields.push(format!("block_date(char[] as char[])[3, 23]: {}", &self.block_date.pretty_output()));
+        fields.push(format!(
+            "block_date(char[] as char[])[3, 23]: {}",
+            &self.block_date.pretty_output()
+        ));
         write!(f, "PacketAcRefuseLogin\n {}", fields.join(",\n "))
     }
 }
@@ -259,25 +319,47 @@ impl Debug for PacketHcAcceptEnterNeoUnion {
             .field("time2[16, 20]", &format!("{:02X?}", &self.time2_raw))
             .field("dummy2_endbilling[20, 27]", &format!("{:02X?}", &self.dummy2_endbilling_raw))
             .field("char_info[27, 182]", &format!("{:02X?}", &self.char_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAcceptEnterNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("total_slot_num(unsigned char as u8)[4, 5]: {}", &self.total_slot_num));
-        fields.push(format!("premium_start_slot(unsigned char as u8)[5, 6]: {}", &self.premium_start_slot));
-        fields.push(format!("premium_end_slot(unsigned char as u8)[6, 7]: {}", &self.premium_end_slot));
+        fields.push(format!(
+            "premium_start_slot(unsigned char as u8)[5, 6]: {}",
+            &self.premium_start_slot
+        ));
+        fields.push(format!(
+            "premium_end_slot(unsigned char as u8)[6, 7]: {}",
+            &self.premium_end_slot
+        ));
         fields.push(format!("dummy1_beginbilling(char as i8)[7, 8]: {}", &self.dummy1_beginbilling));
         fields.push(format!("code(unsigned long as u32)[8, 12]: {}", &self.code));
         fields.push(format!("time1(unsigned long as u32)[12, 16]: {}", &self.time1));
         fields.push(format!("time2(unsigned long as u32)[16, 20]: {}", &self.time2));
-        fields.push(format!("dummy2_endbilling(char[] as char[])[20, 27]: {}", &self.dummy2_endbilling.pretty_output()));
-        fields.push(format!("char_info([] as Vec)[27, 182]: {}", &self.char_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "dummy2_endbilling(char[] as char[])[20, 27]: {}",
+            &self.dummy2_endbilling.pretty_output()
+        ));
+        fields.push(format!(
+            "char_info([] as Vec)[27, 182]: {}",
+            &self
+                .char_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketHcAcceptEnterNeoUnion\n {}", fields.join(",\n "))
     }
 }
@@ -287,14 +369,17 @@ impl Debug for PacketHcRefuseEnter {
         f.debug_struct("PacketHcRefuseEnter")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcRefuseEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketHcRefuseEnter\n {}", fields.join(",\n "))
     }
@@ -305,14 +390,17 @@ impl Debug for PacketHcAcceptMakecharNeoUnion {
         f.debug_struct("PacketHcAcceptMakecharNeoUnion")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("charinfo[2, ?]", &format!("{:02X?}", &self.charinfo_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAcceptMakecharNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("charinfo(struct as Struct)[2, ?]: {}", &self.charinfo));
         write!(f, "PacketHcAcceptMakecharNeoUnion\n {}", fields.join(",\n "))
     }
@@ -323,14 +411,17 @@ impl Debug for PacketHcRefuseMakechar {
         f.debug_struct("PacketHcRefuseMakechar")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcRefuseMakechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketHcRefuseMakechar\n {}", fields.join(",\n "))
     }
@@ -340,14 +431,17 @@ impl Debug for PacketHcAcceptDeletechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAcceptDeletechar")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAcceptDeletechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketHcAcceptDeletechar\n {}", fields.join(",\n "))
     }
 }
@@ -357,14 +451,17 @@ impl Debug for PacketHcRefuseDeletechar {
         f.debug_struct("PacketHcRefuseDeletechar")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcRefuseDeletechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketHcRefuseDeletechar\n {}", fields.join(",\n "))
     }
@@ -377,14 +474,17 @@ impl Debug for PacketHcNotifyZonesvr {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("map_name[6, 22]", &format!("{:02X?}", &self.map_name_raw))
             .field("addr[22, ?]", &format!("{:02X?}", &self.addr_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcNotifyZonesvr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("map_name(char[] as char[])[6, 22]: {}", &self.map_name.pretty_output()));
         fields.push(format!("addr(struct as Struct)[22, ?]: {}", &self.addr));
@@ -401,14 +501,17 @@ impl Debug for PacketCzEnter {
             .field("auth_code[10, 14]", &format!("{:02X?}", &self.auth_code_raw))
             .field("client_time[14, 18]", &format!("{:02X?}", &self.client_time_raw))
             .field("sex[18, 19]", &format!("{:02X?}", &self.sex_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("auth_code(int as i32)[10, 14]: {}", &self.auth_code));
@@ -426,16 +529,22 @@ impl Debug for PacketZcAcceptEnter {
             .field("pos_dir[6, 9]", &format!("{:02X?}", &self.pos_dir_raw))
             .field("x_size[9, 10]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[10, 11]", &format!("{:02X?}", &self.y_size_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAcceptEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("start_time(unsigned long as u32)[2, 6]: {}", &self.start_time));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[6, 9]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[6, 9]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[9, 10]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[10, 11]: {}", &self.y_size));
         write!(f, "PacketZcAcceptEnter\n {}", fields.join(",\n "))
@@ -447,14 +556,17 @@ impl Debug for PacketZcRefuseEnter {
         f.debug_struct("PacketZcRefuseEnter")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRefuseEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketZcRefuseEnter\n {}", fields.join(",\n "))
     }
@@ -468,14 +580,17 @@ impl Debug for PacketZcNotifyInitchar {
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("style[8, 10]", &format!("{:02X?}", &self.style_raw))
             .field("item[10, 11]", &format!("{:02X?}", &self.item_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyInitchar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("gid(unsigned long as u32)[4, 8]: {}", &self.gid));
         fields.push(format!("style(short as i16)[8, 10]: {}", &self.style));
@@ -491,14 +606,17 @@ impl Debug for PacketZcNotifyUpdatechar {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("style[6, 8]", &format!("{:02X?}", &self.style_raw))
             .field("item[8, 9]", &format!("{:02X?}", &self.item_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyUpdatechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("style(short as i16)[6, 8]: {}", &self.style));
         fields.push(format!("item(unsigned char as u8)[8, 9]: {}", &self.item));
@@ -512,14 +630,17 @@ impl Debug for PacketZcNotifyUpdateplayer {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("style[2, 4]", &format!("{:02X?}", &self.style_raw))
             .field("item[4, 5]", &format!("{:02X?}", &self.item_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyUpdateplayer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("style(short as i16)[2, 4]: {}", &self.style));
         fields.push(format!("item(unsigned char as u8)[4, 5]: {}", &self.item));
         write!(f, "PacketZcNotifyUpdateplayer\n {}", fields.join(",\n "))
@@ -557,14 +678,17 @@ impl Debug for PacketZcNotifyStandentry {
             .field("y_size[51, 52]", &format!("{:02X?}", &self.y_size_raw))
             .field("state[52, 53]", &format!("{:02X?}", &self.state_raw))
             .field("clevel[53, 55]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("objecttype(unsigned char as u8)[2, 3]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[3, 7]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[7, 9]: {}", &self.speed));
@@ -587,7 +711,10 @@ impl Display for PacketZcNotifyStandentry {
         fields.push(format!("virtue(short as i16)[43, 45]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[45, 46]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[46, 47]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[47, 50]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[47, 50]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[50, 51]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[51, 52]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[52, 53]: {}", &self.state));
@@ -625,14 +752,17 @@ impl Debug for PacketZcNotifyNewentry {
             .field("x_size[49, 50]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[50, 51]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[51, 53]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -654,7 +784,10 @@ impl Display for PacketZcNotifyNewentry {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[46, 49]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[51, 53]: {}", &self.clevel));
@@ -693,14 +826,17 @@ impl Debug for PacketZcNotifyActentry {
             .field("action[51, 52]", &format!("{:02X?}", &self.action_raw))
             .field("act_start_time[52, 56]", &format!("{:02X?}", &self.act_start_time_raw))
             .field("clevel[56, 58]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyActentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -722,11 +858,17 @@ impl Display for PacketZcNotifyActentry {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[46, 49]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("action(unsigned char as u8)[51, 52]: {}", &self.action));
-        fields.push(format!("act_start_time(unsigned long as u32)[52, 56]: {}", &self.act_start_time));
+        fields.push(format!(
+            "act_start_time(unsigned long as u32)[52, 56]: {}",
+            &self.act_start_time
+        ));
         fields.push(format!("clevel(short as i16)[56, 58]: {}", &self.clevel));
         write!(f, "PacketZcNotifyActentry\n {}", fields.join(",\n "))
     }
@@ -762,14 +904,17 @@ impl Debug for PacketZcNotifyMoveentry {
             .field("x_size[56, 57]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[57, 58]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[58, 60]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -779,7 +924,10 @@ impl Display for PacketZcNotifyMoveentry {
         fields.push(format!("head(short as i16)[16, 18]: {}", &self.head));
         fields.push(format!("weapon(short as i16)[18, 20]: {}", &self.weapon));
         fields.push(format!("accessory(short as i16)[20, 22]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned long as u32)[22, 26]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[22, 26]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("shield(short as i16)[26, 28]: {}", &self.shield));
         fields.push(format!("accessory2(short as i16)[28, 30]: {}", &self.accessory2));
         fields.push(format!("accessory3(short as i16)[30, 32]: {}", &self.accessory3));
@@ -792,7 +940,10 @@ impl Display for PacketZcNotifyMoveentry {
         fields.push(format!("virtue(short as i16)[46, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[50, 56]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "move_data(unsigned short[] as u16[])[50, 56]: {}",
+            &self.move_data.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -825,14 +976,17 @@ impl Debug for PacketZcNotifyStandentryNpc {
             .field("pos_dir[37, 40]", &format!("{:02X?}", &self.pos_dir_raw))
             .field("x_size[40, 41]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[41, 42]", &format!("{:02X?}", &self.y_size_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentryNpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("objecttype(unsigned char as u8)[2, 3]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[3, 7]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[7, 9]: {}", &self.speed));
@@ -851,7 +1005,10 @@ impl Display for PacketZcNotifyStandentryNpc {
         fields.push(format!("head_dir(short as i16)[33, 35]: {}", &self.head_dir));
         fields.push(format!("is_pkmode_on(bool as bool)[35, 36]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[36, 37]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[37, 40]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[37, 40]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[40, 41]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[41, 42]: {}", &self.y_size));
         write!(f, "PacketZcNotifyStandentryNpc\n {}", fields.join(",\n "))
@@ -862,14 +1019,17 @@ impl Debug for PacketCzNotifyActorinit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzNotifyActorinit")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzNotifyActorinit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzNotifyActorinit\n {}", fields.join(",\n "))
     }
 }
@@ -879,14 +1039,17 @@ impl Debug for PacketCzRequestTime {
         f.debug_struct("PacketCzRequestTime")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("client_time(unsigned long as u32)[2, 6]: {}", &self.client_time));
         write!(f, "PacketCzRequestTime\n {}", fields.join(",\n "))
     }
@@ -897,14 +1060,17 @@ impl Debug for PacketZcNotifyTime {
         f.debug_struct("PacketZcNotifyTime")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("time[2, 6]", &format!("{:02X?}", &self.time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("time(unsigned long as u32)[2, 6]: {}", &self.time));
         write!(f, "PacketZcNotifyTime\n {}", fields.join(",\n "))
     }
@@ -916,14 +1082,17 @@ impl Debug for PacketZcNotifyVanish {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyVanish {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         write!(f, "PacketZcNotifyVanish\n {}", fields.join(",\n "))
@@ -935,14 +1104,17 @@ impl Debug for PacketScNotifyBan {
         f.debug_struct("PacketScNotifyBan")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketScNotifyBan {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketScNotifyBan\n {}", fields.join(",\n "))
     }
@@ -952,14 +1124,17 @@ impl Debug for PacketCzRequestQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestQuit")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzRequestQuit\n {}", fields.join(",\n "))
     }
 }
@@ -968,14 +1143,17 @@ impl Debug for PacketZcAcceptQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAcceptQuit")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAcceptQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcAcceptQuit\n {}", fields.join(",\n "))
     }
 }
@@ -984,14 +1162,17 @@ impl Debug for PacketZcRefuseQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRefuseQuit")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRefuseQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcRefuseQuit\n {}", fields.join(",\n "))
     }
 }
@@ -1001,14 +1182,17 @@ impl Debug for PacketCzRequestMove {
         f.debug_struct("PacketCzRequestMove")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dest[2, 5]", &format!("{:02X?}", &self.dest_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("dest(unsigned char[] as u8[])[2, 5]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMove\n {}", fields.join(",\n "))
     }
@@ -1021,17 +1205,26 @@ impl Debug for PacketZcNotifyMove {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("move_data[6, 12]", &format!("{:02X?}", &self.move_data_raw))
             .field("move_start_time[12, 16]", &format!("{:02X?}", &self.move_start_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
-        fields.push(format!("move_data(unsigned char[] as u8[])[6, 12]: {}", &self.move_data.pretty_output()));
-        fields.push(format!("move_start_time(unsigned long as u32)[12, 16]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_data(unsigned char[] as u8[])[6, 12]: {}",
+            &self.move_data.pretty_output()
+        ));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[12, 16]: {}",
+            &self.move_start_time
+        ));
         write!(f, "PacketZcNotifyMove\n {}", fields.join(",\n "))
     }
 }
@@ -1042,16 +1235,25 @@ impl Debug for PacketZcNotifyPlayermove {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("move_start_time[2, 6]", &format!("{:02X?}", &self.move_start_time_raw))
             .field("move_data[6, 12]", &format!("{:02X?}", &self.move_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPlayermove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("move_start_time(unsigned long as u32)[2, 6]: {}", &self.move_start_time));
-        fields.push(format!("move_data(unsigned char[] as u8[])[6, 12]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[2, 6]: {}",
+            &self.move_start_time
+        ));
+        fields.push(format!(
+            "move_data(unsigned char[] as u8[])[6, 12]: {}",
+            &self.move_data.pretty_output()
+        ));
         write!(f, "PacketZcNotifyPlayermove\n {}", fields.join(",\n "))
     }
 }
@@ -1063,14 +1265,17 @@ impl Debug for PacketZcStopmove {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStopmove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
@@ -1084,14 +1289,17 @@ impl Debug for PacketCzRequestAct {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_gid[2, 6]", &format!("{:02X?}", &self.target_gid_raw))
             .field("action[6, 7]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("target_gid(unsigned long as u32)[2, 6]: {}", &self.target_gid));
         fields.push(format!("action(unsigned char as u8)[6, 7]: {}", &self.action));
         write!(f, "PacketCzRequestAct\n {}", fields.join(",\n "))
@@ -1111,14 +1319,17 @@ impl Debug for PacketZcNotifyAct {
             .field("count[24, 26]", &format!("{:02X?}", &self.count_raw))
             .field("action[26, 27]", &format!("{:02X?}", &self.action_raw))
             .field("left_damage[27, 29]", &format!("{:02X?}", &self.left_damage_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
         fields.push(format!("start_time(unsigned long as u32)[10, 14]: {}", &self.start_time));
@@ -1144,14 +1355,17 @@ impl Debug for PacketZcNotifyActPosition {
             .field("damage[18, 20]", &format!("{:02X?}", &self.damage_raw))
             .field("count[20, 22]", &format!("{:02X?}", &self.count_raw))
             .field("action[22, 23]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyActPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
         fields.push(format!("start_time(unsigned long as u32)[10, 14]: {}", &self.start_time));
@@ -1170,14 +1384,17 @@ impl Debug for PacketCzRequestChat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzRequestChat\n {}", fields.join(",\n "))
@@ -1191,14 +1408,17 @@ impl Debug for PacketZcNotifyChat {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("msg[8, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("gid(unsigned long as u32)[4, 8]: {}", &self.gid));
         fields.push(format!("msg(char[] as String)[8, ?]: {}", &self.msg));
@@ -1212,14 +1432,17 @@ impl Debug for PacketZcNotifyPlayerchat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPlayerchat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketZcNotifyPlayerchat\n {}", fields.join(",\n "))
@@ -1231,7 +1454,7 @@ impl Debug for PacketServerEntryAck {
         f.debug_struct("PacketServerEntryAck")
             .field("header[0, 2]", &format!("{:02X?}", &self.header_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -1250,14 +1473,17 @@ impl Debug for PacketCzContactnpc {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzContactnpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         write!(f, "PacketCzContactnpc\n {}", fields.join(",\n "))
@@ -1271,14 +1497,17 @@ impl Debug for PacketZcNpcackMapmove {
             .field("map_name[2, 18]", &format!("{:02X?}", &self.map_name_raw))
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[20, 22]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcackMapmove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("map_name(char[] as char[])[2, 18]: {}", &self.map_name.pretty_output()));
         fields.push(format!("x_pos(short as i16)[18, 20]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[20, 22]: {}", &self.y_pos));
@@ -1294,14 +1523,17 @@ impl Debug for PacketZcNpcackServermove {
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[20, 22]", &format!("{:02X?}", &self.y_pos_raw))
             .field("addr[22, ?]", &format!("{:02X?}", &self.addr_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcackServermove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("map_name(char[] as char[])[2, 18]: {}", &self.map_name.pretty_output()));
         fields.push(format!("x_pos(short as i16)[18, 20]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[20, 22]: {}", &self.y_pos));
@@ -1314,14 +1546,17 @@ impl Debug for PacketZcNpcackEnable {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcackEnable")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcackEnable {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcNpcackEnable\n {}", fields.join(",\n "))
     }
 }
@@ -1331,14 +1566,17 @@ impl Debug for PacketCzReqname {
         f.debug_struct("PacketCzReqname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqname\n {}", fields.join(",\n "))
     }
@@ -1350,14 +1588,17 @@ impl Debug for PacketZcAckReqname {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("cname[6, 30]", &format!("{:02X?}", &self.cname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("cname(char[] as char[])[6, 30]: {}", &self.cname.pretty_output()));
         write!(f, "PacketZcAckReqname\n {}", fields.join(",\n "))
@@ -1371,14 +1612,17 @@ impl Debug for PacketCzWhisper {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("receiver[4, 28]", &format!("{:02X?}", &self.receiver_raw))
             .field("msg[28, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("receiver(char[] as char[])[4, 28]: {}", &self.receiver.pretty_output()));
         fields.push(format!("msg(char[] as String)[28, ?]: {}", &self.msg));
@@ -1393,14 +1637,17 @@ impl Debug for PacketZcWhisper {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("sender[4, 28]", &format!("{:02X?}", &self.sender_raw))
             .field("msg[28, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("sender(char[] as char[])[4, 28]: {}", &self.sender.pretty_output()));
         fields.push(format!("msg(char[] as String)[28, ?]: {}", &self.msg));
@@ -1413,14 +1660,17 @@ impl Debug for PacketZcAckWhisper {
         f.debug_struct("PacketZcAckWhisper")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckWhisper\n {}", fields.join(",\n "))
     }
@@ -1432,14 +1682,17 @@ impl Debug for PacketCzBroadcast {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBroadcast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzBroadcast\n {}", fields.join(",\n "))
@@ -1452,14 +1705,17 @@ impl Debug for PacketZcBroadcast {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBroadcast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketZcBroadcast\n {}", fields.join(",\n "))
@@ -1472,14 +1728,17 @@ impl Debug for PacketCzChangeDirection {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("head_dir[2, 4]", &format!("{:02X?}", &self.head_dir_raw))
             .field("dir[4, 5]", &format!("{:02X?}", &self.dir_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("head_dir(short as i16)[2, 4]: {}", &self.head_dir));
         fields.push(format!("dir(unsigned char as u8)[4, 5]: {}", &self.dir));
         write!(f, "PacketCzChangeDirection\n {}", fields.join(",\n "))
@@ -1493,14 +1752,17 @@ impl Debug for PacketZcChangeDirection {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("head_dir[6, 8]", &format!("{:02X?}", &self.head_dir_raw))
             .field("dir[8, 9]", &format!("{:02X?}", &self.dir_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("head_dir(short as i16)[6, 8]: {}", &self.head_dir));
         fields.push(format!("dir(unsigned char as u8)[8, 9]: {}", &self.dir));
@@ -1520,14 +1782,17 @@ impl Debug for PacketZcItemEntry {
             .field("count[13, 15]", &format!("{:02X?}", &self.count_raw))
             .field("sub_x[15, 16]", &format!("{:02X?}", &self.sub_x_raw))
             .field("sub_y[16, 17]", &format!("{:02X?}", &self.sub_y_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itaid(unsigned long as u32)[2, 6]: {}", &self.itaid));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
         fields.push(format!("is_identified(bool as bool)[8, 9]: {}", &self.is_identified));
@@ -1552,14 +1817,17 @@ impl Debug for PacketZcItemFallEntry {
             .field("sub_x[13, 14]", &format!("{:02X?}", &self.sub_x_raw))
             .field("sub_y[14, 15]", &format!("{:02X?}", &self.sub_y_raw))
             .field("count[15, 17]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemFallEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itaid(unsigned long as u32)[2, 6]: {}", &self.itaid));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
         fields.push(format!("is_identified(bool as bool)[8, 9]: {}", &self.is_identified));
@@ -1577,14 +1845,17 @@ impl Debug for PacketCzItemPickup {
         f.debug_struct("PacketCzItemPickup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzItemPickup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itaid(unsigned long as u32)[2, 6]: {}", &self.itaid));
         write!(f, "PacketCzItemPickup\n {}", fields.join(",\n "))
     }
@@ -1604,14 +1875,17 @@ impl Debug for PacketZcItemPickupAck {
             .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
             .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
             .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemPickupAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(unsigned short as u16)[4, 6]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
@@ -1631,14 +1905,17 @@ impl Debug for PacketZcItemDisappear {
         f.debug_struct("PacketZcItemDisappear")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemDisappear {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itaid(unsigned long as u32)[2, 6]: {}", &self.itaid));
         write!(f, "PacketZcItemDisappear\n {}", fields.join(",\n "))
     }
@@ -1650,14 +1927,17 @@ impl Debug for PacketCzItemThrow {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzItemThrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketCzItemThrow\n {}", fields.join(",\n "))
@@ -1670,17 +1950,30 @@ impl Debug for PacketZcNormalItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 14]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 14]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcNormalItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -1691,17 +1984,30 @@ impl Debug for PacketZcEquipmentItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 24]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 24]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcEquipmentItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -1712,17 +2018,30 @@ impl Debug for PacketZcStoreNormalItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 14]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 14]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreNormalItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -1733,17 +2052,30 @@ impl Debug for PacketZcStoreEquipmentItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 24]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 24]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreEquipmentItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -1754,14 +2086,17 @@ impl Debug for PacketCzUseItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         write!(f, "PacketCzUseItem\n {}", fields.join(",\n "))
@@ -1775,14 +2110,17 @@ impl Debug for PacketZcUseItemAck {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUseItemAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         fields.push(format!("result(bool as bool)[6, 7]: {}", &self.result));
@@ -1796,14 +2134,17 @@ impl Debug for PacketCzReqWearEquip {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqWearEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
         write!(f, "PacketCzReqWearEquip\n {}", fields.join(",\n "))
@@ -1817,14 +2158,17 @@ impl Debug for PacketZcReqWearEquipAck {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqWearEquipAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
         fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
@@ -1840,14 +2184,17 @@ impl Debug for PacketZcReqWearEquipAck2 {
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
             .field("view_id[6, 8]", &format!("{:02X?}", &self.view_id_raw))
             .field("result[8, 9]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqWearEquipAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
         fields.push(format!("view_id(unsigned short as u16)[6, 8]: {}", &self.view_id));
@@ -1861,14 +2208,17 @@ impl Debug for PacketCzReqTakeoffEquip {
         f.debug_struct("PacketCzReqTakeoffEquip")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqTakeoffEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         write!(f, "PacketCzReqTakeoffEquip\n {}", fields.join(",\n "))
     }
@@ -1881,14 +2231,17 @@ impl Debug for PacketZcReqTakeoffEquipAck {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqTakeoffEquipAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
         fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
@@ -1903,14 +2256,17 @@ impl Debug for PacketZcReqTakeoffEquipAck2 {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqTakeoffEquipAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
         fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
@@ -1924,14 +2280,17 @@ impl Debug for PacketZcItemThrowAck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemThrowAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketZcItemThrowAck\n {}", fields.join(",\n "))
@@ -1944,14 +2303,17 @@ impl Debug for PacketZcParChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var_id(unsigned short as u16)[2, 4]: {}", &self.var_id));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketZcParChange\n {}", fields.join(",\n "))
@@ -1964,14 +2326,17 @@ impl Debug for PacketZcLongparChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("amount[4, 8]", &format!("{:02X?}", &self.amount_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcLongparChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var_id(unsigned short as u16)[2, 4]: {}", &self.var_id));
         fields.push(format!("amount(int as i32)[4, 8]: {}", &self.amount));
         write!(f, "PacketZcLongparChange\n {}", fields.join(",\n "))
@@ -1983,14 +2348,17 @@ impl Debug for PacketCzRestart {
         f.debug_struct("PacketCzRestart")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRestart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         write!(f, "PacketCzRestart\n {}", fields.join(",\n "))
     }
@@ -2001,14 +2369,17 @@ impl Debug for PacketZcRestartAck {
         f.debug_struct("PacketZcRestartAck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRestartAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         write!(f, "PacketZcRestartAck\n {}", fields.join(",\n "))
     }
@@ -2021,14 +2392,17 @@ impl Debug for PacketZcSayDialog {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
             .field("msg[8, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSayDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("naid(unsigned long as u32)[4, 8]: {}", &self.naid));
         fields.push(format!("msg(char[] as String)[8, ?]: {}", &self.msg));
@@ -2041,14 +2415,17 @@ impl Debug for PacketZcWaitDialog {
         f.debug_struct("PacketZcWaitDialog")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcWaitDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketZcWaitDialog\n {}", fields.join(",\n "))
     }
@@ -2059,14 +2436,17 @@ impl Debug for PacketZcCloseDialog {
         f.debug_struct("PacketZcCloseDialog")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCloseDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketZcCloseDialog\n {}", fields.join(",\n "))
     }
@@ -2079,14 +2459,17 @@ impl Debug for PacketZcMenuList {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
             .field("msg[8, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMenuList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("naid(unsigned long as u32)[4, 8]: {}", &self.naid));
         fields.push(format!("msg(char[] as String)[8, ?]: {}", &self.msg));
@@ -2100,14 +2483,17 @@ impl Debug for PacketCzChooseMenu {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("num[6, 7]", &format!("{:02X?}", &self.num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChooseMenu {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         fields.push(format!("num(unsigned char as u8)[6, 7]: {}", &self.num));
         write!(f, "PacketCzChooseMenu\n {}", fields.join(",\n "))
@@ -2119,14 +2505,17 @@ impl Debug for PacketCzReqNextScript {
         f.debug_struct("PacketCzReqNextScript")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqNextScript {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketCzReqNextScript\n {}", fields.join(",\n "))
     }
@@ -2136,14 +2525,17 @@ impl Debug for PacketCzReqStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqStatus")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqStatus\n {}", fields.join(",\n "))
     }
 }
@@ -2154,14 +2546,17 @@ impl Debug for PacketCzStatusChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("change_amount[4, 5]", &format!("{:02X?}", &self.change_amount_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzStatusChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("status_id(unsigned short as u16)[2, 4]: {}", &self.status_id));
         fields.push(format!("change_amount(unsigned char as u8)[4, 5]: {}", &self.change_amount));
         write!(f, "PacketCzStatusChange\n {}", fields.join(",\n "))
@@ -2175,14 +2570,17 @@ impl Debug for PacketZcStatusChangeAck {
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
             .field("value[5, 6]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStatusChangeAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("status_id(unsigned short as u16)[2, 4]: {}", &self.status_id));
         fields.push(format!("result(bool as bool)[4, 5]: {}", &self.result));
         fields.push(format!("value(unsigned char as u8)[5, 6]: {}", &self.value));
@@ -2216,19 +2614,31 @@ impl Debug for PacketZcStatus {
             .field("mdef_power[28, 30]", &format!("{:02X?}", &self.mdef_power_raw))
             .field("plusmdef_power[30, 32]", &format!("{:02X?}", &self.plusmdef_power_raw))
             .field("hit_success_value[32, 34]", &format!("{:02X?}", &self.hit_success_value_raw))
-            .field("avoid_success_value[34, 36]", &format!("{:02X?}", &self.avoid_success_value_raw))
-            .field("plus_avoid_success_value[36, 38]", &format!("{:02X?}", &self.plus_avoid_success_value_raw))
-            .field("critical_success_value[38, 40]", &format!("{:02X?}", &self.critical_success_value_raw))
+            .field(
+                "avoid_success_value[34, 36]",
+                &format!("{:02X?}", &self.avoid_success_value_raw),
+            )
+            .field(
+                "plus_avoid_success_value[36, 38]",
+                &format!("{:02X?}", &self.plus_avoid_success_value_raw),
+            )
+            .field(
+                "critical_success_value[38, 40]",
+                &format!("{:02X?}", &self.critical_success_value_raw),
+            )
             .field("aspd[40, 42]", &format!("{:02X?}", &self.aspd_raw))
             .field("plus_aspd[42, 44]", &format!("{:02X?}", &self.plus_aspd_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point(short as i16)[2, 4]: {}", &self.point));
         fields.push(format!("str(unsigned char as u8)[4, 5]: {}", &self.str));
         fields.push(format!("standard_str(unsigned char as u8)[5, 6]: {}", &self.standard_str));
@@ -2251,9 +2661,18 @@ impl Display for PacketZcStatus {
         fields.push(format!("mdef_power(short as i16)[28, 30]: {}", &self.mdef_power));
         fields.push(format!("plusmdef_power(short as i16)[30, 32]: {}", &self.plusmdef_power));
         fields.push(format!("hit_success_value(short as i16)[32, 34]: {}", &self.hit_success_value));
-        fields.push(format!("avoid_success_value(short as i16)[34, 36]: {}", &self.avoid_success_value));
-        fields.push(format!("plus_avoid_success_value(short as i16)[36, 38]: {}", &self.plus_avoid_success_value));
-        fields.push(format!("critical_success_value(short as i16)[38, 40]: {}", &self.critical_success_value));
+        fields.push(format!(
+            "avoid_success_value(short as i16)[34, 36]: {}",
+            &self.avoid_success_value
+        ));
+        fields.push(format!(
+            "plus_avoid_success_value(short as i16)[36, 38]: {}",
+            &self.plus_avoid_success_value
+        ));
+        fields.push(format!(
+            "critical_success_value(short as i16)[38, 40]: {}",
+            &self.critical_success_value
+        ));
         fields.push(format!("aspd(short as i16)[40, 42]: {}", &self.aspd));
         fields.push(format!("plus_aspd(short as i16)[42, 44]: {}", &self.plus_aspd));
         write!(f, "PacketZcStatus\n {}", fields.join(",\n "))
@@ -2266,14 +2685,17 @@ impl Debug for PacketZcStatusChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("value[4, 5]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStatusChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("status_id(unsigned short as u16)[2, 4]: {}", &self.status_id));
         fields.push(format!("value(unsigned char as u8)[4, 5]: {}", &self.value));
         write!(f, "PacketZcStatusChange\n {}", fields.join(",\n "))
@@ -2285,14 +2707,17 @@ impl Debug for PacketCzReqEmotion {
         f.debug_struct("PacketCzReqEmotion")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqEmotion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         write!(f, "PacketCzReqEmotion\n {}", fields.join(",\n "))
     }
@@ -2304,14 +2729,17 @@ impl Debug for PacketZcEmotion {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEmotion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         write!(f, "PacketZcEmotion\n {}", fields.join(",\n "))
@@ -2322,14 +2750,17 @@ impl Debug for PacketCzReqUserCount {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqUserCount")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqUserCount {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqUserCount\n {}", fields.join(",\n "))
     }
 }
@@ -2339,14 +2770,17 @@ impl Debug for PacketZcUserCount {
         f.debug_struct("PacketZcUserCount")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("count[2, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUserCount {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("count(int as i32)[2, 6]: {}", &self.count));
         write!(f, "PacketZcUserCount\n {}", fields.join(",\n "))
     }
@@ -2359,14 +2793,17 @@ impl Debug for PacketZcSpriteChange {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("value[7, 8]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSpriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         fields.push(format!("value(unsigned char as u8)[7, 8]: {}", &self.value));
@@ -2379,14 +2816,17 @@ impl Debug for PacketZcSelectDealtype {
         f.debug_struct("PacketZcSelectDealtype")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSelectDealtype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketZcSelectDealtype\n {}", fields.join(",\n "))
     }
@@ -2398,14 +2838,17 @@ impl Debug for PacketCzAckSelectDealtype {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckSelectDealtype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         write!(f, "PacketCzAckSelectDealtype\n {}", fields.join(",\n "))
@@ -2418,17 +2861,30 @@ impl Debug for PacketZcPcPurchaseItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 15]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 15]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 15]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcPurchaseItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -2439,17 +2895,30 @@ impl Debug for PacketZcPcSellItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 14]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcSellItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 14]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 14]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcSellItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -2460,17 +2929,30 @@ impl Debug for PacketCzPcPurchaseItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 8]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPcPurchaseItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 8]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 8]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzPcPurchaseItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -2481,17 +2963,30 @@ impl Debug for PacketCzPcSellItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 8]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPcSellItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 8]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 8]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzPcSellItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -2501,14 +2996,17 @@ impl Debug for PacketZcPcPurchaseResult {
         f.debug_struct("PacketZcPcPurchaseResult")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcPcPurchaseResult\n {}", fields.join(",\n "))
     }
@@ -2519,14 +3017,17 @@ impl Debug for PacketZcPcSellResult {
         f.debug_struct("PacketZcPcSellResult")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcSellResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcPcSellResult\n {}", fields.join(",\n "))
     }
@@ -2537,14 +3038,17 @@ impl Debug for PacketCzDisconnectCharacter {
         f.debug_struct("PacketCzDisconnectCharacter")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzDisconnectCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzDisconnectCharacter\n {}", fields.join(",\n "))
     }
@@ -2555,14 +3059,17 @@ impl Debug for PacketZcAckDisconnectCharacter {
         f.debug_struct("PacketZcAckDisconnectCharacter")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckDisconnectCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckDisconnectCharacter\n {}", fields.join(",\n "))
     }
@@ -2572,14 +3079,17 @@ impl Debug for PacketCzDisconnectAllCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDisconnectAllCharacter")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzDisconnectAllCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzDisconnectAllCharacter\n {}", fields.join(",\n "))
     }
 }
@@ -2590,14 +3100,17 @@ impl Debug for PacketCzSettingWhisperPc {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("atype[26, 27]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSettingWhisperPc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("atype(unsigned char as u8)[26, 27]: {}", &self.atype));
         write!(f, "PacketCzSettingWhisperPc\n {}", fields.join(",\n "))
@@ -2609,14 +3122,17 @@ impl Debug for PacketCzSettingWhisperState {
         f.debug_struct("PacketCzSettingWhisperState")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSettingWhisperState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         write!(f, "PacketCzSettingWhisperState\n {}", fields.join(",\n "))
     }
@@ -2628,14 +3144,17 @@ impl Debug for PacketZcSettingWhisperPc {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("result[3, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSettingWhisperPc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         fields.push(format!("result(unsigned char as u8)[3, 4]: {}", &self.result));
         write!(f, "PacketZcSettingWhisperPc\n {}", fields.join(",\n "))
@@ -2648,14 +3167,17 @@ impl Debug for PacketZcSettingWhisperState {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("result[3, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSettingWhisperState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         fields.push(format!("result(unsigned char as u8)[3, 4]: {}", &self.result));
         write!(f, "PacketZcSettingWhisperState\n {}", fields.join(",\n "))
@@ -2666,14 +3188,17 @@ impl Debug for PacketCzReqWhisperList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqWhisperList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqWhisperList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqWhisperList\n {}", fields.join(",\n "))
     }
 }
@@ -2684,17 +3209,30 @@ impl Debug for PacketZcWhisperList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("wisper_list[4, 28]", &format!("{:02X?}", &self.wisper_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcWhisperList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("wisper_list([] as Vec)[4, 28]: {}", &self.wisper_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "wisper_list([] as Vec)[4, 28]: {}",
+            &self
+                .wisper_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcWhisperList\n {}", fields.join(",\n "))
     }
 }
@@ -2708,14 +3246,17 @@ impl Debug for PacketCzCreateChatroom {
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("passwd[7, 15]", &format!("{:02X?}", &self.passwd_raw))
             .field("title[15, ?]", &format!("{:02X?}", &self.title_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCreateChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("size(short as i16)[4, 6]: {}", &self.size));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
@@ -2730,14 +3271,17 @@ impl Debug for PacketZcAckCreateChatroom {
         f.debug_struct("PacketZcAckCreateChatroom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckCreateChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckCreateChatroom\n {}", fields.join(",\n "))
     }
@@ -2754,14 +3298,17 @@ impl Debug for PacketZcRoomNewentry {
             .field("curcount[14, 16]", &format!("{:02X?}", &self.curcount_raw))
             .field("atype[16, 17]", &format!("{:02X?}", &self.atype_raw))
             .field("title[17, ?]", &format!("{:02X?}", &self.title_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRoomNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("room_id(unsigned long as u32)[8, 12]: {}", &self.room_id));
@@ -2778,14 +3325,17 @@ impl Debug for PacketZcDestroyRoom {
         f.debug_struct("PacketZcDestroyRoom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("room_id[2, 6]", &format!("{:02X?}", &self.room_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDestroyRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("room_id(unsigned long as u32)[2, 6]: {}", &self.room_id));
         write!(f, "PacketZcDestroyRoom\n {}", fields.join(",\n "))
     }
@@ -2797,14 +3347,17 @@ impl Debug for PacketCzReqEnterRoom {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("room_id[2, 6]", &format!("{:02X?}", &self.room_id_raw))
             .field("passwd[6, 14]", &format!("{:02X?}", &self.passwd_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("room_id(unsigned long as u32)[2, 6]: {}", &self.room_id));
         fields.push(format!("passwd(char[] as char[])[6, 14]: {}", &self.passwd.pretty_output()));
         write!(f, "PacketCzReqEnterRoom\n {}", fields.join(",\n "))
@@ -2816,14 +3369,17 @@ impl Debug for PacketZcRefuseEnterRoom {
         f.debug_struct("PacketZcRefuseEnterRoom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRefuseEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcRefuseEnterRoom\n {}", fields.join(",\n "))
     }
@@ -2836,18 +3392,31 @@ impl Debug for PacketZcEnterRoom {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("room_id[4, 8]", &format!("{:02X?}", &self.room_id_raw))
             .field("member_list[8, 36]", &format!("{:02X?}", &self.member_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("room_id(unsigned long as u32)[4, 8]: {}", &self.room_id));
-        fields.push(format!("member_list([] as Vec)[8, 36]: {}", &self.member_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_list([] as Vec)[8, 36]: {}",
+            &self
+                .member_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcEnterRoom\n {}", fields.join(",\n "))
     }
 }
@@ -2858,14 +3427,17 @@ impl Debug for PacketZcMemberNewentry {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("curcount[2, 4]", &format!("{:02X?}", &self.curcount_raw))
             .field("name[4, 28]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemberNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("curcount(short as i16)[2, 4]: {}", &self.curcount));
         fields.push(format!("name(char[] as char[])[4, 28]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcMemberNewentry\n {}", fields.join(",\n "))
@@ -2879,14 +3451,17 @@ impl Debug for PacketZcMemberExit {
             .field("curcount[2, 4]", &format!("{:02X?}", &self.curcount_raw))
             .field("name[4, 28]", &format!("{:02X?}", &self.name_raw))
             .field("atype[28, 29]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemberExit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("curcount(short as i16)[2, 4]: {}", &self.curcount));
         fields.push(format!("name(char[] as char[])[4, 28]: {}", &self.name.pretty_output()));
         fields.push(format!("atype(unsigned char as u8)[28, 29]: {}", &self.atype));
@@ -2903,14 +3478,17 @@ impl Debug for PacketCzChangeChatroom {
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("passwd[7, 15]", &format!("{:02X?}", &self.passwd_raw))
             .field("title[15, ?]", &format!("{:02X?}", &self.title_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("size(short as i16)[4, 6]: {}", &self.size));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
@@ -2931,14 +3509,17 @@ impl Debug for PacketZcChangeChatroom {
             .field("curcount[14, 16]", &format!("{:02X?}", &self.curcount_raw))
             .field("atype[16, 17]", &format!("{:02X?}", &self.atype_raw))
             .field("title[17, ?]", &format!("{:02X?}", &self.title_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangeChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("room_id(unsigned long as u32)[8, 12]: {}", &self.room_id));
@@ -2956,14 +3537,17 @@ impl Debug for PacketCzReqRoleChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("role[2, 6]", &format!("{:02X?}", &self.role_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqRoleChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("role(unsigned long as u32)[2, 6]: {}", &self.role));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         write!(f, "PacketCzReqRoleChange\n {}", fields.join(",\n "))
@@ -2976,14 +3560,17 @@ impl Debug for PacketZcRoleChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("role[2, 6]", &format!("{:02X?}", &self.role_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRoleChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("role(unsigned long as u32)[2, 6]: {}", &self.role));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcRoleChange\n {}", fields.join(",\n "))
@@ -2995,14 +3582,17 @@ impl Debug for PacketCzReqExpelMember {
         f.debug_struct("PacketCzReqExpelMember")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqExpelMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         write!(f, "PacketCzReqExpelMember\n {}", fields.join(",\n "))
     }
@@ -3012,14 +3602,17 @@ impl Debug for PacketCzExitRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzExitRoom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzExitRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzExitRoom\n {}", fields.join(",\n "))
     }
 }
@@ -3029,14 +3622,17 @@ impl Debug for PacketCzReqExchangeItem {
         f.debug_struct("PacketCzReqExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3047,14 +3643,17 @@ impl Debug for PacketZcReqExchangeItem {
         f.debug_struct("PacketZcReqExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcReqExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3065,14 +3664,17 @@ impl Debug for PacketCzAckExchangeItem {
         f.debug_struct("PacketCzAckExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketCzAckExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3083,14 +3685,17 @@ impl Debug for PacketZcAckExchangeItem {
         f.debug_struct("PacketZcAckExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3102,14 +3707,17 @@ impl Debug for PacketCzAddExchangeItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzAddExchangeItem\n {}", fields.join(",\n "))
@@ -3126,14 +3734,17 @@ impl Debug for PacketZcAddExchangeItem {
             .field("is_damaged[9, 10]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[10, 11]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("count(int as i32)[2, 6]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
         fields.push(format!("is_identified(bool as bool)[8, 9]: {}", &self.is_identified));
@@ -3150,14 +3761,17 @@ impl Debug for PacketZcAckAddExchangeItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketZcAckAddExchangeItem\n {}", fields.join(",\n "))
@@ -3168,14 +3782,17 @@ impl Debug for PacketCzConcludeExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzConcludeExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzConcludeExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzConcludeExchangeItem\n {}", fields.join(",\n "))
     }
 }
@@ -3185,14 +3802,17 @@ impl Debug for PacketZcConcludeExchangeItem {
         f.debug_struct("PacketZcConcludeExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("who[2, 3]", &format!("{:02X?}", &self.who_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcConcludeExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("who(unsigned char as u8)[2, 3]: {}", &self.who));
         write!(f, "PacketZcConcludeExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3202,14 +3822,17 @@ impl Debug for PacketCzCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCancelExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCancelExchangeItem\n {}", fields.join(",\n "))
     }
 }
@@ -3218,14 +3841,17 @@ impl Debug for PacketZcCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCancelExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcCancelExchangeItem\n {}", fields.join(",\n "))
     }
 }
@@ -3234,14 +3860,17 @@ impl Debug for PacketCzExecExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzExecExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzExecExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzExecExchangeItem\n {}", fields.join(",\n "))
     }
 }
@@ -3251,14 +3880,17 @@ impl Debug for PacketZcExecExchangeItem {
         f.debug_struct("PacketZcExecExchangeItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcExecExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcExecExchangeItem\n {}", fields.join(",\n "))
     }
@@ -3268,14 +3900,17 @@ impl Debug for PacketZcExchangeitemUndo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcExchangeitemUndo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcExchangeitemUndo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcExchangeitemUndo\n {}", fields.join(",\n "))
     }
 }
@@ -3286,14 +3921,17 @@ impl Debug for PacketZcNotifyStoreitemCountinfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("cur_count[2, 4]", &format!("{:02X?}", &self.cur_count_raw))
             .field("max_count[4, 6]", &format!("{:02X?}", &self.max_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStoreitemCountinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("cur_count(short as i16)[2, 4]: {}", &self.cur_count));
         fields.push(format!("max_count(short as i16)[4, 6]: {}", &self.max_count));
         write!(f, "PacketZcNotifyStoreitemCountinfo\n {}", fields.join(",\n "))
@@ -3306,14 +3944,17 @@ impl Debug for PacketCzPlayerChat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPlayerChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzPlayerChat\n {}", fields.join(",\n "))
@@ -3331,14 +3972,17 @@ impl Debug for PacketZcAddItemToStore {
             .field("is_damaged[11, 12]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[12, 13]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[13, 21]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddItemToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[8, 10]: {}", &self.itid));
@@ -3356,14 +4000,17 @@ impl Debug for PacketCzMoveItemFromStoreToBody {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMoveItemFromStoreToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromStoreToBody\n {}", fields.join(",\n "))
@@ -3376,14 +4023,17 @@ impl Debug for PacketZcDeleteItemFromStore {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteItemFromStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketZcDeleteItemFromStore\n {}", fields.join(",\n "))
@@ -3394,14 +4044,17 @@ impl Debug for PacketCzCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCloseStore\n {}", fields.join(",\n "))
     }
 }
@@ -3410,14 +4063,17 @@ impl Debug for PacketZcCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCloseStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcCloseStore\n {}", fields.join(",\n "))
     }
 }
@@ -3427,15 +4083,21 @@ impl Debug for PacketCzMakeGroup {
         f.debug_struct("PacketCzMakeGroup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("group_name[2, 26]", &format!("{:02X?}", &self.group_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMakeGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("group_name(char[] as char[])[2, 26]: {}", &self.group_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "group_name(char[] as char[])[2, 26]: {}",
+            &self.group_name.pretty_output()
+        ));
         write!(f, "PacketCzMakeGroup\n {}", fields.join(",\n "))
     }
 }
@@ -3445,14 +4107,17 @@ impl Debug for PacketZcAckMakeGroup {
         f.debug_struct("PacketZcAckMakeGroup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckMakeGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckMakeGroup\n {}", fields.join(",\n "))
     }
@@ -3465,18 +4130,34 @@ impl Debug for PacketZcGroupList {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("group_name[4, 28]", &format!("{:02X?}", &self.group_name_raw))
             .field("group_info[28, 74]", &format!("{:02X?}", &self.group_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGroupList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("group_name(char[] as char[])[4, 28]: {}", &self.group_name.pretty_output()));
-        fields.push(format!("group_info([] as Vec)[28, 74]: {}", &self.group_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "group_name(char[] as char[])[4, 28]: {}",
+            &self.group_name.pretty_output()
+        ));
+        fields.push(format!(
+            "group_info([] as Vec)[28, 74]: {}",
+            &self
+                .group_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcGroupList\n {}", fields.join(",\n "))
     }
 }
@@ -3486,14 +4167,17 @@ impl Debug for PacketCzReqJoinGroup {
         f.debug_struct("PacketCzReqJoinGroup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqJoinGroup\n {}", fields.join(",\n "))
     }
@@ -3505,15 +4189,21 @@ impl Debug for PacketZcAckReqJoinGroup {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
             .field("answer[26, 27]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("character_name(char[] as char[])[2, 26]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[2, 26]: {}",
+            &self.character_name.pretty_output()
+        ));
         fields.push(format!("answer(unsigned char as u8)[26, 27]: {}", &self.answer));
         write!(f, "PacketZcAckReqJoinGroup\n {}", fields.join(",\n "))
     }
@@ -3525,16 +4215,22 @@ impl Debug for PacketZcReqJoinGroup {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("group_name[6, 30]", &format!("{:02X?}", &self.group_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("grid(unsigned long as u32)[2, 6]: {}", &self.grid));
-        fields.push(format!("group_name(char[] as char[])[6, 30]: {}", &self.group_name.pretty_output()));
+        fields.push(format!(
+            "group_name(char[] as char[])[6, 30]: {}",
+            &self.group_name.pretty_output()
+        ));
         write!(f, "PacketZcReqJoinGroup\n {}", fields.join(",\n "))
     }
 }
@@ -3545,14 +4241,17 @@ impl Debug for PacketCzJoinGroup {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("grid(unsigned long as u32)[2, 6]: {}", &self.grid));
         fields.push(format!("answer(int as i32)[6, 10]: {}", &self.answer));
         write!(f, "PacketCzJoinGroup\n {}", fields.join(",\n "))
@@ -3563,14 +4262,17 @@ impl Debug for PacketCzReqLeaveGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqLeaveGroup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqLeaveGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqLeaveGroup\n {}", fields.join(",\n "))
     }
 }
@@ -3580,14 +4282,17 @@ impl Debug for PacketZcGroupinfoChange {
         f.debug_struct("PacketZcGroupinfoChange")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGroupinfoChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp_option(unsigned long as u32)[2, 6]: {}", &self.exp_option));
         write!(f, "PacketZcGroupinfoChange\n {}", fields.join(",\n "))
     }
@@ -3598,14 +4303,17 @@ impl Debug for PacketCzChangeGroupexpoption {
         f.debug_struct("PacketCzChangeGroupexpoption")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeGroupexpoption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp_option(unsigned long as u32)[2, 6]: {}", &self.exp_option));
         write!(f, "PacketCzChangeGroupexpoption\n {}", fields.join(",\n "))
     }
@@ -3617,16 +4325,22 @@ impl Debug for PacketCzReqExpelGroupMember {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("character_name[6, 30]", &format!("{:02X?}", &self.character_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqExpelGroupMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
-        fields.push(format!("character_name(char[] as char[])[6, 30]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "character_name(char[] as char[])[6, 30]: {}",
+            &self.character_name.pretty_output()
+        ));
         write!(f, "PacketCzReqExpelGroupMember\n {}", fields.join(",\n "))
     }
 }
@@ -3643,22 +4357,34 @@ impl Debug for PacketZcAddMemberToGroup {
             .field("group_name[15, 39]", &format!("{:02X?}", &self.group_name_raw))
             .field("character_name[39, 63]", &format!("{:02X?}", &self.character_name_raw))
             .field("map_name[63, 79]", &format!("{:02X?}", &self.map_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddMemberToGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("role(unsigned long as u32)[6, 10]: {}", &self.role));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[12, 14]: {}", &self.y_pos));
         fields.push(format!("state(unsigned char as u8)[14, 15]: {}", &self.state));
-        fields.push(format!("group_name(char[] as char[])[15, 39]: {}", &self.group_name.pretty_output()));
-        fields.push(format!("character_name(char[] as char[])[39, 63]: {}", &self.character_name.pretty_output()));
-        fields.push(format!("map_name(char[] as char[])[63, 79]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "group_name(char[] as char[])[15, 39]: {}",
+            &self.group_name.pretty_output()
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[39, 63]: {}",
+            &self.character_name.pretty_output()
+        ));
+        fields.push(format!(
+            "map_name(char[] as char[])[63, 79]: {}",
+            &self.map_name.pretty_output()
+        ));
         write!(f, "PacketZcAddMemberToGroup\n {}", fields.join(",\n "))
     }
 }
@@ -3670,16 +4396,22 @@ impl Debug for PacketZcDeleteMemberFromGroup {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("character_name[6, 30]", &format!("{:02X?}", &self.character_name_raw))
             .field("result[30, 31]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteMemberFromGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
-        fields.push(format!("character_name(char[] as char[])[6, 30]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "character_name(char[] as char[])[6, 30]: {}",
+            &self.character_name.pretty_output()
+        ));
         fields.push(format!("result(unsigned char as u8)[30, 31]: {}", &self.result));
         write!(f, "PacketZcDeleteMemberFromGroup\n {}", fields.join(",\n "))
     }
@@ -3692,14 +4424,17 @@ impl Debug for PacketZcNotifyHpToGroupm {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("hp[6, 8]", &format!("{:02X?}", &self.hp_raw))
             .field("maxhp[8, 10]", &format!("{:02X?}", &self.maxhp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyHpToGroupm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("hp(short as i16)[6, 8]: {}", &self.hp));
         fields.push(format!("maxhp(short as i16)[8, 10]: {}", &self.maxhp));
@@ -3714,14 +4449,17 @@ impl Debug for PacketZcNotifyPositionToGroupm {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPositionToGroupm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
@@ -3735,14 +4473,17 @@ impl Debug for PacketCzRequestChatParty {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestChatParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzRequestChatParty\n {}", fields.join(",\n "))
@@ -3756,14 +4497,17 @@ impl Debug for PacketZcNotifyChatParty {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("msg[8, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyChatParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("msg(char[] as String)[8, ?]: {}", &self.msg));
@@ -3776,14 +4520,17 @@ impl Debug for PacketZcMvpGettingItem {
         f.debug_struct("PacketZcMvpGettingItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMvpGettingItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         write!(f, "PacketZcMvpGettingItem\n {}", fields.join(",\n "))
     }
@@ -3794,14 +4541,17 @@ impl Debug for PacketZcMvpGettingSpecialExp {
         f.debug_struct("PacketZcMvpGettingSpecialExp")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp[2, 6]", &format!("{:02X?}", &self.exp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMvpGettingSpecialExp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp(unsigned long as u32)[2, 6]: {}", &self.exp));
         write!(f, "PacketZcMvpGettingSpecialExp\n {}", fields.join(",\n "))
     }
@@ -3812,14 +4562,17 @@ impl Debug for PacketZcMvp {
         f.debug_struct("PacketZcMvp")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMvp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcMvp\n {}", fields.join(",\n "))
     }
@@ -3829,14 +4582,17 @@ impl Debug for PacketZcThrowMvpitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcThrowMvpitem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcThrowMvpitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcThrowMvpitem\n {}", fields.join(",\n "))
     }
 }
@@ -3850,14 +4606,17 @@ impl Debug for PacketZcSkillinfoUpdate {
             .field("spcost[6, 8]", &format!("{:02X?}", &self.spcost_raw))
             .field("attack_range[8, 10]", &format!("{:02X?}", &self.attack_range_raw))
             .field("upgradable[10, 11]", &format!("{:02X?}", &self.upgradable_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillinfoUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("level(short as i16)[4, 6]: {}", &self.level));
         fields.push(format!("spcost(short as i16)[6, 8]: {}", &self.spcost));
@@ -3873,17 +4632,30 @@ impl Debug for PacketZcSkillinfoList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_list[4, 41]", &format!("{:02X?}", &self.skill_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillinfoList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("skill_list([] as Vec)[4, 41]: {}", &self.skill_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "skill_list([] as Vec)[4, 41]: {}",
+            &self
+                .skill_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcSkillinfoList\n {}", fields.join(",\n "))
     }
 }
@@ -3896,14 +4668,17 @@ impl Debug for PacketZcAckTouseskill {
             .field("num[4, 8]", &format!("{:02X?}", &self.num_raw))
             .field("result[8, 9]", &format!("{:02X?}", &self.result_raw))
             .field("cause[9, 10]", &format!("{:02X?}", &self.cause_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckTouseskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("num(unsigned long as u32)[4, 8]: {}", &self.num));
         fields.push(format!("result(bool as bool)[8, 9]: {}", &self.result));
@@ -3917,14 +4692,17 @@ impl Debug for PacketZcAddSkill {
         f.debug_struct("PacketZcAddSkill")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, ?]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("data(struct as Struct)[2, ?]: {}", &self.data));
         write!(f, "PacketZcAddSkill\n {}", fields.join(",\n "))
     }
@@ -3935,14 +4713,17 @@ impl Debug for PacketCzUpgradeSkilllevel {
         f.debug_struct("PacketCzUpgradeSkilllevel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUpgradeSkilllevel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         write!(f, "PacketCzUpgradeSkilllevel\n {}", fields.join(",\n "))
     }
@@ -3955,14 +4736,17 @@ impl Debug for PacketCzUseSkill {
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
             .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
         fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
         fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
@@ -3984,14 +4768,17 @@ impl Debug for PacketZcNotifySkill {
             .field("level[26, 28]", &format!("{:02X?}", &self.level_raw))
             .field("count[28, 30]", &format!("{:02X?}", &self.count_raw))
             .field("action[30, 31]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifySkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("target_id(unsigned long as u32)[8, 12]: {}", &self.target_id));
@@ -4022,14 +4809,17 @@ impl Debug for PacketZcNotifySkillPosition {
             .field("level[30, 32]", &format!("{:02X?}", &self.level_raw))
             .field("count[32, 34]", &format!("{:02X?}", &self.count_raw))
             .field("action[34, 35]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifySkillPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("target_id(unsigned long as u32)[8, 12]: {}", &self.target_id));
@@ -4054,14 +4844,17 @@ impl Debug for PacketCzUseSkillToground {
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseSkillToground {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
         fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
@@ -4080,14 +4873,17 @@ impl Debug for PacketZcNotifyGroundskill {
             .field("x_pos[10, 12]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[12, 14]", &format!("{:02X?}", &self.y_pos_raw))
             .field("start_time[14, 18]", &format!("{:02X?}", &self.start_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyGroundskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("level(short as i16)[8, 10]: {}", &self.level));
@@ -4102,14 +4898,17 @@ impl Debug for PacketCzCancelLockon {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCancelLockon")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCancelLockon {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCancelLockon\n {}", fields.join(",\n "))
     }
 }
@@ -4123,14 +4922,17 @@ impl Debug for PacketZcStateChange {
             .field("health_state[8, 10]", &format!("{:02X?}", &self.health_state_raw))
             .field("effect_state[10, 12]", &format!("{:02X?}", &self.effect_state_raw))
             .field("is_pkmode_on[12, 13]", &format!("{:02X?}", &self.is_pkmode_on_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStateChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("body_state(short as i16)[6, 8]: {}", &self.body_state));
         fields.push(format!("health_state(short as i16)[8, 10]: {}", &self.health_state));
@@ -4149,14 +4951,17 @@ impl Debug for PacketZcUseSkill {
             .field("target_aid[6, 10]", &format!("{:02X?}", &self.target_aid_raw))
             .field("src_aid[10, 14]", &format!("{:02X?}", &self.src_aid_raw))
             .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("level(short as i16)[4, 6]: {}", &self.level));
         fields.push(format!("target_aid(unsigned long as u32)[6, 10]: {}", &self.target_aid));
@@ -4172,14 +4977,17 @@ impl Debug for PacketCzSelectWarppoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("map_name[4, 20]", &format!("{:02X?}", &self.map_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSelectWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("map_name(char[] as char[])[4, 20]: {}", &self.map_name.pretty_output()));
         write!(f, "PacketCzSelectWarppoint\n {}", fields.join(",\n "))
@@ -4192,14 +5000,17 @@ impl Debug for PacketZcWarplist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("map_name[4, 8]", &format!("{:02X?}", &self.map_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcWarplist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("map_name(char[] as char[])[4, 8]: {}", &self.map_name.pretty_output()));
         write!(f, "PacketZcWarplist\n {}", fields.join(",\n "))
@@ -4210,14 +5021,17 @@ impl Debug for PacketCzRememberWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRememberWarppoint")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRememberWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzRememberWarppoint\n {}", fields.join(",\n "))
     }
 }
@@ -4227,14 +5041,17 @@ impl Debug for PacketZcAckRememberWarppoint {
         f.debug_struct("PacketZcAckRememberWarppoint")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckRememberWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketZcAckRememberWarppoint\n {}", fields.join(",\n "))
     }
@@ -4250,14 +5067,17 @@ impl Debug for PacketZcSkillEntry {
             .field("y_pos[12, 14]", &format!("{:02X?}", &self.y_pos_raw))
             .field("job[14, 15]", &format!("{:02X?}", &self.job_raw))
             .field("is_visible[15, 16]", &format!("{:02X?}", &self.is_visible_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("creator_aid(unsigned long as u32)[6, 10]: {}", &self.creator_aid));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
@@ -4273,14 +5093,17 @@ impl Debug for PacketZcSkillDisappear {
         f.debug_struct("PacketZcSkillDisappear")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillDisappear {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcSkillDisappear\n {}", fields.join(",\n "))
     }
@@ -4294,14 +5117,17 @@ impl Debug for PacketZcNotifyCartitemCountinfo {
             .field("max_count[4, 6]", &format!("{:02X?}", &self.max_count_raw))
             .field("cur_weight[6, 10]", &format!("{:02X?}", &self.cur_weight_raw))
             .field("max_weight[10, 14]", &format!("{:02X?}", &self.max_weight_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyCartitemCountinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("cur_count(short as i16)[2, 4]: {}", &self.cur_count));
         fields.push(format!("max_count(short as i16)[4, 6]: {}", &self.max_count));
         fields.push(format!("cur_weight(int as i32)[6, 10]: {}", &self.cur_weight));
@@ -4316,17 +5142,30 @@ impl Debug for PacketZcCartEquipmentItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 24]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 24]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartEquipmentItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -4337,17 +5176,30 @@ impl Debug for PacketZcCartNormalItemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 14]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 14]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartNormalItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -4363,14 +5215,17 @@ impl Debug for PacketZcAddItemToCart {
             .field("is_damaged[11, 12]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[12, 13]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[13, 21]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddItemToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[8, 10]: {}", &self.itid));
@@ -4388,14 +5243,17 @@ impl Debug for PacketZcDeleteItemFromCart {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteItemFromCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketZcDeleteItemFromCart\n {}", fields.join(",\n "))
@@ -4408,14 +5266,17 @@ impl Debug for PacketCzMoveItemFromBodyToCart {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMoveItemFromBodyToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromBodyToCart\n {}", fields.join(",\n "))
@@ -4428,14 +5289,17 @@ impl Debug for PacketCzMoveItemFromCartToBody {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMoveItemFromCartToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromCartToBody\n {}", fields.join(",\n "))
@@ -4448,14 +5312,17 @@ impl Debug for PacketCzMoveItemFromStoreToCart {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMoveItemFromStoreToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromStoreToCart\n {}", fields.join(",\n "))
@@ -4468,14 +5335,17 @@ impl Debug for PacketCzMoveItemFromCartToStore {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMoveItemFromCartToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromCartToStore\n {}", fields.join(",\n "))
@@ -4486,14 +5356,17 @@ impl Debug for PacketCzReqCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqCartoff")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqCartoff\n {}", fields.join(",\n "))
     }
 }
@@ -4502,14 +5375,17 @@ impl Debug for PacketZcCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartoff")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcCartoff\n {}", fields.join(",\n "))
     }
 }
@@ -4519,14 +5395,17 @@ impl Debug for PacketZcAckAdditemToCart {
         f.debug_struct("PacketZcAckAdditemToCart")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckAdditemToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckAdditemToCart\n {}", fields.join(",\n "))
     }
@@ -4537,14 +5416,17 @@ impl Debug for PacketZcOpenstore {
         f.debug_struct("PacketZcOpenstore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itemcount[2, 4]", &format!("{:02X?}", &self.itemcount_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOpenstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itemcount(short as i16)[2, 4]: {}", &self.itemcount));
         write!(f, "PacketZcOpenstore\n {}", fields.join(",\n "))
     }
@@ -4554,14 +5436,17 @@ impl Debug for PacketCzReqClosestore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqClosestore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqClosestore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqClosestore\n {}", fields.join(",\n "))
     }
 }
@@ -4573,18 +5458,34 @@ impl Debug for PacketCzReqOpenstore {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("store_name[4, 84]", &format!("{:02X?}", &self.store_name_raw))
             .field("store_list[84, 92]", &format!("{:02X?}", &self.store_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqOpenstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("store_name(char[] as char[])[4, 84]: {}", &self.store_name.pretty_output()));
-        fields.push(format!("store_list([] as Vec)[84, 92]: {}", &self.store_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "store_name(char[] as char[])[4, 84]: {}",
+            &self.store_name.pretty_output()
+        ));
+        fields.push(format!(
+            "store_list([] as Vec)[84, 92]: {}",
+            &self
+                .store_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzReqOpenstore\n {}", fields.join(",\n "))
     }
 }
@@ -4594,14 +5495,17 @@ impl Debug for PacketCzReqBuyFrommc {
         f.debug_struct("PacketCzReqBuyFrommc")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqBuyFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqBuyFrommc\n {}", fields.join(",\n "))
     }
@@ -4613,16 +5517,22 @@ impl Debug for PacketZcStoreEntry {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
             .field("store_name[6, 86]", &format!("{:02X?}", &self.store_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("maker_aid(unsigned long as u32)[2, 6]: {}", &self.maker_aid));
-        fields.push(format!("store_name(char[] as char[])[6, 86]: {}", &self.store_name.pretty_output()));
+        fields.push(format!(
+            "store_name(char[] as char[])[6, 86]: {}",
+            &self.store_name.pretty_output()
+        ));
         write!(f, "PacketZcStoreEntry\n {}", fields.join(",\n "))
     }
 }
@@ -4632,14 +5542,17 @@ impl Debug for PacketZcDisappearEntry {
         f.debug_struct("PacketZcDisappearEntry")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDisappearEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("maker_aid(unsigned long as u32)[2, 6]: {}", &self.maker_aid));
         write!(f, "PacketZcDisappearEntry\n {}", fields.join(",\n "))
     }
@@ -4652,18 +5565,31 @@ impl Debug for PacketZcPcPurchaseItemlistFrommc {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("item_list[8, 30]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseItemlistFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
-        fields.push(format!("item_list([] as Vec)[8, 30]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[8, 30]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcPurchaseItemlistFrommc\n {}", fields.join(",\n "))
     }
 }
@@ -4675,18 +5601,31 @@ impl Debug for PacketCzPcPurchaseItemlistFrommc {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("item_list[8, 12]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPcPurchaseItemlistFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
-        fields.push(format!("item_list([] as Vec)[8, 12]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[8, 12]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzPcPurchaseItemlistFrommc\n {}", fields.join(",\n "))
     }
 }
@@ -4698,14 +5637,17 @@ impl Debug for PacketZcPcPurchaseResultFrommc {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("curcount[4, 6]", &format!("{:02X?}", &self.curcount_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseResultFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("curcount(short as i16)[4, 6]: {}", &self.curcount));
         fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
@@ -4720,18 +5662,31 @@ impl Debug for PacketZcPcPurchaseMyitemlist {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("item_list[8, 30]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseMyitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
-        fields.push(format!("item_list([] as Vec)[8, 30]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[8, 30]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcPurchaseMyitemlist\n {}", fields.join(",\n "))
     }
 }
@@ -4742,14 +5697,17 @@ impl Debug for PacketZcDeleteitemFromMcstore {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteitemFromMcstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketZcDeleteitemFromMcstore\n {}", fields.join(",\n "))
@@ -4761,14 +5719,17 @@ impl Debug for PacketCzPkmodeChange {
         f.debug_struct("PacketCzPkmodeChange")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_turn_on[2, 3]", &format!("{:02X?}", &self.is_turn_on_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPkmodeChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("is_turn_on(bool as bool)[2, 3]: {}", &self.is_turn_on));
         write!(f, "PacketCzPkmodeChange\n {}", fields.join(",\n "))
     }
@@ -4784,14 +5745,17 @@ impl Debug for PacketZcAttackFailureForDistance {
             .field("x_pos[10, 12]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[12, 14]", &format!("{:02X?}", &self.y_pos_raw))
             .field("current_att_range[14, 16]", &format!("{:02X?}", &self.current_att_range_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAttackFailureForDistance {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("target_aid(unsigned long as u32)[2, 6]: {}", &self.target_aid));
         fields.push(format!("target_xpos(short as i16)[6, 8]: {}", &self.target_xpos));
         fields.push(format!("target_ypos(short as i16)[8, 10]: {}", &self.target_ypos));
@@ -4807,14 +5771,17 @@ impl Debug for PacketZcAttackRange {
         f.debug_struct("PacketZcAttackRange")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("current_att_range[2, 4]", &format!("{:02X?}", &self.current_att_range_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAttackRange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("current_att_range(short as i16)[2, 4]: {}", &self.current_att_range));
         write!(f, "PacketZcAttackRange\n {}", fields.join(",\n "))
     }
@@ -4825,14 +5792,17 @@ impl Debug for PacketZcActionFailure {
         f.debug_struct("PacketZcActionFailure")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcActionFailure {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketZcActionFailure\n {}", fields.join(",\n "))
     }
@@ -4843,14 +5813,17 @@ impl Debug for PacketZcEquipArrow {
         f.debug_struct("PacketZcEquipArrow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipArrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         write!(f, "PacketZcEquipArrow\n {}", fields.join(",\n "))
     }
@@ -4862,14 +5835,17 @@ impl Debug for PacketZcRecovery {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("amount[4, 6]", &format!("{:02X?}", &self.amount_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRecovery {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var_id(short as i16)[2, 4]: {}", &self.var_id));
         fields.push(format!("amount(short as i16)[4, 6]: {}", &self.amount));
         write!(f, "PacketZcRecovery\n {}", fields.join(",\n "))
@@ -4887,14 +5863,17 @@ impl Debug for PacketZcUseskillAck {
             .field("skid[14, 16]", &format!("{:02X?}", &self.skid_raw))
             .field("property[16, 20]", &format!("{:02X?}", &self.property_raw))
             .field("delay_time[20, 24]", &format!("{:02X?}", &self.delay_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUseskillAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
@@ -4911,15 +5890,21 @@ impl Debug for PacketCzItemCreate {
         f.debug_struct("PacketCzItemCreate")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("item_name[2, 26]", &format!("{:02X?}", &self.item_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzItemCreate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("item_name(char[] as char[])[2, 26]: {}", &self.item_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "item_name(char[] as char[])[2, 26]: {}",
+            &self.item_name.pretty_output()
+        ));
         write!(f, "PacketCzItemCreate\n {}", fields.join(",\n "))
     }
 }
@@ -4931,14 +5916,17 @@ impl Debug for PacketCzMovetoMap {
             .field("map_name[2, 18]", &format!("{:02X?}", &self.map_name_raw))
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[20, 22]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMovetoMap {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("map_name(char[] as char[])[2, 18]: {}", &self.map_name.pretty_output()));
         fields.push(format!("x_pos(short as i16)[18, 20]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[20, 22]: {}", &self.y_pos));
@@ -4953,14 +5941,17 @@ impl Debug for PacketZcStatusValues {
             .field("status_type[2, 6]", &format!("{:02X?}", &self.status_type_raw))
             .field("default_status[6, 10]", &format!("{:02X?}", &self.default_status_raw))
             .field("plus_status[10, 14]", &format!("{:02X?}", &self.plus_status_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStatusValues {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("status_type(unsigned long as u32)[2, 6]: {}", &self.status_type));
         fields.push(format!("default_status(int as i32)[6, 10]: {}", &self.default_status));
         fields.push(format!("plus_status(int as i32)[10, 14]: {}", &self.plus_status));
@@ -4973,14 +5964,17 @@ impl Debug for PacketZcOpenEditdlg {
         f.debug_struct("PacketZcOpenEditdlg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOpenEditdlg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketZcOpenEditdlg\n {}", fields.join(",\n "))
     }
@@ -4992,14 +5986,17 @@ impl Debug for PacketCzInputEditdlg {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzInputEditdlg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         fields.push(format!("value(int as i32)[6, 10]: {}", &self.value));
         write!(f, "PacketCzInputEditdlg\n {}", fields.join(",\n "))
@@ -5016,14 +6013,17 @@ impl Debug for PacketZcCompass {
             .field("y_pos[14, 18]", &format!("{:02X?}", &self.y_pos_raw))
             .field("id[18, 19]", &format!("{:02X?}", &self.id_raw))
             .field("color[19, 23]", &format!("{:02X?}", &self.color_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCompass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         fields.push(format!("atype(int as i32)[6, 10]: {}", &self.atype));
         fields.push(format!("x_pos(int as i32)[10, 14]: {}", &self.x_pos));
@@ -5040,15 +6040,21 @@ impl Debug for PacketZcShowImage {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("image_name[2, 18]", &format!("{:02X?}", &self.image_name_raw))
             .field("atype[18, 19]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShowImage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("image_name(char[] as char[])[2, 18]: {}", &self.image_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "image_name(char[] as char[])[2, 18]: {}",
+            &self.image_name.pretty_output()
+        ));
         fields.push(format!("atype(unsigned char as u8)[18, 19]: {}", &self.atype));
         write!(f, "PacketZcShowImage\n {}", fields.join(",\n "))
     }
@@ -5059,14 +6065,17 @@ impl Debug for PacketCzCloseDialog {
         f.debug_struct("PacketCzCloseDialog")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCloseDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketCzCloseDialog\n {}", fields.join(",\n "))
     }
@@ -5077,14 +6086,17 @@ impl Debug for PacketZcAutorunSkill {
         f.debug_struct("PacketZcAutorunSkill")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, ?]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAutorunSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("data(struct as Struct)[2, ?]: {}", &self.data));
         write!(f, "PacketZcAutorunSkill\n {}", fields.join(",\n "))
     }
@@ -5096,14 +6108,17 @@ impl Debug for PacketZcResurrection {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("atype[6, 8]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcResurrection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("atype(short as i16)[6, 8]: {}", &self.atype));
         write!(f, "PacketZcResurrection\n {}", fields.join(",\n "))
@@ -5117,14 +6132,17 @@ impl Debug for PacketCzReqGiveMannerPoint {
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("point[7, 9]", &format!("{:02X?}", &self.point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGiveMannerPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("other_aid(unsigned long as u32)[2, 6]: {}", &self.other_aid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         fields.push(format!("point(short as i16)[7, 9]: {}", &self.point));
@@ -5137,14 +6155,17 @@ impl Debug for PacketZcAckGiveMannerPoint {
         f.debug_struct("PacketZcAckGiveMannerPoint")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 6]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckGiveMannerPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned long as u32)[2, 6]: {}", &self.result));
         write!(f, "PacketZcAckGiveMannerPoint\n {}", fields.join(",\n "))
     }
@@ -5156,16 +6177,22 @@ impl Debug for PacketZcNotifyMannerPointGiven {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("other_char_name[3, 27]", &format!("{:02X?}", &self.other_char_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMannerPointGiven {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
-        fields.push(format!("other_char_name(char[] as char[])[3, 27]: {}", &self.other_char_name.pretty_output()));
+        fields.push(format!(
+            "other_char_name(char[] as char[])[3, 27]: {}",
+            &self.other_char_name.pretty_output()
+        ));
         write!(f, "PacketZcNotifyMannerPointGiven\n {}", fields.join(",\n "))
     }
 }
@@ -5176,17 +6203,30 @@ impl Debug for PacketZcMyguildBasicInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("related_guild_list[4, 36]", &format!("{:02X?}", &self.related_guild_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMyguildBasicInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("related_guild_list([] as Vec)[4, 36]: {}", &self.related_guild_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "related_guild_list([] as Vec)[4, 36]: {}",
+            &self
+                .related_guild_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMyguildBasicInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5195,14 +6235,17 @@ impl Debug for PacketCzReqGuildMenuinterface {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGuildMenuinterface")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGuildMenuinterface {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqGuildMenuinterface\n {}", fields.join(",\n "))
     }
 }
@@ -5212,14 +6255,17 @@ impl Debug for PacketZcAckGuildMenuinterface {
         f.debug_struct("PacketZcAckGuildMenuinterface")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("guild_memu_flag[2, 6]", &format!("{:02X?}", &self.guild_memu_flag_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckGuildMenuinterface {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("guild_memu_flag(int as i32)[2, 6]: {}", &self.guild_memu_flag));
         write!(f, "PacketZcAckGuildMenuinterface\n {}", fields.join(",\n "))
     }
@@ -5230,14 +6276,17 @@ impl Debug for PacketCzReqGuildMenu {
         f.debug_struct("PacketCzReqGuildMenu")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGuildMenu {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(int as i32)[2, 6]: {}", &self.atype));
         write!(f, "PacketCzReqGuildMenu\n {}", fields.join(",\n "))
     }
@@ -5261,14 +6310,17 @@ impl Debug for PacketZcGuildInfo {
             .field("guildname[46, 70]", &format!("{:02X?}", &self.guildname_raw))
             .field("master_name[70, 94]", &format!("{:02X?}", &self.master_name_raw))
             .field("manage_land[94, 110]", &format!("{:02X?}", &self.manage_land_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(int as i32)[2, 6]: {}", &self.gdid));
         fields.push(format!("level(int as i32)[6, 10]: {}", &self.level));
         fields.push(format!("user_num(int as i32)[10, 14]: {}", &self.user_num));
@@ -5280,9 +6332,18 @@ impl Display for PacketZcGuildInfo {
         fields.push(format!("honor(int as i32)[34, 38]: {}", &self.honor));
         fields.push(format!("virtue(int as i32)[38, 42]: {}", &self.virtue));
         fields.push(format!("emblem_version(int as i32)[42, 46]: {}", &self.emblem_version));
-        fields.push(format!("guildname(char[] as char[])[46, 70]: {}", &self.guildname.pretty_output()));
-        fields.push(format!("master_name(char[] as char[])[70, 94]: {}", &self.master_name.pretty_output()));
-        fields.push(format!("manage_land(char[] as char[])[94, 110]: {}", &self.manage_land.pretty_output()));
+        fields.push(format!(
+            "guildname(char[] as char[])[46, 70]: {}",
+            &self.guildname.pretty_output()
+        ));
+        fields.push(format!(
+            "master_name(char[] as char[])[70, 94]: {}",
+            &self.master_name.pretty_output()
+        ));
+        fields.push(format!(
+            "manage_land(char[] as char[])[94, 110]: {}",
+            &self.manage_land.pretty_output()
+        ));
         write!(f, "PacketZcGuildInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5292,14 +6353,17 @@ impl Debug for PacketCzReqGuildEmblemImg {
         f.debug_struct("PacketCzReqGuildEmblemImg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(int as i32)[2, 6]: {}", &self.gdid));
         write!(f, "PacketCzReqGuildEmblemImg\n {}", fields.join(",\n "))
     }
@@ -5313,14 +6377,17 @@ impl Debug for PacketZcGuildEmblemImg {
             .field("gdid[4, 8]", &format!("{:02X?}", &self.gdid_raw))
             .field("emblem_version[8, 12]", &format!("{:02X?}", &self.emblem_version_raw))
             .field("img[12, ?]", &format!("{:02X?}", &self.img_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("gdid(int as i32)[4, 8]: {}", &self.gdid));
         fields.push(format!("emblem_version(int as i32)[8, 12]: {}", &self.emblem_version));
@@ -5335,14 +6402,17 @@ impl Debug for PacketCzRegisterGuildEmblemImg {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("img[4, ?]", &format!("{:02X?}", &self.img_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRegisterGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("img(char[] as String)[4, ?]: {}", &self.img));
         write!(f, "PacketCzRegisterGuildEmblemImg\n {}", fields.join(",\n "))
@@ -5355,17 +6425,30 @@ impl Debug for PacketZcMembermgrInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 108]", &format!("{:02X?}", &self.member_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMembermgrInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_info([] as Vec)[4, 108]: {}", &self.member_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_info([] as Vec)[4, 108]: {}",
+            &self
+                .member_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMembermgrInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5376,17 +6459,30 @@ impl Debug for PacketCzReqChangeMemberpos {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 16]", &format!("{:02X?}", &self.member_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqChangeMemberpos {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_info([] as Vec)[4, 16]: {}", &self.member_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_info([] as Vec)[4, 16]: {}",
+            &self
+                .member_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzReqChangeMemberpos\n {}", fields.join(",\n "))
     }
 }
@@ -5397,17 +6493,30 @@ impl Debug for PacketZcAckReqChangeMembers {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 16]", &format!("{:02X?}", &self.member_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqChangeMembers {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_info([] as Vec)[4, 16]: {}", &self.member_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_info([] as Vec)[4, 16]: {}",
+            &self
+                .member_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAckReqChangeMembers\n {}", fields.join(",\n "))
     }
 }
@@ -5417,14 +6526,17 @@ impl Debug for PacketCzReqOpenMemberInfo {
         f.debug_struct("PacketCzReqOpenMemberInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqOpenMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(int as i32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqOpenMemberInfo\n {}", fields.join(",\n "))
     }
@@ -5434,14 +6546,17 @@ impl Debug for PacketZcAckOpenMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckOpenMemberInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckOpenMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcAckOpenMemberInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5454,18 +6569,24 @@ impl Debug for PacketCzReqLeaveGuild {
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[10, 14]", &format!("{:02X?}", &self.gid_raw))
             .field("reason_desc[14, 54]", &format!("{:02X?}", &self.reason_desc_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqLeaveGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("aid(int as i32)[6, 10]: {}", &self.aid));
         fields.push(format!("gid(int as i32)[10, 14]: {}", &self.gid));
-        fields.push(format!("reason_desc(char[] as char[])[14, 54]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[14, 54]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         write!(f, "PacketCzReqLeaveGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5476,16 +6597,25 @@ impl Debug for PacketZcAckLeaveGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckLeaveGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("char_name(char[] as char[])[2, 26]: {}", &self.char_name.pretty_output()));
-        fields.push(format!("reason_desc(char[] as char[])[26, 66]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "char_name(char[] as char[])[2, 26]: {}",
+            &self.char_name.pretty_output()
+        ));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[26, 66]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         write!(f, "PacketZcAckLeaveGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5498,18 +6628,24 @@ impl Debug for PacketCzReqBanGuild {
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[10, 14]", &format!("{:02X?}", &self.gid_raw))
             .field("reason_desc[14, 54]", &format!("{:02X?}", &self.reason_desc_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqBanGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("aid(int as i32)[6, 10]: {}", &self.aid));
         fields.push(format!("gid(int as i32)[10, 14]: {}", &self.gid));
-        fields.push(format!("reason_desc(char[] as char[])[14, 54]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[14, 54]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         write!(f, "PacketCzReqBanGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5521,16 +6657,25 @@ impl Debug for PacketZcAckBanGuild {
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
             .field("account[66, 90]", &format!("{:02X?}", &self.account_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckBanGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("char_name(char[] as char[])[2, 26]: {}", &self.char_name.pretty_output()));
-        fields.push(format!("reason_desc(char[] as char[])[26, 66]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "char_name(char[] as char[])[2, 26]: {}",
+            &self.char_name.pretty_output()
+        ));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[26, 66]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         fields.push(format!("account(char[] as char[])[66, 90]: {}", &self.account.pretty_output()));
         write!(f, "PacketZcAckBanGuild\n {}", fields.join(",\n "))
     }
@@ -5541,14 +6686,17 @@ impl Debug for PacketCzReqDisorganizeGuild {
         f.debug_struct("PacketCzReqDisorganizeGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("key[2, 42]", &format!("{:02X?}", &self.key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqDisorganizeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("key(char[] as char[])[2, 42]: {}", &self.key.pretty_output()));
         write!(f, "PacketCzReqDisorganizeGuild\n {}", fields.join(",\n "))
     }
@@ -5559,14 +6707,17 @@ impl Debug for PacketZcAckDisorganizeGuildResult {
         f.debug_struct("PacketZcAckDisorganizeGuildResult")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason[2, 6]", &format!("{:02X?}", &self.reason_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckDisorganizeGuildResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("reason(int as i32)[2, 6]: {}", &self.reason));
         write!(f, "PacketZcAckDisorganizeGuildResult\n {}", fields.join(",\n "))
     }
@@ -5577,15 +6728,21 @@ impl Debug for PacketZcAckDisorganizeGuild {
         f.debug_struct("PacketZcAckDisorganizeGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason_desc[2, 42]", &format!("{:02X?}", &self.reason_desc_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckDisorganizeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("reason_desc(char[] as char[])[2, 42]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[2, 42]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         write!(f, "PacketZcAckDisorganizeGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5596,17 +6753,30 @@ impl Debug for PacketZcPositionInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 20]", &format!("{:02X?}", &self.member_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPositionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_info([] as Vec)[4, 20]: {}", &self.member_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_info([] as Vec)[4, 20]: {}",
+            &self
+                .member_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPositionInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5617,17 +6787,30 @@ impl Debug for PacketCzRegChangeGuildPositioninfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 44]", &format!("{:02X?}", &self.member_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRegChangeGuildPositioninfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_list([] as Vec)[4, 44]: {}", &self.member_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_list([] as Vec)[4, 44]: {}",
+            &self
+                .member_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzRegChangeGuildPositioninfo\n {}", fields.join(",\n "))
     }
 }
@@ -5639,18 +6822,31 @@ impl Debug for PacketZcGuildSkillinfo {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_point[4, 6]", &format!("{:02X?}", &self.skill_point_raw))
             .field("skill_list[6, 43]", &format!("{:02X?}", &self.skill_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildSkillinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("skill_point(short as i16)[4, 6]: {}", &self.skill_point));
-        fields.push(format!("skill_list([] as Vec)[6, 43]: {}", &self.skill_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "skill_list([] as Vec)[6, 43]: {}",
+            &self
+                .skill_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcGuildSkillinfo\n {}", fields.join(",\n "))
     }
 }
@@ -5661,17 +6857,30 @@ impl Debug for PacketZcBanList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("ban_list[4, 92]", &format!("{:02X?}", &self.ban_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBanList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("ban_list([] as Vec)[4, 92]: {}", &self.ban_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "ban_list([] as Vec)[4, 92]: {}",
+            &self
+                .ban_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcBanList\n {}", fields.join(",\n "))
     }
 }
@@ -5682,17 +6891,30 @@ impl Debug for PacketZcOtherGuildList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("guild_list[4, 40]", &format!("{:02X?}", &self.guild_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOtherGuildList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("guild_list([] as Vec)[4, 40]: {}", &self.guild_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "guild_list([] as Vec)[4, 40]: {}",
+            &self
+                .guild_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcOtherGuildList\n {}", fields.join(",\n "))
     }
 }
@@ -5703,14 +6925,17 @@ impl Debug for PacketCzReqMakeGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("gname[6, 30]", &format!("{:02X?}", &self.gname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqMakeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("gname(char[] as char[])[6, 30]: {}", &self.gname.pretty_output()));
         write!(f, "PacketCzReqMakeGuild\n {}", fields.join(",\n "))
@@ -5723,17 +6948,30 @@ impl Debug for PacketZcPositionIdNameInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 32]", &format!("{:02X?}", &self.member_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPositionIdNameInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_list([] as Vec)[4, 32]: {}", &self.member_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_list([] as Vec)[4, 32]: {}",
+            &self
+                .member_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPositionIdNameInfo\n {}", fields.join(",\n "))
     }
 }
@@ -5743,14 +6981,17 @@ impl Debug for PacketZcResultMakeGuild {
         f.debug_struct("PacketZcResultMakeGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcResultMakeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcResultMakeGuild\n {}", fields.join(",\n "))
     }
@@ -5763,14 +7004,17 @@ impl Debug for PacketCzReqJoinGuild {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("my_aid[6, 10]", &format!("{:02X?}", &self.my_aid_raw))
             .field("my_gid[10, 14]", &format!("{:02X?}", &self.my_gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("my_aid(unsigned long as u32)[6, 10]: {}", &self.my_aid));
         fields.push(format!("my_gid(unsigned long as u32)[10, 14]: {}", &self.my_gid));
@@ -5783,14 +7027,17 @@ impl Debug for PacketZcAckReqJoinGuild {
         f.debug_struct("PacketZcAckReqJoinGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("answer[2, 3]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("answer(unsigned char as u8)[2, 3]: {}", &self.answer));
         write!(f, "PacketZcAckReqJoinGuild\n {}", fields.join(",\n "))
     }
@@ -5802,16 +7049,22 @@ impl Debug for PacketZcReqJoinGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("guild_name[6, 30]", &format!("{:02X?}", &self.guild_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
-        fields.push(format!("guild_name(char[] as char[])[6, 30]: {}", &self.guild_name.pretty_output()));
+        fields.push(format!(
+            "guild_name(char[] as char[])[6, 30]: {}",
+            &self.guild_name.pretty_output()
+        ));
         write!(f, "PacketZcReqJoinGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5822,14 +7075,17 @@ impl Debug for PacketCzJoinGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("answer(int as i32)[6, 10]: {}", &self.answer));
         write!(f, "PacketCzJoinGuild\n {}", fields.join(",\n "))
@@ -5846,14 +7102,17 @@ impl Debug for PacketZcUpdateGdid {
             .field("is_master[14, 15]", &format!("{:02X?}", &self.is_master_raw))
             .field("inter_sid[15, 19]", &format!("{:02X?}", &self.inter_sid_raw))
             .field("gname[19, 43]", &format!("{:02X?}", &self.gname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateGdid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("emblem_version(int as i32)[6, 10]: {}", &self.emblem_version));
         fields.push(format!("right(int as i32)[10, 14]: {}", &self.right));
@@ -5871,14 +7130,17 @@ impl Debug for PacketZcUpdateCharstat {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("status[10, 14]", &format!("{:02X?}", &self.status_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateCharstat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("status(int as i32)[10, 14]: {}", &self.status));
@@ -5893,14 +7155,17 @@ impl Debug for PacketCzGuildNotice {
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("subject[6, 66]", &format!("{:02X?}", &self.subject_raw))
             .field("notice[66, 186]", &format!("{:02X?}", &self.notice_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGuildNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("subject(char[] as char[])[6, 66]: {}", &self.subject.pretty_output()));
         fields.push(format!("notice(char[] as char[])[66, 186]: {}", &self.notice.pretty_output()));
@@ -5914,14 +7179,17 @@ impl Debug for PacketZcGuildNotice {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("subject[2, 62]", &format!("{:02X?}", &self.subject_raw))
             .field("notice[62, 182]", &format!("{:02X?}", &self.notice_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("subject(char[] as char[])[2, 62]: {}", &self.subject.pretty_output()));
         fields.push(format!("notice(char[] as char[])[62, 182]: {}", &self.notice.pretty_output()));
         write!(f, "PacketZcGuildNotice\n {}", fields.join(",\n "))
@@ -5935,14 +7203,17 @@ impl Debug for PacketCzReqAllyGuild {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("my_aid[6, 10]", &format!("{:02X?}", &self.my_aid_raw))
             .field("my_gid[10, 14]", &format!("{:02X?}", &self.my_gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("my_aid(unsigned long as u32)[6, 10]: {}", &self.my_aid));
         fields.push(format!("my_gid(unsigned long as u32)[10, 14]: {}", &self.my_gid));
@@ -5956,16 +7227,22 @@ impl Debug for PacketZcReqAllyGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("guild_name[6, 30]", &format!("{:02X?}", &self.guild_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("other_aid(unsigned long as u32)[2, 6]: {}", &self.other_aid));
-        fields.push(format!("guild_name(char[] as char[])[6, 30]: {}", &self.guild_name.pretty_output()));
+        fields.push(format!(
+            "guild_name(char[] as char[])[6, 30]: {}",
+            &self.guild_name.pretty_output()
+        ));
         write!(f, "PacketZcReqAllyGuild\n {}", fields.join(",\n "))
     }
 }
@@ -5976,14 +7253,17 @@ impl Debug for PacketCzAllyGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("other_aid(unsigned long as u32)[2, 6]: {}", &self.other_aid));
         fields.push(format!("answer(int as i32)[6, 10]: {}", &self.answer));
         write!(f, "PacketCzAllyGuild\n {}", fields.join(",\n "))
@@ -5995,14 +7275,17 @@ impl Debug for PacketZcAckReqAllyGuild {
         f.debug_struct("PacketZcAckReqAllyGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("answer[2, 3]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("answer(unsigned char as u8)[2, 3]: {}", &self.answer));
         write!(f, "PacketZcAckReqAllyGuild\n {}", fields.join(",\n "))
     }
@@ -6014,17 +7297,30 @@ impl Debug for PacketZcAckChangeGuildPositioninfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 34]", &format!("{:02X?}", &self.member_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckChangeGuildPositioninfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("member_list([] as Vec)[4, 34]: {}", &self.member_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "member_list([] as Vec)[4, 34]: {}",
+            &self
+                .member_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAckChangeGuildPositioninfo\n {}", fields.join(",\n "))
     }
 }
@@ -6034,14 +7330,17 @@ impl Debug for PacketCzReqGuildMemberInfo {
         f.debug_struct("PacketCzReqGuildMemberInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGuildMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(int as i32)[2, 6]: {}", &self.gid));
         write!(f, "PacketCzReqGuildMemberInfo\n {}", fields.join(",\n "))
     }
@@ -6052,14 +7351,17 @@ impl Debug for PacketZcAckGuildMemberInfo {
         f.debug_struct("PacketZcAckGuildMemberInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckGuildMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(struct as Struct)[2, ?]: {}", &self.info));
         write!(f, "PacketZcAckGuildMemberInfo\n {}", fields.join(",\n "))
     }
@@ -6071,16 +7373,22 @@ impl Debug for PacketZcItemidentifyList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemidentifyList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("itidlist(unsigned short[] as u16[])[4, ?]: {}", &self.itidlist.pretty_output()));
+        fields.push(format!(
+            "itidlist(unsigned short[] as u16[])[4, ?]: {}",
+            &self.itidlist.pretty_output()
+        ));
         write!(f, "PacketZcItemidentifyList\n {}", fields.join(",\n "))
     }
 }
@@ -6090,14 +7398,17 @@ impl Debug for PacketCzReqItemidentify {
         f.debug_struct("PacketCzReqItemidentify")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqItemidentify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         write!(f, "PacketCzReqItemidentify\n {}", fields.join(",\n "))
     }
@@ -6109,14 +7420,17 @@ impl Debug for PacketZcAckItemidentify {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckItemidentify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketZcAckItemidentify\n {}", fields.join(",\n "))
@@ -6128,14 +7442,17 @@ impl Debug for PacketCzReqItemcompositionList {
         f.debug_struct("PacketCzReqItemcompositionList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("card_index[2, 4]", &format!("{:02X?}", &self.card_index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqItemcompositionList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("card_index(short as i16)[2, 4]: {}", &self.card_index));
         write!(f, "PacketCzReqItemcompositionList\n {}", fields.join(",\n "))
     }
@@ -6147,16 +7464,22 @@ impl Debug for PacketZcItemcompositionList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemcompositionList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("itidlist(unsigned short[] as u16[])[4, ?]: {}", &self.itidlist.pretty_output()));
+        fields.push(format!(
+            "itidlist(unsigned short[] as u16[])[4, ?]: {}",
+            &self.itidlist.pretty_output()
+        ));
         write!(f, "PacketZcItemcompositionList\n {}", fields.join(",\n "))
     }
 }
@@ -6167,14 +7490,17 @@ impl Debug for PacketCzReqItemcomposition {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("card_index[2, 4]", &format!("{:02X?}", &self.card_index_raw))
             .field("equip_index[4, 6]", &format!("{:02X?}", &self.equip_index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqItemcomposition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("card_index(short as i16)[2, 4]: {}", &self.card_index));
         fields.push(format!("equip_index(short as i16)[4, 6]: {}", &self.equip_index));
         write!(f, "PacketCzReqItemcomposition\n {}", fields.join(",\n "))
@@ -6188,14 +7514,17 @@ impl Debug for PacketZcAckItemcomposition {
             .field("equip_index[2, 4]", &format!("{:02X?}", &self.equip_index_raw))
             .field("card_index[4, 6]", &format!("{:02X?}", &self.card_index_raw))
             .field("result[6, 7]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckItemcomposition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("equip_index(short as i16)[2, 4]: {}", &self.equip_index));
         fields.push(format!("card_index(short as i16)[4, 6]: {}", &self.card_index));
         fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
@@ -6209,14 +7538,17 @@ impl Debug for PacketCzGuildChat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGuildChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzGuildChat\n {}", fields.join(",\n "))
@@ -6229,14 +7561,17 @@ impl Debug for PacketZcGuildChat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketZcGuildChat\n {}", fields.join(",\n "))
@@ -6248,14 +7583,17 @@ impl Debug for PacketCzReqHostileGuild {
         f.debug_struct("PacketCzReqHostileGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqHostileGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqHostileGuild\n {}", fields.join(",\n "))
     }
@@ -6266,14 +7604,17 @@ impl Debug for PacketZcAckReqHostileGuild {
         f.debug_struct("PacketZcAckReqHostileGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqHostileGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAckReqHostileGuild\n {}", fields.join(",\n "))
     }
@@ -6284,14 +7625,17 @@ impl Debug for PacketZcMemberAdd {
         f.debug_struct("PacketZcMemberAdd")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemberAdd {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(struct as Struct)[2, ?]: {}", &self.info));
         write!(f, "PacketZcMemberAdd\n {}", fields.join(",\n "))
     }
@@ -6303,14 +7647,17 @@ impl Debug for PacketCzReqDeleteRelatedGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("opponent_gdid[2, 6]", &format!("{:02X?}", &self.opponent_gdid_raw))
             .field("relation[6, 10]", &format!("{:02X?}", &self.relation_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqDeleteRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("opponent_gdid(unsigned long as u32)[2, 6]: {}", &self.opponent_gdid));
         fields.push(format!("relation(int as i32)[6, 10]: {}", &self.relation));
         write!(f, "PacketCzReqDeleteRelatedGuild\n {}", fields.join(",\n "))
@@ -6323,14 +7670,17 @@ impl Debug for PacketZcDeleteRelatedGuild {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("opponent_gdid[2, 6]", &format!("{:02X?}", &self.opponent_gdid_raw))
             .field("relation[6, 10]", &format!("{:02X?}", &self.relation_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("opponent_gdid(unsigned long as u32)[2, 6]: {}", &self.opponent_gdid));
         fields.push(format!("relation(int as i32)[6, 10]: {}", &self.relation));
         write!(f, "PacketZcDeleteRelatedGuild\n {}", fields.join(",\n "))
@@ -6342,14 +7692,17 @@ impl Debug for PacketZcAddRelatedGuild {
         f.debug_struct("PacketZcAddRelatedGuild")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(struct as Struct)[2, ?]: {}", &self.info));
         write!(f, "PacketZcAddRelatedGuild\n {}", fields.join(",\n "))
     }
@@ -6360,14 +7713,17 @@ impl Debug for PacketCollectordead {
         f.debug_struct("PacketCollectordead")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("server_id[2, 6]", &format!("{:02X?}", &self.server_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCollectordead {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("server_id(unsigned long as u32)[2, 6]: {}", &self.server_id));
         write!(f, "PacketCollectordead\n {}", fields.join(",\n "))
     }
@@ -6378,14 +7734,17 @@ impl Debug for PacketPing {
         f.debug_struct("PacketPing")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketPing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketPing\n {}", fields.join(",\n "))
     }
@@ -6398,14 +7757,17 @@ impl Debug for PacketZcAckItemrefining {
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("item_index[4, 6]", &format!("{:02X?}", &self.item_index_raw))
             .field("refining_level[6, 8]", &format!("{:02X?}", &self.refining_level_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckItemrefining {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("item_index(short as i16)[4, 6]: {}", &self.item_index));
         fields.push(format!("refining_level(short as i16)[6, 8]: {}", &self.refining_level));
@@ -6418,14 +7780,17 @@ impl Debug for PacketZcNotifyMapinfo {
         f.debug_struct("PacketZcNotifyMapinfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMapinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketZcNotifyMapinfo\n {}", fields.join(",\n "))
     }
@@ -6436,14 +7801,17 @@ impl Debug for PacketCzReqDisconnect {
         f.debug_struct("PacketCzReqDisconnect")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketCzReqDisconnect\n {}", fields.join(",\n "))
     }
@@ -6454,14 +7822,17 @@ impl Debug for PacketZcAckReqDisconnect {
         f.debug_struct("PacketZcAckReqDisconnect")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         write!(f, "PacketZcAckReqDisconnect\n {}", fields.join(",\n "))
     }
@@ -6480,14 +7851,17 @@ impl Debug for PacketZcMonsterInfo {
             .field("mdef_power[16, 18]", &format!("{:02X?}", &self.mdef_power_raw))
             .field("property[18, 20]", &format!("{:02X?}", &self.property_raw))
             .field("property_table[20, ?]", &format!("{:02X?}", &self.property_table_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMonsterInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("job(short as i16)[2, 4]: {}", &self.job));
         fields.push(format!("level(short as i16)[4, 6]: {}", &self.level));
         fields.push(format!("size(short as i16)[6, 8]: {}", &self.size));
@@ -6507,14 +7881,17 @@ impl Debug for PacketZcMakableitemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("info[4, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMakableitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("info(struct as Struct)[4, ?]: {}", &self.info));
         write!(f, "PacketZcMakableitemlist\n {}", fields.join(",\n "))
@@ -6526,14 +7903,17 @@ impl Debug for PacketCzReqmakingitem {
         f.debug_struct("PacketCzReqmakingitem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqmakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(struct as Struct)[2, ?]: {}", &self.info));
         write!(f, "PacketCzReqmakingitem\n {}", fields.join(",\n "))
     }
@@ -6545,14 +7925,17 @@ impl Debug for PacketZcAckReqmakingitem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqmakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("itid(unsigned short as u16)[4, 6]: {}", &self.itid));
         write!(f, "PacketZcAckReqmakingitem\n {}", fields.join(",\n "))
@@ -6568,19 +7951,25 @@ impl Debug for PacketCzUseSkillTogroundWithtalkbox {
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
             .field("contents[10, 90]", &format!("{:02X?}", &self.contents_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseSkillTogroundWithtalkbox {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
         fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
-        fields.push(format!("contents(char[] as char[])[10, 90]: {}", &self.contents.pretty_output()));
+        fields.push(format!(
+            "contents(char[] as char[])[10, 90]: {}",
+            &self.contents.pretty_output()
+        ));
         write!(f, "PacketCzUseSkillTogroundWithtalkbox\n {}", fields.join(",\n "))
     }
 }
@@ -6591,14 +7980,17 @@ impl Debug for PacketZcTalkboxChatcontents {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("contents[6, 86]", &format!("{:02X?}", &self.contents_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcTalkboxChatcontents {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("contents(char[] as char[])[6, 86]: {}", &self.contents.pretty_output()));
         write!(f, "PacketZcTalkboxChatcontents\n {}", fields.join(",\n "))
@@ -6613,14 +8005,17 @@ impl Debug for PacketZcUpdateMapinfo {
             .field("y_pos[4, 6]", &format!("{:02X?}", &self.y_pos_raw))
             .field("atype[6, 8]", &format!("{:02X?}", &self.atype_raw))
             .field("map_name[8, 24]", &format!("{:02X?}", &self.map_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateMapinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("x_pos(short as i16)[2, 4]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[4, 6]: {}", &self.y_pos));
         fields.push(format!("atype(short as i16)[6, 8]: {}", &self.atype));
@@ -6634,14 +8029,17 @@ impl Debug for PacketCzReqnameBygid {
         f.debug_struct("PacketCzReqnameBygid")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketCzReqnameBygid\n {}", fields.join(",\n "))
     }
@@ -6653,14 +8051,17 @@ impl Debug for PacketZcAckReqnameBygid {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("cname[6, 30]", &format!("{:02X?}", &self.cname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("cname(char[] as char[])[6, 30]: {}", &self.cname.pretty_output()));
         write!(f, "PacketZcAckReqnameBygid\n {}", fields.join(",\n "))
@@ -6676,14 +8077,17 @@ impl Debug for PacketZcAckReqnameall {
             .field("pname[30, 54]", &format!("{:02X?}", &self.pname_raw))
             .field("gname[54, 78]", &format!("{:02X?}", &self.gname_raw))
             .field("rname[78, 102]", &format!("{:02X?}", &self.rname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqnameall {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("cname(char[] as char[])[6, 30]: {}", &self.cname.pretty_output()));
         fields.push(format!("pname(char[] as char[])[30, 54]: {}", &self.pname.pretty_output()));
@@ -6700,14 +8104,17 @@ impl Debug for PacketZcMsgStateChange {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("state[8, 9]", &format!("{:02X?}", &self.state_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsgStateChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("state(bool as bool)[8, 9]: {}", &self.state));
@@ -6720,14 +8127,17 @@ impl Debug for PacketCzReset {
         f.debug_struct("PacketCzReset")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketCzReset\n {}", fields.join(",\n "))
     }
@@ -6740,14 +8150,17 @@ impl Debug for PacketCzChangeMaptype {
             .field("x_pos[2, 4]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[4, 6]", &format!("{:02X?}", &self.y_pos_raw))
             .field("atype[6, 8]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeMaptype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("x_pos(short as i16)[2, 4]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[4, 6]: {}", &self.y_pos));
         fields.push(format!("atype(short as i16)[6, 8]: {}", &self.atype));
@@ -6760,14 +8173,17 @@ impl Debug for PacketZcNotifyMapproperty {
         f.debug_struct("PacketZcNotifyMapproperty")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMapproperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketZcNotifyMapproperty\n {}", fields.join(",\n "))
     }
@@ -6780,14 +8196,17 @@ impl Debug for PacketZcNotifyRanking {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("ranking[6, 10]", &format!("{:02X?}", &self.ranking_raw))
             .field("total[10, 14]", &format!("{:02X?}", &self.total_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyRanking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("ranking(int as i32)[6, 10]: {}", &self.ranking));
         fields.push(format!("total(int as i32)[10, 14]: {}", &self.total));
@@ -6801,14 +8220,17 @@ impl Debug for PacketZcNotifyEffect {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("effect_id(int as i32)[6, 10]: {}", &self.effect_id));
         write!(f, "PacketZcNotifyEffect\n {}", fields.join(",\n "))
@@ -6820,14 +8242,17 @@ impl Debug for PacketCzChangeEffectstate {
         f.debug_struct("PacketCzChangeEffectstate")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("effect_state[2, 6]", &format!("{:02X?}", &self.effect_state_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeEffectstate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("effect_state(int as i32)[2, 6]: {}", &self.effect_state));
         write!(f, "PacketCzChangeEffectstate\n {}", fields.join(",\n "))
     }
@@ -6837,14 +8262,17 @@ impl Debug for PacketZcStartCapture {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartCapture")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStartCapture {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcStartCapture\n {}", fields.join(",\n "))
     }
 }
@@ -6854,14 +8282,17 @@ impl Debug for PacketCzTrycaptureMonster {
         f.debug_struct("PacketCzTrycaptureMonster")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_aid[2, 6]", &format!("{:02X?}", &self.target_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzTrycaptureMonster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("target_aid(unsigned long as u32)[2, 6]: {}", &self.target_aid));
         write!(f, "PacketCzTrycaptureMonster\n {}", fields.join(",\n "))
     }
@@ -6872,14 +8303,17 @@ impl Debug for PacketZcTrycaptureMonster {
         f.debug_struct("PacketZcTrycaptureMonster")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcTrycaptureMonster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcTrycaptureMonster\n {}", fields.join(",\n "))
     }
@@ -6890,14 +8324,17 @@ impl Debug for PacketCzCommandPet {
         f.debug_struct("PacketCzCommandPet")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("c_sub[2, 3]", &format!("{:02X?}", &self.c_sub_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCommandPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("c_sub(char as i8)[2, 3]: {}", &self.c_sub));
         write!(f, "PacketCzCommandPet\n {}", fields.join(",\n "))
     }
@@ -6914,14 +8351,17 @@ impl Debug for PacketZcPropertyPet {
             .field("n_relationship[31, 33]", &format!("{:02X?}", &self.n_relationship_raw))
             .field("itid[33, 35]", &format!("{:02X?}", &self.itid_raw))
             .field("job[35, 37]", &format!("{:02X?}", &self.job_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPropertyPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("sz_name(char[] as char[])[2, 26]: {}", &self.sz_name.pretty_output()));
         fields.push(format!("b_modified(unsigned char as u8)[26, 27]: {}", &self.b_modified));
         fields.push(format!("n_level(short as i16)[27, 29]: {}", &self.n_level));
@@ -6939,14 +8379,17 @@ impl Debug for PacketZcFeedPet {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("c_ret[2, 3]", &format!("{:02X?}", &self.c_ret_raw))
             .field("itid[3, 5]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFeedPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("c_ret(char as i8)[2, 3]: {}", &self.c_ret));
         fields.push(format!("itid(unsigned short as u16)[3, 5]: {}", &self.itid));
         write!(f, "PacketZcFeedPet\n {}", fields.join(",\n "))
@@ -6960,14 +8403,17 @@ impl Debug for PacketZcChangestatePet {
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
             .field("data[7, 11]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangestatePet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(char as i8)[2, 3]: {}", &self.atype));
         fields.push(format!("gid(int as i32)[3, 7]: {}", &self.gid));
         fields.push(format!("data(int as i32)[7, 11]: {}", &self.data));
@@ -6980,14 +8426,17 @@ impl Debug for PacketCzRenamePet {
         f.debug_struct("PacketCzRenamePet")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_name[2, 26]", &format!("{:02X?}", &self.sz_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRenamePet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("sz_name(char[] as char[])[2, 26]: {}", &self.sz_name.pretty_output()));
         write!(f, "PacketCzRenamePet\n {}", fields.join(",\n "))
     }
@@ -6999,17 +8448,30 @@ impl Debug for PacketZcPeteggList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("egg_list[4, 6]", &format!("{:02X?}", &self.egg_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPeteggList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("egg_list([] as Vec)[4, 6]: {}", &self.egg_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "egg_list([] as Vec)[4, 6]: {}",
+            &self
+                .egg_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPeteggList\n {}", fields.join(",\n "))
     }
 }
@@ -7019,14 +8481,17 @@ impl Debug for PacketCzSelectPetegg {
         f.debug_struct("PacketCzSelectPetegg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSelectPetegg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         write!(f, "PacketCzSelectPetegg\n {}", fields.join(",\n "))
     }
@@ -7037,14 +8502,17 @@ impl Debug for PacketCzPeteggInfo {
         f.debug_struct("PacketCzPeteggInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPeteggInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         write!(f, "PacketCzPeteggInfo\n {}", fields.join(",\n "))
     }
@@ -7055,14 +8523,17 @@ impl Debug for PacketCzPetAct {
         f.debug_struct("PacketCzPetAct")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, 6]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPetAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("data(int as i32)[2, 6]: {}", &self.data));
         write!(f, "PacketCzPetAct\n {}", fields.join(",\n "))
     }
@@ -7074,14 +8545,17 @@ impl Debug for PacketZcPetAct {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("data[6, 10]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPetAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(int as i32)[2, 6]: {}", &self.gid));
         fields.push(format!("data(int as i32)[6, 10]: {}", &self.data));
         write!(f, "PacketZcPetAct\n {}", fields.join(",\n "))
@@ -7095,14 +8569,17 @@ impl Debug for PacketZcParChangeUser {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("var_id[6, 8]", &format!("{:02X?}", &self.var_id_raw))
             .field("count[8, 12]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcParChangeUser {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("var_id(unsigned short as u16)[6, 8]: {}", &self.var_id));
         fields.push(format!("count(int as i32)[8, 12]: {}", &self.count));
@@ -7115,14 +8592,17 @@ impl Debug for PacketZcSkillUpdate {
         f.debug_struct("PacketZcSkillUpdate")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcSkillUpdate\n {}", fields.join(",\n "))
     }
@@ -7134,17 +8614,30 @@ impl Debug for PacketZcMakingarrowList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("arrow_list[4, 6]", &format!("{:02X?}", &self.arrow_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMakingarrowList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("arrow_list([] as Vec)[4, 6]: {}", &self.arrow_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "arrow_list([] as Vec)[4, 6]: {}",
+            &self
+                .arrow_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMakingarrowList\n {}", fields.join(",\n "))
     }
 }
@@ -7154,14 +8647,17 @@ impl Debug for PacketCzReqMakingarrow {
         f.debug_struct("PacketCzReqMakingarrow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("id[2, 4]", &format!("{:02X?}", &self.id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqMakingarrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("id(unsigned short as u16)[2, 4]: {}", &self.id));
         write!(f, "PacketCzReqMakingarrow\n {}", fields.join(",\n "))
     }
@@ -7172,14 +8668,17 @@ impl Debug for PacketCzReqChangecart {
         f.debug_struct("PacketCzReqChangecart")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("num[2, 4]", &format!("{:02X?}", &self.num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqChangecart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("num(short as i16)[2, 4]: {}", &self.num));
         write!(f, "PacketCzReqChangecart\n {}", fields.join(",\n "))
     }
@@ -7192,14 +8691,17 @@ impl Debug for PacketZcNpcspriteChange {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("value[7, 11]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcspriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         fields.push(format!("value(unsigned long as u32)[7, 11]: {}", &self.value));
@@ -7213,14 +8715,17 @@ impl Debug for PacketZcShowdigit {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("value[3, 7]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShowdigit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(unsigned char as u8)[2, 3]: {}", &self.atype));
         fields.push(format!("value(int as i32)[3, 7]: {}", &self.value));
         write!(f, "PacketZcShowdigit\n {}", fields.join(",\n "))
@@ -7235,19 +8740,35 @@ impl Debug for PacketCzReqOpenstore2 {
             .field("store_name[4, 84]", &format!("{:02X?}", &self.store_name_raw))
             .field("result[84, 85]", &format!("{:02X?}", &self.result_raw))
             .field("store_list[85, 93]", &format!("{:02X?}", &self.store_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqOpenstore2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("store_name(char[] as char[])[4, 84]: {}", &self.store_name.pretty_output()));
+        fields.push(format!(
+            "store_name(char[] as char[])[4, 84]: {}",
+            &self.store_name.pretty_output()
+        ));
         fields.push(format!("result(bool as bool)[84, 85]: {}", &self.result));
-        fields.push(format!("store_list([] as Vec)[85, 93]: {}", &self.store_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "store_list([] as Vec)[85, 93]: {}",
+            &self
+                .store_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzReqOpenstore2\n {}", fields.join(",\n "))
     }
 }
@@ -7258,15 +8779,21 @@ impl Debug for PacketZcShowImage2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("image_name[2, 66]", &format!("{:02X?}", &self.image_name_raw))
             .field("atype[66, 67]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShowImage2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("image_name(char[] as char[])[2, 66]: {}", &self.image_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "image_name(char[] as char[])[2, 66]: {}",
+            &self.image_name.pretty_output()
+        ));
         fields.push(format!("atype(unsigned char as u8)[66, 67]: {}", &self.atype));
         write!(f, "PacketZcShowImage2\n {}", fields.join(",\n "))
     }
@@ -7279,14 +8806,17 @@ impl Debug for PacketZcChangeGuild {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gdid[6, 10]", &format!("{:02X?}", &self.gdid_raw))
             .field("emblem_version[10, 12]", &format!("{:02X?}", &self.emblem_version_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gdid(unsigned long as u32)[6, 10]: {}", &self.gdid));
         fields.push(format!("emblem_version(short as i16)[10, 12]: {}", &self.emblem_version));
@@ -7302,16 +8832,25 @@ impl Debug for PacketScBillingInfo {
             .field("dw_quantity_remain[6, 10]", &format!("{:02X?}", &self.dw_quantity_remain_raw))
             .field("dw_reserved1[10, 14]", &format!("{:02X?}", &self.dw_reserved1_raw))
             .field("dw_reserved2[14, 18]", &format!("{:02X?}", &self.dw_reserved2_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketScBillingInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("dw_amount_remain(unsigned long as u32)[2, 6]: {}", &self.dw_amount_remain));
-        fields.push(format!("dw_quantity_remain(unsigned long as u32)[6, 10]: {}", &self.dw_quantity_remain));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "dw_amount_remain(unsigned long as u32)[2, 6]: {}",
+            &self.dw_amount_remain
+        ));
+        fields.push(format!(
+            "dw_quantity_remain(unsigned long as u32)[6, 10]: {}",
+            &self.dw_quantity_remain
+        ));
         fields.push(format!("dw_reserved1(unsigned long as u32)[10, 14]: {}", &self.dw_reserved1));
         fields.push(format!("dw_reserved2(unsigned long as u32)[14, 18]: {}", &self.dw_reserved2));
         write!(f, "PacketScBillingInfo\n {}", fields.join(",\n "))
@@ -7337,14 +8876,17 @@ impl Debug for PacketZcGuildInfo2 {
             .field("master_name[70, 94]", &format!("{:02X?}", &self.master_name_raw))
             .field("manage_land[94, 110]", &format!("{:02X?}", &self.manage_land_raw))
             .field("zeny[110, 114]", &format!("{:02X?}", &self.zeny_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildInfo2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(int as i32)[2, 6]: {}", &self.gdid));
         fields.push(format!("level(int as i32)[6, 10]: {}", &self.level));
         fields.push(format!("user_num(int as i32)[10, 14]: {}", &self.user_num));
@@ -7356,9 +8898,18 @@ impl Display for PacketZcGuildInfo2 {
         fields.push(format!("honor(int as i32)[34, 38]: {}", &self.honor));
         fields.push(format!("virtue(int as i32)[38, 42]: {}", &self.virtue));
         fields.push(format!("emblem_version(int as i32)[42, 46]: {}", &self.emblem_version));
-        fields.push(format!("guildname(char[] as char[])[46, 70]: {}", &self.guildname.pretty_output()));
-        fields.push(format!("master_name(char[] as char[])[70, 94]: {}", &self.master_name.pretty_output()));
-        fields.push(format!("manage_land(char[] as char[])[94, 110]: {}", &self.manage_land.pretty_output()));
+        fields.push(format!(
+            "guildname(char[] as char[])[46, 70]: {}",
+            &self.guildname.pretty_output()
+        ));
+        fields.push(format!(
+            "master_name(char[] as char[])[70, 94]: {}",
+            &self.master_name.pretty_output()
+        ));
+        fields.push(format!(
+            "manage_land(char[] as char[])[94, 110]: {}",
+            &self.manage_land.pretty_output()
+        ));
         fields.push(format!("zeny(int as i32)[110, 114]: {}", &self.zeny));
         write!(f, "PacketZcGuildInfo2\n {}", fields.join(",\n "))
     }
@@ -7369,14 +8920,17 @@ impl Debug for PacketCzGuildZeny {
         f.debug_struct("PacketCzGuildZeny")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("zeny[2, 6]", &format!("{:02X?}", &self.zeny_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGuildZeny {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("zeny(int as i32)[2, 6]: {}", &self.zeny));
         write!(f, "PacketCzGuildZeny\n {}", fields.join(",\n "))
     }
@@ -7387,14 +8941,17 @@ impl Debug for PacketZcGuildZenyAck {
         f.debug_struct("PacketZcGuildZenyAck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("ret[2, 3]", &format!("{:02X?}", &self.ret_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildZenyAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("ret(unsigned char as u8)[2, 3]: {}", &self.ret));
         write!(f, "PacketZcGuildZenyAck\n {}", fields.join(",\n "))
     }
@@ -7405,14 +8962,17 @@ impl Debug for PacketZcDispel {
         f.debug_struct("PacketZcDispel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDispel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcDispel\n {}", fields.join(",\n "))
     }
@@ -7423,15 +8983,21 @@ impl Debug for PacketCzRemoveAid {
         f.debug_struct("PacketCzRemoveAid")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_name[2, 26]", &format!("{:02X?}", &self.account_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRemoveAid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("account_name(char[] as char[])[2, 26]: {}", &self.account_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "account_name(char[] as char[])[2, 26]: {}",
+            &self.account_name.pretty_output()
+        ));
         write!(f, "PacketCzRemoveAid\n {}", fields.join(",\n "))
     }
 }
@@ -7441,15 +9007,21 @@ impl Debug for PacketCzShift {
         f.debug_struct("PacketCzShift")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzShift {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("character_name(char[] as char[])[2, 26]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[2, 26]: {}",
+            &self.character_name.pretty_output()
+        ));
         write!(f, "PacketCzShift\n {}", fields.join(",\n "))
     }
 }
@@ -7459,15 +9031,21 @@ impl Debug for PacketCzRecall {
         f.debug_struct("PacketCzRecall")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_name[2, 26]", &format!("{:02X?}", &self.account_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRecall {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("account_name(char[] as char[])[2, 26]: {}", &self.account_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "account_name(char[] as char[])[2, 26]: {}",
+            &self.account_name.pretty_output()
+        ));
         write!(f, "PacketCzRecall\n {}", fields.join(",\n "))
     }
 }
@@ -7477,15 +9055,21 @@ impl Debug for PacketCzRecallGid {
         f.debug_struct("PacketCzRecallGid")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRecallGid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("character_name(char[] as char[])[2, 26]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[2, 26]: {}",
+            &self.character_name.pretty_output()
+        ));
         write!(f, "PacketCzRecallGid\n {}", fields.join(",\n "))
     }
 }
@@ -7494,14 +9078,17 @@ impl Debug for PacketAcAskPngameroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAskPngameroom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAskPngameroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketAcAskPngameroom\n {}", fields.join(",\n "))
     }
 }
@@ -7511,14 +9098,17 @@ impl Debug for PacketCaReplyPngameroom {
         f.debug_struct("PacketCaReplyPngameroom")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("permission[2, 3]", &format!("{:02X?}", &self.permission_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaReplyPngameroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("permission(unsigned char as u8)[2, 3]: {}", &self.permission));
         write!(f, "PacketCaReplyPngameroom\n {}", fields.join(",\n "))
     }
@@ -7528,14 +9118,17 @@ impl Debug for PacketCzReqRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqRemaintime")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqRemaintime\n {}", fields.join(",\n "))
     }
 }
@@ -7547,14 +9140,17 @@ impl Debug for PacketZcReplyRemaintime {
             .field("result[2, 6]", &format!("{:02X?}", &self.result_raw))
             .field("expiration_date[6, 10]", &format!("{:02X?}", &self.expiration_date_raw))
             .field("remain_time[10, 14]", &format!("{:02X?}", &self.remain_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReplyRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(int as i32)[2, 6]: {}", &self.result));
         fields.push(format!("expiration_date(int as i32)[6, 10]: {}", &self.expiration_date));
         fields.push(format!("remain_time(int as i32)[10, 14]: {}", &self.remain_time));
@@ -7568,14 +9164,17 @@ impl Debug for PacketZcInfoRemaintime {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
             .field("remain_time[6, 10]", &format!("{:02X?}", &self.remain_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcInfoRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(int as i32)[2, 6]: {}", &self.atype));
         fields.push(format!("remain_time(int as i32)[6, 10]: {}", &self.remain_time));
         write!(f, "PacketZcInfoRemaintime\n {}", fields.join(",\n "))
@@ -7593,14 +9192,17 @@ impl Debug for PacketZcBroadcast2 {
             .field("font_align[12, 14]", &format!("{:02X?}", &self.font_align_raw))
             .field("font_y[14, 16]", &format!("{:02X?}", &self.font_y_raw))
             .field("msg[16, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBroadcast2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("font_color(unsigned long as u32)[4, 8]: {}", &self.font_color));
         fields.push(format!("font_type(short as i16)[8, 10]: {}", &self.font_type));
@@ -7624,14 +9226,17 @@ impl Debug for PacketZcAddItemToStore2 {
             .field("is_damaged[12, 13]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[13, 14]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[14, 22]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddItemToStore2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[8, 10]: {}", &self.itid));
@@ -7656,14 +9261,17 @@ impl Debug for PacketZcAddItemToCart2 {
             .field("is_damaged[12, 13]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[13, 14]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[14, 22]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddItemToCart2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[8, 10]: {}", &self.itid));
@@ -7682,14 +9290,17 @@ impl Debug for PacketCsReqEncryption {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("enc_count[2, 3]", &format!("{:02X?}", &self.enc_count_raw))
             .field("dec_count[3, 4]", &format!("{:02X?}", &self.dec_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCsReqEncryption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("enc_count(char as i8)[2, 3]: {}", &self.enc_count));
         fields.push(format!("dec_count(char as i8)[3, 4]: {}", &self.dec_count));
         write!(f, "PacketCsReqEncryption\n {}", fields.join(",\n "))
@@ -7700,14 +9311,17 @@ impl Debug for PacketScAckEncryption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketScAckEncryption")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketScAckEncryption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketScAckEncryption\n {}", fields.join(",\n "))
     }
 }
@@ -7721,14 +9335,17 @@ impl Debug for PacketZcUseItemAck2 {
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
             .field("count[10, 12]", &format!("{:02X?}", &self.count_raw))
             .field("result[12, 13]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUseItemAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("id(unsigned short as u16)[4, 6]: {}", &self.id));
         fields.push(format!("aid(unsigned long as u32)[6, 10]: {}", &self.aid));
@@ -7750,14 +9367,17 @@ impl Debug for PacketZcSkillEntry2 {
             .field("is_visible[15, 16]", &format!("{:02X?}", &self.is_visible_raw))
             .field("is_contens[16, 17]", &format!("{:02X?}", &self.is_contens_raw))
             .field("msg[17, 97]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillEntry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("creator_aid(unsigned long as u32)[6, 10]: {}", &self.creator_aid));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
@@ -7775,14 +9395,17 @@ impl Debug for PacketCzReqmakinghomun {
         f.debug_struct("PacketCzReqmakinghomun")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqmakinghomun {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(bool as bool)[2, 3]: {}", &self.result));
         write!(f, "PacketCzReqmakinghomun\n {}", fields.join(",\n "))
     }
@@ -7796,14 +9419,17 @@ impl Debug for PacketCzMonsterTalk {
             .field("state_id[6, 7]", &format!("{:02X?}", &self.state_id_raw))
             .field("skill_id[7, 8]", &format!("{:02X?}", &self.skill_id_raw))
             .field("arg1[8, 9]", &format!("{:02X?}", &self.arg1_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMonsterTalk {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("state_id(unsigned char as u8)[6, 7]: {}", &self.state_id));
         fields.push(format!("skill_id(unsigned char as u8)[7, 8]: {}", &self.skill_id));
@@ -7820,14 +9446,17 @@ impl Debug for PacketZcMonsterTalk {
             .field("state_id[6, 7]", &format!("{:02X?}", &self.state_id_raw))
             .field("skill_id[7, 8]", &format!("{:02X?}", &self.skill_id_raw))
             .field("arg1[8, 9]", &format!("{:02X?}", &self.arg1_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMonsterTalk {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("state_id(unsigned char as u8)[6, 7]: {}", &self.state_id));
         fields.push(format!("skill_id(unsigned char as u8)[7, 8]: {}", &self.skill_id));
@@ -7841,14 +9470,17 @@ impl Debug for PacketZcAutospelllist {
         f.debug_struct("PacketZcAutospelllist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 9]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAutospelllist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(int[] as i32[])[2, 9]: {}", &self.skid.pretty_output()));
         write!(f, "PacketZcAutospelllist\n {}", fields.join(",\n "))
     }
@@ -7859,14 +9491,17 @@ impl Debug for PacketCzSelectautospell {
         f.debug_struct("PacketCzSelectautospell")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 6]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSelectautospell {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(int as i32)[2, 6]: {}", &self.skid));
         write!(f, "PacketCzSelectautospell\n {}", fields.join(",\n "))
     }
@@ -7879,14 +9514,17 @@ impl Debug for PacketZcDevotionlist {
             .field("my_aid[2, 6]", &format!("{:02X?}", &self.my_aid_raw))
             .field("aid[6, 11]", &format!("{:02X?}", &self.aid_raw))
             .field("range[11, 13]", &format!("{:02X?}", &self.range_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDevotionlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("my_aid(unsigned long as u32)[2, 6]: {}", &self.my_aid));
         fields.push(format!("aid(unsigned long[] as u32[])[6, 11]: {}", &self.aid.pretty_output()));
         fields.push(format!("range(short as i16)[11, 13]: {}", &self.range));
@@ -7900,14 +9538,17 @@ impl Debug for PacketZcSpirits {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSpirits {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("num(short as i16)[6, 8]: {}", &self.num));
         write!(f, "PacketZcSpirits\n {}", fields.join(",\n "))
@@ -7921,14 +9562,17 @@ impl Debug for PacketZcBladestop {
             .field("src_aid[2, 6]", &format!("{:02X?}", &self.src_aid_raw))
             .field("dest_aid[6, 10]", &format!("{:02X?}", &self.dest_aid_raw))
             .field("flag[10, 14]", &format!("{:02X?}", &self.flag_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBladestop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("src_aid(unsigned long as u32)[2, 6]: {}", &self.src_aid));
         fields.push(format!("dest_aid(unsigned long as u32)[6, 10]: {}", &self.dest_aid));
         fields.push(format!("flag(int as i32)[10, 14]: {}", &self.flag));
@@ -7942,14 +9586,17 @@ impl Debug for PacketZcCombodelay {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("delay_time[6, 10]", &format!("{:02X?}", &self.delay_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCombodelay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("delay_time(unsigned long as u32)[6, 10]: {}", &self.delay_time));
         write!(f, "PacketZcCombodelay\n {}", fields.join(",\n "))
@@ -7964,15 +9611,21 @@ impl Debug for PacketZcSound {
             .field("act[26, 27]", &format!("{:02X?}", &self.act_raw))
             .field("term[27, 31]", &format!("{:02X?}", &self.term_raw))
             .field("naid[31, 35]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSound {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("file_name(char[] as char[])[2, 26]: {}", &self.file_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "file_name(char[] as char[])[2, 26]: {}",
+            &self.file_name.pretty_output()
+        ));
         fields.push(format!("act(unsigned char as u8)[26, 27]: {}", &self.act));
         fields.push(format!("term(unsigned long as u32)[27, 31]: {}", &self.term));
         fields.push(format!("naid(unsigned long as u32)[31, 35]: {}", &self.naid));
@@ -7985,14 +9638,17 @@ impl Debug for PacketZcOpenEditdlgstr {
         f.debug_struct("PacketZcOpenEditdlgstr")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOpenEditdlgstr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("naid(unsigned long as u32)[2, 6]: {}", &self.naid));
         write!(f, "PacketZcOpenEditdlgstr\n {}", fields.join(",\n "))
     }
@@ -8005,14 +9661,17 @@ impl Debug for PacketCzInputEditdlgstr {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
             .field("msg[8, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzInputEditdlgstr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("naid(unsigned long as u32)[4, 8]: {}", &self.naid));
         fields.push(format!("msg(char[] as String)[8, ?]: {}", &self.msg));
@@ -8025,14 +9684,17 @@ impl Debug for PacketZcNotifyMaptypeproperty2 {
         f.debug_struct("PacketZcNotifyMaptypeproperty2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMaptypeproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketZcNotifyMaptypeproperty2\n {}", fields.join(",\n "))
     }
@@ -8046,14 +9708,17 @@ impl Debug for PacketZcSpriteChange2 {
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("value[7, 9]", &format!("{:02X?}", &self.value_raw))
             .field("value2[9, 11]", &format!("{:02X?}", &self.value2_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSpriteChange2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         fields.push(format!("value(unsigned short as u16)[7, 9]: {}", &self.value));
@@ -8091,14 +9756,17 @@ impl Debug for PacketZcNotifyStandentry2 {
             .field("y_size[50, 51]", &format!("{:02X?}", &self.y_size_raw))
             .field("state[51, 52]", &format!("{:02X?}", &self.state_raw))
             .field("clevel[52, 54]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -8119,7 +9787,10 @@ impl Display for PacketZcNotifyStandentry2 {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[46, 49]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[51, 52]: {}", &self.state));
@@ -8156,14 +9827,17 @@ impl Debug for PacketZcNotifyNewentry2 {
             .field("x_size[49, 50]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[50, 51]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[51, 53]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyNewentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -8184,7 +9858,10 @@ impl Display for PacketZcNotifyNewentry2 {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[46, 49]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[51, 53]: {}", &self.clevel));
@@ -8221,14 +9898,17 @@ impl Debug for PacketZcNotifyMoveentry2 {
             .field("x_size[56, 57]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[57, 58]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[58, 60]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -8238,7 +9918,10 @@ impl Display for PacketZcNotifyMoveentry2 {
         fields.push(format!("head(short as i16)[16, 18]: {}", &self.head));
         fields.push(format!("weapon(int as i32)[18, 22]: {}", &self.weapon));
         fields.push(format!("accessory(short as i16)[22, 24]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned long as u32)[24, 28]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[24, 28]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("accessory2(short as i16)[28, 30]: {}", &self.accessory2));
         fields.push(format!("accessory3(short as i16)[30, 32]: {}", &self.accessory3));
         fields.push(format!("headpalette(short as i16)[32, 34]: {}", &self.headpalette));
@@ -8250,7 +9933,10 @@ impl Display for PacketZcNotifyMoveentry2 {
         fields.push(format!("virtue(short as i16)[46, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[50, 56]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "move_data(unsigned short[] as u16[])[50, 56]: {}",
+            &self.move_data.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -8262,14 +9948,17 @@ impl Debug for PacketCaReqHash {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaReqHash")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaReqHash {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCaReqHash\n {}", fields.join(",\n "))
     }
 }
@@ -8280,14 +9969,17 @@ impl Debug for PacketAcAckHash {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("secret[4, ?]", &format!("{:02X?}", &self.secret_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckHash {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("secret(char[] as String)[4, ?]: {}", &self.secret));
         write!(f, "PacketAcAckHash\n {}", fields.join(",\n "))
@@ -8302,17 +9994,23 @@ impl Debug for PacketCaLogin2 {
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
             .field("passwd_md5[30, 46]", &format!("{:02X?}", &self.passwd_md5_raw))
             .field("clienttype[46, 47]", &format!("{:02X?}", &self.clienttype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
-        fields.push(format!("passwd_md5(char[] as char[])[30, 46]: {}", &self.passwd_md5.pretty_output()));
+        fields.push(format!(
+            "passwd_md5(char[] as char[])[30, 46]: {}",
+            &self.passwd_md5.pretty_output()
+        ));
         fields.push(format!("clienttype(unsigned char as u8)[46, 47]: {}", &self.clienttype));
         write!(f, "PacketCaLogin2\n {}", fields.join(",\n "))
     }
@@ -8332,14 +10030,17 @@ impl Debug for PacketZcNotifySkill2 {
             .field("level[28, 30]", &format!("{:02X?}", &self.level_raw))
             .field("count[30, 32]", &format!("{:02X?}", &self.count_raw))
             .field("action[32, 33]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifySkill2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("target_id(unsigned long as u32)[8, 12]: {}", &self.target_id));
@@ -8359,14 +10060,17 @@ impl Debug for PacketCzReqAccountname {
         f.debug_struct("PacketCzReqAccountname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqAccountname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqAccountname\n {}", fields.join(",\n "))
     }
@@ -8378,14 +10082,17 @@ impl Debug for PacketZcAckAccountname {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckAccountname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcAckAccountname\n {}", fields.join(",\n "))
@@ -8398,14 +10105,17 @@ impl Debug for PacketZcSpirits2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSpirits2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("num(short as i16)[6, 8]: {}", &self.num));
         write!(f, "PacketZcSpirits2\n {}", fields.join(",\n "))
@@ -8419,14 +10129,17 @@ impl Debug for PacketZcReqCouple {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("name[10, 34]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("name(char[] as char[])[10, 34]: {}", &self.name.pretty_output()));
@@ -8441,14 +10154,17 @@ impl Debug for PacketCzJoinCouple {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("answer[10, 14]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzJoinCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("answer(int as i32)[10, 14]: {}", &self.answer));
@@ -8460,14 +10176,17 @@ impl Debug for PacketZcStartCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartCouple")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStartCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcStartCouple\n {}", fields.join(",\n "))
     }
 }
@@ -8477,14 +10196,17 @@ impl Debug for PacketCzReqJoinCouple {
         f.debug_struct("PacketCzReqJoinCouple")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqJoinCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqJoinCouple\n {}", fields.join(",\n "))
     }
@@ -8495,15 +10217,21 @@ impl Debug for PacketZcCouplename {
         f.debug_struct("PacketZcCouplename")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("couple_name[2, 26]", &format!("{:02X?}", &self.couple_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCouplename {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("couple_name(char[] as char[])[2, 26]: {}", &self.couple_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "couple_name(char[] as char[])[2, 26]: {}",
+            &self.couple_name.pretty_output()
+        ));
         write!(f, "PacketZcCouplename\n {}", fields.join(",\n "))
     }
 }
@@ -8512,14 +10240,17 @@ impl Debug for PacketCzDoridori {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDoridori")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzDoridori {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzDoridori\n {}", fields.join(",\n "))
     }
 }
@@ -8531,17 +10262,29 @@ impl Debug for PacketCzMakeGroup2 {
             .field("group_name[2, 26]", &format!("{:02X?}", &self.group_name_raw))
             .field("item_pickup_rule[26, 27]", &format!("{:02X?}", &self.item_pickup_rule_raw))
             .field("item_division_rule[27, 28]", &format!("{:02X?}", &self.item_division_rule_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMakeGroup2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("group_name(char[] as char[])[2, 26]: {}", &self.group_name.pretty_output()));
-        fields.push(format!("item_pickup_rule(unsigned char as u8)[26, 27]: {}", &self.item_pickup_rule));
-        fields.push(format!("item_division_rule(unsigned char as u8)[27, 28]: {}", &self.item_division_rule));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "group_name(char[] as char[])[2, 26]: {}",
+            &self.group_name.pretty_output()
+        ));
+        fields.push(format!(
+            "item_pickup_rule(unsigned char as u8)[26, 27]: {}",
+            &self.item_pickup_rule
+        ));
+        fields.push(format!(
+            "item_division_rule(unsigned char as u8)[27, 28]: {}",
+            &self.item_division_rule
+        ));
         write!(f, "PacketCzMakeGroup2\n {}", fields.join(",\n "))
     }
 }
@@ -8560,24 +10303,42 @@ impl Debug for PacketZcAddMemberToGroup2 {
             .field("map_name[63, 79]", &format!("{:02X?}", &self.map_name_raw))
             .field("item_pickup_rule[79, 80]", &format!("{:02X?}", &self.item_pickup_rule_raw))
             .field("item_division_rule[80, 81]", &format!("{:02X?}", &self.item_division_rule_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddMemberToGroup2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("role(unsigned long as u32)[6, 10]: {}", &self.role));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[12, 14]: {}", &self.y_pos));
         fields.push(format!("state(unsigned char as u8)[14, 15]: {}", &self.state));
-        fields.push(format!("group_name(char[] as char[])[15, 39]: {}", &self.group_name.pretty_output()));
-        fields.push(format!("character_name(char[] as char[])[39, 63]: {}", &self.character_name.pretty_output()));
-        fields.push(format!("map_name(char[] as char[])[63, 79]: {}", &self.map_name.pretty_output()));
-        fields.push(format!("item_pickup_rule(unsigned char as u8)[79, 80]: {}", &self.item_pickup_rule));
-        fields.push(format!("item_division_rule(unsigned char as u8)[80, 81]: {}", &self.item_division_rule));
+        fields.push(format!(
+            "group_name(char[] as char[])[15, 39]: {}",
+            &self.group_name.pretty_output()
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[39, 63]: {}",
+            &self.character_name.pretty_output()
+        ));
+        fields.push(format!(
+            "map_name(char[] as char[])[63, 79]: {}",
+            &self.map_name.pretty_output()
+        ));
+        fields.push(format!(
+            "item_pickup_rule(unsigned char as u8)[79, 80]: {}",
+            &self.item_pickup_rule
+        ));
+        fields.push(format!(
+            "item_division_rule(unsigned char as u8)[80, 81]: {}",
+            &self.item_division_rule
+        ));
         write!(f, "PacketZcAddMemberToGroup2\n {}", fields.join(",\n "))
     }
 }
@@ -8587,14 +10348,17 @@ impl Debug for PacketZcCongratulation {
         f.debug_struct("PacketZcCongratulation")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCongratulation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcCongratulation\n {}", fields.join(",\n "))
     }
@@ -8607,14 +10371,17 @@ impl Debug for PacketZcNotifyPositionToGuildm {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPositionToGuildm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
@@ -8629,17 +10396,23 @@ impl Debug for PacketZcGuildMemberMapChange {
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
             .field("map_name[10, 26]", &format!("{:02X?}", &self.map_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGuildMemberMapChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gdid(unsigned long as u32)[2, 6]: {}", &self.gdid));
         fields.push(format!("aid(unsigned long as u32)[6, 10]: {}", &self.aid));
-        fields.push(format!("map_name(char[] as char[])[10, 26]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "map_name(char[] as char[])[10, 26]: {}",
+            &self.map_name.pretty_output()
+        ));
         write!(f, "PacketZcGuildMemberMapChange\n {}", fields.join(",\n "))
     }
 }
@@ -8648,14 +10421,17 @@ impl Debug for PacketCzChopokgi {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChopokgi")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChopokgi {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzChopokgi\n {}", fields.join(",\n "))
     }
 }
@@ -8666,17 +10442,30 @@ impl Debug for PacketZcNormalItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 22]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 22]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcNormalItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -8687,17 +10476,30 @@ impl Debug for PacketZcCartNormalItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 22]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 22]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartNormalItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -8708,17 +10510,30 @@ impl Debug for PacketZcStoreNormalItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 22]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 22]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreNormalItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -8729,14 +10544,17 @@ impl Debug for PacketAcNotifyError {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcNotifyError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketAcNotifyError\n {}", fields.join(",\n "))
@@ -8753,14 +10571,17 @@ impl Debug for PacketZcUpdateCharstat2 {
             .field("sex[14, 16]", &format!("{:02X?}", &self.sex_raw))
             .field("head[16, 18]", &format!("{:02X?}", &self.head_raw))
             .field("head_palette[18, 20]", &format!("{:02X?}", &self.head_palette_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateCharstat2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("status(int as i32)[10, 14]: {}", &self.status));
@@ -8777,14 +10598,17 @@ impl Debug for PacketZcNotifyEffect2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyEffect2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("effect_id(int as i32)[6, 10]: {}", &self.effect_id));
         write!(f, "PacketZcNotifyEffect2\n {}", fields.join(",\n "))
@@ -8798,14 +10622,17 @@ impl Debug for PacketZcReqExchangeItem2 {
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("gid[26, 30]", &format!("{:02X?}", &self.gid_raw))
             .field("level[30, 32]", &format!("{:02X?}", &self.level_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("gid(unsigned long as u32)[26, 30]: {}", &self.gid));
         fields.push(format!("level(short as i16)[30, 32]: {}", &self.level));
@@ -8820,14 +10647,17 @@ impl Debug for PacketZcAckExchangeItem2 {
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
             .field("level[7, 9]", &format!("{:02X?}", &self.level_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
         fields.push(format!("gid(unsigned long as u32)[3, 7]: {}", &self.gid));
         fields.push(format!("level(short as i16)[7, 9]: {}", &self.level));
@@ -8842,14 +10672,17 @@ impl Debug for PacketZcReqBaby {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("name[10, 34]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("name(char[] as char[])[10, 34]: {}", &self.name.pretty_output()));
@@ -8864,14 +10697,17 @@ impl Debug for PacketCzJoinBaby {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("answer[10, 14]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzJoinBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("answer(int as i32)[10, 14]: {}", &self.answer));
@@ -8883,14 +10719,17 @@ impl Debug for PacketZcStartBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartBaby")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStartBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcStartBaby\n {}", fields.join(",\n "))
     }
 }
@@ -8900,14 +10739,17 @@ impl Debug for PacketCzReqJoinBaby {
         f.debug_struct("PacketCzReqJoinBaby")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqJoinBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzReqJoinBaby\n {}", fields.join(",\n "))
     }
@@ -8922,17 +10764,23 @@ impl Debug for PacketCaLogin3 {
             .field("passwd_md5[30, 46]", &format!("{:02X?}", &self.passwd_md5_raw))
             .field("clienttype[46, 47]", &format!("{:02X?}", &self.clienttype_raw))
             .field("client_info[47, 48]", &format!("{:02X?}", &self.client_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLogin3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
-        fields.push(format!("passwd_md5(char[] as char[])[30, 46]: {}", &self.passwd_md5.pretty_output()));
+        fields.push(format!(
+            "passwd_md5(char[] as char[])[30, 46]: {}",
+            &self.passwd_md5.pretty_output()
+        ));
         fields.push(format!("clienttype(unsigned char as u8)[46, 47]: {}", &self.clienttype));
         fields.push(format!("client_info(unsigned char as u8)[47, 48]: {}", &self.client_info));
         write!(f, "PacketCaLogin3\n {}", fields.join(",\n "))
@@ -8945,14 +10793,17 @@ impl Debug for PacketChDeleteChar2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("key[6, 56]", &format!("{:02X?}", &self.key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("key(char[] as char[])[6, 56]: {}", &self.key.pretty_output()));
         write!(f, "PacketChDeleteChar2\n {}", fields.join(",\n "))
@@ -8965,17 +10816,30 @@ impl Debug for PacketZcRepairitemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 17]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcRepairitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 17]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 17]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcRepairitemlist\n {}", fields.join(",\n "))
     }
 }
@@ -8985,14 +10849,17 @@ impl Debug for PacketCzReqItemrepair {
         f.debug_struct("PacketCzReqItemrepair")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_item_info[2, ?]", &format!("{:02X?}", &self.target_item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqItemrepair {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("target_item_info(struct as Struct)[2, ?]: {}", &self.target_item_info));
         write!(f, "PacketCzReqItemrepair\n {}", fields.join(",\n "))
     }
@@ -9004,14 +10871,17 @@ impl Debug for PacketZcAckItemrepair {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckItemrepair {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketZcAckItemrepair\n {}", fields.join(",\n "))
@@ -9025,14 +10895,17 @@ impl Debug for PacketZcHighjump {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcHighjump {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
@@ -9045,14 +10918,17 @@ impl Debug for PacketCaConnectInfoChanged {
         f.debug_struct("PacketCaConnectInfoChanged")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("id[2, 26]", &format!("{:02X?}", &self.id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaConnectInfoChanged {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("id(char[] as char[])[2, 26]: {}", &self.id.pretty_output()));
         write!(f, "PacketCaConnectInfoChanged\n {}", fields.join(",\n "))
     }
@@ -9064,17 +10940,30 @@ impl Debug for PacketZcFriendsList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("friend_list[4, 36]", &format!("{:02X?}", &self.friend_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFriendsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("friend_list([] as Vec)[4, 36]: {}", &self.friend_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "friend_list([] as Vec)[4, 36]: {}",
+            &self
+                .friend_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcFriendsList\n {}", fields.join(",\n "))
     }
 }
@@ -9084,14 +10973,17 @@ impl Debug for PacketCzAddFriends {
         f.debug_struct("PacketCzAddFriends")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         write!(f, "PacketCzAddFriends\n {}", fields.join(",\n "))
     }
@@ -9103,14 +10995,17 @@ impl Debug for PacketCzDeleteFriends {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzDeleteFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         write!(f, "PacketCzDeleteFriends\n {}", fields.join(",\n "))
@@ -9122,15 +11017,21 @@ impl Debug for PacketCaExeHashcheck {
         f.debug_struct("PacketCaExeHashcheck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("hash_value[2, 18]", &format!("{:02X?}", &self.hash_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaExeHashcheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("hash_value(char[] as char[])[2, 18]: {}", &self.hash_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "hash_value(char[] as char[])[2, 18]: {}",
+            &self.hash_value.pretty_output()
+        ));
         write!(f, "PacketCaExeHashcheck\n {}", fields.join(",\n "))
     }
 }
@@ -9140,14 +11041,17 @@ impl Debug for PacketZcDivorce {
         f.debug_struct("PacketZcDivorce")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDivorce {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcDivorce\n {}", fields.join(",\n "))
     }
@@ -9160,14 +11064,17 @@ impl Debug for PacketZcFriendsState {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("state[10, 11]", &format!("{:02X?}", &self.state_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFriendsState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("state(bool as bool)[10, 11]: {}", &self.state));
@@ -9182,14 +11089,17 @@ impl Debug for PacketZcReqAddFriends {
             .field("req_aid[2, 6]", &format!("{:02X?}", &self.req_aid_raw))
             .field("req_gid[6, 10]", &format!("{:02X?}", &self.req_gid_raw))
             .field("name[10, 34]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("req_aid(unsigned long as u32)[2, 6]: {}", &self.req_aid));
         fields.push(format!("req_gid(unsigned long as u32)[6, 10]: {}", &self.req_gid));
         fields.push(format!("name(char[] as char[])[10, 34]: {}", &self.name.pretty_output()));
@@ -9204,14 +11114,17 @@ impl Debug for PacketCzAckReqAddFriends {
             .field("req_aid[2, 6]", &format!("{:02X?}", &self.req_aid_raw))
             .field("req_gid[6, 10]", &format!("{:02X?}", &self.req_gid_raw))
             .field("result[10, 14]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckReqAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("req_aid(unsigned long as u32)[2, 6]: {}", &self.req_aid));
         fields.push(format!("req_gid(unsigned long as u32)[6, 10]: {}", &self.req_gid));
         fields.push(format!("result(int as i32)[10, 14]: {}", &self.result));
@@ -9227,14 +11140,17 @@ impl Debug for PacketZcAddFriendsList {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[8, 12]", &format!("{:02X?}", &self.gid_raw))
             .field("name[12, 36]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddFriendsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[8, 12]: {}", &self.gid));
@@ -9249,14 +11165,17 @@ impl Debug for PacketZcDeleteFriends {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         write!(f, "PacketZcDeleteFriends\n {}", fields.join(",\n "))
@@ -9269,16 +11188,22 @@ impl Debug for PacketAcRefuseLoginR3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 6]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[6, 26]", &format!("{:02X?}", &self.block_date_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcRefuseLoginR3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned int as u32)[2, 6]: {}", &self.error_code));
-        fields.push(format!("block_date(char[] as char[])[6, 26]: {}", &self.block_date.pretty_output()));
+        fields.push(format!(
+            "block_date(char[] as char[])[6, 26]: {}",
+            &self.block_date.pretty_output()
+        ));
         write!(f, "PacketAcRefuseLoginR3\n {}", fields.join(",\n "))
     }
 }
@@ -9289,16 +11214,22 @@ impl Debug for PacketCzExeHashcheck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_type[2, 3]", &format!("{:02X?}", &self.client_type_raw))
             .field("hash_value[3, 19]", &format!("{:02X?}", &self.hash_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzExeHashcheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("client_type(unsigned char as u8)[2, 3]: {}", &self.client_type));
-        fields.push(format!("hash_value(char[] as char[])[3, 19]: {}", &self.hash_value.pretty_output()));
+        fields.push(format!(
+            "hash_value(char[] as char[])[3, 19]: {}",
+            &self.hash_value.pretty_output()
+        ));
         write!(f, "PacketCzExeHashcheck\n {}", fields.join(",\n "))
     }
 }
@@ -9309,17 +11240,30 @@ impl Debug for PacketHcBlockCharacter {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("character_list[4, 28]", &format!("{:02X?}", &self.character_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcBlockCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("character_list([] as Vec)[4, 28]: {}", &self.character_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "character_list([] as Vec)[4, 28]: {}",
+            &self
+                .character_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketHcBlockCharacter\n {}", fields.join(",\n "))
     }
 }
@@ -9332,14 +11276,17 @@ impl Debug for PacketZcStarskill {
             .field("monster_id[26, 30]", &format!("{:02X?}", &self.monster_id_raw))
             .field("star[30, 31]", &format!("{:02X?}", &self.star_raw))
             .field("result[31, 32]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStarskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("map_name(char[] as char[])[2, 26]: {}", &self.map_name.pretty_output()));
         fields.push(format!("monster_id(int as i32)[26, 30]: {}", &self.monster_id));
         fields.push(format!("star(unsigned char as u8)[30, 31]: {}", &self.star));
@@ -9354,14 +11301,17 @@ impl Debug for PacketCzReqPvppoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqPvppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         write!(f, "PacketCzReqPvppoint\n {}", fields.join(",\n "))
@@ -9375,14 +11325,17 @@ impl Debug for PacketZcAckPvppoint {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
             .field("pvp[10, ?]", &format!("{:02X?}", &self.pvp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckPvppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("pvp(struct as Struct)[10, ?]: {}", &self.pvp));
@@ -9395,14 +11348,17 @@ impl Debug for PacketZhMovePvpworld {
         f.debug_struct("PacketZhMovePvpworld")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZhMovePvpworld {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketZhMovePvpworld\n {}", fields.join(",\n "))
     }
@@ -9413,15 +11369,21 @@ impl Debug for PacketCzReqGiveMannerByname {
         f.debug_struct("PacketCzReqGiveMannerByname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqGiveMannerByname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("char_name(char[] as char[])[2, 26]: {}", &self.char_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "char_name(char[] as char[])[2, 26]: {}",
+            &self.char_name.pretty_output()
+        ));
         write!(f, "PacketCzReqGiveMannerByname\n {}", fields.join(",\n "))
     }
 }
@@ -9431,15 +11393,21 @@ impl Debug for PacketCzReqStatusGm {
         f.debug_struct("PacketCzReqStatusGm")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqStatusGm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("char_name(char[] as char[])[2, 26]: {}", &self.char_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "char_name(char[] as char[])[2, 26]: {}",
+            &self.char_name.pretty_output()
+        ));
         write!(f, "PacketCzReqStatusGm\n {}", fields.join(",\n "))
     }
 }
@@ -9469,19 +11437,31 @@ impl Debug for PacketZcAckStatusGm {
             .field("mdef_power[26, 28]", &format!("{:02X?}", &self.mdef_power_raw))
             .field("plusmdef_power[28, 30]", &format!("{:02X?}", &self.plusmdef_power_raw))
             .field("hit_success_value[30, 32]", &format!("{:02X?}", &self.hit_success_value_raw))
-            .field("avoid_success_value[32, 34]", &format!("{:02X?}", &self.avoid_success_value_raw))
-            .field("plus_avoid_success_value[34, 36]", &format!("{:02X?}", &self.plus_avoid_success_value_raw))
-            .field("critical_success_value[36, 38]", &format!("{:02X?}", &self.critical_success_value_raw))
+            .field(
+                "avoid_success_value[32, 34]",
+                &format!("{:02X?}", &self.avoid_success_value_raw),
+            )
+            .field(
+                "plus_avoid_success_value[34, 36]",
+                &format!("{:02X?}", &self.plus_avoid_success_value_raw),
+            )
+            .field(
+                "critical_success_value[36, 38]",
+                &format!("{:02X?}", &self.critical_success_value_raw),
+            )
             .field("aspd[38, 40]", &format!("{:02X?}", &self.aspd_raw))
             .field("plus_aspd[40, 42]", &format!("{:02X?}", &self.plus_aspd_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckStatusGm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("str(unsigned char as u8)[2, 3]: {}", &self.str));
         fields.push(format!("standard_str(unsigned char as u8)[3, 4]: {}", &self.standard_str));
         fields.push(format!("agi(unsigned char as u8)[4, 5]: {}", &self.agi));
@@ -9503,9 +11483,18 @@ impl Display for PacketZcAckStatusGm {
         fields.push(format!("mdef_power(short as i16)[26, 28]: {}", &self.mdef_power));
         fields.push(format!("plusmdef_power(short as i16)[28, 30]: {}", &self.plusmdef_power));
         fields.push(format!("hit_success_value(short as i16)[30, 32]: {}", &self.hit_success_value));
-        fields.push(format!("avoid_success_value(short as i16)[32, 34]: {}", &self.avoid_success_value));
-        fields.push(format!("plus_avoid_success_value(short as i16)[34, 36]: {}", &self.plus_avoid_success_value));
-        fields.push(format!("critical_success_value(short as i16)[36, 38]: {}", &self.critical_success_value));
+        fields.push(format!(
+            "avoid_success_value(short as i16)[32, 34]: {}",
+            &self.avoid_success_value
+        ));
+        fields.push(format!(
+            "plus_avoid_success_value(short as i16)[34, 36]: {}",
+            &self.plus_avoid_success_value
+        ));
+        fields.push(format!(
+            "critical_success_value(short as i16)[36, 38]: {}",
+            &self.critical_success_value
+        ));
         fields.push(format!("aspd(short as i16)[38, 40]: {}", &self.aspd));
         fields.push(format!("plus_aspd(short as i16)[40, 42]: {}", &self.plus_aspd));
         write!(f, "PacketZcAckStatusGm\n {}", fields.join(",\n "))
@@ -9517,14 +11506,17 @@ impl Debug for PacketZcSkillmsg {
         f.debug_struct("PacketZcSkillmsg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_no[2, 6]", &format!("{:02X?}", &self.msg_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillmsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg_no(int as i32)[2, 6]: {}", &self.msg_no));
         write!(f, "PacketZcSkillmsg\n {}", fields.join(",\n "))
     }
@@ -9535,14 +11527,17 @@ impl Debug for PacketZcBabymsg {
         f.debug_struct("PacketZcBabymsg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_no[2, 6]", &format!("{:02X?}", &self.msg_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBabymsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg_no(int as i32)[2, 6]: {}", &self.msg_no));
         write!(f, "PacketZcBabymsg\n {}", fields.join(",\n "))
     }
@@ -9552,14 +11547,17 @@ impl Debug for PacketCzBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBlacksmithRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzBlacksmithRank\n {}", fields.join(",\n "))
     }
 }
@@ -9568,14 +11566,17 @@ impl Debug for PacketCzAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAlchemistRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzAlchemistRank\n {}", fields.join(",\n "))
     }
 }
@@ -9586,14 +11587,17 @@ impl Debug for PacketZcBlacksmithRank {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
         fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcBlacksmithRank\n {}", fields.join(",\n "))
@@ -9606,14 +11610,17 @@ impl Debug for PacketZcAlchemistRank {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
         fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcAlchemistRank\n {}", fields.join(",\n "))
@@ -9626,14 +11633,17 @@ impl Debug for PacketZcBlacksmithPoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBlacksmithPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point(int as i32)[2, 6]: {}", &self.point));
         fields.push(format!("total_point(int as i32)[6, 10]: {}", &self.total_point));
         write!(f, "PacketZcBlacksmithPoint\n {}", fields.join(",\n "))
@@ -9646,14 +11656,17 @@ impl Debug for PacketZcAlchemistPoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAlchemistPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point(int as i32)[2, 6]: {}", &self.point));
         fields.push(format!("total_point(int as i32)[6, 10]: {}", &self.total_point));
         write!(f, "PacketZcAlchemistPoint\n {}", fields.join(",\n "))
@@ -9665,14 +11678,17 @@ impl Debug for PacketCzLesseffect {
         f.debug_struct("PacketCzLesseffect")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_less[2, 6]", &format!("{:02X?}", &self.is_less_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzLesseffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("is_less(int as i32)[2, 6]: {}", &self.is_less));
         write!(f, "PacketCzLesseffect\n {}", fields.join(",\n "))
     }
@@ -9683,14 +11699,17 @@ impl Debug for PacketZcLesseffect {
         f.debug_struct("PacketZcLesseffect")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_less[2, 6]", &format!("{:02X?}", &self.is_less_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcLesseffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("is_less(int as i32)[2, 6]: {}", &self.is_less));
         write!(f, "PacketZcLesseffect\n {}", fields.join(",\n "))
     }
@@ -9705,18 +11724,27 @@ impl Debug for PacketZcNotifyPkinfo {
             .field("kill_name[10, 34]", &format!("{:02X?}", &self.kill_name_raw))
             .field("killed_name[34, 58]", &format!("{:02X?}", &self.killed_name_raw))
             .field("expire_time[58, ?]", &format!("{:02X?}", &self.expire_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPkinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("win_point(int as i32)[2, 6]: {}", &self.win_point));
         fields.push(format!("lose_point(int as i32)[6, 10]: {}", &self.lose_point));
-        fields.push(format!("kill_name(char[] as char[])[10, 34]: {}", &self.kill_name.pretty_output()));
-        fields.push(format!("killed_name(char[] as char[])[34, 58]: {}", &self.killed_name.pretty_output()));
+        fields.push(format!(
+            "kill_name(char[] as char[])[10, 34]: {}",
+            &self.kill_name.pretty_output()
+        ));
+        fields.push(format!(
+            "killed_name(char[] as char[])[34, 58]: {}",
+            &self.killed_name.pretty_output()
+        ));
         fields.push(format!("expire_time(struct as Struct)[58, ?]: {}", &self.expire_time));
         write!(f, "PacketZcNotifyPkinfo\n {}", fields.join(",\n "))
     }
@@ -9728,14 +11756,17 @@ impl Debug for PacketZcNotifyCrazykiller {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("is_crazy_killer[6, 10]", &format!("{:02X?}", &self.is_crazy_killer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyCrazykiller {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("is_crazy_killer(int as i32)[6, 10]: {}", &self.is_crazy_killer));
         write!(f, "PacketZcNotifyCrazykiller\n {}", fields.join(",\n "))
@@ -9748,17 +11779,30 @@ impl Debug for PacketZcNotifyWeaponitemlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 17]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyWeaponitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_list([] as Vec)[4, 17]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[4, 17]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcNotifyWeaponitemlist\n {}", fields.join(",\n "))
     }
 }
@@ -9768,14 +11812,17 @@ impl Debug for PacketCzReqWeaponrefine {
         f.debug_struct("PacketCzReqWeaponrefine")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 6]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqWeaponrefine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(int as i32)[2, 6]: {}", &self.index));
         write!(f, "PacketCzReqWeaponrefine\n {}", fields.join(",\n "))
     }
@@ -9787,14 +11834,17 @@ impl Debug for PacketZcAckWeaponrefine {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 6]", &format!("{:02X?}", &self.msg_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckWeaponrefine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg(int as i32)[2, 6]: {}", &self.msg));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
         write!(f, "PacketZcAckWeaponrefine\n {}", fields.join(",\n "))
@@ -9807,14 +11857,17 @@ impl Debug for PacketZcTaekwonPoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcTaekwonPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point(int as i32)[2, 6]: {}", &self.point));
         fields.push(format!("total_point(int as i32)[6, 10]: {}", &self.total_point));
         write!(f, "PacketZcTaekwonPoint\n {}", fields.join(",\n "))
@@ -9825,14 +11878,17 @@ impl Debug for PacketCzTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzTaekwonRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzTaekwonRank\n {}", fields.join(",\n "))
     }
 }
@@ -9843,14 +11899,17 @@ impl Debug for PacketZcTaekwonRank {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
         fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcTaekwonRank\n {}", fields.join(",\n "))
@@ -9862,15 +11921,21 @@ impl Debug for PacketZcGameGuard {
         f.debug_struct("PacketZcGameGuard")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("auth_data(unsigned long[] as u32[])[2, 6]: {}", &self.auth_data.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "auth_data(unsigned long[] as u32[])[2, 6]: {}",
+            &self.auth_data.pretty_output()
+        ));
         write!(f, "PacketZcGameGuard\n {}", fields.join(",\n "))
     }
 }
@@ -9880,15 +11945,21 @@ impl Debug for PacketCzAckGameGuard {
         f.debug_struct("PacketCzAckGameGuard")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("auth_data(unsigned long[] as u32[])[2, 6]: {}", &self.auth_data.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "auth_data(unsigned long[] as u32[])[2, 6]: {}",
+            &self.auth_data.pretty_output()
+        ));
         write!(f, "PacketCzAckGameGuard\n {}", fields.join(",\n "))
     }
 }
@@ -9902,14 +11973,17 @@ impl Debug for PacketZcStateChange3 {
             .field("health_state[8, 10]", &format!("{:02X?}", &self.health_state_raw))
             .field("effect_state[10, 14]", &format!("{:02X?}", &self.effect_state_raw))
             .field("is_pkmode_on[14, 15]", &format!("{:02X?}", &self.is_pkmode_on_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStateChange3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("body_state(short as i16)[6, 8]: {}", &self.body_state));
         fields.push(format!("health_state(short as i16)[8, 10]: {}", &self.health_state));
@@ -9948,14 +12022,17 @@ impl Debug for PacketZcNotifyStandentry3 {
             .field("y_size[54, 55]", &format!("{:02X?}", &self.y_size_raw))
             .field("state[55, 56]", &format!("{:02X?}", &self.state_raw))
             .field("clevel[56, 58]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -9976,7 +12053,10 @@ impl Display for PacketZcNotifyStandentry3 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[50, 53]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[55, 56]: {}", &self.state));
@@ -10013,14 +12093,17 @@ impl Debug for PacketZcNotifyNewentry3 {
             .field("x_size[53, 54]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[54, 55]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[55, 57]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyNewentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -10041,7 +12124,10 @@ impl Display for PacketZcNotifyNewentry3 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[50, 53]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[55, 57]: {}", &self.clevel));
@@ -10079,14 +12165,17 @@ impl Debug for PacketZcNotifyMoveentry3 {
             .field("x_size[61, 62]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[62, 63]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[63, 65]", &format!("{:02X?}", &self.clevel_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("objecttype(unsigned char as u8)[2, 3]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[3, 7]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[7, 9]: {}", &self.speed));
@@ -10097,7 +12186,10 @@ impl Display for PacketZcNotifyMoveentry3 {
         fields.push(format!("head(short as i16)[19, 21]: {}", &self.head));
         fields.push(format!("weapon(int as i32)[21, 25]: {}", &self.weapon));
         fields.push(format!("accessory(short as i16)[25, 27]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned long as u32)[27, 31]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[27, 31]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("accessory2(short as i16)[31, 33]: {}", &self.accessory2));
         fields.push(format!("accessory3(short as i16)[33, 35]: {}", &self.accessory3));
         fields.push(format!("headpalette(short as i16)[35, 37]: {}", &self.headpalette));
@@ -10109,7 +12201,10 @@ impl Display for PacketZcNotifyMoveentry3 {
         fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[55, 61]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "move_data(unsigned short[] as u16[])[55, 61]: {}",
+            &self.move_data.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[61, 62]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[62, 63]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[63, 65]: {}", &self.clevel));
@@ -10123,14 +12218,17 @@ impl Debug for PacketCzCommandMer {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("command[4, 5]", &format!("{:02X?}", &self.command_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCommandMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         fields.push(format!("command(char as i8)[4, 5]: {}", &self.command));
         write!(f, "PacketCzCommandMer\n {}", fields.join(",\n "))
@@ -10163,14 +12261,17 @@ impl Debug for PacketZcPropertyHomun {
             .field("max_exp[63, 67]", &format!("{:02X?}", &self.max_exp_raw))
             .field("skpoint[67, 69]", &format!("{:02X?}", &self.skpoint_raw))
             .field("atkrange[69, 71]", &format!("{:02X?}", &self.atkrange_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPropertyHomun {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("sz_name(char[] as char[])[2, 26]: {}", &self.sz_name.pretty_output()));
         fields.push(format!("b_modified(unsigned char as u8)[26, 27]: {}", &self.b_modified));
         fields.push(format!("n_level(short as i16)[27, 29]: {}", &self.n_level));
@@ -10205,14 +12306,17 @@ impl Debug for PacketZcChangestateMer {
             .field("state[3, 4]", &format!("{:02X?}", &self.state_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("data[8, 12]", &format!("{:02X?}", &self.data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangestateMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(char as i8)[2, 3]: {}", &self.atype));
         fields.push(format!("state(char as i8)[3, 4]: {}", &self.state));
         fields.push(format!("gid(int as i32)[4, 8]: {}", &self.gid));
@@ -10226,14 +12330,17 @@ impl Debug for PacketCzRenameMer {
         f.debug_struct("PacketCzRenameMer")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRenameMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         write!(f, "PacketCzRenameMer\n {}", fields.join(",\n "))
     }
@@ -10245,14 +12352,17 @@ impl Debug for PacketCzRequestMovenpc {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("dest[6, 9]", &format!("{:02X?}", &self.dest_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestMovenpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("dest(unsigned char[] as u8[])[6, 9]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMovenpc\n {}", fields.join(",\n "))
@@ -10266,14 +12376,17 @@ impl Debug for PacketCzRequestActnpc {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
             .field("action[10, 11]", &format!("{:02X?}", &self.action_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestActnpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
         fields.push(format!("action(unsigned char as u8)[10, 11]: {}", &self.action));
@@ -10286,14 +12399,17 @@ impl Debug for PacketCzRequestMovetoowner {
         f.debug_struct("PacketCzRequestMovetoowner")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestMovetoowner {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketCzRequestMovetoowner\n {}", fields.join(",\n "))
     }
@@ -10304,14 +12420,17 @@ impl Debug for PacketZcReqStorePassword {
         f.debug_struct("PacketZcReqStorePassword")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, 4]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(short as i16)[2, 4]: {}", &self.info));
         write!(f, "PacketZcReqStorePassword\n {}", fields.join(",\n "))
     }
@@ -10324,17 +12443,23 @@ impl Debug for PacketCzAckStorePassword {
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("password[4, 20]", &format!("{:02X?}", &self.password_raw))
             .field("new_password[20, 36]", &format!("{:02X?}", &self.new_password_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         fields.push(format!("password(char[] as char[])[4, 20]: {}", &self.password.pretty_output()));
-        fields.push(format!("new_password(char[] as char[])[20, 36]: {}", &self.new_password.pretty_output()));
+        fields.push(format!(
+            "new_password(char[] as char[])[20, 36]: {}",
+            &self.new_password.pretty_output()
+        ));
         write!(f, "PacketCzAckStorePassword\n {}", fields.join(",\n "))
     }
 }
@@ -10345,14 +12470,17 @@ impl Debug for PacketZcResultStorePassword {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("error_count[4, 6]", &format!("{:02X?}", &self.error_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcResultStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("error_count(short as i16)[4, 6]: {}", &self.error_count));
         write!(f, "PacketZcResultStorePassword\n {}", fields.join(",\n "))
@@ -10364,15 +12492,21 @@ impl Debug for PacketAcEventResult {
         f.debug_struct("PacketAcEventResult")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("event_item_count[2, 6]", &format!("{:02X?}", &self.event_item_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcEventResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("event_item_count(unsigned long as u32)[2, 6]: {}", &self.event_item_count));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "event_item_count(unsigned long as u32)[2, 6]: {}",
+            &self.event_item_count
+        ));
         write!(f, "PacketAcEventResult\n {}", fields.join(",\n "))
     }
 }
@@ -10383,14 +12517,17 @@ impl Debug for PacketHcRequestCharacterPassword {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("dummy_value[4, 8]", &format!("{:02X?}", &self.dummy_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcRequestCharacterPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("dummy_value(unsigned long as u32)[4, 8]: {}", &self.dummy_value));
         write!(f, "PacketHcRequestCharacterPassword\n {}", fields.join(",\n "))
@@ -10401,14 +12538,17 @@ impl Debug for PacketCzMailGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailGetList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzMailGetList\n {}", fields.join(",\n "))
     }
 }
@@ -10420,18 +12560,31 @@ impl Debug for PacketZcMailReqGetList {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("mail_number[4, 8]", &format!("{:02X?}", &self.mail_number_raw))
             .field("mail_list[8, 81]", &format!("{:02X?}", &self.mail_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailReqGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("mail_number(int as i32)[4, 8]: {}", &self.mail_number));
-        fields.push(format!("mail_list([] as Vec)[8, 81]: {}", &self.mail_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "mail_list([] as Vec)[8, 81]: {}",
+            &self
+                .mail_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMailReqGetList\n {}", fields.join(",\n "))
     }
 }
@@ -10441,14 +12594,17 @@ impl Debug for PacketCzMailOpen {
         f.debug_struct("PacketCzMailOpen")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
         write!(f, "PacketCzMailOpen\n {}", fields.join(",\n "))
     }
@@ -10473,18 +12629,24 @@ impl Debug for PacketZcMailReqOpen {
             .field("slot[91, 99]", &format!("{:02X?}", &self.slot_raw))
             .field("msg_len[91, 92]", &format!("{:02X?}", &self.msg_len_raw))
             .field("msg[92, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailReqOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("mail_id(int as i32)[4, 8]: {}", &self.mail_id));
         fields.push(format!("header(char[] as char[])[8, 48]: {}", &self.header.pretty_output()));
-        fields.push(format!("from_name(char[] as char[])[48, 72]: {}", &self.from_name.pretty_output()));
+        fields.push(format!(
+            "from_name(char[] as char[])[48, 72]: {}",
+            &self.from_name.pretty_output()
+        ));
         fields.push(format!("delete_time(long as i32)[72, 76]: {}", &self.delete_time));
         fields.push(format!("money(unsigned long as u32)[76, 80]: {}", &self.money));
         fields.push(format!("count(int as i32)[80, 84]: {}", &self.count));
@@ -10505,14 +12667,17 @@ impl Debug for PacketCzMailDelete {
         f.debug_struct("PacketCzMailDelete")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
         write!(f, "PacketCzMailDelete\n {}", fields.join(",\n "))
     }
@@ -10523,14 +12688,17 @@ impl Debug for PacketCzMailGetItem {
         f.debug_struct("PacketCzMailGetItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailGetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
         write!(f, "PacketCzMailGetItem\n {}", fields.join(",\n "))
     }
@@ -10541,14 +12709,17 @@ impl Debug for PacketZcMailReqGetItem {
         f.debug_struct("PacketZcMailReqGetItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailReqGetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(char as i8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcMailReqGetItem\n {}", fields.join(",\n "))
     }
@@ -10559,14 +12730,17 @@ impl Debug for PacketCzMailResetItem {
         f.debug_struct("PacketCzMailResetItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailResetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketCzMailResetItem\n {}", fields.join(",\n "))
     }
@@ -10578,14 +12752,17 @@ impl Debug for PacketCzMailAddItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzMailAddItem\n {}", fields.join(",\n "))
@@ -10601,16 +12778,22 @@ impl Debug for PacketCzMailSend {
             .field("header[28, 68]", &format!("{:02X?}", &self.header_raw))
             .field("msg_len[68, 72]", &format!("{:02X?}", &self.msg_len_raw))
             .field("msg[72, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMailSend {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("receive_name(char[] as char[])[4, 28]: {}", &self.receive_name.pretty_output()));
+        fields.push(format!(
+            "receive_name(char[] as char[])[4, 28]: {}",
+            &self.receive_name.pretty_output()
+        ));
         fields.push(format!("header(char[] as char[])[28, 68]: {}", &self.header.pretty_output()));
         fields.push(format!("msg_len(unsigned long as u32)[68, 72]: {}", &self.msg_len));
         fields.push(format!("msg(char[] as String)[72, ?]: {}", &self.msg));
@@ -10623,14 +12806,17 @@ impl Debug for PacketZcMailReqSend {
         f.debug_struct("PacketZcMailReqSend")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailReqSend {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(char as i8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcMailReqSend\n {}", fields.join(",\n "))
     }
@@ -10643,17 +12829,23 @@ impl Debug for PacketZcMailReceive {
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("header[6, 46]", &format!("{:02X?}", &self.header_raw))
             .field("from_name[46, 70]", &format!("{:02X?}", &self.from_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailReceive {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(unsigned long as u32)[2, 6]: {}", &self.mail_id));
         fields.push(format!("header(char[] as char[])[6, 46]: {}", &self.header.pretty_output()));
-        fields.push(format!("from_name(char[] as char[])[46, 70]: {}", &self.from_name.pretty_output()));
+        fields.push(format!(
+            "from_name(char[] as char[])[46, 70]: {}",
+            &self.from_name.pretty_output()
+        ));
         write!(f, "PacketZcMailReceive\n {}", fields.join(",\n "))
     }
 }
@@ -10663,14 +12855,17 @@ impl Debug for PacketCzAuctionCreate {
         f.debug_struct("PacketCzAuctionCreate")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionCreate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketCzAuctionCreate\n {}", fields.join(",\n "))
     }
@@ -10682,14 +12877,17 @@ impl Debug for PacketCzAuctionAddItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzAuctionAddItem\n {}", fields.join(",\n "))
@@ -10703,14 +12901,17 @@ impl Debug for PacketCzAuctionAdd {
             .field("now_money[2, 6]", &format!("{:02X?}", &self.now_money_raw))
             .field("max_money[6, 10]", &format!("{:02X?}", &self.max_money_raw))
             .field("delete_hour[10, 12]", &format!("{:02X?}", &self.delete_hour_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionAdd {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("now_money(unsigned long as u32)[2, 6]: {}", &self.now_money));
         fields.push(format!("max_money(unsigned long as u32)[6, 10]: {}", &self.max_money));
         fields.push(format!("delete_hour(short as i16)[10, 12]: {}", &self.delete_hour));
@@ -10723,14 +12924,17 @@ impl Debug for PacketCzAuctionAddCancel {
         f.debug_struct("PacketCzAuctionAddCancel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionAddCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("auction_id(unsigned long as u32)[2, 6]: {}", &self.auction_id));
         write!(f, "PacketCzAuctionAddCancel\n {}", fields.join(",\n "))
     }
@@ -10742,14 +12946,17 @@ impl Debug for PacketCzAuctionBuy {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
             .field("money[6, 10]", &format!("{:02X?}", &self.money_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionBuy {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("auction_id(unsigned long as u32)[2, 6]: {}", &self.auction_id));
         fields.push(format!("money(unsigned long as u32)[6, 10]: {}", &self.money));
         write!(f, "PacketCzAuctionBuy\n {}", fields.join(",\n "))
@@ -10761,14 +12968,17 @@ impl Debug for PacketZcAuctionResult {
         f.debug_struct("PacketZcAuctionResult")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAuctionResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(char as i8)[2, 3]: {}", &self.result));
         write!(f, "PacketZcAuctionResult\n {}", fields.join(",\n "))
     }
@@ -10782,14 +12992,17 @@ impl Debug for PacketCzAuctionItemSearch {
             .field("auction_id[4, 8]", &format!("{:02X?}", &self.auction_id_raw))
             .field("name[8, 32]", &format!("{:02X?}", &self.name_raw))
             .field("page[32, 34]", &format!("{:02X?}", &self.page_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionItemSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         fields.push(format!("auction_id(unsigned long as u32)[4, 8]: {}", &self.auction_id));
         fields.push(format!("name(char[] as char[])[8, 32]: {}", &self.name.pretty_output()));
@@ -10806,19 +13019,32 @@ impl Debug for PacketZcAuctionItemReqSearch {
             .field("max_page[4, 8]", &format!("{:02X?}", &self.max_page_raw))
             .field("number[8, 12]", &format!("{:02X?}", &self.number_raw))
             .field("auction_item_list[12, 95]", &format!("{:02X?}", &self.auction_item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAuctionItemReqSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("max_page(int as i32)[4, 8]: {}", &self.max_page));
         fields.push(format!("number(int as i32)[8, 12]: {}", &self.number));
-        fields.push(format!("auction_item_list([] as Vec)[12, 95]: {}", &self.auction_item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "auction_item_list([] as Vec)[12, 95]: {}",
+            &self
+                .auction_item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAuctionItemReqSearch\n {}", fields.join(",\n "))
     }
 }
@@ -10828,14 +13054,17 @@ impl Debug for PacketZcStarplace {
         f.debug_struct("PacketZcStarplace")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("which[2, 3]", &format!("{:02X?}", &self.which_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStarplace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("which(char as i8)[2, 3]: {}", &self.which));
         write!(f, "PacketZcStarplace\n {}", fields.join(",\n "))
     }
@@ -10846,14 +13075,17 @@ impl Debug for PacketCzAgreeStarplace {
         f.debug_struct("PacketCzAgreeStarplace")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("which[2, 3]", &format!("{:02X?}", &self.which_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAgreeStarplace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("which(char as i8)[2, 3]: {}", &self.which));
         write!(f, "PacketCzAgreeStarplace\n {}", fields.join(",\n "))
     }
@@ -10865,14 +13097,17 @@ impl Debug for PacketZcAckMailAddItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckMailAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketZcAckMailAddItem\n {}", fields.join(",\n "))
@@ -10885,14 +13120,17 @@ impl Debug for PacketZcAckAuctionAddItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckAuctionAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketZcAckAuctionAddItem\n {}", fields.join(",\n "))
@@ -10905,14 +13143,17 @@ impl Debug for PacketZcAckMailDelete {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckMailDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
         fields.push(format!("result(unsigned short as u16)[6, 8]: {}", &self.result));
         write!(f, "PacketZcAckMailDelete\n {}", fields.join(",\n "))
@@ -10923,14 +13164,17 @@ impl Debug for PacketCaReqGameGuardCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaReqGameGuardCheck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaReqGameGuardCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCaReqGameGuardCheck\n {}", fields.join(",\n "))
     }
 }
@@ -10940,14 +13184,17 @@ impl Debug for PacketAcAckGameGuard {
         f.debug_struct("PacketAcAckGameGuard")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("uc_answer[2, 3]", &format!("{:02X?}", &self.uc_answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("uc_answer(unsigned char as u8)[2, 3]: {}", &self.uc_answer));
         write!(f, "PacketAcAckGameGuard\n {}", fields.join(",\n "))
     }
@@ -10959,16 +13206,22 @@ impl Debug for PacketZcMakingitemList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("id_list[4, ?]", &format!("{:02X?}", &self.id_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMakingitemList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("id_list(unsigned short[] as u16[])[4, ?]: {}", &self.id_list.pretty_output()));
+        fields.push(format!(
+            "id_list(unsigned short[] as u16[])[4, ?]: {}",
+            &self.id_list.pretty_output()
+        ));
         write!(f, "PacketZcMakingitemList\n {}", fields.join(",\n "))
     }
 }
@@ -10979,14 +13232,17 @@ impl Debug for PacketCzReqMakingitem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mk_type[2, 4]", &format!("{:02X?}", &self.mk_type_raw))
             .field("id[4, 6]", &format!("{:02X?}", &self.id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqMakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mk_type(short as i16)[2, 4]: {}", &self.mk_type));
         fields.push(format!("id(unsigned short as u16)[4, 6]: {}", &self.id));
         write!(f, "PacketCzReqMakingitem\n {}", fields.join(",\n "))
@@ -10998,14 +13254,17 @@ impl Debug for PacketCzAuctionReqMyInfo {
         f.debug_struct("PacketCzAuctionReqMyInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionReqMyInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         write!(f, "PacketCzAuctionReqMyInfo\n {}", fields.join(",\n "))
     }
@@ -11016,14 +13275,17 @@ impl Debug for PacketCzAuctionReqMySellStop {
         f.debug_struct("PacketCzAuctionReqMySellStop")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAuctionReqMySellStop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("auction_id(unsigned long as u32)[2, 6]: {}", &self.auction_id));
         write!(f, "PacketCzAuctionReqMySellStop\n {}", fields.join(",\n "))
     }
@@ -11034,14 +13296,17 @@ impl Debug for PacketZcAuctionAckMySellStop {
         f.debug_struct("PacketZcAuctionAckMySellStop")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAuctionAckMySellStop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         write!(f, "PacketZcAuctionAckMySellStop\n {}", fields.join(",\n "))
     }
@@ -11052,14 +13317,17 @@ impl Debug for PacketZcAuctionWindows {
         f.debug_struct("PacketZcAuctionWindows")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAuctionWindows {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(int as i32)[2, 6]: {}", &self.atype));
         write!(f, "PacketZcAuctionWindows\n {}", fields.join(",\n "))
     }
@@ -11070,14 +13338,17 @@ impl Debug for PacketZcMailWindows {
         f.debug_struct("PacketZcMailWindows")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMailWindows {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(int as i32)[2, 6]: {}", &self.atype));
         write!(f, "PacketZcMailWindows\n {}", fields.join(",\n "))
     }
@@ -11088,15 +13359,21 @@ impl Debug for PacketAcReqLoginOldekey {
         f.debug_struct("PacketAcReqLoginOldekey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcReqLoginOldekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("m_seed_value(char[] as char[])[2, 11]: {}", &self.m_seed_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "m_seed_value(char[] as char[])[2, 11]: {}",
+            &self.m_seed_value.pretty_output()
+        ));
         write!(f, "PacketAcReqLoginOldekey\n {}", fields.join(",\n "))
     }
 }
@@ -11106,15 +13383,21 @@ impl Debug for PacketAcReqLoginNewekey {
         f.debug_struct("PacketAcReqLoginNewekey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcReqLoginNewekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("m_seed_value(char[] as char[])[2, 11]: {}", &self.m_seed_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "m_seed_value(char[] as char[])[2, 11]: {}",
+            &self.m_seed_value.pretty_output()
+        ));
         write!(f, "PacketAcReqLoginNewekey\n {}", fields.join(",\n "))
     }
 }
@@ -11124,15 +13407,21 @@ impl Debug for PacketAcReqLoginCardpass {
         f.debug_struct("PacketAcReqLoginCardpass")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcReqLoginCardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("m_seed_value(char[] as char[])[2, 11]: {}", &self.m_seed_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "m_seed_value(char[] as char[])[2, 11]: {}",
+            &self.m_seed_value.pretty_output()
+        ));
         write!(f, "PacketAcReqLoginCardpass\n {}", fields.join(",\n "))
     }
 }
@@ -11143,15 +13432,21 @@ impl Debug for PacketCaAckLoginOldekey {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
             .field("m_ekey[11, 20]", &format!("{:02X?}", &self.m_ekey_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaAckLoginOldekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("m_seed_value(char[] as char[])[2, 11]: {}", &self.m_seed_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "m_seed_value(char[] as char[])[2, 11]: {}",
+            &self.m_seed_value.pretty_output()
+        ));
         fields.push(format!("m_ekey(char[] as char[])[11, 20]: {}", &self.m_ekey.pretty_output()));
         write!(f, "PacketCaAckLoginOldekey\n {}", fields.join(",\n "))
     }
@@ -11163,15 +13458,21 @@ impl Debug for PacketCaAckLoginNewekey {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
             .field("m_ekey[11, 20]", &format!("{:02X?}", &self.m_ekey_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaAckLoginNewekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("m_seed_value(char[] as char[])[2, 11]: {}", &self.m_seed_value.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "m_seed_value(char[] as char[])[2, 11]: {}",
+            &self.m_seed_value.pretty_output()
+        ));
         fields.push(format!("m_ekey(char[] as char[])[11, 20]: {}", &self.m_ekey.pretty_output()));
         write!(f, "PacketCaAckLoginNewekey\n {}", fields.join(",\n "))
     }
@@ -11182,15 +13483,21 @@ impl Debug for PacketCaAckLoginCardpass {
         f.debug_struct("PacketCaAckLoginCardpass")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mcard_pass[2, 30]", &format!("{:02X?}", &self.mcard_pass_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaAckLoginCardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("mcard_pass(char[] as char[])[2, 30]: {}", &self.mcard_pass.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "mcard_pass(char[] as char[])[2, 30]: {}",
+            &self.mcard_pass.pretty_output()
+        ));
         write!(f, "PacketCaAckLoginCardpass\n {}", fields.join(",\n "))
     }
 }
@@ -11200,14 +13507,17 @@ impl Debug for PacketAcAckEkeyFailNotexist {
         f.debug_struct("PacketAcAckEkeyFailNotexist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailNotexist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailNotexist\n {}", fields.join(",\n "))
     }
@@ -11218,14 +13528,17 @@ impl Debug for PacketAcAckEkeyFailNotusesekey {
         f.debug_struct("PacketAcAckEkeyFailNotusesekey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailNotusesekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailNotusesekey\n {}", fields.join(",\n "))
     }
@@ -11236,14 +13549,17 @@ impl Debug for PacketAcAckEkeyFailNotusedekey {
         f.debug_struct("PacketAcAckEkeyFailNotusedekey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailNotusedekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailNotusedekey\n {}", fields.join(",\n "))
     }
@@ -11254,14 +13570,17 @@ impl Debug for PacketAcAckEkeyFailAuthrefuse {
         f.debug_struct("PacketAcAckEkeyFailAuthrefuse")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailAuthrefuse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailAuthrefuse\n {}", fields.join(",\n "))
     }
@@ -11272,14 +13591,17 @@ impl Debug for PacketAcAckEkeyFailInputekey {
         f.debug_struct("PacketAcAckEkeyFailInputekey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailInputekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailInputekey\n {}", fields.join(",\n "))
     }
@@ -11290,14 +13612,17 @@ impl Debug for PacketAcAckEkeyFailNotice {
         f.debug_struct("PacketAcAckEkeyFailNotice")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailNotice\n {}", fields.join(",\n "))
     }
@@ -11308,14 +13633,17 @@ impl Debug for PacketAcAckEkeyFailNeedcardpass {
         f.debug_struct("PacketAcAckEkeyFailNeedcardpass")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckEkeyFailNeedcardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckEkeyFailNeedcardpass\n {}", fields.join(",\n "))
     }
@@ -11326,14 +13654,17 @@ impl Debug for PacketAcAckAuthekeyFailNotmatchcardpass {
         f.debug_struct("PacketAcAckAuthekeyFailNotmatchcardpass")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(short as i16)[2, 4]: {}", &self.error_code));
         write!(f, "PacketAcAckAuthekeyFailNotmatchcardpass\n {}", fields.join(",\n "))
     }
@@ -11343,14 +13674,17 @@ impl Debug for PacketAcAckFirstLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckFirstLogin")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckFirstLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketAcAckFirstLogin\n {}", fields.join(",\n "))
     }
 }
@@ -11359,14 +13693,17 @@ impl Debug for PacketAcReqLoginAccountInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcReqLoginAccountInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcReqLoginAccountInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketAcReqLoginAccountInfo\n {}", fields.join(",\n "))
     }
 }
@@ -11378,14 +13715,17 @@ impl Debug for PacketCaAckLoginAccountInfo {
             .field("sex[2, 4]", &format!("{:02X?}", &self.sex_raw))
             .field("b_point[4, 6]", &format!("{:02X?}", &self.b_point_raw))
             .field("email[6, 40]", &format!("{:02X?}", &self.email_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaAckLoginAccountInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("sex(short as i16)[2, 4]: {}", &self.sex));
         fields.push(format!("b_point(short as i16)[4, 6]: {}", &self.b_point));
         fields.push(format!("email(char[] as char[])[6, 40]: {}", &self.email.pretty_output()));
@@ -11399,16 +13739,22 @@ impl Debug for PacketAcAckPtIdInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_ptid[2, 23]", &format!("{:02X?}", &self.sz_ptid_raw))
             .field("sz_ptnum_id[23, 44]", &format!("{:02X?}", &self.sz_ptnum_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcAckPtIdInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("sz_ptid(char[] as char[])[2, 23]: {}", &self.sz_ptid.pretty_output()));
-        fields.push(format!("sz_ptnum_id(char[] as char[])[23, 44]: {}", &self.sz_ptnum_id.pretty_output()));
+        fields.push(format!(
+            "sz_ptnum_id(char[] as char[])[23, 44]: {}",
+            &self.sz_ptnum_id.pretty_output()
+        ));
         write!(f, "PacketAcAckPtIdInfo\n {}", fields.join(",\n "))
     }
 }
@@ -11419,16 +13765,22 @@ impl Debug for PacketCzReqMailReturn {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("receive_name[6, 30]", &format!("{:02X?}", &self.receive_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqMailReturn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
-        fields.push(format!("receive_name(char[] as char[])[6, 30]: {}", &self.receive_name.pretty_output()));
+        fields.push(format!(
+            "receive_name(char[] as char[])[6, 30]: {}",
+            &self.receive_name.pretty_output()
+        ));
         write!(f, "PacketCzReqMailReturn\n {}", fields.join(",\n "))
     }
 }
@@ -11439,14 +13791,17 @@ impl Debug for PacketZcAckMailReturn {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckMailReturn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("mail_id(int as i32)[2, 6]: {}", &self.mail_id));
         fields.push(format!("result(short as i16)[6, 8]: {}", &self.result));
         write!(f, "PacketZcAckMailReturn\n {}", fields.join(",\n "))
@@ -11464,20 +13819,26 @@ impl Debug for PacketChEnter2 {
             .field("sex[16, 17]", &format!("{:02X?}", &self.sex_raw))
             .field("mac_data[17, 33]", &format!("{:02X?}", &self.mac_data_raw))
             .field("i_account_sid[33, 37]", &format!("{:02X?}", &self.i_account_sid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("auth_code(int as i32)[6, 10]: {}", &self.auth_code));
         fields.push(format!("user_level(unsigned long as u32)[10, 14]: {}", &self.user_level));
         fields.push(format!("client_type(unsigned short as u16)[14, 16]: {}", &self.client_type));
         fields.push(format!("sex(unsigned char as u8)[16, 17]: {}", &self.sex));
-        fields.push(format!("mac_data(char[] as char[])[17, 33]: {}", &self.mac_data.pretty_output()));
+        fields.push(format!(
+            "mac_data(char[] as char[])[17, 33]: {}",
+            &self.mac_data.pretty_output()
+        ));
         fields.push(format!("i_account_sid(int as i32)[33, 37]: {}", &self.i_account_sid));
         write!(f, "PacketChEnter2\n {}", fields.join(",\n "))
     }
@@ -11495,20 +13856,26 @@ impl Debug for PacketCaAcceptLogin2 {
             .field("last_login_time[20, 46]", &format!("{:02X?}", &self.last_login_time_raw))
             .field("sex[46, 47]", &format!("{:02X?}", &self.sex_raw))
             .field("i_account_sid[47, 51]", &format!("{:02X?}", &self.i_account_sid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("auth_code(int as i32)[4, 8]: {}", &self.auth_code));
         fields.push(format!("aid(unsigned long as u32)[8, 12]: {}", &self.aid));
         fields.push(format!("user_level(unsigned long as u32)[12, 16]: {}", &self.user_level));
         fields.push(format!("last_login_ip(unsigned long as u32)[16, 20]: {}", &self.last_login_ip));
-        fields.push(format!("last_login_time(char[] as char[])[20, 46]: {}", &self.last_login_time.pretty_output()));
+        fields.push(format!(
+            "last_login_time(char[] as char[])[20, 46]: {}",
+            &self.last_login_time.pretty_output()
+        ));
         fields.push(format!("sex(unsigned char as u8)[46, 47]: {}", &self.sex));
         fields.push(format!("i_account_sid(int as i32)[47, 51]: {}", &self.i_account_sid));
         write!(f, "PacketCaAcceptLogin2\n {}", fields.join(",\n "))
@@ -11525,20 +13892,26 @@ impl Debug for PacketCaLoginPcbang {
             .field("clienttype[54, 55]", &format!("{:02X?}", &self.clienttype_raw))
             .field("ip[55, 71]", &format!("{:02X?}", &self.ip_raw))
             .field("mac_adress[71, 84]", &format!("{:02X?}", &self.mac_adress_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLoginPcbang {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
         fields.push(format!("passwd(char[] as char[])[30, 54]: {}", &self.passwd.pretty_output()));
         fields.push(format!("clienttype(unsigned char as u8)[54, 55]: {}", &self.clienttype));
         fields.push(format!("ip(char[] as char[])[55, 71]: {}", &self.ip.pretty_output()));
-        fields.push(format!("mac_adress(char[] as char[])[71, 84]: {}", &self.mac_adress.pretty_output()));
+        fields.push(format!(
+            "mac_adress(char[] as char[])[71, 84]: {}",
+            &self.mac_adress.pretty_output()
+        ));
         write!(f, "PacketCaLoginPcbang\n {}", fields.join(",\n "))
     }
 }
@@ -11547,14 +13920,17 @@ impl Debug for PacketZcNotifyPcbang {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPcbang")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPcbang {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcNotifyPcbang\n {}", fields.join(",\n "))
     }
 }
@@ -11563,14 +13939,17 @@ impl Debug for PacketCzHuntinglist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzHuntinglist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzHuntinglist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzHuntinglist\n {}", fields.join(",\n "))
     }
 }
@@ -11581,17 +13960,30 @@ impl Debug for PacketZcHuntinglist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("hunting_list[4, 16]", &format!("{:02X?}", &self.hunting_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcHuntinglist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("hunting_list([] as Vec)[4, 16]: {}", &self.hunting_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "hunting_list([] as Vec)[4, 16]: {}",
+            &self
+                .hunting_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcHuntinglist\n {}", fields.join(",\n "))
     }
 }
@@ -11603,14 +13995,17 @@ impl Debug for PacketZcPcbangEffect {
             .field("exp_factor[2, 6]", &format!("{:02X?}", &self.exp_factor_raw))
             .field("exp_factor2[6, 10]", &format!("{:02X?}", &self.exp_factor2_raw))
             .field("drop_factor[10, 14]", &format!("{:02X?}", &self.drop_factor_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcbangEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp_factor(int as i32)[2, 6]: {}", &self.exp_factor));
         fields.push(format!("exp_factor2(int as i32)[6, 10]: {}", &self.exp_factor2));
         fields.push(format!("drop_factor(int as i32)[10, 14]: {}", &self.drop_factor));
@@ -11627,19 +14022,28 @@ impl Debug for PacketCaLogin4 {
             .field("passwd_md5[30, 46]", &format!("{:02X?}", &self.passwd_md5_raw))
             .field("clienttype[46, 47]", &format!("{:02X?}", &self.clienttype_raw))
             .field("mac_data[47, 60]", &format!("{:02X?}", &self.mac_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLogin4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
-        fields.push(format!("passwd_md5(char[] as char[])[30, 46]: {}", &self.passwd_md5.pretty_output()));
+        fields.push(format!(
+            "passwd_md5(char[] as char[])[30, 46]: {}",
+            &self.passwd_md5.pretty_output()
+        ));
         fields.push(format!("clienttype(unsigned char as u8)[46, 47]: {}", &self.clienttype));
-        fields.push(format!("mac_data(char[] as char[])[47, 60]: {}", &self.mac_data.pretty_output()));
+        fields.push(format!(
+            "mac_data(char[] as char[])[47, 60]: {}",
+            &self.mac_data.pretty_output()
+        ));
         write!(f, "PacketCaLogin4\n {}", fields.join(",\n "))
     }
 }
@@ -11666,14 +14070,17 @@ impl Debug for PacketZcPropertyMerce {
             .field("max_sp[54, 56]", &format!("{:02X?}", &self.max_sp_raw))
             .field("atkrange[56, 58]", &format!("{:02X?}", &self.atkrange_raw))
             .field("exp[58, 62]", &format!("{:02X?}", &self.exp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPropertyMerce {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("level(short as i16)[26, 28]: {}", &self.level));
         fields.push(format!("faith(short as i16)[28, 30]: {}", &self.faith));
@@ -11703,14 +14110,17 @@ impl Debug for PacketZcShandaProtect {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("code_len[4, 6]", &format!("{:02X?}", &self.code_len_raw))
             .field("code[6, ?]", &format!("{:02X?}", &self.code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShandaProtect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("code_len(short as i16)[4, 6]: {}", &self.code_len));
         fields.push(format!("code(char[] as String)[6, ?]: {}", &self.code));
@@ -11724,14 +14134,17 @@ impl Debug for PacketCaClientType {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_type[2, 4]", &format!("{:02X?}", &self.client_type_raw))
             .field("n_ver[4, 8]", &format!("{:02X?}", &self.n_ver_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaClientType {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("client_type(short as i16)[2, 4]: {}", &self.client_type));
         fields.push(format!("n_ver(int as i32)[4, 8]: {}", &self.n_ver));
         write!(f, "PacketCaClientType\n {}", fields.join(",\n "))
@@ -11745,14 +14158,17 @@ impl Debug for PacketZcGangsiPoint {
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
             .field("packet_switch[10, 12]", &format!("{:02X?}", &self.packet_switch_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGangsiPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point(int as i32)[2, 6]: {}", &self.point));
         fields.push(format!("total_point(int as i32)[6, 10]: {}", &self.total_point));
         fields.push(format!("packet_switch(short as i16)[10, 12]: {}", &self.packet_switch));
@@ -11765,14 +14181,17 @@ impl Debug for PacketCzGangsiRank {
         f.debug_struct("PacketCzGangsiRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_switch[2, 4]", &format!("{:02X?}", &self.packet_switch_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_switch(short as i16)[2, 4]: {}", &self.packet_switch));
         write!(f, "PacketCzGangsiRank\n {}", fields.join(",\n "))
     }
@@ -11785,14 +14204,17 @@ impl Debug for PacketZcGangsiRank {
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
             .field("packet_switch[22, 24]", &format!("{:02X?}", &self.packet_switch_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
         fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         fields.push(format!("packet_switch(short as i16)[22, 24]: {}", &self.packet_switch));
@@ -11805,14 +14227,17 @@ impl Debug for PacketZcAid {
         f.debug_struct("PacketZcAid")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcAid\n {}", fields.join(",\n "))
     }
@@ -11825,14 +14250,17 @@ impl Debug for PacketZcNotifyEffect3 {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
             .field("numdata[10, 14]", &format!("{:02X?}", &self.numdata_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyEffect3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("effect_id(int as i32)[6, 10]: {}", &self.effect_id));
         fields.push(format!("numdata(int as i32)[10, 14]: {}", &self.numdata));
@@ -11846,14 +14274,17 @@ impl Debug for PacketZcDeathQuestion {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("qcategory[2, 4]", &format!("{:02X?}", &self.qcategory_raw))
             .field("qnum[4, 6]", &format!("{:02X?}", &self.qnum_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeathQuestion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("qcategory(short as i16)[2, 4]: {}", &self.qcategory));
         fields.push(format!("qnum(short as i16)[4, 6]: {}", &self.qnum));
         write!(f, "PacketZcDeathQuestion\n {}", fields.join(",\n "))
@@ -11865,14 +14296,17 @@ impl Debug for PacketCzDeathQuestion {
         f.debug_struct("PacketCzDeathQuestion")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("qanswer[2, 4]", &format!("{:02X?}", &self.qanswer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzDeathQuestion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("qanswer(short as i16)[2, 4]: {}", &self.qanswer));
         write!(f, "PacketCzDeathQuestion\n {}", fields.join(",\n "))
     }
@@ -11885,18 +14319,31 @@ impl Debug for PacketZcPcCashPointItemlist {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("cash_point[4, 8]", &format!("{:02X?}", &self.cash_point_raw))
             .field("item_list[8, 19]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcCashPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("cash_point(unsigned long as u32)[4, 8]: {}", &self.cash_point));
-        fields.push(format!("item_list([] as Vec)[8, 19]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[8, 19]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcCashPointItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -11907,14 +14354,17 @@ impl Debug for PacketCzPcBuyCashPointItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPcBuyCashPointItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketCzPcBuyCashPointItem\n {}", fields.join(",\n "))
@@ -11927,14 +14377,17 @@ impl Debug for PacketZcPcCashPointUpdate {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("cash_point[2, 6]", &format!("{:02X?}", &self.cash_point_raw))
             .field("error[6, 8]", &format!("{:02X?}", &self.error_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcCashPointUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("cash_point(unsigned long as u32)[2, 6]: {}", &self.cash_point));
         fields.push(format!("error(short as i16)[6, 8]: {}", &self.error));
         write!(f, "PacketZcPcCashPointUpdate\n {}", fields.join(",\n "))
@@ -11949,14 +14402,17 @@ impl Debug for PacketZcNpcShowefstUpdate {
             .field("effect_state[6, 10]", &format!("{:02X?}", &self.effect_state_raw))
             .field("clevel[10, 14]", &format!("{:02X?}", &self.clevel_raw))
             .field("show_efst[14, 18]", &format!("{:02X?}", &self.show_efst_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcShowefstUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("effect_state(int as i32)[6, 10]: {}", &self.effect_state));
         fields.push(format!("clevel(int as i32)[10, 14]: {}", &self.clevel));
@@ -11970,19 +14426,31 @@ impl Debug for PacketChSelectCharGoingtobeused {
         f.debug_struct("PacketChSelectCharGoingtobeused")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_aid[2, 6]", &format!("{:02X?}", &self.dw_aid_raw))
-            .field("n_count_selected_char[6, 10]", &format!("{:02X?}", &self.n_count_selected_char_raw))
+            .field(
+                "n_count_selected_char[6, 10]",
+                &format!("{:02X?}", &self.n_count_selected_char_raw),
+            )
             .field("ardw_selected_gid[10, 19]", &format!("{:02X?}", &self.ardw_selected_gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChSelectCharGoingtobeused {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("dw_aid(unsigned long as u32)[2, 6]: {}", &self.dw_aid));
-        fields.push(format!("n_count_selected_char(int as i32)[6, 10]: {}", &self.n_count_selected_char));
-        fields.push(format!("ardw_selected_gid(unsigned long[] as u32[])[10, 19]: {}", &self.ardw_selected_gid.pretty_output()));
+        fields.push(format!(
+            "n_count_selected_char(int as i32)[6, 10]: {}",
+            &self.n_count_selected_char
+        ));
+        fields.push(format!(
+            "ardw_selected_gid(unsigned long[] as u32[])[10, 19]: {}",
+            &self.ardw_selected_gid.pretty_output()
+        ));
         write!(f, "PacketChSelectCharGoingtobeused\n {}", fields.join(",\n "))
     }
 }
@@ -11994,17 +14462,23 @@ impl Debug for PacketChReqIsValidCharname {
             .field("dw_aid[2, 6]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("dw_gid[6, 10]", &format!("{:02X?}", &self.dw_gid_raw))
             .field("sz_char_name[10, 34]", &format!("{:02X?}", &self.sz_char_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChReqIsValidCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("dw_aid(unsigned long as u32)[2, 6]: {}", &self.dw_aid));
         fields.push(format!("dw_gid(unsigned long as u32)[6, 10]: {}", &self.dw_gid));
-        fields.push(format!("sz_char_name(char[] as char[])[10, 34]: {}", &self.sz_char_name.pretty_output()));
+        fields.push(format!(
+            "sz_char_name(char[] as char[])[10, 34]: {}",
+            &self.sz_char_name.pretty_output()
+        ));
         write!(f, "PacketChReqIsValidCharname\n {}", fields.join(",\n "))
     }
 }
@@ -12014,14 +14488,17 @@ impl Debug for PacketHcAckIsValidCharname {
         f.debug_struct("PacketHcAckIsValidCharname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("s_result[2, 4]", &format!("{:02X?}", &self.s_result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAckIsValidCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("s_result(short as i16)[2, 4]: {}", &self.s_result));
         write!(f, "PacketHcAckIsValidCharname\n {}", fields.join(",\n "))
     }
@@ -12032,14 +14509,17 @@ impl Debug for PacketChReqChangeCharname {
         f.debug_struct("PacketChReqChangeCharname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_gid[2, 6]", &format!("{:02X?}", &self.dw_gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChReqChangeCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("dw_gid(unsigned long as u32)[2, 6]: {}", &self.dw_gid));
         write!(f, "PacketChReqChangeCharname\n {}", fields.join(",\n "))
     }
@@ -12050,14 +14530,17 @@ impl Debug for PacketHcAckChangeCharname {
         f.debug_struct("PacketHcAckChangeCharname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("s_result[2, 4]", &format!("{:02X?}", &self.s_result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAckChangeCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("s_result(short as i16)[2, 4]: {}", &self.s_result));
         write!(f, "PacketHcAckChangeCharname\n {}", fields.join(",\n "))
     }
@@ -12068,14 +14551,17 @@ impl Debug for PacketZcMsg {
         f.debug_struct("PacketZcMsg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 4]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg(unsigned short as u16)[2, 4]: {}", &self.msg));
         write!(f, "PacketZcMsg\n {}", fields.join(",\n "))
     }
@@ -12085,14 +14571,17 @@ impl Debug for PacketCzStandingResurrection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzStandingResurrection")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzStandingResurrection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzStandingResurrection\n {}", fields.join(",\n "))
     }
 }
@@ -12109,14 +14598,17 @@ impl Debug for PacketZcBossInfo {
             .field("max_hour[15, 17]", &format!("{:02X?}", &self.max_hour_raw))
             .field("max_minute[17, 19]", &format!("{:02X?}", &self.max_minute_raw))
             .field("name[19, 70]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBossInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info_type(unsigned char as u8)[2, 3]: {}", &self.info_type));
         fields.push(format!("x_pos(int as i32)[3, 7]: {}", &self.x_pos));
         fields.push(format!("y_pos(int as i32)[7, 11]: {}", &self.y_pos));
@@ -12135,14 +14627,17 @@ impl Debug for PacketZcReadBook {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("book_id[2, 6]", &format!("{:02X?}", &self.book_id_raw))
             .field("page[6, 10]", &format!("{:02X?}", &self.page_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReadBook {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("book_id(unsigned long as u32)[2, 6]: {}", &self.book_id));
         fields.push(format!("page(unsigned long as u32)[6, 10]: {}", &self.page));
         write!(f, "PacketZcReadBook\n {}", fields.join(",\n "))
@@ -12155,17 +14650,30 @@ impl Debug for PacketZcEquipmentItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 28]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 28]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcEquipmentItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -12176,17 +14684,30 @@ impl Debug for PacketZcStoreEquipmentItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 28]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 28]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreEquipmentItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -12197,17 +14718,30 @@ impl Debug for PacketZcCartEquipmentItemlist2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 28]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 28]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartEquipmentItemlist2\n {}", fields.join(",\n "))
     }
 }
@@ -12218,14 +14752,17 @@ impl Debug for PacketZcCashTimeCounter {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("remain_second[4, 8]", &format!("{:02X?}", &self.remain_second_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCashTimeCounter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         fields.push(format!("remain_second(unsigned long as u32)[4, 8]: {}", &self.remain_second));
         write!(f, "PacketZcCashTimeCounter\n {}", fields.join(",\n "))
@@ -12238,14 +14775,17 @@ impl Debug for PacketZcCashItemDelete {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCashItemDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("itid(unsigned short as u16)[4, 6]: {}", &self.itid));
         write!(f, "PacketZcCashItemDelete\n {}", fields.join(",\n "))
@@ -12267,14 +14807,17 @@ impl Debug for PacketZcItemPickupAck2 {
             .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
             .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
             .field("hire_expire_date[15, 19]", &format!("{:02X?}", &self.hire_expire_date_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemPickupAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(unsigned short as u16)[4, 6]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
@@ -12312,16 +14855,22 @@ impl Debug for PacketZcMerInit {
             .field("expire_date[64, 68]", &format!("{:02X?}", &self.expire_date_raw))
             .field("faith[68, 70]", &format!("{:02X?}", &self.faith_raw))
             .field("toal_call_num[70, 74]", &format!("{:02X?}", &self.toal_call_num_raw))
-            .field("approval_monster_kill_counter[74, 78]", &format!("{:02X?}", &self.approval_monster_kill_counter_raw))
+            .field(
+                "approval_monster_kill_counter[74, 78]",
+                &format!("{:02X?}", &self.approval_monster_kill_counter_raw),
+            )
             .field("atkrange[78, 80]", &format!("{:02X?}", &self.atkrange_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMerInit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(int as i32)[2, 6]: {}", &self.aid));
         fields.push(format!("atk(short as i16)[6, 8]: {}", &self.atk));
         fields.push(format!("matk(short as i16)[8, 10]: {}", &self.matk));
@@ -12340,7 +14889,10 @@ impl Display for PacketZcMerInit {
         fields.push(format!("expire_date(long as i32)[64, 68]: {}", &self.expire_date));
         fields.push(format!("faith(short as i16)[68, 70]: {}", &self.faith));
         fields.push(format!("toal_call_num(int as i32)[70, 74]: {}", &self.toal_call_num));
-        fields.push(format!("approval_monster_kill_counter(int as i32)[74, 78]: {}", &self.approval_monster_kill_counter));
+        fields.push(format!(
+            "approval_monster_kill_counter(int as i32)[74, 78]: {}",
+            &self.approval_monster_kill_counter
+        ));
         fields.push(format!("atkrange(short as i16)[78, 80]: {}", &self.atkrange));
         write!(f, "PacketZcMerInit\n {}", fields.join(",\n "))
     }
@@ -12367,15 +14919,21 @@ impl Debug for PacketZcMerProperty {
             .field("expire_date[52, 56]", &format!("{:02X?}", &self.expire_date_raw))
             .field("faith[56, 58]", &format!("{:02X?}", &self.faith_raw))
             .field("toal_call_num[58, 62]", &format!("{:02X?}", &self.toal_call_num_raw))
-            .field("approval_monster_kill_counter[62, 66]", &format!("{:02X?}", &self.approval_monster_kill_counter_raw))
-        .finish()
+            .field(
+                "approval_monster_kill_counter[62, 66]",
+                &format!("{:02X?}", &self.approval_monster_kill_counter_raw),
+            )
+            .finish()
     }
 }
 
 impl Display for PacketZcMerProperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atk(short as i16)[2, 4]: {}", &self.atk));
         fields.push(format!("matk(short as i16)[4, 6]: {}", &self.matk));
         fields.push(format!("hit(short as i16)[6, 8]: {}", &self.hit));
@@ -12393,7 +14951,10 @@ impl Display for PacketZcMerProperty {
         fields.push(format!("expire_date(long as i32)[52, 56]: {}", &self.expire_date));
         fields.push(format!("faith(short as i16)[56, 58]: {}", &self.faith));
         fields.push(format!("toal_call_num(int as i32)[58, 62]: {}", &self.toal_call_num));
-        fields.push(format!("approval_monster_kill_counter(int as i32)[62, 66]: {}", &self.approval_monster_kill_counter));
+        fields.push(format!(
+            "approval_monster_kill_counter(int as i32)[62, 66]: {}",
+            &self.approval_monster_kill_counter
+        ));
         write!(f, "PacketZcMerProperty\n {}", fields.join(",\n "))
     }
 }
@@ -12404,17 +14965,30 @@ impl Debug for PacketZcMerSkillinfoList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_list[4, 41]", &format!("{:02X?}", &self.skill_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMerSkillinfoList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("skill_list([] as Vec)[4, 41]: {}", &self.skill_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "skill_list([] as Vec)[4, 41]: {}",
+            &self
+                .skill_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMerSkillinfoList\n {}", fields.join(",\n "))
     }
 }
@@ -12428,14 +15002,17 @@ impl Debug for PacketZcMerSkillinfoUpdate {
             .field("spcost[6, 8]", &format!("{:02X?}", &self.spcost_raw))
             .field("attack_range[8, 10]", &format!("{:02X?}", &self.attack_range_raw))
             .field("upgradable[10, 11]", &format!("{:02X?}", &self.upgradable_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMerSkillinfoUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("level(short as i16)[4, 6]: {}", &self.level));
         fields.push(format!("spcost(short as i16)[6, 8]: {}", &self.spcost));
@@ -12450,14 +15027,17 @@ impl Debug for PacketCzMerCommand {
         f.debug_struct("PacketCzMerCommand")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("command[2, 3]", &format!("{:02X?}", &self.command_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMerCommand {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("command(char as i8)[2, 3]: {}", &self.command));
         write!(f, "PacketCzMerCommand\n {}", fields.join(",\n "))
     }
@@ -12470,14 +15050,17 @@ impl Debug for UnusedPacketCzMerUseSkill {
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
             .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for UnusedPacketCzMerUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
         fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
         fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
@@ -12490,14 +15073,17 @@ impl Debug for UnusedPacketCzMerUpgradeSkilllevel {
         f.debug_struct("UnusedPacketCzMerUpgradeSkilllevel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for UnusedPacketCzMerUpgradeSkilllevel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         write!(f, "UnusedPacketCzMerUpgradeSkilllevel\n {}", fields.join(",\n "))
     }
@@ -12509,14 +15095,17 @@ impl Debug for PacketZcMerParChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMerParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var(unsigned short as u16)[2, 4]: {}", &self.var));
         fields.push(format!("value(int as i32)[4, 8]: {}", &self.value));
         write!(f, "PacketZcMerParChange\n {}", fields.join(",\n "))
@@ -12528,14 +15117,17 @@ impl Debug for PacketZcGameguardLingoKey {
         f.debug_struct("PacketZcGameguardLingoKey")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("lingo_key[2, ?]", &format!("{:02X?}", &self.lingo_key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcGameguardLingoKey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("lingo_key(struct as Struct)[2, ?]: {}", &self.lingo_key));
         write!(f, "PacketZcGameguardLingoKey\n {}", fields.join(",\n "))
     }
@@ -12547,14 +15139,17 @@ impl Debug for PacketCzKsyEvent {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzKsyEvent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
         write!(f, "PacketCzKsyEvent\n {}", fields.join(",\n "))
@@ -12566,14 +15161,17 @@ impl Debug for PacketZcReqCashPassword {
         f.debug_struct("PacketZcReqCashPassword")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, 4]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(short as i16)[2, 4]: {}", &self.info));
         write!(f, "PacketZcReqCashPassword\n {}", fields.join(",\n "))
     }
@@ -12586,17 +15184,23 @@ impl Debug for PacketCzAckCashPassword {
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("password[4, 20]", &format!("{:02X?}", &self.password_raw))
             .field("new_password[20, 36]", &format!("{:02X?}", &self.new_password_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzAckCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         fields.push(format!("password(char[] as char[])[4, 20]: {}", &self.password.pretty_output()));
-        fields.push(format!("new_password(char[] as char[])[20, 36]: {}", &self.new_password.pretty_output()));
+        fields.push(format!(
+            "new_password(char[] as char[])[20, 36]: {}",
+            &self.new_password.pretty_output()
+        ));
         write!(f, "PacketCzAckCashPassword\n {}", fields.join(",\n "))
     }
 }
@@ -12607,14 +15211,17 @@ impl Debug for PacketZcResultCashPassword {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("error_count[4, 6]", &format!("{:02X?}", &self.error_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcResultCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("error_count(short as i16)[4, 6]: {}", &self.error_count));
         write!(f, "PacketZcResultCashPassword\n {}", fields.join(",\n "))
@@ -12627,14 +15234,17 @@ impl Debug for PacketAcRequestSecondPassword {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("dw_seed[4, 8]", &format!("{:02X?}", &self.dw_seed_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcRequestSecondPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("dw_seed(unsigned long as u32)[4, 8]: {}", &self.dw_seed));
         write!(f, "PacketAcRequestSecondPassword\n {}", fields.join(",\n "))
@@ -12652,21 +15262,30 @@ impl Debug for PacketCaLoginHan {
             .field("m_sz_ip[55, 71]", &format!("{:02X?}", &self.m_sz_ip_raw))
             .field("m_sz_mac_addr[71, 84]", &format!("{:02X?}", &self.m_sz_mac_addr_raw))
             .field("is_han_game_user[84, 85]", &format!("{:02X?}", &self.is_han_game_user_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaLoginHan {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("version(unsigned long as u32)[2, 6]: {}", &self.version));
         fields.push(format!("id(char[] as char[])[6, 30]: {}", &self.id.pretty_output()));
         fields.push(format!("passwd(char[] as char[])[30, 54]: {}", &self.passwd.pretty_output()));
         fields.push(format!("clienttype(unsigned char as u8)[54, 55]: {}", &self.clienttype));
         fields.push(format!("m_sz_ip(char[] as char[])[55, 71]: {}", &self.m_sz_ip.pretty_output()));
-        fields.push(format!("m_sz_mac_addr(char[] as char[])[71, 84]: {}", &self.m_sz_mac_addr.pretty_output()));
-        fields.push(format!("is_han_game_user(unsigned char as u8)[84, 85]: {}", &self.is_han_game_user));
+        fields.push(format!(
+            "m_sz_mac_addr(char[] as char[])[71, 84]: {}",
+            &self.m_sz_mac_addr.pretty_output()
+        ));
+        fields.push(format!(
+            "is_han_game_user(unsigned char as u8)[84, 85]: {}",
+            &self.is_han_game_user
+        ));
         write!(f, "PacketCaLoginHan\n {}", fields.join(",\n "))
     }
 }
@@ -12678,18 +15297,31 @@ impl Debug for PacketZcAllQuestList {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("quest_count[4, 8]", &format!("{:02X?}", &self.quest_count_raw))
             .field("quest_list[8, 13]", &format!("{:02X?}", &self.quest_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAllQuestList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("quest_count(int as i32)[4, 8]: {}", &self.quest_count));
-        fields.push(format!("quest_list([] as Vec)[8, 13]: {}", &self.quest_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "quest_list([] as Vec)[8, 13]: {}",
+            &self
+                .quest_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAllQuestList\n {}", fields.join(",\n "))
     }
 }
@@ -12701,18 +15333,31 @@ impl Debug for PacketZcAllQuestMission {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
             .field("quest_mission_list[8, 112]", &format!("{:02X?}", &self.quest_mission_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAllQuestMission {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
-        fields.push(format!("quest_mission_list([] as Vec)[8, 112]: {}", &self.quest_mission_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "quest_mission_list([] as Vec)[8, 112]: {}",
+            &self
+                .quest_mission_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAllQuestMission\n {}", fields.join(",\n "))
     }
 }
@@ -12727,21 +15372,34 @@ impl Debug for PacketZcAddQuest {
             .field("quest_end_time[11, 15]", &format!("{:02X?}", &self.quest_end_time_raw))
             .field("count[15, 17]", &format!("{:02X?}", &self.count_raw))
             .field("hunt[17, 47]", &format!("{:02X?}", &self.hunt_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("quest_id(unsigned long as u32)[2, 6]: {}", &self.quest_id));
         fields.push(format!("active(bool as bool)[6, 7]: {}", &self.active));
         fields.push(format!("quest_svr_time(long as i32)[7, 11]: {}", &self.quest_svr_time));
         fields.push(format!("quest_end_time(long as i32)[11, 15]: {}", &self.quest_end_time));
         fields.push(format!("count(short as i16)[15, 17]: {}", &self.count));
-        fields.push(format!("hunt([] as Vec)[17, 47]: {}", &self.hunt.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "hunt([] as Vec)[17, 47]: {}",
+            &self
+                .hunt
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAddQuest\n {}", fields.join(",\n "))
     }
 }
@@ -12751,14 +15409,17 @@ impl Debug for PacketZcDelQuest {
         f.debug_struct("PacketZcDelQuest")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDelQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("quest_id(unsigned long as u32)[2, 6]: {}", &self.quest_id));
         write!(f, "PacketZcDelQuest\n {}", fields.join(",\n "))
     }
@@ -12771,18 +15432,31 @@ impl Debug for PacketZcUpdateMissionHunt {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("mob_hunt_list[6, 18]", &format!("{:02X?}", &self.mob_hunt_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateMissionHunt {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
-        fields.push(format!("mob_hunt_list([] as Vec)[6, 18]: {}", &self.mob_hunt_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "mob_hunt_list([] as Vec)[6, 18]: {}",
+            &self
+                .mob_hunt_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcUpdateMissionHunt\n {}", fields.join(",\n "))
     }
 }
@@ -12793,14 +15467,17 @@ impl Debug for PacketCzActiveQuest {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[6, 7]", &format!("{:02X?}", &self.active_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzActiveQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("quest_id(unsigned long as u32)[2, 6]: {}", &self.quest_id));
         fields.push(format!("active(bool as bool)[6, 7]: {}", &self.active));
         write!(f, "PacketCzActiveQuest\n {}", fields.join(",\n "))
@@ -12813,14 +15490,17 @@ impl Debug for PacketZcActiveQuest {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[6, 7]", &format!("{:02X?}", &self.active_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcActiveQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("quest_id(unsigned long as u32)[2, 6]: {}", &self.quest_id));
         fields.push(format!("active(bool as bool)[6, 7]: {}", &self.active));
         write!(f, "PacketZcActiveQuest\n {}", fields.join(",\n "))
@@ -12839,14 +15519,17 @@ impl Debug for PacketZcItemPickupParty {
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
             .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
             .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemPickupParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("account_id(unsigned long as u32)[2, 6]: {}", &self.account_id));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
         fields.push(format!("is_identified(bool as bool)[8, 9]: {}", &self.is_identified));
@@ -12864,16 +15547,29 @@ impl Debug for PacketZcShortcutKeyList {
         f.debug_struct("PacketZcShortcutKeyList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("short_cut_key[2, 9]", &format!("{:02X?}", &self.short_cut_key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShortcutKeyList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("short_cut_key([] as Vec)[2, 9]: {}", &self.short_cut_key.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "short_cut_key([] as Vec)[2, 9]: {}",
+            &self
+                .short_cut_key
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcShortcutKeyList\n {}", fields.join(",\n "))
     }
 }
@@ -12884,14 +15580,17 @@ impl Debug for PacketCzShortcutKeyChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("short_cut_key[4, ?]", &format!("{:02X?}", &self.short_cut_key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzShortcutKeyChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("short_cut_key(struct as Struct)[4, ?]: {}", &self.short_cut_key));
         write!(f, "PacketCzShortcutKeyChange\n {}", fields.join(",\n "))
@@ -12904,14 +15603,17 @@ impl Debug for PacketZcEquipitemDamaged {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("wear_location[2, 4]", &format!("{:02X?}", &self.wear_location_raw))
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipitemDamaged {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("wear_location(unsigned short as u16)[2, 4]: {}", &self.wear_location));
         fields.push(format!("account_id(unsigned long as u32)[4, 8]: {}", &self.account_id));
         write!(f, "PacketZcEquipitemDamaged\n {}", fields.join(",\n "))
@@ -12923,14 +15625,17 @@ impl Debug for PacketZcNotifyPcbangPlayingTime {
         f.debug_struct("PacketZcNotifyPcbangPlayingTime")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("time_minute[2, 6]", &format!("{:02X?}", &self.time_minute_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyPcbangPlayingTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("time_minute(int as i32)[2, 6]: {}", &self.time_minute));
         write!(f, "PacketZcNotifyPcbangPlayingTime\n {}", fields.join(",\n "))
     }
@@ -12943,17 +15648,26 @@ impl Debug for PacketZcSrpacketr2Init {
             .field("protect_factor[2, 4]", &format!("{:02X?}", &self.protect_factor_raw))
             .field("deform_seed_factor[4, 8]", &format!("{:02X?}", &self.deform_seed_factor_raw))
             .field("deform_add_factor[8, 12]", &format!("{:02X?}", &self.deform_add_factor_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSrpacketr2Init {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("protect_factor(unsigned short as u16)[2, 4]: {}", &self.protect_factor));
-        fields.push(format!("deform_seed_factor(unsigned int as u32)[4, 8]: {}", &self.deform_seed_factor));
-        fields.push(format!("deform_add_factor(unsigned int as u32)[8, 12]: {}", &self.deform_add_factor));
+        fields.push(format!(
+            "deform_seed_factor(unsigned int as u32)[4, 8]: {}",
+            &self.deform_seed_factor
+        ));
+        fields.push(format!(
+            "deform_add_factor(unsigned int as u32)[8, 12]: {}",
+            &self.deform_add_factor
+        ));
         write!(f, "PacketZcSrpacketr2Init\n {}", fields.join(",\n "))
     }
 }
@@ -12963,14 +15677,17 @@ impl Debug for PacketCzSrpacketr2Start {
         f.debug_struct("PacketCzSrpacketr2Start")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("protect_factor[2, 4]", &format!("{:02X?}", &self.protect_factor_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSrpacketr2Start {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("protect_factor(unsigned short as u16)[2, 4]: {}", &self.protect_factor));
         write!(f, "PacketCzSrpacketr2Start\n {}", fields.join(",\n "))
     }
@@ -12984,14 +15701,17 @@ impl Debug for PacketZcNpcChat {
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
             .field("color[8, 12]", &format!("{:02X?}", &self.color_raw))
             .field("msg[12, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNpcChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("account_id(unsigned long as u32)[4, 8]: {}", &self.account_id));
         fields.push(format!("color(unsigned long as u32)[8, 12]: {}", &self.color));
@@ -13007,14 +15727,17 @@ impl Debug for PacketZcFormatstringMsg {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, 6]", &format!("{:02X?}", &self.msg_raw))
             .field("value[6, ?]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFormatstringMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(unsigned short as u16)[4, 6]: {}", &self.msg));
         fields.push(format!("value(char[] as String)[6, ?]: {}", &self.value));
@@ -13027,15 +15750,21 @@ impl Debug for PacketCzPartyJoinReq {
         f.debug_struct("PacketCzPartyJoinReq")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyJoinReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("character_name(char[] as char[])[2, 26]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[2, 26]: {}",
+            &self.character_name.pretty_output()
+        ));
         write!(f, "PacketCzPartyJoinReq\n {}", fields.join(",\n "))
     }
 }
@@ -13046,15 +15775,21 @@ impl Debug for PacketZcPartyJoinReqAck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
             .field("answer[26, 30]", &format!("{:02X?}", &self.answer_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyJoinReqAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("character_name(char[] as char[])[2, 26]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "character_name(char[] as char[])[2, 26]: {}",
+            &self.character_name.pretty_output()
+        ));
         fields.push(format!("answer(long as i32)[26, 30]: {}", &self.answer));
         write!(f, "PacketZcPartyJoinReqAck\n {}", fields.join(",\n "))
     }
@@ -13066,16 +15801,22 @@ impl Debug for PacketZcPartyJoinReq {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("group_name[6, 30]", &format!("{:02X?}", &self.group_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyJoinReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("grid(unsigned long as u32)[2, 6]: {}", &self.grid));
-        fields.push(format!("group_name(char[] as char[])[6, 30]: {}", &self.group_name.pretty_output()));
+        fields.push(format!(
+            "group_name(char[] as char[])[6, 30]: {}",
+            &self.group_name.pretty_output()
+        ));
         write!(f, "PacketZcPartyJoinReq\n {}", fields.join(",\n "))
     }
 }
@@ -13086,14 +15827,17 @@ impl Debug for PacketCzPartyJoinReqAck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("b_accept[6, 7]", &format!("{:02X?}", &self.b_accept_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyJoinReqAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("grid(unsigned long as u32)[2, 6]: {}", &self.grid));
         fields.push(format!("b_accept(bool as bool)[6, 7]: {}", &self.b_accept));
         write!(f, "PacketCzPartyJoinReqAck\n {}", fields.join(",\n "))
@@ -13105,14 +15849,17 @@ impl Debug for PacketCzPartyConfig {
         f.debug_struct("PacketCzPartyConfig")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("b_refuse_join_msg[2, 3]", &format!("{:02X?}", &self.b_refuse_join_msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("b_refuse_join_msg(bool as bool)[2, 3]: {}", &self.b_refuse_join_msg));
         write!(f, "PacketCzPartyConfig\n {}", fields.join(",\n "))
     }
@@ -13123,14 +15870,17 @@ impl Debug for PacketZcPartyConfig {
         f.debug_struct("PacketZcPartyConfig")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("b_refuse_join_msg[2, 3]", &format!("{:02X?}", &self.b_refuse_join_msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("b_refuse_join_msg(bool as bool)[2, 3]: {}", &self.b_refuse_join_msg));
         write!(f, "PacketZcPartyConfig\n {}", fields.join(",\n "))
     }
@@ -13141,14 +15891,17 @@ impl Debug for PacketHcRefuseSelectchar {
         f.debug_struct("PacketHcRefuseSelectchar")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcRefuseSelectchar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned char as u8)[2, 3]: {}", &self.error_code));
         write!(f, "PacketHcRefuseSelectchar\n {}", fields.join(",\n "))
     }
@@ -13158,18 +15911,30 @@ impl Debug for PacketZcMemorialdungeonSubscriptionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonSubscriptionInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("memorial_dungeon_name[2, 63]", &format!("{:02X?}", &self.memorial_dungeon_name_raw))
+            .field(
+                "memorial_dungeon_name[2, 63]",
+                &format!("{:02X?}", &self.memorial_dungeon_name_raw),
+            )
             .field("priority_order_num[63, 65]", &format!("{:02X?}", &self.priority_order_num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemorialdungeonSubscriptionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("memorial_dungeon_name(char[] as char[])[2, 63]: {}", &self.memorial_dungeon_name.pretty_output()));
-        fields.push(format!("priority_order_num(short as i16)[63, 65]: {}", &self.priority_order_num));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "memorial_dungeon_name(char[] as char[])[2, 63]: {}",
+            &self.memorial_dungeon_name.pretty_output()
+        ));
+        fields.push(format!(
+            "priority_order_num(short as i16)[63, 65]: {}",
+            &self.priority_order_num
+        ));
         write!(f, "PacketZcMemorialdungeonSubscriptionInfo\n {}", fields.join(",\n "))
     }
 }
@@ -13179,14 +15944,17 @@ impl Debug for PacketZcMemorialdungeonSubscriptionNotify {
         f.debug_struct("PacketZcMemorialdungeonSubscriptionNotify")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("priority_order_num[2, 4]", &format!("{:02X?}", &self.priority_order_num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemorialdungeonSubscriptionNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("priority_order_num(short as i16)[2, 4]: {}", &self.priority_order_num));
         write!(f, "PacketZcMemorialdungeonSubscriptionNotify\n {}", fields.join(",\n "))
     }
@@ -13196,20 +15964,35 @@ impl Debug for PacketZcMemorialdungeonInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("memorial_dungeon_name[2, 63]", &format!("{:02X?}", &self.memorial_dungeon_name_raw))
+            .field(
+                "memorial_dungeon_name[2, 63]",
+                &format!("{:02X?}", &self.memorial_dungeon_name_raw),
+            )
             .field("destroy_date[63, 67]", &format!("{:02X?}", &self.destroy_date_raw))
-            .field("enter_time_out_date[67, 71]", &format!("{:02X?}", &self.enter_time_out_date_raw))
-        .finish()
+            .field(
+                "enter_time_out_date[67, 71]",
+                &format!("{:02X?}", &self.enter_time_out_date_raw),
+            )
+            .finish()
     }
 }
 
 impl Display for PacketZcMemorialdungeonInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("memorial_dungeon_name(char[] as char[])[2, 63]: {}", &self.memorial_dungeon_name.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "memorial_dungeon_name(char[] as char[])[2, 63]: {}",
+            &self.memorial_dungeon_name.pretty_output()
+        ));
         fields.push(format!("destroy_date(unsigned long as u32)[63, 67]: {}", &self.destroy_date));
-        fields.push(format!("enter_time_out_date(unsigned long as u32)[67, 71]: {}", &self.enter_time_out_date));
+        fields.push(format!(
+            "enter_time_out_date(unsigned long as u32)[67, 71]: {}",
+            &self.enter_time_out_date
+        ));
         write!(f, "PacketZcMemorialdungeonInfo\n {}", fields.join(",\n "))
     }
 }
@@ -13220,16 +16003,22 @@ impl Debug for PacketZcMemorialdungeonNotify {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
             .field("enter_limit_date[6, 10]", &format!("{:02X?}", &self.enter_limit_date_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMemorialdungeonNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(long as i32)[2, 6]: {}", &self.atype));
-        fields.push(format!("enter_limit_date(unsigned long as u32)[6, 10]: {}", &self.enter_limit_date));
+        fields.push(format!(
+            "enter_limit_date(unsigned long as u32)[6, 10]: {}",
+            &self.enter_limit_date
+        ));
         write!(f, "PacketZcMemorialdungeonNotify\n {}", fields.join(",\n "))
     }
 }
@@ -13239,14 +16028,17 @@ impl Debug for PacketCzMemorialdungeonCommand {
         f.debug_struct("PacketCzMemorialdungeonCommand")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("command[2, 6]", &format!("{:02X?}", &self.command_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzMemorialdungeonCommand {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("command(long as i32)[2, 6]: {}", &self.command));
         write!(f, "PacketCzMemorialdungeonCommand\n {}", fields.join(",\n "))
     }
@@ -13258,17 +16050,30 @@ impl Debug for PacketZcEquipmentItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 32]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 32]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcEquipmentItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13279,17 +16084,30 @@ impl Debug for PacketZcStoreEquipmentItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 32]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 32]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreEquipmentItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13300,17 +16118,30 @@ impl Debug for PacketZcCartEquipmentItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 32]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 32]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartEquipmentItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13320,14 +16151,17 @@ impl Debug for PacketZcNotifyBindOnEquip {
         f.debug_struct("PacketZcNotifyBindOnEquip")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyBindOnEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         write!(f, "PacketZcNotifyBindOnEquip\n {}", fields.join(",\n "))
     }
@@ -13349,14 +16183,17 @@ impl Debug for PacketZcItemPickupAck3 {
             .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
             .field("hire_expire_date[15, 19]", &format!("{:02X?}", &self.hire_expire_date_raw))
             .field("bind_on_equip_type[19, 21]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemPickupAck3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("count(unsigned short as u16)[4, 6]: {}", &self.count));
         fields.push(format!("itid(unsigned short as u16)[6, 8]: {}", &self.itid));
@@ -13368,7 +16205,10 @@ impl Display for PacketZcItemPickupAck3 {
         fields.push(format!("atype(unsigned char as u8)[13, 14]: {}", &self.atype));
         fields.push(format!("result(unsigned char as u8)[14, 15]: {}", &self.result));
         fields.push(format!("hire_expire_date(long as i32)[15, 19]: {}", &self.hire_expire_date));
-        fields.push(format!("bind_on_equip_type(unsigned short as u16)[19, 21]: {}", &self.bind_on_equip_type));
+        fields.push(format!(
+            "bind_on_equip_type(unsigned short as u16)[19, 21]: {}",
+            &self.bind_on_equip_type
+        ));
         write!(f, "PacketZcItemPickupAck3\n {}", fields.join(",\n "))
     }
 }
@@ -13377,14 +16217,17 @@ impl Debug for PacketZcIsvrDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcIsvrDisconnect")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcIsvrDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcIsvrDisconnect\n {}", fields.join(",\n "))
     }
 }
@@ -13394,14 +16237,17 @@ impl Debug for PacketCzEquipwinMicroscope {
         f.debug_struct("PacketCzEquipwinMicroscope")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEquipwinMicroscope {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzEquipwinMicroscope\n {}", fields.join(",\n "))
     }
@@ -13422,16 +16268,22 @@ impl Debug for PacketZcEquipwinMicroscope {
             .field("bodypalette[40, 42]", &format!("{:02X?}", &self.bodypalette_raw))
             .field("sex[42, 43]", &format!("{:02X?}", &self.sex_raw))
             .field("item_info[43, 71]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEquipwinMicroscope {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("character_name(char[] as char[])[4, 28]: {}", &self.character_name.pretty_output()));
+        fields.push(format!(
+            "character_name(char[] as char[])[4, 28]: {}",
+            &self.character_name.pretty_output()
+        ));
         fields.push(format!("job(short as i16)[28, 30]: {}", &self.job));
         fields.push(format!("head(short as i16)[30, 32]: {}", &self.head));
         fields.push(format!("accessory(short as i16)[32, 34]: {}", &self.accessory));
@@ -13440,8 +16292,18 @@ impl Display for PacketZcEquipwinMicroscope {
         fields.push(format!("headpalette(short as i16)[38, 40]: {}", &self.headpalette));
         fields.push(format!("bodypalette(short as i16)[40, 42]: {}", &self.bodypalette));
         fields.push(format!("sex(unsigned char as u8)[42, 43]: {}", &self.sex));
-        fields.push(format!("item_info([] as Vec)[43, 71]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[43, 71]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcEquipwinMicroscope\n {}", fields.join(",\n "))
     }
 }
@@ -13452,14 +16314,17 @@ impl Debug for PacketCzConfig {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("config[2, 6]", &format!("{:02X?}", &self.config_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("config(long as i32)[2, 6]: {}", &self.config));
         fields.push(format!("value(int as i32)[6, 10]: {}", &self.value));
         write!(f, "PacketCzConfig\n {}", fields.join(",\n "))
@@ -13472,14 +16337,17 @@ impl Debug for PacketZcConfig {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("config[2, 6]", &format!("{:02X?}", &self.config_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("config(long as i32)[2, 6]: {}", &self.config));
         fields.push(format!("value(int as i32)[6, 10]: {}", &self.value));
         write!(f, "PacketZcConfig\n {}", fields.join(",\n "))
@@ -13490,16 +16358,25 @@ impl Debug for PacketZcConfigNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcConfigNotify")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("b_open_equipment_win[2, 3]", &format!("{:02X?}", &self.b_open_equipment_win_raw))
-        .finish()
+            .field(
+                "b_open_equipment_win[2, 3]",
+                &format!("{:02X?}", &self.b_open_equipment_win_raw),
+            )
+            .finish()
     }
 }
 
 impl Display for PacketZcConfigNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("b_open_equipment_win(bool as bool)[2, 3]: {}", &self.b_open_equipment_win));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "b_open_equipment_win(bool as bool)[2, 3]: {}",
+            &self.b_open_equipment_win
+        ));
         write!(f, "PacketZcConfigNotify\n {}", fields.join(",\n "))
     }
 }
@@ -13510,14 +16387,17 @@ impl Debug for PacketCzBattlefieldChat {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBattlefieldChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
         write!(f, "PacketCzBattlefieldChat\n {}", fields.join(",\n "))
@@ -13532,14 +16412,17 @@ impl Debug for PacketZcBattlefieldChat {
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
             .field("name[8, 32]", &format!("{:02X?}", &self.name_raw))
             .field("msg[32, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattlefieldChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("account_id(unsigned long as u32)[4, 8]: {}", &self.account_id));
         fields.push(format!("name(char[] as char[])[8, 32]: {}", &self.name.pretty_output()));
@@ -13555,14 +16438,17 @@ impl Debug for PacketZcBattlefieldNotifyCampinfo {
             .field("account_id[2, 6]", &format!("{:02X?}", &self.account_id_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
             .field("camp[30, 32]", &format!("{:02X?}", &self.camp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattlefieldNotifyCampinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("account_id(unsigned long as u32)[2, 6]: {}", &self.account_id));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         fields.push(format!("camp(short as i16)[30, 32]: {}", &self.camp));
@@ -13576,14 +16462,17 @@ impl Debug for PacketZcBattlefieldNotifyPoint {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point_camp_a[2, 4]", &format!("{:02X?}", &self.point_camp_a_raw))
             .field("point_camp_b[4, 6]", &format!("{:02X?}", &self.point_camp_b_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattlefieldNotifyPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("point_camp_a(short as i16)[2, 4]: {}", &self.point_camp_a));
         fields.push(format!("point_camp_b(short as i16)[4, 6]: {}", &self.point_camp_b));
         write!(f, "PacketZcBattlefieldNotifyPoint\n {}", fields.join(",\n "))
@@ -13599,14 +16488,17 @@ impl Debug for PacketZcBattlefieldNotifyPosition {
             .field("job[30, 32]", &format!("{:02X?}", &self.job_raw))
             .field("x[32, 34]", &format!("{:02X?}", &self.x_raw))
             .field("y[34, 36]", &format!("{:02X?}", &self.y_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattlefieldNotifyPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("account_id(unsigned long as u32)[2, 6]: {}", &self.account_id));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         fields.push(format!("job(unsigned short as u16)[30, 32]: {}", &self.job));
@@ -13624,14 +16516,17 @@ impl Debug for PacketZcBattlefieldNotifyHp {
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
             .field("hp[30, 32]", &format!("{:02X?}", &self.hp_raw))
             .field("max_hp[32, 34]", &format!("{:02X?}", &self.max_hp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattlefieldNotifyHp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("account_id(unsigned long as u32)[2, 6]: {}", &self.account_id));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         fields.push(format!("hp(short as i16)[30, 32]: {}", &self.hp));
@@ -13653,14 +16548,17 @@ impl Debug for PacketZcNotifyAct2 {
             .field("count[26, 28]", &format!("{:02X?}", &self.count_raw))
             .field("action[28, 29]", &format!("{:02X?}", &self.action_raw))
             .field("left_damage[29, 33]", &format!("{:02X?}", &self.left_damage_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyAct2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
         fields.push(format!("start_time(unsigned long as u32)[10, 14]: {}", &self.start_time));
@@ -13679,14 +16577,17 @@ impl Debug for PacketCzBotCheck {
         f.debug_struct("PacketCzBotCheck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_bot[2, 6]", &format!("{:02X?}", &self.is_bot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBotCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("is_bot(int as i32)[2, 6]: {}", &self.is_bot));
         write!(f, "PacketCzBotCheck\n {}", fields.join(",\n "))
     }
@@ -13699,17 +16600,23 @@ impl Debug for PacketZcMapproperty {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("atype[4, 6]", &format!("{:02X?}", &self.atype_raw))
             .field("map_info_table[6, ?]", &format!("{:02X?}", &self.map_info_table_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMapproperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("atype(short as i16)[4, 6]: {}", &self.atype));
-        fields.push(format!("map_info_table(int[] as i32[])[6, ?]: {}", &self.map_info_table.pretty_output()));
+        fields.push(format!(
+            "map_info_table(int[] as i32[])[6, ?]: {}",
+            &self.map_info_table.pretty_output()
+        ));
         write!(f, "PacketZcMapproperty\n {}", fields.join(",\n "))
     }
 }
@@ -13720,17 +16627,30 @@ impl Debug for PacketZcNormalItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 26]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 26]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcNormalItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13741,17 +16661,30 @@ impl Debug for PacketZcCartNormalItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCartNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 26]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 26]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcCartNormalItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13762,17 +16695,30 @@ impl Debug for PacketZcStoreNormalItemlist3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcStoreNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("item_info([] as Vec)[4, 26]: {}", &self.item_info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_info([] as Vec)[4, 26]: {}",
+            &self
+                .item_info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcStoreNormalItemlist3\n {}", fields.join(",\n "))
     }
 }
@@ -13786,16 +16732,22 @@ impl Debug for PacketZcAcceptEnter2 {
             .field("x_size[9, 10]", &format!("{:02X?}", &self.x_size_raw))
             .field("y_size[10, 11]", &format!("{:02X?}", &self.y_size_raw))
             .field("font[11, 13]", &format!("{:02X?}", &self.font_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAcceptEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("start_time(unsigned long as u32)[2, 6]: {}", &self.start_time));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[6, 9]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[6, 9]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[9, 10]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[10, 11]: {}", &self.y_size));
         fields.push(format!("font(short as i16)[11, 13]: {}", &self.font));
@@ -13834,14 +16786,17 @@ impl Debug for PacketZcNotifyMoveentry4 {
             .field("y_size[62, 63]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[63, 65]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[65, 67]", &format!("{:02X?}", &self.font_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("objecttype(unsigned char as u8)[2, 3]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[3, 7]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[7, 9]: {}", &self.speed));
@@ -13852,7 +16807,10 @@ impl Display for PacketZcNotifyMoveentry4 {
         fields.push(format!("head(short as i16)[19, 21]: {}", &self.head));
         fields.push(format!("weapon(int as i32)[21, 25]: {}", &self.weapon));
         fields.push(format!("accessory(short as i16)[25, 27]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned long as u32)[27, 31]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[27, 31]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("accessory2(short as i16)[31, 33]: {}", &self.accessory2));
         fields.push(format!("accessory3(short as i16)[33, 35]: {}", &self.accessory3));
         fields.push(format!("headpalette(short as i16)[35, 37]: {}", &self.headpalette));
@@ -13864,7 +16822,10 @@ impl Display for PacketZcNotifyMoveentry4 {
         fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[55, 61]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "move_data(unsigned short[] as u16[])[55, 61]: {}",
+            &self.move_data.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[61, 62]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[62, 63]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[63, 65]: {}", &self.clevel));
@@ -13902,14 +16863,17 @@ impl Debug for PacketZcNotifyNewentry4 {
             .field("y_size[54, 55]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[55, 57]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[57, 59]", &format!("{:02X?}", &self.font_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyNewentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -13930,7 +16894,10 @@ impl Display for PacketZcNotifyNewentry4 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[50, 53]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[55, 57]: {}", &self.clevel));
@@ -13969,14 +16936,17 @@ impl Debug for PacketZcNotifyStandentry4 {
             .field("state[55, 56]", &format!("{:02X?}", &self.state_raw))
             .field("clevel[56, 58]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[58, 60]", &format!("{:02X?}", &self.font_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("speed(short as i16)[6, 8]: {}", &self.speed));
         fields.push(format!("body_state(short as i16)[8, 10]: {}", &self.body_state));
@@ -13997,7 +16967,10 @@ impl Display for PacketZcNotifyStandentry4 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[50, 53]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[55, 56]: {}", &self.state));
@@ -14013,14 +16986,17 @@ impl Debug for PacketZcNotifyFont {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("font[6, 8]", &format!("{:02X?}", &self.font_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyFont {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("font(short as i16)[6, 8]: {}", &self.font));
         write!(f, "PacketZcNotifyFont\n {}", fields.join(",\n "))
@@ -14033,14 +17009,17 @@ impl Debug for PacketZcProgress {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("color[2, 6]", &format!("{:02X?}", &self.color_raw))
             .field("time[6, 10]", &format!("{:02X?}", &self.time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcProgress {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("color(unsigned long as u32)[2, 6]: {}", &self.color));
         fields.push(format!("time(unsigned long as u32)[6, 10]: {}", &self.time));
         write!(f, "PacketZcProgress\n {}", fields.join(",\n "))
@@ -14051,14 +17030,17 @@ impl Debug for PacketCzProgress {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzProgress")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzProgress {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzProgress\n {}", fields.join(",\n "))
     }
 }
@@ -14067,14 +17049,17 @@ impl Debug for PacketZcProgressCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcProgressCancel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcProgressCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcProgressCancel\n {}", fields.join(",\n "))
     }
 }
@@ -14083,14 +17068,17 @@ impl Debug for PacketCzOpenSimpleCashshopItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzOpenSimpleCashshopItemlist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzOpenSimpleCashshopItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzOpenSimpleCashshopItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -14106,22 +17094,35 @@ impl Debug for PacketZcSimpleCashshopPointItemlist {
             .field("best_itemcount[12, 14]", &format!("{:02X?}", &self.best_itemcount_raw))
             .field("best_itemsize[14, 16]", &format!("{:02X?}", &self.best_itemsize_raw))
             .field("item_list[16, 27]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSimpleCashshopPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("cash_point(unsigned long as u32)[4, 8]: {}", &self.cash_point));
         fields.push(format!("md_itemcount(short as i16)[8, 10]: {}", &self.md_itemcount));
         fields.push(format!("md_item_size(short as i16)[10, 12]: {}", &self.md_item_size));
         fields.push(format!("best_itemcount(short as i16)[12, 14]: {}", &self.best_itemcount));
         fields.push(format!("best_itemsize(short as i16)[14, 16]: {}", &self.best_itemsize));
-        fields.push(format!("item_list([] as Vec)[16, 27]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[16, 27]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcSimpleCashshopPointItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -14130,14 +17131,17 @@ impl Debug for PacketCzCloseWindow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseWindow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCloseWindow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCloseWindow\n {}", fields.join(",\n "))
     }
 }
@@ -14147,15 +17151,21 @@ impl Debug for PacketAhcGameGuard {
         f.debug_struct("PacketAhcGameGuard")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAhcGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("auth_data(unsigned long[] as u32[])[2, 6]: {}", &self.auth_data.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "auth_data(unsigned long[] as u32[])[2, 6]: {}",
+            &self.auth_data.pretty_output()
+        ));
         write!(f, "PacketAhcGameGuard\n {}", fields.join(",\n "))
     }
 }
@@ -14165,15 +17175,21 @@ impl Debug for PacketCahAckGameGuard {
         f.debug_struct("PacketCahAckGameGuard")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCahAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("auth_data(unsigned long[] as u32[])[2, 6]: {}", &self.auth_data.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "auth_data(unsigned long[] as u32[])[2, 6]: {}",
+            &self.auth_data.pretty_output()
+        ));
         write!(f, "PacketCahAckGameGuard\n {}", fields.join(",\n "))
     }
 }
@@ -14187,14 +17203,17 @@ impl Debug for PacketCzEnter2 {
             .field("auth_code[10, 14]", &format!("{:02X?}", &self.auth_code_raw))
             .field("client_time[14, 18]", &format!("{:02X?}", &self.client_time_raw))
             .field("sex[18, 19]", &format!("{:02X?}", &self.sex_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
         fields.push(format!("auth_code(int as i32)[10, 14]: {}", &self.auth_code));
@@ -14211,14 +17230,17 @@ impl Debug for PacketCzUseSkill2 {
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
             .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseSkill2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
         fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
         fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
@@ -14232,14 +17254,17 @@ impl Debug for PacketCzUseItem2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzUseItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         write!(f, "PacketCzUseItem2\n {}", fields.join(",\n "))
@@ -14252,14 +17277,17 @@ impl Debug for PacketZcSkillPostdelay {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("delay_tm[4, 8]", &format!("{:02X?}", &self.delay_tm_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillPostdelay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("delay_tm(unsigned long as u32)[4, 8]: {}", &self.delay_tm));
         write!(f, "PacketZcSkillPostdelay\n {}", fields.join(",\n "))
@@ -14272,17 +17300,30 @@ impl Debug for PacketZcSkillPostdelayList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("delay_list[4, 10]", &format!("{:02X?}", &self.delay_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillPostdelayList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("delay_list([] as Vec)[4, 10]: {}", &self.delay_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "delay_list([] as Vec)[4, 10]: {}",
+            &self
+                .delay_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcSkillPostdelayList\n {}", fields.join(",\n "))
     }
 }
@@ -14296,14 +17337,17 @@ impl Debug for PacketZcMsgStateChange2 {
             .field("state[8, 9]", &format!("{:02X?}", &self.state_raw))
             .field("remain_ms[9, 13]", &format!("{:02X?}", &self.remain_ms_raw))
             .field("val[13, 16]", &format!("{:02X?}", &self.val_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsgStateChange2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("state(bool as bool)[8, 9]: {}", &self.state));
@@ -14320,14 +17364,17 @@ impl Debug for PacketZcMillenniumshield {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
             .field("state[8, 10]", &format!("{:02X?}", &self.state_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMillenniumshield {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("num(short as i16)[6, 8]: {}", &self.num));
         fields.push(format!("state(short as i16)[8, 10]: {}", &self.state));
@@ -14340,14 +17387,17 @@ impl Debug for PacketZcSkillinfoDelete {
         f.debug_struct("PacketZcSkillinfoDelete")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillinfoDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         write!(f, "PacketZcSkillinfoDelete\n {}", fields.join(",\n "))
     }
@@ -14360,17 +17410,23 @@ impl Debug for PacketZcSkillSelectRequest {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("why[4, 8]", &format!("{:02X?}", &self.why_raw))
             .field("skidlist[8, ?]", &format!("{:02X?}", &self.skidlist_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillSelectRequest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("why(long as i32)[4, 8]: {}", &self.why));
-        fields.push(format!("skidlist(unsigned short[] as u16[])[8, ?]: {}", &self.skidlist.pretty_output()));
+        fields.push(format!(
+            "skidlist(unsigned short[] as u16[])[8, ?]: {}",
+            &self.skidlist.pretty_output()
+        ));
         write!(f, "PacketZcSkillSelectRequest\n {}", fields.join(",\n "))
     }
 }
@@ -14381,14 +17437,17 @@ impl Debug for PacketCzSkillSelectResponse {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("why[2, 6]", &format!("{:02X?}", &self.why_raw))
             .field("skid[6, 8]", &format!("{:02X?}", &self.skid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSkillSelectResponse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("why(long as i32)[2, 6]: {}", &self.why));
         fields.push(format!("skid(unsigned short as u16)[6, 8]: {}", &self.skid));
         write!(f, "PacketCzSkillSelectResponse\n {}", fields.join(",\n "))
@@ -14402,18 +17461,31 @@ impl Debug for PacketZcSimpleCashPointItemlist {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("cash_point[4, 8]", &format!("{:02X?}", &self.cash_point_raw))
             .field("item_list[8, 19]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSimpleCashPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("cash_point(unsigned long as u32)[4, 8]: {}", &self.cash_point));
-        fields.push(format!("item_list([] as Vec)[8, 19]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[8, 19]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcSimpleCashPointItemlist\n {}", fields.join(",\n "))
     }
 }
@@ -14424,14 +17496,17 @@ impl Debug for PacketCzSimpleBuyCashPointItem {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSimpleBuyCashPointItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketCzSimpleBuyCashPointItem\n {}", fields.join(",\n "))
@@ -14447,14 +17522,17 @@ impl Debug for PacketZcQuestNotifyEffect {
             .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
             .field("effect[10, 12]", &format!("{:02X?}", &self.effect_raw))
             .field("atype[12, 14]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcQuestNotifyEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("npc_id(unsigned long as u32)[2, 6]: {}", &self.npc_id));
         fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
@@ -14470,17 +17548,30 @@ impl Debug for PacketHcCharacterList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("character_list[4, 9]", &format!("{:02X?}", &self.character_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcCharacterList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("character_list([] as Vec)[4, 9]: {}", &self.character_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "character_list([] as Vec)[4, 9]: {}",
+            &self
+                .character_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketHcCharacterList\n {}", fields.join(",\n "))
     }
 }
@@ -14490,14 +17581,17 @@ impl Debug for PacketZcHackshErrorMsg {
         f.debug_struct("PacketZcHackshErrorMsg")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_id[2, 4]", &format!("{:02X?}", &self.error_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcHackshErrorMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_id(short as i16)[2, 4]: {}", &self.error_id));
         write!(f, "PacketZcHackshErrorMsg\n {}", fields.join(",\n "))
     }
@@ -14508,14 +17602,17 @@ impl Debug for PacketCzClientVersion {
         f.debug_struct("PacketCzClientVersion")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_ver[2, 6]", &format!("{:02X?}", &self.client_ver_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzClientVersion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("client_ver(long as i32)[2, 6]: {}", &self.client_ver));
         write!(f, "PacketCzClientVersion\n {}", fields.join(",\n "))
     }
@@ -14525,14 +17622,17 @@ impl Debug for PacketCzCloseSimplecashShop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseSimplecashShop")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCloseSimplecashShop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCloseSimplecashShop\n {}", fields.join(",\n "))
     }
 }
@@ -14543,14 +17643,17 @@ impl Debug for PacketZcEsResult {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
             .field("es_msg[4, 6]", &format!("{:02X?}", &self.es_msg_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEsResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         fields.push(format!("es_msg(short as i16)[4, 6]: {}", &self.es_msg));
         write!(f, "PacketZcEsResult\n {}", fields.join(",\n "))
@@ -14561,14 +17664,17 @@ impl Debug for PacketCzEsGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEsGetList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEsGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzEsGetList\n {}", fields.join(",\n "))
     }
 }
@@ -14579,14 +17685,17 @@ impl Debug for PacketZcEsList {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         write!(f, "PacketZcEsList\n {}", fields.join(",\n "))
@@ -14598,14 +17707,17 @@ impl Debug for PacketCzEsChoose {
         f.debug_struct("PacketCzEsChoose")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEsChoose {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         write!(f, "PacketCzEsChoose\n {}", fields.join(",\n "))
     }
@@ -14616,14 +17728,17 @@ impl Debug for PacketCzEsCancel {
         f.debug_struct("PacketCzEsCancel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzEsCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         write!(f, "PacketCzEsCancel\n {}", fields.join(",\n "))
     }
@@ -14634,14 +17749,17 @@ impl Debug for PacketZcEsReady {
         f.debug_struct("PacketZcEsReady")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEsReady {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         write!(f, "PacketZcEsReady\n {}", fields.join(",\n "))
     }
@@ -14652,14 +17770,17 @@ impl Debug for PacketZcEsGoto {
         f.debug_struct("PacketZcEsGoto")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEsGoto {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         write!(f, "PacketZcEsGoto\n {}", fields.join(",\n "))
     }
@@ -14672,17 +17793,26 @@ impl Debug for PacketCzGroupinfoChangeV2 {
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
             .field("item_pickup_rule[6, 7]", &format!("{:02X?}", &self.item_pickup_rule_raw))
             .field("item_division_rule[7, 8]", &format!("{:02X?}", &self.item_division_rule_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGroupinfoChangeV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp_option(unsigned long as u32)[2, 6]: {}", &self.exp_option));
-        fields.push(format!("item_pickup_rule(unsigned char as u8)[6, 7]: {}", &self.item_pickup_rule));
-        fields.push(format!("item_division_rule(unsigned char as u8)[7, 8]: {}", &self.item_division_rule));
+        fields.push(format!(
+            "item_pickup_rule(unsigned char as u8)[6, 7]: {}",
+            &self.item_pickup_rule
+        ));
+        fields.push(format!(
+            "item_division_rule(unsigned char as u8)[7, 8]: {}",
+            &self.item_division_rule
+        ));
         write!(f, "PacketCzGroupinfoChangeV2\n {}", fields.join(",\n "))
     }
 }
@@ -14694,17 +17824,26 @@ impl Debug for PacketZcReqGroupinfoChangeV2 {
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
             .field("item_pickup_rule[6, 7]", &format!("{:02X?}", &self.item_pickup_rule_raw))
             .field("item_division_rule[7, 8]", &format!("{:02X?}", &self.item_division_rule_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqGroupinfoChangeV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("exp_option(unsigned long as u32)[2, 6]: {}", &self.exp_option));
-        fields.push(format!("item_pickup_rule(unsigned char as u8)[6, 7]: {}", &self.item_pickup_rule));
-        fields.push(format!("item_division_rule(unsigned char as u8)[7, 8]: {}", &self.item_division_rule));
+        fields.push(format!(
+            "item_pickup_rule(unsigned char as u8)[6, 7]: {}",
+            &self.item_pickup_rule
+        ));
+        fields.push(format!(
+            "item_division_rule(unsigned char as u8)[7, 8]: {}",
+            &self.item_division_rule
+        ));
         write!(f, "PacketZcReqGroupinfoChangeV2\n {}", fields.join(",\n "))
     }
 }
@@ -14714,16 +17853,29 @@ impl Debug for PacketZcShortcutKeyListV2 {
         f.debug_struct("PacketZcShortcutKeyListV2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("short_cut_key[2, 9]", &format!("{:02X?}", &self.short_cut_key_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcShortcutKeyListV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("short_cut_key([] as Vec)[2, 9]: {}", &self.short_cut_key.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "short_cut_key([] as Vec)[2, 9]: {}",
+            &self
+                .short_cut_key
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcShortcutKeyListV2\n {}", fields.join(",\n "))
     }
 }
@@ -14733,14 +17885,17 @@ impl Debug for PacketCzChangeGroupMaster {
         f.debug_struct("PacketCzChangeGroupMaster")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzChangeGroupMaster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzChangeGroupMaster\n {}", fields.join(",\n "))
     }
@@ -14752,14 +17907,17 @@ impl Debug for PacketZcHoParChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcHoParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var(unsigned short as u16)[2, 4]: {}", &self.var));
         fields.push(format!("value(int as i32)[4, 8]: {}", &self.value));
         write!(f, "PacketZcHoParChange\n {}", fields.join(",\n "))
@@ -14771,14 +17929,17 @@ impl Debug for PacketCzSeekParty {
         f.debug_struct("PacketCzSeekParty")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("option[2, 6]", &format!("{:02X?}", &self.option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSeekParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("option(unsigned long as u32)[2, 6]: {}", &self.option));
         write!(f, "PacketCzSeekParty\n {}", fields.join(",\n "))
     }
@@ -14793,18 +17954,24 @@ impl Debug for PacketZcSeekParty {
             .field("level[30, 34]", &format!("{:02X?}", &self.level_raw))
             .field("map_name[34, 50]", &format!("{:02X?}", &self.map_name_raw))
             .field("option[50, 54]", &format!("{:02X?}", &self.option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSeekParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("job(unsigned long as u32)[26, 30]: {}", &self.job));
         fields.push(format!("level(unsigned long as u32)[30, 34]: {}", &self.level));
-        fields.push(format!("map_name(char[] as char[])[34, 50]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "map_name(char[] as char[])[34, 50]: {}",
+            &self.map_name.pretty_output()
+        ));
         fields.push(format!("option(unsigned long as u32)[50, 54]: {}", &self.option));
         write!(f, "PacketZcSeekParty\n {}", fields.join(",\n "))
     }
@@ -14818,17 +17985,23 @@ impl Debug for PacketCzSeekPartyMember {
             .field("level[6, 10]", &format!("{:02X?}", &self.level_raw))
             .field("map_name[10, 26]", &format!("{:02X?}", &self.map_name_raw))
             .field("option[26, 30]", &format!("{:02X?}", &self.option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSeekPartyMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("job(unsigned long as u32)[2, 6]: {}", &self.job));
         fields.push(format!("level(unsigned long as u32)[6, 10]: {}", &self.level));
-        fields.push(format!("map_name(char[] as char[])[10, 26]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "map_name(char[] as char[])[10, 26]: {}",
+            &self.map_name.pretty_output()
+        ));
         fields.push(format!("option(unsigned long as u32)[26, 30]: {}", &self.option));
         write!(f, "PacketCzSeekPartyMember\n {}", fields.join(",\n "))
     }
@@ -14843,18 +18016,24 @@ impl Debug for PacketZcSeekPartyMember {
             .field("level[30, 34]", &format!("{:02X?}", &self.level_raw))
             .field("map_name[34, 50]", &format!("{:02X?}", &self.map_name_raw))
             .field("option[50, 54]", &format!("{:02X?}", &self.option_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSeekPartyMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("job(unsigned long as u32)[26, 30]: {}", &self.job));
         fields.push(format!("level(unsigned long as u32)[30, 34]: {}", &self.level));
-        fields.push(format!("map_name(char[] as char[])[34, 50]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "map_name(char[] as char[])[34, 50]: {}",
+            &self.map_name.pretty_output()
+        ));
         fields.push(format!("option(unsigned long as u32)[50, 54]: {}", &self.option));
         write!(f, "PacketZcSeekPartyMember\n {}", fields.join(",\n "))
     }
@@ -14866,14 +18045,17 @@ impl Debug for PacketZcEsNotiMyinfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
             .field("esname[4, 58]", &format!("{:02X?}", &self.esname_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcEsNotiMyinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("es_no(short as i16)[2, 4]: {}", &self.es_no));
         fields.push(format!("esname(char[] as char[])[4, 58]: {}", &self.esname.pretty_output()));
         write!(f, "PacketZcEsNotiMyinfo\n {}", fields.join(",\n "))
@@ -14890,14 +18072,17 @@ impl Debug for PacketZcSkillinfoUpdate2 {
             .field("spcost[10, 12]", &format!("{:02X?}", &self.spcost_raw))
             .field("attack_range[12, 14]", &format!("{:02X?}", &self.attack_range_raw))
             .field("upgradable[14, 15]", &format!("{:02X?}", &self.upgradable_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSkillinfoUpdate2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("atype(int as i32)[4, 8]: {}", &self.atype));
         fields.push(format!("level(short as i16)[8, 10]: {}", &self.level));
@@ -14914,14 +18099,17 @@ impl Debug for PacketZcMsgValue {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 4]", &format!("{:02X?}", &self.msg_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsgValue {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg(unsigned short as u16)[2, 4]: {}", &self.msg));
         fields.push(format!("value(int as i32)[4, 8]: {}", &self.value));
         write!(f, "PacketZcMsgValue\n {}", fields.join(",\n "))
@@ -14933,14 +18121,17 @@ impl Debug for PacketZcItemlistwinOpen {
         f.debug_struct("PacketZcItemlistwinOpen")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemlistwinOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(long as i32)[2, 6]: {}", &self.atype));
         write!(f, "PacketZcItemlistwinOpen\n {}", fields.join(",\n "))
     }
@@ -14954,14 +18145,17 @@ impl Debug for PacketCzItemlistwinRes {
             .field("atype[4, 8]", &format!("{:02X?}", &self.atype_raw))
             .field("action[8, 12]", &format!("{:02X?}", &self.action_raw))
             .field("material_list[12, 14]", &format!("{:02X?}", &self.material_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzItemlistwinRes {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("atype(long as i32)[4, 8]: {}", &self.atype));
         fields.push(format!("action(long as i32)[8, 12]: {}", &self.action));
@@ -14977,14 +18171,17 @@ impl Debug for PacketChEnterCheckbot {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("dw_aid[4, 8]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("sz_string_info[8, ?]", &format!("{:02X?}", &self.sz_string_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChEnterCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("dw_aid(unsigned long as u32)[4, 8]: {}", &self.dw_aid));
         fields.push(format!("sz_string_info(char[] as String)[8, ?]: {}", &self.sz_string_info));
@@ -14998,14 +18195,17 @@ impl Debug for PacketZcMsgSkill {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("msgid[4, 8]", &format!("{:02X?}", &self.msgid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsgSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
         fields.push(format!("msgid(int as i32)[4, 8]: {}", &self.msgid));
         write!(f, "PacketZcMsgSkill\n {}", fields.join(",\n "))
@@ -15019,17 +18219,23 @@ impl Debug for PacketChCheckbot {
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("dw_aid[4, 8]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("sz_string_info[8, 32]", &format!("{:02X?}", &self.sz_string_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("dw_aid(unsigned long as u32)[4, 8]: {}", &self.dw_aid));
-        fields.push(format!("sz_string_info(char[] as char[])[8, 32]: {}", &self.sz_string_info.pretty_output()));
+        fields.push(format!(
+            "sz_string_info(char[] as char[])[8, 32]: {}",
+            &self.sz_string_info.pretty_output()
+        ));
         write!(f, "PacketChCheckbot\n {}", fields.join(",\n "))
     }
 }
@@ -15040,14 +18246,17 @@ impl Debug for PacketHcCheckbot {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("img[4, ?]", &format!("{:02X?}", &self.img_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("img(char[] as String)[4, ?]: {}", &self.img));
         write!(f, "PacketHcCheckbot\n {}", fields.join(",\n "))
@@ -15060,14 +18269,17 @@ impl Debug for PacketHcCheckbotResult {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcCheckbotResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("result(unsigned char as u8)[4, 5]: {}", &self.result));
         write!(f, "PacketHcCheckbotResult\n {}", fields.join(",\n "))
@@ -15078,14 +18290,17 @@ impl Debug for PacketCzBattleFieldList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBattleFieldList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBattleFieldList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzBattleFieldList\n {}", fields.join(",\n "))
     }
 }
@@ -15098,19 +18313,32 @@ impl Debug for PacketZcBattleFieldList {
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("ack_type[6, 8]", &format!("{:02X?}", &self.ack_type_raw))
             .field("info_list[8, 70]", &format!("{:02X?}", &self.info_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattleFieldList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         fields.push(format!("ack_type(short as i16)[6, 8]: {}", &self.ack_type));
-        fields.push(format!("info_list([] as Vec)[8, 70]: {}", &self.info_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "info_list([] as Vec)[8, 70]: {}",
+            &self
+                .info_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcBattleFieldList\n {}", fields.join(",\n "))
     }
 }
@@ -15121,14 +18349,17 @@ impl Debug for PacketCzJoinBattleField {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("join_team[6, 8]", &format!("{:02X?}", &self.join_team_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzJoinBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("join_team(short as i16)[6, 8]: {}", &self.join_team));
         write!(f, "PacketCzJoinBattleField\n {}", fields.join(",\n "))
@@ -15142,14 +18373,17 @@ impl Debug for PacketZcJoinBattleField {
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("join_team[6, 8]", &format!("{:02X?}", &self.join_team_raw))
             .field("result[8, 10]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcJoinBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("join_team(short as i16)[6, 8]: {}", &self.join_team));
         fields.push(format!("result(short as i16)[8, 10]: {}", &self.result));
@@ -15162,14 +18396,17 @@ impl Debug for PacketCzCancelBattleField {
         f.debug_struct("PacketCzCancelBattleField")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCancelBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         write!(f, "PacketCzCancelBattleField\n {}", fields.join(",\n "))
     }
@@ -15181,14 +18418,17 @@ impl Debug for PacketZcCancelBattleField {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCancelBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("result(short as i16)[6, 8]: {}", &self.result));
         write!(f, "PacketZcCancelBattleField\n {}", fields.join(",\n "))
@@ -15201,14 +18441,17 @@ impl Debug for PacketCzReqBattleStateMonitor {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("power_switch[6, 8]", &format!("{:02X?}", &self.power_switch_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqBattleStateMonitor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("power_switch(short as i16)[6, 8]: {}", &self.power_switch));
         write!(f, "PacketCzReqBattleStateMonitor\n {}", fields.join(",\n "))
@@ -15226,14 +18469,17 @@ impl Debug for PacketZcAckBattleStateMonitor {
             .field("team_count_b[12, 14]", &format!("{:02X?}", &self.team_count_b_raw))
             .field("my_count[14, 16]", &format!("{:02X?}", &self.my_count_raw))
             .field("join_team[16, 18]", &format!("{:02X?}", &self.join_team_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckBattleStateMonitor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("play_count(short as i16)[6, 8]: {}", &self.play_count));
         fields.push(format!("battle_state(short as i16)[8, 10]: {}", &self.battle_state));
@@ -15251,14 +18497,17 @@ impl Debug for PacketZcBattleNotiStartStep {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattleNotiStartStep {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         fields.push(format!("result(short as i16)[6, 8]: {}", &self.result));
         write!(f, "PacketZcBattleNotiStartStep\n {}", fields.join(",\n "))
@@ -15270,14 +18519,17 @@ impl Debug for PacketZcBattleJoinNotiDefer {
         f.debug_struct("PacketZcBattleJoinNotiDefer")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattleJoinNotiDefer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bfno(unsigned long as u32)[2, 6]: {}", &self.bfno));
         write!(f, "PacketZcBattleJoinNotiDefer\n {}", fields.join(",\n "))
     }
@@ -15288,14 +18540,17 @@ impl Debug for PacketZcBattleJoinDisableState {
         f.debug_struct("PacketZcBattleJoinDisableState")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("enable[2, 3]", &format!("{:02X?}", &self.enable_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBattleJoinDisableState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("enable(bool as bool)[2, 3]: {}", &self.enable));
         write!(f, "PacketZcBattleJoinDisableState\n {}", fields.join(",\n "))
     }
@@ -15306,14 +18561,17 @@ impl Debug for PacketCzGmFullstrip {
         f.debug_struct("PacketCzGmFullstrip")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_aid[2, 6]", &format!("{:02X?}", &self.target_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzGmFullstrip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("target_aid(unsigned long as u32)[2, 6]: {}", &self.target_aid));
         write!(f, "PacketCzGmFullstrip\n {}", fields.join(",\n "))
     }
@@ -15327,14 +18585,17 @@ impl Debug for PacketZcNotifyExp {
             .field("amount[6, 10]", &format!("{:02X?}", &self.amount_raw))
             .field("var_id[10, 12]", &format!("{:02X?}", &self.var_id_raw))
             .field("exp_type[12, 14]", &format!("{:02X?}", &self.exp_type_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyExp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("amount(int as i32)[6, 10]: {}", &self.amount));
         fields.push(format!("var_id(unsigned short as u16)[10, 12]: {}", &self.var_id));
@@ -15376,14 +18637,17 @@ impl Debug for PacketZcNotifyMoveentry7 {
             .field("clevel[65, 67]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[67, 69]", &format!("{:02X?}", &self.font_raw))
             .field("name[69, 93]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry7 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[5, 9]: {}", &self.gid));
@@ -15395,7 +18659,10 @@ impl Display for PacketZcNotifyMoveentry7 {
         fields.push(format!("head(short as i16)[21, 23]: {}", &self.head));
         fields.push(format!("weapon(int as i32)[23, 27]: {}", &self.weapon));
         fields.push(format!("accessory(short as i16)[27, 29]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned long as u32)[29, 33]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned long as u32)[29, 33]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("accessory2(short as i16)[33, 35]: {}", &self.accessory2));
         fields.push(format!("accessory3(short as i16)[35, 37]: {}", &self.accessory3));
         fields.push(format!("headpalette(short as i16)[37, 39]: {}", &self.headpalette));
@@ -15407,7 +18674,10 @@ impl Display for PacketZcNotifyMoveentry7 {
         fields.push(format!("virtue(int as i32)[51, 55]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[55, 56]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[56, 57]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[57, 63]: {}", &self.move_data.pretty_output()));
+        fields.push(format!(
+            "move_data(unsigned short[] as u16[])[57, 63]: {}",
+            &self.move_data.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[63, 64]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[64, 65]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[65, 67]: {}", &self.clevel));
@@ -15449,14 +18719,17 @@ impl Debug for PacketZcNotifyNewentry5 {
             .field("clevel[58, 60]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[60, 62]", &format!("{:02X?}", &self.font_raw))
             .field("name[62, 86]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyNewentry5 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[5, 9]: {}", &self.gid));
@@ -15479,7 +18752,10 @@ impl Display for PacketZcNotifyNewentry5 {
         fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[53, 56]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -15522,14 +18798,17 @@ impl Debug for PacketZcNotifyStandentry5 {
             .field("clevel[59, 61]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[61, 63]", &format!("{:02X?}", &self.font_raw))
             .field("name[63, 87]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry5 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("gid(unsigned long as u32)[5, 9]: {}", &self.gid));
@@ -15552,7 +18831,10 @@ impl Display for PacketZcNotifyStandentry5 {
         fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[53, 56]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[58, 59]: {}", &self.state));
@@ -15570,14 +18852,17 @@ impl Debug for PacketZcDeleteItemFromBody {
             .field("delete_type[2, 4]", &format!("{:02X?}", &self.delete_type_raw))
             .field("index[4, 6]", &format!("{:02X?}", &self.index_raw))
             .field("count[6, 8]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDeleteItemFromBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("delete_type(short as i16)[2, 4]: {}", &self.delete_type));
         fields.push(format!("index(unsigned short as u16)[4, 6]: {}", &self.index));
         fields.push(format!("count(short as i16)[6, 8]: {}", &self.count));
@@ -15597,14 +18882,17 @@ impl Debug for PacketZcUseskillAck2 {
             .field("property[16, 20]", &format!("{:02X?}", &self.property_raw))
             .field("delay_time[20, 24]", &format!("{:02X?}", &self.delay_time_raw))
             .field("is_disposable[24, 25]", &format!("{:02X?}", &self.is_disposable_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUseskillAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
@@ -15623,14 +18911,17 @@ impl Debug for PacketZcChangeGroupMaster {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("old_master_aid[2, 6]", &format!("{:02X?}", &self.old_master_aid_raw))
             .field("new_master_aid[6, 10]", &format!("{:02X?}", &self.new_master_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcChangeGroupMaster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("old_master_aid(unsigned long as u32)[2, 6]: {}", &self.old_master_aid));
         fields.push(format!("new_master_aid(unsigned long as u32)[6, 10]: {}", &self.new_master_aid));
         write!(f, "PacketZcChangeGroupMaster\n {}", fields.join(",\n "))
@@ -15642,14 +18933,17 @@ impl Debug for PacketZcPlayNpcBgm {
         f.debug_struct("PacketZcPlayNpcBgm")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bgm[2, 26]", &format!("{:02X?}", &self.bgm_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPlayNpcBgm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("bgm(char[] as char[])[2, 26]: {}", &self.bgm.pretty_output()));
         write!(f, "PacketZcPlayNpcBgm\n {}", fields.join(",\n "))
     }
@@ -15661,14 +18955,17 @@ impl Debug for PacketZcDefineCheck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("result[4, 8]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDefineCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("result(int as i32)[4, 8]: {}", &self.result));
         write!(f, "PacketZcDefineCheck\n {}", fields.join(",\n "))
@@ -15683,19 +18980,32 @@ impl Debug for PacketZcPcPurchaseItemlistFrommc2 {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("unique_id[8, 12]", &format!("{:02X?}", &self.unique_id_raw))
             .field("item_list[12, 34]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPcPurchaseItemlistFrommc2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("unique_id(unsigned long as u32)[8, 12]: {}", &self.unique_id));
-        fields.push(format!("item_list([] as Vec)[12, 34]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[12, 34]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPcPurchaseItemlistFrommc2\n {}", fields.join(",\n "))
     }
 }
@@ -15708,19 +19018,32 @@ impl Debug for PacketCzPcPurchaseItemlistFrommc2 {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("unique_id[8, 12]", &format!("{:02X?}", &self.unique_id_raw))
             .field("item_list[12, 16]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPcPurchaseItemlistFrommc2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("unique_id(unsigned long as u32)[8, 12]: {}", &self.unique_id));
-        fields.push(format!("item_list([] as Vec)[12, 16]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[12, 16]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzPcPurchaseItemlistFrommc2\n {}", fields.join(",\n "))
     }
 }
@@ -15730,14 +19053,17 @@ impl Debug for PacketCzPartyBookingReqRegister {
         f.debug_struct("PacketCzPartyBookingReqRegister")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("register_info[2, ?]", &format!("{:02X?}", &self.register_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyBookingReqRegister {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("register_info(struct as Struct)[2, ?]: {}", &self.register_info));
         write!(f, "PacketCzPartyBookingReqRegister\n {}", fields.join(",\n "))
     }
@@ -15748,14 +19074,17 @@ impl Debug for PacketZcPartyBookingAckRegister {
         f.debug_struct("PacketZcPartyBookingAckRegister")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingAckRegister {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         write!(f, "PacketZcPartyBookingAckRegister\n {}", fields.join(",\n "))
     }
@@ -15770,14 +19099,17 @@ impl Debug for PacketCzPartyBookingReqSearch {
             .field("job[6, 8]", &format!("{:02X?}", &self.job_raw))
             .field("last_index[8, 12]", &format!("{:02X?}", &self.last_index_raw))
             .field("result_count[12, 14]", &format!("{:02X?}", &self.result_count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyBookingReqSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("level(short as i16)[2, 4]: {}", &self.level));
         fields.push(format!("map_id(short as i16)[4, 6]: {}", &self.map_id));
         fields.push(format!("job(short as i16)[6, 8]: {}", &self.job));
@@ -15792,20 +19124,39 @@ impl Debug for PacketZcPartyBookingAckSearch {
         f.debug_struct("PacketZcPartyBookingAckSearch")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("is_exist_more_result[4, 5]", &format!("{:02X?}", &self.is_exist_more_result_raw))
+            .field(
+                "is_exist_more_result[4, 5]",
+                &format!("{:02X?}", &self.is_exist_more_result_raw),
+            )
             .field("info[5, 53]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingAckSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("is_exist_more_result(bool as bool)[4, 5]: {}", &self.is_exist_more_result));
-        fields.push(format!("info([] as Vec)[5, 53]: {}", &self.info.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "is_exist_more_result(bool as bool)[4, 5]: {}",
+            &self.is_exist_more_result
+        ));
+        fields.push(format!(
+            "info([] as Vec)[5, 53]: {}",
+            &self
+                .info
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcPartyBookingAckSearch\n {}", fields.join(",\n "))
     }
 }
@@ -15814,14 +19165,17 @@ impl Debug for PacketCzPartyBookingReqDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyBookingReqDelete")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyBookingReqDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzPartyBookingReqDelete\n {}", fields.join(",\n "))
     }
 }
@@ -15831,14 +19185,17 @@ impl Debug for PacketZcPartyBookingAckDelete {
         f.debug_struct("PacketZcPartyBookingAckDelete")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingAckDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         write!(f, "PacketZcPartyBookingAckDelete\n {}", fields.join(",\n "))
     }
@@ -15849,14 +19206,17 @@ impl Debug for PacketCzPartyBookingReqUpdate {
         f.debug_struct("PacketCzPartyBookingReqUpdate")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("job[2, 8]", &format!("{:02X?}", &self.job_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPartyBookingReqUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("job(short[] as i16[])[2, 8]: {}", &self.job.pretty_output()));
         write!(f, "PacketCzPartyBookingReqUpdate\n {}", fields.join(",\n "))
     }
@@ -15867,14 +19227,17 @@ impl Debug for PacketZcPartyBookingNotifyInsert {
         f.debug_struct("PacketZcPartyBookingNotifyInsert")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingNotifyInsert {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("info(struct as Struct)[2, ?]: {}", &self.info));
         write!(f, "PacketZcPartyBookingNotifyInsert\n {}", fields.join(",\n "))
     }
@@ -15891,14 +19254,17 @@ impl Debug for PacketZcPartyBookingNotifyUpdate {
             .field("job4[12, 14]", &format!("{:02X?}", &self.job4_raw))
             .field("job5[14, 16]", &format!("{:02X?}", &self.job5_raw))
             .field("job6[16, 18]", &format!("{:02X?}", &self.job6_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingNotifyUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned long as u32)[2, 6]: {}", &self.index));
         fields.push(format!("job1(short as i16)[6, 8]: {}", &self.job1));
         fields.push(format!("job2(short as i16)[8, 10]: {}", &self.job2));
@@ -15915,14 +19281,17 @@ impl Debug for PacketZcPartyBookingNotifyDelete {
         f.debug_struct("PacketZcPartyBookingNotifyDelete")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 6]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcPartyBookingNotifyDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(unsigned long as u32)[2, 6]: {}", &self.index));
         write!(f, "PacketZcPartyBookingNotifyDelete\n {}", fields.join(",\n "))
     }
@@ -15932,14 +19301,17 @@ impl Debug for PacketCzSimpleCashBtnshow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSimpleCashBtnshow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSimpleCashBtnshow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzSimpleCashBtnshow\n {}", fields.join(",\n "))
     }
 }
@@ -15949,14 +19321,17 @@ impl Debug for PacketZcSimpleCashBtnshow {
         f.debug_struct("PacketZcSimpleCashBtnshow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("show[2, 3]", &format!("{:02X?}", &self.show_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSimpleCashBtnshow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("show(bool as bool)[2, 3]: {}", &self.show));
         write!(f, "PacketZcSimpleCashBtnshow\n {}", fields.join(",\n "))
     }
@@ -15969,14 +19344,17 @@ impl Debug for PacketZcNotifyHpToGroupmR2 {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("hp[6, 10]", &format!("{:02X?}", &self.hp_raw))
             .field("maxhp[10, 14]", &format!("{:02X?}", &self.maxhp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyHpToGroupmR2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("hp(int as i32)[6, 10]: {}", &self.hp));
         fields.push(format!("maxhp(int as i32)[10, 14]: {}", &self.maxhp));
@@ -15995,14 +19373,17 @@ impl Debug for PacketZcAddExchangeItem2 {
             .field("is_damaged[10, 11]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[11, 12]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAddExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         fields.push(format!("atype(unsigned char as u8)[4, 5]: {}", &self.atype));
         fields.push(format!("count(int as i32)[5, 9]: {}", &self.count));
@@ -16019,14 +19400,17 @@ impl Debug for PacketZcOpenBuyingStore {
         f.debug_struct("PacketZcOpenBuyingStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("count[2, 3]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOpenBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("count(unsigned char as u8)[2, 3]: {}", &self.count));
         write!(f, "PacketZcOpenBuyingStore\n {}", fields.join(",\n "))
     }
@@ -16041,20 +19425,36 @@ impl Debug for PacketCzReqOpenBuyingStore {
             .field("result[8, 9]", &format!("{:02X?}", &self.result_raw))
             .field("store_name[9, 89]", &format!("{:02X?}", &self.store_name_raw))
             .field("item_list[89, 97]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqOpenBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("limit_zeny(unsigned long as u32)[4, 8]: {}", &self.limit_zeny));
         fields.push(format!("result(unsigned char as u8)[8, 9]: {}", &self.result));
-        fields.push(format!("store_name(char[] as char[])[9, 89]: {}", &self.store_name.pretty_output()));
-        fields.push(format!("item_list([] as Vec)[89, 97]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "store_name(char[] as char[])[9, 89]: {}",
+            &self.store_name.pretty_output()
+        ));
+        fields.push(format!(
+            "item_list([] as Vec)[89, 97]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzReqOpenBuyingStore\n {}", fields.join(",\n "))
     }
 }
@@ -16065,14 +19465,17 @@ impl Debug for PacketZcFailedOpenBuyingStoreToBuyer {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("total_weight[4, 8]", &format!("{:02X?}", &self.total_weight_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFailedOpenBuyingStoreToBuyer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("total_weight(int as i32)[4, 8]: {}", &self.total_weight));
         write!(f, "PacketZcFailedOpenBuyingStoreToBuyer\n {}", fields.join(",\n "))
@@ -16087,19 +19490,32 @@ impl Debug for PacketZcMyitemlistBuyingStore {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("limit_zeny[8, 12]", &format!("{:02X?}", &self.limit_zeny_raw))
             .field("item_list[12, 21]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMyitemlistBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("limit_zeny(int as i32)[8, 12]: {}", &self.limit_zeny));
-        fields.push(format!("item_list([] as Vec)[12, 21]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[12, 21]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcMyitemlistBuyingStore\n {}", fields.join(",\n "))
     }
 }
@@ -16110,16 +19526,22 @@ impl Debug for PacketZcBuyingStoreEntry {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
             .field("store_name[6, 86]", &format!("{:02X?}", &self.store_name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcBuyingStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("maker_aid(unsigned long as u32)[2, 6]: {}", &self.maker_aid));
-        fields.push(format!("store_name(char[] as char[])[6, 86]: {}", &self.store_name.pretty_output()));
+        fields.push(format!(
+            "store_name(char[] as char[])[6, 86]: {}",
+            &self.store_name.pretty_output()
+        ));
         write!(f, "PacketZcBuyingStoreEntry\n {}", fields.join(",\n "))
     }
 }
@@ -16128,14 +19550,17 @@ impl Debug for PacketCzReqCloseBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqCloseBuyingStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqCloseBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzReqCloseBuyingStore\n {}", fields.join(",\n "))
     }
 }
@@ -16145,14 +19570,17 @@ impl Debug for PacketZcDisappearBuyingStoreEntry {
         f.debug_struct("PacketZcDisappearBuyingStoreEntry")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcDisappearBuyingStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("maker_aid(unsigned long as u32)[2, 6]: {}", &self.maker_aid));
         write!(f, "PacketZcDisappearBuyingStoreEntry\n {}", fields.join(",\n "))
     }
@@ -16163,14 +19591,17 @@ impl Debug for PacketCzReqClickToBuyingStore {
         f.debug_struct("PacketCzReqClickToBuyingStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqClickToBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("maker_aid(unsigned long as u32)[2, 6]: {}", &self.maker_aid));
         write!(f, "PacketCzReqClickToBuyingStore\n {}", fields.join(",\n "))
     }
@@ -16185,20 +19616,33 @@ impl Debug for PacketZcAckItemlistBuyingStore {
             .field("store_id[8, 12]", &format!("{:02X?}", &self.store_id_raw))
             .field("limit_zeny[12, 16]", &format!("{:02X?}", &self.limit_zeny_raw))
             .field("item_list[16, 25]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckItemlistBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("maker_aid(unsigned long as u32)[4, 8]: {}", &self.maker_aid));
         fields.push(format!("store_id(unsigned long as u32)[8, 12]: {}", &self.store_id));
         fields.push(format!("limit_zeny(int as i32)[12, 16]: {}", &self.limit_zeny));
-        fields.push(format!("item_list([] as Vec)[16, 25]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[16, 25]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcAckItemlistBuyingStore\n {}", fields.join(",\n "))
     }
 }
@@ -16211,19 +19655,32 @@ impl Debug for PacketCzReqTradeBuyingStore {
             .field("maker_aid[4, 8]", &format!("{:02X?}", &self.maker_aid_raw))
             .field("store_id[8, 12]", &format!("{:02X?}", &self.store_id_raw))
             .field("item_list[12, 18]", &format!("{:02X?}", &self.item_list_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqTradeBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("maker_aid(unsigned long as u32)[4, 8]: {}", &self.maker_aid));
         fields.push(format!("store_id(unsigned long as u32)[8, 12]: {}", &self.store_id));
-        fields.push(format!("item_list([] as Vec)[12, 18]: {}", &self.item_list.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "item_list([] as Vec)[12, 18]: {}",
+            &self
+                .item_list
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketCzReqTradeBuyingStore\n {}", fields.join(",\n "))
     }
 }
@@ -16233,14 +19690,17 @@ impl Debug for PacketZcFailedTradeBuyingStoreToBuyer {
         f.debug_struct("PacketZcFailedTradeBuyingStoreToBuyer")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFailedTradeBuyingStoreToBuyer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         write!(f, "PacketZcFailedTradeBuyingStoreToBuyer\n {}", fields.join(",\n "))
     }
@@ -16253,14 +19713,17 @@ impl Debug for PacketZcUpdateItemFromBuyingStore {
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("limit_zeny[6, 10]", &format!("{:02X?}", &self.limit_zeny_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcUpdateItemFromBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("itid(unsigned short as u16)[2, 4]: {}", &self.itid));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         fields.push(format!("limit_zeny(int as i32)[6, 10]: {}", &self.limit_zeny));
@@ -16275,14 +19738,17 @@ impl Debug for PacketZcItemDeleteBuyingStore {
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("zeny[6, 10]", &format!("{:02X?}", &self.zeny_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcItemDeleteBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
         fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
         fields.push(format!("zeny(int as i32)[6, 10]: {}", &self.zeny));
@@ -16299,14 +19765,17 @@ impl Debug for PacketZcElInit {
             .field("max_hp[10, 14]", &format!("{:02X?}", &self.max_hp_raw))
             .field("sp[14, 18]", &format!("{:02X?}", &self.sp_raw))
             .field("max_sp[18, 22]", &format!("{:02X?}", &self.max_sp_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcElInit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(int as i32)[2, 6]: {}", &self.aid));
         fields.push(format!("hp(int as i32)[6, 10]: {}", &self.hp));
         fields.push(format!("max_hp(int as i32)[10, 14]: {}", &self.max_hp));
@@ -16322,14 +19791,17 @@ impl Debug for PacketZcElParChange {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcElParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("var(unsigned short as u16)[2, 4]: {}", &self.var));
         fields.push(format!("value(int as i32)[4, 8]: {}", &self.value));
         write!(f, "PacketZcElParChange\n {}", fields.join(",\n "))
@@ -16344,7 +19816,7 @@ impl Debug for PacketZcBroadcast4 {
             .field("msgtype[4, 5]", &format!("{:02X?}", &self.msgtype_raw))
             .field("color_rgb[5, 9]", &format!("{:02X?}", &self.color_rgb_raw))
             .field("msg[9, ?]", &format!("{:02X?}", &self.msg_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -16367,14 +19839,17 @@ impl Debug for PacketZcCostumeSpriteChange {
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("value[7, 11]", &format!("{:02X?}", &self.value_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcCostumeSpriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
         fields.push(format!("value(int as i32)[7, 11]: {}", &self.value));
@@ -16386,14 +19861,17 @@ impl Debug for PacketAcOtpUser {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcOtpUser")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcOtpUser {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketAcOtpUser\n {}", fields.join(",\n "))
     }
 }
@@ -16403,14 +19881,17 @@ impl Debug for PacketCaOtpAuthReq {
         f.debug_struct("PacketCaOtpAuthReq")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("otpcode[2, 9]", &format!("{:02X?}", &self.otpcode_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaOtpAuthReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("otpcode(char[] as char[])[2, 9]: {}", &self.otpcode.pretty_output()));
         write!(f, "PacketCaOtpAuthReq\n {}", fields.join(",\n "))
     }
@@ -16422,14 +19903,17 @@ impl Debug for PacketAcOtpAuthAck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("login_result[4, 6]", &format!("{:02X?}", &self.login_result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcOtpAuthAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("login_result(unsigned short as u16)[4, 6]: {}", &self.login_result));
         write!(f, "PacketAcOtpAuthAck\n {}", fields.join(",\n "))
@@ -16442,14 +19926,17 @@ impl Debug for PacketZcFailedTradeBuyingStoreToSeller {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcFailedTradeBuyingStoreToSeller {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(short as i16)[2, 4]: {}", &self.result));
         fields.push(format!("itid(unsigned short as u16)[4, 6]: {}", &self.itid));
         write!(f, "PacketZcFailedTradeBuyingStoreToSeller\n {}", fields.join(",\n "))
@@ -16467,19 +19954,25 @@ impl Debug for PacketCaSsoLoginReqa {
             .field("mac_addr[33, 50]", &format!("{:02X?}", &self.mac_addr_raw))
             .field("ip_addr[50, 65]", &format!("{:02X?}", &self.ip_addr_raw))
             .field("t1[65, ?]", &format!("{:02X?}", &self.t1_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaSsoLoginReqa {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("version(unsigned long as u32)[4, 8]: {}", &self.version));
         fields.push(format!("clienttype(unsigned char as u8)[8, 9]: {}", &self.clienttype));
         fields.push(format!("id(char[] as char[])[9, 33]: {}", &self.id.pretty_output()));
-        fields.push(format!("mac_addr(char[] as char[])[33, 50]: {}", &self.mac_addr.pretty_output()));
+        fields.push(format!(
+            "mac_addr(char[] as char[])[33, 50]: {}",
+            &self.mac_addr.pretty_output()
+        ));
         fields.push(format!("ip_addr(char[] as char[])[50, 65]: {}", &self.ip_addr.pretty_output()));
         fields.push(format!("t1(char[] as String)[65, ?]: {}", &self.t1));
         write!(f, "PacketCaSsoLoginReqa\n {}", fields.join(",\n "))
@@ -16498,20 +19991,26 @@ impl Debug for PacketCaSsoLoginReq {
             .field("mac_adress[60, 77]", &format!("{:02X?}", &self.mac_adress_raw))
             .field("ip[77, 92]", &format!("{:02X?}", &self.ip_raw))
             .field("t1[92, ?]", &format!("{:02X?}", &self.t1_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCaSsoLoginReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("version(unsigned long as u32)[4, 8]: {}", &self.version));
         fields.push(format!("clienttype(unsigned char as u8)[8, 9]: {}", &self.clienttype));
         fields.push(format!("id(char[] as char[])[9, 33]: {}", &self.id.pretty_output()));
         fields.push(format!("passwd(char[] as char[])[33, 60]: {}", &self.passwd.pretty_output()));
-        fields.push(format!("mac_adress(char[] as char[])[60, 77]: {}", &self.mac_adress.pretty_output()));
+        fields.push(format!(
+            "mac_adress(char[] as char[])[60, 77]: {}",
+            &self.mac_adress.pretty_output()
+        ));
         fields.push(format!("ip(char[] as char[])[77, 92]: {}", &self.ip.pretty_output()));
         fields.push(format!("t1(char[] as String)[92, ?]: {}", &self.t1));
         write!(f, "PacketCaSsoLoginReq\n {}", fields.join(",\n "))
@@ -16523,14 +20022,17 @@ impl Debug for PacketAcSsoLoginAck {
         f.debug_struct("PacketAcSsoLoginAck")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcSsoLoginAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("result(unsigned short as u16)[2, 4]: {}", &self.result));
         write!(f, "PacketAcSsoLoginAck\n {}", fields.join(",\n "))
     }
@@ -16541,14 +20043,17 @@ impl Debug for PacketChDeleteChar3Reserved {
         f.debug_struct("PacketChDeleteChar3Reserved")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar3Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketChDeleteChar3Reserved\n {}", fields.join(",\n "))
     }
@@ -16560,18 +20065,27 @@ impl Debug for PacketHcDeleteChar3Reserved {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
-            .field("delete_reserved_date[10, 14]", &format!("{:02X?}", &self.delete_reserved_date_raw))
-        .finish()
+            .field(
+                "delete_reserved_date[10, 14]",
+                &format!("{:02X?}", &self.delete_reserved_date_raw),
+            )
+            .finish()
     }
 }
 
 impl Display for PacketHcDeleteChar3Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
-        fields.push(format!("delete_reserved_date(long as i32)[10, 14]: {}", &self.delete_reserved_date));
+        fields.push(format!(
+            "delete_reserved_date(long as i32)[10, 14]: {}",
+            &self.delete_reserved_date
+        ));
         write!(f, "PacketHcDeleteChar3Reserved\n {}", fields.join(",\n "))
     }
 }
@@ -16582,14 +20096,17 @@ impl Debug for PacketChDeleteChar3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("birth[6, 12]", &format!("{:02X?}", &self.birth_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("birth(char[] as char[])[6, 12]: {}", &self.birth.pretty_output()));
         write!(f, "PacketChDeleteChar3\n {}", fields.join(",\n "))
@@ -16602,14 +20119,17 @@ impl Debug for PacketHcDeleteChar3 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcDeleteChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
         write!(f, "PacketHcDeleteChar3\n {}", fields.join(",\n "))
@@ -16621,14 +20141,17 @@ impl Debug for PacketChDeleteChar3Cancel {
         f.debug_struct("PacketChDeleteChar3Cancel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar3Cancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketChDeleteChar3Cancel\n {}", fields.join(",\n "))
     }
@@ -16640,14 +20163,17 @@ impl Debug for PacketHcDeleteChar3Cancel {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcDeleteChar3Cancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
         write!(f, "PacketHcDeleteChar3Cancel\n {}", fields.join(",\n "))
@@ -16664,20 +20190,29 @@ impl Debug for PacketCzSearchStoreInfo {
             .field("min_price[9, 13]", &format!("{:02X?}", &self.min_price_raw))
             .field("item_idlist_size[13, 14]", &format!("{:02X?}", &self.item_idlist_size_raw))
             .field("card_idlist_size[14, 15]", &format!("{:02X?}", &self.card_idlist_size_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("store_type(unsigned char as u8)[4, 5]: {}", &self.store_type));
         fields.push(format!("max_price(unsigned long as u32)[5, 9]: {}", &self.max_price));
         fields.push(format!("min_price(unsigned long as u32)[9, 13]: {}", &self.min_price));
-        fields.push(format!("item_idlist_size(unsigned char as u8)[13, 14]: {}", &self.item_idlist_size));
-        fields.push(format!("card_idlist_size(unsigned char as u8)[14, 15]: {}", &self.card_idlist_size));
+        fields.push(format!(
+            "item_idlist_size(unsigned char as u8)[13, 14]: {}",
+            &self.item_idlist_size
+        ));
+        fields.push(format!(
+            "card_idlist_size(unsigned char as u8)[14, 15]: {}",
+            &self.card_idlist_size
+        ));
         write!(f, "PacketCzSearchStoreInfo\n {}", fields.join(",\n "))
     }
 }
@@ -16691,20 +20226,36 @@ impl Debug for PacketZcSearchStoreInfoAck {
             .field("is_nex_page[5, 6]", &format!("{:02X?}", &self.is_nex_page_raw))
             .field("remained_search_cnt[6, 7]", &format!("{:02X?}", &self.remained_search_cnt_raw))
             .field("ssilist[7, 113]", &format!("{:02X?}", &self.ssilist_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSearchStoreInfoAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("is_first_page(bool as bool)[4, 5]: {}", &self.is_first_page));
         fields.push(format!("is_nex_page(bool as bool)[5, 6]: {}", &self.is_nex_page));
-        fields.push(format!("remained_search_cnt(unsigned char as u8)[6, 7]: {}", &self.remained_search_cnt));
-        fields.push(format!("ssilist([] as Vec)[7, 113]: {}", &self.ssilist.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "remained_search_cnt(unsigned char as u8)[6, 7]: {}",
+            &self.remained_search_cnt
+        ));
+        fields.push(format!(
+            "ssilist([] as Vec)[7, 113]: {}",
+            &self
+                .ssilist
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcSearchStoreInfoAck\n {}", fields.join(",\n "))
     }
 }
@@ -16714,14 +20265,17 @@ impl Debug for PacketZcSearchStoreInfoFailed {
         f.debug_struct("PacketZcSearchStoreInfoFailed")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason[2, 3]", &format!("{:02X?}", &self.reason_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSearchStoreInfoFailed {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("reason(unsigned char as u8)[2, 3]: {}", &self.reason));
         write!(f, "PacketZcSearchStoreInfoFailed\n {}", fields.join(",\n "))
     }
@@ -16731,14 +20285,17 @@ impl Debug for PacketCzSearchStoreInfoNextPage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSearchStoreInfoNextPage")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSearchStoreInfoNextPage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzSearchStoreInfoNextPage\n {}", fields.join(",\n "))
     }
 }
@@ -16749,16 +20306,25 @@ impl Debug for PacketZcAckBanGuildSso {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckBanGuildSso {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("char_name(char[] as char[])[2, 26]: {}", &self.char_name.pretty_output()));
-        fields.push(format!("reason_desc(char[] as char[])[26, 66]: {}", &self.reason_desc.pretty_output()));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
+        fields.push(format!(
+            "char_name(char[] as char[])[2, 26]: {}",
+            &self.char_name.pretty_output()
+        ));
+        fields.push(format!(
+            "reason_desc(char[] as char[])[26, 66]: {}",
+            &self.reason_desc.pretty_output()
+        ));
         write!(f, "PacketZcAckBanGuildSso\n {}", fields.join(",\n "))
     }
 }
@@ -16769,14 +20335,17 @@ impl Debug for PacketZcOpenSearchStoreInfo {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("open_type[2, 4]", &format!("{:02X?}", &self.open_type_raw))
             .field("search_cnt_max[4, 5]", &format!("{:02X?}", &self.search_cnt_max_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOpenSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("open_type(short as i16)[2, 4]: {}", &self.open_type));
         fields.push(format!("search_cnt_max(unsigned char as u8)[4, 5]: {}", &self.search_cnt_max));
         write!(f, "PacketZcOpenSearchStoreInfo\n {}", fields.join(",\n "))
@@ -16787,14 +20356,17 @@ impl Debug for PacketCzCloseSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseSearchStoreInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzCloseSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzCloseSearchStoreInfo\n {}", fields.join(",\n "))
     }
 }
@@ -16806,14 +20378,17 @@ impl Debug for PacketCzSsilistItemClick {
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("ssiid[6, 10]", &format!("{:02X?}", &self.ssiid_raw))
             .field("itid[10, 12]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzSsilistItemClick {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         fields.push(format!("ssiid(unsigned long as u32)[6, 10]: {}", &self.ssiid));
         fields.push(format!("itid(unsigned short as u16)[10, 12]: {}", &self.itid));
@@ -16827,14 +20402,17 @@ impl Debug for PacketZcSsilistItemClickAck {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("x[2, 4]", &format!("{:02X?}", &self.x_raw))
             .field("y[4, 6]", &format!("{:02X?}", &self.y_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcSsilistItemClickAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("x(short as i16)[2, 4]: {}", &self.x));
         fields.push(format!("y(short as i16)[4, 6]: {}", &self.y));
         write!(f, "PacketZcSsilistItemClickAck\n {}", fields.join(",\n "))
@@ -16847,16 +20425,22 @@ impl Debug for PacketAcRefuseLoginR2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 6]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[6, 26]", &format!("{:02X?}", &self.block_date_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketAcRefuseLoginR2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("error_code(unsigned int as u32)[2, 6]: {}", &self.error_code));
-        fields.push(format!("block_date(char[] as char[])[6, 26]: {}", &self.block_date.pretty_output()));
+        fields.push(format!(
+            "block_date(char[] as char[])[6, 26]: {}",
+            &self.block_date.pretty_output()
+        ));
         write!(f, "PacketAcRefuseLoginR2\n {}", fields.join(",\n "))
     }
 }
@@ -16867,14 +20451,17 @@ impl Debug for PacketChSelectAccessibleMapname {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_num[2, 3]", &format!("{:02X?}", &self.char_num_raw))
             .field("map_list_num[3, 4]", &format!("{:02X?}", &self.map_list_num_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChSelectAccessibleMapname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("char_num(unsigned char as u8)[2, 3]: {}", &self.char_num));
         fields.push(format!("map_list_num(unsigned char as u8)[3, 4]: {}", &self.map_list_num));
         write!(f, "PacketChSelectAccessibleMapname\n {}", fields.join(",\n "))
@@ -16886,14 +20473,17 @@ impl Debug for PacketCzRequestMove2 {
         f.debug_struct("PacketCzRequestMove2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dest[2, 5]", &format!("{:02X?}", &self.dest_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestMove2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("dest(unsigned short[] as u16[])[2, 5]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMove2\n {}", fields.join(",\n "))
     }
@@ -16908,19 +20498,25 @@ impl Debug for PacketChSendMapInfo {
             .field("map_server_ip[22, 26]", &format!("{:02X?}", &self.map_server_ip_raw))
             .field("map_server_port[26, 28]", &format!("{:02X?}", &self.map_server_port_raw))
             .field("dns_host[28, 156]", &format!("{:02X?}", &self.dns_host_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChSendMapInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("map_name(char[] as char[])[6, 22]: {}", &self.map_name.pretty_output()));
         fields.push(format!("map_server_ip(unsigned long as u32)[22, 26]: {}", &self.map_server_ip));
         fields.push(format!("map_server_port(short as i16)[26, 28]: {}", &self.map_server_port));
-        fields.push(format!("dns_host(char[] as char[])[28, 156]: {}", &self.dns_host.pretty_output()));
+        fields.push(format!(
+            "dns_host(char[] as char[])[28, 156]: {}",
+            &self.dns_host.pretty_output()
+        ));
         write!(f, "PacketChSendMapInfo\n {}", fields.join(",\n "))
     }
 }
@@ -16936,20 +20532,26 @@ impl Debug for PacketHcAcceptEnterNeoUnionHeader {
             .field("premium_slot_end[8, 9]", &format!("{:02X?}", &self.premium_slot_end_raw))
             .field("empty_buffer[9, 29]", &format!("{:02X?}", &self.empty_buffer_raw))
             .field("char_info[29, ?]", &format!("{:02X?}", &self.char_info_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketHcAcceptEnterNeoUnionHeader {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_len(short as i16)[2, 4]: {}", &self.packet_len));
         fields.push(format!("char_slot(char as i8)[4, 5]: {}", &self.char_slot));
         fields.push(format!("max_char(short as i16)[5, 7]: {}", &self.max_char));
         fields.push(format!("premium_slot_start(char as i8)[7, 8]: {}", &self.premium_slot_start));
         fields.push(format!("premium_slot_end(char as i8)[8, 9]: {}", &self.premium_slot_end));
-        fields.push(format!("empty_buffer(char[] as char[])[9, 29]: {}", &self.empty_buffer.pretty_output()));
+        fields.push(format!(
+            "empty_buffer(char[] as char[])[9, 29]: {}",
+            &self.empty_buffer.pretty_output()
+        ));
         fields.push(format!("char_info(struct as Struct)[29, ?]: {}", &self.char_info));
         write!(f, "PacketHcAcceptEnterNeoUnionHeader\n {}", fields.join(",\n "))
     }
@@ -16960,14 +20562,17 @@ impl Debug for PacketCzPing {
         f.debug_struct("PacketCzPing")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzPing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketCzPing\n {}", fields.join(",\n "))
     }
@@ -16978,14 +20583,17 @@ impl Debug for PacketZcAid2 {
         f.debug_struct("PacketZcAid2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAid2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketZcAid2\n {}", fields.join(",\n "))
     }
@@ -16996,14 +20604,17 @@ impl Debug for PacketMapConnection {
         f.debug_struct("PacketMapConnection")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketMapConnection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
         write!(f, "PacketMapConnection\n {}", fields.join(",\n "))
     }
@@ -17016,14 +20627,17 @@ impl Debug for PacketPincodeLoginstate {
             .field("pincode_seed[2, 6]", &format!("{:02X?}", &self.pincode_seed_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
             .field("response[10, 12]", &format!("{:02X?}", &self.response_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketPincodeLoginstate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("pincode_seed(int as i32)[2, 6]: {}", &self.pincode_seed));
         fields.push(format!("aid(unsigned long as u32)[6, 10]: {}", &self.aid));
         fields.push(format!("response(short as i16)[10, 12]: {}", &self.response));
@@ -17041,14 +20655,17 @@ impl Debug for PacketChMakeChar3 {
             .field("head[29, 31]", &format!("{:02X?}", &self.head_raw))
             .field("class[31, 35]", &format!("{:02X?}", &self.class_raw))
             .field("sex[35, 36]", &format!("{:02X?}", &self.sex_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChMakeChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
         fields.push(format!("char_num(unsigned char as u8)[26, 27]: {}", &self.char_num));
         fields.push(format!("head_pal(short as i16)[27, 29]: {}", &self.head_pal));
@@ -17064,14 +20681,17 @@ impl Debug for PacketChDeleteChar4Reserved {
         f.debug_struct("PacketChDeleteChar4Reserved")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketChDeleteChar4Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketChDeleteChar4Reserved\n {}", fields.join(",\n "))
     }
@@ -17083,18 +20703,27 @@ impl Debug for PacketHcDeleteChar4Reserved {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
-            .field("delete_reserved_date[10, 14]", &format!("{:02X?}", &self.delete_reserved_date_raw))
-        .finish()
+            .field(
+                "delete_reserved_date[10, 14]",
+                &format!("{:02X?}", &self.delete_reserved_date_raw),
+            )
+            .finish()
     }
 }
 
 impl Display for PacketHcDeleteChar4Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
-        fields.push(format!("delete_reserved_date(long as i32)[10, 14]: {}", &self.delete_reserved_date));
+        fields.push(format!(
+            "delete_reserved_date(long as i32)[10, 14]: {}",
+            &self.delete_reserved_date
+        ));
         write!(f, "PacketHcDeleteChar4Reserved\n {}", fields.join(",\n "))
     }
 }
@@ -17104,14 +20733,17 @@ impl Debug for PacketZcInventoryExpansionInfo {
         f.debug_struct("PacketZcInventoryExpansionInfo")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("expansion_size[2, 4]", &format!("{:02X?}", &self.expansion_size_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcInventoryExpansionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("expansion_size(short as i16)[2, 4]: {}", &self.expansion_size));
         write!(f, "PacketZcInventoryExpansionInfo\n {}", fields.join(",\n "))
     }
@@ -17122,14 +20754,17 @@ impl Debug for PacketZcOverweightPercent {
         f.debug_struct("PacketZcOverweightPercent")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("percent[2, 6]", &format!("{:02X?}", &self.percent_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcOverweightPercent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("percent(int as i32)[2, 6]: {}", &self.percent));
         write!(f, "PacketZcOverweightPercent\n {}", fields.join(",\n "))
     }
@@ -17140,14 +20775,17 @@ impl Debug for PacketCzReqDisconnect2 {
         f.debug_struct("PacketCzReqDisconnect2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqDisconnect2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("empty(short as i16)[2, 4]: {}", &self.empty));
         write!(f, "PacketCzReqDisconnect2\n {}", fields.join(",\n "))
     }
@@ -17158,14 +20796,17 @@ impl Debug for PacketZcReqDisconnectAck2 {
         f.debug_struct("PacketZcReqDisconnectAck2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcReqDisconnectAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("empty(short as i16)[2, 4]: {}", &self.empty));
         write!(f, "PacketZcReqDisconnectAck2\n {}", fields.join(",\n "))
     }
@@ -17176,14 +20817,17 @@ impl Debug for PacketCzReqnameall2 {
         f.debug_struct("PacketCzReqnameall2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzReqnameall2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         write!(f, "PacketCzReqnameall2\n {}", fields.join(",\n "))
     }
@@ -17199,19 +20843,31 @@ impl Debug for PacketZcAckReqnameall2 {
             .field("guild_name[54, 78]", &format!("{:02X?}", &self.guild_name_raw))
             .field("position_name[78, 102]", &format!("{:02X?}", &self.position_name_raw))
             .field("title_id[102, 106]", &format!("{:02X?}", &self.title_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcAckReqnameall2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
-        fields.push(format!("party_name(char[] as char[])[30, 54]: {}", &self.party_name.pretty_output()));
-        fields.push(format!("guild_name(char[] as char[])[54, 78]: {}", &self.guild_name.pretty_output()));
-        fields.push(format!("position_name(char[] as char[])[78, 102]: {}", &self.position_name.pretty_output()));
+        fields.push(format!(
+            "party_name(char[] as char[])[30, 54]: {}",
+            &self.party_name.pretty_output()
+        ));
+        fields.push(format!(
+            "guild_name(char[] as char[])[54, 78]: {}",
+            &self.guild_name.pretty_output()
+        ));
+        fields.push(format!(
+            "position_name(char[] as char[])[78, 102]: {}",
+            &self.position_name.pretty_output()
+        ));
         fields.push(format!("title_id(int as i32)[102, 106]: {}", &self.title_id));
         write!(f, "PacketZcAckReqnameall2\n {}", fields.join(",\n "))
     }
@@ -17222,14 +20878,17 @@ impl Debug for PacketCzRequestTime2 {
         f.debug_struct("PacketCzRequestTime2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzRequestTime2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("client_time(unsigned long as u32)[2, 6]: {}", &self.client_time));
         write!(f, "PacketCzRequestTime2\n {}", fields.join(",\n "))
     }
@@ -17241,14 +20900,17 @@ impl Debug for PacketZcMsgColor {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_id[2, 4]", &format!("{:02X?}", &self.msg_id_raw))
             .field("msg_color[4, 8]", &format!("{:02X?}", &self.msg_color_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcMsgColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("msg_id(unsigned short as u16)[2, 4]: {}", &self.msg_id));
         fields.push(format!("msg_color(unsigned int as u32)[4, 8]: {}", &self.msg_color));
         write!(f, "PacketZcMsgColor\n {}", fields.join(",\n "))
@@ -17261,14 +20923,17 @@ impl Debug for PacketZcNotifyMapproperty2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("flags[4, 8]", &format!("{:02X?}", &self.flags_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMapproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
         fields.push(format!("flags(unsigned int as u32)[4, 8]: {}", &self.flags));
         write!(f, "PacketZcNotifyMapproperty2\n {}", fields.join(",\n "))
@@ -17283,18 +20948,24 @@ impl Debug for PacketZcHatEffect {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("status[8, 9]", &format!("{:02X?}", &self.status_raw))
             .field("effect[9, ?]", &format!("{:02X?}", &self.effect_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcHatEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("len(short as i16)[2, 4]: {}", &self.len));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("status(unsigned char as u8)[8, 9]: {}", &self.status));
-        fields.push(format!("effect(unsigned short[] as u16[])[9, ?]: {}", &self.effect.pretty_output()));
+        fields.push(format!(
+            "effect(unsigned short[] as u16[])[9, ?]: {}",
+            &self.effect.pretty_output()
+        ));
         write!(f, "PacketZcHatEffect\n {}", fields.join(",\n "))
     }
 }
@@ -17303,14 +20974,17 @@ impl Debug for PacketCzBlockingPlayCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBlockingPlayCancel")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketCzBlockingPlayCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketCzBlockingPlayCancel\n {}", fields.join(",\n "))
     }
 }
@@ -17319,14 +20993,17 @@ impl Debug for PacketZcLoadConfirm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcLoadConfirm")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcLoadConfirm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         write!(f, "PacketZcLoadConfirm\n {}", fields.join(",\n "))
     }
 }
@@ -17371,14 +21048,17 @@ impl Debug for PacketZcNotifyStandentry6 {
             .field("is_boss[81, 82]", &format!("{:02X?}", &self.is_boss_raw))
             .field("body[82, 84]", &format!("{:02X?}", &self.body_raw))
             .field("name[84, 108]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry6 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("aid(unsigned long as u32)[5, 9]: {}", &self.aid));
@@ -17404,7 +21084,10 @@ impl Display for PacketZcNotifyStandentry6 {
         fields.push(format!("virtue(int as i32)[57, 61]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[61, 62]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[62, 63]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[63, 66]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[63, 66]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[66, 67]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[67, 68]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[68, 69]: {}", &self.state));
@@ -17458,14 +21141,17 @@ impl Debug for PacketZcNotifyStandentry7 {
             .field("hp[77, 81]", &format!("{:02X?}", &self.hp_raw))
             .field("is_boss[81, 82]", &format!("{:02X?}", &self.is_boss_raw))
             .field("body[82, 84]", &format!("{:02X?}", &self.body_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyStandentry7 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("aid(unsigned long as u32)[5, 9]: {}", &self.aid));
@@ -17491,7 +21177,10 @@ impl Display for PacketZcNotifyStandentry7 {
         fields.push(format!("virtue(int as i32)[57, 61]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[61, 62]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[62, 63]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[63, 66]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[63, 66]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[66, 67]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[67, 68]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[68, 69]: {}", &self.state));
@@ -17545,14 +21234,17 @@ impl Debug for PacketZcNotifyMoveentry8 {
             .field("is_boss[84, 85]", &format!("{:02X?}", &self.is_boss_raw))
             .field("body[85, 87]", &format!("{:02X?}", &self.body_raw))
             .field("name[87, 111]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyMoveentry8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
         fields.push(format!("aid(unsigned long as u32)[5, 9]: {}", &self.aid));
@@ -17565,7 +21257,10 @@ impl Display for PacketZcNotifyMoveentry8 {
         fields.push(format!("head(short as i16)[25, 27]: {}", &self.head));
         fields.push(format!("weapon(unsigned long as u32)[27, 31]: {}", &self.weapon));
         fields.push(format!("accessory(unsigned short as u16)[31, 33]: {}", &self.accessory));
-        fields.push(format!("move_start_time(unsigned int as u32)[33, 37]: {}", &self.move_start_time));
+        fields.push(format!(
+            "move_start_time(unsigned int as u32)[33, 37]: {}",
+            &self.move_start_time
+        ));
         fields.push(format!("shield(unsigned long as u32)[37, 41]: {}", &self.shield));
         fields.push(format!("accessory2(unsigned short as u16)[41, 43]: {}", &self.accessory2));
         fields.push(format!("accessory3(unsigned short as u16)[43, 45]: {}", &self.accessory3));
@@ -17579,7 +21274,10 @@ impl Display for PacketZcNotifyMoveentry8 {
         fields.push(format!("virtue(int as i32)[61, 65]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[65, 66]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[66, 67]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[67, 70]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!(
+            "pos_dir(unsigned char[] as u8[])[67, 70]: {}",
+            &self.pos_dir.pretty_output()
+        ));
         fields.push(format!("x_size(unsigned char as u8)[70, 71]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[71, 72]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[72, 74]: {}", &self.clevel));
@@ -17607,14 +21305,17 @@ impl Debug for PacketZcNotifyAct3 {
             .field("count[27, 29]", &format!("{:02X?}", &self.count_raw))
             .field("action[29, 30]", &format!("{:02X?}", &self.action_raw))
             .field("left_damage[30, 34]", &format!("{:02X?}", &self.left_damage_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for PacketZcNotifyAct3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!(
+            "packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}",
+            &self.packet_id_raw[0], &self.packet_id_raw[1]
+        ));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
         fields.push(format!("start_time(unsigned long as u32)[10, 14]: {}", &self.start_time));
@@ -17638,7 +21339,7 @@ impl Debug for ServerAddr {
             .field("user_count[26, 28]", &format!("{:02X?}", &self.user_count_raw))
             .field("state[28, 30]", &format!("{:02X?}", &self.state_raw))
             .field("property[30, 32]", &format!("{:02X?}", &self.property_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17665,7 +21366,7 @@ impl Debug for ServerAddr2 {
             .field("state[28, 30]", &format!("{:02X?}", &self.state_raw))
             .field("property[30, 32]", &format!("{:02X?}", &self.property_raw))
             .field("unknown2[32, 160]", &format!("{:02X?}", &self.unknown2_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17678,7 +21379,10 @@ impl Display for ServerAddr2 {
         fields.push(format!("user_count(unsigned short as u16)[26, 28]: {}", &self.user_count));
         fields.push(format!("state(unsigned short as u16)[28, 30]: {}", &self.state));
         fields.push(format!("property(unsigned short as u16)[30, 32]: {}", &self.property));
-        fields.push(format!("unknown2(char[] as char[])[32, 160]: {}", &self.unknown2.pretty_output()));
+        fields.push(format!(
+            "unknown2(char[] as char[])[32, 160]: {}",
+            &self.unknown2.pretty_output()
+        ));
         write!(f, "ServerAddr2\n {}", fields.join(",\n "))
     }
 }
@@ -17727,14 +21431,17 @@ impl Debug for CharacterInfoNeoUnion {
             .field("luk[129, 130]", &format!("{:02X?}", &self.luk_raw))
             .field("char_num[130, 131]", &format!("{:02X?}", &self.char_num_raw))
             .field("haircolor[131, 132]", &format!("{:02X?}", &self.haircolor_raw))
-            .field("b_is_changed_char_name[132, 134]", &format!("{:02X?}", &self.b_is_changed_char_name_raw))
+            .field(
+                "b_is_changed_char_name[132, 134]",
+                &format!("{:02X?}", &self.b_is_changed_char_name_raw),
+            )
             .field("last_map[134, 150]", &format!("{:02X?}", &self.last_map_raw))
             .field("delete_date[150, 154]", &format!("{:02X?}", &self.delete_date_raw))
             .field("robe[154, 158]", &format!("{:02X?}", &self.robe_raw))
             .field("slot_addon[158, 162]", &format!("{:02X?}", &self.slot_addon_raw))
             .field("rename_addon[162, 166]", &format!("{:02X?}", &self.rename_addon_raw))
             .field("sex[166, 167]", &format!("{:02X?}", &self.sex_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17782,8 +21489,14 @@ impl Display for CharacterInfoNeoUnion {
         fields.push(format!("luk(unsigned char as u8)[129, 130]: {}", &self.luk));
         fields.push(format!("char_num(char as i8)[130, 131]: {}", &self.char_num));
         fields.push(format!("haircolor(unsigned char as u8)[131, 132]: {}", &self.haircolor));
-        fields.push(format!("b_is_changed_char_name(unsigned short as u16)[132, 134]: {}", &self.b_is_changed_char_name));
-        fields.push(format!("last_map(char[] as char[])[134, 150]: {}", &self.last_map.pretty_output()));
+        fields.push(format!(
+            "b_is_changed_char_name(unsigned short as u16)[132, 134]: {}",
+            &self.b_is_changed_char_name
+        ));
+        fields.push(format!(
+            "last_map(char[] as char[])[134, 150]: {}",
+            &self.last_map.pretty_output()
+        ));
         fields.push(format!("delete_date(unsigned int as u32)[150, 154]: {}", &self.delete_date));
         fields.push(format!("robe(unsigned int as u32)[154, 158]: {}", &self.robe));
         fields.push(format!("slot_addon(unsigned int as u32)[158, 162]: {}", &self.slot_addon));
@@ -17798,7 +21511,7 @@ impl Debug for ZserverAddr {
         f.debug_struct("ZserverAddr")
             .field("ip[0, 4]", &format!("{:02X?}", &self.ip_raw))
             .field("port[4, 6]", &format!("{:02X?}", &self.port_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17818,7 +21531,7 @@ impl Debug for EQUIPSLOTINFO {
             .field("card2[2, 4]", &format!("{:02X?}", &self.card2_raw))
             .field("card3[4, 6]", &format!("{:02X?}", &self.card3_raw))
             .field("card4[6, 8]", &format!("{:02X?}", &self.card4_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17842,7 +21555,7 @@ impl Debug for NormalitemExtrainfo {
             .field("is_identified[5, 6]", &format!("{:02X?}", &self.is_identified_raw))
             .field("count[6, 8]", &format!("{:02X?}", &self.count_raw))
             .field("wear_state[8, 10]", &format!("{:02X?}", &self.wear_state_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17871,7 +21584,7 @@ impl Debug for EquipmentitemExtrainfo {
             .field("is_damaged[10, 11]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[11, 12]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17898,7 +21611,7 @@ impl Debug for PurchaseItem {
             .field("discountprice[4, 8]", &format!("{:02X?}", &self.discountprice_raw))
             .field("atype[8, 9]", &format!("{:02X?}", &self.atype_raw))
             .field("itid[9, 11]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17919,7 +21632,7 @@ impl Debug for SellItem {
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
             .field("price[2, 6]", &format!("{:02X?}", &self.price_raw))
             .field("overchargeprice[6, 10]", &format!("{:02X?}", &self.overchargeprice_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17938,7 +21651,7 @@ impl Debug for CzPurchaseItem {
         f.debug_struct("CzPurchaseItem")
             .field("count[0, 2]", &format!("{:02X?}", &self.count_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17956,7 +21669,7 @@ impl Debug for CzSellItem {
         f.debug_struct("CzSellItem")
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
             .field("count[2, 4]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17973,7 +21686,7 @@ impl Debug for WhisperItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("WhisperItem")
             .field("name[0, 24]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -17990,7 +21703,7 @@ impl Debug for RoomMember {
         f.debug_struct("RoomMember")
             .field("role[0, 4]", &format!("{:02X?}", &self.role_raw))
             .field("name[4, 28]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18011,7 +21724,7 @@ impl Debug for GroupmemberInfo {
             .field("map_name[28, 44]", &format!("{:02X?}", &self.map_name_raw))
             .field("role[44, 45]", &format!("{:02X?}", &self.role_raw))
             .field("state[45, 46]", &format!("{:02X?}", &self.state_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18019,8 +21732,14 @@ impl Display for GroupmemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("aid(unsigned long as u32)[0, 4]: {}", &self.aid));
-        fields.push(format!("character_name(char[] as char[])[4, 28]: {}", &self.character_name.pretty_output()));
-        fields.push(format!("map_name(char[] as char[])[28, 44]: {}", &self.map_name.pretty_output()));
+        fields.push(format!(
+            "character_name(char[] as char[])[4, 28]: {}",
+            &self.character_name.pretty_output()
+        ));
+        fields.push(format!(
+            "map_name(char[] as char[])[28, 44]: {}",
+            &self.map_name.pretty_output()
+        ));
         fields.push(format!("role(unsigned char as u8)[44, 45]: {}", &self.role));
         fields.push(format!("state(unsigned char as u8)[45, 46]: {}", &self.state));
         write!(f, "GroupmemberInfo\n {}", fields.join(",\n "))
@@ -18037,7 +21756,7 @@ impl Debug for SKILLINFO {
             .field("attack_range[10, 12]", &format!("{:02X?}", &self.attack_range_raw))
             .field("skill_name[12, 36]", &format!("{:02X?}", &self.skill_name_raw))
             .field("upgradable[36, 37]", &format!("{:02X?}", &self.upgradable_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18049,7 +21768,10 @@ impl Display for SKILLINFO {
         fields.push(format!("level(short as i16)[6, 8]: {}", &self.level));
         fields.push(format!("spcost(short as i16)[8, 10]: {}", &self.spcost));
         fields.push(format!("attack_range(short as i16)[10, 12]: {}", &self.attack_range));
-        fields.push(format!("skill_name(char[] as char[])[12, 36]: {}", &self.skill_name.pretty_output()));
+        fields.push(format!(
+            "skill_name(char[] as char[])[12, 36]: {}",
+            &self.skill_name.pretty_output()
+        ));
         fields.push(format!("upgradable(char as i8)[36, 37]: {}", &self.upgradable));
         write!(f, "SKILLINFO\n {}", fields.join(",\n "))
     }
@@ -18061,7 +21783,7 @@ impl Debug for StoreItem {
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
             .field("count[2, 4]", &format!("{:02X?}", &self.count_raw))
             .field("price[4, 8]", &format!("{:02X?}", &self.price_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18087,7 +21809,7 @@ impl Debug for PurchaseItemFrommc {
             .field("is_damaged[12, 13]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[13, 14]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[14, 22]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18112,7 +21834,7 @@ impl Debug for CzPurchaseItemFrommc {
         f.debug_struct("CzPurchaseItemFrommc")
             .field("count[0, 2]", &format!("{:02X?}", &self.count_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18137,7 +21859,7 @@ impl Debug for PurchaseMyitem {
             .field("is_damaged[12, 13]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[13, 14]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[14, 22]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18163,7 +21885,7 @@ impl Debug for RelatedGuild {
             .field("gdid[0, 4]", &format!("{:02X?}", &self.gdid_raw))
             .field("relation[4, 8]", &format!("{:02X?}", &self.relation_raw))
             .field("guild_name[8, 32]", &format!("{:02X?}", &self.guild_name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18172,7 +21894,10 @@ impl Display for RelatedGuild {
         let mut fields = Vec::new();
         fields.push(format!("gdid(int as i32)[0, 4]: {}", &self.gdid));
         fields.push(format!("relation(int as i32)[4, 8]: {}", &self.relation));
-        fields.push(format!("guild_name(char[] as char[])[8, 32]: {}", &self.guild_name.pretty_output()));
+        fields.push(format!(
+            "guild_name(char[] as char[])[8, 32]: {}",
+            &self.guild_name.pretty_output()
+        ));
         write!(f, "RelatedGuild\n {}", fields.join(",\n "))
     }
 }
@@ -18192,7 +21917,7 @@ impl Debug for GuildMembermgrInfo {
             .field("gposition_id[26, 30]", &format!("{:02X?}", &self.gposition_id_raw))
             .field("memo[30, 80]", &format!("{:02X?}", &self.memo_raw))
             .field("char_name[80, 104]", &format!("{:02X?}", &self.char_name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18210,7 +21935,10 @@ impl Display for GuildMembermgrInfo {
         fields.push(format!("current_state(int as i32)[22, 26]: {}", &self.current_state));
         fields.push(format!("gposition_id(int as i32)[26, 30]: {}", &self.gposition_id));
         fields.push(format!("memo(char[] as char[])[30, 80]: {}", &self.memo.pretty_output()));
-        fields.push(format!("char_name(char[] as char[])[80, 104]: {}", &self.char_name.pretty_output()));
+        fields.push(format!(
+            "char_name(char[] as char[])[80, 104]: {}",
+            &self.char_name.pretty_output()
+        ));
         write!(f, "GuildMembermgrInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18221,7 +21949,7 @@ impl Debug for MemberPositionInfo {
             .field("aid[0, 4]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("position_id[8, 12]", &format!("{:02X?}", &self.position_id_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18242,7 +21970,7 @@ impl Debug for GuildMemberPositionInfo {
             .field("right[4, 8]", &format!("{:02X?}", &self.right_raw))
             .field("ranking[8, 12]", &format!("{:02X?}", &self.ranking_raw))
             .field("pay_rate[12, 16]", &format!("{:02X?}", &self.pay_rate_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18265,7 +21993,7 @@ impl Debug for GuildRegPositionInfo {
             .field("ranking[8, 12]", &format!("{:02X?}", &self.ranking_raw))
             .field("pay_rate[12, 16]", &format!("{:02X?}", &self.pay_rate_raw))
             .field("pos_name[16, 40]", &format!("{:02X?}", &self.pos_name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18276,7 +22004,10 @@ impl Display for GuildRegPositionInfo {
         fields.push(format!("right(int as i32)[4, 8]: {}", &self.right));
         fields.push(format!("ranking(int as i32)[8, 12]: {}", &self.ranking));
         fields.push(format!("pay_rate(int as i32)[12, 16]: {}", &self.pay_rate));
-        fields.push(format!("pos_name(char[] as char[])[16, 40]: {}", &self.pos_name.pretty_output()));
+        fields.push(format!(
+            "pos_name(char[] as char[])[16, 40]: {}",
+            &self.pos_name.pretty_output()
+        ));
         write!(f, "GuildRegPositionInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18287,7 +22018,7 @@ impl Debug for GuildBanInfo {
             .field("charname[0, 24]", &format!("{:02X?}", &self.charname_raw))
             .field("account[24, 48]", &format!("{:02X?}", &self.account_raw))
             .field("reason[48, 88]", &format!("{:02X?}", &self.reason_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18308,14 +22039,17 @@ impl Debug for OtherGuildInfo {
             .field("guild_level[24, 28]", &format!("{:02X?}", &self.guild_level_raw))
             .field("guild_member_size[28, 32]", &format!("{:02X?}", &self.guild_member_size_raw))
             .field("guild_ranking[32, 36]", &format!("{:02X?}", &self.guild_ranking_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for OtherGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("guildname(char[] as char[])[0, 24]: {}", &self.guildname.pretty_output()));
+        fields.push(format!(
+            "guildname(char[] as char[])[0, 24]: {}",
+            &self.guildname.pretty_output()
+        ));
         fields.push(format!("guild_level(int as i32)[24, 28]: {}", &self.guild_level));
         fields.push(format!("guild_member_size(int as i32)[28, 32]: {}", &self.guild_member_size));
         fields.push(format!("guild_ranking(int as i32)[32, 36]: {}", &self.guild_ranking));
@@ -18328,7 +22062,7 @@ impl Debug for MemberPositionIdNameInfo {
         f.debug_struct("MemberPositionIdNameInfo")
             .field("position_id[0, 4]", &format!("{:02X?}", &self.position_id_raw))
             .field("pos_name[4, 28]", &format!("{:02X?}", &self.pos_name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18356,7 +22090,7 @@ impl Debug for GuildMemberInfo {
             .field("position_id[26, 30]", &format!("{:02X?}", &self.position_id_raw))
             .field("intro[30, 80]", &format!("{:02X?}", &self.intro_raw))
             .field("charname[80, 104]", &format!("{:02X?}", &self.charname_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18374,7 +22108,10 @@ impl Display for GuildMemberInfo {
         fields.push(format!("current_state(int as i32)[22, 26]: {}", &self.current_state));
         fields.push(format!("position_id(int as i32)[26, 30]: {}", &self.position_id));
         fields.push(format!("intro(char[] as char[])[30, 80]: {}", &self.intro.pretty_output()));
-        fields.push(format!("charname(char[] as char[])[80, 104]: {}", &self.charname.pretty_output()));
+        fields.push(format!(
+            "charname(char[] as char[])[80, 104]: {}",
+            &self.charname.pretty_output()
+        ));
         write!(f, "GuildMemberInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18385,7 +22122,7 @@ impl Debug for RelatedGuildInfo {
             .field("relation[0, 4]", &format!("{:02X?}", &self.relation_raw))
             .field("gdid[4, 8]", &format!("{:02X?}", &self.gdid_raw))
             .field("guildname[8, 32]", &format!("{:02X?}", &self.guildname_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18394,7 +22131,10 @@ impl Display for RelatedGuildInfo {
         let mut fields = Vec::new();
         fields.push(format!("relation(int as i32)[0, 4]: {}", &self.relation));
         fields.push(format!("gdid(int as i32)[4, 8]: {}", &self.gdid));
-        fields.push(format!("guildname(char[] as char[])[8, 32]: {}", &self.guildname.pretty_output()));
+        fields.push(format!(
+            "guildname(char[] as char[])[8, 32]: {}",
+            &self.guildname.pretty_output()
+        ));
         write!(f, "RelatedGuildInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18411,7 +22151,7 @@ impl Debug for MonsterInfoElement {
             .field("dark[6, 7]", &format!("{:02X?}", &self.dark_raw))
             .field("mental[7, 8]", &format!("{:02X?}", &self.mental_raw))
             .field("undead[8, 9]", &format!("{:02X?}", &self.undead_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18436,7 +22176,7 @@ impl Debug for MakableitemInfo {
         f.debug_struct("MakableitemInfo")
             .field("itid[0, 2]", &format!("{:02X?}", &self.itid_raw))
             .field("material_id[2, 5]", &format!("{:02X?}", &self.material_id_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18444,7 +22184,10 @@ impl Display for MakableitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("itid(unsigned short as u16)[0, 2]: {}", &self.itid));
-        fields.push(format!("material_id(unsigned short[] as u16[])[2, 5]: {}", &self.material_id.pretty_output()));
+        fields.push(format!(
+            "material_id(unsigned short[] as u16[])[2, 5]: {}",
+            &self.material_id.pretty_output()
+        ));
         write!(f, "MakableitemInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18453,7 +22196,7 @@ impl Debug for PeteggitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PeteggitemInfo")
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18469,7 +22212,7 @@ impl Debug for ArrowitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ArrowitemInfo")
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18491,7 +22234,7 @@ impl Debug for NormalitemExtrainfo2 {
             .field("count[6, 8]", &format!("{:02X?}", &self.count_raw))
             .field("wear_state[8, 10]", &format!("{:02X?}", &self.wear_state_raw))
             .field("slot[10, 18]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18516,7 +22259,7 @@ impl Debug for RepairitemInfo {
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("refining_level[4, 5]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[5, 13]", &format!("{:02X?}", &self.slot_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18537,7 +22280,7 @@ impl Debug for FRIEND {
             .field("aid[0, 4]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("name[8, 32]", &format!("{:02X?}", &self.name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18556,7 +22299,7 @@ impl Debug for TagCharacterBlockInfo {
         f.debug_struct("TagCharacterBlockInfo")
             .field("gid[0, 4]", &format!("{:02X?}", &self.gid_raw))
             .field("sz_expire_date[4, 24]", &format!("{:02X?}", &self.sz_expire_date_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18564,7 +22307,10 @@ impl Display for TagCharacterBlockInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("gid(unsigned long as u32)[0, 4]: {}", &self.gid));
-        fields.push(format!("sz_expire_date(char[] as char[])[4, 24]: {}", &self.sz_expire_date.pretty_output()));
+        fields.push(format!(
+            "sz_expire_date(char[] as char[])[4, 24]: {}",
+            &self.sz_expire_date.pretty_output()
+        ));
         write!(f, "TagCharacterBlockInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18575,7 +22321,7 @@ impl Debug for PVPINFO {
             .field("win_point[0, 4]", &format!("{:02X?}", &self.win_point_raw))
             .field("lose_point[4, 8]", &format!("{:02X?}", &self.lose_point_raw))
             .field("point[8, 12]", &format!("{:02X?}", &self.point_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18594,15 +22340,21 @@ impl Debug for Filetime {
         f.debug_struct("Filetime")
             .field("dw_low_date_time[0, 4]", &format!("{:02X?}", &self.dw_low_date_time_raw))
             .field("dw_high_date_time[4, 8]", &format!("{:02X?}", &self.dw_high_date_time_raw))
-        .finish()
+            .finish()
     }
 }
 
 impl Display for Filetime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
-        fields.push(format!("dw_low_date_time(unsigned long as u32)[0, 4]: {}", &self.dw_low_date_time));
-        fields.push(format!("dw_high_date_time(unsigned long as u32)[4, 8]: {}", &self.dw_high_date_time));
+        fields.push(format!(
+            "dw_low_date_time(unsigned long as u32)[0, 4]: {}",
+            &self.dw_low_date_time
+        ));
+        fields.push(format!(
+            "dw_high_date_time(unsigned long as u32)[4, 8]: {}",
+            &self.dw_high_date_time
+        ));
         write!(f, "Filetime\n {}", fields.join(",\n "))
     }
 }
@@ -18615,7 +22367,7 @@ impl Debug for MailList {
             .field("is_open[44, 45]", &format!("{:02X?}", &self.is_open_raw))
             .field("from_name[45, 69]", &format!("{:02X?}", &self.from_name_raw))
             .field("delete_time[69, 73]", &format!("{:02X?}", &self.delete_time_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18625,7 +22377,10 @@ impl Display for MailList {
         fields.push(format!("mail_id(unsigned long as u32)[0, 4]: {}", &self.mail_id));
         fields.push(format!("header(char[] as char[])[4, 44]: {}", &self.header.pretty_output()));
         fields.push(format!("is_open(char as i8)[44, 45]: {}", &self.is_open));
-        fields.push(format!("from_name(char[] as char[])[45, 69]: {}", &self.from_name.pretty_output()));
+        fields.push(format!(
+            "from_name(char[] as char[])[45, 69]: {}",
+            &self.from_name.pretty_output()
+        ));
         fields.push(format!("delete_time(long as i32)[69, 73]: {}", &self.delete_time));
         write!(f, "MailList\n {}", fields.join(",\n "))
     }
@@ -18647,7 +22402,7 @@ impl Debug for AuctionItemSearchInfo {
             .field("max_price[43, 47]", &format!("{:02X?}", &self.max_price_raw))
             .field("buyer_name[47, 71]", &format!("{:02X?}", &self.buyer_name_raw))
             .field("delete_time[71, 75]", &format!("{:02X?}", &self.delete_time_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18655,7 +22410,10 @@ impl Display for AuctionItemSearchInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("auction_id(unsigned long as u32)[0, 4]: {}", &self.auction_id));
-        fields.push(format!("seller_name(char[] as char[])[4, 28]: {}", &self.seller_name.pretty_output()));
+        fields.push(format!(
+            "seller_name(char[] as char[])[4, 28]: {}",
+            &self.seller_name.pretty_output()
+        ));
         fields.push(format!("itid(unsigned short as u16)[28, 30]: {}", &self.itid));
         fields.push(format!("atype(int as i32)[30, 34]: {}", &self.atype));
         fields.push(format!("count(short as i16)[34, 36]: {}", &self.count));
@@ -18665,7 +22423,10 @@ impl Display for AuctionItemSearchInfo {
         fields.push(format!("slot(struct as Struct)[39, 47]: {}", &self.slot));
         fields.push(format!("now_price(int as i32)[39, 43]: {}", &self.now_price));
         fields.push(format!("max_price(int as i32)[43, 47]: {}", &self.max_price));
-        fields.push(format!("buyer_name(char[] as char[])[47, 71]: {}", &self.buyer_name.pretty_output()));
+        fields.push(format!(
+            "buyer_name(char[] as char[])[47, 71]: {}",
+            &self.buyer_name.pretty_output()
+        ));
         fields.push(format!("delete_time(long as i32)[71, 75]: {}", &self.delete_time));
         write!(f, "AuctionItemSearchInfo\n {}", fields.join(",\n "))
     }
@@ -18678,7 +22439,7 @@ impl Debug for PacketMobHunting {
             .field("mob_gid[4, 8]", &format!("{:02X?}", &self.mob_gid_raw))
             .field("max_count[8, 10]", &format!("{:02X?}", &self.max_count_raw))
             .field("count[10, 12]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18706,7 +22467,7 @@ impl Debug for EquipmentitemExtrainfo2 {
             .field("refining_level[11, 12]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
             .field("hire_expire_date[12, 16]", &format!("{:02X?}", &self.hire_expire_date_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18734,7 +22495,7 @@ impl Debug for PggLingoKeyTemp {
             .field("dw_alg_key1[4, 8]", &format!("{:02X?}", &self.dw_alg_key1_raw))
             .field("dw_alg_key2[8, 12]", &format!("{:02X?}", &self.dw_alg_key2_raw))
             .field("dw_seed[12, 16]", &format!("{:02X?}", &self.dw_seed_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18754,7 +22515,7 @@ impl Debug for PacketZcQuestInfo {
         f.debug_struct("PacketZcQuestInfo")
             .field("quest_id[0, 4]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[4, 5]", &format!("{:02X?}", &self.active_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18773,7 +22534,7 @@ impl Debug for PacketZcMissionHunt {
             .field("mob_gid[0, 4]", &format!("{:02X?}", &self.mob_gid_raw))
             .field("hunt_count[4, 6]", &format!("{:02X?}", &self.hunt_count_raw))
             .field("mob_name[6, 30]", &format!("{:02X?}", &self.mob_name_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18795,7 +22556,7 @@ impl Debug for PacketZcQuestMissionInfo {
             .field("quest_end_time[8, 12]", &format!("{:02X?}", &self.quest_end_time_raw))
             .field("count[12, 14]", &format!("{:02X?}", &self.count_raw))
             .field("hunt[14, 44]", &format!("{:02X?}", &self.hunt_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18806,8 +22567,18 @@ impl Display for PacketZcQuestMissionInfo {
         fields.push(format!("quest_svr_time(long as i32)[4, 8]: {}", &self.quest_svr_time));
         fields.push(format!("quest_end_time(long as i32)[8, 12]: {}", &self.quest_end_time));
         fields.push(format!("count(short as i16)[12, 14]: {}", &self.count));
-        fields.push(format!("hunt([] as Vec)[14, 44]: {}", &self.hunt.iter().map(|item| format!("
-  >{}", item)).collect::<String>()));
+        fields.push(format!(
+            "hunt([] as Vec)[14, 44]: {}",
+            &self
+                .hunt
+                .iter()
+                .map(|item| format!(
+                    "
+  >{}",
+                    item
+                ))
+                .collect::<String>()
+        ));
         write!(f, "PacketZcQuestMissionInfo\n {}", fields.join(",\n "))
     }
 }
@@ -18818,7 +22589,7 @@ impl Debug for ShortCutKey {
             .field("is_skill[0, 1]", &format!("{:02X?}", &self.is_skill_raw))
             .field("id[1, 5]", &format!("{:02X?}", &self.id_raw))
             .field("count[5, 7]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18846,8 +22617,11 @@ impl Debug for EquipmentitemExtrainfo301 {
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
             .field("hire_expire_date[12, 16]", &format!("{:02X?}", &self.hire_expire_date_raw))
             .field("bind_on_equip_type[16, 18]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
-            .field("w_item_sprite_number[18, 20]", &format!("{:02X?}", &self.w_item_sprite_number_raw))
-        .finish()
+            .field(
+                "w_item_sprite_number[18, 20]",
+                &format!("{:02X?}", &self.w_item_sprite_number_raw),
+            )
+            .finish()
     }
 }
 
@@ -18864,8 +22638,14 @@ impl Display for EquipmentitemExtrainfo301 {
         fields.push(format!("refining_level(unsigned char as u8)[11, 12]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[12, 20]: {}", &self.slot));
         fields.push(format!("hire_expire_date(long as i32)[12, 16]: {}", &self.hire_expire_date));
-        fields.push(format!("bind_on_equip_type(unsigned short as u16)[16, 18]: {}", &self.bind_on_equip_type));
-        fields.push(format!("w_item_sprite_number(unsigned short as u16)[18, 20]: {}", &self.w_item_sprite_number));
+        fields.push(format!(
+            "bind_on_equip_type(unsigned short as u16)[16, 18]: {}",
+            &self.bind_on_equip_type
+        ));
+        fields.push(format!(
+            "w_item_sprite_number(unsigned short as u16)[18, 20]: {}",
+            &self.w_item_sprite_number
+        ));
         write!(f, "EquipmentitemExtrainfo301\n {}", fields.join(",\n "))
     }
 }
@@ -18881,7 +22661,7 @@ impl Debug for NormalitemExtrainfo3 {
             .field("wear_state[8, 10]", &format!("{:02X?}", &self.wear_state_raw))
             .field("slot[10, 18]", &format!("{:02X?}", &self.slot_raw))
             .field("hire_expire_date[10, 14]", &format!("{:02X?}", &self.hire_expire_date_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18905,7 +22685,7 @@ impl Debug for SkillPostdelay {
         f.debug_struct("SkillPostdelay")
             .field("skid[0, 2]", &format!("{:02X?}", &self.skid_raw))
             .field("delay_tm[2, 6]", &format!("{:02X?}", &self.delay_tm_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18923,7 +22703,7 @@ impl Debug for CharacterList {
         f.debug_struct("CharacterList")
             .field("dw_gid[0, 4]", &format!("{:02X?}", &self.dw_gid_raw))
             .field("slot_idx[4, 5]", &format!("{:02X?}", &self.slot_idx_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18942,7 +22722,7 @@ impl Debug for BattleFieldInfo {
             .field("bfno[0, 4]", &format!("{:02X?}", &self.bfno_raw))
             .field("battle_field_name[4, 60]", &format!("{:02X?}", &self.battle_field_name_raw))
             .field("join_team[60, 62]", &format!("{:02X?}", &self.join_team_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18950,7 +22730,10 @@ impl Display for BattleFieldInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("bfno(unsigned long as u32)[0, 4]: {}", &self.bfno));
-        fields.push(format!("battle_field_name(char[] as char[])[4, 60]: {}", &self.battle_field_name.pretty_output()));
+        fields.push(format!(
+            "battle_field_name(char[] as char[])[4, 60]: {}",
+            &self.battle_field_name.pretty_output()
+        ));
         fields.push(format!("join_team(short as i16)[60, 62]: {}", &self.join_team));
         write!(f, "BattleFieldInfo\n {}", fields.join(",\n "))
     }
@@ -18962,7 +22745,7 @@ impl Debug for PartyBookingDetail {
             .field("level[0, 2]", &format!("{:02X?}", &self.level_raw))
             .field("map_id[2, 4]", &format!("{:02X?}", &self.map_id_raw))
             .field("job[4, 10]", &format!("{:02X?}", &self.job_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18983,7 +22766,7 @@ impl Debug for PartyBookingAdInfo {
             .field("char_name[4, 28]", &format!("{:02X?}", &self.char_name_raw))
             .field("expire_time[28, 32]", &format!("{:02X?}", &self.expire_time_raw))
             .field("detail[32, ?]", &format!("{:02X?}", &self.detail_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -18991,7 +22774,10 @@ impl Display for PartyBookingAdInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("index(unsigned long as u32)[0, 4]: {}", &self.index));
-        fields.push(format!("char_name(char[] as char[])[4, 28]: {}", &self.char_name.pretty_output()));
+        fields.push(format!(
+            "char_name(char[] as char[])[4, 28]: {}",
+            &self.char_name.pretty_output()
+        ));
         fields.push(format!("expire_time(long as i32)[28, 32]: {}", &self.expire_time));
         fields.push(format!("detail(struct as Struct)[32, ?]: {}", &self.detail));
         write!(f, "PartyBookingAdInfo\n {}", fields.join(",\n "))
@@ -19004,7 +22790,7 @@ impl Debug for ProductinfoInBuyingStore {
             .field("itid[0, 2]", &format!("{:02X?}", &self.itid_raw))
             .field("count[2, 4]", &format!("{:02X?}", &self.count_raw))
             .field("price[4, 8]", &format!("{:02X?}", &self.price_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -19025,7 +22811,7 @@ impl Debug for BuyingStoreItemlist {
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
             .field("itid[7, 9]", &format!("{:02X?}", &self.itid_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -19046,7 +22832,7 @@ impl Debug for TradeItemBuyingStore {
             .field("index[0, 2]", &format!("{:02X?}", &self.index_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -19075,7 +22861,7 @@ impl Debug for ResultItemInfo {
             .field("card2[100, 102]", &format!("{:02X?}", &self.card2_raw))
             .field("card3[102, 104]", &format!("{:02X?}", &self.card3_raw))
             .field("card4[104, 106]", &format!("{:02X?}", &self.card4_raw))
-        .finish()
+            .finish()
     }
 }
 
@@ -19084,7 +22870,10 @@ impl Display for ResultItemInfo {
         let mut fields = Vec::new();
         fields.push(format!("ssiid(unsigned int as u32)[0, 4]: {}", &self.ssiid));
         fields.push(format!("aid(unsigned int as u32)[4, 8]: {}", &self.aid));
-        fields.push(format!("store_name(char[] as char[])[8, 88]: {}", &self.store_name.pretty_output()));
+        fields.push(format!(
+            "store_name(char[] as char[])[8, 88]: {}",
+            &self.store_name.pretty_output()
+        ));
         fields.push(format!("itid(unsigned short as u16)[88, 90]: {}", &self.itid));
         fields.push(format!("item_type(unsigned char as u8)[90, 91]: {}", &self.item_type));
         fields.push(format!("price(int as i32)[91, 95]: {}", &self.price));
@@ -19097,4 +22886,3 @@ impl Display for ResultItemInfo {
         write!(f, "ResultItemInfo\n {}", fields.join(",\n "))
     }
 }
-

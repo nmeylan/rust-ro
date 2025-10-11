@@ -5,17 +5,26 @@ pub mod map_instance_helper;
 pub mod mob_helper;
 #[macro_use]
 pub mod assert_helper;
-pub mod mocked_repository;
-pub mod server_helper;
-pub mod item_helper;
-pub mod sync_helper;
 pub mod fixtures;
 #[cfg(feature = "integration_tests")]
 pub mod integration_test;
+pub mod item_helper;
+pub mod mocked_repository;
+pub mod server_helper;
+pub mod sync_helper;
 
+use std::sync::mpsc::{Receiver, SyncSender};
+use std::sync::{Arc, Mutex, Once};
+use std::{fs, thread};
+
+use configuration::configuration::Config;
+use packets::packets::Packet;
+use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use tokio::runtime::Runtime;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
+use crate::server::Server;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -23,18 +32,9 @@ use crate::server::model::map_item::MapItems;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::item_service::ItemService;
 use crate::server::service::server_service::ServerService;
-use crate::server::Server;
 use crate::setup_logger;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
-use configuration::configuration::Config;
-use packets::packets::Packet;
-use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use std::sync::mpsc::Receiver;
-use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Mutex, Once};
-use std::{fs, thread};
-use tokio::runtime::Runtime;
 
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
@@ -49,8 +49,13 @@ pub struct TestContext {
 }
 
 impl TestContext {
-    pub fn new(client_notification_sender: SyncSender<Notification>, client_notification_receiver: Receiver<Notification>,
-               persistence_event_sender: SyncSender<PersistenceEvent>, persistence_event_receiver: Receiver<PersistenceEvent>, countdown_latch: CountDownLatch) -> Self {
+    pub fn new(
+        client_notification_sender: SyncSender<Notification>,
+        client_notification_receiver: Receiver<Notification>,
+        persistence_event_sender: SyncSender<PersistenceEvent>,
+        persistence_event_receiver: Receiver<PersistenceEvent>,
+        countdown_latch: CountDownLatch,
+    ) -> Self {
         let received_notification = Arc::new(Mutex::new(vec![]));
         let received_persistence_events = Arc::new(Mutex::new(vec![]));
         let received_notification_cloned = received_notification.clone();
@@ -58,33 +63,40 @@ impl TestContext {
         let count_down_latch_clone = countdown_latch.clone();
         let increment_latch = IncrementLatch::new();
         let increment_latch_clone = increment_latch.clone();
-        thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
-            for notification in client_notification_receiver.iter() {
-                // println!("Sent client notification {:?}", notification);
-                received_notification_cloned.lock().unwrap().push(notification);
-                count_down_latch_clone.countdown();
-                increment_latch_clone.increment();
-            }
-        }).unwrap();
+        thread::Builder::new()
+            .name("client_notification_thread".to_string())
+            .spawn(move || {
+                for notification in client_notification_receiver.iter() {
+                    // println!("Sent client notification {:?}", notification);
+                    received_notification_cloned.lock().unwrap().push(notification);
+                    count_down_latch_clone.countdown();
+                    increment_latch_clone.increment();
+                }
+            })
+            .unwrap();
         let count_down_latch_clone = countdown_latch.clone();
         let increment_latch_clone = increment_latch.clone();
-        thread::Builder::new().name("persistence_event_thread".to_string()).spawn(move || {
-            for notification in persistence_event_receiver.iter() {
-                // println!("Sent persistence event {:?}", notification);
-                received_persistence_events_cloned.lock().unwrap().push(notification);
-                count_down_latch_clone.countdown();
-                increment_latch_clone.increment();
-            }
-        }).unwrap();
+        thread::Builder::new()
+            .name("persistence_event_thread".to_string())
+            .spawn(move || {
+                for notification in persistence_event_receiver.iter() {
+                    // println!("Sent persistence event {:?}", notification);
+                    received_persistence_events_cloned.lock().unwrap().push(notification);
+                    count_down_latch_clone.countdown();
+                    increment_latch_clone.increment();
+                }
+            })
+            .unwrap();
         Self {
             client_notification_sender,
             persistence_event_sender,
             received_notification,
             received_persistence_events,
             countdown_latch,
-            increment_latch
+            increment_latch,
         }
     }
+
     pub fn client_notification_sender(&self) -> SyncSender<Notification> {
         self.client_notification_sender.clone()
     }
@@ -96,9 +108,11 @@ impl TestContext {
     pub fn received_notification(&self) -> Arc<Mutex<Vec<Notification>>> {
         self.received_notification.clone()
     }
+
     pub fn received_persistence_events(&self) -> Arc<Mutex<Vec<PersistenceEvent>>> {
         self.received_persistence_events.clone()
     }
+
     pub fn countdown_latch(&self) -> &CountDownLatch {
         &self.countdown_latch
     }
@@ -134,7 +148,6 @@ pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
 
 pub fn before_all() {
     INIT.call_once(|| {
-
         unsafe {
             let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             let file_path = "../config/status_point_reward.json";
@@ -161,15 +174,18 @@ pub fn before_all() {
         let job_configs = Config::load_jobs_config("..").unwrap();
         let job_skills_tree = Config::load_jobs_skill_tree("..").unwrap();
         let config = unsafe { CONFIGS.clone().unwrap() };
-        crate::GlobalConfigService::init(config,
-                                         items,
-                                         mobs,
-                                         job_configs,
-                                         job_skills_tree,
-                                         skills_config,
-                                         Default::default());
+        crate::GlobalConfigService::init(
+            config,
+            items,
+            mobs,
+            job_configs,
+            job_skills_tree,
+            skills_config,
+            Default::default(),
+        );
     });
-    // unsafe { GlobalConfigService::instance_mut().set_config(CONFIGS.clone().unwrap()); }
+    // unsafe { GlobalConfigService::instance_mut().set_config(CONFIGS.clone().
+    // unwrap()); }
 }
 
 pub fn mocked_repository() -> Arc<MockedRepository> {
@@ -186,7 +202,7 @@ pub struct ServerBuilder {
     map_items: MapItems,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     server_service: ServerService,
-    runtime: Arc<Runtime>
+    runtime: Arc<Runtime>,
 }
 
 impl ServerBuilder {
@@ -197,23 +213,34 @@ impl ServerBuilder {
             map_items: MapItems::default(),
             tasks_queue: Arc::new(Default::default()),
             server_service,
-            runtime
+            runtime,
         }
     }
+
     pub fn map_items(mut self, map_items: MapItems) -> Self {
         self.map_items = map_items;
         self
     }
+
     pub fn tasks_queue(mut self, tasks_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         self.tasks_queue = tasks_queue;
         self
     }
+
     pub fn repository(mut self, repository: MockedRepository) -> Self {
         self.repository = Arc::new(repository);
         self
     }
+
     pub fn build(self) -> Server {
-        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue, self.server_service, self.runtime)
+        Server::new_without_service_init(
+            self.configuration,
+            self.repository,
+            self.map_items,
+            self.tasks_queue,
+            self.server_service,
+            self.runtime,
+        )
     }
 }
 
@@ -221,11 +248,11 @@ impl ServerBuilder {
 macro_rules! status_snapshot {
     ($context:ident, $object:expr) => {
         &$context.status_service.to_snapshot(&$object.status)
-    }
+    };
 }
 #[macro_export]
 macro_rules! status_snapshot_mob {
     ($context:ident, $object:expr) => {
         &$context.status_service.to_snapshot_mob(&$object.status)
-    }
+    };
 }

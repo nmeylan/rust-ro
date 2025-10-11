@@ -1,8 +1,9 @@
 use packets::packets::PacketCzShortcutKeyChange;
+
+use crate::server::Server;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::hotkey::Hotkey;
 use crate::server::model::request::Request;
-use crate::server::Server;
 
 pub fn handle_shortcut_change(server: &Server, context: Request) {
     let packet_cz_shortcut_key_change = cast!(context.packet(), PacketCzShortcutKeyChange);
@@ -18,5 +19,4 @@ pub fn handle_shortcut_change(server: &Server, context: Request) {
     } else {
         server.add_to_next_tick(GameEvent::CharacterHotkeyAdd(char_id, hotkey))
     }
-
 }

@@ -8,7 +8,7 @@ pub struct Attack {
     pub target: u32,
     pub repeat: bool,
     pub last_attack_tick: u128,
-    pub last_attack_motion: u32
+    pub last_attack_motion: u32,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -45,12 +45,14 @@ impl SkillCasted {
             no_delay: false,
         }
     }
+
     pub fn valid() -> Self {
         Self {
             requirements_valid: true,
             no_delay: false,
         }
     }
+
     pub fn no_delay() -> Self {
         Self {
             requirements_valid: true,
@@ -61,6 +63,7 @@ impl SkillCasted {
     pub fn is_valid(&self) -> bool {
         self.requirements_valid
     }
+
     pub fn has_no_delay(&self) -> bool {
         self.no_delay
     }

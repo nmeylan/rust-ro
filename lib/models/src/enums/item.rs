@@ -141,12 +141,7 @@ impl ItemType {
 
     pub fn is_stackable(&self) -> bool {
         match self {
-            ItemType::Healing
-            | ItemType::Usable
-            | ItemType::Etc
-            | ItemType::Card
-            | ItemType::Ammo
-            | ItemType::DelayConsume => true,
+            ItemType::Healing | ItemType::Usable | ItemType::Etc | ItemType::Card | ItemType::Ammo | ItemType::DelayConsume => true,
             ItemType::Unknown
             | ItemType::Armor
             | ItemType::Weapon
@@ -162,36 +157,30 @@ impl ItemType {
     pub fn is_consumable(&self) -> bool {
         matches!(
             self,
-            ItemType::Healing
-                | ItemType::Usable
-                | ItemType::PetEgg
-                | ItemType::DelayConsume
-                | ItemType::Cash
+            ItemType::Healing | ItemType::Usable | ItemType::PetEgg | ItemType::DelayConsume | ItemType::Cash
         )
     }
+
     pub fn is_equipment(&self) -> bool {
         matches!(
             self,
             ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear
         )
     }
+
     pub fn is_wearable(&self) -> bool {
-        matches!(
-            self,
-            ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear
-        )
+        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear)
     }
+
     pub fn should_be_identified_when_dropped(&self) -> bool {
-        matches!(
-            self,
-            ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear
-        )
+        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear)
     }
 
     #[inline]
     pub fn is_card(&self) -> bool {
         matches!(self, ItemType::Card)
     }
+
     pub fn is_etc(&self) -> bool {
         matches!(
             self,

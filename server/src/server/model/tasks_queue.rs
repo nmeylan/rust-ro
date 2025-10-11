@@ -1,27 +1,30 @@
 use std::collections::VecDeque;
-use std::fmt::Debug;
-use std::fmt::Write;
+use std::fmt::{Debug, Write};
 use std::sync::Mutex;
 
 pub struct TasksQueue<T> {
     tasks: Mutex<VecDeque<Vec<T>>>,
 }
 
-
 impl<T> Default for TasksQueue<T>
-where T: Debug + Clone
- {
+where
+    T: Debug + Clone,
+{
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl <T> TasksQueue<T> where T: Debug + Clone {
+impl<T> TasksQueue<T>
+where
+    T: Debug + Clone,
+{
     pub fn new() -> Self {
         Self {
-            tasks: Mutex::new(Default::default())
+            tasks: Mutex::new(Default::default()),
         }
     }
+
     pub fn add_to_first_index(&self, task: T) {
         let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         if tasks_guard.len() == 0 {
@@ -29,6 +32,7 @@ impl <T> TasksQueue<T> where T: Debug + Clone {
         }
         tasks_guard[0].push(task);
     }
+
     pub fn add_to_index(&self, task: T, index: usize) {
         let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         while tasks_guard.len() <= index {
@@ -41,10 +45,12 @@ impl <T> TasksQueue<T> where T: Debug + Clone {
         let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         tasks_guard.pop_front()
     }
+
     pub fn is_empty(&self) -> bool {
         let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         tasks_guard.is_empty()
     }
+
     /// Use for test only
     pub fn content_as_str(&self) -> String {
         let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
@@ -61,6 +67,8 @@ impl <T> TasksQueue<T> where T: Debug + Clone {
         let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         let mut cloned_tasks = VecDeque::new();
         tasks_guard.iter().for_each(|queue| cloned_tasks.push_back(queue.clone().to_vec()));
-        TasksQueue{ tasks: Mutex::new(cloned_tasks) }
+        TasksQueue {
+            tasks: Mutex::new(cloned_tasks),
+        }
     }
 }

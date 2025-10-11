@@ -1,16 +1,18 @@
+use std::sync::Arc;
+use std::sync::mpsc::SyncSender;
+
+use configuration::configuration::SkillConfig;
+use models::enums::EnumWithNumberValue;
+use models::enums::skill_enums::SkillEnum;
+use models::enums::vanish::VanishType;
+use packets::packets::{Packet, PacketZcNotifyVanish};
+
 use crate::repository::ScriptVariableRepository;
+use crate::server::Server;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::Server;
-use configuration::configuration::SkillConfig;
-use models::enums::skill_enums::SkillEnum;
-use models::enums::vanish::VanishType;
-use models::enums::EnumWithNumberValue;
-use packets::packets::{Packet, PacketZcNotifyVanish};
-use std::sync::mpsc::SyncSender;
-use std::sync::Arc;
 
 // TODO, this should be removed
 #[allow(dead_code)]
@@ -22,9 +24,18 @@ pub struct ScriptSkillService {
 }
 
 impl ScriptSkillService {
-
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ScriptVariableRepository>, configuration: &'static GlobalConfigService) -> Self{
-        Self { client_notification_sender, persistence_event_sender, repository, configuration }
+    pub fn new(
+        client_notification_sender: SyncSender<Notification>,
+        persistence_event_sender: SyncSender<PersistenceEvent>,
+        repository: Arc<dyn ScriptVariableRepository>,
+        configuration: &'static GlobalConfigService,
+    ) -> Self {
+        Self {
+            client_notification_sender,
+            persistence_event_sender,
+            repository,
+            configuration,
+        }
     }
 
     pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
@@ -59,15 +70,29 @@ impl ScriptSkillService {
             SkillEnum::AlPneuma => {}
             SkillEnum::AlTeleport => {
                 if level == 1 {
-                    server.server_service.schedule_warp_to_walkable_cell(server.state_mut().as_mut(), Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
+                    server.server_service.schedule_warp_to_walkable_cell(
+                        server.state_mut().as_mut(),
+                        Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(),
+                        RANDOM_CELL.0,
+                        RANDOM_CELL.1,
+                        source_char_id,
+                    );
                     let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new(self.configuration.packetver());
                     packet_zc_notify_vanish.set_gid(character_ref.char_id);
                     packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);
                     packet_zc_notify_vanish.fill_raw();
-                    self.client_notification_sender.send(Notification::Area(
-                        AreaNotification::new(character_ref.current_map_name().clone(), character_ref.current_map_instance(),
-                                              AreaNotificationRangeType::Fov { x: character_ref.x, y: character_ref.y, exclude_id: Some(character_ref.char_id) },
-                                              packet_zc_notify_vanish.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_vanish to client"));
+                    self.client_notification_sender
+                        .send(Notification::Area(AreaNotification::new(
+                            character_ref.current_map_name().clone(),
+                            character_ref.current_map_instance(),
+                            AreaNotificationRangeType::Fov {
+                                x: character_ref.x,
+                                y: character_ref.y,
+                                exclude_id: Some(character_ref.char_id),
+                            },
+                            packet_zc_notify_vanish.raw,
+                        )))
+                        .unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_vanish to client"));
                 }
             }
             SkillEnum::AlWarp => {}

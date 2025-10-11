@@ -1,11 +1,12 @@
-use std::{env, fs};
 use std::cmp::max;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use lazy_static::lazy_static;
+use std::{env, fs};
+
 use configuration::configuration::InternalJobsConfig;
+use lazy_static::lazy_static;
 
 lazy_static! {
     static ref HP_JOB_MODIFIER: HashMap<&'static str, f32> = HashMap::from([
@@ -44,7 +45,7 @@ lazy_static! {
         ("ninja", 0.0),
         ("gunslinger", 0.0),
         ("stargladiator", 6.5),
-        ]);
+    ]);
     static ref SP_JOB_MODIFIER: HashMap<&'static str, f32> = HashMap::from([
         ("novice", 1.0),
         ("superNovice", 1.0),
@@ -94,7 +95,9 @@ fn main() {
 
 fn generate_base_hp(internal_configs: &mut InternalJobsConfig, max_base_level: u32) {
     for (job, conf) in internal_configs.jobs.iter_mut() {
-        if HP_JOB_MODIFIER.get(job.to_lowercase().as_str()).is_none() { continue; }
+        if HP_JOB_MODIFIER.get(job.to_lowercase().as_str()).is_none() {
+            continue;
+        }
         let mut results: Vec<u32> = Vec::with_capacity(max_base_level as usize);
         for i in 1..=max_base_level {
             let mut base_hp: f32 = (35.0 + (i as f32 * (*HP_JOB_FACTOR.get(job.to_lowercase().as_str()).unwrap_or(&5_f32))));
@@ -103,7 +106,12 @@ fn generate_base_hp(internal_configs: &mut InternalJobsConfig, max_base_level: u
                 base_hp += 90.0;
             }
             for j in 2..=i {
-                base_hp = base_hp + (HP_JOB_MODIFIER.get(job.to_lowercase().as_str()).expect(format!("Can't find job modifier for {}", job.to_lowercase()).as_str()) * j as f32).round();
+                base_hp = base_hp
+                    + (HP_JOB_MODIFIER
+                        .get(job.to_lowercase().as_str())
+                        .expect(format!("Can't find job modifier for {}", job.to_lowercase()).as_str())
+                        * j as f32)
+                        .round();
             }
             if (job.to_lowercase().as_str() == "soul_linker") {
                 if (i >= 70) {
@@ -142,13 +150,44 @@ fn generate_base_hp(internal_configs: &mut InternalJobsConfig, max_base_level: u
 fn generate_base_sp(internal_configs: &mut InternalJobsConfig, max_base_level: u32) {
     for (job, conf) in internal_configs.jobs.iter_mut() {
         let mut results: Vec<u32> = Vec::with_capacity(max_base_level as usize);
-        if SP_JOB_MODIFIER.get(job.to_lowercase().as_str()).is_none() { continue; }
+        if SP_JOB_MODIFIER.get(job.to_lowercase().as_str()).is_none() {
+            continue;
+        }
         for i in 1..=max_base_level {
-            let mut base_sp: f32 = 10.0 + (i as f32 * SP_JOB_MODIFIER.get(job.to_lowercase().as_str()).expect(format!("Can't find job modifier for {}", job.to_lowercase()).as_str())).floor();
+            let mut base_sp: f32 = 10.0
+                + (i as f32
+                    * SP_JOB_MODIFIER
+                        .get(job.to_lowercase().as_str())
+                        .expect(format!("Can't find job modifier for {}", job.to_lowercase()).as_str()))
+                .floor();
             if job == "ninja" {
-                if i <= 20 { base_sp = 11.0 + i as f32 * 3.0 } else if i <= 40 { base_sp = 71.0 + (i as f32 - 20.0) * 4.0 } else if i <= 60 { base_sp = 151.0 + (i as f32 - 40.0) * 5.0 } else if i <= 80 { base_sp = 251.0 + (i as f32 - 60.0) * 6.0 } else { base_sp = 370.0 + (i as f32 - 80.0) * 8.0 }
+                if i <= 20 {
+                    base_sp = 11.0 + i as f32 * 3.0
+                } else if i <= 40 {
+                    base_sp = 71.0 + (i as f32 - 20.0) * 4.0
+                } else if i <= 60 {
+                    base_sp = 151.0 + (i as f32 - 40.0) * 5.0
+                } else if i <= 80 {
+                    base_sp = 251.0 + (i as f32 - 60.0) * 6.0
+                } else {
+                    base_sp = 370.0 + (i as f32 - 80.0) * 8.0
+                }
             } else if job == "gunslinger" {
-                if i <= 25 { base_sp = 10.0 + i as f32 * 3.0; } else if i <= 35 { base_sp = 85.0 + (i as f32 - 25.0) * 4.0; } else if i <= 40 { base_sp = 126.0 + (i as f32 - 35.0) * 3.0; } else if i <= 50 { base_sp = 141.0 + (i as f32 - 40.0) * 4.0; } else if i <= 75 { base_sp = 181.0 + (i as f32 - 50.0) * 5.0; } else if i <= 78 { base_sp = 306.0 + (i as f32 - 75.0) * 6.0; } else { base_sp = 330.0 + (i as f32 - 78.0) * 6.0; }
+                if i <= 25 {
+                    base_sp = 10.0 + i as f32 * 3.0;
+                } else if i <= 35 {
+                    base_sp = 85.0 + (i as f32 - 25.0) * 4.0;
+                } else if i <= 40 {
+                    base_sp = 126.0 + (i as f32 - 35.0) * 3.0;
+                } else if i <= 50 {
+                    base_sp = 141.0 + (i as f32 - 40.0) * 4.0;
+                } else if i <= 75 {
+                    base_sp = 181.0 + (i as f32 - 50.0) * 5.0;
+                } else if i <= 78 {
+                    base_sp = 306.0 + (i as f32 - 75.0) * 6.0;
+                } else {
+                    base_sp = 330.0 + (i as f32 - 78.0) * 6.0;
+                }
             } else if (job.to_lowercase().as_str() == "taekwon" || job.to_lowercase().as_str() == "soul_linker") {
                 if (i >= 70) {
                     if (i < 80) {
@@ -159,7 +198,9 @@ fn generate_base_sp(internal_configs: &mut InternalJobsConfig, max_base_level: u
                         base_sp -= (i as f32 - 90.0) * 4.0;
                     } else if (i < max_base_level) {
                         base_sp -= (i as f32 - 90.0) * 4.0 - 10.0;
-                    } else { base_sp -= 1.0; }
+                    } else {
+                        base_sp -= 1.0;
+                    }
                 }
             }
             results.push(base_sp as u32);

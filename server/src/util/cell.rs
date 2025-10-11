@@ -9,7 +9,7 @@ use std::ptr::NonNull;
 /// Should be used with caution
 pub struct MyUnsafeCell<T: ?Sized> {
     borrow: Cell<isize>,
-    value: UnsafeCell<T>
+    value: UnsafeCell<T>,
 }
 
 pub struct MyRef<'b, T: ?Sized + 'b> {
@@ -34,12 +34,11 @@ pub struct MyBorrowRefMut<'b> {
     borrow: &'b Cell<isize>,
 }
 
-
-impl <T> MyUnsafeCell<T> {
+impl<T> MyUnsafeCell<T> {
     pub const fn new(value: T) -> MyUnsafeCell<T> {
         MyUnsafeCell {
             value: UnsafeCell::new(value),
-            borrow: Cell::new(0)
+            borrow: Cell::new(0),
         }
     }
 }
@@ -55,11 +54,19 @@ impl<T: Default> Default for MyUnsafeCell<T> {
 impl<T: ?Sized> MyUnsafeCell<T> {
     pub fn borrow(&self) -> MyRef<'_, T> {
         let value = unsafe { NonNull::new_unchecked(self.value.get()) };
-        MyRef { value, borrow: MyBorrowRef::new(&self.borrow) }
+        MyRef {
+            value,
+            borrow: MyBorrowRef::new(&self.borrow),
+        }
     }
+
     pub fn borrow_mut(&self) -> MyRefMut<'_, T> {
         let value = unsafe { NonNull::new_unchecked(self.value.get()) };
-        MyRefMut { value, borrow: MyBorrowRefMut::new(&self.borrow), marker: PhantomData }
+        MyRefMut {
+            value,
+            borrow: MyBorrowRefMut::new(&self.borrow),
+            marker: PhantomData,
+        }
     }
 }
 impl<T: Clone> Clone for MyUnsafeCell<T> {
@@ -121,7 +128,6 @@ impl Drop for MyBorrowRefMut<'_> {
     }
 }
 
-
 impl<'b> MyBorrowRefMut<'b> {
     #[inline]
     fn new(borrow: &'b Cell<isize>) -> MyBorrowRefMut<'b> {
@@ -140,11 +146,15 @@ impl<'b, T: ?Sized> MyRefMut<'b, T> {
 
 impl<'b, T: ?Sized> MyRef<'b, T> {
     pub fn map<U: ?Sized, F>(orig: MyRef<'b, T>, f: F) -> MyRef<'b, U>
-        where
-            F: FnOnce(&T) -> &U,
+    where
+        F: FnOnce(&T) -> &U,
     {
-        MyRef { value: NonNull::from(f(&*orig)), borrow: orig.borrow }
+        MyRef {
+            value: NonNull::from(f(&*orig)),
+            borrow: orig.borrow,
+        }
     }
+
     pub fn as_ref(&self) -> &'b T {
         // SAFETY: the value is accessible as long as we hold our borrow.
         unsafe { self.value.as_ref() }

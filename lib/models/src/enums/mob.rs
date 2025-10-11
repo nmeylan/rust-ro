@@ -1,4 +1,5 @@
 use enum_macro::{WithNumberValue, WithStringValue};
+
 use crate::enums::{EnumWithNumberValue, EnumWithStringValue};
 
 #[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
@@ -55,7 +56,6 @@ pub enum MobRace {
     #[value_string = "RC_Undead"]
     #[value_string = "Undead"]
     RUndead,
-
 }
 
 #[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
@@ -107,5 +107,4 @@ pub enum MobGroup {
     Malangdo,
     #[value_string = "RC2_Rachel_Sanctuary"]
     RachelSanctuary,
-
 }

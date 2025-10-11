@@ -1,6 +1,6 @@
 use accessor::Setters;
-use crate::util::coordinate;
 
+use crate::util::coordinate;
 
 // Coming from herculesWS
 pub static MOVE_COST: u16 = 10;
@@ -45,23 +45,30 @@ pub fn is_direction(allowed_dir: u8, direction: u8) -> bool {
 
 #[inline]
 fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
-    x  as u32 + y  as u32 * x_size as u32
+    x as u32 + y as u32 * x_size as u32
 }
-
 
 fn is_cell_walkable(cells: &[u16], x: u16, y: u16, x_size: u16) -> bool {
     if cells.is_empty() {
         warn!("Cannot call is_cell_walkable as cells are not initialized, returning false");
-        return false
+        return false;
     }
     let index = coordinate::get_cell_index_of(x, y, x_size);
     (cells.get(index).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
 }
 
 /**
-* Client use a A* algorithm for path finding.
-*/
-pub fn path_search_client_side_algorithm(x_size: u16, y_size: u16, cells: &[u16], source_x: u16, source_y: u16, destination_x: u16, destination_y: u16) -> Vec<PathNode> {
+ * Client use a A* algorithm for path finding.
+ */
+pub fn path_search_client_side_algorithm(
+    x_size: u16,
+    y_size: u16,
+    cells: &[u16],
+    source_x: u16,
+    source_y: u16,
+    destination_x: u16,
+    destination_y: u16,
+) -> Vec<PathNode> {
     let max_x = x_size - 1;
     let max_y = y_size - 1;
     let start_node = PathNode {
@@ -72,7 +79,7 @@ pub fn path_search_client_side_algorithm(x_size: u16, y_size: u16, cells: &[u16]
         g_cost: 0,
         f_cost: client_side_heuristic(source_x, source_y, destination_x, destination_y),
         is_open: true,
-        is_diagonal: false
+        is_diagonal: false,
     };
     let mut open_set = Vec::with_capacity(14 * 14);
     open_set.push(start_node);
@@ -82,12 +89,15 @@ pub fn path_search_client_side_algorithm(x_size: u16, y_size: u16, cells: &[u16]
     let mut i = 0;
     while !open_set.is_empty() {
         let open_set_iter = open_set.iter();
-        let current: (usize, &PathNode) = open_set_iter.enumerate().reduce(|(min_node_index, min_node), (cur_index, cur_node)| {
-            if cur_node.f_cost < min_node.f_cost {
-                return (cur_index, cur_node)
-            }
-            (min_node_index, min_node)
-        }).unwrap(); // current node is the node with minimum f_cost
+        let current: (usize, &PathNode) = open_set_iter
+            .enumerate()
+            .reduce(|(min_node_index, min_node), (cur_index, cur_node)| {
+                if cur_node.f_cost < min_node.f_cost {
+                    return (cur_index, cur_node);
+                }
+                (min_node_index, min_node)
+            })
+            .unwrap(); // current node is the node with minimum f_cost
         current_node = *current.1;
         let current_index = current.0;
         if current_node.x == destination_x && current_node.y == destination_y {
@@ -96,45 +106,134 @@ pub fn path_search_client_side_algorithm(x_size: u16, y_size: u16, cells: &[u16]
         }
         if i > 100 {
             // debug!("Path finding stuck in infinite loop. Abort");
-            return vec![]
+            return vec![];
         }
         // debug!("{:?}", open_set);
-        // debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
+        // debug!("iteration: {} -> current_node({}) {},{}", i, current_index,
+        // current_node.x, current_node.y);
         open_set.swap_remove(current_index);
         // debug!("{:?}", open_set);
         current_node.set_is_open(false);
         i += 1;
-        let allowed_dirs = allowed_dirs(max_x, max_y, current_node.x ,current_node.y);
+        let allowed_dirs = allowed_dirs(max_x, max_y, current_node.x, current_node.y);
         /*
         For all allowed neighbor cells
         */
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_EAST) && is_cell_walkable(cells, current_node.x + 1, current_node.y - 1, x_size) {
-            add_neighbor(current_node.x + 1, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST, true);
+            add_neighbor(
+                current_node.x + 1,
+                current_node.y - 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_DIAGONAL_COST,
+                true,
+            );
         }
-        if is_direction(allowed_dirs, DIR_EAST)  && is_cell_walkable(cells, current_node.x + 1, current_node.y, x_size){
-            add_neighbor(current_node.x + 1, current_node.y, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST, false);
+        if is_direction(allowed_dirs, DIR_EAST) && is_cell_walkable(cells, current_node.x + 1, current_node.y, x_size) {
+            add_neighbor(
+                current_node.x + 1,
+                current_node.y,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_COST,
+                false,
+            );
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_EAST) && is_cell_walkable(cells, current_node.x + 1, current_node.y + 1, x_size) {
-            add_neighbor(current_node.x + 1, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST, true);
+            add_neighbor(
+                current_node.x + 1,
+                current_node.y + 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_DIAGONAL_COST,
+                true,
+            );
         }
         if is_direction(allowed_dirs, DIR_NORTH) && is_cell_walkable(cells, current_node.x, current_node.y + 1, x_size) {
-            add_neighbor(current_node.x, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST, false);
+            add_neighbor(
+                current_node.x,
+                current_node.y + 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_COST,
+                false,
+            );
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_WEST) && is_cell_walkable(cells, current_node.x - 1, current_node.y + 1, x_size) {
-            add_neighbor(current_node.x - 1, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST, true);
+            add_neighbor(
+                current_node.x - 1,
+                current_node.y + 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_DIAGONAL_COST,
+                true,
+            );
         }
         if is_direction(allowed_dirs, DIR_WEST) && is_cell_walkable(cells, current_node.x - 1, current_node.y, x_size) {
-            add_neighbor(current_node.x - 1, current_node.y, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST, false);
+            add_neighbor(
+                current_node.x - 1,
+                current_node.y,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_COST,
+                false,
+            );
         }
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_WEST) && is_cell_walkable(cells, current_node.x - 1, current_node.y - 1, x_size) {
-            add_neighbor(current_node.x - 1, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST, true);
+            add_neighbor(
+                current_node.x - 1,
+                current_node.y - 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_DIAGONAL_COST,
+                true,
+            );
         }
         if is_direction(allowed_dirs, DIR_SOUTH) && is_cell_walkable(cells, current_node.x, current_node.y - 1, x_size) {
-            add_neighbor(current_node.x, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST, false);
+            add_neighbor(
+                current_node.x,
+                current_node.y - 1,
+                destination_x,
+                destination_y,
+                max_x,
+                &mut open_set,
+                &mut discovered_nodes,
+                &current_node,
+                MOVE_COST,
+                false,
+            );
         }
     }
 
-    let mut final_path : Vec<PathNode> = Vec::with_capacity(14 * 2);
+    let mut final_path: Vec<PathNode> = Vec::with_capacity(14 * 2);
     while current_node.id != current_node.parent_id {
         final_path.push(current_node);
         let current_node_option = discovered_nodes.iter().find(|node| node.id == current_node.parent_id);
@@ -166,7 +265,18 @@ pub fn allowed_dirs(max_x: u16, max_y: u16, x: u16, y: u16) -> u8 {
 }
 
 #[allow(clippy::too_many_arguments)]
-fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u16, open_set: &mut Vec<PathNode>, discovered_nodes: &mut Vec<PathNode>, current_node: &PathNode, move_cost: u16, is_diagonal: bool) {
+fn add_neighbor(
+    x: u16,
+    y: u16,
+    destination_x: u16,
+    destination_y: u16,
+    max_x: u16,
+    open_set: &mut Vec<PathNode>,
+    discovered_nodes: &mut Vec<PathNode>,
+    current_node: &PathNode,
+    move_cost: u16,
+    is_diagonal: bool,
+) {
     let neighbor_option = discovered_nodes.iter().find(|node| node.x == x && node.y == y);
     let tentative_gcost = current_node.g_cost + move_cost;
     let h_cost = client_side_heuristic(x, y, destination_x, destination_y);
@@ -192,7 +302,7 @@ fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u
             g_cost: tentative_gcost,
             f_cost: tentative_gcost + h_cost,
             is_open: true,
-            is_diagonal
+            is_diagonal,
         };
         open_set.push(neighbor);
         discovered_nodes.push(neighbor);

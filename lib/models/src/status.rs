@@ -1,13 +1,14 @@
-use crate::item::{Wearable, WearAmmo, WearAmmoSnapshot, WearGear, WearGearSnapshot, WearWeapon, WearWeaponSnapshot};
 use accessor::{GettersAll, SettersAll};
+
+use crate::enums::EnumWithMaskValueU64;
 use crate::enums::bonus::BonusType;
 use crate::enums::element::Element;
 use crate::enums::item::EquipmentLocation;
-use crate::enums::size::Size;
-use crate::enums::EnumWithMaskValueU64;
 use crate::enums::mob::MobRace;
+use crate::enums::size::Size;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
+use crate::item::{WearAmmo, WearAmmoSnapshot, WearGear, WearGearSnapshot, WearWeapon, WearWeaponSnapshot, Wearable};
 use crate::status_bonus::{StatusBonus, StatusBonuses, TemporaryStatusBonuses};
 
 #[derive(SettersAll, GettersAll, Debug, Default, Clone)]
@@ -108,13 +109,30 @@ pub struct StatusSnapshot {
 }
 
 impl StatusSnapshot {
-    pub fn new_for_mob(mob_id: u32, hp: u32, sp: u32, max_hp:u32, max_sp: u32,
-                       str: u16, agi: u16, vit: u16, int: u16, dex: u16, luk: u16,
-                       atk1: u16, _atk2: u16, matk1: u16, matk2: u16, speed: u16, def: u16, mdef: u16,
-                       size: Size,
-                       element: Element,
-                       race: MobRace,
-                       element_level: u8) -> Self {
+    pub fn new_for_mob(
+        mob_id: u32,
+        hp: u32,
+        sp: u32,
+        max_hp: u32,
+        max_sp: u32,
+        str: u16,
+        agi: u16,
+        vit: u16,
+        int: u16,
+        dex: u16,
+        luk: u16,
+        atk1: u16,
+        _atk2: u16,
+        matk1: u16,
+        matk2: u16,
+        speed: u16,
+        def: u16,
+        mdef: u16,
+        size: Size,
+        element: Element,
+        race: MobRace,
+        element_level: u8,
+    ) -> Self {
         Self {
             job: mob_id,
             hp,
@@ -176,6 +194,7 @@ impl StatusSnapshot {
             bonuses: vec![],
         }
     }
+
     /// Do not use this method directly, use StatusService::to_snapshot instead
     pub fn _from(status: &Status) -> Self {
         let mut snapshot = Self {
@@ -286,18 +305,23 @@ impl StatusSnapshot {
     pub fn str(&self) -> u16 {
         (self.base_str as i16 + self.bonus_str).max(0) as u16
     }
+
     pub fn agi(&self) -> u16 {
         (self.base_agi as i16 + self.bonus_agi).max(0) as u16
     }
+
     pub fn vit(&self) -> u16 {
         (self.base_vit as i16 + self.bonus_vit).max(0) as u16
     }
+
     pub fn dex(&self) -> u16 {
         (self.base_dex as i16 + self.bonus_dex).max(0) as u16
     }
+
     pub fn int(&self) -> u16 {
         (self.base_int as i16 + self.bonus_int).max(0) as u16
     }
+
     pub fn luk(&self) -> u16 {
         (self.base_luk as i16 + self.bonus_luk).max(0) as u16
     }
@@ -306,7 +330,7 @@ impl StatusSnapshot {
         &mut self.bonuses
     }
 
-    pub fn bonuses_raw(&self) -> Vec<&BonusType>{
+    pub fn bonuses_raw(&self) -> Vec<&BonusType> {
         self.bonuses.iter().map(|b| b.bonus()).collect::<Vec<&BonusType>>()
     }
 }
@@ -319,22 +343,33 @@ pub struct KnownSkill {
 
 impl Status {
     pub fn right_hand_weapon(&self) -> Option<&WearWeapon> {
-        self.weapons.iter().find(|w| w.location() & EquipmentLocation::HandRight.as_flag() > 0)
+        self.weapons
+            .iter()
+            .find(|w| w.location() & EquipmentLocation::HandRight.as_flag() > 0)
     }
+
     pub fn head_low(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadLow.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::HeadLow.as_flag() > 0)
     }
 
     pub fn head_mid(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadMid.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::HeadMid.as_flag() > 0)
     }
 
     pub fn head_top(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadTop.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::HeadTop.as_flag() > 0)
     }
 
     pub fn shield(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::HandLeft.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::HandLeft.as_flag() > 0)
     }
 
     pub fn armor(&self) -> Option<&WearGear> {
@@ -346,15 +381,21 @@ impl Status {
     }
 
     pub fn garment(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::Garment.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::Garment.as_flag() > 0)
     }
 
     pub fn accessory_left(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::AccessoryLeft.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::AccessoryLeft.as_flag() > 0)
     }
 
     pub fn accessory_right(&self) -> Option<&WearGear> {
-        self.equipments.iter().find(|w| w.location & EquipmentLocation::AccessoryRight.as_flag() > 0)
+        self.equipments
+            .iter()
+            .find(|w| w.location & EquipmentLocation::AccessoryRight.as_flag() > 0)
     }
 
     pub fn equipped_gears(&self) -> &Vec<WearGear> {
@@ -364,13 +405,13 @@ impl Status {
     pub fn equipped_weapons(&self) -> &Vec<WearWeapon> {
         &self.weapons
     }
+
     pub fn equipped_ammo(&self) -> &Option<WearAmmo> {
         &self.ammo
     }
 
     pub fn takeoff_weapon(&mut self, inventory_index: usize) {
-        self.weapons
-            .retain(|w| w.inventory_index() != inventory_index);
+        self.weapons.retain(|w| w.inventory_index() != inventory_index);
     }
 
     pub fn wear_weapon(&mut self, wear_weapon: WearWeapon) {
@@ -382,9 +423,9 @@ impl Status {
         self.equipments = vec![];
         self.takeoff_ammo();
     }
+
     pub fn takeoff_equipment(&mut self, inventory_index: usize) {
-        self.equipments
-            .retain(|w| w.inventory_index() != inventory_index);
+        self.equipments.retain(|w| w.inventory_index() != inventory_index);
     }
 
     pub fn wear_equipment(&mut self, wear_weapon: WearGear) {
@@ -394,6 +435,7 @@ impl Status {
     pub fn takeoff_ammo(&mut self) {
         self.ammo = None;
     }
+
     pub fn wear_ammo(&mut self, wear_ammo: WearAmmo) {
         self.ammo = Some(wear_ammo);
     }
@@ -406,8 +448,9 @@ impl Status {
         for weapon in self.equipped_weapons().iter() {
             equipments.push(weapon as &dyn Wearable);
         }
-        if let Some(ammo) = self.equipped_ammo()
-            .as_ref() { equipments.push(ammo as &dyn Wearable) }
+        if let Some(ammo) = self.equipped_ammo().as_ref() {
+            equipments.push(ammo as &dyn Wearable)
+        }
         equipments
     }
 

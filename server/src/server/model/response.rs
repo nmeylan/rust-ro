@@ -8,10 +8,7 @@ pub struct Response {
 
 impl Response {
     pub fn new(socket: Arc<RwLock<TcpStream>>, packet: Vec<u8>) -> Self {
-        Self {
-            socket,
-            packet
-        }
+        Self { socket, packet }
     }
 
     pub fn socket(&self) -> Arc<RwLock<TcpStream>> {

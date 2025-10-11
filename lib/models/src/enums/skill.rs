@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 
-use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
-use crate::enums::{WithMaskValueU64, WithNumberValue, WithStringValue};
+use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue, WithMaskValueU64, WithNumberValue, WithStringValue};
 
 #[derive(WithNumberValue, WithStringValue, WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillState {

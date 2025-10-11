@@ -25,15 +25,19 @@ impl Script {
     pub fn id(&self) -> u32 {
         self.id
     }
+
     pub fn x(&self) -> u16 {
         self.x
     }
+
     pub fn y(&self) -> u16 {
         self.y
     }
+
     pub fn dir(&self) -> u16 {
         self.dir
     }
+
     pub fn name(&self) -> &String {
         &self.name
     }

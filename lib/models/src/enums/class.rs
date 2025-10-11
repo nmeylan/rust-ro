@@ -1,7 +1,7 @@
 use crate::enums::*;
 
-pub const JOB_BASE_MASK: u64 = 0xff;
-pub const JOB_UPPER_MASK: u64 = 0xfff;
+pub const JOB_BASE_MASK: u64 = 0xFF;
+pub const JOB_UPPER_MASK: u64 = 0xFFF;
 pub const JOB_2_1_MASK: u64 = 256;
 pub const JOB_2_2_MASK: u64 = 512;
 pub const JOB_TRANS_MASK: u64 = 4096;
@@ -133,15 +133,15 @@ impl JobName {
                 | JobName::Gypsy
         )
     }
+
     pub fn is_novice(&self) -> bool {
-        matches!(
-            self,
-            JobName::NoviceHigh | JobName::Novice | JobName::BabyNovice
-        )
+        matches!(self, JobName::NoviceHigh | JobName::Novice | JobName::BabyNovice)
     }
+
     pub fn is_supernovice(&self) -> bool {
         matches!(self, JobName::SuperNovice | JobName::SuperBaby)
     }
+
     pub fn is_first_class(&self) -> bool {
         matches!(
             self,
@@ -165,6 +165,7 @@ impl JobName {
                 | JobName::ThiefHigh
         )
     }
+
     pub fn is_second_class(&self) -> bool {
         matches!(
             self,
@@ -209,14 +210,13 @@ impl JobName {
                 | JobName::Gypsy
         )
     }
+
     pub fn is_gunslinger_ninja(&self) -> bool {
         matches!(self, JobName::Gunslinger | JobName::Ninja)
     }
+
     pub fn is_taekwon(&self) -> bool {
-        matches!(
-            self,
-            JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker
-        )
+        matches!(self, JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker)
     }
 
     pub fn mask(&self) -> u64 {
@@ -419,11 +419,7 @@ impl JobName {
             return Some(JobName::Sage);
         }
         if mask == JOB_2_2_MASK | 8 {
-            return if is_male {
-                Some(JobName::Bard)
-            } else {
-                Some(JobName::Dancer)
-            };
+            return if is_male { Some(JobName::Bard) } else { Some(JobName::Dancer) };
         }
         if mask == JOB_2_2_MASK | 16 {
             return Some(JobName::Monk);
@@ -486,11 +482,7 @@ impl JobName {
             return Some(JobName::Professor);
         }
         if mask == JOB_TRANS_2_2_MASK | 8 {
-            return if is_male {
-                Some(JobName::Clown)
-            } else {
-                Some(JobName::Gypsy)
-            };
+            return if is_male { Some(JobName::Clown) } else { Some(JobName::Gypsy) };
         }
         if mask == JOB_TRANS_2_2_MASK | 16 {
             return Some(JobName::Champion);
@@ -632,28 +624,18 @@ impl EquipClassFlag {
             JobName::Wizard => EquipClassFlag::Wizard.as_flag() | EquipClassFlag::Mage.as_flag(),
             JobName::Sage => EquipClassFlag::Sage.as_flag() | EquipClassFlag::Mage.as_flag(),
             JobName::Thief => EquipClassFlag::Thief.as_flag(),
-            JobName::Assassin => {
-                EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag()
-            }
+            JobName::Assassin => EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag(),
             JobName::Rogue => EquipClassFlag::Rogue.as_flag() | EquipClassFlag::Thief.as_flag(),
             JobName::Archer => EquipClassFlag::Archer.as_flag(),
             JobName::Hunter => EquipClassFlag::Hunter.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Bard => EquipClassFlag::Bard.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Dancer => EquipClassFlag::Dancer.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Swordsman => EquipClassFlag::Swordsman.as_flag(),
-            JobName::Crusader => {
-                EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
-            JobName::Knight => {
-                EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
+            JobName::Crusader => EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag(),
+            JobName::Knight => EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::Merchant => EquipClassFlag::Merchant.as_flag(),
-            JobName::Alchemist => {
-                EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
-            JobName::Blacksmith => {
-                EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
+            JobName::Alchemist => EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag(),
+            JobName::Blacksmith => EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag(),
             JobName::Gunslinger => EquipClassFlag::Gunslinger.as_flag(),
             JobName::Ninja => EquipClassFlag::Ninja.as_flag(),
             JobName::SoulLinker => EquipClassFlag::SoulLinker.as_flag(),
@@ -670,33 +652,19 @@ impl EquipClassFlag {
             JobName::AcolyteHigh => EquipClassFlag::Acolyte.as_flag(),
             JobName::MerchantHigh => EquipClassFlag::Merchant.as_flag(),
             JobName::ThiefHigh => EquipClassFlag::Thief.as_flag(),
-            JobName::HighPriest => {
-                EquipClassFlag::Priest.as_flag() | EquipClassFlag::Acolyte.as_flag()
-            }
-            JobName::HighWizard => {
-                EquipClassFlag::Wizard.as_flag() | EquipClassFlag::Mage.as_flag()
-            }
-            JobName::Whitesmith => {
-                EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
+            JobName::HighPriest => EquipClassFlag::Priest.as_flag() | EquipClassFlag::Acolyte.as_flag(),
+            JobName::HighWizard => EquipClassFlag::Wizard.as_flag() | EquipClassFlag::Mage.as_flag(),
+            JobName::Whitesmith => EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag(),
             JobName::Sniper => EquipClassFlag::Hunter.as_flag() | EquipClassFlag::Archer.as_flag(),
-            JobName::AssassinCross => {
-                EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag()
-            }
+            JobName::AssassinCross => EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag(),
             JobName::Champion => EquipClassFlag::Monk.as_flag() | EquipClassFlag::Acolyte.as_flag(),
             JobName::Professor => EquipClassFlag::Sage.as_flag() | EquipClassFlag::Mage.as_flag(),
             JobName::Stalker => EquipClassFlag::Rogue.as_flag() | EquipClassFlag::Thief.as_flag(),
-            JobName::Creator => {
-                EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
+            JobName::Creator => EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag(),
             JobName::Clown => EquipClassFlag::Bard.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Gypsy => EquipClassFlag::Dancer.as_flag() | EquipClassFlag::Archer.as_flag(),
-            JobName::Paladin => {
-                EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
-            JobName::LordKnight => {
-                EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
+            JobName::Paladin => EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag(),
+            JobName::LordKnight => EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyNovice => EquipClassFlag::Novice.as_flag(),
             JobName::BabySwordsman => EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyMage => EquipClassFlag::Mage.as_flag(),
@@ -704,38 +672,20 @@ impl EquipClassFlag {
             JobName::BabyAcolyte => EquipClassFlag::Acolyte.as_flag(),
             JobName::BabyMerchant => EquipClassFlag::Merchant.as_flag(),
             JobName::BabyThief => EquipClassFlag::Thief.as_flag(),
-            JobName::BabyKnight => {
-                EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
-            JobName::BabyPriest => {
-                EquipClassFlag::Priest.as_flag() | EquipClassFlag::Acolyte.as_flag()
-            }
-            JobName::BabyWizard => {
-                EquipClassFlag::Wizard.as_flag() | EquipClassFlag::Mage.as_flag()
-            }
-            JobName::BabyBlacksmith => {
-                EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
-            JobName::BabyHunter => {
-                EquipClassFlag::Hunter.as_flag() | EquipClassFlag::Archer.as_flag()
-            }
-            JobName::BabyAssassin => {
-                EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag()
-            }
-            JobName::BabyCrusader => {
-                EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag()
-            }
+            JobName::BabyKnight => EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
+            JobName::BabyPriest => EquipClassFlag::Priest.as_flag() | EquipClassFlag::Acolyte.as_flag(),
+            JobName::BabyWizard => EquipClassFlag::Wizard.as_flag() | EquipClassFlag::Mage.as_flag(),
+            JobName::BabyBlacksmith => EquipClassFlag::Blacksmith.as_flag() | EquipClassFlag::Merchant.as_flag(),
+            JobName::BabyHunter => EquipClassFlag::Hunter.as_flag() | EquipClassFlag::Archer.as_flag(),
+            JobName::BabyAssassin => EquipClassFlag::Assassin.as_flag() | EquipClassFlag::Thief.as_flag(),
+            JobName::BabyCrusader => EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyMonk => EquipClassFlag::Monk.as_flag() | EquipClassFlag::Acolyte.as_flag(),
             JobName::BabySage => EquipClassFlag::Sage.as_flag() | EquipClassFlag::Mage.as_flag(),
             JobName::BabyRogue => EquipClassFlag::Rogue.as_flag() | EquipClassFlag::Thief.as_flag(),
-            JobName::BabyAlchemist => {
-                EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag()
-            }
+            JobName::BabyAlchemist => EquipClassFlag::Alchemist.as_flag() | EquipClassFlag::Merchant.as_flag(),
             JobName::SuperBaby => 0,
             JobName::BabyBard => EquipClassFlag::Bard.as_flag() | EquipClassFlag::Archer.as_flag(),
-            JobName::BabyDancer => {
-                EquipClassFlag::Dancer.as_flag() | EquipClassFlag::Archer.as_flag()
-            }
+            JobName::BabyDancer => EquipClassFlag::Dancer.as_flag() | EquipClassFlag::Archer.as_flag(),
         }
     }
 }

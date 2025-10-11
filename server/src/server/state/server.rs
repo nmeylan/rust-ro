@@ -3,19 +3,17 @@ use std::net::TcpStream;
 use std::sync::atomic::AtomicI8;
 use std::sync::{Arc, RwLock};
 
-use crate::server::model::map::MAP_EXT;
+use models::position::Position;
+use models::status::StatusSnapshot;
 
+use crate::server::model::map::MAP_EXT;
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, MapItems, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;
-use models::position::Position;
-use models::status::StatusSnapshot;
-
 use crate::server::state::character::Character;
 use crate::util::hasher::NoopHasherU32;
-
 
 pub struct ServerState {
     map_items: MapItems,
@@ -23,7 +21,8 @@ pub struct ServerState {
     map_instances_count: AtomicI8,
     sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     characters: HashMap<u32, Character, NoopHasherU32>,
-    locked_map_item: HashSet<u32, NoopHasherU32>, // map item that should be removed from map instance, in next tick, avoid to use them meanwhile.
+    locked_map_item: HashSet<u32, NoopHasherU32>, /* map item that should be removed from map instance, in next tick, avoid to use them
+                                                   * meanwhile. */
 }
 
 unsafe impl Sync for ServerState {}
@@ -37,7 +36,7 @@ impl ServerState {
             map_instances_count: Default::default(),
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
             characters: Default::default(),
-            locked_map_item: Default::default()
+            locked_map_item: Default::default(),
         }
     }
 
@@ -45,10 +44,12 @@ impl ServerState {
         let mut sessions = self.sessions.write().unwrap();
         sessions.remove(&session_id);
     }
+
     pub fn add_session(&self, session_id: u32, session: Arc<Session>) {
         let mut sessions = self.sessions.write().unwrap();
         sessions.insert(session_id, session);
     }
+
     pub fn get_session(&self, session_id: u32) -> Arc<Session> {
         let sessions = self.sessions.read().unwrap();
         let session_ref = sessions.get(&session_id).unwrap();
@@ -79,12 +80,12 @@ impl ServerState {
             let sessions = self.sessions.read().unwrap();
             let maybe_session = sessions.get(&account_id);
             if let Some(session) = maybe_session {
-               return session.map_server_socket.clone()
+                return session.map_server_socket.clone();
             }
         }
         None
-
     }
+
     pub fn insert_map_item(&mut self, id: u32, map_item: MapItem) {
         self.map_items.insert(id, map_item);
     }
@@ -92,18 +93,23 @@ impl ServerState {
     pub fn sessions(&self) -> &Arc<RwLock<HashMap<u32, Arc<Session>>>> {
         &self.sessions
     }
+
     pub fn characters(&self) -> &HashMap<u32, Character, NoopHasherU32> {
         &self.characters
     }
+
     pub fn characters_mut(&mut self) -> &mut HashMap<u32, Character, NoopHasherU32> {
         &mut self.characters
     }
+
     pub fn map_instances(&self) -> &HashMap<String, Vec<Arc<MapInstance>>> {
         &self.map_instances
     }
+
     pub fn map_instances_mut(&mut self) -> &mut HashMap<String, Vec<Arc<MapInstance>>> {
         &mut self.map_instances
     }
+
     pub fn map_instances_count(&self) -> &AtomicI8 {
         &self.map_instances_count
     }
@@ -111,9 +117,11 @@ impl ServerState {
     pub fn insert_locked_map_item(&mut self, id: u32) {
         self.locked_map_item.insert(id);
     }
+
     pub fn contains_locked_map_item(&self, id: u32) -> bool {
         self.locked_map_item.contains(&id)
     }
+
     pub fn remove_locked_map_item(&mut self, id: u32) {
         self.locked_map_item.remove(&id);
     }
@@ -122,6 +130,7 @@ impl ServerState {
     pub fn get_map_instance_from_character(&self, character: &Character) -> Option<Arc<MapInstance>> {
         self.get_map_instance(character.current_map_name(), character.current_map_instance())
     }
+
     #[inline]
     pub fn get_map_instance(&self, map_name: &String, map_instance_id: u8) -> Option<Arc<MapInstance>> {
         let map_name = if map_name.ends_with(MAP_EXT) {
@@ -140,21 +149,28 @@ impl ServerState {
         None
     }
 
-
     #[inline]
     pub fn map_item_x_y(&self, map_item: &MapItem, map_name: &String, map_instance_id: u8) -> Option<Position> {
         match map_item.object_type() {
             MapItemType::Character => {
                 let characters = self.characters();
                 if let Some(character) = characters.get(&map_item.id()) {
-                    return Some(Position { x: character.x(), y: character.y(), dir: 3 }); // TODO add dir to character
+                    return Some(Position {
+                        x: character.x(),
+                        y: character.y(),
+                        dir: 3,
+                    }); // TODO add dir to character
                 }
                 None
             }
             MapItemType::Mob => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
-                        return Some(Position { x: mob.x(), y: mob.y(), dir: 3 }); // TODO add dir to character
+                        return Some(Position {
+                            x: mob.x(),
+                            y: mob.y(),
+                            dir: 3,
+                        }); // TODO add dir to character
                     }
                 }
                 None
@@ -162,18 +178,24 @@ impl ServerState {
             MapItemType::Warp => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(warp) = map_instance.get_warp(map_item.id()) {
-                        return Some(Position { x: warp.x(), y: warp.y(), dir: 0 });
+                        return Some(Position {
+                            x: warp.x(),
+                            y: warp.y(),
+                            dir: 0,
+                        });
                     }
                 }
                 None
             }
-            MapItemType::Unknown => {
-                None
-            }
+            MapItemType::Unknown => None,
             MapItemType::Npc => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(script) = map_instance.get_script(map_item.id()) {
-                        return Some(Position { x: script.x(), y: script.y(), dir: script.dir() });
+                        return Some(Position {
+                            x: script.x(),
+                            y: script.y(),
+                            dir: script.dir(),
+                        });
                     }
                 }
                 None
@@ -181,7 +203,11 @@ impl ServerState {
             MapItemType::DroppedItem => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.id()) {
-                        return Some(Position { x: dropped_item.x(), y: dropped_item.y(), dir: 0 });
+                        return Some(Position {
+                            x: dropped_item.x(),
+                            y: dropped_item.y(),
+                            dir: 0,
+                        });
                     }
                 }
                 None
@@ -215,9 +241,7 @@ impl ServerState {
                 }
                 None
             }
-            MapItemType::Unknown => {
-                None
-            }
+            MapItemType::Unknown => None,
             MapItemType::Npc => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(script) = map_instance.get_script(map_item.id()) {
@@ -267,16 +291,14 @@ impl ServerState {
                 }
                 None
             }
-            _ => None
+            _ => None,
         }
     }
 
     pub fn map_item_character(&self, map_item: &MapItem) -> Option<&Character> {
         match map_item.object_type() {
-            MapItemType::Character => {
-                return Some(self.get_character_unsafe(map_item.id()))
-            }
-            _ => None
+            MapItemType::Character => return Some(self.get_character_unsafe(map_item.id())),
+            _ => None,
         }
     }
 
@@ -290,7 +312,7 @@ impl ServerState {
                 }
                 None
             }
-            _ => None
+            _ => None,
         }
     }
 
@@ -304,7 +326,7 @@ impl ServerState {
                 return Some(mob.to_map_item_snapshot());
             }
             if let Some(_warp) = map_instance.get_warp(map_item_id) {
-                return  None;
+                return None;
             }
             if let Some(_script) = map_instance.get_script(map_item_id) {
                 return None;
@@ -312,5 +334,4 @@ impl ServerState {
         }
         None
     }
-
 }

@@ -31,7 +31,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120307 && buffer[0] == 0x65 && buffer[1] == 0x08 {
         return Box::new(PacketCzItemPickup::from(buffer, packetver));
     }
-    if packetver >= 20120307 && buffer[0] == 0xc4 && buffer[1] == 0x02 {
+    if packetver >= 20120307 && buffer[0] == 0xC4 && buffer[1] == 0x02 {
         return Box::new(PacketCzItemThrow::from(buffer, packetver));
     }
     if packetver >= 20120307 && buffer[0] == 0x39 && buffer[1] == 0x04 {
@@ -58,10 +58,10 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20111005 && buffer[0] == 0x8A && buffer[1] == 0x08 {
         return Box::new(PacketCzReqname::from(buffer, packetver));
     }
-    if packetver >= 20101124 && buffer[0] == 0x5f && buffer[1] == 0x03 {
+    if packetver >= 20101124 && buffer[0] == 0x5F && buffer[1] == 0x03 {
         return Box::new(PacketCzRequestMove::from(buffer, packetver));
     }
-    if packetver >= 20070227 && buffer[0] == 0xc4 && buffer[1] == 0x02 {
+    if packetver >= 20070227 && buffer[0] == 0xC4 && buffer[1] == 0x02 {
         return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
     }
     if buffer[0] == 0x64 && buffer[1] == 0x00 {
@@ -85,25 +85,25 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x69 && buffer[1] == 0x00 {
         return Box::new(PacketAcAcceptLogin::from(buffer, packetver));
     }
-    if buffer[0] == 0xc4 && buffer[1] == 0x0a {
+    if buffer[0] == 0xC4 && buffer[1] == 0x0A {
         return Box::new(PacketAcAcceptLogin2::from(buffer, packetver));
     }
-    if buffer[0] == 0x6a && buffer[1] == 0x00 {
+    if buffer[0] == 0x6A && buffer[1] == 0x00 {
         return Box::new(PacketAcRefuseLogin::from(buffer, packetver));
     }
-    if buffer[0] == 0x6b && buffer[1] == 0x00 {
+    if buffer[0] == 0x6B && buffer[1] == 0x00 {
         return Box::new(PacketHcAcceptEnterNeoUnion::from(buffer, packetver));
     }
-    if buffer[0] == 0x6c && buffer[1] == 0x00 {
+    if buffer[0] == 0x6C && buffer[1] == 0x00 {
         return Box::new(PacketHcRefuseEnter::from(buffer, packetver));
     }
-    if buffer[0] == 0x6d && buffer[1] == 0x00 {
+    if buffer[0] == 0x6D && buffer[1] == 0x00 {
         return Box::new(PacketHcAcceptMakecharNeoUnion::from(buffer, packetver));
     }
-    if buffer[0] == 0x6e && buffer[1] == 0x00 {
+    if buffer[0] == 0x6E && buffer[1] == 0x00 {
         return Box::new(PacketHcRefuseMakechar::from(buffer, packetver));
     }
-    if buffer[0] == 0x6f && buffer[1] == 0x00 {
+    if buffer[0] == 0x6F && buffer[1] == 0x00 {
         return Box::new(PacketHcAcceptDeletechar::from(buffer, packetver));
     }
     if buffer[0] == 0x70 && buffer[1] == 0x00 {
@@ -136,22 +136,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x79 && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyNewentry::from(buffer, packetver));
     }
-    if buffer[0] == 0x7a && buffer[1] == 0x00 {
+    if buffer[0] == 0x7A && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyActentry::from(buffer, packetver));
     }
-    if buffer[0] == 0x7b && buffer[1] == 0x00 {
+    if buffer[0] == 0x7B && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyMoveentry::from(buffer, packetver));
     }
-    if buffer[0] == 0x7c && buffer[1] == 0x00 {
+    if buffer[0] == 0x7C && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyStandentryNpc::from(buffer, packetver));
     }
-    if buffer[0] == 0x7d && buffer[1] == 0x00 {
+    if buffer[0] == 0x7D && buffer[1] == 0x00 {
         return Box::new(PacketCzNotifyActorinit::from(buffer, packetver));
     }
-    if buffer[0] == 0x7e && buffer[1] == 0x00 {
+    if buffer[0] == 0x7E && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
-    if buffer[0] == 0x7f && buffer[1] == 0x00 {
+    if buffer[0] == 0x7F && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyTime::from(buffer, packetver));
     }
     if buffer[0] == 0x80 && buffer[1] == 0x00 {
@@ -184,22 +184,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x89 && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
-    if buffer[0] == 0x8a && buffer[1] == 0x00 {
+    if buffer[0] == 0x8A && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyAct::from(buffer, packetver));
     }
-    if buffer[0] == 0x8b && buffer[1] == 0x00 {
+    if buffer[0] == 0x8B && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyActPosition::from(buffer, packetver));
     }
-    if buffer[0] == 0x8c && buffer[1] == 0x00 {
+    if buffer[0] == 0x8C && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestChat::from(buffer, packetver));
     }
-    if buffer[0] == 0x8d && buffer[1] == 0x00 {
+    if buffer[0] == 0x8D && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyChat::from(buffer, packetver));
     }
-    if buffer[0] == 0x8e && buffer[1] == 0x00 {
+    if buffer[0] == 0x8E && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyPlayerchat::from(buffer, packetver));
     }
-    if buffer[0] == 0x8f && buffer[1] == 0x00 {
+    if buffer[0] == 0x8F && buffer[1] == 0x00 {
         return Box::new(PacketServerEntryAck::from(buffer, packetver));
     }
     if buffer[0] == 0x90 && buffer[1] == 0x00 {
@@ -232,310 +232,310 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x99 && buffer[1] == 0x00 {
         return Box::new(PacketCzBroadcast::from(buffer, packetver));
     }
-    if buffer[0] == 0x9a && buffer[1] == 0x00 {
+    if buffer[0] == 0x9A && buffer[1] == 0x00 {
         return Box::new(PacketZcBroadcast::from(buffer, packetver));
     }
-    if buffer[0] == 0x9b && buffer[1] == 0x00 {
+    if buffer[0] == 0x9B && buffer[1] == 0x00 {
         return Box::new(PacketCzChangeDirection::from(buffer, packetver));
     }
-    if buffer[0] == 0x9c && buffer[1] == 0x00 {
+    if buffer[0] == 0x9C && buffer[1] == 0x00 {
         return Box::new(PacketZcChangeDirection::from(buffer, packetver));
     }
-    if buffer[0] == 0x9d && buffer[1] == 0x00 {
+    if buffer[0] == 0x9D && buffer[1] == 0x00 {
         return Box::new(PacketZcItemEntry::from(buffer, packetver));
     }
-    if buffer[0] == 0x9e && buffer[1] == 0x00 {
+    if buffer[0] == 0x9E && buffer[1] == 0x00 {
         return Box::new(PacketZcItemFallEntry::from(buffer, packetver));
     }
-    if buffer[0] == 0x9f && buffer[1] == 0x00 {
+    if buffer[0] == 0x9F && buffer[1] == 0x00 {
         return Box::new(PacketCzItemPickup::from(buffer, packetver));
     }
-    if buffer[0] == 0xa0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA0 && buffer[1] == 0x00 {
         return Box::new(PacketZcItemPickupAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xa1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA1 && buffer[1] == 0x00 {
         return Box::new(PacketZcItemDisappear::from(buffer, packetver));
     }
-    if buffer[0] == 0xa2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA2 && buffer[1] == 0x00 {
         return Box::new(PacketCzItemThrow::from(buffer, packetver));
     }
-    if buffer[0] == 0xa3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA3 && buffer[1] == 0x00 {
         return Box::new(PacketZcNormalItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xa4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA4 && buffer[1] == 0x00 {
         return Box::new(PacketZcEquipmentItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xa5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA5 && buffer[1] == 0x00 {
         return Box::new(PacketZcStoreNormalItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xa6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA6 && buffer[1] == 0x00 {
         return Box::new(PacketZcStoreEquipmentItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xa7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA7 && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xa8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA8 && buffer[1] == 0x00 {
         return Box::new(PacketZcUseItemAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xa9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xA9 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqWearEquip::from(buffer, packetver));
     }
-    if buffer[0] == 0xaa && buffer[1] == 0x00 {
+    if buffer[0] == 0xAA && buffer[1] == 0x00 {
         return Box::new(PacketZcReqWearEquipAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xd0 && buffer[1] == 0x08 {
+    if buffer[0] == 0xD0 && buffer[1] == 0x08 {
         return Box::new(PacketZcReqWearEquipAck2::from(buffer, packetver));
     }
-    if buffer[0] == 0xab && buffer[1] == 0x00 {
+    if buffer[0] == 0xAB && buffer[1] == 0x00 {
         return Box::new(PacketCzReqTakeoffEquip::from(buffer, packetver));
     }
-    if buffer[0] == 0xac && buffer[1] == 0x00 {
+    if buffer[0] == 0xAC && buffer[1] == 0x00 {
         return Box::new(PacketZcReqTakeoffEquipAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xd1 && buffer[1] == 0x08 {
+    if buffer[0] == 0xD1 && buffer[1] == 0x08 {
         return Box::new(PacketZcReqTakeoffEquipAck2::from(buffer, packetver));
     }
-    if buffer[0] == 0xaf && buffer[1] == 0x00 {
+    if buffer[0] == 0xAF && buffer[1] == 0x00 {
         return Box::new(PacketZcItemThrowAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xb0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB0 && buffer[1] == 0x00 {
         return Box::new(PacketZcParChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xb1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB1 && buffer[1] == 0x00 {
         return Box::new(PacketZcLongparChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xb2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB2 && buffer[1] == 0x00 {
         return Box::new(PacketCzRestart::from(buffer, packetver));
     }
-    if buffer[0] == 0xb3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB3 && buffer[1] == 0x00 {
         return Box::new(PacketZcRestartAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xb4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB4 && buffer[1] == 0x00 {
         return Box::new(PacketZcSayDialog::from(buffer, packetver));
     }
-    if buffer[0] == 0xb5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB5 && buffer[1] == 0x00 {
         return Box::new(PacketZcWaitDialog::from(buffer, packetver));
     }
-    if buffer[0] == 0xb6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB6 && buffer[1] == 0x00 {
         return Box::new(PacketZcCloseDialog::from(buffer, packetver));
     }
-    if buffer[0] == 0xb7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB7 && buffer[1] == 0x00 {
         return Box::new(PacketZcMenuList::from(buffer, packetver));
     }
-    if buffer[0] == 0xb8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB8 && buffer[1] == 0x00 {
         return Box::new(PacketCzChooseMenu::from(buffer, packetver));
     }
-    if buffer[0] == 0xb9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xB9 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqNextScript::from(buffer, packetver));
     }
-    if buffer[0] == 0xba && buffer[1] == 0x00 {
+    if buffer[0] == 0xBA && buffer[1] == 0x00 {
         return Box::new(PacketCzReqStatus::from(buffer, packetver));
     }
-    if buffer[0] == 0xbb && buffer[1] == 0x00 {
+    if buffer[0] == 0xBB && buffer[1] == 0x00 {
         return Box::new(PacketCzStatusChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xbc && buffer[1] == 0x00 {
+    if buffer[0] == 0xBC && buffer[1] == 0x00 {
         return Box::new(PacketZcStatusChangeAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xbd && buffer[1] == 0x00 {
+    if buffer[0] == 0xBD && buffer[1] == 0x00 {
         return Box::new(PacketZcStatus::from(buffer, packetver));
     }
-    if buffer[0] == 0xbe && buffer[1] == 0x00 {
+    if buffer[0] == 0xBE && buffer[1] == 0x00 {
         return Box::new(PacketZcStatusChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xbf && buffer[1] == 0x00 {
+    if buffer[0] == 0xBF && buffer[1] == 0x00 {
         return Box::new(PacketCzReqEmotion::from(buffer, packetver));
     }
-    if buffer[0] == 0xc0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC0 && buffer[1] == 0x00 {
         return Box::new(PacketZcEmotion::from(buffer, packetver));
     }
-    if buffer[0] == 0xc1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC1 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqUserCount::from(buffer, packetver));
     }
-    if buffer[0] == 0xc2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC2 && buffer[1] == 0x00 {
         return Box::new(PacketZcUserCount::from(buffer, packetver));
     }
-    if buffer[0] == 0xc3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC3 && buffer[1] == 0x00 {
         return Box::new(PacketZcSpriteChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xc4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC4 && buffer[1] == 0x00 {
         return Box::new(PacketZcSelectDealtype::from(buffer, packetver));
     }
-    if buffer[0] == 0xc5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC5 && buffer[1] == 0x00 {
         return Box::new(PacketCzAckSelectDealtype::from(buffer, packetver));
     }
-    if buffer[0] == 0xc6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC6 && buffer[1] == 0x00 {
         return Box::new(PacketZcPcPurchaseItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xc7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC7 && buffer[1] == 0x00 {
         return Box::new(PacketZcPcSellItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xc8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC8 && buffer[1] == 0x00 {
         return Box::new(PacketCzPcPurchaseItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xc9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xC9 && buffer[1] == 0x00 {
         return Box::new(PacketCzPcSellItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xca && buffer[1] == 0x00 {
+    if buffer[0] == 0xCA && buffer[1] == 0x00 {
         return Box::new(PacketZcPcPurchaseResult::from(buffer, packetver));
     }
-    if buffer[0] == 0xcb && buffer[1] == 0x00 {
+    if buffer[0] == 0xCB && buffer[1] == 0x00 {
         return Box::new(PacketZcPcSellResult::from(buffer, packetver));
     }
-    if buffer[0] == 0xcc && buffer[1] == 0x00 {
+    if buffer[0] == 0xCC && buffer[1] == 0x00 {
         return Box::new(PacketCzDisconnectCharacter::from(buffer, packetver));
     }
-    if buffer[0] == 0xcd && buffer[1] == 0x00 {
+    if buffer[0] == 0xCD && buffer[1] == 0x00 {
         return Box::new(PacketZcAckDisconnectCharacter::from(buffer, packetver));
     }
-    if buffer[0] == 0xce && buffer[1] == 0x00 {
+    if buffer[0] == 0xCE && buffer[1] == 0x00 {
         return Box::new(PacketCzDisconnectAllCharacter::from(buffer, packetver));
     }
-    if buffer[0] == 0xcf && buffer[1] == 0x00 {
+    if buffer[0] == 0xCF && buffer[1] == 0x00 {
         return Box::new(PacketCzSettingWhisperPc::from(buffer, packetver));
     }
-    if buffer[0] == 0xd0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD0 && buffer[1] == 0x00 {
         return Box::new(PacketCzSettingWhisperState::from(buffer, packetver));
     }
-    if buffer[0] == 0xd1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD1 && buffer[1] == 0x00 {
         return Box::new(PacketZcSettingWhisperPc::from(buffer, packetver));
     }
-    if buffer[0] == 0xd2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD2 && buffer[1] == 0x00 {
         return Box::new(PacketZcSettingWhisperState::from(buffer, packetver));
     }
-    if buffer[0] == 0xd3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD3 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqWhisperList::from(buffer, packetver));
     }
-    if buffer[0] == 0xd4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD4 && buffer[1] == 0x00 {
         return Box::new(PacketZcWhisperList::from(buffer, packetver));
     }
-    if buffer[0] == 0xd5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD5 && buffer[1] == 0x00 {
         return Box::new(PacketCzCreateChatroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xd6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD6 && buffer[1] == 0x00 {
         return Box::new(PacketZcAckCreateChatroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xd7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD7 && buffer[1] == 0x00 {
         return Box::new(PacketZcRoomNewentry::from(buffer, packetver));
     }
-    if buffer[0] == 0xd8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD8 && buffer[1] == 0x00 {
         return Box::new(PacketZcDestroyRoom::from(buffer, packetver));
     }
-    if buffer[0] == 0xd9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xD9 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqEnterRoom::from(buffer, packetver));
     }
-    if buffer[0] == 0xda && buffer[1] == 0x00 {
+    if buffer[0] == 0xDA && buffer[1] == 0x00 {
         return Box::new(PacketZcRefuseEnterRoom::from(buffer, packetver));
     }
-    if buffer[0] == 0xdb && buffer[1] == 0x00 {
+    if buffer[0] == 0xDB && buffer[1] == 0x00 {
         return Box::new(PacketZcEnterRoom::from(buffer, packetver));
     }
-    if buffer[0] == 0xdc && buffer[1] == 0x00 {
+    if buffer[0] == 0xDC && buffer[1] == 0x00 {
         return Box::new(PacketZcMemberNewentry::from(buffer, packetver));
     }
-    if buffer[0] == 0xdd && buffer[1] == 0x00 {
+    if buffer[0] == 0xDD && buffer[1] == 0x00 {
         return Box::new(PacketZcMemberExit::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x00 {
+    if buffer[0] == 0xDE && buffer[1] == 0x00 {
         return Box::new(PacketCzChangeChatroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xdf && buffer[1] == 0x00 {
+    if buffer[0] == 0xDF && buffer[1] == 0x00 {
         return Box::new(PacketZcChangeChatroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xe0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE0 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqRoleChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xe1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE1 && buffer[1] == 0x00 {
         return Box::new(PacketZcRoleChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xe2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE2 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqExpelMember::from(buffer, packetver));
     }
-    if buffer[0] == 0xe3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE3 && buffer[1] == 0x00 {
         return Box::new(PacketCzExitRoom::from(buffer, packetver));
     }
-    if buffer[0] == 0xe4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE4 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xe5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE5 && buffer[1] == 0x00 {
         return Box::new(PacketZcReqExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xe6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE6 && buffer[1] == 0x00 {
         return Box::new(PacketCzAckExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xe7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE7 && buffer[1] == 0x00 {
         return Box::new(PacketZcAckExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xe8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE8 && buffer[1] == 0x00 {
         return Box::new(PacketCzAddExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xe9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xE9 && buffer[1] == 0x00 {
         return Box::new(PacketZcAddExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xea && buffer[1] == 0x00 {
+    if buffer[0] == 0xEA && buffer[1] == 0x00 {
         return Box::new(PacketZcAckAddExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xeb && buffer[1] == 0x00 {
+    if buffer[0] == 0xEB && buffer[1] == 0x00 {
         return Box::new(PacketCzConcludeExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xec && buffer[1] == 0x00 {
+    if buffer[0] == 0xEC && buffer[1] == 0x00 {
         return Box::new(PacketZcConcludeExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xed && buffer[1] == 0x00 {
+    if buffer[0] == 0xED && buffer[1] == 0x00 {
         return Box::new(PacketCzCancelExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xee && buffer[1] == 0x00 {
+    if buffer[0] == 0xEE && buffer[1] == 0x00 {
         return Box::new(PacketZcCancelExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xef && buffer[1] == 0x00 {
+    if buffer[0] == 0xEF && buffer[1] == 0x00 {
         return Box::new(PacketCzExecExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xf0 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF0 && buffer[1] == 0x00 {
         return Box::new(PacketZcExecExchangeItem::from(buffer, packetver));
     }
-    if buffer[0] == 0xf1 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF1 && buffer[1] == 0x00 {
         return Box::new(PacketZcExchangeitemUndo::from(buffer, packetver));
     }
-    if buffer[0] == 0xf2 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF2 && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyStoreitemCountinfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xf3 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF3 && buffer[1] == 0x00 {
         return Box::new(PacketCzPlayerChat::from(buffer, packetver));
     }
-    if buffer[0] == 0xf4 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF4 && buffer[1] == 0x00 {
         return Box::new(PacketZcAddItemToStore::from(buffer, packetver));
     }
-    if buffer[0] == 0xf5 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF5 && buffer[1] == 0x00 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
     }
-    if buffer[0] == 0xf6 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF6 && buffer[1] == 0x00 {
         return Box::new(PacketZcDeleteItemFromStore::from(buffer, packetver));
     }
-    if buffer[0] == 0xf7 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF7 && buffer[1] == 0x00 {
         return Box::new(PacketCzCloseStore::from(buffer, packetver));
     }
-    if buffer[0] == 0xf8 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF8 && buffer[1] == 0x00 {
         return Box::new(PacketZcCloseStore::from(buffer, packetver));
     }
-    if buffer[0] == 0xf9 && buffer[1] == 0x00 {
+    if buffer[0] == 0xF9 && buffer[1] == 0x00 {
         return Box::new(PacketCzMakeGroup::from(buffer, packetver));
     }
-    if buffer[0] == 0xfa && buffer[1] == 0x00 {
+    if buffer[0] == 0xFA && buffer[1] == 0x00 {
         return Box::new(PacketZcAckMakeGroup::from(buffer, packetver));
     }
-    if buffer[0] == 0xfb && buffer[1] == 0x00 {
+    if buffer[0] == 0xFB && buffer[1] == 0x00 {
         return Box::new(PacketZcGroupList::from(buffer, packetver));
     }
-    if buffer[0] == 0xfc && buffer[1] == 0x00 {
+    if buffer[0] == 0xFC && buffer[1] == 0x00 {
         return Box::new(PacketCzReqJoinGroup::from(buffer, packetver));
     }
-    if buffer[0] == 0xfd && buffer[1] == 0x00 {
+    if buffer[0] == 0xFD && buffer[1] == 0x00 {
         return Box::new(PacketZcAckReqJoinGroup::from(buffer, packetver));
     }
-    if buffer[0] == 0xfe && buffer[1] == 0x00 {
+    if buffer[0] == 0xFE && buffer[1] == 0x00 {
         return Box::new(PacketZcReqJoinGroup::from(buffer, packetver));
     }
-    if buffer[0] == 0xff && buffer[1] == 0x00 {
+    if buffer[0] == 0xFF && buffer[1] == 0x00 {
         return Box::new(PacketCzJoinGroup::from(buffer, packetver));
     }
     if buffer[0] == 0x00 && buffer[1] == 0x01 {
@@ -568,22 +568,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x09 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyChatParty::from(buffer, packetver));
     }
-    if buffer[0] == 0x0a && buffer[1] == 0x01 {
+    if buffer[0] == 0x0A && buffer[1] == 0x01 {
         return Box::new(PacketZcMvpGettingItem::from(buffer, packetver));
     }
-    if buffer[0] == 0x0b && buffer[1] == 0x01 {
+    if buffer[0] == 0x0B && buffer[1] == 0x01 {
         return Box::new(PacketZcMvpGettingSpecialExp::from(buffer, packetver));
     }
-    if buffer[0] == 0x0c && buffer[1] == 0x01 {
+    if buffer[0] == 0x0C && buffer[1] == 0x01 {
         return Box::new(PacketZcMvp::from(buffer, packetver));
     }
-    if buffer[0] == 0x0d && buffer[1] == 0x01 {
+    if buffer[0] == 0x0D && buffer[1] == 0x01 {
         return Box::new(PacketZcThrowMvpitem::from(buffer, packetver));
     }
-    if buffer[0] == 0x0e && buffer[1] == 0x01 {
+    if buffer[0] == 0x0E && buffer[1] == 0x01 {
         return Box::new(PacketZcSkillinfoUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0x0f && buffer[1] == 0x01 {
+    if buffer[0] == 0x0F && buffer[1] == 0x01 {
         return Box::new(PacketZcSkillinfoList::from(buffer, packetver));
     }
     if buffer[0] == 0x10 && buffer[1] == 0x01 {
@@ -616,22 +616,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x19 && buffer[1] == 0x01 {
         return Box::new(PacketZcStateChange::from(buffer, packetver));
     }
-    if buffer[0] == 0x1a && buffer[1] == 0x01 {
+    if buffer[0] == 0x1A && buffer[1] == 0x01 {
         return Box::new(PacketZcUseSkill::from(buffer, packetver));
     }
-    if buffer[0] == 0x1b && buffer[1] == 0x01 {
+    if buffer[0] == 0x1B && buffer[1] == 0x01 {
         return Box::new(PacketCzSelectWarppoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x1c && buffer[1] == 0x01 {
+    if buffer[0] == 0x1C && buffer[1] == 0x01 {
         return Box::new(PacketZcWarplist::from(buffer, packetver));
     }
-    if buffer[0] == 0x1d && buffer[1] == 0x01 {
+    if buffer[0] == 0x1D && buffer[1] == 0x01 {
         return Box::new(PacketCzRememberWarppoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x1e && buffer[1] == 0x01 {
+    if buffer[0] == 0x1E && buffer[1] == 0x01 {
         return Box::new(PacketZcAckRememberWarppoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x1f && buffer[1] == 0x01 {
+    if buffer[0] == 0x1F && buffer[1] == 0x01 {
         return Box::new(PacketZcSkillEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x20 && buffer[1] == 0x01 {
@@ -664,22 +664,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x29 && buffer[1] == 0x01 {
         return Box::new(PacketCzMoveItemFromCartToStore::from(buffer, packetver));
     }
-    if buffer[0] == 0x2a && buffer[1] == 0x01 {
+    if buffer[0] == 0x2A && buffer[1] == 0x01 {
         return Box::new(PacketCzReqCartoff::from(buffer, packetver));
     }
-    if buffer[0] == 0x2b && buffer[1] == 0x01 {
+    if buffer[0] == 0x2B && buffer[1] == 0x01 {
         return Box::new(PacketZcCartoff::from(buffer, packetver));
     }
-    if buffer[0] == 0x2c && buffer[1] == 0x01 {
+    if buffer[0] == 0x2C && buffer[1] == 0x01 {
         return Box::new(PacketZcAckAdditemToCart::from(buffer, packetver));
     }
-    if buffer[0] == 0x2d && buffer[1] == 0x01 {
+    if buffer[0] == 0x2D && buffer[1] == 0x01 {
         return Box::new(PacketZcOpenstore::from(buffer, packetver));
     }
-    if buffer[0] == 0x2e && buffer[1] == 0x01 {
+    if buffer[0] == 0x2E && buffer[1] == 0x01 {
         return Box::new(PacketCzReqClosestore::from(buffer, packetver));
     }
-    if buffer[0] == 0x2f && buffer[1] == 0x01 {
+    if buffer[0] == 0x2F && buffer[1] == 0x01 {
         return Box::new(PacketCzReqOpenstore::from(buffer, packetver));
     }
     if buffer[0] == 0x30 && buffer[1] == 0x01 {
@@ -712,22 +712,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x39 && buffer[1] == 0x01 {
         return Box::new(PacketZcAttackFailureForDistance::from(buffer, packetver));
     }
-    if buffer[0] == 0x3a && buffer[1] == 0x01 {
+    if buffer[0] == 0x3A && buffer[1] == 0x01 {
         return Box::new(PacketZcAttackRange::from(buffer, packetver));
     }
-    if buffer[0] == 0x3b && buffer[1] == 0x01 {
+    if buffer[0] == 0x3B && buffer[1] == 0x01 {
         return Box::new(PacketZcActionFailure::from(buffer, packetver));
     }
-    if buffer[0] == 0x3c && buffer[1] == 0x01 {
+    if buffer[0] == 0x3C && buffer[1] == 0x01 {
         return Box::new(PacketZcEquipArrow::from(buffer, packetver));
     }
-    if buffer[0] == 0x3d && buffer[1] == 0x01 {
+    if buffer[0] == 0x3D && buffer[1] == 0x01 {
         return Box::new(PacketZcRecovery::from(buffer, packetver));
     }
-    if buffer[0] == 0x3e && buffer[1] == 0x01 {
+    if buffer[0] == 0x3E && buffer[1] == 0x01 {
         return Box::new(PacketZcUseskillAck::from(buffer, packetver));
     }
-    if buffer[0] == 0x3f && buffer[1] == 0x01 {
+    if buffer[0] == 0x3F && buffer[1] == 0x01 {
         return Box::new(PacketCzItemCreate::from(buffer, packetver));
     }
     if buffer[0] == 0x40 && buffer[1] == 0x01 {
@@ -760,22 +760,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x49 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqGiveMannerPoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x4a && buffer[1] == 0x01 {
+    if buffer[0] == 0x4A && buffer[1] == 0x01 {
         return Box::new(PacketZcAckGiveMannerPoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x4b && buffer[1] == 0x01 {
+    if buffer[0] == 0x4B && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyMannerPointGiven::from(buffer, packetver));
     }
-    if buffer[0] == 0x4c && buffer[1] == 0x01 {
+    if buffer[0] == 0x4C && buffer[1] == 0x01 {
         return Box::new(PacketZcMyguildBasicInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x4d && buffer[1] == 0x01 {
+    if buffer[0] == 0x4D && buffer[1] == 0x01 {
         return Box::new(PacketCzReqGuildMenuinterface::from(buffer, packetver));
     }
-    if buffer[0] == 0x4e && buffer[1] == 0x01 {
+    if buffer[0] == 0x4E && buffer[1] == 0x01 {
         return Box::new(PacketZcAckGuildMenuinterface::from(buffer, packetver));
     }
-    if buffer[0] == 0x4f && buffer[1] == 0x01 {
+    if buffer[0] == 0x4F && buffer[1] == 0x01 {
         return Box::new(PacketCzReqGuildMenu::from(buffer, packetver));
     }
     if buffer[0] == 0x50 && buffer[1] == 0x01 {
@@ -808,22 +808,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x59 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqLeaveGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x5a && buffer[1] == 0x01 {
+    if buffer[0] == 0x5A && buffer[1] == 0x01 {
         return Box::new(PacketZcAckLeaveGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x5b && buffer[1] == 0x01 {
+    if buffer[0] == 0x5B && buffer[1] == 0x01 {
         return Box::new(PacketCzReqBanGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x5c && buffer[1] == 0x01 {
+    if buffer[0] == 0x5C && buffer[1] == 0x01 {
         return Box::new(PacketZcAckBanGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x5d && buffer[1] == 0x01 {
+    if buffer[0] == 0x5D && buffer[1] == 0x01 {
         return Box::new(PacketCzReqDisorganizeGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x5e && buffer[1] == 0x01 {
+    if buffer[0] == 0x5E && buffer[1] == 0x01 {
         return Box::new(PacketZcAckDisorganizeGuildResult::from(buffer, packetver));
     }
-    if buffer[0] == 0x5f && buffer[1] == 0x01 {
+    if buffer[0] == 0x5F && buffer[1] == 0x01 {
         return Box::new(PacketZcAckDisorganizeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x60 && buffer[1] == 0x01 {
@@ -856,22 +856,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x69 && buffer[1] == 0x01 {
         return Box::new(PacketZcAckReqJoinGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x6a && buffer[1] == 0x01 {
+    if buffer[0] == 0x6A && buffer[1] == 0x01 {
         return Box::new(PacketZcReqJoinGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x6b && buffer[1] == 0x01 {
+    if buffer[0] == 0x6B && buffer[1] == 0x01 {
         return Box::new(PacketCzJoinGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0x6c && buffer[1] == 0x01 {
+    if buffer[0] == 0x6C && buffer[1] == 0x01 {
         return Box::new(PacketZcUpdateGdid::from(buffer, packetver));
     }
-    if buffer[0] == 0x6d && buffer[1] == 0x01 {
+    if buffer[0] == 0x6D && buffer[1] == 0x01 {
         return Box::new(PacketZcUpdateCharstat::from(buffer, packetver));
     }
-    if buffer[0] == 0x6e && buffer[1] == 0x01 {
+    if buffer[0] == 0x6E && buffer[1] == 0x01 {
         return Box::new(PacketCzGuildNotice::from(buffer, packetver));
     }
-    if buffer[0] == 0x6f && buffer[1] == 0x01 {
+    if buffer[0] == 0x6F && buffer[1] == 0x01 {
         return Box::new(PacketZcGuildNotice::from(buffer, packetver));
     }
     if buffer[0] == 0x70 && buffer[1] == 0x01 {
@@ -904,22 +904,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x79 && buffer[1] == 0x01 {
         return Box::new(PacketZcAckItemidentify::from(buffer, packetver));
     }
-    if buffer[0] == 0x7a && buffer[1] == 0x01 {
+    if buffer[0] == 0x7A && buffer[1] == 0x01 {
         return Box::new(PacketCzReqItemcompositionList::from(buffer, packetver));
     }
-    if buffer[0] == 0x7b && buffer[1] == 0x01 {
+    if buffer[0] == 0x7B && buffer[1] == 0x01 {
         return Box::new(PacketZcItemcompositionList::from(buffer, packetver));
     }
-    if buffer[0] == 0x7c && buffer[1] == 0x01 {
+    if buffer[0] == 0x7C && buffer[1] == 0x01 {
         return Box::new(PacketCzReqItemcomposition::from(buffer, packetver));
     }
-    if buffer[0] == 0x7d && buffer[1] == 0x01 {
+    if buffer[0] == 0x7D && buffer[1] == 0x01 {
         return Box::new(PacketZcAckItemcomposition::from(buffer, packetver));
     }
-    if buffer[0] == 0x7e && buffer[1] == 0x01 {
+    if buffer[0] == 0x7E && buffer[1] == 0x01 {
         return Box::new(PacketCzGuildChat::from(buffer, packetver));
     }
-    if buffer[0] == 0x7f && buffer[1] == 0x01 {
+    if buffer[0] == 0x7F && buffer[1] == 0x01 {
         return Box::new(PacketZcGuildChat::from(buffer, packetver));
     }
     if buffer[0] == 0x80 && buffer[1] == 0x01 {
@@ -952,22 +952,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x89 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyMapinfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x8a && buffer[1] == 0x01 {
+    if buffer[0] == 0x8A && buffer[1] == 0x01 {
         return Box::new(PacketCzReqDisconnect::from(buffer, packetver));
     }
-    if buffer[0] == 0x8b && buffer[1] == 0x01 {
+    if buffer[0] == 0x8B && buffer[1] == 0x01 {
         return Box::new(PacketZcAckReqDisconnect::from(buffer, packetver));
     }
-    if buffer[0] == 0x8c && buffer[1] == 0x01 {
+    if buffer[0] == 0x8C && buffer[1] == 0x01 {
         return Box::new(PacketZcMonsterInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x8d && buffer[1] == 0x01 {
+    if buffer[0] == 0x8D && buffer[1] == 0x01 {
         return Box::new(PacketZcMakableitemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0x8e && buffer[1] == 0x01 {
+    if buffer[0] == 0x8E && buffer[1] == 0x01 {
         return Box::new(PacketCzReqmakingitem::from(buffer, packetver));
     }
-    if buffer[0] == 0x8f && buffer[1] == 0x01 {
+    if buffer[0] == 0x8F && buffer[1] == 0x01 {
         return Box::new(PacketZcAckReqmakingitem::from(buffer, packetver));
     }
     if buffer[0] == 0x90 && buffer[1] == 0x01 {
@@ -1000,307 +1000,307 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x99 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyMapproperty::from(buffer, packetver));
     }
-    if buffer[0] == 0x9a && buffer[1] == 0x01 {
+    if buffer[0] == 0x9A && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyRanking::from(buffer, packetver));
     }
-    if buffer[0] == 0x9b && buffer[1] == 0x01 {
+    if buffer[0] == 0x9B && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyEffect::from(buffer, packetver));
     }
-    if buffer[0] == 0x9d && buffer[1] == 0x01 {
+    if buffer[0] == 0x9D && buffer[1] == 0x01 {
         return Box::new(PacketCzChangeEffectstate::from(buffer, packetver));
     }
-    if buffer[0] == 0x9e && buffer[1] == 0x01 {
+    if buffer[0] == 0x9E && buffer[1] == 0x01 {
         return Box::new(PacketZcStartCapture::from(buffer, packetver));
     }
-    if buffer[0] == 0x9f && buffer[1] == 0x01 {
+    if buffer[0] == 0x9F && buffer[1] == 0x01 {
         return Box::new(PacketCzTrycaptureMonster::from(buffer, packetver));
     }
-    if buffer[0] == 0xa0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA0 && buffer[1] == 0x01 {
         return Box::new(PacketZcTrycaptureMonster::from(buffer, packetver));
     }
-    if buffer[0] == 0xa1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA1 && buffer[1] == 0x01 {
         return Box::new(PacketCzCommandPet::from(buffer, packetver));
     }
-    if buffer[0] == 0xa2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA2 && buffer[1] == 0x01 {
         return Box::new(PacketZcPropertyPet::from(buffer, packetver));
     }
-    if buffer[0] == 0xa3 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA3 && buffer[1] == 0x01 {
         return Box::new(PacketZcFeedPet::from(buffer, packetver));
     }
-    if buffer[0] == 0xa4 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA4 && buffer[1] == 0x01 {
         return Box::new(PacketZcChangestatePet::from(buffer, packetver));
     }
-    if buffer[0] == 0xa5 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA5 && buffer[1] == 0x01 {
         return Box::new(PacketCzRenamePet::from(buffer, packetver));
     }
-    if buffer[0] == 0xa6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA6 && buffer[1] == 0x01 {
         return Box::new(PacketZcPeteggList::from(buffer, packetver));
     }
-    if buffer[0] == 0xa7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA7 && buffer[1] == 0x01 {
         return Box::new(PacketCzSelectPetegg::from(buffer, packetver));
     }
-    if buffer[0] == 0xa8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA8 && buffer[1] == 0x01 {
         return Box::new(PacketCzPeteggInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xa9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xA9 && buffer[1] == 0x01 {
         return Box::new(PacketCzPetAct::from(buffer, packetver));
     }
-    if buffer[0] == 0xaa && buffer[1] == 0x01 {
+    if buffer[0] == 0xAA && buffer[1] == 0x01 {
         return Box::new(PacketZcPetAct::from(buffer, packetver));
     }
-    if buffer[0] == 0xab && buffer[1] == 0x01 {
+    if buffer[0] == 0xAB && buffer[1] == 0x01 {
         return Box::new(PacketZcParChangeUser::from(buffer, packetver));
     }
-    if buffer[0] == 0xac && buffer[1] == 0x01 {
+    if buffer[0] == 0xAC && buffer[1] == 0x01 {
         return Box::new(PacketZcSkillUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0xad && buffer[1] == 0x01 {
+    if buffer[0] == 0xAD && buffer[1] == 0x01 {
         return Box::new(PacketZcMakingarrowList::from(buffer, packetver));
     }
-    if buffer[0] == 0xae && buffer[1] == 0x01 {
+    if buffer[0] == 0xAE && buffer[1] == 0x01 {
         return Box::new(PacketCzReqMakingarrow::from(buffer, packetver));
     }
-    if buffer[0] == 0xaf && buffer[1] == 0x01 {
+    if buffer[0] == 0xAF && buffer[1] == 0x01 {
         return Box::new(PacketCzReqChangecart::from(buffer, packetver));
     }
-    if buffer[0] == 0xb0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB0 && buffer[1] == 0x01 {
         return Box::new(PacketZcNpcspriteChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xb1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB1 && buffer[1] == 0x01 {
         return Box::new(PacketZcShowdigit::from(buffer, packetver));
     }
-    if buffer[0] == 0xb2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB2 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqOpenstore2::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xb3 {
+    if buffer[0] == 0x01 && buffer[1] == 0xB3 {
         return Box::new(PacketZcShowImage2::from(buffer, packetver));
     }
-    if buffer[0] == 0xb4 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB4 && buffer[1] == 0x01 {
         return Box::new(PacketZcChangeGuild::from(buffer, packetver));
     }
-    if buffer[0] == 0xb5 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB5 && buffer[1] == 0x01 {
         return Box::new(PacketScBillingInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xb6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB6 && buffer[1] == 0x01 {
         return Box::new(PacketZcGuildInfo2::from(buffer, packetver));
     }
-    if buffer[0] == 0xb7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB7 && buffer[1] == 0x01 {
         return Box::new(PacketCzGuildZeny::from(buffer, packetver));
     }
-    if buffer[0] == 0xb8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB8 && buffer[1] == 0x01 {
         return Box::new(PacketZcGuildZenyAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xb9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xB9 && buffer[1] == 0x01 {
         return Box::new(PacketZcDispel::from(buffer, packetver));
     }
-    if buffer[0] == 0xba && buffer[1] == 0x01 {
+    if buffer[0] == 0xBA && buffer[1] == 0x01 {
         return Box::new(PacketCzRemoveAid::from(buffer, packetver));
     }
-    if buffer[0] == 0xbb && buffer[1] == 0x01 {
+    if buffer[0] == 0xBB && buffer[1] == 0x01 {
         return Box::new(PacketCzShift::from(buffer, packetver));
     }
-    if buffer[0] == 0xbc && buffer[1] == 0x01 {
+    if buffer[0] == 0xBC && buffer[1] == 0x01 {
         return Box::new(PacketCzRecall::from(buffer, packetver));
     }
-    if buffer[0] == 0xbd && buffer[1] == 0x01 {
+    if buffer[0] == 0xBD && buffer[1] == 0x01 {
         return Box::new(PacketCzRecallGid::from(buffer, packetver));
     }
-    if buffer[0] == 0xbe && buffer[1] == 0x01 {
+    if buffer[0] == 0xBE && buffer[1] == 0x01 {
         return Box::new(PacketAcAskPngameroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xbf && buffer[1] == 0x01 {
+    if buffer[0] == 0xBF && buffer[1] == 0x01 {
         return Box::new(PacketCaReplyPngameroom::from(buffer, packetver));
     }
-    if buffer[0] == 0xc0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC0 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqRemaintime::from(buffer, packetver));
     }
-    if buffer[0] == 0xc1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC1 && buffer[1] == 0x01 {
         return Box::new(PacketZcReplyRemaintime::from(buffer, packetver));
     }
-    if buffer[0] == 0xc2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC2 && buffer[1] == 0x01 {
         return Box::new(PacketZcInfoRemaintime::from(buffer, packetver));
     }
-    if buffer[0] == 0xc3 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC3 && buffer[1] == 0x01 {
         return Box::new(PacketZcBroadcast2::from(buffer, packetver));
     }
-    if buffer[0] == 0xc4 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC4 && buffer[1] == 0x01 {
         return Box::new(PacketZcAddItemToStore2::from(buffer, packetver));
     }
-    if buffer[0] == 0xc5 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC5 && buffer[1] == 0x01 {
         return Box::new(PacketZcAddItemToCart2::from(buffer, packetver));
     }
-    if buffer[0] == 0xc6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC6 && buffer[1] == 0x01 {
         return Box::new(PacketCsReqEncryption::from(buffer, packetver));
     }
-    if buffer[0] == 0xc7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC7 && buffer[1] == 0x01 {
         return Box::new(PacketScAckEncryption::from(buffer, packetver));
     }
-    if buffer[0] == 0xc8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC8 && buffer[1] == 0x01 {
         return Box::new(PacketZcUseItemAck2::from(buffer, packetver));
     }
-    if buffer[0] == 0xc9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xC9 && buffer[1] == 0x01 {
         return Box::new(PacketZcSkillEntry2::from(buffer, packetver));
     }
-    if buffer[0] == 0xca && buffer[1] == 0x01 {
+    if buffer[0] == 0xCA && buffer[1] == 0x01 {
         return Box::new(PacketCzReqmakinghomun::from(buffer, packetver));
     }
-    if buffer[0] == 0xcb && buffer[1] == 0x01 {
+    if buffer[0] == 0xCB && buffer[1] == 0x01 {
         return Box::new(PacketCzMonsterTalk::from(buffer, packetver));
     }
-    if buffer[0] == 0xcc && buffer[1] == 0x01 {
+    if buffer[0] == 0xCC && buffer[1] == 0x01 {
         return Box::new(PacketZcMonsterTalk::from(buffer, packetver));
     }
-    if buffer[0] == 0xcd && buffer[1] == 0x01 {
+    if buffer[0] == 0xCD && buffer[1] == 0x01 {
         return Box::new(PacketZcAutospelllist::from(buffer, packetver));
     }
-    if buffer[0] == 0xce && buffer[1] == 0x01 {
+    if buffer[0] == 0xCE && buffer[1] == 0x01 {
         return Box::new(PacketCzSelectautospell::from(buffer, packetver));
     }
-    if buffer[0] == 0xcf && buffer[1] == 0x01 {
+    if buffer[0] == 0xCF && buffer[1] == 0x01 {
         return Box::new(PacketZcDevotionlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xd0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD0 && buffer[1] == 0x01 {
         return Box::new(PacketZcSpirits::from(buffer, packetver));
     }
-    if buffer[0] == 0xd1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD1 && buffer[1] == 0x01 {
         return Box::new(PacketZcBladestop::from(buffer, packetver));
     }
-    if buffer[0] == 0xd2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD2 && buffer[1] == 0x01 {
         return Box::new(PacketZcCombodelay::from(buffer, packetver));
     }
-    if buffer[0] == 0xd3 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD3 && buffer[1] == 0x01 {
         return Box::new(PacketZcSound::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd4 {
+    if buffer[0] == 0x01 && buffer[1] == 0xD4 {
         return Box::new(PacketZcOpenEditdlgstr::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd5 {
+    if buffer[0] == 0x01 && buffer[1] == 0xD5 {
         return Box::new(PacketCzInputEditdlgstr::from(buffer, packetver));
     }
-    if buffer[0] == 0xd6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD6 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyMaptypeproperty2::from(buffer, packetver));
     }
-    if buffer[0] == 0xd7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD7 && buffer[1] == 0x01 {
         return Box::new(PacketZcSpriteChange2::from(buffer, packetver));
     }
-    if buffer[0] == 0xd8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD8 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyStandentry2::from(buffer, packetver));
     }
-    if buffer[0] == 0xd9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xD9 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyNewentry2::from(buffer, packetver));
     }
-    if buffer[0] == 0xda && buffer[1] == 0x01 {
+    if buffer[0] == 0xDA && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyMoveentry2::from(buffer, packetver));
     }
-    if buffer[0] == 0xdb && buffer[1] == 0x01 {
+    if buffer[0] == 0xDB && buffer[1] == 0x01 {
         return Box::new(PacketCaReqHash::from(buffer, packetver));
     }
-    if buffer[0] == 0xdc && buffer[1] == 0x01 {
+    if buffer[0] == 0xDC && buffer[1] == 0x01 {
         return Box::new(PacketAcAckHash::from(buffer, packetver));
     }
-    if buffer[0] == 0xdd && buffer[1] == 0x01 {
+    if buffer[0] == 0xDD && buffer[1] == 0x01 {
         return Box::new(PacketCaLogin2::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x01 {
+    if buffer[0] == 0xDE && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifySkill2::from(buffer, packetver));
     }
-    if buffer[0] == 0xdf && buffer[1] == 0x01 {
+    if buffer[0] == 0xDF && buffer[1] == 0x01 {
         return Box::new(PacketCzReqAccountname::from(buffer, packetver));
     }
-    if buffer[0] == 0xe0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE0 && buffer[1] == 0x01 {
         return Box::new(PacketZcAckAccountname::from(buffer, packetver));
     }
-    if buffer[0] == 0xe1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE1 && buffer[1] == 0x01 {
         return Box::new(PacketZcSpirits2::from(buffer, packetver));
     }
-    if buffer[0] == 0xe2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE2 && buffer[1] == 0x01 {
         return Box::new(PacketZcReqCouple::from(buffer, packetver));
     }
-    if buffer[0] == 0xe3 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE3 && buffer[1] == 0x01 {
         return Box::new(PacketCzJoinCouple::from(buffer, packetver));
     }
-    if buffer[0] == 0xe4 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE4 && buffer[1] == 0x01 {
         return Box::new(PacketZcStartCouple::from(buffer, packetver));
     }
-    if buffer[0] == 0xe5 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE5 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqJoinCouple::from(buffer, packetver));
     }
-    if buffer[0] == 0xe6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE6 && buffer[1] == 0x01 {
         return Box::new(PacketZcCouplename::from(buffer, packetver));
     }
-    if buffer[0] == 0xe7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE7 && buffer[1] == 0x01 {
         return Box::new(PacketCzDoridori::from(buffer, packetver));
     }
-    if buffer[0] == 0xe8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE8 && buffer[1] == 0x01 {
         return Box::new(PacketCzMakeGroup2::from(buffer, packetver));
     }
-    if buffer[0] == 0xe9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xE9 && buffer[1] == 0x01 {
         return Box::new(PacketZcAddMemberToGroup2::from(buffer, packetver));
     }
-    if buffer[0] == 0xea && buffer[1] == 0x01 {
+    if buffer[0] == 0xEA && buffer[1] == 0x01 {
         return Box::new(PacketZcCongratulation::from(buffer, packetver));
     }
-    if buffer[0] == 0xeb && buffer[1] == 0x01 {
+    if buffer[0] == 0xEB && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyPositionToGuildm::from(buffer, packetver));
     }
-    if buffer[0] == 0xec && buffer[1] == 0x01 {
+    if buffer[0] == 0xEC && buffer[1] == 0x01 {
         return Box::new(PacketZcGuildMemberMapChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xed && buffer[1] == 0x01 {
+    if buffer[0] == 0xED && buffer[1] == 0x01 {
         return Box::new(PacketCzChopokgi::from(buffer, packetver));
     }
-    if buffer[0] == 0xee && buffer[1] == 0x01 {
+    if buffer[0] == 0xEE && buffer[1] == 0x01 {
         return Box::new(PacketZcNormalItemlist2::from(buffer, packetver));
     }
-    if buffer[0] == 0xef && buffer[1] == 0x01 {
+    if buffer[0] == 0xEF && buffer[1] == 0x01 {
         return Box::new(PacketZcCartNormalItemlist2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf0 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF0 && buffer[1] == 0x01 {
         return Box::new(PacketZcStoreNormalItemlist2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf1 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF1 && buffer[1] == 0x01 {
         return Box::new(PacketAcNotifyError::from(buffer, packetver));
     }
-    if buffer[0] == 0xf2 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF2 && buffer[1] == 0x01 {
         return Box::new(PacketZcUpdateCharstat2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf3 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF3 && buffer[1] == 0x01 {
         return Box::new(PacketZcNotifyEffect2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf4 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF4 && buffer[1] == 0x01 {
         return Box::new(PacketZcReqExchangeItem2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf5 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF5 && buffer[1] == 0x01 {
         return Box::new(PacketZcAckExchangeItem2::from(buffer, packetver));
     }
-    if buffer[0] == 0xf6 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF6 && buffer[1] == 0x01 {
         return Box::new(PacketZcReqBaby::from(buffer, packetver));
     }
-    if buffer[0] == 0xf7 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF7 && buffer[1] == 0x01 {
         return Box::new(PacketCzJoinBaby::from(buffer, packetver));
     }
-    if buffer[0] == 0xf8 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF8 && buffer[1] == 0x01 {
         return Box::new(PacketZcStartBaby::from(buffer, packetver));
     }
-    if buffer[0] == 0xf9 && buffer[1] == 0x01 {
+    if buffer[0] == 0xF9 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqJoinBaby::from(buffer, packetver));
     }
-    if buffer[0] == 0xfa && buffer[1] == 0x01 {
+    if buffer[0] == 0xFA && buffer[1] == 0x01 {
         return Box::new(PacketCaLogin3::from(buffer, packetver));
     }
-    if buffer[0] == 0xfb && buffer[1] == 0x01 {
+    if buffer[0] == 0xFB && buffer[1] == 0x01 {
         return Box::new(PacketChDeleteChar2::from(buffer, packetver));
     }
-    if buffer[0] == 0xfc && buffer[1] == 0x01 {
+    if buffer[0] == 0xFC && buffer[1] == 0x01 {
         return Box::new(PacketZcRepairitemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0xfd && buffer[1] == 0x01 {
+    if buffer[0] == 0xFD && buffer[1] == 0x01 {
         return Box::new(PacketCzReqItemrepair::from(buffer, packetver));
     }
-    if buffer[0] == 0xfe && buffer[1] == 0x01 {
+    if buffer[0] == 0xFE && buffer[1] == 0x01 {
         return Box::new(PacketZcAckItemrepair::from(buffer, packetver));
     }
-    if buffer[0] == 0xff && buffer[1] == 0x01 {
+    if buffer[0] == 0xFF && buffer[1] == 0x01 {
         return Box::new(PacketZcHighjump::from(buffer, packetver));
     }
     if buffer[0] == 0x00 && buffer[1] == 0x02 {
@@ -1333,22 +1333,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x09 && buffer[1] == 0x02 {
         return Box::new(PacketZcAddFriendsList::from(buffer, packetver));
     }
-    if buffer[0] == 0x0a && buffer[1] == 0x02 {
+    if buffer[0] == 0x0A && buffer[1] == 0x02 {
         return Box::new(PacketZcDeleteFriends::from(buffer, packetver));
     }
-    if buffer[0] == 0x0b && buffer[1] == 0x02 {
+    if buffer[0] == 0x0B && buffer[1] == 0x02 {
         return Box::new(PacketAcRefuseLoginR3::from(buffer, packetver));
     }
-    if buffer[0] == 0x0c && buffer[1] == 0x02 {
+    if buffer[0] == 0x0C && buffer[1] == 0x02 {
         return Box::new(PacketCzExeHashcheck::from(buffer, packetver));
     }
-    if buffer[0] == 0x0d && buffer[1] == 0x02 {
+    if buffer[0] == 0x0D && buffer[1] == 0x02 {
         return Box::new(PacketHcBlockCharacter::from(buffer, packetver));
     }
-    if buffer[0] == 0x0e && buffer[1] == 0x02 {
+    if buffer[0] == 0x0E && buffer[1] == 0x02 {
         return Box::new(PacketZcStarskill::from(buffer, packetver));
     }
-    if buffer[0] == 0x0f && buffer[1] == 0x02 {
+    if buffer[0] == 0x0F && buffer[1] == 0x02 {
         return Box::new(PacketCzReqPvppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x10 && buffer[1] == 0x02 {
@@ -1381,22 +1381,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x19 && buffer[1] == 0x02 {
         return Box::new(PacketZcBlacksmithRank::from(buffer, packetver));
     }
-    if buffer[0] == 0x1a && buffer[1] == 0x02 {
+    if buffer[0] == 0x1A && buffer[1] == 0x02 {
         return Box::new(PacketZcAlchemistRank::from(buffer, packetver));
     }
-    if buffer[0] == 0x1b && buffer[1] == 0x02 {
+    if buffer[0] == 0x1B && buffer[1] == 0x02 {
         return Box::new(PacketZcBlacksmithPoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x1c && buffer[1] == 0x02 {
+    if buffer[0] == 0x1C && buffer[1] == 0x02 {
         return Box::new(PacketZcAlchemistPoint::from(buffer, packetver));
     }
-    if buffer[0] == 0x1d && buffer[1] == 0x02 {
+    if buffer[0] == 0x1D && buffer[1] == 0x02 {
         return Box::new(PacketCzLesseffect::from(buffer, packetver));
     }
-    if buffer[0] == 0x1e && buffer[1] == 0x02 {
+    if buffer[0] == 0x1E && buffer[1] == 0x02 {
         return Box::new(PacketZcLesseffect::from(buffer, packetver));
     }
-    if buffer[0] == 0x1f && buffer[1] == 0x02 {
+    if buffer[0] == 0x1F && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyPkinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x20 && buffer[1] == 0x02 {
@@ -1429,19 +1429,19 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x29 && buffer[1] == 0x02 {
         return Box::new(PacketZcStateChange3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2a && buffer[1] == 0x02 {
+    if buffer[0] == 0x2A && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyStandentry3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2b && buffer[1] == 0x02 {
+    if buffer[0] == 0x2B && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyNewentry3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2c && buffer[1] == 0x02 {
+    if buffer[0] == 0x2C && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyMoveentry3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2d && buffer[1] == 0x02 {
+    if buffer[0] == 0x2D && buffer[1] == 0x02 {
         return Box::new(PacketCzCommandMer::from(buffer, packetver));
     }
-    if buffer[0] == 0x2e && buffer[1] == 0x02 {
+    if buffer[0] == 0x2E && buffer[1] == 0x02 {
         return Box::new(PacketZcPropertyHomun::from(buffer, packetver));
     }
     if buffer[0] == 0x30 && buffer[1] == 0x02 {
@@ -1459,22 +1459,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x34 && buffer[1] == 0x02 {
         return Box::new(PacketCzRequestMovetoowner::from(buffer, packetver));
     }
-    if buffer[0] == 0x3a && buffer[1] == 0x02 {
+    if buffer[0] == 0x3A && buffer[1] == 0x02 {
         return Box::new(PacketZcReqStorePassword::from(buffer, packetver));
     }
-    if buffer[0] == 0x3b && buffer[1] == 0x02 {
+    if buffer[0] == 0x3B && buffer[1] == 0x02 {
         return Box::new(PacketCzAckStorePassword::from(buffer, packetver));
     }
-    if buffer[0] == 0x3c && buffer[1] == 0x02 {
+    if buffer[0] == 0x3C && buffer[1] == 0x02 {
         return Box::new(PacketZcResultStorePassword::from(buffer, packetver));
     }
-    if buffer[0] == 0x3d && buffer[1] == 0x02 {
+    if buffer[0] == 0x3D && buffer[1] == 0x02 {
         return Box::new(PacketAcEventResult::from(buffer, packetver));
     }
-    if buffer[0] == 0x3e && buffer[1] == 0x02 {
+    if buffer[0] == 0x3E && buffer[1] == 0x02 {
         return Box::new(PacketHcRequestCharacterPassword::from(buffer, packetver));
     }
-    if buffer[0] == 0x3f && buffer[1] == 0x02 {
+    if buffer[0] == 0x3F && buffer[1] == 0x02 {
         return Box::new(PacketCzMailGetList::from(buffer, packetver));
     }
     if buffer[0] == 0x40 && buffer[1] == 0x02 {
@@ -1507,22 +1507,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x49 && buffer[1] == 0x02 {
         return Box::new(PacketZcMailReqSend::from(buffer, packetver));
     }
-    if buffer[0] == 0x4a && buffer[1] == 0x02 {
+    if buffer[0] == 0x4A && buffer[1] == 0x02 {
         return Box::new(PacketZcMailReceive::from(buffer, packetver));
     }
-    if buffer[0] == 0x4b && buffer[1] == 0x02 {
+    if buffer[0] == 0x4B && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionCreate::from(buffer, packetver));
     }
-    if buffer[0] == 0x4c && buffer[1] == 0x02 {
+    if buffer[0] == 0x4C && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionAddItem::from(buffer, packetver));
     }
-    if buffer[0] == 0x4d && buffer[1] == 0x02 {
+    if buffer[0] == 0x4D && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionAdd::from(buffer, packetver));
     }
-    if buffer[0] == 0x4e && buffer[1] == 0x02 {
+    if buffer[0] == 0x4E && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionAddCancel::from(buffer, packetver));
     }
-    if buffer[0] == 0x4f && buffer[1] == 0x02 {
+    if buffer[0] == 0x4F && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionBuy::from(buffer, packetver));
     }
     if buffer[0] == 0x50 && buffer[1] == 0x02 {
@@ -1555,22 +1555,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x59 && buffer[1] == 0x02 {
         return Box::new(PacketAcAckGameGuard::from(buffer, packetver));
     }
-    if buffer[0] == 0x5a && buffer[1] == 0x02 {
+    if buffer[0] == 0x5A && buffer[1] == 0x02 {
         return Box::new(PacketZcMakingitemList::from(buffer, packetver));
     }
-    if buffer[0] == 0x5b && buffer[1] == 0x02 {
+    if buffer[0] == 0x5B && buffer[1] == 0x02 {
         return Box::new(PacketCzReqMakingitem::from(buffer, packetver));
     }
-    if buffer[0] == 0x5c && buffer[1] == 0x02 {
+    if buffer[0] == 0x5C && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionReqMyInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x5d && buffer[1] == 0x02 {
+    if buffer[0] == 0x5D && buffer[1] == 0x02 {
         return Box::new(PacketCzAuctionReqMySellStop::from(buffer, packetver));
     }
-    if buffer[0] == 0x5e && buffer[1] == 0x02 {
+    if buffer[0] == 0x5E && buffer[1] == 0x02 {
         return Box::new(PacketZcAuctionAckMySellStop::from(buffer, packetver));
     }
-    if buffer[0] == 0x5f && buffer[1] == 0x02 {
+    if buffer[0] == 0x5F && buffer[1] == 0x02 {
         return Box::new(PacketZcAuctionWindows::from(buffer, packetver));
     }
     if buffer[0] == 0x60 && buffer[1] == 0x02 {
@@ -1603,22 +1603,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x69 && buffer[1] == 0x02 {
         return Box::new(PacketAcAckEkeyFailNotusedekey::from(buffer, packetver));
     }
-    if buffer[0] == 0x6a && buffer[1] == 0x02 {
+    if buffer[0] == 0x6A && buffer[1] == 0x02 {
         return Box::new(PacketAcAckEkeyFailAuthrefuse::from(buffer, packetver));
     }
-    if buffer[0] == 0x6b && buffer[1] == 0x02 {
+    if buffer[0] == 0x6B && buffer[1] == 0x02 {
         return Box::new(PacketAcAckEkeyFailInputekey::from(buffer, packetver));
     }
-    if buffer[0] == 0x6c && buffer[1] == 0x02 {
+    if buffer[0] == 0x6C && buffer[1] == 0x02 {
         return Box::new(PacketAcAckEkeyFailNotice::from(buffer, packetver));
     }
-    if buffer[0] == 0x6d && buffer[1] == 0x02 {
+    if buffer[0] == 0x6D && buffer[1] == 0x02 {
         return Box::new(PacketAcAckEkeyFailNeedcardpass::from(buffer, packetver));
     }
-    if buffer[0] == 0x6e && buffer[1] == 0x02 {
+    if buffer[0] == 0x6E && buffer[1] == 0x02 {
         return Box::new(PacketAcAckAuthekeyFailNotmatchcardpass::from(buffer, packetver));
     }
-    if buffer[0] == 0x6f && buffer[1] == 0x02 {
+    if buffer[0] == 0x6F && buffer[1] == 0x02 {
         return Box::new(PacketAcAckFirstLogin::from(buffer, packetver));
     }
     if buffer[0] == 0x70 && buffer[1] == 0x02 {
@@ -1651,22 +1651,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x79 && buffer[1] == 0x02 {
         return Box::new(PacketCzHuntinglist::from(buffer, packetver));
     }
-    if buffer[0] == 0x7a && buffer[1] == 0x02 {
+    if buffer[0] == 0x7A && buffer[1] == 0x02 {
         return Box::new(PacketZcHuntinglist::from(buffer, packetver));
     }
-    if buffer[0] == 0x7b && buffer[1] == 0x02 {
+    if buffer[0] == 0x7B && buffer[1] == 0x02 {
         return Box::new(PacketZcPcbangEffect::from(buffer, packetver));
     }
-    if buffer[0] == 0x7c && buffer[1] == 0x02 {
+    if buffer[0] == 0x7C && buffer[1] == 0x02 {
         return Box::new(PacketCaLogin4::from(buffer, packetver));
     }
-    if buffer[0] == 0x7d && buffer[1] == 0x02 {
+    if buffer[0] == 0x7D && buffer[1] == 0x02 {
         return Box::new(PacketZcPropertyMerce::from(buffer, packetver));
     }
-    if buffer[0] == 0x7e && buffer[1] == 0x02 {
+    if buffer[0] == 0x7E && buffer[1] == 0x02 {
         return Box::new(PacketZcShandaProtect::from(buffer, packetver));
     }
-    if buffer[0] == 0x7f && buffer[1] == 0x02 {
+    if buffer[0] == 0x7F && buffer[1] == 0x02 {
         return Box::new(PacketCaClientType::from(buffer, packetver));
     }
     if buffer[0] == 0x80 && buffer[1] == 0x02 {
@@ -1699,19 +1699,19 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x89 && buffer[1] == 0x02 {
         return Box::new(PacketZcPcCashPointUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0x8a && buffer[1] == 0x02 {
+    if buffer[0] == 0x8A && buffer[1] == 0x02 {
         return Box::new(PacketZcNpcShowefstUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0x8c && buffer[1] == 0x02 {
+    if buffer[0] == 0x8C && buffer[1] == 0x02 {
         return Box::new(PacketChSelectCharGoingtobeused::from(buffer, packetver));
     }
-    if buffer[0] == 0x8d && buffer[1] == 0x02 {
+    if buffer[0] == 0x8D && buffer[1] == 0x02 {
         return Box::new(PacketChReqIsValidCharname::from(buffer, packetver));
     }
-    if buffer[0] == 0x8e && buffer[1] == 0x02 {
+    if buffer[0] == 0x8E && buffer[1] == 0x02 {
         return Box::new(PacketHcAckIsValidCharname::from(buffer, packetver));
     }
-    if buffer[0] == 0x8f && buffer[1] == 0x02 {
+    if buffer[0] == 0x8F && buffer[1] == 0x02 {
         return Box::new(PacketChReqChangeCharname::from(buffer, packetver));
     }
     if buffer[0] == 0x90 && buffer[1] == 0x02 {
@@ -1744,241 +1744,241 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x99 && buffer[1] == 0x02 {
         return Box::new(PacketZcCashItemDelete::from(buffer, packetver));
     }
-    if buffer[0] == 0x9a && buffer[1] == 0x02 {
+    if buffer[0] == 0x9A && buffer[1] == 0x02 {
         return Box::new(PacketZcItemPickupAck2::from(buffer, packetver));
     }
-    if buffer[0] == 0x9b && buffer[1] == 0x02 {
+    if buffer[0] == 0x9B && buffer[1] == 0x02 {
         return Box::new(PacketZcMerInit::from(buffer, packetver));
     }
-    if buffer[0] == 0x9c && buffer[1] == 0x02 {
+    if buffer[0] == 0x9C && buffer[1] == 0x02 {
         return Box::new(PacketZcMerProperty::from(buffer, packetver));
     }
-    if buffer[0] == 0x9d && buffer[1] == 0x02 {
+    if buffer[0] == 0x9D && buffer[1] == 0x02 {
         return Box::new(PacketZcMerSkillinfoList::from(buffer, packetver));
     }
-    if buffer[0] == 0x9e && buffer[1] == 0x02 {
+    if buffer[0] == 0x9E && buffer[1] == 0x02 {
         return Box::new(PacketZcMerSkillinfoUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0x9f && buffer[1] == 0x02 {
+    if buffer[0] == 0x9F && buffer[1] == 0x02 {
         return Box::new(PacketCzMerCommand::from(buffer, packetver));
     }
-    if buffer[0] == 0xa0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xA0 && buffer[1] == 0x02 {
         return Box::new(UnusedPacketCzMerUseSkill::from(buffer, packetver));
     }
-    if buffer[0] == 0xa1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xA1 && buffer[1] == 0x02 {
         return Box::new(UnusedPacketCzMerUpgradeSkilllevel::from(buffer, packetver));
     }
-    if buffer[0] == 0xa2 && buffer[1] == 0x02 {
+    if buffer[0] == 0xA2 && buffer[1] == 0x02 {
         return Box::new(PacketZcMerParChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xa3 && buffer[1] == 0x02 {
+    if buffer[0] == 0xA3 && buffer[1] == 0x02 {
         return Box::new(PacketZcGameguardLingoKey::from(buffer, packetver));
     }
-    if buffer[0] == 0xa5 && buffer[1] == 0x02 {
+    if buffer[0] == 0xA5 && buffer[1] == 0x02 {
         return Box::new(PacketCzKsyEvent::from(buffer, packetver));
     }
-    if buffer[0] == 0xaa && buffer[1] == 0x02 {
+    if buffer[0] == 0xAA && buffer[1] == 0x02 {
         return Box::new(PacketZcReqCashPassword::from(buffer, packetver));
     }
-    if buffer[0] == 0xab && buffer[1] == 0x02 {
+    if buffer[0] == 0xAB && buffer[1] == 0x02 {
         return Box::new(PacketCzAckCashPassword::from(buffer, packetver));
     }
-    if buffer[0] == 0xac && buffer[1] == 0x02 {
+    if buffer[0] == 0xAC && buffer[1] == 0x02 {
         return Box::new(PacketZcResultCashPassword::from(buffer, packetver));
     }
-    if buffer[0] == 0xad && buffer[1] == 0x02 {
+    if buffer[0] == 0xAD && buffer[1] == 0x02 {
         return Box::new(PacketAcRequestSecondPassword::from(buffer, packetver));
     }
-    if buffer[0] == 0xb0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB0 && buffer[1] == 0x02 {
         return Box::new(PacketCaLoginHan::from(buffer, packetver));
     }
-    if buffer[0] == 0xb1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB1 && buffer[1] == 0x02 {
         return Box::new(PacketZcAllQuestList::from(buffer, packetver));
     }
-    if buffer[0] == 0xb2 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB2 && buffer[1] == 0x02 {
         return Box::new(PacketZcAllQuestMission::from(buffer, packetver));
     }
-    if buffer[0] == 0xb3 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB3 && buffer[1] == 0x02 {
         return Box::new(PacketZcAddQuest::from(buffer, packetver));
     }
-    if buffer[0] == 0xb4 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB4 && buffer[1] == 0x02 {
         return Box::new(PacketZcDelQuest::from(buffer, packetver));
     }
-    if buffer[0] == 0xb5 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB5 && buffer[1] == 0x02 {
         return Box::new(PacketZcUpdateMissionHunt::from(buffer, packetver));
     }
-    if buffer[0] == 0xb6 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB6 && buffer[1] == 0x02 {
         return Box::new(PacketCzActiveQuest::from(buffer, packetver));
     }
-    if buffer[0] == 0xb7 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB7 && buffer[1] == 0x02 {
         return Box::new(PacketZcActiveQuest::from(buffer, packetver));
     }
-    if buffer[0] == 0xb8 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB8 && buffer[1] == 0x02 {
         return Box::new(PacketZcItemPickupParty::from(buffer, packetver));
     }
-    if buffer[0] == 0xb9 && buffer[1] == 0x02 {
+    if buffer[0] == 0xB9 && buffer[1] == 0x02 {
         return Box::new(PacketZcShortcutKeyList::from(buffer, packetver));
     }
-    if buffer[0] == 0xba && buffer[1] == 0x02 {
+    if buffer[0] == 0xBA && buffer[1] == 0x02 {
         return Box::new(PacketCzShortcutKeyChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xbb && buffer[1] == 0x02 {
+    if buffer[0] == 0xBB && buffer[1] == 0x02 {
         return Box::new(PacketZcEquipitemDamaged::from(buffer, packetver));
     }
-    if buffer[0] == 0xbc && buffer[1] == 0x02 {
+    if buffer[0] == 0xBC && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyPcbangPlayingTime::from(buffer, packetver));
     }
-    if buffer[0] == 0xbf && buffer[1] == 0x02 {
+    if buffer[0] == 0xBF && buffer[1] == 0x02 {
         return Box::new(PacketZcSrpacketr2Init::from(buffer, packetver));
     }
-    if buffer[0] == 0xc0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC0 && buffer[1] == 0x02 {
         return Box::new(PacketCzSrpacketr2Start::from(buffer, packetver));
     }
-    if buffer[0] == 0xc1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC1 && buffer[1] == 0x02 {
         return Box::new(PacketZcNpcChat::from(buffer, packetver));
     }
-    if buffer[0] == 0xc2 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC2 && buffer[1] == 0x02 {
         return Box::new(PacketZcFormatstringMsg::from(buffer, packetver));
     }
-    if buffer[0] == 0xc5 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC5 && buffer[1] == 0x02 {
         return Box::new(PacketZcPartyJoinReqAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xc6 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC6 && buffer[1] == 0x02 {
         return Box::new(PacketZcPartyJoinReq::from(buffer, packetver));
     }
-    if buffer[0] == 0xc7 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC7 && buffer[1] == 0x02 {
         return Box::new(PacketCzPartyJoinReqAck::from(buffer, packetver));
     }
-    if buffer[0] == 0xc8 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC8 && buffer[1] == 0x02 {
         return Box::new(PacketCzPartyConfig::from(buffer, packetver));
     }
-    if buffer[0] == 0xc9 && buffer[1] == 0x02 {
+    if buffer[0] == 0xC9 && buffer[1] == 0x02 {
         return Box::new(PacketZcPartyConfig::from(buffer, packetver));
     }
-    if buffer[0] == 0xca && buffer[1] == 0x02 {
+    if buffer[0] == 0xCA && buffer[1] == 0x02 {
         return Box::new(PacketHcRefuseSelectchar::from(buffer, packetver));
     }
-    if buffer[0] == 0xcb && buffer[1] == 0x02 {
+    if buffer[0] == 0xCB && buffer[1] == 0x02 {
         return Box::new(PacketZcMemorialdungeonSubscriptionInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xcc && buffer[1] == 0x02 {
+    if buffer[0] == 0xCC && buffer[1] == 0x02 {
         return Box::new(PacketZcMemorialdungeonSubscriptionNotify::from(buffer, packetver));
     }
-    if buffer[0] == 0xcd && buffer[1] == 0x02 {
+    if buffer[0] == 0xCD && buffer[1] == 0x02 {
         return Box::new(PacketZcMemorialdungeonInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xce && buffer[1] == 0x02 {
+    if buffer[0] == 0xCE && buffer[1] == 0x02 {
         return Box::new(PacketZcMemorialdungeonNotify::from(buffer, packetver));
     }
-    if buffer[0] == 0xcf && buffer[1] == 0x02 {
+    if buffer[0] == 0xCF && buffer[1] == 0x02 {
         return Box::new(PacketCzMemorialdungeonCommand::from(buffer, packetver));
     }
-    if buffer[0] == 0xd0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD0 && buffer[1] == 0x02 {
         return Box::new(PacketZcEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xd1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD1 && buffer[1] == 0x02 {
         return Box::new(PacketZcStoreEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xd2 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD2 && buffer[1] == 0x02 {
         return Box::new(PacketZcCartEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xd3 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD3 && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyBindOnEquip::from(buffer, packetver));
     }
-    if buffer[0] == 0xd4 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD4 && buffer[1] == 0x02 {
         return Box::new(PacketZcItemPickupAck3::from(buffer, packetver));
     }
-    if buffer[0] == 0xd5 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD5 && buffer[1] == 0x02 {
         return Box::new(PacketZcIsvrDisconnect::from(buffer, packetver));
     }
-    if buffer[0] == 0xd6 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD6 && buffer[1] == 0x02 {
         return Box::new(PacketCzEquipwinMicroscope::from(buffer, packetver));
     }
-    if buffer[0] == 0xd7 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD7 && buffer[1] == 0x02 {
         return Box::new(PacketZcEquipwinMicroscope::from(buffer, packetver));
     }
-    if buffer[0] == 0xd8 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD8 && buffer[1] == 0x02 {
         return Box::new(PacketCzConfig::from(buffer, packetver));
     }
-    if buffer[0] == 0xd9 && buffer[1] == 0x02 {
+    if buffer[0] == 0xD9 && buffer[1] == 0x02 {
         return Box::new(PacketZcConfig::from(buffer, packetver));
     }
-    if buffer[0] == 0xda && buffer[1] == 0x02 {
+    if buffer[0] == 0xDA && buffer[1] == 0x02 {
         return Box::new(PacketZcConfigNotify::from(buffer, packetver));
     }
-    if buffer[0] == 0xdb && buffer[1] == 0x02 {
+    if buffer[0] == 0xDB && buffer[1] == 0x02 {
         return Box::new(PacketCzBattlefieldChat::from(buffer, packetver));
     }
-    if buffer[0] == 0xdc && buffer[1] == 0x02 {
+    if buffer[0] == 0xDC && buffer[1] == 0x02 {
         return Box::new(PacketZcBattlefieldChat::from(buffer, packetver));
     }
-    if buffer[0] == 0xdd && buffer[1] == 0x02 {
+    if buffer[0] == 0xDD && buffer[1] == 0x02 {
         return Box::new(PacketZcBattlefieldNotifyCampinfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x02 {
+    if buffer[0] == 0xDE && buffer[1] == 0x02 {
         return Box::new(PacketZcBattlefieldNotifyPoint::from(buffer, packetver));
     }
-    if buffer[0] == 0xdf && buffer[1] == 0x02 {
+    if buffer[0] == 0xDF && buffer[1] == 0x02 {
         return Box::new(PacketZcBattlefieldNotifyPosition::from(buffer, packetver));
     }
-    if buffer[0] == 0xe0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE0 && buffer[1] == 0x02 {
         return Box::new(PacketZcBattlefieldNotifyHp::from(buffer, packetver));
     }
-    if buffer[0] == 0xe1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE1 && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyAct2::from(buffer, packetver));
     }
-    if buffer[0] == 0xe6 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE6 && buffer[1] == 0x02 {
         return Box::new(PacketCzBotCheck::from(buffer, packetver));
     }
-    if buffer[0] == 0xe7 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE7 && buffer[1] == 0x02 {
         return Box::new(PacketZcMapproperty::from(buffer, packetver));
     }
-    if buffer[0] == 0xe8 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE8 && buffer[1] == 0x02 {
         return Box::new(PacketZcNormalItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xe9 && buffer[1] == 0x02 {
+    if buffer[0] == 0xE9 && buffer[1] == 0x02 {
         return Box::new(PacketZcCartNormalItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xea && buffer[1] == 0x02 {
+    if buffer[0] == 0xEA && buffer[1] == 0x02 {
         return Box::new(PacketZcStoreNormalItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0xeb && buffer[1] == 0x02 {
+    if buffer[0] == 0xEB && buffer[1] == 0x02 {
         return Box::new(PacketZcAcceptEnter2::from(buffer, packetver));
     }
-    if buffer[0] == 0xec && buffer[1] == 0x02 {
+    if buffer[0] == 0xEC && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyMoveentry4::from(buffer, packetver));
     }
-    if buffer[0] == 0xed && buffer[1] == 0x02 {
+    if buffer[0] == 0xED && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyNewentry4::from(buffer, packetver));
     }
-    if buffer[0] == 0xee && buffer[1] == 0x02 {
+    if buffer[0] == 0xEE && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyStandentry4::from(buffer, packetver));
     }
-    if buffer[0] == 0xef && buffer[1] == 0x02 {
+    if buffer[0] == 0xEF && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyFont::from(buffer, packetver));
     }
-    if buffer[0] == 0xf0 && buffer[1] == 0x02 {
+    if buffer[0] == 0xF0 && buffer[1] == 0x02 {
         return Box::new(PacketZcProgress::from(buffer, packetver));
     }
-    if buffer[0] == 0xf1 && buffer[1] == 0x02 {
+    if buffer[0] == 0xF1 && buffer[1] == 0x02 {
         return Box::new(PacketCzProgress::from(buffer, packetver));
     }
-    if buffer[0] == 0xf2 && buffer[1] == 0x02 {
+    if buffer[0] == 0xF2 && buffer[1] == 0x02 {
         return Box::new(PacketZcProgressCancel::from(buffer, packetver));
     }
-    if buffer[0] == 0x5c && buffer[1] == 0x03 {
+    if buffer[0] == 0x5C && buffer[1] == 0x03 {
         return Box::new(PacketCzOpenSimpleCashshopItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0x5d && buffer[1] == 0x03 {
+    if buffer[0] == 0x5D && buffer[1] == 0x03 {
         return Box::new(PacketZcSimpleCashshopPointItemlist::from(buffer, packetver));
     }
-    if buffer[0] == 0x5e && buffer[1] == 0x03 {
+    if buffer[0] == 0x5E && buffer[1] == 0x03 {
         return Box::new(PacketCzCloseWindow::from(buffer, packetver));
     }
-    if buffer[0] == 0xdd && buffer[1] == 0x03 {
+    if buffer[0] == 0xDD && buffer[1] == 0x03 {
         return Box::new(PacketAhcGameGuard::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x03 {
+    if buffer[0] == 0xDE && buffer[1] == 0x03 {
         return Box::new(PacketCahAckGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x36 && buffer[1] == 0x04 {
@@ -1990,13 +1990,13 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x39 && buffer[1] == 0x04 {
         return Box::new(PacketCzUseItem2::from(buffer, packetver));
     }
-    if buffer[0] == 0x3d && buffer[1] == 0x04 {
+    if buffer[0] == 0x3D && buffer[1] == 0x04 {
         return Box::new(PacketZcSkillPostdelay::from(buffer, packetver));
     }
-    if buffer[0] == 0x3e && buffer[1] == 0x04 {
+    if buffer[0] == 0x3E && buffer[1] == 0x04 {
         return Box::new(PacketZcSkillPostdelayList::from(buffer, packetver));
     }
-    if buffer[0] == 0x3f && buffer[1] == 0x04 {
+    if buffer[0] == 0x3F && buffer[1] == 0x04 {
         return Box::new(PacketZcMsgStateChange2::from(buffer, packetver));
     }
     if buffer[0] == 0x40 && buffer[1] == 0x04 {
@@ -2026,151 +2026,151 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x49 && buffer[1] == 0x04 {
         return Box::new(PacketZcHackshErrorMsg::from(buffer, packetver));
     }
-    if buffer[0] == 0x4a && buffer[1] == 0x04 {
+    if buffer[0] == 0x4A && buffer[1] == 0x04 {
         return Box::new(PacketCzClientVersion::from(buffer, packetver));
     }
-    if buffer[0] == 0x4b && buffer[1] == 0x04 {
+    if buffer[0] == 0x4B && buffer[1] == 0x04 {
         return Box::new(PacketCzCloseSimplecashShop::from(buffer, packetver));
     }
-    if buffer[0] == 0xd0 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD0 && buffer[1] == 0x07 {
         return Box::new(PacketZcEsResult::from(buffer, packetver));
     }
-    if buffer[0] == 0xd1 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD1 && buffer[1] == 0x07 {
         return Box::new(PacketCzEsGetList::from(buffer, packetver));
     }
-    if buffer[0] == 0xd2 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD2 && buffer[1] == 0x07 {
         return Box::new(PacketZcEsList::from(buffer, packetver));
     }
-    if buffer[0] == 0xd3 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD3 && buffer[1] == 0x07 {
         return Box::new(PacketCzEsChoose::from(buffer, packetver));
     }
-    if buffer[0] == 0xd4 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD4 && buffer[1] == 0x07 {
         return Box::new(PacketCzEsCancel::from(buffer, packetver));
     }
-    if buffer[0] == 0xd5 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD5 && buffer[1] == 0x07 {
         return Box::new(PacketZcEsReady::from(buffer, packetver));
     }
-    if buffer[0] == 0xd6 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD6 && buffer[1] == 0x07 {
         return Box::new(PacketZcEsGoto::from(buffer, packetver));
     }
-    if buffer[0] == 0xd7 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD7 && buffer[1] == 0x07 {
         return Box::new(PacketCzGroupinfoChangeV2::from(buffer, packetver));
     }
-    if buffer[0] == 0xd8 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD8 && buffer[1] == 0x07 {
         return Box::new(PacketZcReqGroupinfoChangeV2::from(buffer, packetver));
     }
-    if buffer[0] == 0xd9 && buffer[1] == 0x07 {
+    if buffer[0] == 0xD9 && buffer[1] == 0x07 {
         return Box::new(PacketZcShortcutKeyListV2::from(buffer, packetver));
     }
-    if buffer[0] == 0xda && buffer[1] == 0x07 {
+    if buffer[0] == 0xDA && buffer[1] == 0x07 {
         return Box::new(PacketCzChangeGroupMaster::from(buffer, packetver));
     }
-    if buffer[0] == 0xdb && buffer[1] == 0x07 {
+    if buffer[0] == 0xDB && buffer[1] == 0x07 {
         return Box::new(PacketZcHoParChange::from(buffer, packetver));
     }
-    if buffer[0] == 0xdc && buffer[1] == 0x07 {
+    if buffer[0] == 0xDC && buffer[1] == 0x07 {
         return Box::new(PacketCzSeekParty::from(buffer, packetver));
     }
-    if buffer[0] == 0xdd && buffer[1] == 0x07 {
+    if buffer[0] == 0xDD && buffer[1] == 0x07 {
         return Box::new(PacketZcSeekParty::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x07 {
+    if buffer[0] == 0xDE && buffer[1] == 0x07 {
         return Box::new(PacketCzSeekPartyMember::from(buffer, packetver));
     }
-    if buffer[0] == 0xdf && buffer[1] == 0x07 {
+    if buffer[0] == 0xDF && buffer[1] == 0x07 {
         return Box::new(PacketZcSeekPartyMember::from(buffer, packetver));
     }
-    if buffer[0] == 0xe0 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE0 && buffer[1] == 0x07 {
         return Box::new(PacketZcEsNotiMyinfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xe1 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE1 && buffer[1] == 0x07 {
         return Box::new(PacketZcSkillinfoUpdate2::from(buffer, packetver));
     }
-    if buffer[0] == 0xe2 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE2 && buffer[1] == 0x07 {
         return Box::new(PacketZcMsgValue::from(buffer, packetver));
     }
-    if buffer[0] == 0xe3 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE3 && buffer[1] == 0x07 {
         return Box::new(PacketZcItemlistwinOpen::from(buffer, packetver));
     }
-    if buffer[0] == 0xe4 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE4 && buffer[1] == 0x07 {
         return Box::new(PacketCzItemlistwinRes::from(buffer, packetver));
     }
-    if buffer[0] == 0xe5 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE5 && buffer[1] == 0x07 {
         return Box::new(PacketChEnterCheckbot::from(buffer, packetver));
     }
-    if buffer[0] == 0xe6 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE6 && buffer[1] == 0x07 {
         return Box::new(PacketZcMsgSkill::from(buffer, packetver));
     }
-    if buffer[0] == 0xe7 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE7 && buffer[1] == 0x07 {
         return Box::new(PacketChCheckbot::from(buffer, packetver));
     }
-    if buffer[0] == 0xe8 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE8 && buffer[1] == 0x07 {
         return Box::new(PacketHcCheckbot::from(buffer, packetver));
     }
-    if buffer[0] == 0xe9 && buffer[1] == 0x07 {
+    if buffer[0] == 0xE9 && buffer[1] == 0x07 {
         return Box::new(PacketHcCheckbotResult::from(buffer, packetver));
     }
-    if buffer[0] == 0xea && buffer[1] == 0x07 {
+    if buffer[0] == 0xEA && buffer[1] == 0x07 {
         return Box::new(PacketCzBattleFieldList::from(buffer, packetver));
     }
-    if buffer[0] == 0xeb && buffer[1] == 0x07 {
+    if buffer[0] == 0xEB && buffer[1] == 0x07 {
         return Box::new(PacketZcBattleFieldList::from(buffer, packetver));
     }
-    if buffer[0] == 0xec && buffer[1] == 0x07 {
+    if buffer[0] == 0xEC && buffer[1] == 0x07 {
         return Box::new(PacketCzJoinBattleField::from(buffer, packetver));
     }
-    if buffer[0] == 0xed && buffer[1] == 0x07 {
+    if buffer[0] == 0xED && buffer[1] == 0x07 {
         return Box::new(PacketZcJoinBattleField::from(buffer, packetver));
     }
-    if buffer[0] == 0xee && buffer[1] == 0x07 {
+    if buffer[0] == 0xEE && buffer[1] == 0x07 {
         return Box::new(PacketCzCancelBattleField::from(buffer, packetver));
     }
-    if buffer[0] == 0xef && buffer[1] == 0x07 {
+    if buffer[0] == 0xEF && buffer[1] == 0x07 {
         return Box::new(PacketZcCancelBattleField::from(buffer, packetver));
     }
-    if buffer[0] == 0xf0 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF0 && buffer[1] == 0x07 {
         return Box::new(PacketCzReqBattleStateMonitor::from(buffer, packetver));
     }
-    if buffer[0] == 0xf1 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF1 && buffer[1] == 0x07 {
         return Box::new(PacketZcAckBattleStateMonitor::from(buffer, packetver));
     }
-    if buffer[0] == 0xf2 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF2 && buffer[1] == 0x07 {
         return Box::new(PacketZcBattleNotiStartStep::from(buffer, packetver));
     }
-    if buffer[0] == 0xf3 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF3 && buffer[1] == 0x07 {
         return Box::new(PacketZcBattleJoinNotiDefer::from(buffer, packetver));
     }
-    if buffer[0] == 0xf4 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF4 && buffer[1] == 0x07 {
         return Box::new(PacketZcBattleJoinDisableState::from(buffer, packetver));
     }
-    if buffer[0] == 0xf5 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF5 && buffer[1] == 0x07 {
         return Box::new(PacketCzGmFullstrip::from(buffer, packetver));
     }
-    if buffer[0] == 0xf6 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF6 && buffer[1] == 0x07 {
         return Box::new(PacketZcNotifyExp::from(buffer, packetver));
     }
-    if buffer[0] == 0xf7 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF7 && buffer[1] == 0x07 {
         return Box::new(PacketZcNotifyMoveentry7::from(buffer, packetver));
     }
-    if buffer[0] == 0xf8 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF8 && buffer[1] == 0x07 {
         return Box::new(PacketZcNotifyNewentry5::from(buffer, packetver));
     }
-    if buffer[0] == 0xf9 && buffer[1] == 0x07 {
+    if buffer[0] == 0xF9 && buffer[1] == 0x07 {
         return Box::new(PacketZcNotifyStandentry5::from(buffer, packetver));
     }
-    if buffer[0] == 0xfa && buffer[1] == 0x07 {
+    if buffer[0] == 0xFA && buffer[1] == 0x07 {
         return Box::new(PacketZcDeleteItemFromBody::from(buffer, packetver));
     }
-    if buffer[0] == 0xfb && buffer[1] == 0x07 {
+    if buffer[0] == 0xFB && buffer[1] == 0x07 {
         return Box::new(PacketZcUseskillAck2::from(buffer, packetver));
     }
-    if buffer[0] == 0xfc && buffer[1] == 0x07 {
+    if buffer[0] == 0xFC && buffer[1] == 0x07 {
         return Box::new(PacketZcChangeGroupMaster::from(buffer, packetver));
     }
-    if buffer[0] == 0xfe && buffer[1] == 0x07 {
+    if buffer[0] == 0xFE && buffer[1] == 0x07 {
         return Box::new(PacketZcPlayNpcBgm::from(buffer, packetver));
     }
-    if buffer[0] == 0xff && buffer[1] == 0x07 {
+    if buffer[0] == 0xFF && buffer[1] == 0x07 {
         return Box::new(PacketZcDefineCheck::from(buffer, packetver));
     }
     if buffer[0] == 0x00 && buffer[1] == 0x08 {
@@ -2203,22 +2203,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x09 && buffer[1] == 0x08 {
         return Box::new(PacketZcPartyBookingNotifyInsert::from(buffer, packetver));
     }
-    if buffer[0] == 0x0a && buffer[1] == 0x08 {
+    if buffer[0] == 0x0A && buffer[1] == 0x08 {
         return Box::new(PacketZcPartyBookingNotifyUpdate::from(buffer, packetver));
     }
-    if buffer[0] == 0x0b && buffer[1] == 0x08 {
+    if buffer[0] == 0x0B && buffer[1] == 0x08 {
         return Box::new(PacketZcPartyBookingNotifyDelete::from(buffer, packetver));
     }
-    if buffer[0] == 0x0c && buffer[1] == 0x08 {
+    if buffer[0] == 0x0C && buffer[1] == 0x08 {
         return Box::new(PacketCzSimpleCashBtnshow::from(buffer, packetver));
     }
-    if buffer[0] == 0x0d && buffer[1] == 0x08 {
+    if buffer[0] == 0x0D && buffer[1] == 0x08 {
         return Box::new(PacketZcSimpleCashBtnshow::from(buffer, packetver));
     }
-    if buffer[0] == 0x08 && buffer[1] == 0x0e {
+    if buffer[0] == 0x08 && buffer[1] == 0x0E {
         return Box::new(PacketZcNotifyHpToGroupmR2::from(buffer, packetver));
     }
-    if buffer[0] == 0x0f && buffer[1] == 0x08 {
+    if buffer[0] == 0x0F && buffer[1] == 0x08 {
         return Box::new(PacketZcAddExchangeItem2::from(buffer, packetver));
     }
     if buffer[0] == 0x10 && buffer[1] == 0x08 {
@@ -2251,22 +2251,22 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x19 && buffer[1] == 0x08 {
         return Box::new(PacketCzReqTradeBuyingStore::from(buffer, packetver));
     }
-    if buffer[0] == 0x1a && buffer[1] == 0x08 {
+    if buffer[0] == 0x1A && buffer[1] == 0x08 {
         return Box::new(PacketZcFailedTradeBuyingStoreToBuyer::from(buffer, packetver));
     }
-    if buffer[0] == 0x1b && buffer[1] == 0x08 {
+    if buffer[0] == 0x1B && buffer[1] == 0x08 {
         return Box::new(PacketZcUpdateItemFromBuyingStore::from(buffer, packetver));
     }
-    if buffer[0] == 0x1c && buffer[1] == 0x08 {
+    if buffer[0] == 0x1C && buffer[1] == 0x08 {
         return Box::new(PacketZcItemDeleteBuyingStore::from(buffer, packetver));
     }
-    if buffer[0] == 0x1d && buffer[1] == 0x08 {
+    if buffer[0] == 0x1D && buffer[1] == 0x08 {
         return Box::new(PacketZcElInit::from(buffer, packetver));
     }
-    if buffer[0] == 0x1e && buffer[1] == 0x08 {
+    if buffer[0] == 0x1E && buffer[1] == 0x08 {
         return Box::new(PacketZcElParChange::from(buffer, packetver));
     }
-    if buffer[0] == 0x1f && buffer[1] == 0x08 {
+    if buffer[0] == 0x1F && buffer[1] == 0x08 {
         return Box::new(PacketZcBroadcast4::from(buffer, packetver));
     }
     if buffer[0] == 0x20 && buffer[1] == 0x08 {
@@ -2284,7 +2284,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x24 && buffer[1] == 0x08 {
         return Box::new(PacketZcFailedTradeBuyingStoreToSeller::from(buffer, packetver));
     }
-    if buffer[0] == 0x5a && buffer[1] == 0x82 {
+    if buffer[0] == 0x5A && buffer[1] == 0x82 {
         return Box::new(PacketCaSsoLoginReqa::from(buffer, packetver));
     }
     if buffer[0] == 0x25 && buffer[1] == 0x08 {
@@ -2302,13 +2302,13 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x29 && buffer[1] == 0x08 {
         return Box::new(PacketChDeleteChar3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2a && buffer[1] == 0x08 {
+    if buffer[0] == 0x2A && buffer[1] == 0x08 {
         return Box::new(PacketHcDeleteChar3::from(buffer, packetver));
     }
-    if buffer[0] == 0x2b && buffer[1] == 0x08 {
+    if buffer[0] == 0x2B && buffer[1] == 0x08 {
         return Box::new(PacketChDeleteChar3Cancel::from(buffer, packetver));
     }
-    if buffer[0] == 0x2c && buffer[1] == 0x08 {
+    if buffer[0] == 0x2C && buffer[1] == 0x08 {
         return Box::new(PacketHcDeleteChar3Cancel::from(buffer, packetver));
     }
     if buffer[0] == 0x35 && buffer[1] == 0x08 {
@@ -2326,31 +2326,31 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x39 && buffer[1] == 0x08 {
         return Box::new(PacketZcAckBanGuildSso::from(buffer, packetver));
     }
-    if buffer[0] == 0x3a && buffer[1] == 0x08 {
+    if buffer[0] == 0x3A && buffer[1] == 0x08 {
         return Box::new(PacketZcOpenSearchStoreInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x3b && buffer[1] == 0x08 {
+    if buffer[0] == 0x3B && buffer[1] == 0x08 {
         return Box::new(PacketCzCloseSearchStoreInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x3c && buffer[1] == 0x08 {
+    if buffer[0] == 0x3C && buffer[1] == 0x08 {
         return Box::new(PacketCzSsilistItemClick::from(buffer, packetver));
     }
-    if buffer[0] == 0x3d && buffer[1] == 0x08 {
+    if buffer[0] == 0x3D && buffer[1] == 0x08 {
         return Box::new(PacketZcSsilistItemClickAck::from(buffer, packetver));
     }
-    if buffer[0] == 0x3e && buffer[1] == 0x08 {
+    if buffer[0] == 0x3E && buffer[1] == 0x08 {
         return Box::new(PacketAcRefuseLoginR2::from(buffer, packetver));
     }
     if buffer[0] == 0x41 && buffer[1] == 0x08 {
         return Box::new(PacketChSelectAccessibleMapname::from(buffer, packetver));
     }
-    if buffer[0] == 0x5f && buffer[1] == 0x03 {
+    if buffer[0] == 0x5F && buffer[1] == 0x03 {
         return Box::new(PacketCzRequestMove2::from(buffer, packetver));
     }
-    if buffer[0] == 0xc5 && buffer[1] == 0x0a {
+    if buffer[0] == 0xC5 && buffer[1] == 0x0A {
         return Box::new(PacketChSendMapInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0x2d && buffer[1] == 0x08 {
+    if buffer[0] == 0x2D && buffer[1] == 0x08 {
         return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer, packetver));
     }
     if buffer[0] == 0x87 && buffer[1] == 0x01 {
@@ -2362,10 +2362,10 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x83 && buffer[1] == 0x02 {
         return Box::new(PacketMapConnection::from(buffer, packetver));
     }
-    if buffer[0] == 0xb9 && buffer[1] == 0x08 {
+    if buffer[0] == 0xB9 && buffer[1] == 0x08 {
         return Box::new(PacketPincodeLoginstate::from(buffer, packetver));
     }
-    if buffer[0] == 0x39 && buffer[1] == 0x0a {
+    if buffer[0] == 0x39 && buffer[1] == 0x0A {
         return Box::new(PacketChMakeChar3::from(buffer, packetver));
     }
     if buffer[0] == 0x27 && buffer[1] == 0x08 {
@@ -2374,34 +2374,34 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x28 && buffer[1] == 0x08 {
         return Box::new(PacketHcDeleteChar4Reserved::from(buffer, packetver));
     }
-    if buffer[0] == 0x18 && buffer[1] == 0x0b {
+    if buffer[0] == 0x18 && buffer[1] == 0x0B {
         return Box::new(PacketZcInventoryExpansionInfo::from(buffer, packetver));
     }
-    if buffer[0] == 0xde && buffer[1] == 0x0a {
+    if buffer[0] == 0xDE && buffer[1] == 0x0A {
         return Box::new(PacketZcOverweightPercent::from(buffer, packetver));
     }
-    if buffer[0] == 0x8a && buffer[1] == 0x01 {
+    if buffer[0] == 0x8A && buffer[1] == 0x01 {
         return Box::new(PacketCzReqDisconnect2::from(buffer, packetver));
     }
-    if buffer[0] == 0x8b && buffer[1] == 0x01 {
+    if buffer[0] == 0x8B && buffer[1] == 0x01 {
         return Box::new(PacketZcReqDisconnectAck2::from(buffer, packetver));
     }
     if buffer[0] == 0x68 && buffer[1] == 0x03 {
         return Box::new(PacketCzReqnameall2::from(buffer, packetver));
     }
-    if buffer[0] == 0x30 && buffer[1] == 0x0a {
+    if buffer[0] == 0x30 && buffer[1] == 0x0A {
         return Box::new(PacketZcAckReqnameall2::from(buffer, packetver));
     }
     if buffer[0] == 0x60 && buffer[1] == 0x03 {
         return Box::new(PacketCzRequestTime2::from(buffer, packetver));
     }
-    if buffer[0] == 0xcd && buffer[1] == 0x09 {
+    if buffer[0] == 0xCD && buffer[1] == 0x09 {
         return Box::new(PacketZcMsgColor::from(buffer, packetver));
     }
-    if buffer[0] == 0x9b && buffer[1] == 0x09 {
+    if buffer[0] == 0x9B && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyMapproperty2::from(buffer, packetver));
     }
-    if buffer[0] == 0x3b && buffer[1] == 0x0a {
+    if buffer[0] == 0x3B && buffer[1] == 0x0A {
         return Box::new(PacketZcHatEffect::from(buffer, packetver));
     }
     if buffer[0] == 0x47 && buffer[1] == 0x04 {
@@ -2410,2443 +2410,2443 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x1B && buffer[1] == 0x0B {
         return Box::new(PacketZcLoadConfirm::from(buffer, packetver));
     }
-    if buffer[0] == 0xff && buffer[1] == 0x09 {
+    if buffer[0] == 0xFF && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyStandentry6::from(buffer, packetver));
     }
     if buffer[0] == 0x15 && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyStandentry7::from(buffer, packetver));
     }
-    if buffer[0] == 0xfd && buffer[1] == 0x09 {
+    if buffer[0] == 0xFD && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyMoveentry8::from(buffer, packetver));
     }
-    if buffer[0] == 0xc8 && buffer[1] == 0x08 {
+    if buffer[0] == 0xC8 && buffer[1] == 0x08 {
         return Box::new(PacketZcNotifyAct3::from(buffer, packetver));
     }
     Box::new(PacketUnknown::from(buffer))
 }
 
 pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String> {
-    let entries: Vec<json_flat_parser::FlatJsonValue<&str>> = json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;
-    if let Some(packet_id) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_id")){
-    if packetver >= 20170607 && packet_id.value.unwrap().eq("0x7108") {
-        return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20140402 && packet_id.value.unwrap().eq("0x8A08") {
-        return  PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20131223 && packet_id.value.unwrap().eq("0x6A09") {
-        return  PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20130515 && packet_id.value.unwrap().eq("0x3704") {
-        return  PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120702 && packet_id.value.unwrap().eq("0x5309") {
-        return  PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8708") {
-        return  PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3704") {
-        return  PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8508") {
-        return  PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6508") {
-        return  PacketCzItemPickup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0xc402") {
-        return  PacketCzItemThrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3904") {
-        return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8908") {
-        return  PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6A08") {
-        return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20120218 && packet_id.value.unwrap().eq("0x6A09") {
-        return  PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20111102 && packet_id.value.unwrap().eq("0x3C08") {
-        return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20111005 && packet_id.value.unwrap().eq("0x1708") {
-        return  PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20111005 && packet_id.value.unwrap().eq("0x6403") {
-        return  PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20111005 && packet_id.value.unwrap().eq("0x8A08") {
-        return  PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20101124 && packet_id.value.unwrap().eq("0x5f03") {
-        return  PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20070227 && packet_id.value.unwrap().eq("0xc402") {
-        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6400") {
-        return PacketCaLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6500") {
-        return PacketChEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6600") {
-        return PacketChSelectChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6700") {
-        return PacketChMakeChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7009") {
-        return PacketChMakeChar2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6800") {
-        return PacketChDeleteChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6900") {
-        return PacketAcAcceptLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc40a") {
-        return PacketAcAcceptLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6a00") {
-        return PacketAcRefuseLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6b00") {
-        return PacketHcAcceptEnterNeoUnion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6c00") {
-        return PacketHcRefuseEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6d00") {
-        return PacketHcAcceptMakecharNeoUnion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6e00") {
-        return PacketHcRefuseMakechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6f00") {
-        return PacketHcAcceptDeletechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7000") {
-        return PacketHcRefuseDeletechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7100") {
-        return PacketHcNotifyZonesvr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7200") {
-        return PacketCzEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7300") {
-        return PacketZcAcceptEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7400") {
-        return PacketZcRefuseEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7500") {
-        return PacketZcNotifyInitchar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7600") {
-        return PacketZcNotifyUpdatechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7700") {
-        return PacketZcNotifyUpdateplayer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7800") {
-        return PacketZcNotifyStandentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7900") {
-        return PacketZcNotifyNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7a00") {
-        return PacketZcNotifyActentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7b00") {
-        return PacketZcNotifyMoveentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7c00") {
-        return PacketZcNotifyStandentryNpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7d00") {
-        return PacketCzNotifyActorinit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7e00") {
-        return PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7f00") {
-        return PacketZcNotifyTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8000") {
-        return PacketZcNotifyVanish::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8100") {
-        return PacketScNotifyBan::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8200") {
-        return PacketCzRequestQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8300") {
-        return PacketZcAcceptQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8400") {
-        return PacketZcRefuseQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8500") {
-        return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8600") {
-        return PacketZcNotifyMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8700") {
-        return PacketZcNotifyPlayermove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8800") {
-        return PacketZcStopmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8900") {
-        return PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8a00") {
-        return PacketZcNotifyAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8b00") {
-        return PacketZcNotifyActPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8c00") {
-        return PacketCzRequestChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8d00") {
-        return PacketZcNotifyChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8e00") {
-        return PacketZcNotifyPlayerchat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8f00") {
-        return PacketServerEntryAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9000") {
-        return PacketCzContactnpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9100") {
-        return PacketZcNpcackMapmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9200") {
-        return PacketZcNpcackServermove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9300") {
-        return PacketZcNpcackEnable::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9400") {
-        return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9500") {
-        return PacketZcAckReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9600") {
-        return PacketCzWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9700") {
-        return PacketZcWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9800") {
-        return PacketZcAckWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9900") {
-        return PacketCzBroadcast::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9a00") {
-        return PacketZcBroadcast::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9b00") {
-        return PacketCzChangeDirection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9c00") {
-        return PacketZcChangeDirection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9d00") {
-        return PacketZcItemEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9e00") {
-        return PacketZcItemFallEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9f00") {
-        return PacketCzItemPickup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa000") {
-        return PacketZcItemPickupAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa100") {
-        return PacketZcItemDisappear::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa200") {
-        return PacketCzItemThrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa300") {
-        return PacketZcNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa400") {
-        return PacketZcEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa500") {
-        return PacketZcStoreNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa600") {
-        return PacketZcStoreEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa700") {
-        return PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa800") {
-        return PacketZcUseItemAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa900") {
-        return PacketCzReqWearEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xaa00") {
-        return PacketZcReqWearEquipAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd008") {
-        return PacketZcReqWearEquipAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xab00") {
-        return PacketCzReqTakeoffEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xac00") {
-        return PacketZcReqTakeoffEquipAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd108") {
-        return PacketZcReqTakeoffEquipAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xaf00") {
-        return PacketZcItemThrowAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb000") {
-        return PacketZcParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb100") {
-        return PacketZcLongparChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb200") {
-        return PacketCzRestart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb300") {
-        return PacketZcRestartAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb400") {
-        return PacketZcSayDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb500") {
-        return PacketZcWaitDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb600") {
-        return PacketZcCloseDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb700") {
-        return PacketZcMenuList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb800") {
-        return PacketCzChooseMenu::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb900") {
-        return PacketCzReqNextScript::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xba00") {
-        return PacketCzReqStatus::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbb00") {
-        return PacketCzStatusChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbc00") {
-        return PacketZcStatusChangeAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbd00") {
-        return PacketZcStatus::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbe00") {
-        return PacketZcStatusChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbf00") {
-        return PacketCzReqEmotion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc000") {
-        return PacketZcEmotion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc100") {
-        return PacketCzReqUserCount::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc200") {
-        return PacketZcUserCount::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc300") {
-        return PacketZcSpriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc400") {
-        return PacketZcSelectDealtype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc500") {
-        return PacketCzAckSelectDealtype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc600") {
-        return PacketZcPcPurchaseItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc700") {
-        return PacketZcPcSellItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc800") {
-        return PacketCzPcPurchaseItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc900") {
-        return PacketCzPcSellItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xca00") {
-        return PacketZcPcPurchaseResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcb00") {
-        return PacketZcPcSellResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcc00") {
-        return PacketCzDisconnectCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcd00") {
-        return PacketZcAckDisconnectCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xce00") {
-        return PacketCzDisconnectAllCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcf00") {
-        return PacketCzSettingWhisperPc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd000") {
-        return PacketCzSettingWhisperState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd100") {
-        return PacketZcSettingWhisperPc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd200") {
-        return PacketZcSettingWhisperState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd300") {
-        return PacketCzReqWhisperList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd400") {
-        return PacketZcWhisperList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd500") {
-        return PacketCzCreateChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd600") {
-        return PacketZcAckCreateChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd700") {
-        return PacketZcRoomNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd800") {
-        return PacketZcDestroyRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd900") {
-        return PacketCzReqEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xda00") {
-        return PacketZcRefuseEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdb00") {
-        return PacketZcEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdc00") {
-        return PacketZcMemberNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdd00") {
-        return PacketZcMemberExit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde00") {
-        return PacketCzChangeChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdf00") {
-        return PacketZcChangeChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe000") {
-        return PacketCzReqRoleChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe100") {
-        return PacketZcRoleChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe200") {
-        return PacketCzReqExpelMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe300") {
-        return PacketCzExitRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe400") {
-        return PacketCzReqExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe500") {
-        return PacketZcReqExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe600") {
-        return PacketCzAckExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe700") {
-        return PacketZcAckExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe800") {
-        return PacketCzAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe900") {
-        return PacketZcAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xea00") {
-        return PacketZcAckAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xeb00") {
-        return PacketCzConcludeExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xec00") {
-        return PacketZcConcludeExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xed00") {
-        return PacketCzCancelExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xee00") {
-        return PacketZcCancelExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xef00") {
-        return PacketCzExecExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf000") {
-        return PacketZcExecExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf100") {
-        return PacketZcExchangeitemUndo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf200") {
-        return PacketZcNotifyStoreitemCountinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf300") {
-        return PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf400") {
-        return PacketZcAddItemToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf500") {
-        return PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf600") {
-        return PacketZcDeleteItemFromStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf700") {
-        return PacketCzCloseStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf800") {
-        return PacketZcCloseStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf900") {
-        return PacketCzMakeGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfa00") {
-        return PacketZcAckMakeGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfb00") {
-        return PacketZcGroupList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfc00") {
-        return PacketCzReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfd00") {
-        return PacketZcAckReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfe00") {
-        return PacketZcReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xff00") {
-        return PacketCzJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0001") {
-        return PacketCzReqLeaveGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0101") {
-        return PacketZcGroupinfoChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0201") {
-        return PacketCzChangeGroupexpoption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0301") {
-        return PacketCzReqExpelGroupMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0401") {
-        return PacketZcAddMemberToGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0501") {
-        return PacketZcDeleteMemberFromGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0601") {
-        return PacketZcNotifyHpToGroupm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0701") {
-        return PacketZcNotifyPositionToGroupm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0801") {
-        return PacketCzRequestChatParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0901") {
-        return PacketZcNotifyChatParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0a01") {
-        return PacketZcMvpGettingItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0b01") {
-        return PacketZcMvpGettingSpecialExp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0c01") {
-        return PacketZcMvp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0d01") {
-        return PacketZcThrowMvpitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0e01") {
-        return PacketZcSkillinfoUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0f01") {
-        return PacketZcSkillinfoList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1001") {
-        return PacketZcAckTouseskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1101") {
-        return PacketZcAddSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1201") {
-        return PacketCzUpgradeSkilllevel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1301") {
-        return PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1401") {
-        return PacketZcNotifySkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1501") {
-        return PacketZcNotifySkillPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1601") {
-        return PacketCzUseSkillToground::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1701") {
-        return PacketZcNotifyGroundskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1801") {
-        return PacketCzCancelLockon::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1901") {
-        return PacketZcStateChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1a01") {
-        return PacketZcUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1b01") {
-        return PacketCzSelectWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1c01") {
-        return PacketZcWarplist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1d01") {
-        return PacketCzRememberWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1e01") {
-        return PacketZcAckRememberWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1f01") {
-        return PacketZcSkillEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2001") {
-        return PacketZcSkillDisappear::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2101") {
-        return PacketZcNotifyCartitemCountinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2201") {
-        return PacketZcCartEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2301") {
-        return PacketZcCartNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2401") {
-        return PacketZcAddItemToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2501") {
-        return PacketZcDeleteItemFromCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2601") {
-        return PacketCzMoveItemFromBodyToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2701") {
-        return PacketCzMoveItemFromCartToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2801") {
-        return PacketCzMoveItemFromStoreToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2901") {
-        return PacketCzMoveItemFromCartToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2a01") {
-        return PacketCzReqCartoff::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2b01") {
-        return PacketZcCartoff::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2c01") {
-        return PacketZcAckAdditemToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2d01") {
-        return PacketZcOpenstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2e01") {
-        return PacketCzReqClosestore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2f01") {
-        return PacketCzReqOpenstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3001") {
-        return PacketCzReqBuyFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3101") {
-        return PacketZcStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3201") {
-        return PacketZcDisappearEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3301") {
-        return PacketZcPcPurchaseItemlistFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3401") {
-        return PacketCzPcPurchaseItemlistFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3501") {
-        return PacketZcPcPurchaseResultFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3601") {
-        return PacketZcPcPurchaseMyitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3701") {
-        return PacketZcDeleteitemFromMcstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3801") {
-        return PacketCzPkmodeChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3901") {
-        return PacketZcAttackFailureForDistance::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3a01") {
-        return PacketZcAttackRange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3b01") {
-        return PacketZcActionFailure::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3c01") {
-        return PacketZcEquipArrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3d01") {
-        return PacketZcRecovery::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3e01") {
-        return PacketZcUseskillAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3f01") {
-        return PacketCzItemCreate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4001") {
-        return PacketCzMovetoMap::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4101") {
-        return PacketZcStatusValues::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4201") {
-        return PacketZcOpenEditdlg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4301") {
-        return PacketCzInputEditdlg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4401") {
-        return PacketZcCompass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4501") {
-        return PacketZcShowImage::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4601") {
-        return PacketCzCloseDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4701") {
-        return PacketZcAutorunSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4801") {
-        return PacketZcResurrection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4901") {
-        return PacketCzReqGiveMannerPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4a01") {
-        return PacketZcAckGiveMannerPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4b01") {
-        return PacketZcNotifyMannerPointGiven::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4c01") {
-        return PacketZcMyguildBasicInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4d01") {
-        return PacketCzReqGuildMenuinterface::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4e01") {
-        return PacketZcAckGuildMenuinterface::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4f01") {
-        return PacketCzReqGuildMenu::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5001") {
-        return PacketZcGuildInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5101") {
-        return PacketCzReqGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5201") {
-        return PacketZcGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5301") {
-        return PacketCzRegisterGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5401") {
-        return PacketZcMembermgrInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5501") {
-        return PacketCzReqChangeMemberpos::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5601") {
-        return PacketZcAckReqChangeMembers::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5701") {
-        return PacketCzReqOpenMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5801") {
-        return PacketZcAckOpenMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5901") {
-        return PacketCzReqLeaveGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5a01") {
-        return PacketZcAckLeaveGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5b01") {
-        return PacketCzReqBanGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5c01") {
-        return PacketZcAckBanGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5d01") {
-        return PacketCzReqDisorganizeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5e01") {
-        return PacketZcAckDisorganizeGuildResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5f01") {
-        return PacketZcAckDisorganizeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6001") {
-        return PacketZcPositionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6101") {
-        return PacketCzRegChangeGuildPositioninfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6201") {
-        return PacketZcGuildSkillinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6301") {
-        return PacketZcBanList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6401") {
-        return PacketZcOtherGuildList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6501") {
-        return PacketCzReqMakeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6601") {
-        return PacketZcPositionIdNameInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6701") {
-        return PacketZcResultMakeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6801") {
-        return PacketCzReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6901") {
-        return PacketZcAckReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6a01") {
-        return PacketZcReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6b01") {
-        return PacketCzJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6c01") {
-        return PacketZcUpdateGdid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6d01") {
-        return PacketZcUpdateCharstat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6e01") {
-        return PacketCzGuildNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6f01") {
-        return PacketZcGuildNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7001") {
-        return PacketCzReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7101") {
-        return PacketZcReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7201") {
-        return PacketCzAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7301") {
-        return PacketZcAckReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7401") {
-        return PacketZcAckChangeGuildPositioninfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7501") {
-        return PacketCzReqGuildMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7601") {
-        return PacketZcAckGuildMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7701") {
-        return PacketZcItemidentifyList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7801") {
-        return PacketCzReqItemidentify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7901") {
-        return PacketZcAckItemidentify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7a01") {
-        return PacketCzReqItemcompositionList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7b01") {
-        return PacketZcItemcompositionList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7c01") {
-        return PacketCzReqItemcomposition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7d01") {
-        return PacketZcAckItemcomposition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7e01") {
-        return PacketCzGuildChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7f01") {
-        return PacketZcGuildChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8001") {
-        return PacketCzReqHostileGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8101") {
-        return PacketZcAckReqHostileGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8201") {
-        return PacketZcMemberAdd::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8301") {
-        return PacketCzReqDeleteRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8401") {
-        return PacketZcDeleteRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8501") {
-        return PacketZcAddRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8601") {
-        return PacketCollectordead::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8701") {
-        return PacketPing::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8801") {
-        return PacketZcAckItemrefining::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8901") {
-        return PacketZcNotifyMapinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8a01") {
-        return PacketCzReqDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8b01") {
-        return PacketZcAckReqDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8c01") {
-        return PacketZcMonsterInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8d01") {
-        return PacketZcMakableitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8e01") {
-        return PacketCzReqmakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8f01") {
-        return PacketZcAckReqmakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9001") {
-        return PacketCzUseSkillTogroundWithtalkbox::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9101") {
-        return PacketZcTalkboxChatcontents::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9201") {
-        return PacketZcUpdateMapinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9301") {
-        return PacketCzReqnameBygid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9401") {
-        return PacketZcAckReqnameBygid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9501") {
-        return PacketZcAckReqnameall::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9601") {
-        return PacketZcMsgStateChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9701") {
-        return PacketCzReset::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9801") {
-        return PacketCzChangeMaptype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9901") {
-        return PacketZcNotifyMapproperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9a01") {
-        return PacketZcNotifyRanking::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9b01") {
-        return PacketZcNotifyEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9d01") {
-        return PacketCzChangeEffectstate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9e01") {
-        return PacketZcStartCapture::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9f01") {
-        return PacketCzTrycaptureMonster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa001") {
-        return PacketZcTrycaptureMonster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa101") {
-        return PacketCzCommandPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa201") {
-        return PacketZcPropertyPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa301") {
-        return PacketZcFeedPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa401") {
-        return PacketZcChangestatePet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa501") {
-        return PacketCzRenamePet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa601") {
-        return PacketZcPeteggList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa701") {
-        return PacketCzSelectPetegg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa801") {
-        return PacketCzPeteggInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa901") {
-        return PacketCzPetAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xaa01") {
-        return PacketZcPetAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xab01") {
-        return PacketZcParChangeUser::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xac01") {
-        return PacketZcSkillUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xad01") {
-        return PacketZcMakingarrowList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xae01") {
-        return PacketCzReqMakingarrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xaf01") {
-        return PacketCzReqChangecart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb001") {
-        return PacketZcNpcspriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb101") {
-        return PacketZcShowdigit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb201") {
-        return PacketCzReqOpenstore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x01b3") {
-        return PacketZcShowImage2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb401") {
-        return PacketZcChangeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb501") {
-        return PacketScBillingInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb601") {
-        return PacketZcGuildInfo2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb701") {
-        return PacketCzGuildZeny::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb801") {
-        return PacketZcGuildZenyAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb901") {
-        return PacketZcDispel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xba01") {
-        return PacketCzRemoveAid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbb01") {
-        return PacketCzShift::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbc01") {
-        return PacketCzRecall::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbd01") {
-        return PacketCzRecallGid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbe01") {
-        return PacketAcAskPngameroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbf01") {
-        return PacketCaReplyPngameroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc001") {
-        return PacketCzReqRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc101") {
-        return PacketZcReplyRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc201") {
-        return PacketZcInfoRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc301") {
-        return PacketZcBroadcast2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc401") {
-        return PacketZcAddItemToStore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc501") {
-        return PacketZcAddItemToCart2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc601") {
-        return PacketCsReqEncryption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc701") {
-        return PacketScAckEncryption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc801") {
-        return PacketZcUseItemAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc901") {
-        return PacketZcSkillEntry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xca01") {
-        return PacketCzReqmakinghomun::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcb01") {
-        return PacketCzMonsterTalk::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcc01") {
-        return PacketZcMonsterTalk::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcd01") {
-        return PacketZcAutospelllist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xce01") {
-        return PacketCzSelectautospell::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcf01") {
-        return PacketZcDevotionlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd001") {
-        return PacketZcSpirits::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd101") {
-        return PacketZcBladestop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd201") {
-        return PacketZcCombodelay::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd301") {
-        return PacketZcSound::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x01d4") {
-        return PacketZcOpenEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x01d5") {
-        return PacketCzInputEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd601") {
-        return PacketZcNotifyMaptypeproperty2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd701") {
-        return PacketZcSpriteChange2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd801") {
-        return PacketZcNotifyStandentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd901") {
-        return PacketZcNotifyNewentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xda01") {
-        return PacketZcNotifyMoveentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdb01") {
-        return PacketCaReqHash::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdc01") {
-        return PacketAcAckHash::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdd01") {
-        return PacketCaLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde01") {
-        return PacketZcNotifySkill2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdf01") {
-        return PacketCzReqAccountname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe001") {
-        return PacketZcAckAccountname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe101") {
-        return PacketZcSpirits2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe201") {
-        return PacketZcReqCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe301") {
-        return PacketCzJoinCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe401") {
-        return PacketZcStartCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe501") {
-        return PacketCzReqJoinCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe601") {
-        return PacketZcCouplename::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe701") {
-        return PacketCzDoridori::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe801") {
-        return PacketCzMakeGroup2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe901") {
-        return PacketZcAddMemberToGroup2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xea01") {
-        return PacketZcCongratulation::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xeb01") {
-        return PacketZcNotifyPositionToGuildm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xec01") {
-        return PacketZcGuildMemberMapChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xed01") {
-        return PacketCzChopokgi::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xee01") {
-        return PacketZcNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xef01") {
-        return PacketZcCartNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf001") {
-        return PacketZcStoreNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf101") {
-        return PacketAcNotifyError::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf201") {
-        return PacketZcUpdateCharstat2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf301") {
-        return PacketZcNotifyEffect2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf401") {
-        return PacketZcReqExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf501") {
-        return PacketZcAckExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf601") {
-        return PacketZcReqBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf701") {
-        return PacketCzJoinBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf801") {
-        return PacketZcStartBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf901") {
-        return PacketCzReqJoinBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfa01") {
-        return PacketCaLogin3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfb01") {
-        return PacketChDeleteChar2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfc01") {
-        return PacketZcRepairitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfd01") {
-        return PacketCzReqItemrepair::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfe01") {
-        return PacketZcAckItemrepair::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xff01") {
-        return PacketZcHighjump::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0002") {
-        return PacketCaConnectInfoChanged::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0102") {
-        return PacketZcFriendsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0202") {
-        return PacketCzAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0302") {
-        return PacketCzDeleteFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0402") {
-        return PacketCaExeHashcheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0502") {
-        return PacketZcDivorce::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0602") {
-        return PacketZcFriendsState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0702") {
-        return PacketZcReqAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0802") {
-        return PacketCzAckReqAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0902") {
-        return PacketZcAddFriendsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0a02") {
-        return PacketZcDeleteFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0b02") {
-        return PacketAcRefuseLoginR3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0c02") {
-        return PacketCzExeHashcheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0d02") {
-        return PacketHcBlockCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0e02") {
-        return PacketZcStarskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0f02") {
-        return PacketCzReqPvppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1002") {
-        return PacketZcAckPvppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1102") {
-        return PacketZhMovePvpworld::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1202") {
-        return PacketCzReqGiveMannerByname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1302") {
-        return PacketCzReqStatusGm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1402") {
-        return PacketZcAckStatusGm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1502") {
-        return PacketZcSkillmsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1602") {
-        return PacketZcBabymsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1702") {
-        return PacketCzBlacksmithRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1802") {
-        return PacketCzAlchemistRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1902") {
-        return PacketZcBlacksmithRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1a02") {
-        return PacketZcAlchemistRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1b02") {
-        return PacketZcBlacksmithPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1c02") {
-        return PacketZcAlchemistPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1d02") {
-        return PacketCzLesseffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1e02") {
-        return PacketZcLesseffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1f02") {
-        return PacketZcNotifyPkinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2002") {
-        return PacketZcNotifyCrazykiller::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2102") {
-        return PacketZcNotifyWeaponitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2202") {
-        return PacketCzReqWeaponrefine::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2302") {
-        return PacketZcAckWeaponrefine::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2402") {
-        return PacketZcTaekwonPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2502") {
-        return PacketCzTaekwonRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2602") {
-        return PacketZcTaekwonRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2702") {
-        return PacketZcGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2802") {
-        return PacketCzAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2902") {
-        return PacketZcStateChange3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2a02") {
-        return PacketZcNotifyStandentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2b02") {
-        return PacketZcNotifyNewentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2c02") {
-        return PacketZcNotifyMoveentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2d02") {
-        return PacketCzCommandMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2e02") {
-        return PacketZcPropertyHomun::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3002") {
-        return PacketZcChangestateMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3102") {
-        return PacketCzRenameMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3202") {
-        return PacketCzRequestMovenpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3302") {
-        return PacketCzRequestActnpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3402") {
-        return PacketCzRequestMovetoowner::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3a02") {
-        return PacketZcReqStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3b02") {
-        return PacketCzAckStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3c02") {
-        return PacketZcResultStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3d02") {
-        return PacketAcEventResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3e02") {
-        return PacketHcRequestCharacterPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3f02") {
-        return PacketCzMailGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4002") {
-        return PacketZcMailReqGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4102") {
-        return PacketCzMailOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4202") {
-        return PacketZcMailReqOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4302") {
-        return PacketCzMailDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4402") {
-        return PacketCzMailGetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4502") {
-        return PacketZcMailReqGetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4602") {
-        return PacketCzMailResetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4702") {
-        return PacketCzMailAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4802") {
-        return PacketCzMailSend::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4902") {
-        return PacketZcMailReqSend::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4a02") {
-        return PacketZcMailReceive::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4b02") {
-        return PacketCzAuctionCreate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4c02") {
-        return PacketCzAuctionAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4d02") {
-        return PacketCzAuctionAdd::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4e02") {
-        return PacketCzAuctionAddCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4f02") {
-        return PacketCzAuctionBuy::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5002") {
-        return PacketZcAuctionResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5102") {
-        return PacketCzAuctionItemSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5202") {
-        return PacketZcAuctionItemReqSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5302") {
-        return PacketZcStarplace::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5402") {
-        return PacketCzAgreeStarplace::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5502") {
-        return PacketZcAckMailAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5602") {
-        return PacketZcAckAuctionAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5702") {
-        return PacketZcAckMailDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5802") {
-        return PacketCaReqGameGuardCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5902") {
-        return PacketAcAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5a02") {
-        return PacketZcMakingitemList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5b02") {
-        return PacketCzReqMakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5c02") {
-        return PacketCzAuctionReqMyInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5d02") {
-        return PacketCzAuctionReqMySellStop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5e02") {
-        return PacketZcAuctionAckMySellStop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5f02") {
-        return PacketZcAuctionWindows::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6002") {
-        return PacketZcMailWindows::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6102") {
-        return PacketAcReqLoginOldekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6202") {
-        return PacketAcReqLoginNewekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6302") {
-        return PacketAcReqLoginCardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6402") {
-        return PacketCaAckLoginOldekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6502") {
-        return PacketCaAckLoginNewekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6602") {
-        return PacketCaAckLoginCardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6702") {
-        return PacketAcAckEkeyFailNotexist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6802") {
-        return PacketAcAckEkeyFailNotusesekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6902") {
-        return PacketAcAckEkeyFailNotusedekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6a02") {
-        return PacketAcAckEkeyFailAuthrefuse::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6b02") {
-        return PacketAcAckEkeyFailInputekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6c02") {
-        return PacketAcAckEkeyFailNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6d02") {
-        return PacketAcAckEkeyFailNeedcardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6e02") {
-        return PacketAcAckAuthekeyFailNotmatchcardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6f02") {
-        return PacketAcAckFirstLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7002") {
-        return PacketAcReqLoginAccountInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7102") {
-        return PacketCaAckLoginAccountInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7202") {
-        return PacketAcAckPtIdInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7302") {
-        return PacketCzReqMailReturn::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7402") {
-        return PacketZcAckMailReturn::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7502") {
-        return PacketChEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7602") {
-        return PacketCaAcceptLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7702") {
-        return PacketCaLoginPcbang::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7802") {
-        return PacketZcNotifyPcbang::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7902") {
-        return PacketCzHuntinglist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7a02") {
-        return PacketZcHuntinglist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7b02") {
-        return PacketZcPcbangEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7c02") {
-        return PacketCaLogin4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7d02") {
-        return PacketZcPropertyMerce::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7e02") {
-        return PacketZcShandaProtect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x7f02") {
-        return PacketCaClientType::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8002") {
-        return PacketZcGangsiPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8102") {
-        return PacketCzGangsiRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8202") {
-        return PacketZcGangsiRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8302") {
-        return PacketZcAid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8402") {
-        return PacketZcNotifyEffect3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8502") {
-        return PacketZcDeathQuestion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8602") {
-        return PacketCzDeathQuestion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8702") {
-        return PacketZcPcCashPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8802") {
-        return PacketCzPcBuyCashPointItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8902") {
-        return PacketZcPcCashPointUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8a02") {
-        return PacketZcNpcShowefstUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8c02") {
-        return PacketChSelectCharGoingtobeused::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8d02") {
-        return PacketChReqIsValidCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8e02") {
-        return PacketHcAckIsValidCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8f02") {
-        return PacketChReqChangeCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9002") {
-        return PacketHcAckChangeCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9102") {
-        return PacketZcMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9202") {
-        return PacketCzStandingResurrection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9302") {
-        return PacketZcBossInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9402") {
-        return PacketZcReadBook::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9502") {
-        return PacketZcEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9602") {
-        return PacketZcStoreEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9702") {
-        return PacketZcCartEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9802") {
-        return PacketZcCashTimeCounter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9902") {
-        return PacketZcCashItemDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9a02") {
-        return PacketZcItemPickupAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9b02") {
-        return PacketZcMerInit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9c02") {
-        return PacketZcMerProperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9d02") {
-        return PacketZcMerSkillinfoList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9e02") {
-        return PacketZcMerSkillinfoUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9f02") {
-        return PacketCzMerCommand::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa002") {
-        return UnusedPacketCzMerUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa102") {
-        return UnusedPacketCzMerUpgradeSkilllevel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa202") {
-        return PacketZcMerParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa302") {
-        return PacketZcGameguardLingoKey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xa502") {
-        return PacketCzKsyEvent::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xaa02") {
-        return PacketZcReqCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xab02") {
-        return PacketCzAckCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xac02") {
-        return PacketZcResultCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xad02") {
-        return PacketAcRequestSecondPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb002") {
-        return PacketCaLoginHan::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb102") {
-        return PacketZcAllQuestList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb202") {
-        return PacketZcAllQuestMission::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb302") {
-        return PacketZcAddQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb402") {
-        return PacketZcDelQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb502") {
-        return PacketZcUpdateMissionHunt::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb602") {
-        return PacketCzActiveQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb702") {
-        return PacketZcActiveQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb802") {
-        return PacketZcItemPickupParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb902") {
-        return PacketZcShortcutKeyList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xba02") {
-        return PacketCzShortcutKeyChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbb02") {
-        return PacketZcEquipitemDamaged::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbc02") {
-        return PacketZcNotifyPcbangPlayingTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xbf02") {
-        return PacketZcSrpacketr2Init::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc002") {
-        return PacketCzSrpacketr2Start::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc102") {
-        return PacketZcNpcChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc202") {
-        return PacketZcFormatstringMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc502") {
-        return PacketZcPartyJoinReqAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc602") {
-        return PacketZcPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc702") {
-        return PacketCzPartyJoinReqAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc802") {
-        return PacketCzPartyConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc902") {
-        return PacketZcPartyConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xca02") {
-        return PacketHcRefuseSelectchar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcb02") {
-        return PacketZcMemorialdungeonSubscriptionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcc02") {
-        return PacketZcMemorialdungeonSubscriptionNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcd02") {
-        return PacketZcMemorialdungeonInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xce02") {
-        return PacketZcMemorialdungeonNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcf02") {
-        return PacketCzMemorialdungeonCommand::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd002") {
-        return PacketZcEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd102") {
-        return PacketZcStoreEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd202") {
-        return PacketZcCartEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd302") {
-        return PacketZcNotifyBindOnEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd402") {
-        return PacketZcItemPickupAck3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd502") {
-        return PacketZcIsvrDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd602") {
-        return PacketCzEquipwinMicroscope::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd702") {
-        return PacketZcEquipwinMicroscope::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd802") {
-        return PacketCzConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd902") {
-        return PacketZcConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xda02") {
-        return PacketZcConfigNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdb02") {
-        return PacketCzBattlefieldChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdc02") {
-        return PacketZcBattlefieldChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdd02") {
-        return PacketZcBattlefieldNotifyCampinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde02") {
-        return PacketZcBattlefieldNotifyPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdf02") {
-        return PacketZcBattlefieldNotifyPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe002") {
-        return PacketZcBattlefieldNotifyHp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe102") {
-        return PacketZcNotifyAct2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe602") {
-        return PacketCzBotCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe702") {
-        return PacketZcMapproperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe802") {
-        return PacketZcNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe902") {
-        return PacketZcCartNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xea02") {
-        return PacketZcStoreNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xeb02") {
-        return PacketZcAcceptEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xec02") {
-        return PacketZcNotifyMoveentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xed02") {
-        return PacketZcNotifyNewentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xee02") {
-        return PacketZcNotifyStandentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xef02") {
-        return PacketZcNotifyFont::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf002") {
-        return PacketZcProgress::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf102") {
-        return PacketCzProgress::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf202") {
-        return PacketZcProgressCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5c03") {
-        return PacketCzOpenSimpleCashshopItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5d03") {
-        return PacketZcSimpleCashshopPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5e03") {
-        return PacketCzCloseWindow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdd03") {
-        return PacketAhcGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde03") {
-        return PacketCahAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3604") {
-        return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3804") {
-        return PacketCzUseSkill2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3904") {
-        return PacketCzUseItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3d04") {
-        return PacketZcSkillPostdelay::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3e04") {
-        return PacketZcSkillPostdelayList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3f04") {
-        return PacketZcMsgStateChange2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4004") {
-        return PacketZcMillenniumshield::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4104") {
-        return PacketZcSkillinfoDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4204") {
-        return PacketZcSkillSelectRequest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4304") {
-        return PacketCzSkillSelectResponse::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4404") {
-        return PacketZcSimpleCashPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4504") {
-        return PacketCzSimpleBuyCashPointItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4604") {
-        return PacketZcQuestNotifyEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4804") {
-        return PacketHcCharacterList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4904") {
-        return PacketZcHackshErrorMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4a04") {
-        return PacketCzClientVersion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4b04") {
-        return PacketCzCloseSimplecashShop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd007") {
-        return PacketZcEsResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd107") {
-        return PacketCzEsGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd207") {
-        return PacketZcEsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd307") {
-        return PacketCzEsChoose::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd407") {
-        return PacketCzEsCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd507") {
-        return PacketZcEsReady::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd607") {
-        return PacketZcEsGoto::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd707") {
-        return PacketCzGroupinfoChangeV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd807") {
-        return PacketZcReqGroupinfoChangeV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xd907") {
-        return PacketZcShortcutKeyListV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xda07") {
-        return PacketCzChangeGroupMaster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdb07") {
-        return PacketZcHoParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdc07") {
-        return PacketCzSeekParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdd07") {
-        return PacketZcSeekParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde07") {
-        return PacketCzSeekPartyMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xdf07") {
-        return PacketZcSeekPartyMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe007") {
-        return PacketZcEsNotiMyinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe107") {
-        return PacketZcSkillinfoUpdate2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe207") {
-        return PacketZcMsgValue::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe307") {
-        return PacketZcItemlistwinOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe407") {
-        return PacketCzItemlistwinRes::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe507") {
-        return PacketChEnterCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe607") {
-        return PacketZcMsgSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe707") {
-        return PacketChCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe807") {
-        return PacketHcCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xe907") {
-        return PacketHcCheckbotResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xea07") {
-        return PacketCzBattleFieldList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xeb07") {
-        return PacketZcBattleFieldList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xec07") {
-        return PacketCzJoinBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xed07") {
-        return PacketZcJoinBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xee07") {
-        return PacketCzCancelBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xef07") {
-        return PacketZcCancelBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf007") {
-        return PacketCzReqBattleStateMonitor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf107") {
-        return PacketZcAckBattleStateMonitor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf207") {
-        return PacketZcBattleNotiStartStep::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf307") {
-        return PacketZcBattleJoinNotiDefer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf407") {
-        return PacketZcBattleJoinDisableState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf507") {
-        return PacketCzGmFullstrip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf607") {
-        return PacketZcNotifyExp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf707") {
-        return PacketZcNotifyMoveentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf807") {
-        return PacketZcNotifyNewentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xf907") {
-        return PacketZcNotifyStandentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfa07") {
-        return PacketZcDeleteItemFromBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfb07") {
-        return PacketZcUseskillAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfc07") {
-        return PacketZcChangeGroupMaster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfe07") {
-        return PacketZcPlayNpcBgm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xff07") {
-        return PacketZcDefineCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0008") {
-        return PacketZcPcPurchaseItemlistFrommc2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0108") {
-        return PacketCzPcPurchaseItemlistFrommc2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0208") {
-        return PacketCzPartyBookingReqRegister::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0308") {
-        return PacketZcPartyBookingAckRegister::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0408") {
-        return PacketCzPartyBookingReqSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0508") {
-        return PacketZcPartyBookingAckSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0608") {
-        return PacketCzPartyBookingReqDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0708") {
-        return PacketZcPartyBookingAckDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0808") {
-        return PacketCzPartyBookingReqUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0908") {
-        return PacketZcPartyBookingNotifyInsert::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0a08") {
-        return PacketZcPartyBookingNotifyUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0b08") {
-        return PacketZcPartyBookingNotifyDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0c08") {
-        return PacketCzSimpleCashBtnshow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0d08") {
-        return PacketZcSimpleCashBtnshow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x080e") {
-        return PacketZcNotifyHpToGroupmR2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x0f08") {
-        return PacketZcAddExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1008") {
-        return PacketZcOpenBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1108") {
-        return PacketCzReqOpenBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1208") {
-        return PacketZcFailedOpenBuyingStoreToBuyer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1308") {
-        return PacketZcMyitemlistBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1408") {
-        return PacketZcBuyingStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1508") {
-        return PacketCzReqCloseBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1608") {
-        return PacketZcDisappearBuyingStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1708") {
-        return PacketCzReqClickToBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1808") {
-        return PacketZcAckItemlistBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1908") {
-        return PacketCzReqTradeBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1a08") {
-        return PacketZcFailedTradeBuyingStoreToBuyer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1b08") {
-        return PacketZcUpdateItemFromBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1c08") {
-        return PacketZcItemDeleteBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1d08") {
-        return PacketZcElInit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1e08") {
-        return PacketZcElParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1f08") {
-        return PacketZcBroadcast4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2008") {
-        return PacketZcCostumeSpriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2108") {
-        return PacketAcOtpUser::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2208") {
-        return PacketCaOtpAuthReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2308") {
-        return PacketAcOtpAuthAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2408") {
-        return PacketZcFailedTradeBuyingStoreToSeller::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5a82") {
-        return PacketCaSsoLoginReqa::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2508") {
-        return PacketCaSsoLoginReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2608") {
-        return PacketAcSsoLoginAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2708") {
-        return PacketChDeleteChar3Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2808") {
-        return PacketHcDeleteChar3Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2908") {
-        return PacketChDeleteChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2a08") {
-        return PacketHcDeleteChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2b08") {
-        return PacketChDeleteChar3Cancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2c08") {
-        return PacketHcDeleteChar3Cancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3508") {
-        return PacketCzSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3608") {
-        return PacketZcSearchStoreInfoAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3708") {
-        return PacketZcSearchStoreInfoFailed::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3808") {
-        return PacketCzSearchStoreInfoNextPage::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3908") {
-        return PacketZcAckBanGuildSso::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3a08") {
-        return PacketZcOpenSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3b08") {
-        return PacketCzCloseSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3c08") {
-        return PacketCzSsilistItemClick::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3d08") {
-        return PacketZcSsilistItemClickAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3e08") {
-        return PacketAcRefuseLoginR2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4108") {
-        return PacketChSelectAccessibleMapname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x5f03") {
-        return PacketCzRequestMove2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc50a") {
-        return PacketChSendMapInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2d08") {
-        return PacketHcAcceptEnterNeoUnionHeader::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8701") {
-        return PacketCzPing::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8701") {
-        return PacketZcAid2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8302") {
-        return PacketMapConnection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xb908") {
-        return PacketPincodeLoginstate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x390a") {
-        return PacketChMakeChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2708") {
-        return PacketChDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2808") {
-        return PacketHcDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x180b") {
-        return PacketZcInventoryExpansionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xde0a") {
-        return PacketZcOverweightPercent::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8a01") {
-        return PacketCzReqDisconnect2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8b01") {
-        return PacketZcReqDisconnectAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6803") {
-        return PacketCzReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x300a") {
-        return PacketZcAckReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6003") {
-        return PacketCzRequestTime2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xcd09") {
-        return PacketZcMsgColor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x9b09") {
-        return PacketZcNotifyMapproperty2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3b0a") {
-        return PacketZcHatEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x4704") {
-        return PacketCzBlockingPlayCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1B0B") {
-        return PacketZcLoadConfirm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xff09") {
-        return PacketZcNotifyStandentry6::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x1509") {
-        return PacketZcNotifyStandentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xfd09") {
-        return PacketZcNotifyMoveentry8::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0xc808") {
-        return PacketZcNotifyAct3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    }
-    PacketUnknown::from_json(entries, packetver).map(|p| Box::new(p)  as Box<dyn Packet>)
+    let entries: Vec<json_flat_parser::FlatJsonValue<&str>> =
+        json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;
+    if let Some(packet_id) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_id")) {
+        if packetver >= 20170607 && packet_id.value.unwrap().eq("0x7108") {
+            return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20140402 && packet_id.value.unwrap().eq("0x8A08") {
+            return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20131223 && packet_id.value.unwrap().eq("0x6A09") {
+            return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20130515 && packet_id.value.unwrap().eq("0x3704") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120702 && packet_id.value.unwrap().eq("0x5309") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8708") {
+            return PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3704") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8508") {
+            return PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6508") {
+            return PacketCzItemPickup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0xc402") {
+            return PacketCzItemThrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3904") {
+            return PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8908") {
+            return PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6A08") {
+            return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20120218 && packet_id.value.unwrap().eq("0x6A09") {
+            return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20111102 && packet_id.value.unwrap().eq("0x3C08") {
+            return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20111005 && packet_id.value.unwrap().eq("0x1708") {
+            return PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20111005 && packet_id.value.unwrap().eq("0x6403") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20111005 && packet_id.value.unwrap().eq("0x8A08") {
+            return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20101124 && packet_id.value.unwrap().eq("0x5f03") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packetver >= 20070227 && packet_id.value.unwrap().eq("0xc402") {
+            return PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6400") {
+            return PacketCaLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6500") {
+            return PacketChEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6600") {
+            return PacketChSelectChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6700") {
+            return PacketChMakeChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7009") {
+            return PacketChMakeChar2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6800") {
+            return PacketChDeleteChar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6900") {
+            return PacketAcAcceptLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc40a") {
+            return PacketAcAcceptLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6a00") {
+            return PacketAcRefuseLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6b00") {
+            return PacketHcAcceptEnterNeoUnion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6c00") {
+            return PacketHcRefuseEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6d00") {
+            return PacketHcAcceptMakecharNeoUnion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6e00") {
+            return PacketHcRefuseMakechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6f00") {
+            return PacketHcAcceptDeletechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7000") {
+            return PacketHcRefuseDeletechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7100") {
+            return PacketHcNotifyZonesvr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7200") {
+            return PacketCzEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7300") {
+            return PacketZcAcceptEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7400") {
+            return PacketZcRefuseEnter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7500") {
+            return PacketZcNotifyInitchar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7600") {
+            return PacketZcNotifyUpdatechar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7700") {
+            return PacketZcNotifyUpdateplayer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7800") {
+            return PacketZcNotifyStandentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7900") {
+            return PacketZcNotifyNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7a00") {
+            return PacketZcNotifyActentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7b00") {
+            return PacketZcNotifyMoveentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7c00") {
+            return PacketZcNotifyStandentryNpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7d00") {
+            return PacketCzNotifyActorinit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7e00") {
+            return PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7f00") {
+            return PacketZcNotifyTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8000") {
+            return PacketZcNotifyVanish::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8100") {
+            return PacketScNotifyBan::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8200") {
+            return PacketCzRequestQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8300") {
+            return PacketZcAcceptQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8400") {
+            return PacketZcRefuseQuit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8500") {
+            return PacketCzRequestMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8600") {
+            return PacketZcNotifyMove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8700") {
+            return PacketZcNotifyPlayermove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8800") {
+            return PacketZcStopmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8900") {
+            return PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8a00") {
+            return PacketZcNotifyAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8b00") {
+            return PacketZcNotifyActPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8c00") {
+            return PacketCzRequestChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8d00") {
+            return PacketZcNotifyChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8e00") {
+            return PacketZcNotifyPlayerchat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8f00") {
+            return PacketServerEntryAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9000") {
+            return PacketCzContactnpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9100") {
+            return PacketZcNpcackMapmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9200") {
+            return PacketZcNpcackServermove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9300") {
+            return PacketZcNpcackEnable::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9400") {
+            return PacketCzReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9500") {
+            return PacketZcAckReqname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9600") {
+            return PacketCzWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9700") {
+            return PacketZcWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9800") {
+            return PacketZcAckWhisper::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9900") {
+            return PacketCzBroadcast::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9a00") {
+            return PacketZcBroadcast::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9b00") {
+            return PacketCzChangeDirection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9c00") {
+            return PacketZcChangeDirection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9d00") {
+            return PacketZcItemEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9e00") {
+            return PacketZcItemFallEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9f00") {
+            return PacketCzItemPickup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa000") {
+            return PacketZcItemPickupAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa100") {
+            return PacketZcItemDisappear::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa200") {
+            return PacketCzItemThrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa300") {
+            return PacketZcNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa400") {
+            return PacketZcEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa500") {
+            return PacketZcStoreNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa600") {
+            return PacketZcStoreEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa700") {
+            return PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa800") {
+            return PacketZcUseItemAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa900") {
+            return PacketCzReqWearEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xaa00") {
+            return PacketZcReqWearEquipAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd008") {
+            return PacketZcReqWearEquipAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xab00") {
+            return PacketCzReqTakeoffEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xac00") {
+            return PacketZcReqTakeoffEquipAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd108") {
+            return PacketZcReqTakeoffEquipAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xaf00") {
+            return PacketZcItemThrowAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb000") {
+            return PacketZcParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb100") {
+            return PacketZcLongparChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb200") {
+            return PacketCzRestart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb300") {
+            return PacketZcRestartAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb400") {
+            return PacketZcSayDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb500") {
+            return PacketZcWaitDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb600") {
+            return PacketZcCloseDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb700") {
+            return PacketZcMenuList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb800") {
+            return PacketCzChooseMenu::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb900") {
+            return PacketCzReqNextScript::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xba00") {
+            return PacketCzReqStatus::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbb00") {
+            return PacketCzStatusChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbc00") {
+            return PacketZcStatusChangeAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbd00") {
+            return PacketZcStatus::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbe00") {
+            return PacketZcStatusChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbf00") {
+            return PacketCzReqEmotion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc000") {
+            return PacketZcEmotion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc100") {
+            return PacketCzReqUserCount::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc200") {
+            return PacketZcUserCount::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc300") {
+            return PacketZcSpriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc400") {
+            return PacketZcSelectDealtype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc500") {
+            return PacketCzAckSelectDealtype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc600") {
+            return PacketZcPcPurchaseItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc700") {
+            return PacketZcPcSellItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc800") {
+            return PacketCzPcPurchaseItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc900") {
+            return PacketCzPcSellItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xca00") {
+            return PacketZcPcPurchaseResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcb00") {
+            return PacketZcPcSellResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcc00") {
+            return PacketCzDisconnectCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcd00") {
+            return PacketZcAckDisconnectCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xce00") {
+            return PacketCzDisconnectAllCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcf00") {
+            return PacketCzSettingWhisperPc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd000") {
+            return PacketCzSettingWhisperState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd100") {
+            return PacketZcSettingWhisperPc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd200") {
+            return PacketZcSettingWhisperState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd300") {
+            return PacketCzReqWhisperList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd400") {
+            return PacketZcWhisperList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd500") {
+            return PacketCzCreateChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd600") {
+            return PacketZcAckCreateChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd700") {
+            return PacketZcRoomNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd800") {
+            return PacketZcDestroyRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd900") {
+            return PacketCzReqEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xda00") {
+            return PacketZcRefuseEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdb00") {
+            return PacketZcEnterRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdc00") {
+            return PacketZcMemberNewentry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdd00") {
+            return PacketZcMemberExit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde00") {
+            return PacketCzChangeChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdf00") {
+            return PacketZcChangeChatroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe000") {
+            return PacketCzReqRoleChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe100") {
+            return PacketZcRoleChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe200") {
+            return PacketCzReqExpelMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe300") {
+            return PacketCzExitRoom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe400") {
+            return PacketCzReqExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe500") {
+            return PacketZcReqExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe600") {
+            return PacketCzAckExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe700") {
+            return PacketZcAckExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe800") {
+            return PacketCzAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe900") {
+            return PacketZcAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xea00") {
+            return PacketZcAckAddExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xeb00") {
+            return PacketCzConcludeExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xec00") {
+            return PacketZcConcludeExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xed00") {
+            return PacketCzCancelExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xee00") {
+            return PacketZcCancelExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xef00") {
+            return PacketCzExecExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf000") {
+            return PacketZcExecExchangeItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf100") {
+            return PacketZcExchangeitemUndo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf200") {
+            return PacketZcNotifyStoreitemCountinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf300") {
+            return PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf400") {
+            return PacketZcAddItemToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf500") {
+            return PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf600") {
+            return PacketZcDeleteItemFromStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf700") {
+            return PacketCzCloseStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf800") {
+            return PacketZcCloseStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf900") {
+            return PacketCzMakeGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfa00") {
+            return PacketZcAckMakeGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfb00") {
+            return PacketZcGroupList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfc00") {
+            return PacketCzReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfd00") {
+            return PacketZcAckReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfe00") {
+            return PacketZcReqJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xff00") {
+            return PacketCzJoinGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0001") {
+            return PacketCzReqLeaveGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0101") {
+            return PacketZcGroupinfoChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0201") {
+            return PacketCzChangeGroupexpoption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0301") {
+            return PacketCzReqExpelGroupMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0401") {
+            return PacketZcAddMemberToGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0501") {
+            return PacketZcDeleteMemberFromGroup::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0601") {
+            return PacketZcNotifyHpToGroupm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0701") {
+            return PacketZcNotifyPositionToGroupm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0801") {
+            return PacketCzRequestChatParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0901") {
+            return PacketZcNotifyChatParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0a01") {
+            return PacketZcMvpGettingItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0b01") {
+            return PacketZcMvpGettingSpecialExp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0c01") {
+            return PacketZcMvp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0d01") {
+            return PacketZcThrowMvpitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0e01") {
+            return PacketZcSkillinfoUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0f01") {
+            return PacketZcSkillinfoList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1001") {
+            return PacketZcAckTouseskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1101") {
+            return PacketZcAddSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1201") {
+            return PacketCzUpgradeSkilllevel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1301") {
+            return PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1401") {
+            return PacketZcNotifySkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1501") {
+            return PacketZcNotifySkillPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1601") {
+            return PacketCzUseSkillToground::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1701") {
+            return PacketZcNotifyGroundskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1801") {
+            return PacketCzCancelLockon::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1901") {
+            return PacketZcStateChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1a01") {
+            return PacketZcUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1b01") {
+            return PacketCzSelectWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1c01") {
+            return PacketZcWarplist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1d01") {
+            return PacketCzRememberWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1e01") {
+            return PacketZcAckRememberWarppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1f01") {
+            return PacketZcSkillEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2001") {
+            return PacketZcSkillDisappear::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2101") {
+            return PacketZcNotifyCartitemCountinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2201") {
+            return PacketZcCartEquipmentItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2301") {
+            return PacketZcCartNormalItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2401") {
+            return PacketZcAddItemToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2501") {
+            return PacketZcDeleteItemFromCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2601") {
+            return PacketCzMoveItemFromBodyToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2701") {
+            return PacketCzMoveItemFromCartToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2801") {
+            return PacketCzMoveItemFromStoreToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2901") {
+            return PacketCzMoveItemFromCartToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2a01") {
+            return PacketCzReqCartoff::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2b01") {
+            return PacketZcCartoff::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2c01") {
+            return PacketZcAckAdditemToCart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2d01") {
+            return PacketZcOpenstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2e01") {
+            return PacketCzReqClosestore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2f01") {
+            return PacketCzReqOpenstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3001") {
+            return PacketCzReqBuyFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3101") {
+            return PacketZcStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3201") {
+            return PacketZcDisappearEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3301") {
+            return PacketZcPcPurchaseItemlistFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3401") {
+            return PacketCzPcPurchaseItemlistFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3501") {
+            return PacketZcPcPurchaseResultFrommc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3601") {
+            return PacketZcPcPurchaseMyitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3701") {
+            return PacketZcDeleteitemFromMcstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3801") {
+            return PacketCzPkmodeChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3901") {
+            return PacketZcAttackFailureForDistance::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3a01") {
+            return PacketZcAttackRange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3b01") {
+            return PacketZcActionFailure::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3c01") {
+            return PacketZcEquipArrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3d01") {
+            return PacketZcRecovery::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3e01") {
+            return PacketZcUseskillAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3f01") {
+            return PacketCzItemCreate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4001") {
+            return PacketCzMovetoMap::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4101") {
+            return PacketZcStatusValues::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4201") {
+            return PacketZcOpenEditdlg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4301") {
+            return PacketCzInputEditdlg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4401") {
+            return PacketZcCompass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4501") {
+            return PacketZcShowImage::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4601") {
+            return PacketCzCloseDialog::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4701") {
+            return PacketZcAutorunSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4801") {
+            return PacketZcResurrection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4901") {
+            return PacketCzReqGiveMannerPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4a01") {
+            return PacketZcAckGiveMannerPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4b01") {
+            return PacketZcNotifyMannerPointGiven::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4c01") {
+            return PacketZcMyguildBasicInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4d01") {
+            return PacketCzReqGuildMenuinterface::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4e01") {
+            return PacketZcAckGuildMenuinterface::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4f01") {
+            return PacketCzReqGuildMenu::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5001") {
+            return PacketZcGuildInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5101") {
+            return PacketCzReqGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5201") {
+            return PacketZcGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5301") {
+            return PacketCzRegisterGuildEmblemImg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5401") {
+            return PacketZcMembermgrInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5501") {
+            return PacketCzReqChangeMemberpos::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5601") {
+            return PacketZcAckReqChangeMembers::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5701") {
+            return PacketCzReqOpenMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5801") {
+            return PacketZcAckOpenMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5901") {
+            return PacketCzReqLeaveGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5a01") {
+            return PacketZcAckLeaveGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5b01") {
+            return PacketCzReqBanGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5c01") {
+            return PacketZcAckBanGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5d01") {
+            return PacketCzReqDisorganizeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5e01") {
+            return PacketZcAckDisorganizeGuildResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5f01") {
+            return PacketZcAckDisorganizeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6001") {
+            return PacketZcPositionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6101") {
+            return PacketCzRegChangeGuildPositioninfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6201") {
+            return PacketZcGuildSkillinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6301") {
+            return PacketZcBanList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6401") {
+            return PacketZcOtherGuildList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6501") {
+            return PacketCzReqMakeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6601") {
+            return PacketZcPositionIdNameInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6701") {
+            return PacketZcResultMakeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6801") {
+            return PacketCzReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6901") {
+            return PacketZcAckReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6a01") {
+            return PacketZcReqJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6b01") {
+            return PacketCzJoinGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6c01") {
+            return PacketZcUpdateGdid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6d01") {
+            return PacketZcUpdateCharstat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6e01") {
+            return PacketCzGuildNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6f01") {
+            return PacketZcGuildNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7001") {
+            return PacketCzReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7101") {
+            return PacketZcReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7201") {
+            return PacketCzAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7301") {
+            return PacketZcAckReqAllyGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7401") {
+            return PacketZcAckChangeGuildPositioninfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7501") {
+            return PacketCzReqGuildMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7601") {
+            return PacketZcAckGuildMemberInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7701") {
+            return PacketZcItemidentifyList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7801") {
+            return PacketCzReqItemidentify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7901") {
+            return PacketZcAckItemidentify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7a01") {
+            return PacketCzReqItemcompositionList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7b01") {
+            return PacketZcItemcompositionList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7c01") {
+            return PacketCzReqItemcomposition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7d01") {
+            return PacketZcAckItemcomposition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7e01") {
+            return PacketCzGuildChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7f01") {
+            return PacketZcGuildChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8001") {
+            return PacketCzReqHostileGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8101") {
+            return PacketZcAckReqHostileGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8201") {
+            return PacketZcMemberAdd::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8301") {
+            return PacketCzReqDeleteRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8401") {
+            return PacketZcDeleteRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8501") {
+            return PacketZcAddRelatedGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8601") {
+            return PacketCollectordead::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8701") {
+            return PacketPing::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8801") {
+            return PacketZcAckItemrefining::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8901") {
+            return PacketZcNotifyMapinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8a01") {
+            return PacketCzReqDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8b01") {
+            return PacketZcAckReqDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8c01") {
+            return PacketZcMonsterInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8d01") {
+            return PacketZcMakableitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8e01") {
+            return PacketCzReqmakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8f01") {
+            return PacketZcAckReqmakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9001") {
+            return PacketCzUseSkillTogroundWithtalkbox::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9101") {
+            return PacketZcTalkboxChatcontents::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9201") {
+            return PacketZcUpdateMapinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9301") {
+            return PacketCzReqnameBygid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9401") {
+            return PacketZcAckReqnameBygid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9501") {
+            return PacketZcAckReqnameall::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9601") {
+            return PacketZcMsgStateChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9701") {
+            return PacketCzReset::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9801") {
+            return PacketCzChangeMaptype::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9901") {
+            return PacketZcNotifyMapproperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9a01") {
+            return PacketZcNotifyRanking::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9b01") {
+            return PacketZcNotifyEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9d01") {
+            return PacketCzChangeEffectstate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9e01") {
+            return PacketZcStartCapture::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9f01") {
+            return PacketCzTrycaptureMonster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa001") {
+            return PacketZcTrycaptureMonster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa101") {
+            return PacketCzCommandPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa201") {
+            return PacketZcPropertyPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa301") {
+            return PacketZcFeedPet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa401") {
+            return PacketZcChangestatePet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa501") {
+            return PacketCzRenamePet::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa601") {
+            return PacketZcPeteggList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa701") {
+            return PacketCzSelectPetegg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa801") {
+            return PacketCzPeteggInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa901") {
+            return PacketCzPetAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xaa01") {
+            return PacketZcPetAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xab01") {
+            return PacketZcParChangeUser::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xac01") {
+            return PacketZcSkillUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xad01") {
+            return PacketZcMakingarrowList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xae01") {
+            return PacketCzReqMakingarrow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xaf01") {
+            return PacketCzReqChangecart::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb001") {
+            return PacketZcNpcspriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb101") {
+            return PacketZcShowdigit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb201") {
+            return PacketCzReqOpenstore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x01b3") {
+            return PacketZcShowImage2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb401") {
+            return PacketZcChangeGuild::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb501") {
+            return PacketScBillingInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb601") {
+            return PacketZcGuildInfo2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb701") {
+            return PacketCzGuildZeny::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb801") {
+            return PacketZcGuildZenyAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb901") {
+            return PacketZcDispel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xba01") {
+            return PacketCzRemoveAid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbb01") {
+            return PacketCzShift::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbc01") {
+            return PacketCzRecall::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbd01") {
+            return PacketCzRecallGid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbe01") {
+            return PacketAcAskPngameroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbf01") {
+            return PacketCaReplyPngameroom::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc001") {
+            return PacketCzReqRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc101") {
+            return PacketZcReplyRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc201") {
+            return PacketZcInfoRemaintime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc301") {
+            return PacketZcBroadcast2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc401") {
+            return PacketZcAddItemToStore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc501") {
+            return PacketZcAddItemToCart2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc601") {
+            return PacketCsReqEncryption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc701") {
+            return PacketScAckEncryption::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc801") {
+            return PacketZcUseItemAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc901") {
+            return PacketZcSkillEntry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xca01") {
+            return PacketCzReqmakinghomun::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcb01") {
+            return PacketCzMonsterTalk::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcc01") {
+            return PacketZcMonsterTalk::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcd01") {
+            return PacketZcAutospelllist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xce01") {
+            return PacketCzSelectautospell::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcf01") {
+            return PacketZcDevotionlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd001") {
+            return PacketZcSpirits::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd101") {
+            return PacketZcBladestop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd201") {
+            return PacketZcCombodelay::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd301") {
+            return PacketZcSound::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x01d4") {
+            return PacketZcOpenEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x01d5") {
+            return PacketCzInputEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd601") {
+            return PacketZcNotifyMaptypeproperty2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd701") {
+            return PacketZcSpriteChange2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd801") {
+            return PacketZcNotifyStandentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd901") {
+            return PacketZcNotifyNewentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xda01") {
+            return PacketZcNotifyMoveentry2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdb01") {
+            return PacketCaReqHash::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdc01") {
+            return PacketAcAckHash::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdd01") {
+            return PacketCaLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde01") {
+            return PacketZcNotifySkill2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdf01") {
+            return PacketCzReqAccountname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe001") {
+            return PacketZcAckAccountname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe101") {
+            return PacketZcSpirits2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe201") {
+            return PacketZcReqCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe301") {
+            return PacketCzJoinCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe401") {
+            return PacketZcStartCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe501") {
+            return PacketCzReqJoinCouple::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe601") {
+            return PacketZcCouplename::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe701") {
+            return PacketCzDoridori::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe801") {
+            return PacketCzMakeGroup2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe901") {
+            return PacketZcAddMemberToGroup2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xea01") {
+            return PacketZcCongratulation::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xeb01") {
+            return PacketZcNotifyPositionToGuildm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xec01") {
+            return PacketZcGuildMemberMapChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xed01") {
+            return PacketCzChopokgi::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xee01") {
+            return PacketZcNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xef01") {
+            return PacketZcCartNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf001") {
+            return PacketZcStoreNormalItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf101") {
+            return PacketAcNotifyError::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf201") {
+            return PacketZcUpdateCharstat2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf301") {
+            return PacketZcNotifyEffect2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf401") {
+            return PacketZcReqExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf501") {
+            return PacketZcAckExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf601") {
+            return PacketZcReqBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf701") {
+            return PacketCzJoinBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf801") {
+            return PacketZcStartBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf901") {
+            return PacketCzReqJoinBaby::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfa01") {
+            return PacketCaLogin3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfb01") {
+            return PacketChDeleteChar2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfc01") {
+            return PacketZcRepairitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfd01") {
+            return PacketCzReqItemrepair::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfe01") {
+            return PacketZcAckItemrepair::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xff01") {
+            return PacketZcHighjump::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0002") {
+            return PacketCaConnectInfoChanged::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0102") {
+            return PacketZcFriendsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0202") {
+            return PacketCzAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0302") {
+            return PacketCzDeleteFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0402") {
+            return PacketCaExeHashcheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0502") {
+            return PacketZcDivorce::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0602") {
+            return PacketZcFriendsState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0702") {
+            return PacketZcReqAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0802") {
+            return PacketCzAckReqAddFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0902") {
+            return PacketZcAddFriendsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0a02") {
+            return PacketZcDeleteFriends::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0b02") {
+            return PacketAcRefuseLoginR3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0c02") {
+            return PacketCzExeHashcheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0d02") {
+            return PacketHcBlockCharacter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0e02") {
+            return PacketZcStarskill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0f02") {
+            return PacketCzReqPvppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1002") {
+            return PacketZcAckPvppoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1102") {
+            return PacketZhMovePvpworld::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1202") {
+            return PacketCzReqGiveMannerByname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1302") {
+            return PacketCzReqStatusGm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1402") {
+            return PacketZcAckStatusGm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1502") {
+            return PacketZcSkillmsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1602") {
+            return PacketZcBabymsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1702") {
+            return PacketCzBlacksmithRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1802") {
+            return PacketCzAlchemistRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1902") {
+            return PacketZcBlacksmithRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1a02") {
+            return PacketZcAlchemistRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1b02") {
+            return PacketZcBlacksmithPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1c02") {
+            return PacketZcAlchemistPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1d02") {
+            return PacketCzLesseffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1e02") {
+            return PacketZcLesseffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1f02") {
+            return PacketZcNotifyPkinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2002") {
+            return PacketZcNotifyCrazykiller::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2102") {
+            return PacketZcNotifyWeaponitemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2202") {
+            return PacketCzReqWeaponrefine::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2302") {
+            return PacketZcAckWeaponrefine::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2402") {
+            return PacketZcTaekwonPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2502") {
+            return PacketCzTaekwonRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2602") {
+            return PacketZcTaekwonRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2702") {
+            return PacketZcGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2802") {
+            return PacketCzAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2902") {
+            return PacketZcStateChange3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2a02") {
+            return PacketZcNotifyStandentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2b02") {
+            return PacketZcNotifyNewentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2c02") {
+            return PacketZcNotifyMoveentry3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2d02") {
+            return PacketCzCommandMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2e02") {
+            return PacketZcPropertyHomun::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3002") {
+            return PacketZcChangestateMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3102") {
+            return PacketCzRenameMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3202") {
+            return PacketCzRequestMovenpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3302") {
+            return PacketCzRequestActnpc::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3402") {
+            return PacketCzRequestMovetoowner::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3a02") {
+            return PacketZcReqStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3b02") {
+            return PacketCzAckStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3c02") {
+            return PacketZcResultStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3d02") {
+            return PacketAcEventResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3e02") {
+            return PacketHcRequestCharacterPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3f02") {
+            return PacketCzMailGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4002") {
+            return PacketZcMailReqGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4102") {
+            return PacketCzMailOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4202") {
+            return PacketZcMailReqOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4302") {
+            return PacketCzMailDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4402") {
+            return PacketCzMailGetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4502") {
+            return PacketZcMailReqGetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4602") {
+            return PacketCzMailResetItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4702") {
+            return PacketCzMailAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4802") {
+            return PacketCzMailSend::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4902") {
+            return PacketZcMailReqSend::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4a02") {
+            return PacketZcMailReceive::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4b02") {
+            return PacketCzAuctionCreate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4c02") {
+            return PacketCzAuctionAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4d02") {
+            return PacketCzAuctionAdd::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4e02") {
+            return PacketCzAuctionAddCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4f02") {
+            return PacketCzAuctionBuy::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5002") {
+            return PacketZcAuctionResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5102") {
+            return PacketCzAuctionItemSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5202") {
+            return PacketZcAuctionItemReqSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5302") {
+            return PacketZcStarplace::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5402") {
+            return PacketCzAgreeStarplace::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5502") {
+            return PacketZcAckMailAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5602") {
+            return PacketZcAckAuctionAddItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5702") {
+            return PacketZcAckMailDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5802") {
+            return PacketCaReqGameGuardCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5902") {
+            return PacketAcAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5a02") {
+            return PacketZcMakingitemList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5b02") {
+            return PacketCzReqMakingitem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5c02") {
+            return PacketCzAuctionReqMyInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5d02") {
+            return PacketCzAuctionReqMySellStop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5e02") {
+            return PacketZcAuctionAckMySellStop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5f02") {
+            return PacketZcAuctionWindows::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6002") {
+            return PacketZcMailWindows::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6102") {
+            return PacketAcReqLoginOldekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6202") {
+            return PacketAcReqLoginNewekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6302") {
+            return PacketAcReqLoginCardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6402") {
+            return PacketCaAckLoginOldekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6502") {
+            return PacketCaAckLoginNewekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6602") {
+            return PacketCaAckLoginCardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6702") {
+            return PacketAcAckEkeyFailNotexist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6802") {
+            return PacketAcAckEkeyFailNotusesekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6902") {
+            return PacketAcAckEkeyFailNotusedekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6a02") {
+            return PacketAcAckEkeyFailAuthrefuse::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6b02") {
+            return PacketAcAckEkeyFailInputekey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6c02") {
+            return PacketAcAckEkeyFailNotice::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6d02") {
+            return PacketAcAckEkeyFailNeedcardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6e02") {
+            return PacketAcAckAuthekeyFailNotmatchcardpass::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6f02") {
+            return PacketAcAckFirstLogin::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7002") {
+            return PacketAcReqLoginAccountInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7102") {
+            return PacketCaAckLoginAccountInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7202") {
+            return PacketAcAckPtIdInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7302") {
+            return PacketCzReqMailReturn::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7402") {
+            return PacketZcAckMailReturn::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7502") {
+            return PacketChEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7602") {
+            return PacketCaAcceptLogin2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7702") {
+            return PacketCaLoginPcbang::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7802") {
+            return PacketZcNotifyPcbang::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7902") {
+            return PacketCzHuntinglist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7a02") {
+            return PacketZcHuntinglist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7b02") {
+            return PacketZcPcbangEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7c02") {
+            return PacketCaLogin4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7d02") {
+            return PacketZcPropertyMerce::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7e02") {
+            return PacketZcShandaProtect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x7f02") {
+            return PacketCaClientType::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8002") {
+            return PacketZcGangsiPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8102") {
+            return PacketCzGangsiRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8202") {
+            return PacketZcGangsiRank::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8302") {
+            return PacketZcAid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8402") {
+            return PacketZcNotifyEffect3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8502") {
+            return PacketZcDeathQuestion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8602") {
+            return PacketCzDeathQuestion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8702") {
+            return PacketZcPcCashPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8802") {
+            return PacketCzPcBuyCashPointItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8902") {
+            return PacketZcPcCashPointUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8a02") {
+            return PacketZcNpcShowefstUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8c02") {
+            return PacketChSelectCharGoingtobeused::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8d02") {
+            return PacketChReqIsValidCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8e02") {
+            return PacketHcAckIsValidCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8f02") {
+            return PacketChReqChangeCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9002") {
+            return PacketHcAckChangeCharname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9102") {
+            return PacketZcMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9202") {
+            return PacketCzStandingResurrection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9302") {
+            return PacketZcBossInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9402") {
+            return PacketZcReadBook::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9502") {
+            return PacketZcEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9602") {
+            return PacketZcStoreEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9702") {
+            return PacketZcCartEquipmentItemlist2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9802") {
+            return PacketZcCashTimeCounter::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9902") {
+            return PacketZcCashItemDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9a02") {
+            return PacketZcItemPickupAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9b02") {
+            return PacketZcMerInit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9c02") {
+            return PacketZcMerProperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9d02") {
+            return PacketZcMerSkillinfoList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9e02") {
+            return PacketZcMerSkillinfoUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9f02") {
+            return PacketCzMerCommand::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa002") {
+            return UnusedPacketCzMerUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa102") {
+            return UnusedPacketCzMerUpgradeSkilllevel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa202") {
+            return PacketZcMerParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa302") {
+            return PacketZcGameguardLingoKey::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xa502") {
+            return PacketCzKsyEvent::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xaa02") {
+            return PacketZcReqCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xab02") {
+            return PacketCzAckCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xac02") {
+            return PacketZcResultCashPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xad02") {
+            return PacketAcRequestSecondPassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb002") {
+            return PacketCaLoginHan::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb102") {
+            return PacketZcAllQuestList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb202") {
+            return PacketZcAllQuestMission::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb302") {
+            return PacketZcAddQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb402") {
+            return PacketZcDelQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb502") {
+            return PacketZcUpdateMissionHunt::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb602") {
+            return PacketCzActiveQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb702") {
+            return PacketZcActiveQuest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb802") {
+            return PacketZcItemPickupParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb902") {
+            return PacketZcShortcutKeyList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xba02") {
+            return PacketCzShortcutKeyChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbb02") {
+            return PacketZcEquipitemDamaged::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbc02") {
+            return PacketZcNotifyPcbangPlayingTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xbf02") {
+            return PacketZcSrpacketr2Init::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc002") {
+            return PacketCzSrpacketr2Start::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc102") {
+            return PacketZcNpcChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc202") {
+            return PacketZcFormatstringMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc502") {
+            return PacketZcPartyJoinReqAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc602") {
+            return PacketZcPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc702") {
+            return PacketCzPartyJoinReqAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc802") {
+            return PacketCzPartyConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc902") {
+            return PacketZcPartyConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xca02") {
+            return PacketHcRefuseSelectchar::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcb02") {
+            return PacketZcMemorialdungeonSubscriptionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcc02") {
+            return PacketZcMemorialdungeonSubscriptionNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcd02") {
+            return PacketZcMemorialdungeonInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xce02") {
+            return PacketZcMemorialdungeonNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcf02") {
+            return PacketCzMemorialdungeonCommand::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd002") {
+            return PacketZcEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd102") {
+            return PacketZcStoreEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd202") {
+            return PacketZcCartEquipmentItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd302") {
+            return PacketZcNotifyBindOnEquip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd402") {
+            return PacketZcItemPickupAck3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd502") {
+            return PacketZcIsvrDisconnect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd602") {
+            return PacketCzEquipwinMicroscope::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd702") {
+            return PacketZcEquipwinMicroscope::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd802") {
+            return PacketCzConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd902") {
+            return PacketZcConfig::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xda02") {
+            return PacketZcConfigNotify::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdb02") {
+            return PacketCzBattlefieldChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdc02") {
+            return PacketZcBattlefieldChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdd02") {
+            return PacketZcBattlefieldNotifyCampinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde02") {
+            return PacketZcBattlefieldNotifyPoint::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdf02") {
+            return PacketZcBattlefieldNotifyPosition::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe002") {
+            return PacketZcBattlefieldNotifyHp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe102") {
+            return PacketZcNotifyAct2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe602") {
+            return PacketCzBotCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe702") {
+            return PacketZcMapproperty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe802") {
+            return PacketZcNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe902") {
+            return PacketZcCartNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xea02") {
+            return PacketZcStoreNormalItemlist3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xeb02") {
+            return PacketZcAcceptEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xec02") {
+            return PacketZcNotifyMoveentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xed02") {
+            return PacketZcNotifyNewentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xee02") {
+            return PacketZcNotifyStandentry4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xef02") {
+            return PacketZcNotifyFont::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf002") {
+            return PacketZcProgress::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf102") {
+            return PacketCzProgress::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf202") {
+            return PacketZcProgressCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5c03") {
+            return PacketCzOpenSimpleCashshopItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5d03") {
+            return PacketZcSimpleCashshopPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5e03") {
+            return PacketCzCloseWindow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdd03") {
+            return PacketAhcGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde03") {
+            return PacketCahAckGameGuard::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3604") {
+            return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3804") {
+            return PacketCzUseSkill2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3904") {
+            return PacketCzUseItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3d04") {
+            return PacketZcSkillPostdelay::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3e04") {
+            return PacketZcSkillPostdelayList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3f04") {
+            return PacketZcMsgStateChange2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4004") {
+            return PacketZcMillenniumshield::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4104") {
+            return PacketZcSkillinfoDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4204") {
+            return PacketZcSkillSelectRequest::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4304") {
+            return PacketCzSkillSelectResponse::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4404") {
+            return PacketZcSimpleCashPointItemlist::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4504") {
+            return PacketCzSimpleBuyCashPointItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4604") {
+            return PacketZcQuestNotifyEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4804") {
+            return PacketHcCharacterList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4904") {
+            return PacketZcHackshErrorMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4a04") {
+            return PacketCzClientVersion::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4b04") {
+            return PacketCzCloseSimplecashShop::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd007") {
+            return PacketZcEsResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd107") {
+            return PacketCzEsGetList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd207") {
+            return PacketZcEsList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd307") {
+            return PacketCzEsChoose::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd407") {
+            return PacketCzEsCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd507") {
+            return PacketZcEsReady::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd607") {
+            return PacketZcEsGoto::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd707") {
+            return PacketCzGroupinfoChangeV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd807") {
+            return PacketZcReqGroupinfoChangeV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xd907") {
+            return PacketZcShortcutKeyListV2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xda07") {
+            return PacketCzChangeGroupMaster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdb07") {
+            return PacketZcHoParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdc07") {
+            return PacketCzSeekParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdd07") {
+            return PacketZcSeekParty::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde07") {
+            return PacketCzSeekPartyMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xdf07") {
+            return PacketZcSeekPartyMember::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe007") {
+            return PacketZcEsNotiMyinfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe107") {
+            return PacketZcSkillinfoUpdate2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe207") {
+            return PacketZcMsgValue::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe307") {
+            return PacketZcItemlistwinOpen::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe407") {
+            return PacketCzItemlistwinRes::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe507") {
+            return PacketChEnterCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe607") {
+            return PacketZcMsgSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe707") {
+            return PacketChCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe807") {
+            return PacketHcCheckbot::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xe907") {
+            return PacketHcCheckbotResult::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xea07") {
+            return PacketCzBattleFieldList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xeb07") {
+            return PacketZcBattleFieldList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xec07") {
+            return PacketCzJoinBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xed07") {
+            return PacketZcJoinBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xee07") {
+            return PacketCzCancelBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xef07") {
+            return PacketZcCancelBattleField::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf007") {
+            return PacketCzReqBattleStateMonitor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf107") {
+            return PacketZcAckBattleStateMonitor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf207") {
+            return PacketZcBattleNotiStartStep::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf307") {
+            return PacketZcBattleJoinNotiDefer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf407") {
+            return PacketZcBattleJoinDisableState::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf507") {
+            return PacketCzGmFullstrip::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf607") {
+            return PacketZcNotifyExp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf707") {
+            return PacketZcNotifyMoveentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf807") {
+            return PacketZcNotifyNewentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xf907") {
+            return PacketZcNotifyStandentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfa07") {
+            return PacketZcDeleteItemFromBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfb07") {
+            return PacketZcUseskillAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfc07") {
+            return PacketZcChangeGroupMaster::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfe07") {
+            return PacketZcPlayNpcBgm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xff07") {
+            return PacketZcDefineCheck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0008") {
+            return PacketZcPcPurchaseItemlistFrommc2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0108") {
+            return PacketCzPcPurchaseItemlistFrommc2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0208") {
+            return PacketCzPartyBookingReqRegister::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0308") {
+            return PacketZcPartyBookingAckRegister::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0408") {
+            return PacketCzPartyBookingReqSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0508") {
+            return PacketZcPartyBookingAckSearch::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0608") {
+            return PacketCzPartyBookingReqDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0708") {
+            return PacketZcPartyBookingAckDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0808") {
+            return PacketCzPartyBookingReqUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0908") {
+            return PacketZcPartyBookingNotifyInsert::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0a08") {
+            return PacketZcPartyBookingNotifyUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0b08") {
+            return PacketZcPartyBookingNotifyDelete::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0c08") {
+            return PacketCzSimpleCashBtnshow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0d08") {
+            return PacketZcSimpleCashBtnshow::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x080e") {
+            return PacketZcNotifyHpToGroupmR2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x0f08") {
+            return PacketZcAddExchangeItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1008") {
+            return PacketZcOpenBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1108") {
+            return PacketCzReqOpenBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1208") {
+            return PacketZcFailedOpenBuyingStoreToBuyer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1308") {
+            return PacketZcMyitemlistBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1408") {
+            return PacketZcBuyingStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1508") {
+            return PacketCzReqCloseBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1608") {
+            return PacketZcDisappearBuyingStoreEntry::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1708") {
+            return PacketCzReqClickToBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1808") {
+            return PacketZcAckItemlistBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1908") {
+            return PacketCzReqTradeBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1a08") {
+            return PacketZcFailedTradeBuyingStoreToBuyer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1b08") {
+            return PacketZcUpdateItemFromBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1c08") {
+            return PacketZcItemDeleteBuyingStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1d08") {
+            return PacketZcElInit::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1e08") {
+            return PacketZcElParChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1f08") {
+            return PacketZcBroadcast4::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2008") {
+            return PacketZcCostumeSpriteChange::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2108") {
+            return PacketAcOtpUser::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2208") {
+            return PacketCaOtpAuthReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2308") {
+            return PacketAcOtpAuthAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2408") {
+            return PacketZcFailedTradeBuyingStoreToSeller::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5a82") {
+            return PacketCaSsoLoginReqa::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2508") {
+            return PacketCaSsoLoginReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2608") {
+            return PacketAcSsoLoginAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2708") {
+            return PacketChDeleteChar3Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2808") {
+            return PacketHcDeleteChar3Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2908") {
+            return PacketChDeleteChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2a08") {
+            return PacketHcDeleteChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2b08") {
+            return PacketChDeleteChar3Cancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2c08") {
+            return PacketHcDeleteChar3Cancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3508") {
+            return PacketCzSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3608") {
+            return PacketZcSearchStoreInfoAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3708") {
+            return PacketZcSearchStoreInfoFailed::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3808") {
+            return PacketCzSearchStoreInfoNextPage::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3908") {
+            return PacketZcAckBanGuildSso::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3a08") {
+            return PacketZcOpenSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3b08") {
+            return PacketCzCloseSearchStoreInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3c08") {
+            return PacketCzSsilistItemClick::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3d08") {
+            return PacketZcSsilistItemClickAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3e08") {
+            return PacketAcRefuseLoginR2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4108") {
+            return PacketChSelectAccessibleMapname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x5f03") {
+            return PacketCzRequestMove2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc50a") {
+            return PacketChSendMapInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2d08") {
+            return PacketHcAcceptEnterNeoUnionHeader::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8701") {
+            return PacketCzPing::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8701") {
+            return PacketZcAid2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8302") {
+            return PacketMapConnection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xb908") {
+            return PacketPincodeLoginstate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x390a") {
+            return PacketChMakeChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2708") {
+            return PacketChDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x2808") {
+            return PacketHcDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x180b") {
+            return PacketZcInventoryExpansionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xde0a") {
+            return PacketZcOverweightPercent::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8a01") {
+            return PacketCzReqDisconnect2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x8b01") {
+            return PacketZcReqDisconnectAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6803") {
+            return PacketCzReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x300a") {
+            return PacketZcAckReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x6003") {
+            return PacketCzRequestTime2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xcd09") {
+            return PacketZcMsgColor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x9b09") {
+            return PacketZcNotifyMapproperty2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x3b0a") {
+            return PacketZcHatEffect::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x4704") {
+            return PacketCzBlockingPlayCancel::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1B0B") {
+            return PacketZcLoadConfirm::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xff09") {
+            return PacketZcNotifyStandentry6::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0x1509") {
+            return PacketZcNotifyStandentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xfd09") {
+            return PacketZcNotifyMoveentry8::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+        if packet_id.value.unwrap().eq("0xc808") {
+            return PacketZcNotifyAct3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+        }
+    }
+    PacketUnknown::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>)
 }
-

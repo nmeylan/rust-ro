@@ -1,18 +1,14 @@
 extern crate proc_macro;
 
-use self::proc_macro::TokenStream;
-
 use quote::quote;
-
-use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields, Ident};
 use syn::__private::Span;
+use syn::{Data, DataStruct, DeriveInput, Fields, Ident, parse_macro_input};
+
+use self::proc_macro::TokenStream;
 
 fn question_marks(max: usize) -> String {
     let itr = 1..max + 1;
-    itr.into_iter()
-        .map(|i| format!("${i}"))
-        .collect::<Vec<String>>()
-        .join(",")
+    itr.into_iter().map(|i| format!("${i}")).collect::<Vec<String>>().join(",")
 }
 
 #[proc_macro_derive(SqlInsert)]
@@ -25,9 +21,9 @@ fn pg_derive_insert(input: TokenStream, function_name: String, query: String) ->
 
     let fields = match &input.data {
         Data::Struct(DataStruct {
-                         fields: Fields::Named(fields),
-                         ..
-                     }) => &fields.named,
+            fields: Fields::Named(fields),
+            ..
+        }) => &fields.named,
         _ => panic!("expected a struct with named fields"),
     };
 

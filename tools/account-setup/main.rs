@@ -1,15 +1,16 @@
+use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
+use std::time::SystemTime;
+
 use configuration::configuration::Config;
 use models::enums::class::JobName;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use postgres::{Client, NoTls};
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 use serde::Deserialize;
 use serde_json::Value;
-use std::collections::HashMap;
-use std::fs;
-use std::path::Path;
-use std::time::SystemTime;
 
 #[derive(Debug, Deserialize)]
 struct Character {
@@ -40,7 +41,7 @@ struct Character {
     last_map: String,
     status_point: i16,
     skill_point: i16,
-    skills: Vec<Skill>
+    skills: Vec<Skill>,
 }
 #[derive(Debug, Deserialize)]
 struct Equipment {
@@ -57,9 +58,8 @@ struct Skill {
     name: String,
     #[serde(skip_deserializing)]
     id: i32,
-    lvl: i16
+    lvl: i16,
 }
-
 
 fn main() {
     let mut replace_existing_char = true;
@@ -79,13 +79,16 @@ fn main() {
             config.database.password.unwrap(),
             config.database.db
         )
-            .as_str(),
+        .as_str(),
         NoTls,
     );
     let mut client = client.unwrap();
     let path = Path::new("./tools/account-setup/characters.json");
     if !path.exists() {
-        panic!("tools/account-setup/characters.json file does not exists at {}", path.to_str().unwrap());
+        panic!(
+            "tools/account-setup/characters.json file does not exists at {}",
+            path.to_str().unwrap()
+        );
     }
 
     let json = fs::read_to_string(path).unwrap();
@@ -101,7 +104,6 @@ fn main() {
     }
     let mut characters = result.unwrap();
 
-
     let path = Path::new("./config/items.json");
     if !path.exists() {
         panic!("config/items.json file does not exists at {}", path.to_str().unwrap());
@@ -112,8 +114,13 @@ fn main() {
     let value = result.unwrap();
     let items = value.as_object().unwrap().get("items").unwrap().as_array().unwrap();
 
-    let mut query_insert_char = "INSERT INTO \"char\" (account_id, char_id, class, max_hp, max_sp, agi, dex, str, int, vit, luk, base_level, job_level, save_y, last_y, save_x, last_x, last_map, save_map, hair_color, hair, char_num, name, clothes_color, skill_point, status_point, sex, zeny, hp, sp, body, weapon, shield, head_top, head_mid, head_bottom) VALUES ".to_string();
-    let mut query_insert_inventory = "INSERT INTO \"inventory\" (char_id, nameid, amount, equip, identified, unique_id) VALUES ".to_string();
+    let mut query_insert_char = "INSERT INTO \"char\" (account_id, char_id, class, max_hp, max_sp, agi, dex, str, int, vit, luk, \
+                                 base_level, job_level, save_y, last_y, save_x, last_x, last_map, save_map, hair_color, hair, char_num, \
+                                 name, clothes_color, skill_point, status_point, sex, zeny, hp, sp, body, weapon, shield, head_top, \
+                                 head_mid, head_bottom) VALUES "
+        .to_string();
+    let mut query_insert_inventory =
+        "INSERT INTO \"inventory\" (char_id, nameid, amount, equip, identified, unique_id) VALUES ".to_string();
     let mut query_insert_skill = "INSERT INTO \"skill\" (char_id, id, lv) VALUES ".to_string();
     let mut query_delete_char = "DELETE FROM \"char\" WHERE char_id = ANY($1);".to_string();
     let mut query_delete_inventory = "DELETE FROM \"inventory\" WHERE char_id = ANY($1);".to_string();
@@ -128,11 +135,17 @@ fn main() {
         character.name = generate_player_name();
         character.class = Some(JobName::from_string(&character.job).value() as i16);
         for (location, item) in character.equipments.iter_mut() {
-            let it = items.iter().find(|it| it.get("id").unwrap().as_u64().unwrap() == item.item_id as u64).unwrap().as_object().unwrap();
+            let it = items
+                .iter()
+                .find(|it| it.get("id").unwrap().as_u64().unwrap() == item.item_id as u64)
+                .unwrap()
+                .as_object()
+                .unwrap();
             let location = it.get("location").unwrap().as_u64().unwrap();
             item.location = Some(location as i32);
             item.item_id_32 = item.item_id as i32;
-            item.unique_id = Some((SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_nanos() << 9) as i64 + item.item_id as i64);
+            item.unique_id =
+                Some((SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_nanos() << 9) as i64 + item.item_id as i64);
         }
         for skill in character.skills.iter_mut() {
             skill.id = SkillEnum::from_name(skill.name.as_str()).id() as i32;
@@ -155,7 +168,10 @@ fn main() {
             if inventory_placeholder_count > 0 {
                 query_insert_inventory.push_str(", ");
             }
-            query_insert_inventory.push_str(&format!("({})", generate_placeholder(inventory_placeholder_count, INVENTORY_FIELD_COUNT).join(", ")));
+            query_insert_inventory.push_str(&format!(
+                "({})",
+                generate_placeholder(inventory_placeholder_count, INVENTORY_FIELD_COUNT).join(", ")
+            ));
 
             inventory_params.extend_from_slice(&[
                 &character.id,
@@ -172,13 +188,12 @@ fn main() {
             if skill_placeholder_count > 0 {
                 query_insert_skill.push_str(", ");
             }
-            query_insert_skill.push_str(&format!("({})", generate_placeholder(skill_placeholder_count, SKILL_FIELD_COUNT).join(", ")));
+            query_insert_skill.push_str(&format!(
+                "({})",
+                generate_placeholder(skill_placeholder_count, SKILL_FIELD_COUNT).join(", ")
+            ));
 
-            skill_params.extend_from_slice(&[
-                &character.id,
-                &skill.id,
-                &skill.lvl,
-            ]);
+            skill_params.extend_from_slice(&[&character.id, &skill.id, &skill.lvl]);
             skill_placeholder_count += 1;
         }
 
@@ -224,27 +239,26 @@ fn main() {
             character.equipments.get("head_low").map_or(&0_i16, |e| &e.item_id),
         ]);
     }
-    // println!("{}, params: {}", query, params.iter().map(|p| format!("{:?}", p)).collect::<Vec<String>>().join(","));
+    // println!("{}, params: {}", query, params.iter().map(|p| format!("{:?}",
+    // p)).collect::<Vec<String>>().join(","));
     let mut transaction = client.transaction().unwrap();
     if replace_existing_char {
-        let vec = characters.iter()
-            .map(|c| c.id)
-            .collect::<Vec<i32>>();
+        let vec = characters.iter().map(|c| c.id).collect::<Vec<i32>>();
         transaction.execute(query_delete_char.as_str(), &[&vec]).unwrap();
         transaction.execute(query_delete_inventory.as_str(), &[&vec]).unwrap();
         transaction.execute(query_delete_skill.as_str(), &[&vec]).unwrap();
     }
     transaction.execute(&query_insert_char, &char_params).unwrap();
-    // println!("{}, params: {}", query_insert_inventory, inventory_params.iter().map(|p| format!("{:?}", p)).collect::<Vec<String>>().join(","));
+    // println!("{}, params: {}", query_insert_inventory,
+    // inventory_params.iter().map(|p| format!("{:?}",
+    // p)).collect::<Vec<String>>().join(","));
     transaction.execute(&query_insert_inventory, &inventory_params).unwrap();
     transaction.execute(&query_insert_skill, &skill_params).unwrap();
     transaction.commit().unwrap();
 }
 
 fn generate_placeholder(i: usize, field_count: usize) -> Vec<String> {
-    (0..field_count)
-        .map(|j| format!("${}", i * field_count + j + 1))
-        .collect()
+    (0..field_count).map(|j| format!("${}", i * field_count + j + 1)).collect()
 }
 
 fn generate_player_name() -> String {
@@ -252,8 +266,7 @@ fn generate_player_name() -> String {
 
     // Define syllables to create more realistic names
     let syllables = [
-        "ar", "el", "ka", "an", "ra", "na", "to", "li", "ma", "in",
-        "er", "la", "do", "sa", "vi", "no", "mi", "al", "es", "ro",
+        "ar", "el", "ka", "an", "ra", "na", "to", "li", "ma", "in", "er", "la", "do", "sa", "vi", "no", "mi", "al", "es", "ro",
     ];
 
     let syllable_count = rng.gen_range(2..=4);
@@ -272,4 +285,3 @@ fn generate_player_name() -> String {
 
     name
 }
-

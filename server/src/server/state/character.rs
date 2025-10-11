@@ -1,13 +1,13 @@
 use std::collections::HashSet;
-
-
 use std::sync::Mutex;
 
 use accessor::Setters;
-
 use models::enums::item::ItemType;
 use models::enums::look::LookType;
 use models::item::EquippedItem;
+use models::position::Position;
+use models::status::Status;
+use skills::Skill;
 
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::server::model::action::{Attack, SkillInUse};
@@ -16,10 +16,6 @@ use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::script::ScriptGlobalVariableStore;
-use models::position::Position;
-use models::status::Status;
-use skills::Skill;
-
 
 /// Character state
 #[derive(Setters)]
@@ -35,7 +31,8 @@ pub struct Character {
     pub status: Status,
     /// Character state only exist when player has join the game.
     /// Once a player join the game its character is always assigned to a map.
-    /// map_instance_key is the key of the map instance on which character is currently assigned.
+    /// map_instance_key is the key of the map instance on which character is
+    /// currently assigned.
     pub map_instance_key: MapInstanceKey,
     pub loaded_from_client_side: bool,
     /// x position of the character on the map
@@ -44,18 +41,27 @@ pub struct Character {
     pub y: u16,
     /// direction of the character on the map
     pub dir: u16,
-    /// When a character is moving, it follow a path. It consist of a list of position to move at, at a given time, depending on its current speed.
+    /// When a character is moving, it follow a path. It consist of a list of
+    /// position to move at, at a given time, depending on its current speed.
     pub movements: Vec<Movement>,
-    /// When a character is attacking, it has a target. It can repeat its attack, so we need also to keep track of the last attack, to know when next attack can occur.
+    /// When a character is attacking, it has a target. It can repeat its
+    /// attack, so we need also to keep track of the last attack, to know when
+    /// next attack can occur.
     pub attack: Option<Attack>,
-    /// When a character started using skill, it has probably target, cast time, cooldown, after cast walk delay... So we need to keep track of the skill lifecycle.
+    /// When a character started using skill, it has probably target, cast time,
+    /// cooldown, after cast walk delay... So we need to keep track of the skill
+    /// lifecycle.
     pub skill_in_use: Option<SkillInUse>,
-    /// Character inventory is a list of item. Their index in the Vec below is sent to client, client side inventory items identifier is the index in this Vec.
-    /// When action are made in inventory in client side, client only send to the server the index of the item in the inventory.
-    /// When an item is removed client side, index of all items do not change, then when another item is added to inventory, client expect we use the first free index.
-    /// That is why we use a Vec of Option.
+    /// Character inventory is a list of item. Their index in the Vec below is
+    /// sent to client, client side inventory items identifier is the index in
+    /// this Vec. When action are made in inventory in client side, client
+    /// only send to the server the index of the item in the inventory. When
+    /// an item is removed client side, index of all items do not change, then
+    /// when another item is added to inventory, client expect we use the first
+    /// free index. That is why we use a Vec of Option.
     pub inventory: Vec<Option<InventoryItemModel>>,
-    /// Contains item being viewed by character, this set is updated at each tick of the game loop.
+    /// Contains item being viewed by character, this set is updated at each
+    /// tick of the game loop.
     pub map_view: HashSet<MapItem>,
     /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
@@ -70,22 +76,35 @@ pub struct Character {
     pub sex: u8,
 }
 
-type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;
+type InventoryIter<'a> = Box<dyn Iterator<Item = (usize, &'a InventoryItemModel)> + 'a>;
 
 impl Movable for Character {
     fn movements_mut(&mut self) -> &mut Vec<Movement> {
         &mut self.movements
     }
+
     fn movements(&self) -> &Vec<Movement> {
         &self.movements
     }
+
     fn set_movement(&mut self, movements: Vec<Movement>) {
         self.movements = movements;
     }
 }
 
 impl Character {
-    pub fn new(name: String, char_id: u32, account_id: u32, status: Status, x: u16, y: u16, dir: u16, last_map: String, sex: u8, hotkeys: Vec<Hotkey>) -> Self {
+    pub fn new(
+        name: String,
+        char_id: u32,
+        account_id: u32,
+        status: Status,
+        x: u16,
+        y: u16,
+        dir: u16,
+        last_map: String,
+        sex: u8,
+        hotkeys: Vec<Hotkey>,
+    ) -> Self {
         Self {
             name,
             char_id,
@@ -110,12 +129,15 @@ impl Character {
             sex,
         }
     }
+
     pub fn x(&self) -> u16 {
         self.x
     }
+
     pub fn y(&self) -> u16 {
         self.y
     }
+
     #[allow(dead_code)]
     pub fn dir(&self) -> u16 {
         self.dir
@@ -124,6 +146,7 @@ impl Character {
     pub fn is_attacking(&self) -> bool {
         self.attack.is_some()
     }
+
     pub fn is_using_skill(&self) -> bool {
         self.skill_in_use.is_some()
     }
@@ -136,6 +159,7 @@ impl Character {
             last_attack_motion: 0,
         });
     }
+
     pub fn set_skill_in_use(&mut self, target_id: Option<u32>, start_skill_tick: u128, skill: Box<dyn Skill>) {
         self.skill_in_use = Some(SkillInUse {
             target: target_id,
@@ -144,15 +168,19 @@ impl Character {
             used_at_tick: None,
         });
     }
+
     pub fn attack(&self) -> Attack {
         self.attack.unwrap()
     }
+
     pub fn update_last_attack_tick(&mut self, tick: u128) {
         self.attack.as_mut().unwrap().last_attack_tick = tick;
     }
+
     pub fn update_last_attack_motion(&mut self, attack_motion: u32) {
         self.attack.as_mut().unwrap().last_attack_motion = attack_motion;
     }
+
     pub fn clear_attack(&mut self) {
         self.attack = None;
     }
@@ -164,6 +192,7 @@ impl Character {
     pub fn skill_in_use(&self) -> &SkillInUse {
         self.skill_in_use.as_ref().unwrap()
     }
+
     pub fn skill_has_been_used(&self) -> bool {
         self.skill_in_use.as_ref().unwrap().used_at_tick.is_some()
     }
@@ -272,7 +301,7 @@ impl Character {
                 self.status.look.as_mut().unwrap().robe = value as u32;
                 "robe"
             }
-            _ => { "shoes" }
+            _ => "shoes",
         };
         Some(db_column.to_string())
     }
@@ -280,18 +309,23 @@ impl Character {
     pub fn get_zeny(&self) -> u32 {
         self.status.zeny
     }
+
     pub fn get_job(&self) -> u32 {
         self.status.job
     }
+
     pub fn get_base_level(&self) -> u32 {
         self.status.base_level
     }
+
     pub fn get_base_class(&self) -> u32 {
         self.status.job
     }
+
     pub fn get_job_level(&self) -> u32 {
         self.status.job_level
     }
+
     pub fn get_skill_point(&self) -> u32 {
         self.status.skill_point
     }
@@ -304,7 +338,14 @@ impl Character {
         let mut added_items = vec![];
         for item in items {
             if item.item_type().is_stackable() {
-                if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)| (index, i.as_mut().unwrap())).find(|(_index, i)| i.item_id == item.item_id) {
+                if let Some((index, item_in_inventory)) = self
+                    .inventory
+                    .iter_mut()
+                    .enumerate()
+                    .filter(|(_, i)| i.is_some())
+                    .map(|(index, i)| (index, i.as_mut().unwrap()))
+                    .find(|(_index, i)| i.item_id == item.item_id)
+                {
                     item_in_inventory.amount += item.amount;
                     added_items.push((index, item.clone()));
                     continue;
@@ -347,7 +388,11 @@ impl Character {
         let res = if let Some(item) = self.get_item_from_inventory_mut(index) {
             let old_equip = item.equip;
             item.equip = 0;
-            Some(EquippedItem { item_id: item.item_id, location: old_equip as u64, index })
+            Some(EquippedItem {
+                item_id: item.item_id,
+                location: old_equip as u64,
+                index,
+            })
         } else {
             None
         };
@@ -366,11 +411,15 @@ impl Character {
 
     pub fn wear_equip_item(&mut self, index: usize, location: u64, item_to_equip_model: &ItemModel) -> Option<EquippedItem> {
         if location == 0 {
-            return None
+            return None;
         }
         let res = if let Some(item) = self.get_item_from_inventory_mut(index) {
             item.equip = location as i32;
-            Some(EquippedItem { item_id: item.item_id, location, index })
+            Some(EquippedItem {
+                item_id: item.item_id,
+                location,
+                index,
+            })
         } else {
             None
         };
@@ -404,7 +453,8 @@ impl Character {
     }
 
     pub fn weight(&self) -> u32 {
-        self.inventory.iter()
+        self.inventory
+            .iter()
             .filter(|item| item.is_some())
             .map(|item| {
                 let item = item.as_ref().unwrap();
@@ -414,26 +464,25 @@ impl Character {
     }
 
     pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
-        self.inventory_iter()
-            .filter(|(_, item)| item.item_type().is_equipment())
-            .collect()
+        self.inventory_iter().filter(|(_, item)| item.item_type().is_equipment()).collect()
     }
+
     pub fn inventory_wearable(&self) -> Vec<(usize, &InventoryItemModel)> {
-        self.inventory_iter()
-            .filter(|(_, item)| item.item_type().is_wearable())
-            .collect()
+        self.inventory_iter().filter(|(_, item)| item.item_type().is_wearable()).collect()
     }
 
     pub fn inventory_normal(&self) -> Vec<(usize, &InventoryItemModel)> {
-        self.inventory_iter()
-            .filter(|(_, item)| !item.item_type().is_equipment())
-            .collect()
+        self.inventory_iter().filter(|(_, item)| !item.item_type().is_equipment()).collect()
     }
 
     pub(crate) fn inventory_iter(&self) -> InventoryIter {
-        Box::new(self.inventory.iter().enumerate()
-            .filter(|(_, item)| item.is_some())
-            .map(|(index, item)| (index, item.as_ref().unwrap())))
+        Box::new(
+            self.inventory
+                .iter()
+                .enumerate()
+                .filter(|(_, item)| item.is_some())
+                .map(|(index, item)| (index, item.as_ref().unwrap())),
+        )
     }
 }
 
@@ -446,9 +495,10 @@ impl ToMapItem for Character {
 
 impl ToMapItemSnapshot for Character {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot {
-        MapItemSnapshot::new(
-            self.to_map_item(),
-            Position { x: self.x, y: self.y, dir: self.dir }
-        )
+        MapItemSnapshot::new(self.to_map_item(), Position {
+            x: self.x,
+            y: self.y,
+            dir: self.dir,
+        })
     }
 }

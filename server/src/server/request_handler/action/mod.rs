@@ -1,6 +1,6 @@
 pub mod action;
-pub mod npc;
-pub mod item;
 pub mod character;
-pub mod skill;
 pub mod hotkey;
+pub mod item;
+pub mod npc;
+pub mod skill;

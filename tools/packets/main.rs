@@ -1,10 +1,11 @@
-mod packet_struct_generator;
 mod packet_db_parser;
+mod packet_struct_generator;
 
-use std::fmt::{Debug};
-use crate::packet_struct_generator::write_packets_struct;
-use crate::packet_db_parser::parse;
+use std::fmt::Debug;
 use std::path::Path;
+
+use crate::packet_db_parser::parse;
+use crate::packet_struct_generator::write_packets_struct;
 
 #[derive(Debug)]
 pub struct PacketStructDefinition<'a> {
@@ -50,7 +51,7 @@ pub struct Type {
     pub length: Option<i16>,
 }
 
-impl <'a> StructDefinition<'a> {
+impl<'a> StructDefinition<'a> {
     pub fn increment_current_field_position(&mut self, last_field_length: i16) {
         self.current_field_position += last_field_length;
     }

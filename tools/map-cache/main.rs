@@ -2,19 +2,17 @@
 extern crate tracing;
 use std::fs::File;
 use std::io::{BufReader, Cursor, Read, Write};
-use std::path::Path;
-
-use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
-use flate2::write::ZlibEncoder;
-use flate2::Compression;
-use std::fs;
 use std::num::ParseIntError;
+use std::path::Path;
 use std::process::exit;
-use std::str;
-
-use futures::future::join_all;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
+use std::{fs, str};
+
+use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
+use flate2::Compression;
+use flate2::write::ZlibEncoder;
+use futures::future::join_all;
 use tokio::sync::Semaphore;
 use tracing_subscriber::filter::LevelFilter;
 use tracing_subscriber::fmt;
@@ -33,7 +31,7 @@ static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data"; // source .gat/.r
 static MAP_CACHE_PATH: &str = "config/maps/pre-re"; // destination
 
 struct Counter {
-    pub value: u32
+    pub value: u32,
 }
 
 impl Counter {
@@ -50,7 +48,9 @@ async fn main() {
     tracing_subscriber::fmt()
         .with_writer(std::io::stdout)
         .with_max_level(LevelFilter::INFO)
-        .with_timer(tracing_subscriber::fmt::time::ChronoLocal::new("%Y-%m-%d %H:%M:%S%.3f".to_string()))
+        .with_timer(tracing_subscriber::fmt::time::ChronoLocal::new(
+            "%Y-%m-%d %H:%M:%S%.3f".to_string(),
+        ))
         .fmt_fields(fmt::format::DefaultFields::new())
         .event_format(fmt::format().compact().with_target(false).with_thread_names(true))
         .init();
@@ -69,7 +69,7 @@ async fn main() {
     let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
 
     let len = file_paths.len();
-    let counter: Arc<Mutex<Counter>> = Arc::new(Mutex::new(Counter{value: 0}));
+    let counter: Arc<Mutex<Counter>> = Arc::new(Mutex::new(Counter { value: 0 }));
     let mut futures = Vec::new();
     let mut map_iter = map_names.into_iter();
     for file_name in file_paths.into_iter() {
@@ -86,7 +86,11 @@ async fn main() {
             let mut water_height: f32 = NO_WATER;
 
             if !gat_path.exists() {
-                error!("{}: .gat file with path {} does not exists", map_name, gat_path.to_str().unwrap());
+                error!(
+                    "{}: .gat file with path {} does not exists",
+                    map_name,
+                    gat_path.to_str().unwrap()
+                );
                 return;
             }
             if rsw_path.exists() {
@@ -101,8 +105,15 @@ async fn main() {
                 }
                 let major_version = rsw_content_buf[4];
                 let minor_version = rsw_content_buf[5];
-                if (major_version > 2 || (major_version == 2 && minor_version > 5)) || (major_version < 1 || (major_version == 1 && minor_version <= 4)) {
-                    error!("{}: unsupported version {}.{}", rsw_path.to_str().unwrap(), major_version, minor_version);
+                if (major_version > 2 || (major_version == 2 && minor_version > 5))
+                    || (major_version < 1 || (major_version == 1 && minor_version <= 4))
+                {
+                    error!(
+                        "{}: unsupported version {}.{}",
+                        rsw_path.to_str().unwrap(),
+                        major_version,
+                        minor_version
+                    );
                     exit(-1)
                 }
                 let mut offset = 166;
@@ -112,9 +123,15 @@ async fn main() {
                 if major_version == 2 && minor_version >= 2 {
                     offset += 1;
                 }
-                water_height = Cursor::new(rsw_content_buf[offset..(offset + 4)].to_vec()).read_f32::<LittleEndian>().unwrap();
+                water_height = Cursor::new(rsw_content_buf[offset..(offset + 4)].to_vec())
+                    .read_f32::<LittleEndian>()
+                    .unwrap();
             } else {
-                warn!("{}: .rsw file with path {} does not exists", map_name, rsw_path.to_str().unwrap());
+                warn!(
+                    "{}: .rsw file with path {} does not exists",
+                    map_name,
+                    rsw_path.to_str().unwrap()
+                );
             }
 
             let gat_file = File::open(gat_path).unwrap();
@@ -131,9 +148,13 @@ async fn main() {
             let mut cells = Vec::<u8>::with_capacity(map_size as usize);
             for _i in 0..map_size {
                 let mut pos = tile_cursor + tiles_beginning_offset;
-                let cell_height = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec()).read_f32::<LittleEndian>().unwrap();
+                let cell_height = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec())
+                    .read_f32::<LittleEndian>()
+                    .unwrap();
                 pos = tile_cursor + tiles_height_offset;
-                let mut cell_type = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec()).read_u32::<LittleEndian>().unwrap();
+                let mut cell_type = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec())
+                    .read_u32::<LittleEndian>()
+                    .unwrap();
                 if cell_type == 0 && water_height != NO_WATER && cell_height > water_height {
                     cell_type = 3;
                 }
@@ -161,7 +182,13 @@ async fn main() {
 
             {
                 let mut counter = counter_clone.lock().unwrap();
-                info!("{}: map cache ({}/{}), {}ms", map_name, counter.increment_and_get(), len, start.elapsed().as_millis());
+                info!(
+                    "{}: map cache ({}/{}), {}ms",
+                    map_name,
+                    counter.increment_and_get(),
+                    len,
+                    start.elapsed().as_millis()
+                );
             }
         }));
     }
@@ -171,8 +198,5 @@ async fn main() {
 }
 
 fn decode_hex(s: &str) -> Result<Vec<u8>, ParseIntError> {
-    (0..s.len())
-        .step_by(2)
-        .map(|i| u8::from_str_radix(&s[i..i + 2], 16))
-        .collect()
+    (0..s.len()).step_by(2).map(|i| u8::from_str_radix(&s[i..i + 2], 16)).collect()
 }

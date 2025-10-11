@@ -1,9 +1,11 @@
 use std::sync::mpsc::SyncSender;
+
+use models::position::Position;
+
+use crate::server::model::events::client_notification::Notification;
 use crate::server::model::map::Map;
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::path_search_client_side_algorithm;
-use models::position::Position;
-use crate::server::model::events::client_notification::Notification;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::mob::{Mob, MobMovement};
 
@@ -14,13 +16,20 @@ pub struct MobService {
 }
 
 impl MobService {
-
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) -> Self {
-        MobService { client_notification_sender, configuration_service }
+        MobService {
+            client_notification_sender,
+            configuration_service,
+        }
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
-        if !mob.is_present() || mob.is_moving() || mob.status.speed() == 1000 || start_at < mob.last_moved_at || start_at - mob.last_moved_at < 500 {
+        if !mob.is_present()
+            || mob.is_moving()
+            || mob.status.speed() == 1000
+            || start_at < mob.last_moved_at
+            || start_at - mob.last_moved_at < 500
+        {
             return None;
         }
         let mut rng = fastrand::Rng::new();
@@ -40,7 +49,11 @@ impl MobService {
                 if current_x == x && current_y == y {
                     return None;
                 }
-                let from = Position { x: current_x, y: current_y, dir: 0 };
+                let from = Position {
+                    x: current_x,
+                    y: current_y,
+                    dir: 0,
+                };
                 let to = Position { x, y, dir: 0 };
                 movement = Some(MobMovement { id: mob.id, from, to });
                 let path = path_search_client_side_algorithm(x_size, y_size, cells, mob.x, mob.y, to.x, to.y);

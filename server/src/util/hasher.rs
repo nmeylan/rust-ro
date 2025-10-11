@@ -2,7 +2,7 @@ use std::hash::{BuildHasher, Hasher};
 
 #[derive(Clone, Default)]
 pub struct NoopHasherU32 {
-    hash: u64
+    hash: u64,
 }
 
 impl BuildHasher for NoopHasherU32 {
@@ -26,7 +26,7 @@ impl Hasher for NoopHasherU32 {
 
 #[derive(Clone, Default)]
 pub struct NoopHasherU64 {
-    hash: u64
+    hash: u64,
 }
 
 impl BuildHasher for NoopHasherU64 {

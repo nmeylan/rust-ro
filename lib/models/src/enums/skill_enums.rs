@@ -1279,7 +1279,7 @@ pub enum SkillEnum {
     GdItememergencycall,
 }
 impl SkillEnum {
-    pub fn id(&self) -> u32{
+    pub fn id(&self) -> u32 {
         match self {
             Self::NvBasic => 1,
             Self::SmSword => 2,
@@ -1918,6 +1918,7 @@ impl SkillEnum {
             Self::GdItememergencycall => 10015,
         }
     }
+
     pub fn from_id(id: u32) -> Self {
         match id {
             1 => Self::NvBasic,
@@ -2555,9 +2556,10 @@ impl SkillEnum {
             10013 => Self::GdEmergencycall,
             10014 => Self::GdDevelopment,
             10015 => Self::GdItememergencycall,
-            _ => panic!("unknown skill with id {}", id)
+            _ => panic!("unknown skill with id {}", id),
         }
     }
+
     pub fn from_name(name: &str) -> Self {
         match name {
             "NV_BASIC" => Self::NvBasic,
@@ -3195,9 +3197,10 @@ impl SkillEnum {
             "GD_EMERGENCYCALL" => Self::GdEmergencycall,
             "GD_DEVELOPMENT" => Self::GdDevelopment,
             "GD_ITEMEMERGENCYCALL" => Self::GdItememergencycall,
-            _ => panic!("unknown skill with name {}", name)
+            _ => panic!("unknown skill with name {}", name),
         }
     }
+
     pub fn to_name(&self) -> &str {
         match self {
             Self::NvBasic => "NV_BASIC",
@@ -3837,6 +3840,7 @@ impl SkillEnum {
             Self::GdItememergencycall => "GD_ITEMEMERGENCYCALL",
         }
     }
+
     pub fn is_platinium(&self) -> bool {
         match self {
             Self::NvBasic => false,
@@ -4476,6 +4480,7 @@ impl SkillEnum {
             Self::GdItememergencycall => false,
         }
     }
+
     pub fn client_icon(&self) -> Option<ClientEffectIcon> {
         match self {
             Self::NvBasic => None,

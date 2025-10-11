@@ -1,6 +1,6 @@
-use sqlx::{FromRow, Error, Row};
 use packets::packets::CharacterInfoNeoUnion;
-use sqlx::postgres::{PgRow};
+use sqlx::postgres::PgRow;
+use sqlx::{Error, FromRow, Row};
 
 pub struct CharacterInfoNeoUnionWrapped {
     pub data: CharacterInfoNeoUnion,
@@ -72,7 +72,9 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_rename_addon(0);
         character_info_neo_union.set_sex(if row.get::<String, _>("sex") == "M" { 1 } else { 0 });
         character_info_neo_union.fill_raw();
-        let wrapped = CharacterInfoNeoUnionWrapped { data: character_info_neo_union };
+        let wrapped = CharacterInfoNeoUnionWrapped {
+            data: character_info_neo_union,
+        };
         Ok(wrapped)
     }
 }

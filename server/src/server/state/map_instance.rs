@@ -1,12 +1,12 @@
 use std::collections::HashMap;
+
+use models::enums::EnumWithMaskValueU16;
 use models::enums::cell::CellType;
+use models::item::DroppedItem;
+
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
 use crate::server::state::mob::Mob;
-use models::enums::EnumWithMaskValueU16;
-use models::item::DroppedItem;
-
-
 use crate::util::coordinate;
 use crate::util::hasher::NoopHasherU32;
 
@@ -43,14 +43,21 @@ impl MobSpawnTrack {
     pub fn increment_spawn(&mut self) {
         self.spawned_amount += 1;
     }
+
     pub fn decrement_spawn(&mut self) {
         self.spawned_amount -= 1;
     }
 }
 
 impl MapInstanceState {
-    pub fn new(key: MapInstanceKey, x_size: u16, y_size: u16, cells: Vec<u16>,
-               map_items: MapItems, mob_spawns_tracks: HashMap<u32, MobSpawnTrack>) -> MapInstanceState {
+    pub fn new(
+        key: MapInstanceKey,
+        x_size: u16,
+        y_size: u16,
+        cells: Vec<u16>,
+        map_items: MapItems,
+        mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
+    ) -> MapInstanceState {
         Self {
             key,
             x_size,
@@ -60,7 +67,7 @@ impl MapInstanceState {
             map_items,
             dropped_items: Default::default(),
             mob_spawns_tracks,
-            mob_movement_paused: false
+            mob_movement_paused: false,
         }
     }
 
@@ -72,12 +79,12 @@ impl MapInstanceState {
     pub fn is_warp_cell(&self, x: u16, y: u16) -> bool {
         if self.cells().is_empty() {
             warn!("Cannot call is_warp_cell as cells are not initialized, returning false");
-            return false
+            return false;
         }
         let i = self.get_cell_index_of(x, y);
         match self.cells().get(i) {
             Some(value) => (value & CellType::Warp.as_flag()) == CellType::Warp.as_flag(),
-            None => false
+            None => false,
         }
     }
 
@@ -100,6 +107,7 @@ impl MapInstanceState {
     pub fn mobs(&self) -> &HashMap<u32, Mob, NoopHasherU32> {
         &self.mobs
     }
+
     pub fn mobs_mut(&mut self) -> &mut HashMap<u32, Mob, NoopHasherU32> {
         &mut self.mobs
     }
@@ -109,7 +117,7 @@ impl MapInstanceState {
         self.mobs_mut().insert(mob.id, mob);
     }
 
-    pub fn remove_mob(&mut self, id: u32) -> Option<Mob>{
+    pub fn remove_mob(&mut self, id: u32) -> Option<Mob> {
         if let Some(mob) = self.mobs_mut().remove(&id) {
             self.remove_item(mob.to_map_item());
             Some(mob)
@@ -117,21 +125,26 @@ impl MapInstanceState {
             None
         }
     }
+
     pub fn get_dropped_item(&self, dropped_item_id: u32) -> Option<&DroppedItem> {
         self.dropped_items().get(&dropped_item_id)
     }
+
     fn dropped_items(&self) -> &hashbrown::HashMap<u32, DroppedItem, NoopHasherU32> {
         &self.dropped_items
     }
+
     fn dropped_items_mut(&mut self) -> &mut hashbrown::HashMap<u32, DroppedItem, NoopHasherU32> {
         &mut self.dropped_items
     }
+
     pub fn insert_dropped_item(&mut self, dropped_item: DroppedItem) {
         self.insert_item(dropped_item.to_map_item());
-        self.dropped_items_mut().insert_unique_unchecked(dropped_item.map_item_id, dropped_item);
+        self.dropped_items_mut()
+            .insert_unique_unchecked(dropped_item.map_item_id, dropped_item);
     }
 
-    pub fn remove_dropped_item(&mut self, id: u32) -> Option<DroppedItem>{
+    pub fn remove_dropped_item(&mut self, id: u32) -> Option<DroppedItem> {
         if let Some(dropped_item) = self.dropped_items_mut().remove(&id) {
             self.remove_item(dropped_item.to_map_item());
             Some(dropped_item)
@@ -139,18 +152,23 @@ impl MapInstanceState {
             None
         }
     }
+
     pub fn map_items(&self) -> &hashbrown::HashMap<u32, MapItem, NoopHasherU32> {
         self.map_items.get()
     }
+
     pub fn map_items_mut(&mut self) -> &mut MapItems {
         &mut self.map_items
     }
+
     pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
         self.map_items().get(&item_id)
     }
+
     pub fn mob_spawns_tracks(&self) -> &HashMap<u32, MobSpawnTrack> {
         &self.mob_spawns_tracks
     }
+
     pub fn mob_spawns_tracks_mut(&mut self) -> &mut HashMap<u32, MobSpawnTrack> {
         &mut self.mob_spawns_tracks
     }
@@ -162,6 +180,7 @@ impl MapInstanceState {
     pub fn cells(&self) -> &Vec<u16> {
         &self.cells
     }
+
     pub fn cells_mut(&mut self) -> &mut Vec<u16> {
         &mut self.cells
     }
@@ -169,6 +188,7 @@ impl MapInstanceState {
     pub fn x_size(&self) -> u16 {
         self.x_size
     }
+
     pub fn y_size(&self) -> u16 {
         self.y_size
     }

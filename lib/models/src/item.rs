@@ -1,9 +1,10 @@
 use accessor::GettersAll;
-use crate::position::Position;
-use crate::enums::item::EquipmentLocation;
-use crate::enums::weapon::{AmmoType, WeaponType};
+
 use crate::enums::EnumWithMaskValueU64;
 use crate::enums::element::Element;
+use crate::enums::item::EquipmentLocation;
+use crate::enums::weapon::{AmmoType, WeaponType};
+use crate::position::Position;
 
 pub struct EquippedItem {
     pub item_id: i32,
@@ -27,9 +28,11 @@ impl DroppedItem {
     pub fn item_id(&self) -> i32 {
         self.item_id
     }
+
     pub fn x(&self) -> u16 {
         self.location.x
     }
+
     pub fn y(&self) -> u16 {
         self.location.y
     }
@@ -74,9 +77,7 @@ impl WearWeapon {
             card3: self.card3,
         }
     }
-
 }
-
 
 #[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
 pub struct WearWeaponSnapshot {

@@ -1,72 +1,141 @@
 #![allow(unused_imports)]
 
-
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
-
-
-use crate::base::lordknight_base::{*};
+use crate::base::lordknight_base::*;
+use crate::{GroundSkill, InteractiveSkill, OffensiveSkill, PassiveSkill, PerformanceSkill, Skill, SupportiveSkill};
 
 impl Skill for AuraBlade {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for AuraBlade {
-}
+impl SupportiveSkill for AuraBlade {}
 impl Skill for Parrying {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for Parrying {
-}
+impl SupportiveSkill for Parrying {}
 impl Skill for Concentration {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for Concentration {
-}
+impl SupportiveSkill for Concentration {}
 impl Skill for Relax {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 1 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 1 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for Relax {
-}
+impl SupportiveSkill for Relax {}
 impl Skill for Frenzy {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 1 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 1 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for Frenzy {
-}
+impl SupportiveSkill for Frenzy {}
 impl Skill for SpiralPierce {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl OffensiveSkill for SpiralPierce {
-}
+impl OffensiveSkill for SpiralPierce {}
 impl Skill for TraumaticBlow {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl OffensiveSkill for TraumaticBlow {
-}
+impl OffensiveSkill for TraumaticBlow {}
 impl Skill for VitalStrike {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl OffensiveSkill for VitalStrike {
-}
+impl OffensiveSkill for VitalStrike {}

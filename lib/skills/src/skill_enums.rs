@@ -3,79 +3,79 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::acolyte::{*};
-use crate::base::acolyte_base::{*};
-use crate::skills::alchemist::{*};
-use crate::base::alchemist_base::{*};
-use crate::skills::archer::{*};
-use crate::base::archer_base::{*};
-use crate::skills::assassin::{*};
-use crate::base::assassin_base::{*};
-use crate::skills::assassincross::{*};
-use crate::base::assassincross_base::{*};
-use crate::skills::bard::{*};
-use crate::base::bard_base::{*};
-use crate::skills::blacksmith::{*};
-use crate::base::blacksmith_base::{*};
-use crate::skills::champion::{*};
-use crate::base::champion_base::{*};
-use crate::skills::clown::{*};
-use crate::base::clown_base::{*};
-use crate::skills::creator::{*};
-use crate::base::creator_base::{*};
-use crate::skills::crusader::{*};
-use crate::base::crusader_base::{*};
-use crate::skills::dancer::{*};
-use crate::base::dancer_base::{*};
-use crate::skills::gunslinger::{*};
-use crate::base::gunslinger_base::{*};
-use crate::skills::highpriest::{*};
-use crate::base::highpriest_base::{*};
-use crate::skills::highwizard::{*};
-use crate::base::highwizard_base::{*};
-use crate::skills::hunter::{*};
-use crate::base::hunter_base::{*};
-use crate::skills::knight::{*};
-use crate::base::knight_base::{*};
-use crate::skills::lordknight::{*};
-use crate::base::lordknight_base::{*};
-use crate::skills::mage::{*};
-use crate::base::mage_base::{*};
-use crate::skills::merchant::{*};
-use crate::base::merchant_base::{*};
-use crate::skills::monk::{*};
-use crate::base::monk_base::{*};
-use crate::skills::ninja::{*};
-use crate::base::ninja_base::{*};
-use crate::skills::novice::{*};
-use crate::base::novice_base::{*};
-use crate::skills::paladin::{*};
-use crate::base::paladin_base::{*};
-use crate::skills::priest::{*};
-use crate::base::priest_base::{*};
-use crate::skills::professor::{*};
-use crate::base::professor_base::{*};
-use crate::skills::rogue::{*};
-use crate::base::rogue_base::{*};
-use crate::skills::sage::{*};
-use crate::base::sage_base::{*};
-use crate::skills::sniper::{*};
-use crate::base::sniper_base::{*};
-use crate::skills::stalker::{*};
-use crate::base::stalker_base::{*};
-use crate::skills::swordsman::{*};
-use crate::base::swordsman_base::{*};
-use crate::skills::taekwon::{*};
-use crate::base::taekwon_base::{*};
-use crate::skills::thief::{*};
-use crate::base::thief_base::{*};
-use crate::skills::whitesmith::{*};
-use crate::base::whitesmith_base::{*};
-use crate::skills::wizard::{*};
-use crate::base::wizard_base::{*};
 use models::enums::skill_enums::SkillEnum;
 
-use crate::{Skill, OffensiveSkill};
+use crate::base::acolyte_base::*;
+use crate::base::alchemist_base::*;
+use crate::base::archer_base::*;
+use crate::base::assassin_base::*;
+use crate::base::assassincross_base::*;
+use crate::base::bard_base::*;
+use crate::base::blacksmith_base::*;
+use crate::base::champion_base::*;
+use crate::base::clown_base::*;
+use crate::base::creator_base::*;
+use crate::base::crusader_base::*;
+use crate::base::dancer_base::*;
+use crate::base::gunslinger_base::*;
+use crate::base::highpriest_base::*;
+use crate::base::highwizard_base::*;
+use crate::base::hunter_base::*;
+use crate::base::knight_base::*;
+use crate::base::lordknight_base::*;
+use crate::base::mage_base::*;
+use crate::base::merchant_base::*;
+use crate::base::monk_base::*;
+use crate::base::ninja_base::*;
+use crate::base::novice_base::*;
+use crate::base::paladin_base::*;
+use crate::base::priest_base::*;
+use crate::base::professor_base::*;
+use crate::base::rogue_base::*;
+use crate::base::sage_base::*;
+use crate::base::sniper_base::*;
+use crate::base::stalker_base::*;
+use crate::base::swordsman_base::*;
+use crate::base::taekwon_base::*;
+use crate::base::thief_base::*;
+use crate::base::whitesmith_base::*;
+use crate::base::wizard_base::*;
+use crate::skills::acolyte::*;
+use crate::skills::alchemist::*;
+use crate::skills::archer::*;
+use crate::skills::assassin::*;
+use crate::skills::assassincross::*;
+use crate::skills::bard::*;
+use crate::skills::blacksmith::*;
+use crate::skills::champion::*;
+use crate::skills::clown::*;
+use crate::skills::creator::*;
+use crate::skills::crusader::*;
+use crate::skills::dancer::*;
+use crate::skills::gunslinger::*;
+use crate::skills::highpriest::*;
+use crate::skills::highwizard::*;
+use crate::skills::hunter::*;
+use crate::skills::knight::*;
+use crate::skills::lordknight::*;
+use crate::skills::mage::*;
+use crate::skills::merchant::*;
+use crate::skills::monk::*;
+use crate::skills::ninja::*;
+use crate::skills::novice::*;
+use crate::skills::paladin::*;
+use crate::skills::priest::*;
+use crate::skills::professor::*;
+use crate::skills::rogue::*;
+use crate::skills::sage::*;
+use crate::skills::sniper::*;
+use crate::skills::stalker::*;
+use crate::skills::swordsman::*;
+use crate::skills::taekwon::*;
+use crate::skills::thief::*;
+use crate::skills::whitesmith::*;
+use crate::skills::wizard::*;
+use crate::{OffensiveSkill, Skill};
 
 impl Into<Box<dyn Skill>> for models::status::KnownSkill {
     fn into(self) -> Box<dyn Skill> {
@@ -491,7 +491,7 @@ pub fn to_object(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Skill>> {
         SkillEnum::SaElementground => ElementalChangeEarth::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
         SkillEnum::SaElementfire => ElementalChangeFire::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
         SkillEnum::SaElementwind => ElementalChangeWind::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
-    _ => None
+        _ => None,
     }
 }
 pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn OffensiveSkill>> {
@@ -652,6 +652,6 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::NjIssen => FinalStrike::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::KnChargeatk => ChargeAttack::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::HtPhantasmic => PhantasmicArrow::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
-    _ => None
+        _ => None,
     }
 }

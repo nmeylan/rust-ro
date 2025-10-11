@@ -1,18 +1,19 @@
-use packets::packets::Packet;
-use std::net::{Shutdown, SocketAddr, TcpListener, TcpStream};
-use std::sync::{Arc, Mutex};
-
-use crate::util::packet::{debug_packets, PacketDirection};
-use packets::packets_parser::parse;
 use std::io::{Read, Write};
+use std::net::{Shutdown, SocketAddr, TcpListener, TcpStream};
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering::SeqCst;
-use std::thread::{spawn, JoinHandle};
+use std::sync::{Arc, Mutex};
+use std::thread::{JoinHandle, spawn};
 use std::{panic, thread};
+
+use packets::packets::Packet;
+use packets::packets_parser::parse;
 use tokio::runtime::Runtime;
 
-pub mod map;
+use crate::util::packet::{PacketDirection, debug_packets};
+
 pub mod char;
+pub mod map;
 
 #[derive(Clone)]
 pub struct Proxy<T: PacketHandler + Clone + Send> {
@@ -33,7 +34,12 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
         let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
         spawn(move || {
-            info!("Start proxy for {} proxy, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
+            info!(
+                "Start proxy for {} proxy, {}:{}",
+                server_ref.name,
+                server_ref.local_port,
+                server_ref.target.port()
+            );
             for tcp_stream in listener.incoming() {
                 if !server_ref.is_alive() {
                     break;
@@ -52,7 +58,9 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     pub fn shutdown(&self) {
         self.is_alive.store(false, SeqCst);
-        TcpStream::connect(format!("127.0.0.1:{}", self.local_port)).map(|mut stream| stream.flush()).ok();
+        TcpStream::connect(format!("127.0.0.1:{}", self.local_port))
+            .map(|mut stream| stream.flush())
+            .ok();
     }
 
     pub fn is_alive(&self) -> bool {
@@ -61,70 +69,119 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     fn proxy_connection(&self, incoming_stream: TcpStream, packetver: u32) {
         let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
-        debug!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
+        debug!(
+            "Client connected from: {:#?} to {:#?}",
+            incoming_stream.peer_addr().unwrap(),
+            incoming_stream.local_addr().unwrap()
+        );
 
-        let mut forward_thread_outgoing = TcpStream::connect(self.target)
-            .unwrap_or_else(|_| panic!("Could not establish connection to {}", self.target));
+        let mut forward_thread_outgoing =
+            TcpStream::connect(self.target).unwrap_or_else(|_| panic!("Could not establish connection to {}", self.target));
 
         let mut backward_thread_incoming_clone = incoming_stream.try_clone().expect("Unable to clone incoming tcp stream for proxy");
-        let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().expect("Unable to clone outgoing tcp stream for proxy");
+        let mut backward_thread_outgoing_clone = forward_thread_outgoing
+            .try_clone()
+            .expect("Unable to clone outgoing tcp stream for proxy");
         let mut server_copy_forward_thread = self.clone();
         let mut server_copy_backward_thread = self.clone();
         // Pipe for- and backward asynchronously
-        let forward = thread::Builder::new().name(format!("{}-{}", self.name, "forward"))
+        let forward = thread::Builder::new()
+            .name(format!("{}-{}", self.name, "forward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, PacketDirection::Forward, &rt, packetver)
-            }).unwrap();
-        let backward = thread::Builder::new().name(format!("{}-{}", self.name, "backward"))
+                server_copy_forward_thread.pipe(
+                    &mut forward_thread_incoming,
+                    &mut forward_thread_outgoing,
+                    PacketDirection::Forward,
+                    &rt,
+                    packetver,
+                )
+            })
+            .unwrap();
+        let backward = thread::Builder::new()
+            .name(format!("{}-{}", self.name, "backward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, PacketDirection::Backward, &rt, packetver)
-            }).unwrap();
+                server_copy_backward_thread.pipe(
+                    &mut backward_thread_outgoing_clone,
+                    &mut backward_thread_incoming_clone,
+                    PacketDirection::Backward,
+                    &rt,
+                    packetver,
+                )
+            })
+            .unwrap();
         let _ = forward.join().expect("Forward failed");
         let _ = backward.join().expect("Backward failed");
 
         debug!("Socket closed");
     }
 
-    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: PacketDirection, _runtime: &Runtime, packetver: u32) -> Result<(), String> {
+    fn pipe(
+        &mut self,
+        incoming: &mut TcpStream,
+        outgoing: &mut TcpStream,
+        direction: PacketDirection,
+        _runtime: &Runtime,
+        packetver: u32,
+    ) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
-            // println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
-            //          incoming.peer_addr().unwrap(), incoming.local_addr().unwrap(),
-            //          outgoing.local_addr().unwrap(), outgoing.peer_addr().unwrap(),
-            // );
+            // println!("loop direction {} incoming peer {} incoming local {} outgoing local
+            // {} outgoing peer {} ", direction,          incoming.peer_addr().
+            // unwrap(), incoming.local_addr().unwrap(),          outgoing.
+            // local_addr().unwrap(), outgoing.peer_addr().unwrap(), );
             match incoming.read(&mut buffer) {
                 Ok(bytes_read) => {
                     // no more data
                     if bytes_read == 0 {
                         debug!("shutdown {} direction {}", outgoing.local_addr().unwrap(), direction);
-                        outgoing.shutdown(Shutdown::Both).expect("Failed to shutdown incoming socket for proxy");
-                        incoming.shutdown(Shutdown::Both).expect("Failed to shutdown incoming socket for proxy");
+                        outgoing
+                            .shutdown(Shutdown::Both)
+                            .expect("Failed to shutdown incoming socket for proxy");
+                        incoming
+                            .shutdown(Shutdown::Both)
+                            .expect("Failed to shutdown incoming socket for proxy");
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     info!("Proxy: {:02X?}", buffer);
                     self.proxy_request(outgoing, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
-                    debug_packets(Some(outgoing.peer_addr().as_ref().unwrap()), direction, packetver, &mut buffer, bytes_read, &Some(self.name.clone()));
+                    debug_packets(
+                        Some(outgoing.peer_addr().as_ref().unwrap()),
+                        direction,
+                        packetver,
+                        &mut buffer,
+                        bytes_read,
+                        &Some(self.name.clone()),
+                    );
                 }
-                Err(error) => return Err(format!("Could not read data: {error}"))
+                Err(error) => return Err(format!("Could not read data: {error}")),
             }
         }
         Ok(())
     }
 
-
-    fn proxy_request(&self, outgoing: &mut TcpStream, tcp_stream_ref: Arc<Mutex<TcpStream>>, buffer: &[u8], bytes_read: usize, packetver: u32) {
-        if (buffer[0] == 0x71 && buffer[1] == 0x0)
-            || (buffer[0] == 0xc5 && buffer[1] == 0x0a) {
+    fn proxy_request(
+        &self,
+        outgoing: &mut TcpStream,
+        tcp_stream_ref: Arc<Mutex<TcpStream>>,
+        buffer: &[u8],
+        bytes_read: usize,
+        packetver: u32,
+    ) {
+        if (buffer[0] == 0x71 && buffer[1] == 0x0) || (buffer[0] == 0xC5 && buffer[1] == 0x0A) {
             let mut packet = parse(&buffer[..bytes_read], packetver);
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
             if outgoing.write(packet.raw()).is_ok() {
-                outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
+                outgoing
+                    .flush()
+                    .expect("Failed to flush packet for outgoing socket to proxied server");
             }
         } else if outgoing.write(buffer).is_ok() {
-            outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
+            outgoing
+                .flush()
+                .expect("Failed to flush packet for outgoing socket to proxied server");
         }
     }
 }

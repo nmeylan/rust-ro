@@ -15,18 +15,18 @@ where
 }
 
 pub fn deserialize_string_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-    where
-        D: Deserializer<'de>,
-        T: EnumWithStringValue,
+where
+    D: Deserializer<'de>,
+    T: EnumWithStringValue,
 {
     let s: String = Deserialize::deserialize(deserializer)?;
     Ok(T::from_string(s.as_str()))
 }
 
 pub fn deserialize_number_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-    where
-        D: Deserializer<'de>,
-        T: EnumWithNumberValue,
+where
+    D: Deserializer<'de>,
+    T: EnumWithNumberValue,
 {
     let s: usize = Deserialize::deserialize(deserializer)?;
     Ok(T::from_value(s))
@@ -40,10 +40,7 @@ where
     serializer.serialize_str(field.as_str())
 }
 
-pub fn serialize_optional_string_enum<S, T>(
-    field: &Option<T>,
-    serializer: S,
-) -> Result<S::Ok, S::Error>
+pub fn serialize_optional_string_enum<S, T>(field: &Option<T>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
     T: EnumWithStringValue,

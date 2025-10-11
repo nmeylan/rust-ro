@@ -1,15 +1,13 @@
 use models::enums::class::JobName;
 use models::enums::item::EquipmentLocation;
-use models::enums::EnumWithMaskValueU64;
+use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use models::status::{Look, Status};
+use models::status_bonus::{StatusBonuses, TemporaryStatusBonuses};
 use rand::RngCore;
-
 
 use crate::repository::model::item_model::{DBItemType, InventoryItemModel, ItemModel};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use models::enums::EnumWithNumberValue;
-use models::status::{Look, Status};
-use models::status_bonus::{StatusBonuses, TemporaryStatusBonuses};
 
 pub fn create_character() -> Character {
     let status = Status {
@@ -44,17 +42,21 @@ pub fn create_character() -> Character {
         equipment_bonuses: StatusBonuses::default(),
         temporary_bonuses: TemporaryStatusBonuses::default(),
     };
-     let mut character = Character::new(
-         "Walkiry".to_string(), 150000, 2000000,
+    let mut character = Character::new(
+        "Walkiry".to_string(),
+        150000,
+        2000000,
         status,
-         156, 179, 0,
-         "Prontera".to_string(),1,
-         vec![]
+        156,
+        179,
+        0,
+        "Prontera".to_string(),
+        1,
+        vec![],
     );
     character.loaded_from_client_side = true;
     character
 }
-
 
 pub fn equip_item_from_name(character: &mut Character, aegis_name: &str) -> usize {
     let item = GlobalConfigService::instance().get_item_by_name(aegis_name);
@@ -74,13 +76,15 @@ pub fn equip_item_from_name_with_cards(character: &mut Character, name: &str, ca
 }
 
 //
-// Warning: this method is not safe, if an item is already equipped at the given item location, character will have more than 1 item equipped to this location.
-// Character equip given item.
+// Warning: this method is not safe, if an item is already equipped at the given
+// item location, character will have more than 1 item equipped to this
+// location. Character equip given item.
 pub fn equip_item(character: &mut Character, item: &ItemModel) -> usize {
     equip_item_with_cards_and_refinement(character, item, vec![], 0)
-}//
-// Warning: this method is not safe, if an item is already equipped at the given item location, character will have more than 1 item equipped to this location.
-// Character equip given item.
+} //
+// Warning: this method is not safe, if an item is already equipped at the given
+// item location, character will have more than 1 item equipped to this
+// location. Character equip given item.
 pub fn equip_item_with_cards_and_refinement(character: &mut Character, item: &ItemModel, cards: Vec<i16>, refinement: u8) -> usize {
     let mut rng = rand::thread_rng();
     let inventory_item = InventoryItemModel {

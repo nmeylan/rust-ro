@@ -1,17 +1,15 @@
-use rathena_script_lang_interpreter::lang::value::Value;
 use models::enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
 use models::enums::element::Element;
 use models::enums::item::ItemGroup;
 use models::enums::look::LookType;
-use models::enums::trigger::EffectTrigger;
 use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::status::StatusEffect;
-use models::enums::EnumWithNumberValue;
-use models::enums::EnumWithStringValue;
-use models::enums::EnumWithMaskValueU32;
-use crate::util::string::StringUtil;
+use models::enums::trigger::EffectTrigger;
+use models::enums::{EnumWithMaskValueU32, EnumWithNumberValue, EnumWithStringValue};
+use rathena_script_lang_interpreter::lang::value::Value;
 
+use crate::util::string::StringUtil;
 
 /*
 ([A-Z_]*): (.*)
@@ -1171,7 +1169,7 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
             "4_RAGFES_16" => Value::new_number(10506),
             "4_RAGFES_16_M" => Value::new_number(10507),
             "4_EXJOB_NINJA2" => Value::new_number(10508),
-            &_ => Value::Reference(None)
+            &_ => Value::Reference(None),
         }
     } else {
         match constant_name.as_ref() {
@@ -1367,12 +1365,13 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
             "ATF_MISC" | "BF_MISC" => Value::new_number(EffectTrigger::MiscSkillAttack.as_flag() as i32),
             "BF_NORMAL" => Value::new_number(EffectTrigger::BfNormal.as_flag() as i32),
             "BF_SKILL" => Value::new_number(EffectTrigger::BfSkill.as_flag() as i32),
-            &_ => Value::Reference(None)
+            &_ => Value::Reference(None),
         }
     };
 
     if constant_value.is_reference() {
-        if constant_name.starts_with("Job_Swordman") { // yeah in addition to lack of consistency, there are typo in job name
+        if constant_name.starts_with("Job_Swordman") {
+            // yeah in addition to lack of consistency, there are typo in job name
             return Some(Value::new_number(JobName::Swordsman.value() as i32));
         }
         if constant_name.starts_with("Job_") {
@@ -1404,6 +1403,6 @@ pub fn get_battle_flag(flag_name: &String) -> Value {
         "max_hair_color" => Value::new_number(8),
         "min_cloth_color" => Value::new_number(0),
         "max_cloth_color" => Value::new_number(4),
-        &_ => panic!("unknown battle flag {flag_name}")
+        &_ => panic!("unknown battle flag {flag_name}"),
     }
 }

@@ -3,9 +3,9 @@
 #![allow(unused_parens)]
 
 pub mod packets;
-pub mod packets_print;
 pub mod packets_impl;
 pub mod packets_parser;
+pub mod packets_print;
 mod print;
 
 #[cfg(test)]
@@ -22,8 +22,8 @@ mod tests {
         let dir: u16 = 6;
         let mut move_data: [u8; 3] = [0; 3];
         move_data[0] = (x >> 2) as u8;
-        move_data[1] = ((x << 6) | ((y >> 4) & 0x3f)) as u8;
-        move_data[2] = ((y << 4) | (dir & 0xf)) as u8;
+        move_data[1] = ((x << 6) | ((y >> 4) & 0x3F)) as u8;
+        move_data[2] = ((y << 4) | (dir & 0xF)) as u8;
         request_move.set_dest(move_data);
         // When
         let json = request_move.to_json(20120307);

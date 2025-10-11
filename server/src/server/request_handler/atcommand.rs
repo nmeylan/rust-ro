@@ -1,24 +1,23 @@
-use crate::server::model::session::Session;
-use lazy_static::lazy_static;
-use models::enums::class::JobName;
-use models::enums::EnumWithNumberValue;
-use models::enums::EnumWithStringValue;
-use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
-use regex_lite::Regex;
 use std::fmt::Write;
 use std::sync::Arc;
 use std::time::Instant;
 
+use configuration::configuration::CityConfig;
+use lazy_static::lazy_static;
+use models::enums::class::JobName;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use packets::packets::{Packet, PacketCzPlayerChat, PacketZcNotifyPlayerchat};
+use regex_lite::Regex;
+
 use crate::load_scripts;
+use crate::server::Server;
 use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
+use crate::server::model::session::Session;
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::Server;
 use crate::util::packet::chain_packets;
-use configuration::configuration::CityConfig;
-use packets::packets::Packet;
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -39,7 +38,13 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     let command = captures.get(2).unwrap().as_str();
     let mut args = Vec::<&str>::new();
     if captures.len() > 2 {
-        args = captures.get(3).unwrap().as_str().split(' ').map(|arg| arg.trim_matches(char::from(0))).collect();
+        args = captures
+            .get(3)
+            .unwrap()
+            .as_str()
+            .split(' ')
+            .map(|arg| arg.trim_matches(char::from(0)))
+            .collect();
     }
     let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new(GlobalConfigService::instance().packetver());
     // let mut packets = vec![];
@@ -114,7 +119,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     socket_send!(context, packet_zc_notify_playerchat);
 }
 
-pub fn handle_go(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_go(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
@@ -138,11 +143,9 @@ pub fn handle_go(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> S
             "prison" => "jail".to_string(),
             "sec_pri" => "jail".to_string(),
             "rael" => "rachel".to_string(),
-            _ => cleaned_arg.to_string()
+            _ => cleaned_arg.to_string(),
         };
-        maybe_city = server.configuration.maps.cities.iter().find(|city| {
-            city.name == name
-        });
+        maybe_city = server.configuration.maps.cities.iter().find(|city| city.name == name);
     }
     if maybe_city.is_none() {
         return format!("Can't find map by index or name with given argument: {cleaned_arg}");
@@ -162,14 +165,16 @@ pub fn handle_go(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> S
         "prison" => city.name = "sec_pri".to_string(),
         "jail" => city.name = "sec_pri".to_string(),
         "rael" => city.name = "rachel".to_string(),
-        _ => ()
+        _ => (),
     }
 
-    server.server_service().schedule_warp_to_walkable_cell(server.state_mut().as_mut(),&city.name, city.x, city.y, session.char_id());
+    server
+        .server_service()
+        .schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &city.name, city.x, city.y, session.char_id());
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
-pub fn handle_warp(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_warp(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     let map_name = args[0].to_string();
     if GlobalConfigService::instance().maps().contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;
@@ -184,7 +189,9 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, args: Vec::<&str>) ->
                 y = parse_y_res;
             }
         }
-        server.server_service().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, session.char_id());
+        server
+            .server_service()
+            .schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, session.char_id());
         let char_id = session.char_id();
         let character = server.state().get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
@@ -192,33 +199,46 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, args: Vec::<&str>) ->
     format!("Map not found: {map_name}")
 }
 
-pub fn handle_item(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_item(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    server.script_service().schedule_get_items(session.char_id(), server.runtime(), vec![
-        (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
-         args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
+    server.script_service().schedule_get_items(
+        session.char_id(),
+        server.runtime(),
+        vec![(
+            args[0]
+                .parse::<i32>()
+                .map(Value::Number)
+                .unwrap_or(Value::String(args[0].to_string())),
+            args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1),
+        )],
+        false,
+    );
 
     String::new()
 }
 
-pub fn handle_inspect(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
+pub fn handle_inspect(server: &Server, session: Arc<Session>, _args: Vec<&str>) -> String {
     let char_id = session.char_id();
     let character = server.state().get_character_unsafe(char_id);
     server.character_service().print(character);
     String::new()
 }
 
-pub fn handle_base_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_base_level(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel {
+        char_id: session.char_id(),
+        set_level: None,
+        add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)),
+    }));
     String::new()
 }
 
-pub fn handle_set_base_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_set_base_level(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
@@ -230,15 +250,19 @@ pub fn handle_set_base_level(server: &Server, session: Arc<Session>, args: Vec::
     String::new()
 }
 
-pub fn handle_job_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_job_level(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@joblevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
+        char_id: session.char_id(),
+        set_level: None,
+        add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)),
+    }));
     String::new()
 }
 
-pub fn handle_set_job_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_set_job_level(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@set_joblevel command accept 1 parameters but received none".to_string();
     }
@@ -250,7 +274,7 @@ pub fn handle_set_job_level(server: &Server, session: Arc<Session>, args: Vec::<
     String::new()
 }
 
-pub fn handle_set_job(server: &Server, char_id: u32, args: Vec::<&str>) -> String {
+pub fn handle_set_job(server: &Server, char_id: u32, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@job command accept 1 parameters but received none".to_string();
     }
@@ -260,7 +284,11 @@ pub fn handle_set_job(server: &Server, char_id: u32, args: Vec::<&str>) -> Strin
         JobName::try_from_string(args.first().unwrap())
     };
     if let Ok(job) = maybe_job {
-        server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id, job, should_reset_skills: true }));
+        server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob {
+            char_id,
+            job,
+            should_reset_skills: true,
+        }));
         return "Your job has been changed.".to_string();
     }
     format!("Job {} not found", args.first().unwrap())
@@ -268,13 +296,36 @@ pub fn handle_set_job(server: &Server, char_id: u32, args: Vec::<&str>) -> Strin
 
 pub fn handle_rates(server: &Server) -> String {
     let mut msg = String::new();
-    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}x", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate).unwrap();
-    writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card).unwrap();
-    writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card ).unwrap();
+    writeln!(
+        msg,
+        "Experience rates: Base {:.2}x / Job {:.2}x",
+        server.configuration.game.base_exp_rate, server.configuration.game.job_exp_rate
+    )
+    .unwrap();
+    writeln!(
+        msg,
+        "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x",
+        server.configuration.game.drop_rate,
+        server.configuration.game.drop_rate,
+        server.configuration.game.drop_rate,
+        server.configuration.game.drop_rate,
+        server.configuration.game.drop_rate_card
+    )
+    .unwrap();
+    writeln!(
+        msg,
+        "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x",
+        server.configuration.game.drop_rate_mvp,
+        server.configuration.game.drop_rate_mvp,
+        server.configuration.game.drop_rate_mvp,
+        server.configuration.game.drop_rate_mvp,
+        server.configuration.game.drop_rate_card
+    )
+    .unwrap();
     msg
 }
 
-pub fn handle_reload(server: &Server, _session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_reload(server: &Server, _session: Arc<Session>, args: Vec<&str>) -> String {
     // TODO check if user privileges
     if args.is_empty() {
         return "@reload command accept 1 parameters but received none".to_string();
@@ -283,25 +334,27 @@ pub fn handle_reload(server: &Server, _session: Arc<Session>, args: Vec::<&str>)
         "script" => {
             let start = Instant::now();
             let scripts = load_scripts(server.script_service().vm.clone());
-            format!("{} scripts have been recompiled and reloaded in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0)
+            format!(
+                "{} scripts have been recompiled and reloaded in {} secs",
+                scripts.len(),
+                start.elapsed().as_millis() as f32 / 1000.0
+            )
         }
-        &_ => format!("@reload command accept a string value among: [script] but received {}", args[0])
+        &_ => format!("@reload command accept a string value among: [script] but received {}", args[0]),
     }
 }
 
-pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
+pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _args: Vec<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetSkills(session.char_id()));
     "Skills have been reset.".to_string()
 }
 
-
-pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
+pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _args: Vec<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetStats(session.char_id()));
     "Stats have been reset.".to_string()
 }
 
-
-pub fn handle_speed_change(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_speed_change(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@speed command accept 1 parameters but received none".to_string();
     }
@@ -315,8 +368,7 @@ pub fn handle_speed_change(server: &Server, session: Arc<Session>, args: Vec::<&
     format!("Speed has been set at {}.", speed)
 }
 
-
-pub fn handle_heal(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
+pub fn handle_heal(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
     if args.is_empty() {
         return "@speed command accept 1 parameters but received none".to_string();
     }

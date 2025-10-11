@@ -1,6 +1,6 @@
-use enum_macro::{WithNumberValue, WithStringValue, WithMaskValueU32};
+use enum_macro::{WithMaskValueU32, WithNumberValue, WithStringValue};
 
-use crate::enums::{EnumWithNumberValue, EnumWithMaskValueU32, EnumWithStringValue};
+use crate::enums::{EnumWithMaskValueU32, EnumWithNumberValue, EnumWithStringValue};
 
 #[derive(WithNumberValue, WithStringValue, WithMaskValueU32, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum EffectTrigger {

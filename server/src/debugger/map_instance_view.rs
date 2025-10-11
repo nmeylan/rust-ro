@@ -1,14 +1,16 @@
 use std::sync::Arc;
-use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui};
+
 use eframe::egui::epaint::RectShape;
-use models::enums::cell::CellType;
+use eframe::egui::{Color32, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui, emath, epaint};
+use hashbrown::HashMap;
 use models::enums::EnumWithMaskValueU16;
+use models::enums::cell::CellType;
+
+use crate::server::Server;
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemType};
-use crate::server::{Server};
 use crate::util::coordinate;
 use crate::util::hasher::NoopHasherU32;
-use hashbrown::HashMap;
 
 pub struct MapInstanceView {
     pub cursor_pos: Option<Pos2>,
@@ -16,7 +18,7 @@ pub struct MapInstanceView {
     pub zoom: f32,
     pub zoom_center: Pos2,
     pub zoom_draw_rect: Rect,
-    pub server: Arc<Server>
+    pub server: Arc<Server>,
 }
 
 struct PreviousCell {
@@ -25,19 +27,22 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: HashMap<u32, MapItem, NoopHasherU32>, selected_map_item: &Option<MapItem>) {
+    pub fn draw_map_instance_view(
+        &mut self,
+        ui: &mut Ui,
+        map_instance: &Arc<MapInstance>,
+        map_items: HashMap<u32, MapItem, NoopHasherU32>,
+        selected_map_item: &Option<MapItem>,
+    ) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
             let relative_draw_rect = Rect {
-                min: Pos2 {
-                    x: 0.0,
-                    y: 0.0
-                },
+                min: Pos2 { x: 0.0, y: 0.0 },
                 max: Pos2 {
                     x: absolute_draw_rect.max.x - absolute_draw_rect.min.x,
                     y: absolute_draw_rect.max.y - absolute_draw_rect.min.y,
-                }
+                },
             };
             if self.zoom_draw_rect.max.x == 0.0 {
                 self.zoom_draw_rect = relative_draw_rect;
@@ -71,7 +76,6 @@ impl MapInstanceView {
             self.zoom_draw_rect.min.y = self.zoom_center.y - self.zoom_center.y / self.zoom;
             self.zoom_draw_rect.max.y = self.zoom_center.y + (relative_draw_rect.max.y - self.zoom_center.y) / self.zoom;
 
-
             let start_j = ((self.zoom_draw_rect.min.x) / shape_x_size) as u16;
             let mut end_j = ((self.zoom_draw_rect.max.x) / shape_x_size) as u16;
             if end_j > map_instance.x_size() {
@@ -97,12 +101,12 @@ impl MapInstanceView {
                     let cell_pos = emath::Rect {
                         min: Pos2 {
                             x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32 + 1.0))
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32 + 1.0)),
                         },
                         max: Pos2 {
                             x: absolute_draw_rect.min.x + margin + (shape_x_size * ((j - start_j) as f32 + 1.0)),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * (i - start_i) as f32)
-                        }
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * (i - start_i) as f32),
+                        },
                     };
                     cell_color = Color32::BLACK;
                     if cell & CellType::Warp.as_flag() == CellType::Warp.as_flag() {
@@ -113,45 +117,64 @@ impl MapInstanceView {
 
                     if cursor_pos.is_some() {
                         let cursor_pos = cursor_pos.unwrap();
-                        if cell_pos.min.x < cursor_pos.x && cell_pos.max.x > cursor_pos.x
-                            && cell_pos.min.y < cursor_pos.y && cell_pos.max.y > cursor_pos.y {
-                            self.cursor_pos = Some(Pos2 {
-                                x: j as f32,
-                                y: i as f32
-                            });
-
+                        if cell_pos.min.x < cursor_pos.x
+                            && cell_pos.max.x > cursor_pos.x
+                            && cell_pos.min.y < cursor_pos.y
+                            && cell_pos.max.y > cursor_pos.y
+                        {
+                            self.cursor_pos = Some(Pos2 { x: j as f32, y: i as f32 });
                         }
                     }
-
 
                     if previous_cell.is_none() {
                         previous_cell = Some(PreviousCell {
                             color: cell_color,
                             pos: Pos2 {
                                 x: (j - start_j) as f32,
-                                y: (i - start_i) as f32
-                            }
+                                y: (i - start_i) as f32,
+                            },
                         })
                     } else if previous_cell.as_ref().unwrap().color != cell_color {
-                        MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, j);
+                        MapInstanceView::draw_cell(
+                            &mut shapes,
+                            &mut previous_cell,
+                            &absolute_draw_rect,
+                            margin,
+                            shape_x_size,
+                            shape_y_size,
+                            start_i,
+                            i,
+                            start_j,
+                            j,
+                        );
                         previous_cell = Some(PreviousCell {
                             color: cell_color,
                             pos: Pos2 {
                                 x: (j - start_j) as f32,
-                                y: (i - start_i) as f32
-                            }
+                                y: (i - start_i) as f32,
+                            },
                         })
                     }
                 }
-                MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, end_j);
+                MapInstanceView::draw_cell(
+                    &mut shapes,
+                    &mut previous_cell,
+                    &absolute_draw_rect,
+                    margin,
+                    shape_x_size,
+                    shape_y_size,
+                    start_i,
+                    i,
+                    start_j,
+                    end_j,
+                );
                 previous_cell = None;
             }
             for (_, map_item) in map_items.iter() {
                 let map_name = map_instance.name().to_string();
                 let map_instance_id = map_instance.id();
                 if let Some(position) = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id) {
-                    if position.x() < start_j
-                        || position.y() < start_i {
+                    if position.x() < start_j || position.y() < start_i {
                         continue;
                     }
                     let mut cell_color = Default::default();
@@ -176,26 +199,38 @@ impl MapInstanceView {
                             max: Pos2 {
                                 x: absolute_draw_rect.min.x + margin + (shape_x_size * ((position.x() - start_j) as f32 + 1.0)),
                                 y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32)),
-                            }
+                            },
                         },
                         fill: cell_color,
                         stroke: Stroke::NONE,
                         blur_width: 0.0,
                         fill_texture_id: Default::default(),
                         rounding: Default::default(),
-                        uv: Rect { min: Default::default(), max: Default::default() },
+                        uv: Rect {
+                            min: Default::default(),
+                            max: Default::default(),
+                        },
                     }));
                 }
             }
-
 
             ui.painter().extend(shapes);
             ui.ctx().request_repaint();
         });
     }
 
-    fn draw_cell(shapes: &mut Vec<Shape>, previous_cell: &Option<PreviousCell>, absolute_draw_rect: &emath::Rect,
-                 margin: f32, shape_x_size: f32, shape_y_size: f32, start_i: u16, i: u16, start_j: u16, j: u16) {
+    fn draw_cell(
+        shapes: &mut Vec<Shape>,
+        previous_cell: &Option<PreviousCell>,
+        absolute_draw_rect: &emath::Rect,
+        margin: f32,
+        shape_x_size: f32,
+        shape_y_size: f32,
+        start_i: u16,
+        i: u16,
+        start_j: u16,
+        j: u16,
+    ) {
         if previous_cell.as_ref().unwrap().color != Color32::BLACK {
             shapes.push(epaint::Shape::Rect(RectShape {
                 rect: emath::Rect {
@@ -206,14 +241,17 @@ impl MapInstanceView {
                     max: Pos2 {
                         x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32 + 1.0),
                         y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32)),
-                    }
+                    },
                 },
                 rounding: Default::default(),
                 fill: previous_cell.as_ref().unwrap().color,
                 stroke: Stroke::NONE,
                 blur_width: 0.0,
                 fill_texture_id: Default::default(),
-                uv: Rect { min: Default::default(), max: Default::default() },
+                uv: Rect {
+                    min: Default::default(),
+                    max: Default::default(),
+                },
             }));
         }
     }

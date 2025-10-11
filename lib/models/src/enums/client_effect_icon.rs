@@ -1,4 +1,5 @@
 use enum_macro::{WithNumberValue, WithStringValue};
+
 use crate::enums::{EnumWithNumberValue, EnumWithStringValue};
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
@@ -1226,4 +1227,3 @@ pub enum ClientEffectIcon {
     #[value = 1171]
     AddMatkDamage,
 }
-

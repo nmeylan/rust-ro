@@ -22203,32 +22203,32 @@ impl ClientMessages {
             같은 캐릭터 이름이 있습니다.
             Character Name already exists.
             */
-            ClientMessages::MsgCharacternamealreadyexists => 0xa,
+            ClientMessages::MsgCharacternamealreadyexists => 0xA,
             /*20031028 to latest
             캐릭터 생성 거부됨
             Character Creation is denied.
             */
-            ClientMessages::MsgCharactercreationdenied => 0xb,
+            ClientMessages::MsgCharactercreationdenied => 0xB,
             /*20031028 to latest
             캐릭터 삭제 거부
             Character Deletion is denied.
             */
-            ClientMessages::MsgCannotdeletecharacter => 0xc,
+            ClientMessages::MsgCannotdeletecharacter => 0xC,
             /*20031028 to latest
             방제목를 입력하세요.
             Please Enter Room Title.
             */
-            ClientMessages::MsgEnterroomtitle => 0xd,
+            ClientMessages::MsgEnterroomtitle => 0xD,
             /*20031028 to latest
             불량단어가 검출되었습니다.
             Foul Language Detected.
             */
-            ClientMessages::MsgBadsentange => 0xe,
+            ClientMessages::MsgBadsentange => 0xE,
             /*20031028 to latest
             암호를 입력하세요.
             Please enter Password.
             */
-            ClientMessages::MsgEnterpassword => 0xf,
+            ClientMessages::MsgEnterpassword => 0xF,
             /*20031028 to latest
             암호를 영문 4자 이상 입력하세요.
             Please enter Password. Passwords must be at least 4 characters long.
@@ -22285,32 +22285,32 @@ impl ClientMessages {
             배경음악 볼륨
             BGM Volume
             */
-            ClientMessages::MsgVolumeofbgm => 0x1a,
+            ClientMessages::MsgVolumeofbgm => 0x1A,
             /*20031028 to latest
             효과음 On
             Sound Effects On
             */
-            ClientMessages::MsgSoundon => 0x1b,
+            ClientMessages::MsgSoundon => 0x1B,
             /*20031028 to latest
             효과음 Off
             Sound Effects Off
             */
-            ClientMessages::MsgSoundoff => 0x1c,
+            ClientMessages::MsgSoundoff => 0x1C,
             /*20031028 to latest
             프레임스킵 On
             Frame Skip On
             */
-            ClientMessages::MsgFrameskipon => 0x1d,
+            ClientMessages::MsgFrameskipon => 0x1D,
             /*20031028 to latest
             프레임스킵 Off
             Frame Skip Off
             */
-            ClientMessages::MsgFrameskipoff => 0x1e,
+            ClientMessages::MsgFrameskipoff => 0x1E,
             /*20031028 to latest
             배경음악 On
             BGM On
             */
-            ClientMessages::MsgBgmon => 0x1f,
+            ClientMessages::MsgBgmon => 0x1F,
             /*20031028 to latest
             배경음악 Off
             BGM Off
@@ -22365,32 +22365,32 @@ impl ClientMessages {
             /ex (캐릭터이름) or /차단 (캐릭터이름) : 해당캐릭터에 대해 귓말차단
             /ex (Character Name): Blocks whispering from the Character
             */
-            ClientMessages::MsgExplainsayisolation => 0x2a,
+            ClientMessages::MsgExplainsayisolation => 0x2A,
             /*20031028 to latest
             /ex or /차단 : 귓말차단 캐릭터 리스트
             /ex: View a list of Characters you have Blocked
             */
-            ClientMessages::MsgExplainlistsayisolationchar => 0x2b,
+            ClientMessages::MsgExplainlistsayisolationchar => 0x2B,
             /*20031028 to latest
             /in (캐릭터이름) or /해제 (캐릭터이름) : 해당캐릭터에 대해 귓말허용
             /in (Character Name): Allows whispering from the Character
             */
-            ClientMessages::MsgExplainsaypermit => 0x2c,
+            ClientMessages::MsgExplainsaypermit => 0x2C,
             /*20031028 to latest
             /inall or /해제전부 : 모두에게 귓말허용
             /inall: Allows whispers from anyone
             */
-            ClientMessages::MsgExplainsaypermitall => 0x2d,
+            ClientMessages::MsgExplainsaypermitall => 0x2D,
             /*20031028 to latest
             /exall or /차단전부 : 모두에게 귓말차단
             /exall: Blocks whispers from everyone
             */
-            ClientMessages::MsgExplainsayisolateall => 0x2e,
+            ClientMessages::MsgExplainsayisolateall => 0x2E,
             /*20031028 to latest
             다른유저 캐릭터를 마우스 오른버튼을 누르고 있는 상태에서 왼버튼으로 클릭하면 그캐릭터이름이 귓말콤보박스에 저장됩니다.
             Right click on a character and select [Register as a Friend] to add a person to your Friend List.
             */
-            ClientMessages::MsgExplaintip1 => 0x2f,
+            ClientMessages::MsgExplaintip1 => 0x2F,
             /*20031028 to latest
             단축아이탬창(F12) 소비장비 아이템을 드래그한후 사용하세요. 사용키(F1F2F3F4F5F6F7F8F9)
             F12 Brings up a Hotkey Window which allows you to drag and drop Recovery Items, Equipment and Skills into it for faster access.
@@ -22445,32 +22445,32 @@ impl ClientMessages {
             모두에게 귓말거부상태로됨
             You've blocked whispers from everyone.
             */
-            ClientMessages::MsgRefusehearall => 0x3a,
+            ClientMessages::MsgRefusehearall => 0x3A,
             /*20031028 to latest
             모두에게 귓말거부요청 실패함
             You've failed to block all whispers.
             */
-            ClientMessages::MsgReqrefusehearallfail => 0x3b,
+            ClientMessages::MsgReqrefusehearallfail => 0x3B,
             /*20031028 to latest
             모두에게 귓말가능상태가됨
             You've allowed whispers from everyone.
             */
-            ClientMessages::MsgHearall => 0x3c,
+            ClientMessages::MsgHearall => 0x3C,
             /*20031028 to latest
             모두에게 귓말가능요청 실패함
             You've failed to allow all whispers.
             */
-            ClientMessages::MsgReqhearallfail => 0x3d,
+            ClientMessages::MsgReqhearallfail => 0x3D,
             /*20031028 to latest
             귓말 거부 리스트가 없습니다
             You have no Block List.
             */
-            ClientMessages::MsgNorefusehearlist => 0x3e,
+            ClientMessages::MsgNorefusehearlist => 0x3E,
             /*20031028 to latest
             -귓말 거부 리스트-
             [ Character Block List ]
             */
-            ClientMessages::MsgRefusehearlist => 0x3f,
+            ClientMessages::MsgRefusehearlist => 0x3F,
             /*20031028 to latest
             방이 잘 만들어 졌습니다.
             Room has been successfully created.
@@ -22527,32 +22527,32 @@ impl ClientMessages {
             거래가 취소 되었습니다.
             The deal has been canceled.
             */
-            ClientMessages::MsgDealiscanceled => 0x4a,
+            ClientMessages::MsgDealiscanceled => 0x4A,
             /*20031028 to latest
             아이템 교환이 잘 되었습니다.
             The deal has successfully completed.
             */
-            ClientMessages::MsgDealsuccess => 0x4b,
+            ClientMessages::MsgDealsuccess => 0x4B,
             /*20031028 to latest
             아이템 교환이 실패 하였습니다.
             The deal has failed.
             */
-            ClientMessages::MsgDealfailed => 0x4c,
+            ClientMessages::MsgDealfailed => 0x4C,
             /*20031028 to latest
             파티가 만들어졌습니다.
             Party has successfully been organized.
             */
-            ClientMessages::MsgPartymakesucceed => 0x4d,
+            ClientMessages::MsgPartymakesucceed => 0x4D,
             /*20031028 to latest
             같은 파티이름이 있습니다.
             That Party Name already exists.
             */
-            ClientMessages::MsgSamepartyname => 0x4e,
+            ClientMessages::MsgSamepartyname => 0x4E,
             /*20031028 to latest
             이미 파티에 속해있습니다.
             The Character is already in a party.
             */
-            ClientMessages::MsgYouarealreadyinparty => 0x4f,
+            ClientMessages::MsgYouarealreadyinparty => 0x4F,
             /*20031028 to latest
             다른파티에 가입되어 있습니다.
             The Character already joined another party.
@@ -22607,32 +22607,32 @@ impl ClientMessages {
             공개 :
             Pub:
             */
-            ClientMessages::MsgRoompublic => 0x5a,
+            ClientMessages::MsgRoompublic => 0x5A,
             /*20031028 to latest
             마지막 체크지점부터 시작하려면 '재시작'을 캐릭터 선택으로 돌아가려면 '종료'를 눌러주세요.
             Click ''Restart'' to go back to your save point or click ''Exit'' to select another character.
             */
-            ClientMessages::MsgRestartmsg => 0x5b,
+            ClientMessages::MsgRestartmsg => 0x5B,
             /*20031028 to latest
             원하는 거래를 선택하세요.
             Please select a Deal Type.
             */
-            ClientMessages::MsgSelectdealtype => 0x5c,
+            ClientMessages::MsgSelectdealtype => 0x5C,
             /*20031028 to latest
             님이 거래를 요청했습니다.
              requests a deal.
             */
-            ClientMessages::MsgSuggestdeal => 0x5d,
+            ClientMessages::MsgSuggestdeal => 0x5D,
             /*20031028 to latest
              파티에서 초청 메시지가 왔습니다. 합류하겠습니까?
              Party has sent you an invitation. Would you like to join?
             */
-            ClientMessages::MsgSuggestjoinparty => 0x5e,
+            ClientMessages::MsgSuggestjoinparty => 0x5E,
             /*20031028 to latest
             명령이 틀렸습니다.
             Invalid Command
             */
-            ClientMessages::MsgInvalidcommand => 0x5f,
+            ClientMessages::MsgInvalidcommand => 0x5F,
             /*20031028 to latest
             탈퇴하기
             Leave party
@@ -22687,32 +22687,32 @@ impl ClientMessages {
             소지아이템
             Inventory
             */
-            ClientMessages::MsgItem => 0x6a,
+            ClientMessages::MsgItem => 0x6A,
             /*20031028 to latest
             /결성 [파티이름] : 파티결성 /탈퇴 : 파티탈퇴
             /organize ''Party Name'' To organize a party. Type /leave To leave a Party.
             */
-            ClientMessages::MsgExplainparty => 0x6b,
+            ClientMessages::MsgExplainparty => 0x6B,
             /*20031028 to latest
             자신이 파티리더일때 캐릭터를 오른버튼으로 클릭하면 파티에 가입요청하기 메뉴가 뜹니다.
             If you are the party master, you can invite someone into your party by right-clicking on a Character.
             */
-            ClientMessages::MsgExplaintip3 => 0x6c,
+            ClientMessages::MsgExplaintip3 => 0x6C,
             /*20031028 to latest
             회복
             Consumables
             */
-            ClientMessages::MsgRestore => 0x6d,
+            ClientMessages::MsgRestore => 0x6D,
             /*20031028 to latest
             공격
             Attack
             */
-            ClientMessages::MsgAttack => 0x6e,
+            ClientMessages::MsgAttack => 0x6E,
             /*20031028 to latest
             보조
             Support
             */
-            ClientMessages::MsgSupport => 0x6f,
+            ClientMessages::MsgSupport => 0x6F,
             /*20031028 to latest
             전체
             All
@@ -22769,32 +22769,32 @@ impl ClientMessages {
             잠시만 기다려 주세요.
             Please wait...
             */
-            ClientMessages::MsgWaitingresponsefromserver => 0x7a,
+            ClientMessages::MsgWaitingresponsefromserver => 0x7A,
             /*20031028 to latest
             잠시만 기다려 주세요.
             Please wait...
             */
-            ClientMessages::MsgMakingcharacter => 0x7b,
+            ClientMessages::MsgMakingcharacter => 0x7B,
             /*20031028 to latest
             잠시만 기다려 주세요.
             Please wait...
             */
-            ClientMessages::MsgDeletingcharacter => 0x7c,
+            ClientMessages::MsgDeletingcharacter => 0x7C,
             /*20031028 to latest
             방 만들기
             Make a Room
             */
-            ClientMessages::MsgMakingroom => 0x7d,
+            ClientMessages::MsgMakingroom => 0x7D,
             /*20031028 to latest
             방셋팅 바꾸기
             Room Setup
             */
-            ClientMessages::MsgChangeroomsetting => 0x7e,
+            ClientMessages::MsgChangeroomsetting => 0x7E,
             /*20031028 to latest
             강퇴시키기
             Kick Character Out
             */
-            ClientMessages::MsgBan => 0x7f,
+            ClientMessages::MsgBan => 0x7F,
             /*20031028 to latest
             방장권한 주기
             Give Master Authority
@@ -22849,32 +22849,32 @@ impl ClientMessages {
             /탈퇴 or /leave : 파티 탈퇴
             /leave: Leaves a party
             */
-            ClientMessages::MsgExplainleaveparty => 0x8a,
+            ClientMessages::MsgExplainleaveparty => 0x8A,
             /*20031028 to latest
             /제명 [캐릭터이름] or /expel [캐릭터이름] : 해당캐릭터를 파티에서 제명시킴
             /expel ''Character Name'' kicks a Character out of your party
             */
-            ClientMessages::MsgExplainexpelpartymember => 0x8b,
+            ClientMessages::MsgExplainexpelpartymember => 0x8B,
             /*20031028 to latest
             [Alt] + [End] : 플레이어 hp/sp 게이지 On Off
             [Alt] + [End]: Turns HP/SP Bar On or Off
             */
-            ClientMessages::MsgExplaintip4 => 0x8c,
+            ClientMessages::MsgExplaintip4 => 0x8C,
             /*20031028 to latest
             [Alt] + [Home] : 지면 커서 표시 On Off
             [Alt] + [Home]: Turns Ground Cursor On or Off
             */
-            ClientMessages::MsgExplaintip5 => 0x8d,
+            ClientMessages::MsgExplaintip5 => 0x8D,
             /*20031028 to latest
             [Insert] : 앉기 서기
             [Insert]: Makes you sit or stand. (Hotkey to toggle between /sit and /stand)
             */
-            ClientMessages::MsgExplaintip6 => 0x8e,
+            ClientMessages::MsgExplaintip6 => 0x8E,
             /*20031028 to latest
             MVP가 되셨습니다!! MVP 아이템은
             Congratulations! You are the MVP! Your reward item is
             */
-            ClientMessages::MsgYoureceivemvpitem => 0x8f,
+            ClientMessages::MsgYoureceivemvpitem => 0x8F,
             /*20031028 to latest
              !!
             !
@@ -22929,520 +22929,520 @@ impl ClientMessages {
             [Alt] + [=] : 알파벳 간격이 넓어졌을때 되돌리기.
             [Alt] + [=]: Fix the interval error between letters.
             */
-            ClientMessages::MsgExplaintip7 => 0x9a,
+            ClientMessages::MsgExplaintip7 => 0x9A,
             /*20031028 to latest
             [F10] : 채팅창 크기조정 [Alt] + [F10] : 채팅창 On Off
             [F10]: To toggle Chat Window size; [Alt] + [F10]: Toggle Chat Window On or Off
             */
-            ClientMessages::MsgExplaintip8 => 0x9b,
+            ClientMessages::MsgExplaintip8 => 0x9B,
             /*20031028 to latest
             귓속말 하는법 : 채팅창 왼쪽 입력란에 캐릭터이름을 입력하고 오른쪽 입력란에 말을 입력하면 됩니다. TAB키로 두입력란 사이로 커서를 이동할 수 있습니다.
             How to Whisper: Enter a Character's Name on the left side of chat window and type your message on the right side. The Tab key helps you move between these boxes.
             */
-            ClientMessages::MsgExplaintip9 => 0x9c,
+            ClientMessages::MsgExplaintip9 => 0x9C,
             /*20031028 to latest
             /! /? /기쁨 /하트 /땀 /아하 /짜증 /화 /돈 /... /가위 /바위 /보 : Alt + (1~9) Ctrl + (-=\) 에 대응되는 명령어 입니다.
             /!,/?,/ho,/lv,/lv2,/swt,/ic,/an,/ag,/$,/….,/thx,/wah,/sry,/heh,/swt2,/hmm,/no1,/??,/omg,/oh,/X,/hp,/go,/sob,/gg,/kis,/kis2,/pif,/ok: Emotion icons corresponding to Alt + (1~9) Ctrl + (-=\\)
             */
-            ClientMessages::MsgExplaintip10 => 0x9d,
+            ClientMessages::MsgExplaintip10 => 0x9D,
             /*20031028 to latest
             파티원에게 말하는법 : 말의 제일앞에 '%'를 붙이면 파티원에게 말이 갑니다. (예: "%안녕")
             How to Speak to Party: Add % in front of every message.(Example: \%Hello\)
             */
-            ClientMessages::MsgExplaintip11 => 0x9e,
+            ClientMessages::MsgExplaintip11 => 0x9E,
             /*20031028 to latest
             스킬레벨이 부족합니다. 교환 불능.
             You haven't learned enough Basic Skills to Trade.
             */
-            ClientMessages::MsgNotenoughskillleve1 => 0x9f,
+            ClientMessages::MsgNotenoughskillleve1 => 0x9F,
             /*20031028 to latest
             스킬레벨이 부족합니다. 이모션 불능.
             You haven't learned enough Basic Skills to use Emotion icons.
             */
-            ClientMessages::MsgNotenoughskillleve2 => 0xa0,
+            ClientMessages::MsgNotenoughskillleve2 => 0xA0,
             /*20031028 to latest
             스킬레벨이 부족합니다. 앉기 불능.
             You haven't learned enough Basic Skills to Sit.
             */
-            ClientMessages::MsgNotenoughskillleve3 => 0xa1,
+            ClientMessages::MsgNotenoughskillleve3 => 0xA1,
             /*20031028 to latest
             스킬레벨이 부족합니다. 채팅방만들기 불능.
             You haven't learned enough Basic Skills to create a chat room.
             */
-            ClientMessages::MsgNotenoughskillleve4 => 0xa2,
+            ClientMessages::MsgNotenoughskillleve4 => 0xA2,
             /*20031028 to latest
             스킬레벨이 부족합니다. 파티만들기 불능
             You haven't learned enough Basic Skills to Party.
             */
-            ClientMessages::MsgNotenoughskillleve5 => 0xa3,
+            ClientMessages::MsgNotenoughskillleve5 => 0xA3,
             /*20031028 to latest
             스킬레벨이 부족합니다. 외치기 불능
             You haven't learned enough skills to Shout.
             */
-            ClientMessages::MsgNotenoughskillleve6 => 0xa4,
+            ClientMessages::MsgNotenoughskillleve6 => 0xA4,
             /*20031028 to latest
             스킬레벨이 부족합니다. pk 불능
             You haven't learned enough skills for Pking.
             */
-            ClientMessages::MsgNotenoughskillleve7 => 0xa5,
+            ClientMessages::MsgNotenoughskillleve7 => 0xA5,
             /*20031028 to latest
             사고자하는 품목
             Buying Items
             */
-            ClientMessages::MsgItemsforbuy => 0xa6,
+            ClientMessages::MsgItemsforbuy => 0xA6,
             /*20031028 to latest
             아이템 상점
             Item Shop
             */
-            ClientMessages::MsgItemstore => 0xa7,
+            ClientMessages::MsgItemstore => 0xA7,
             /*20031028 to latest
             팔고자하는 품목
             Selling Items
             */
-            ClientMessages::MsgItemsforsell => 0xa8,
+            ClientMessages::MsgItemsforsell => 0xA8,
             /*20031028 to latest
             보관아이템
             Storage
             */
-            ClientMessages::MsgItemsthatisstored => 0xa9,
+            ClientMessages::MsgItemsthatisstored => 0xA9,
             /*20031028 to latest
              장비가 장착 되었습니다.
              is put on.
             */
-            ClientMessages::MsgItemisequiped => 0xaa,
+            ClientMessages::MsgItemisequiped => 0xAA,
             /*20031028 to latest
              장비가 해제 되었습니다.
              is taken off.
             */
-            ClientMessages::MsgItemisremoved => 0xab,
+            ClientMessages::MsgItemisremoved => 0xAB,
             /*20031028 to latest
             귓말리스트에 이름넣기
             To add names on the Whispering List
             */
-            ClientMessages::MsgAddtowhispercharlist => 0xac,
+            ClientMessages::MsgAddtowhispercharlist => 0xAC,
             /*20031028 to latest
             스크린샷 찍는법 : [Print Screen]키나 [Scroll Lock]키를 누르면 됩니다.
             How to Take Screen Shots: Press [Print Screen] or [Scroll Lock]
             */
-            ClientMessages::MsgExplaintip12 => 0xad,
+            ClientMessages::MsgExplaintip12 => 0xAD,
             /*20031028 to latest
             오늘의 팁
             Tip of the Day
             */
-            ClientMessages::MsgTipoftheday => 0xae,
+            ClientMessages::MsgTipoftheday => 0xAE,
             /*20031028 to latest
             ^3850a0알고 계셨습니까... ^000000  //^709fed
             ^3850a0Did you know...?^709fed
             */
-            ClientMessages::MsgDidyouknow => 0xaf,
+            ClientMessages::MsgDidyouknow => 0xAF,
             /*20031028 to latest
             시작할때 열기
             Display at startup
             */
-            ClientMessages::MsgShowtipsatstartup => 0xb0,
+            ClientMessages::MsgShowtipsatstartup => 0xB0,
             /*20031028 to latest
             /tip : 오늘의팁 열기
             /tip: Opens ''Tip of the Day''
             */
-            ClientMessages::MsgExplainopentip => 0xb1,
+            ClientMessages::MsgExplainopentip => 0xB1,
             /*20031028 to latest
             현재 접속자 %d명
             There are %d Players Currently Connected.
             */
-            ClientMessages::MsgNumpeople => 0xb2,
+            ClientMessages::MsgNumpeople => 0xB2,
             /*20031028 to latest
             (%s)님이 입장 하였습니다.
             (%s) has entered.
             */
-            ClientMessages::MsgUsergetintheroom => 0xb3,
+            ClientMessages::MsgUsergetintheroom => 0xB3,
             /*20031028 to latest
             (%s)님이 퇴장 하였습니다.
             (%s) has left.
             */
-            ClientMessages::MsgUsergetoutoftheroom => 0xb4,
+            ClientMessages::MsgUsergetoutoftheroom => 0xB4,
             /*20031028 to latest
             (%s)님이 강제 퇴장 되었습니다.
             (%s) was kicked out.
             */
-            ClientMessages::MsgUsergetoutoftheroombyforce => 0xb5,
+            ClientMessages::MsgUsergetoutoftheroombyforce => 0xB5,
             /*20031028 to latest
              %d 개
             %d ea.
             */
-            ClientMessages::MsgEa => 0xb6,
+            ClientMessages::MsgEa => 0xB6,
             /*20031028 to latest
             %s : %d 개
             %s: %d ea.
             */
-            ClientMessages::MsgEa2 => 0xb7,
+            ClientMessages::MsgEa2 => 0xB7,
             /*20031028 to latest
             %s %s : %d 개
             %s %s: %d
             */
-            ClientMessages::MsgEa3 => 0xb8,
+            ClientMessages::MsgEa3 => 0xB8,
             /*20031028 to latest
             팔 수 있는 품목
             Available Items to sell
             */
-            ClientMessages::MsgItemsyoucansell => 0xb9,
+            ClientMessages::MsgItemsyoucansell => 0xB9,
             /*20031028 to latest
             상점에서 파는 품목
             Shop Items
             */
-            ClientMessages::MsgShopitems => 0xba,
+            ClientMessages::MsgShopitems => 0xBA,
             /*20031028 to latest
             알 수 없는곳
             Unknown Area
             */
-            ClientMessages::MsgNowhere => 0xbb,
+            ClientMessages::MsgNowhere => 0xBB,
             /*20031028 to latest
             서버와 언어가 맞지 않습니다.
             Your Client language doesn't match the Server language.
             */
-            ClientMessages::MsgClienttypemismatch => 0xbc,
+            ClientMessages::MsgClienttypemismatch => 0xBC,
             /*20031028 to latest
             아이템을 버릴려면 장비창을 닫으세요.
             Please move your equipment to the inventory. And close the equipment window.
             */
-            ClientMessages::MsgCloseequipwnd => 0xbd,
+            ClientMessages::MsgCloseequipwnd => 0xBD,
             /*20031028 to latest
             영어만 됩니다.
             This server provides English Text Characters Only.
             */
-            ClientMessages::MsgEnglishonly => 0xbe,
+            ClientMessages::MsgEnglishonly => 0xBE,
             /*20031028 to latest
             지금은 지원되지 않습니다.
             This is not implemented yet.
             */
-            ClientMessages::MsgNotsupportedyet => 0xbf,
+            ClientMessages::MsgNotsupportedyet => 0xBF,
             /*20031028 to latest
             귓말 리스트가 없습니다.
             No Whisper List.
             */
-            ClientMessages::MsgNowhisperlist => 0xc0,
+            ClientMessages::MsgNowhisperlist => 0xC0,
             /*20031028 to latest
              에게 귓말거부상태로됨
             : Whispering Blocked.
             */
-            ClientMessages::MsgWhisperignoresuccess => 0xc1,
+            ClientMessages::MsgWhisperignoresuccess => 0xC1,
             /*20031028 to latest
              에게 귓말거부 요청실패함
             : Whispering Block has failed.
             */
-            ClientMessages::MsgWhisperignorefailed1 => 0xc2,
+            ClientMessages::MsgWhisperignorefailed1 => 0xC2,
             /*20031028 to latest
              에게 귓말거부 요청실패함 (인원초과)
             : Whispering Block has failed. Block List is full.
             */
-            ClientMessages::MsgWhisperignorefailed2 => 0xc3,
+            ClientMessages::MsgWhisperignorefailed2 => 0xC3,
             /*20031028 to latest
              에게 귓말가능상태로됨
             : Whispering accepted.
             */
-            ClientMessages::MsgWhispernoignoresuccess => 0xc4,
+            ClientMessages::MsgWhispernoignoresuccess => 0xC4,
             /*20031028 to latest
              에게 귓말가능 요청실패함
             : Command has failed.
             */
-            ClientMessages::MsgWhispernoignorefailed1 => 0xc5,
+            ClientMessages::MsgWhispernoignorefailed1 => 0xC5,
             /*20031028 to latest
              에게 귓말가능 요청실패함 (인원초과)
             : Command has failed. Block List is full.
             */
-            ClientMessages::MsgWhispernoignorefailed2 => 0xc6,
+            ClientMessages::MsgWhispernoignorefailed2 => 0xC6,
             /*20031028 to latest
             이름의 처음과 마지막에는 공백문자를 사용할 수 없습니다.
             You cannot put a space at the beginning or end of a name.
             */
-            ClientMessages::MsgNospaceinname => 0xc7,
+            ClientMessages::MsgNospaceinname => 0xC7,
             /*20031028 to latest
             비공개
             Private
             */
-            ClientMessages::MsgRoomprivate2 => 0xc8,
+            ClientMessages::MsgRoomprivate2 => 0xC8,
             /*20031028 to latest
             공개
             Public
             */
-            ClientMessages::MsgRoompublic2 => 0xc9,
+            ClientMessages::MsgRoompublic2 => 0xC9,
             /*20031028 to latest
             SP가 부족합니다.
             Not Enough SP
             */
-            ClientMessages::MsgUseskillfailspinsufficient => 0xca,
+            ClientMessages::MsgUseskillfailspinsufficient => 0xCA,
             /*20031028 to latest
             HP가 부족합니다.
             Not Enough HP
             */
-            ClientMessages::MsgUseskillfailhpinsufficient => 0xcb,
+            ClientMessages::MsgUseskillfailhpinsufficient => 0xCB,
             /*20031028 to latest
             스킬사용 실패.
             Skill has failed.
             */
-            ClientMessages::MsgNotenoughskillleve8 => 0xcc,
+            ClientMessages::MsgNotenoughskillleve8 => 0xCC,
             /*20031028 to latest
             훔치기 실패.
             Steal has failed.
             */
-            ClientMessages::MsgFailsteal => 0xcd,
+            ClientMessages::MsgFailsteal => 0xCD,
             /*20031028 to latest
             교환창
             Trade
             */
-            ClientMessages::MsgExchange => 0xce,
+            ClientMessages::MsgExchange => 0xCE,
             /*20031028 to latest
             독걸기 실패.
             Envenom skill has failed.
             */
-            ClientMessages::MsgFailpoison => 0xcf,
+            ClientMessages::MsgFailpoison => 0xCF,
             /*20031028 to latest
             이 아이디로는 이 서버에 접속할 수 없습니다.
             You cannot use this ID on this server.
             */
-            ClientMessages::MsgIdmismatch => 0xd0,
+            ClientMessages::MsgIdmismatch => 0xD0,
             /*20031028 to latest
             스피드가 향상되었습니다.
             Your Speed has increased.
             */
-            ClientMessages::MsgSpeedup => 0xd1,
+            ClientMessages::MsgSpeedup => 0xD1,
             /*20031028 to latest
             스피드가 감소되었습니다.
             Your Speed has decreased.
             */
-            ClientMessages::MsgSpeeddown => 0xd2,
+            ClientMessages::MsgSpeeddown => 0xD2,
             /*20031028 to latest
             /기억 : 워프할 장소 기억(워프 스킬이 있는경우)
             /memo: To memorize a place as Warp Point (If you are an Acolyte Class character)
             */
-            ClientMessages::MsgExplaintip13 => 0xd3,
+            ClientMessages::MsgExplaintip13 => 0xD3,
             /*20031028 to latest
             임의의 위치
             Random Area
             */
-            ClientMessages::MsgRandompos => 0xd4,
+            ClientMessages::MsgRandompos => 0xD4,
             /*20031028 to latest
             워프 할 위치를 선택하세요.
             Select an Area to Warp
             */
-            ClientMessages::MsgSelectwheretowarp => 0xd5,
+            ClientMessages::MsgSelectwheretowarp => 0xD5,
             /*20031028 to latest
             스킬레벨이 부족합니다.
             Skill Level is not high enough
             */
-            ClientMessages::MsgNotenoughskilllevel => 0xd6,
+            ClientMessages::MsgNotenoughskilllevel => 0xD6,
             /*20031028 to latest
             저장된 워프할 장소가 없습니다.
             There are no memorized locations (Memo Points).
             */
-            ClientMessages::MsgNostoredplacetowarp => 0xd7,
+            ClientMessages::MsgNostoredplacetowarp => 0xD7,
             /*20031028 to latest
             워프 관련 스킬이 없습니다.
             You haven't learned Warp.
             */
-            ClientMessages::MsgNowarpskill => 0xd8,
+            ClientMessages::MsgNowarpskill => 0xD8,
             /*20031028 to latest
             워프 장소로 저장됨.
             Saved location as a Memo Point for Warp Skill.
             */
-            ClientMessages::MsgWarppointstored => 0xd9,
+            ClientMessages::MsgWarppointstored => 0xD9,
             /*20031028 to latest
             취소
             Cancel
             */
-            ClientMessages::MsgCancel => 0xda,
+            ClientMessages::MsgCancel => 0xDA,
             /*20031028 to latest
             스킬 사용후 시간이 충분히 지나지 않았습니다.
             There is a Delay after using a Skill.
             */
-            ClientMessages::MsgSkillinterval => 0xdb,
+            ClientMessages::MsgSkillinterval => 0xDB,
             /*20031028 to latest
             한번에 가질 수 있는 아이템 종류수를 초과하여 아이템을 가질 수 없습니다.
             You can't have this item because you will exceed the weight limit.
             */
-            ClientMessages::MsgCantgetitembecausecount => 0xdc,
+            ClientMessages::MsgCantgetitembecausecount => 0xDC,
             /*20031028 to latest
             아이템 최대 종류수를 초과 하였습니다.
             Out of the maximum capacity
             */
-            ClientMessages::MsgInsufficientovercount => 0xdd,
+            ClientMessages::MsgInsufficientovercount => 0xDD,
             /*20031028 to latest
             수레아이템
             Cart Items
             */
-            ClientMessages::MsgMerchantitem => 0xde,
+            ClientMessages::MsgMerchantitem => 0xDE,
             /*20031028 to latest
             수레 벗기
             Take off Cart
             */
-            ClientMessages::MsgCartoff => 0xdf,
+            ClientMessages::MsgCartoff => 0xDF,
             /*20031028 to latest
             노점 개설
             Opening a stall
             */
-            ClientMessages::MsgMerchantshopmaker => 0xe0,
+            ClientMessages::MsgMerchantshopmaker => 0xE0,
             /*20031028 to 20041207
             노점이름를 입력하세요.
             20041213 to latest
             노점이름을 입력하세요.
             Please Name your Shop.
             */
-            ClientMessages::MsgEntershoptitle => 0xe1,
+            ClientMessages::MsgEntershoptitle => 0xE1,
             /*20031028 to latest
             나의 노점
             My Shop
             */
-            ClientMessages::MsgItemmystore => 0xe2,
+            ClientMessages::MsgItemmystore => 0xE2,
             /*20031028 to latest
             상인 아이템 상점
             Merchant Shop
             */
-            ClientMessages::MsgItemmerchantstore => 0xe3,
+            ClientMessages::MsgItemmerchantstore => 0xE3,
             /*20031028 to latest
             상인에게 사고자하는 품목
             Buying Items
             */
-            ClientMessages::MsgItemsforbuyfrommerchant => 0xe4,
+            ClientMessages::MsgItemsforbuyfrommerchant => 0xE4,
             /*20031028 to 20130508
             %s 사기 실패 %s
             20130515 to latest
             %s 구입 실패 %s
             %s Purchase Failed %s
             */
-            ClientMessages::MsgFailbuyitemfrommerchant => 0xe5,
+            ClientMessages::MsgFailbuyitemfrommerchant => 0xE5,
             /*20031028 to latest
             재고 부족.
             Out of Stock
             */
-            ClientMessages::MsgInsufficientstock => 0xe6,
+            ClientMessages::MsgInsufficientstock => 0xE6,
             /*20031028 to latest
             %s %d 개 팔림.
             %s %d sold.
             */
-            ClientMessages::MsgItemissold => 0xe7,
+            ClientMessages::MsgItemissold => 0xE7,
             /*20031028 to latest
             노점에서 팔 수 있는 아이템
             Available Items for Vending
             */
-            ClientMessages::MsgMerchantmirroritem => 0xe8,
+            ClientMessages::MsgMerchantmirroritem => 0xE8,
             /*20031028 to 20111012
             돈이 부족해서 스킬을 쓸 수 없습니다.
             20111017 to latest
             제니가 부족해서 스킬을 사용 할 수 없습니다.
             Skill has failed because you do not have enough zeny.
             */
-            ClientMessages::MsgSkillfailmoney => 0xe9,
+            ClientMessages::MsgSkillfailmoney => 0xE9,
             /*20031028 to latest
             사용할 대상을 선택하세요
             Select a Target.
             */
-            ClientMessages::MsgSelecttarget => 0xea,
+            ClientMessages::MsgSelecttarget => 0xEA,
             /*20031028 to latest
             /pk on : pk On /pk off : pk Off
             /pk on: Turns PK On. /pk off: Turns PK Off.
             */
-            ClientMessages::MsgExplaintip14 => 0xeb,
+            ClientMessages::MsgExplaintip14 => 0xEB,
             /*20031028 to latest
             노점
             Shop
             */
-            ClientMessages::MsgStreetshop => 0xec,
+            ClientMessages::MsgStreetshop => 0xEC,
             /*20031028 to latest
             수레 아이템 [Alt+W]
             Cart Items [Alt+W]
             */
-            ClientMessages::MsgOpencartwindow => 0xed,
+            ClientMessages::MsgOpencartwindow => 0xED,
             /*20031028 to latest
             기본정보
             Basic Information
             */
-            ClientMessages::MsgBasicinfownd => 0xee,
+            ClientMessages::MsgBasicinfownd => 0xEE,
             /*20031028 to 20191204
             이무기로는 이스킬을 사용할수 없습니다.
             The skill cannot be used with this weapon.
             20191211 to latest
             현재 무기로는 스킬을 사용할 수 없습니다.
             */
-            ClientMessages::MsgUseskillfailnotsuitableweapon => 0xef,
+            ClientMessages::MsgUseskillfailnotsuitableweapon => 0xEF,
             /*20031028 to latest
             %s 사기 실패 재고 부족 현재 재고 %d 개.
             Buying %s has been failed. Out of Stock. Current Stock %d.
             */
-            ClientMessages::MsgFailbuyitemfrommerchantnostock => 0xf0,
+            ClientMessages::MsgFailbuyitemfrommerchantnostock => 0xF0,
             /*20031028 to latest
             서버와 동기화가 틀려 연결이 끊어졌습니다.
             You've been disconnected due to a time gap between you and the server.
             */
-            ClientMessages::MsgSpeedhack => 0xf1,
+            ClientMessages::MsgSpeedhack => 0xF1,
             /*20031028 to latest
             화살을 장착하세요
             Please equip the proper ammunition first.
             */
-            ClientMessages::MsgErrattackarrow => 0xf2,
+            ClientMessages::MsgErrattackarrow => 0xF2,
             /*20031028 to latest
             중량과다로 공격이나 스킬을 사용할 수 없습니다.
             You can't attack or use skills because you've exceeded the Weight Limit.
             */
-            ClientMessages::MsgErrattackweight => 0xf3,
+            ClientMessages::MsgErrattackweight => 0xF3,
             /*20031028 to latest
             중량과다로 스킬을 사용할 수 없습니다.
             You can't use skills because you've exceeded the Weight Limit.
             */
-            ClientMessages::MsgErrskillweight => 0xf4,
+            ClientMessages::MsgErrskillweight => 0xF4,
             /*20031028 to latest
             화살이 장착되었습니다.
             Ammunition has been equipped.
             */
-            ClientMessages::MsgMsgarrowequipmentsuccess => 0xf5,
+            ClientMessages::MsgMsgarrowequipmentsuccess => 0xF5,
             /*20031028 to latest
             레드젬스톤이 필요합니다.
             Red Gemstone required.
             */
-            ClientMessages::MsgNeedredjamstone => 0xf6,
+            ClientMessages::MsgNeedredjamstone => 0xF6,
             /*20031028 to latest
             블루젬스톤이 필요합니다.
             Blue Gemstone required.
             */
-            ClientMessages::MsgNeedbluejamstone => 0xf7,
+            ClientMessages::MsgNeedbluejamstone => 0xF7,
             /*20031028 to latest
             힘 파라메터
             Strength
             */
-            ClientMessages::MsgDescstr => 0xf8,
+            ClientMessages::MsgDescstr => 0xF8,
             /*20031028 to latest
             민첩성 파라메터
             Agility
             */
-            ClientMessages::MsgDescagi => 0xf9,
+            ClientMessages::MsgDescagi => 0xF9,
             /*20031028 to latest
             체력 파라메터
             Vitality
             */
-            ClientMessages::MsgDescvit => 0xfa,
+            ClientMessages::MsgDescvit => 0xFA,
             /*20031028 to latest
             지력 파라메터
             Intelligence
             */
-            ClientMessages::MsgDescint => 0xfb,
+            ClientMessages::MsgDescint => 0xFB,
             /*20031028 to latest
             손재주 파라메터
             Dexterity
             */
-            ClientMessages::MsgDescdex => 0xfc,
+            ClientMessages::MsgDescdex => 0xFC,
             /*20031028 to latest
             운 파라메터
             Luck
             */
-            ClientMessages::MsgDescluk => 0xfd,
+            ClientMessages::MsgDescluk => 0xFD,
             /*20031028 to latest
             공격력
             Hit Point
             */
-            ClientMessages::MsgDescatk => 0xfe,
+            ClientMessages::MsgDescatk => 0xFE,
             /*20031028 to latest
             방어력
             Defence Rate
             */
-            ClientMessages::MsgDescdef => 0xff,
+            ClientMessages::MsgDescdef => 0xFF,
             /*20031028 to latest
             명중률
             Accuracy
@@ -23497,32 +23497,32 @@ impl ClientMessages {
             E-MAIL 인증이 되지않았거나 블럭된 계정입니다.
             Account ID blocked by the Game Master Team.
             */
-            ClientMessages::MsgIdemailconfirmneeded => 0x10a,
+            ClientMessages::MsgIdemailconfirmneeded => 0x10A,
             /*20031028 to latest
             비밀번호가 틀립니다.
             Incorrect User ID or Password. Please try again.
             */
-            ClientMessages::MsgIncorrectloginpassword => 0x10b,
+            ClientMessages::MsgIncorrectloginpassword => 0x10B,
             /*20031028 to latest
             머리모양 선택
             Choose Hairstyle
             */
-            ClientMessages::MsgSelecthairstyle => 0x10c,
+            ClientMessages::MsgSelecthairstyle => 0x10C,
             /*20031028 to latest
             공격력
             Hit Point
             */
-            ClientMessages::MsgAtk => 0x10d,
+            ClientMessages::MsgAtk => 0x10D,
             /*20031028 to latest
             방어력
             Defence Rate
             */
-            ClientMessages::MsgDef => 0x10e,
+            ClientMessages::MsgDef => 0x10E,
             /*20031028 to latest
             공격스냅 On
             Attack Snap On
             */
-            ClientMessages::MsgAttacksnapon => 0x10f,
+            ClientMessages::MsgAttacksnapon => 0x10F,
             /*20031028 to latest
             공격스냅 Off
             Attack Snap Off
@@ -23579,32 +23579,32 @@ impl ClientMessages {
             상점명
             Shop Name
             */
-            ClientMessages::MsgStallname => 0x11a,
+            ClientMessages::MsgStallname => 0x11A,
             /*20031028 to latest
             스킬목록
             Skill Tree
             */
-            ClientMessages::MsgSkilllist => 0x11b,
+            ClientMessages::MsgSkilllist => 0x11B,
             /*20031028 to latest
             스킬포인트 : %d
             Skill Point: %d
             */
-            ClientMessages::MsgSkillpoint => 0x11c,
+            ClientMessages::MsgSkillpoint => 0x11C,
             /*20031028 to latest
             스킬사용 실패
             Skill has failed.
             */
-            ClientMessages::MsgUseskillfail => 0x11d,
+            ClientMessages::MsgUseskillfail => 0x11D,
             /*20031028 to latest
             패시브
             Passive
             */
-            ClientMessages::MsgPassive => 0x11e,
+            ClientMessages::MsgPassive => 0x11E,
             /*20031028 to latest
             각자 취득
             Individual
             */
-            ClientMessages::MsgExpdiv1 => 0x11f,
+            ClientMessages::MsgExpdiv1 => 0x11F,
             /*20031028 to latest
             균등하게 분배
             Shared
@@ -23659,22 +23659,22 @@ impl ClientMessages {
             이서버를 이용할 수 없는 나이입니다.
             You are underaged.
             */
-            ClientMessages::MsgLimitage => 0x12a,
+            ClientMessages::MsgLimitage => 0x12A,
             /*20031028 to latest
             이메일 주소를 입력하세요.
             Please enter the deletion password.
             */
-            ClientMessages::MsgEnteremail => 0x12b,
+            ClientMessages::MsgEnteremail => 0x12B,
             /*20031028 to latest
             이메일 주소 입력하기
             E-mail Address (Case Sensitive).
             */
-            ClientMessages::MsgEnteremailtooltip => 0x12c,
+            ClientMessages::MsgEnteremailtooltip => 0x12C,
             /*20031028 to latest
             이메일 주소가 틀려서 캐릭터가 삭제 되지 않았습니다.
             Character Deletion has failed because you have entered an incorrect e-mail address.
             */
-            ClientMessages::MsgCannotdeletecharacteremail => 0x12d,
+            ClientMessages::MsgCannotdeletecharacteremail => 0x12D,
             /*20031028 to 20070703
             주민등록번호 뒷자리를 입력하세요.
             20070618 to 20070622
@@ -23683,7 +23683,7 @@ impl ClientMessages {
             계정 비밀번호를 입력하세요.
             Enter Second Serial Cord of your Social Security number.
             */
-            ClientMessages::MsgEnterpeopleregnumber => 0x12e,
+            ClientMessages::MsgEnterpeopleregnumber => 0x12E,
             /*20031028 to 20070703
             주민등록번호 뒷자리가 틀려서 캐릭터가 삭제 되지 않았습니다.
             20070618 to 20070622
@@ -23692,7 +23692,7 @@ impl ClientMessages {
             비밀번호가 틀려서 캐릭터가 삭제 되지 않았습니다.
             Character Deletion has failed because you have entered an incorrect SSN.
             */
-            ClientMessages::MsgCannotdeletecharacterpeopleregnumber => 0x12f,
+            ClientMessages::MsgCannotdeletecharacterpeopleregnumber => 0x12F,
             /*20031028 to latest
             한번에 15가지 이상의 아이템을 팔 수 없습니다.
             You can't sell more than 15 types of Items at one time.
@@ -23747,32 +23747,32 @@ impl ClientMessages {
             계정 만들기
             Register
             */
-            ClientMessages::MsgMakeaccount => 0x13a,
+            ClientMessages::MsgMakeaccount => 0x13A,
             /*20031028 to latest
             수신거부하기
             Reject Whispering
             */
-            ClientMessages::MsgReqexlist => 0x13b,
+            ClientMessages::MsgReqexlist => 0x13B,
             /*20031028 to latest
             수신거부해제하기
             Allow Whispering
             */
-            ClientMessages::MsgReqin => 0x13c,
+            ClientMessages::MsgReqin => 0x13C,
             /*20031028 to latest
             미스표시 On
             Shows ''Miss''
             */
-            ClientMessages::MsgMisseffecton => 0x13d,
+            ClientMessages::MsgMisseffecton => 0x13D,
             /*20031028 to latest
             미스표시 Off
             Shows ''Miss''
             */
-            ClientMessages::MsgMisseffectoff => 0x13e,
+            ClientMessages::MsgMisseffectoff => 0x13E,
             /*20031028 to latest
             카메라고정 On
             Camera Zooming On
             */
-            ClientMessages::MsgFixedcameraon => 0x13f,
+            ClientMessages::MsgFixedcameraon => 0x13F,
             /*20031028 to latest
             카메라고정 Off
             Camera Zooming Off
@@ -23827,32 +23827,32 @@ impl ClientMessages {
             마스터이름
             ClanMaster Name
             */
-            ClientMessages::MsgGuildmastername => 0x14a,
+            ClientMessages::MsgGuildmastername => 0x14A,
             /*20031028 to latest
             조합원수
             Number of Members
             */
-            ClientMessages::MsgGuildnummember => 0x14b,
+            ClientMessages::MsgGuildnummember => 0x14B,
             /*20031028 to latest
             조합원 평균레벨
             Avg.lvl of Guildsmen
             */
-            ClientMessages::MsgGuildavgmemberlevel => 0x14c,
+            ClientMessages::MsgGuildavgmemberlevel => 0x14C,
             /*20031028 to latest
             관리영지
             Castles Owned
             */
-            ClientMessages::MsgGuildmanageland => 0x14d,
+            ClientMessages::MsgGuildmanageland => 0x14D,
             /*20031028 to latest
             성향
             Tendency
             */
-            ClientMessages::MsgGuildfair => 0x14e,
+            ClientMessages::MsgGuildfair => 0x14E,
             /*20031028 to latest
             경험치
             EXP
             */
-            ClientMessages::MsgGuildexp => 0x14f,
+            ClientMessages::MsgGuildexp => 0x14F,
             /*20031028 to latest
             길드엠블렘
             Emblem
@@ -23907,32 +23907,32 @@ impl ClientMessages {
             전체길드 리스트
             Entire Guild List
             */
-            ClientMessages::MsgGuildtotalinfo => 0x15a,
+            ClientMessages::MsgGuildtotalinfo => 0x15A,
             /*20031028 to latest
             귓말 리스트
             Whispering List
             */
-            ClientMessages::MsgWhisperlistwnd => 0x15b,
+            ClientMessages::MsgWhisperlistwnd => 0x15B,
             /*20031028 to latest
             귓말창 열기
             Open Whispering Window
             */
-            ClientMessages::MsgOpenwhisperlistwnd => 0x15c,
+            ClientMessages::MsgOpenwhisperlistwnd => 0x15C,
             /*20031028 to latest
             귓말 리스트 창 여는법 : [Alt] + [H] 를 누르면 귓말 리스트 창이 열립니다.
             How to Open Whispering List: Press [Alt] + [H]
             */
-            ClientMessages::MsgExplainwhisperlistwnd => 0x15d,
+            ClientMessages::MsgExplainwhisperlistwnd => 0x15D,
             /*20031028 to latest
             자동으로 귓말창 열기
             Open Whispering List Automatically
             */
-            ClientMessages::MsgAutoopenwhisperlistwnd => 0x15e,
+            ClientMessages::MsgAutoopenwhisperlistwnd => 0x15E,
             /*20031028 to latest
             지우기
             Delete
             */
-            ClientMessages::MsgDelete => 0x15f,
+            ClientMessages::MsgDelete => 0x15F,
             /*20031028 to latest
             다음부터 열리지 않음
             Close since next
@@ -23987,34 +23987,34 @@ impl ClientMessages {
             1:1창 열릴때 소리로 알림
             Alarm when you recieve a 1:1 Chat
             */
-            ClientMessages::MsgWhisperopensound => 0x16a,
+            ClientMessages::MsgWhisperopensound => 0x16A,
             /*20031028 to latest
             정말 제명시키시겠습니까?
             Are you sure that you want to expel?
             */
-            ClientMessages::MsgDoyoureallywantexpel => 0x16b,
+            ClientMessages::MsgDoyoureallywantexpel => 0x16B,
             /*20031028 to latest
             %s 님이 길드를 탈퇴했습니다.
             %s has withdrawn from the guild.
             */
-            ClientMessages::MsgUserleftguild => 0x16c,
+            ClientMessages::MsgUserleftguild => 0x16C,
             /*20031028 to latest
             탈퇴사유 : %s
             Secession Reason: %s
             */
-            ClientMessages::MsgReasonleaveguild => 0x16d,
+            ClientMessages::MsgReasonleaveguild => 0x16D,
             /*20031028 to 20120202
             길드 해체 실패
             20120207 to latest
             길드명이 일치하지 않습니다
             You have failed to disband the guild.
             */
-            ClientMessages::MsgDisorganizeguildfailure => 0x16e,
+            ClientMessages::MsgDisorganizeguildfailure => 0x16E,
             /*20031028 to latest
             길드해체사유 : %s
             Disband Reason: %s
             */
-            ClientMessages::MsgDisorganizationreason => 0x16f,
+            ClientMessages::MsgDisorganizationreason => 0x16F,
             /*20031028 to latest
             해당 계정은 삭제된 아이디 입니다.
             This ID has been removed.
@@ -24069,32 +24069,32 @@ impl ClientMessages {
             다른길드에 가입되어 있습니다.
             He/She is already in a Guild.
             */
-            ClientMessages::MsgCharacterisalreadyinguild => 0x17a,
+            ClientMessages::MsgCharacterisalreadyinguild => 0x17A,
             /*20031028 to latest
             길드가입을 거절 했습니다.
             Offer Rejected
             */
-            ClientMessages::MsgCharacterrejectjoinguild => 0x17b,
+            ClientMessages::MsgCharacterrejectjoinguild => 0x17B,
             /*20031028 to latest
             길드가입을 수락했습니다.
             Offer Accepted
             */
-            ClientMessages::MsgCharacteracceptjoinguild => 0x17c,
+            ClientMessages::MsgCharacteracceptjoinguild => 0x17C,
             /*20031028 to latest
             길드정원을 초과했습니다.
             Your Guild is Full.
             */
-            ClientMessages::MsgToomanypeopleinguild => 0x17d,
+            ClientMessages::MsgToomanypeopleinguild => 0x17D,
             /*20031028 to latest
             (%s)님 길드에 가입요청
             Send (%s) a Guild invitation
             */
-            ClientMessages::MsgReqjoinguild => 0x17e,
+            ClientMessages::MsgReqjoinguild => 0x17E,
             /*20031028 to latest
             스킬 레벨이 모자라서 매너포인트를 줄 수 없습니다.
             You haven't learned enough skills for aligning.
             */
-            ClientMessages::MsgNotenoughformannerpoint => 0x17f,
+            ClientMessages::MsgNotenoughformannerpoint => 0x17F,
             /*20031028 to latest
             매너 포인트 주기 성공
             Aligning completed.
@@ -24149,32 +24149,32 @@ impl ClientMessages {
             이미 동맹되어 있습니다.
             This Guild is already your Ally.
             */
-            ClientMessages::MsgReqallyguildalreadyallied => 0x18a,
+            ClientMessages::MsgReqallyguildalreadyallied => 0x18A,
             /*20031028 to latest
             동맹을 거절 했습니다.
             You reject the offer
             */
-            ClientMessages::MsgReqallyguildreject => 0x18b,
+            ClientMessages::MsgReqallyguildreject => 0x18B,
             /*20031028 to latest
             동맹을 수락 했습니다.
             You accept the offer
             */
-            ClientMessages::MsgReqallyguildaccept => 0x18c,
+            ClientMessages::MsgReqallyguildaccept => 0x18C,
             /*20031028 to latest
             상대길드의 동맹길드의 수가 초과 되었습니다.
             They have too many Alliances.
             */
-            ClientMessages::MsgReqallyguildoversize => 0x18d,
+            ClientMessages::MsgReqallyguildoversize => 0x18D,
             /*20031028 to latest
             길드의 동맹길드의 수가 초과 되었습니다.
             You have too many Alliances.
             */
-            ClientMessages::MsgReqallymyguildoversize => 0x18e,
+            ClientMessages::MsgReqallymyguildoversize => 0x18E,
             /*20031028 to latest
             길드 동맹 요청
             Set this guild as an Alliance
             */
-            ClientMessages::MsgReqallyguild => 0x18f,
+            ClientMessages::MsgReqallyguild => 0x18F,
             /*20031028 to latest
             길드가 성공적으로 해체 되었습니다.
             Guild was successfully disbanded.
@@ -24228,520 +24228,520 @@ impl ClientMessages {
             크기
             Size
             */
-            ClientMessages::MsgSize => 0x19a,
+            ClientMessages::MsgSize => 0x19A,
             /*20031028 to latest
             종족
             Type
             */
-            ClientMessages::MsgRacetype => 0x19b,
+            ClientMessages::MsgRacetype => 0x19B,
             /*20031028 to latest
             MDEF
             */
-            ClientMessages::MsgMdefpower => 0x19c,
+            ClientMessages::MsgMdefpower => 0x19C,
             /*20031028 to latest
             속성
             Attribute
             */
-            ClientMessages::MsgProperty => 0x19d,
+            ClientMessages::MsgProperty => 0x19D,
             /*20031028 to latest
             無
             Neutral
             */
-            ClientMessages::MsgPropertyneutural => 0x19e,
+            ClientMessages::MsgPropertyneutural => 0x19E,
             /*20031028 to latest
             水
             Water
             */
-            ClientMessages::MsgPropertywater => 0x19f,
+            ClientMessages::MsgPropertywater => 0x19F,
             /*20031028 to latest
             地
             Earth
             */
-            ClientMessages::MsgPropertyearth => 0x1a0,
+            ClientMessages::MsgPropertyearth => 0x1A0,
             /*20031028 to latest
             火
             Fire
             */
-            ClientMessages::MsgPropertyfire => 0x1a1,
+            ClientMessages::MsgPropertyfire => 0x1A1,
             /*20031028 to latest
             風
             Wind
             */
-            ClientMessages::MsgPropertywind => 0x1a2,
+            ClientMessages::MsgPropertywind => 0x1A2,
             /*20031028 to latest
             毒
             Poison
             */
-            ClientMessages::MsgPropertypoison => 0x1a3,
+            ClientMessages::MsgPropertypoison => 0x1A3,
             /*20031028 to latest
             聖
             Holy
             */
-            ClientMessages::MsgPropertysaint => 0x1a4,
+            ClientMessages::MsgPropertysaint => 0x1A4,
             /*20031028 to latest
             暗
             Shadow
             */
-            ClientMessages::MsgPropertydark => 0x1a5,
+            ClientMessages::MsgPropertydark => 0x1A5,
             /*20031028 to latest
             念
             Ghost
             */
-            ClientMessages::MsgPropertymental => 0x1a6,
+            ClientMessages::MsgPropertymental => 0x1A6,
             /*20031028 to latest
             死
             Undead
             */
-            ClientMessages::MsgPropertyundead => 0x1a7,
+            ClientMessages::MsgPropertyundead => 0x1A7,
             /*20031028 to latest
             현재는 아이템을 만들 수 없습니다.
             You can't create items yet.
             */
-            ClientMessages::MsgCantmakeitem => 0x1a8,
+            ClientMessages::MsgCantmakeitem => 0x1A8,
             /*20031028 to latest
             제조 목록
             Item List you can craft
             */
-            ClientMessages::MsgMakelist => 0x1a9,
+            ClientMessages::MsgMakelist => 0x1A9,
             /*20031028 to latest
              만들기
              Create
             */
-            ClientMessages::MsgMaketarget => 0x1aa,
+            ClientMessages::MsgMaketarget => 0x1AA,
             /*20031028 to latest
              에 필요한 재료:
             's materials
             */
-            ClientMessages::MsgRequireformaketarget => 0x1ab,
+            ClientMessages::MsgRequireformaketarget => 0x1AB,
             /*20031028 to latest
              만들기 실패
              item creation failed.
             */
-            ClientMessages::MsgMaketargetfail => 0x1ac,
+            ClientMessages::MsgMaketargetfail => 0x1AC,
             /*20031028 to latest
              만들기 성공
              item created successfully.
             */
-            ClientMessages::MsgMaketargetsucceess => 0x1ad,
+            ClientMessages::MsgMaketargetsucceess => 0x1AD,
             /*20031028 to latest
             %s 만들기를 실패하였습니다.
              item creation failed.
             */
-            ClientMessages::MsgMaketargetfailmsg => 0x1ae,
+            ClientMessages::MsgMaketargetfailmsg => 0x1AE,
             /*20031028 to latest
             %s 만들기를 성공했습니다.
              item created successfully.
             */
-            ClientMessages::MsgMaketargetsucceessmsg => 0x1af,
+            ClientMessages::MsgMaketargetsucceessmsg => 0x1AF,
             /*20031028 to latest
             레벨이 부족합니다.
             You are not the required lvl.
             */
-            ClientMessages::MsgNotenoughlevel => 0x1b0,
+            ClientMessages::MsgNotenoughlevel => 0x1B0,
             /*20031028 to latest
             레벨이 너무 높습니다.
             Too high lvl for this job.
             */
-            ClientMessages::MsgToohighlevel => 0x1b1,
+            ClientMessages::MsgToohighlevel => 0x1B1,
             /*20031028 to latest
             직업이 적합하지 않습니다.
             Not the suitable job for this type of work.
             */
-            ClientMessages::MsgNotacceptablejob => 0x1b2,
+            ClientMessages::MsgNotacceptablejob => 0x1B2,
             /*20031028 to latest
             토키 박스 트랩 메세지
             Record a message in the Talkie Box
             */
-            ClientMessages::MsgTalkboxwindow => 0x1b3,
+            ClientMessages::MsgTalkboxwindow => 0x1B3,
             /*20031028 to latest
             기록할 메세지를 입력하시기 바랍니다.
             Please type a message for the Talkie Box
             */
-            ClientMessages::MsgTalkboxwindowmsg => 0x1b4,
+            ClientMessages::MsgTalkboxwindowmsg => 0x1B4,
             /*20031028 to latest
             길드에게 보냄
             Send to Guild
             */
-            ClientMessages::MsgSendtoguild => 0x1b5,
+            ClientMessages::MsgSendtoguild => 0x1B5,
             /*20031028 to latest
             결제된 계정이 아닙니다. 결제 페이지로 이동하시겠습니까?
             You didn't pay for this ID. Would you like to pay for it now?
             */
-            ClientMessages::MsgNotsettled => 0x1b6,
+            ClientMessages::MsgNotsettled => 0x1B6,
             /*20031028 to latest
             서버가 혼잡한 관계로 잠시후 다시 시도해 주시기 바랍니다.
             Server is jammed due to overpopulation. Please try again after few minutes.
             */
-            ClientMessages::MsgAccountbusy => 0x1b7,
+            ClientMessages::MsgAccountbusy => 0x1B7,
             /*20031028 to latest
             지난 접속 정보가 남아 있습니다. 30초정도 지난뒤에 다시 시도해 주시기 바랍니다.
             Server still recognizes your last log-in. Please try again after a few minutes.
             */
-            ClientMessages::MsgInformationremained => 0x1b8,
+            ClientMessages::MsgInformationremained => 0x1B8,
             /*20031028 to latest
             매 풀어주기
             Release Falcon
             */
-            ClientMessages::MsgBirdoff => 0x1b9,
+            ClientMessages::MsgBirdoff => 0x1B9,
             /*20031028 to latest
             페코페코 내리기
             Dismount
             */
-            ClientMessages::MsgChikenoff => 0x1ba,
+            ClientMessages::MsgChikenoff => 0x1BA,
             /*20031028 to latest
             小
             Small
             */
-            ClientMessages::MsgSizesmall => 0x1bb,
+            ClientMessages::MsgSizesmall => 0x1BB,
             /*20031028 to latest
             中
             Med
             */
-            ClientMessages::MsgSizemiddle => 0x1bc,
+            ClientMessages::MsgSizemiddle => 0x1BC,
             /*20031028 to latest
             大
             Big
             */
-            ClientMessages::MsgSizebig => 0x1bd,
+            ClientMessages::MsgSizebig => 0x1BD,
             /*20031028 to latest
             더블
             Double
             */
-            ClientMessages::MsgDouble => 0x1be,
+            ClientMessages::MsgDouble => 0x1BE,
             /*20031028 to latest
             트리플
             Triple
             */
-            ClientMessages::MsgTriple => 0x1bf,
+            ClientMessages::MsgTriple => 0x1BF,
             /*20031028 to latest
             쿼드로플
             Quadruple
             */
-            ClientMessages::MsgQuadrople => 0x1c0,
+            ClientMessages::MsgQuadrople => 0x1C0,
             /*20031028 to latest
             %s 까지 로그인을 금지하고 있습니다.
             You are prohibited to log in until %s.
             */
-            ClientMessages::MsgLoginrefuseblockeduntil => 0x1c1,
+            ClientMessages::MsgLoginrefuseblockeduntil => 0x1C1,
             /*20031028 to latest
             의
             's
             */
-            ClientMessages::MsgManufacturednormalitem => 0x1c2,
+            ClientMessages::MsgManufacturednormalitem => 0x1C2,
             /*20031028 to latest
             의 파이어
             's Fire
             */
-            ClientMessages::MsgManufacturedfireitem => 0x1c3,
+            ClientMessages::MsgManufacturedfireitem => 0x1C3,
             /*20031028 to latest
             의 아이스
             's Ice
             */
-            ClientMessages::MsgManufacturediceitem => 0x1c4,
+            ClientMessages::MsgManufacturediceitem => 0x1C4,
             /*20031028 to latest
             의 윈드
             's Wind
             */
-            ClientMessages::MsgManufacturedwinditem => 0x1c5,
+            ClientMessages::MsgManufacturedwinditem => 0x1C5,
             /*20031028 to latest
             의 어스
             's Earth
             */
-            ClientMessages::MsgManufacturedearthitem => 0x1c6,
+            ClientMessages::MsgManufacturedearthitem => 0x1C6,
             /*20031028 to latest
             211.239.161.246
             38.144.194.2
             */
-            ClientMessages::MsgAccountaddress => 0x1c7,
+            ClientMessages::MsgAccountaddress => 0x1C7,
             /*20031028 to latest
             6900
             */
-            ClientMessages::MsgAccountport => 0x1c8,
+            ClientMessages::MsgAccountport => 0x1C8,
             /*20031028 to 20171206
             http://www.ragnarok.co.kr
             20171213 to latest
             http://roz.gnjoy.com/
             http://www.ragnarok.co.kr
             */
-            ClientMessages::MsgRegistrationweburl => 0x1c9,
+            ClientMessages::MsgRegistrationweburl => 0x1C9,
             /*20031028 to latest
             %s 사용자 강제 종료
             Kill %s
             */
-            ClientMessages::MsgBanuser => 0x1ca,
+            ClientMessages::MsgBanuser => 0x1CA,
             /*20031028 to latest
             무지쎈
             Very Strong
             */
-            ClientMessages::MsgOnestarpiece => 0x1cb,
+            ClientMessages::MsgOnestarpiece => 0x1CB,
             /*20031028 to latest
             무지무지쎈
             Very Very Strong
             */
-            ClientMessages::MsgTwostarpiece => 0x1cc,
+            ClientMessages::MsgTwostarpiece => 0x1CC,
             /*20031028 to 20031028
             무지무지무지쎈
             20031103 to latest
             무무무쎈
             Very Very Very Strong
             */
-            ClientMessages::MsgThreestarpiece => 0x1cd,
+            ClientMessages::MsgThreestarpiece => 0x1CD,
             /*20031028 to latest
             길드 추방 사유
             The Reason of Expulsion
             */
-            ClientMessages::MsgGuildkickreason => 0x1ce,
+            ClientMessages::MsgGuildkickreason => 0x1CE,
             /*20031028 to latest
              공격 속도가 증가했습니다.
             Attack Speed is up.
             */
-            ClientMessages::MsgIncattackspeed => 0x1cf,
+            ClientMessages::MsgIncattackspeed => 0x1CF,
             /*20031028 to latest
              공격 속도가 감소했습니다.
             Attack Speed is down.
             */
-            ClientMessages::MsgDecattackspeed => 0x1d0,
+            ClientMessages::MsgDecattackspeed => 0x1D0,
             /*20031028 to latest
              무기의 공격력이 향상되었습니다.
             Weapon Damage is improved.
             */
-            ClientMessages::MsgIncweaponattack => 0x1d1,
+            ClientMessages::MsgIncweaponattack => 0x1D1,
             /*20031028 to latest
              무기의 공격력이 감소되었습니다.
             Weapon Damage is reduced.
             */
-            ClientMessages::MsgDecweaponattack => 0x1d2,
+            ClientMessages::MsgDecweaponattack => 0x1D2,
             /*20031028 to latest
              시전 딜레이가 줄었습니다.
             Cast Delay is reduced.
             */
-            ClientMessages::MsgFastpredelay => 0x1d3,
+            ClientMessages::MsgFastpredelay => 0x1D3,
             /*20031028 to latest
              시전 딜레이가 정상으로 되었습니다.
             Cast Delay has returned to normal.
             */
-            ClientMessages::MsgNormalpredelay => 0x1d4,
+            ClientMessages::MsgNormalpredelay => 0x1D4,
             /*20031028 to latest
              무기에 독속성이 부여되었습니다.
             Weapon is temporarily enchanted with Poison.
             */
-            ClientMessages::MsgWeaponpropertypoison => 0x1d5,
+            ClientMessages::MsgWeaponpropertypoison => 0x1D5,
             /*20031028 to latest
              무기에 성속성이 부여되었습니다.
             Weapon is temporarily enchanted with an elemental property.
             */
-            ClientMessages::MsgWeaponpropertysaint => 0x1d6,
+            ClientMessages::MsgWeaponpropertysaint => 0x1D6,
             /*20031028 to latest
              무기의 원래속성이 적용되었습니다.
             Weapon has changed back to normal.
             */
-            ClientMessages::MsgWeaponpropertyoriginal => 0x1d7,
+            ClientMessages::MsgWeaponpropertyoriginal => 0x1D7,
             /*20031028 to latest
              방어구에 성속성이 부여되었습니다.
             Armor has been enchanted with the Holy Ghost.
             */
-            ClientMessages::MsgArmorpropertysaint => 0x1d8,
+            ClientMessages::MsgArmorpropertysaint => 0x1D8,
             /*20031028 to latest
              방어구의 원래속성이 적용되었습니다.
             Armor has changed back to normal.
             */
-            ClientMessages::MsgArmorpropertyoriginal => 0x1d9,
+            ClientMessages::MsgArmorpropertyoriginal => 0x1D9,
             /*20031028 to latest
              배리어 상태가 되었습니다.
             Barrier Formed.
             */
-            ClientMessages::MsgBarrior => 0x1da,
+            ClientMessages::MsgBarrior => 0x1DA,
             /*20031028 to latest
              배리어 상태가 해제 되었습니다.
             Barrier Canceled.
             */
-            ClientMessages::MsgDisappearbarrior => 0x1db,
+            ClientMessages::MsgDisappearbarrior => 0x1DB,
             /*20031028 to latest
              소형, 중형, 대형 몬스터에게 100% 공격력을 줍니다.
             Weapon Perfection Initiated.
             */
-            ClientMessages::MsgPerfectdamage => 0x1dc,
+            ClientMessages::MsgPerfectdamage => 0x1DC,
             /*20031028 to latest
              웨폰퍼펙션 모드가 해제 되었습니다.
             Weapon perfection Canceled.
             */
-            ClientMessages::MsgDisappearperfectdamage => 0x1dd,
+            ClientMessages::MsgDisappearperfectdamage => 0x1DD,
             /*20031028 to latest
              무기가 파괴될 가능성이 높아진 대신 무기의 공격력이 증가하였습니다.
             Power-Thrust Initiated.
             */
-            ClientMessages::MsgOverthrusting => 0x1de,
+            ClientMessages::MsgOverthrusting => 0x1DE,
             /*20031028 to 20050118
              오버트러스팅 상태가 해제 되었습니다.
             20050124 to latest
              오버트러스트 상태가 해제 되었습니다.
             Power-Thrust Canceled.
             */
-            ClientMessages::MsgDisappearoverthrusting => 0x1df,
+            ClientMessages::MsgDisappearoverthrusting => 0x1DF,
             /*20031028 to latest
              무기의 최대 성능을 끌어냅니다.
             Maximize-Power Initiated.
             */
-            ClientMessages::MsgMaximize => 0x1e0,
+            ClientMessages::MsgMaximize => 0x1E0,
             /*20031028 to latest
              맥시마이즈 상태가 해제 되었습니다.
             Maximize-Power Canceled.
             */
-            ClientMessages::MsgDisappearmaximize => 0x1e1,
+            ClientMessages::MsgDisappearmaximize => 0x1E1,
             /*20031028 to latest
             [신서버]
             [New Server]
             */
-            ClientMessages::MsgServerpropertynew => 0x1e2,
+            ClientMessages::MsgServerpropertynew => 0x1E2,
             /*20031028 to latest
             (%d 명)
             (%d players)
             */
-            ClientMessages::MsgServerusercount => 0x1e3,
+            ClientMessages::MsgServerusercount => 0x1E3,
             /*20031028 to latest
             (점검중)
             (On the maintenance)
             */
-            ClientMessages::MsgServerinspecting => 0x1e4,
+            ClientMessages::MsgServerinspecting => 0x1E4,
             /*20031028 to latest
             길드멤버 %s님이 접속하셨습니다.
             Guild member %s has connected.
             */
-            ClientMessages::MsgGuildmemberstatusonline => 0x1e5,
+            ClientMessages::MsgGuildmemberstatusonline => 0x1E5,
             /*20031028 to latest
             길드멤버 %s님이 종료하셨습니다.
             Guild member %s has disconnected.
             */
-            ClientMessages::MsgGuildmemberstatusoffline => 0x1e6,
+            ClientMessages::MsgGuildmemberstatusoffline => 0x1E6,
             /*20031028 to latest
             경험치 %d 얻음
             You got %d Base EXP.
             */
-            ClientMessages::MsgGotexperiencepoint => 0x1e7,
+            ClientMessages::MsgGotexperiencepoint => 0x1E7,
             /*20031028 to latest
             잡경험치 %d 얻음
             You got %d Job EXP.
             */
-            ClientMessages::MsgGotjobexperiencepoint => 0x1e8,
+            ClientMessages::MsgGotjobexperiencepoint => 0x1E8,
             /*20031028 to latest
             길드에서 탈퇴 했습니다.
             You left the guild.
             */
-            ClientMessages::MsgLeftguild => 0x1e9,
+            ClientMessages::MsgLeftguild => 0x1E9,
             /*20031028 to latest
             길드에서 추방 당했습니다.
             You have been expelled from the Guild.
             */
-            ClientMessages::MsgBanfromguild => 0x1ea,
+            ClientMessages::MsgBanfromguild => 0x1EA,
             /*20031028 to latest
             아이템 감정 성공
             Item Appraisal has completed successfully.
             */
-            ClientMessages::MsgItemidentifysucceess => 0x1eb,
+            ClientMessages::MsgItemidentifysucceess => 0x1EB,
             /*20031028 to latest
             아이템 감정 실패
             Item appraisal has failed.
             */
-            ClientMessages::MsgItemidentifyfail => 0x1ec,
+            ClientMessages::MsgItemidentifyfail => 0x1EC,
             /*20031028 to latest
             아이템 조합 성공
             Compounding has completed successfully.
             */
-            ClientMessages::MsgItemcompoundingsucceess => 0x1ed,
+            ClientMessages::MsgItemcompoundingsucceess => 0x1ED,
             /*20031028 to latest
             아이템 조합 실패
             Compounding has failed.
             */
-            ClientMessages::MsgItemcompoundingfail => 0x1ee,
+            ClientMessages::MsgItemcompoundingfail => 0x1EE,
             /*20031028 to latest
             길드 적대 성공
             Antagonist has been set.
             */
-            ClientMessages::MsgHostileguildsucceess => 0x1ef,
+            ClientMessages::MsgHostileguildsucceess => 0x1EF,
             /*20031028 to latest
             적대 길드수 초과로 길드 적대 실패
             Guild has too many Antagonists.
             */
-            ClientMessages::MsgToomanyhostileguild => 0x1f0,
+            ClientMessages::MsgToomanyhostileguild => 0x1F0,
             /*20031028 to latest
             이미 적대 길드 입니다
             Already set as an Antagonist
             */
-            ClientMessages::MsgAlreadyregisteredhostileguild => 0x1f1,
+            ClientMessages::MsgAlreadyregisteredhostileguild => 0x1F1,
             /*20031028 to latest
             제련이 성공적으로 되었습니다.
             Upgrade has been completed successfully.
             */
-            ClientMessages::MsgItemrefiningsucceess => 0x1f2,
+            ClientMessages::MsgItemrefiningsucceess => 0x1F2,
             /*20031028 to latest
             제련이 실패하였습니다.
             Upgrade has failed.
             */
-            ClientMessages::MsgItemrefiningfail => 0x1f3,
+            ClientMessages::MsgItemrefiningfail => 0x1F3,
             /*20031028 to 20040311
             텔레포트 불가능 지역입니다.
             20040315 to latest
             이곳에서는 순간이동이 불가능합니다.
             Unavailable Area to Teleport
             */
-            ClientMessages::MsgImpossibleteleportarea => 0x1f4,
+            ClientMessages::MsgImpossibleteleportarea => 0x1F4,
             /*20031028 to 20040311
             텔레포트 가능 지역입니다.
             20040315 to latest
             이 장소는 기억할 수 없습니다.
             Unable to memorize this place as Warp Point
             */
-            ClientMessages::MsgPossibleteleportarea => 0x1f5,
+            ClientMessages::MsgPossibleteleportarea => 0x1F5,
             /*20031028 to latest
             지금은 종료할 수 없습니다.
             Please wait 10 seconds before trying to log out.
             */
-            ClientMessages::MsgCantexitnow => 0x1f6,
+            ClientMessages::MsgCantexitnow => 0x1F6,
             /*20031028 to latest
             직위
             Position
             */
-            ClientMessages::MsgPosition => 0x1f7,
+            ClientMessages::MsgPosition => 0x1F7,
             /*20031028 to latest
             직업
             Job
             */
-            ClientMessages::MsgJob => 0x1f8,
+            ClientMessages::MsgJob => 0x1F8,
             /*20031028 to latest
             메모
             Note
             */
-            ClientMessages::MsgMemo => 0x1f9,
+            ClientMessages::MsgMemo => 0x1F9,
             /*20031028 to latest
             기여
             Devotion
             */
-            ClientMessages::MsgContribution => 0x1fa,
+            ClientMessages::MsgContribution => 0x1FA,
             /*20031028 to latest
             상납경험치
             Tax Point
             */
-            ClientMessages::MsgExpcontiribution => 0x1fb,
+            ClientMessages::MsgExpcontiribution => 0x1FB,
             /*20031028 to latest
             길드탈퇴
             Leave Guild
             */
-            ClientMessages::MsgLeaveguild => 0x1fc,
+            ClientMessages::MsgLeaveguild => 0x1FC,
             /*20031028 to latest
             제명시키기
             Expel
             */
-            ClientMessages::MsgExpelguild => 0x1fd,
+            ClientMessages::MsgExpelguild => 0x1FD,
             /*20031028 to latest
             서열
             Rank
             */
-            ClientMessages::MsgGrade => 0x1fe,
+            ClientMessages::MsgGrade => 0x1FE,
             /*20031028 to latest
             직위명
             Position Title
             */
-            ClientMessages::MsgPositionname => 0x1ff,
+            ClientMessages::MsgPositionname => 0x1FF,
             /*20031028 to latest
             가입권한
             Invitation
@@ -24796,32 +24796,32 @@ impl ClientMessages {
             아이템 조합
             Insert Card
             */
-            ClientMessages::MsgItemcompounding => 0x20a,
+            ClientMessages::MsgItemcompounding => 0x20A,
             /*20031028 to latest
             탈퇴 사유를 입력해주세요.
             Please enter the reason of Secession.
             */
-            ClientMessages::MsgPleaseinputwhyleaving => 0x20b,
+            ClientMessages::MsgPleaseinputwhyleaving => 0x20B,
             /*20031028 to latest
             추방 사유를 입력해주세요.
             Please enter the reason of Expulsion.
             */
-            ClientMessages::MsgPelaseinputwhyexpel => 0x20c,
+            ClientMessages::MsgPelaseinputwhyexpel => 0x20C,
             /*20031028 to latest
             상점을 닫으세요.
             Please close Shop.
             */
-            ClientMessages::MsgPleaseclosestore => 0x20d,
+            ClientMessages::MsgPleaseclosestore => 0x20D,
             /*20031028 to latest
             스킬 이름
             Skill
             */
-            ClientMessages::MsgSkillname => 0x20e,
+            ClientMessages::MsgSkillname => 0x20E,
             /*20031028 to latest
             아이템 이름
             Item Name
             */
-            ClientMessages::MsgItemname => 0x20f,
+            ClientMessages::MsgItemname => 0x20F,
             /*20031028 to 20031118
             https://pay.ragnarok.co.kr
             20031119 to latest
@@ -24878,32 +24878,32 @@ impl ClientMessages {
             귀하는 게임방 정량제 사용자입니다.
             You paid with the Time Limit for Internet Cafe. Available time is xx hrs xx mins xx secs.
             */
-            ClientMessages::MsgBilling501 => 0x21a,
+            ClientMessages::MsgBilling501 => 0x21A,
             /*20031028 to latest
             귀하는 게임방 무료 허용기간 사용자입니다.
             You are free for the test of Internet Cafe version .
             */
-            ClientMessages::MsgBilling600 => 0x21b,
+            ClientMessages::MsgBilling600 => 0x21B,
             /*20031028 to latest
             귀하는 게임방 무료 사용자입니다.
             You are free for the Internet Cafe version.
             */
-            ClientMessages::MsgBilling700 => 0x21c,
+            ClientMessages::MsgBilling700 => 0x21C,
             /*20031028 to latest
             귀하는 종량제 사이트 이용자입니다.
             You paid on the Time Limit Website.
             */
-            ClientMessages::MsgBilling800 => 0x21d,
+            ClientMessages::MsgBilling800 => 0x21D,
             /*20031028 to latest
             이모션 목록
             Emotion icon List
             */
-            ClientMessages::MsgEmotionlist => 0x21e,
+            ClientMessages::MsgEmotionlist => 0x21E,
             /*20031028 to latest
             /이모션
             /emo
             */
-            ClientMessages::MsgViewemotion => 0x21f,
+            ClientMessages::MsgViewemotion => 0x21F,
             /*20031028 to latest
             /!
             */
@@ -24955,32 +24955,32 @@ impl ClientMessages {
             /*20031028 to latest
             /...
             */
-            ClientMessages::MsgEmotionthink => 0x22a,
+            ClientMessages::MsgEmotionthink => 0x22A,
             /*20031028 to latest
             /감사
             /thx
             */
-            ClientMessages::MsgEmotionthanks => 0x22b,
+            ClientMessages::MsgEmotionthanks => 0x22B,
             /*20031028 to latest
             /꽥
             /wah
             */
-            ClientMessages::MsgEmotionkek => 0x22c,
+            ClientMessages::MsgEmotionkek => 0x22C,
             /*20031028 to latest
             /죄송
             /sry
             */
-            ClientMessages::MsgEmotionsorry => 0x22d,
+            ClientMessages::MsgEmotionsorry => 0x22D,
             /*20031028 to latest
             /웃음
             /heh
             */
-            ClientMessages::MsgEmotionsmile => 0x22e,
+            ClientMessages::MsgEmotionsmile => 0x22E,
             /*20031028 to latest
             /뻘뻘
             /swt2
             */
-            ClientMessages::MsgEmotionprofuselysweat => 0x22f,
+            ClientMessages::MsgEmotionprofuselysweat => 0x22F,
             /*20031028 to latest
             /긁적
             /hmm
@@ -25035,32 +25035,32 @@ impl ClientMessages {
             /쪽
             /kis
             */
-            ClientMessages::MsgEmotionchup => 0x23a,
+            ClientMessages::MsgEmotionchup => 0x23A,
             /*20031028 to latest
             /쪽쪽
             /kis2
             */
-            ClientMessages::MsgEmotionchupchup => 0x23b,
+            ClientMessages::MsgEmotionchupchup => 0x23B,
             /*20031028 to latest
             /흥
             /pif
             */
-            ClientMessages::MsgEmotionhng => 0x23c,
+            ClientMessages::MsgEmotionhng => 0x23C,
             /*20031028 to latest
             /응
             /ok
             */
-            ClientMessages::MsgEmotionok => 0x23d,
+            ClientMessages::MsgEmotionok => 0x23D,
             /*20031028 to latest
             단축키 목록
             Shortcut List
             */
-            ClientMessages::MsgShortcutlist => 0x23e,
+            ClientMessages::MsgShortcutlist => 0x23E,
             /*20031028 to latest
             귀하의 계정은 보류되었습니다.
             Your account is suspended.
             */
-            ClientMessages::MsgBanpaysuspend => 0x23f,
+            ClientMessages::MsgBanpaysuspend => 0x23F,
             /*20031028 to latest
             과금 정책 변경으로 인해 일시 종료됩니다. 다시 접속하여 주시기 바랍니다.
             Your connection is terminated due to change in the billing policy. Please connect again.
@@ -25114,32 +25114,32 @@ impl ClientMessages {
             친밀도
             Intimacy
             */
-            ClientMessages::MsgPetfriendly => 0x24a,
+            ClientMessages::MsgPetfriendly => 0x24A,
             /*20031028 to latest
             상점과 채팅방을 동시에 열수 없습니다.
             Please avoid opening a chatroom while vending.
             */
-            ClientMessages::MsgCantopenstorewhilechat => 0x24b,
+            ClientMessages::MsgCantopenstorewhilechat => 0x24B,
             /*20031028 to latest
             개
             Total
             */
-            ClientMessages::MsgEa4 => 0x24c,
+            ClientMessages::MsgEa4 => 0x24C,
             /*20031028 to latest
             %s 를 전투불능으로 만들었습니다.
             You have knocked down %s.
             */
-            ClientMessages::MsgSlain => 0x24d,
+            ClientMessages::MsgSlain => 0x24D,
             /*20031028 to latest
             %s 님에 의해 전투불능 상태가 되었습니다.
             You have been knocked down by %s.
             */
-            ClientMessages::MsgSlainby => 0x24e,
+            ClientMessages::MsgSlainby => 0x24E,
             /*20031028 to latest
             먹이 - '%s' 아이템이 존재하지 않습니다..
             Feed - "%s" is not available.
             */
-            ClientMessages::MsgNotexistpetfood => 0x24f,
+            ClientMessages::MsgNotexistpetfood => 0x24F,
             /*20031028 to latest
             먹이 주기
             Feed Pet
@@ -25194,32 +25194,32 @@ impl ClientMessages {
             가격을 쓰실땐 숫자(0~9)만 써주십시오.
             Only the numbers (0~9) are available.
             */
-            ClientMessages::MsgCaninputnumberonly => 0x25a,
+            ClientMessages::MsgCaninputnumberonly => 0x25A,
             /*20031028 to latest
             감정되지 않은 아이템은 판매할 수 없습니다.
             You cannot sell unidentified items.
             */
-            ClientMessages::MsgCantsellunidentifieditem => 0x25b,
+            ClientMessages::MsgCantsellunidentifieditem => 0x25B,
             /*20031028 to latest
             가격이 0 Zeny인 아이템이 존재합니다. 계속 하시겠습니까?
             Item at 0 Zeny exists. Do you wish to continue?
             */
-            ClientMessages::MsgYouhavefreeitemonshop => 0x25c,
+            ClientMessages::MsgYouhavefreeitemonshop => 0x25C,
             /*20031028 to latest
             [새로 추가된 이모션 리스트]
             [New Emotion List]
             */
-            ClientMessages::MsgNewemotionlist => 0x25d,
+            ClientMessages::MsgNewemotionlist => 0x25D,
             /*20031028 to latest
             일본쪽 베타 사용자들에게 전하는 메세지. -> 겅호에서 재가입 하세요.
             N/A
             */
-            ClientMessages::MsgBanjapanrefuse1 => 0x25e,
+            ClientMessages::MsgBanjapanrefuse1 => 0x25E,
             /*20031028 to latest
             일본쪽 과금이 종료된 사용자들에게 전하는 메세지. -> 돈내라. 두 번내라.
             N/A
             */
-            ClientMessages::MsgBanjapanrefuse2 => 0x25f,
+            ClientMessages::MsgBanjapanrefuse2 => 0x25F,
             /*20031028 to latest
             같은 계정의 캐릭터가 이미 가입되어있습니다.
             Character in the same account already joined.
@@ -25274,32 +25274,32 @@ impl ClientMessages {
              클로킹 상태가 되었습니다.
             Cloaking initiated.
             */
-            ClientMessages::MsgEnstcloaking => 0x26a,
+            ClientMessages::MsgEnstcloaking => 0x26A,
             /*20031028 to latest
              클로킹 상태가 해제되었습니다.
             Cloaking canceled.
             */
-            ClientMessages::MsgDsstcloaking => 0x26b,
+            ClientMessages::MsgDsstcloaking => 0x26B,
             /*20031028 to latest
              독을 반사 할 수 있는 상태가 되었습니다.
             Poison React initiated.
             */
-            ClientMessages::MsgEnstpoisonreact => 0x26c,
+            ClientMessages::MsgEnstpoisonreact => 0x26C,
             /*20031028 to latest
              포이즌 리액트 상태가 해제되었습니다.
             Poison React canceled.
             */
-            ClientMessages::MsgDsstpoisonreact => 0x26d,
+            ClientMessages::MsgDsstpoisonreact => 0x26D,
             /*20031028 to latest
              이동속도가 감소하였습니다.
             Speed reduced.
             */
-            ClientMessages::MsgEnstquagmire => 0x26e,
+            ClientMessages::MsgEnstquagmire => 0x26E,
             /*20031028 to latest
              콰그마이어 상태가 해제되었습니다.
             Quagmire canceled.
             */
-            ClientMessages::MsgDsstquagmire => 0x26f,
+            ClientMessages::MsgDsstquagmire => 0x26F,
             /*20031028 to latest
              방어력이 증가되었습니다.
             Defense increased.
@@ -25356,32 +25356,32 @@ impl ClientMessages {
              행운이 향상되었습니다.
             Luck increased.
             */
-            ClientMessages::MsgEnstgloria => 0x27a,
+            ClientMessages::MsgEnstgloria => 0x27A,
             /*20031028 to latest
              글로리아 상태가 해제되었습니다.
             Gloria canceled.
             */
-            ClientMessages::MsgDsstgloria => 0x27b,
+            ClientMessages::MsgDsstgloria => 0x27B,
             /*20031028 to latest
              1회 공격에 두 배 데미지를 받는 상태가 되었습니다.
             You will received double damage from all attacking opponents.
             */
-            ClientMessages::MsgEnstlexaeterna => 0x27c,
+            ClientMessages::MsgEnstlexaeterna => 0x27C,
             /*20031028 to latest
              렉스에테르나 상태가 해제되었습니다.
             Lex Eterna canceled.
             */
-            ClientMessages::MsgDsstlexaeterna => 0x27d,
+            ClientMessages::MsgDsstlexaeterna => 0x27D,
             /*20031028 to latest
              공격속도가 증가하였습니다.
             Attack Speed increased.
             */
-            ClientMessages::MsgEnstadrenaline => 0x27e,
+            ClientMessages::MsgEnstadrenaline => 0x27E,
             /*20031028 to latest
              공격속도가 감소하였습니다.
             Attack Speed reduced.
             */
-            ClientMessages::MsgDsstadrenaline => 0x27f,
+            ClientMessages::MsgDsstadrenaline => 0x27F,
             /*20031028 to latest
              페코에 올라 탔습니다.
             You've just been on a Peco Peco.
@@ -25436,32 +25436,32 @@ impl ClientMessages {
              방어구가 파괴되었습니다.
             Armor destroyed.
             */
-            ClientMessages::MsgEnstbrokenamor => 0x28a,
+            ClientMessages::MsgEnstbrokenamor => 0x28A,
             /*20031028 to latest
              ...
             Weapon has just been released from destroyed status.
             */
-            ClientMessages::MsgDsstbrokenamor => 0x28b,
+            ClientMessages::MsgDsstbrokenamor => 0x28B,
             /*20031028 to latest
              무기가 파괴되었니다.
             Weapon destroyed.
             */
-            ClientMessages::MsgEnstbrokenweapon => 0x28c,
+            ClientMessages::MsgEnstbrokenweapon => 0x28C,
             /*20031028 to latest
              ...
             Weapon has just been released from destroyed status.
             */
-            ClientMessages::MsgDsstbrokenweapon => 0x28d,
+            ClientMessages::MsgDsstbrokenweapon => 0x28D,
             /*20031028 to latest
              환영상태가 되었습니다.
             Invisibility initiated.
             */
-            ClientMessages::MsgEnstillusion => 0x28e,
+            ClientMessages::MsgEnstillusion => 0x28E,
             /*20031028 to latest
              환영상태가 해제되었습니다.
             Invisibility canceled.
             */
-            ClientMessages::MsgDsstillusion => 0x28f,
+            ClientMessages::MsgDsstillusion => 0x28F,
             /*20031028 to latest
             과금 정보 처리가 늦어지고 있어 접속이 지연되고 있습니다. 잠시 후에 다시 시도해 주시기 바랍니다.
             Sorry. It is delayed due to the process of payment. Please re-connect in a minute.
@@ -25528,198 +25528,198 @@ impl ClientMessages {
             -[장착안됨]
             - [Not equipped]
             */
-            ClientMessages::MsgRefunequip => 0x29a,
+            ClientMessages::MsgRefunequip => 0x29A,
             /*20031028 to latest
             배고픔
             Very Hungry
             */
-            ClientMessages::MsgVeryhungry => 0x29b,
+            ClientMessages::MsgVeryhungry => 0x29B,
             /*20031028 to latest
             출출함
             Hungry
             */
-            ClientMessages::MsgHungry => 0x29c,
+            ClientMessages::MsgHungry => 0x29C,
             /*20031028 to latest
             보통
             Normal
             */
-            ClientMessages::MsgNormal => 0x29d,
+            ClientMessages::MsgNormal => 0x29D,
             /*20031028 to latest
             배부름
             Satisfied
             */
-            ClientMessages::MsgReplete => 0x29e,
+            ClientMessages::MsgReplete => 0x29E,
             /*20031028 to latest
             아주 배부름
             Stuffed
             */
-            ClientMessages::MsgVeryreplete => 0x29f,
+            ClientMessages::MsgVeryreplete => 0x29F,
             /*20031028 to latest
             서먹서먹함
             Awkward
             */
-            ClientMessages::MsgVeryawkward => 0x2a0,
+            ClientMessages::MsgVeryawkward => 0x2A0,
             /*20031028 to latest
             어색함
             Shy
             */
-            ClientMessages::MsgAwkward => 0x2a1,
+            ClientMessages::MsgAwkward => 0x2A1,
             /*20031028 to latest
             친함
             Cordial
             */
-            ClientMessages::MsgFriendly => 0x2a2,
+            ClientMessages::MsgFriendly => 0x2A2,
             /*20031028 to latest
             절친함
             Loyal
             */
-            ClientMessages::MsgVeryfriendly => 0x2a3,
+            ClientMessages::MsgVeryfriendly => 0x2A3,
             /*20031028 to latest
             알수 없음
             Unknown
             */
-            ClientMessages::MsgUnknown => 0x2a4,
+            ClientMessages::MsgUnknown => 0x2A4,
             /*20031028 to 20080513
             (태국)귀하는 앞으로 %일 %d시간 %d분 사용이 가능합니다.
             20080514 to latest
             귀하는 앞으로 %일 %d시간 %d분 사용이 가능합니다.
             Your account has play time of %d day %d hour %d minute.
             */
-            ClientMessages::MsgBillingdayhourminutes => 0x2a5,
+            ClientMessages::MsgBillingdayhourminutes => 0x2A5,
             /*20031028 to 20080513
             (태국)이 계정은 이미 다른 어카운트 서버로 접속한 상태입니다.
             20080514 to latest
             이 계정은 이미 다른 어카운트 서버로 접속한 상태입니다.
             Your account is already connected to account server.
             */
-            ClientMessages::MsgBaninformationremainedanotheraccount => 0x2a6,
+            ClientMessages::MsgBaninformationremainedanotheraccount => 0x2A6,
             /*20031028 to 20080513
             (태국)귀하는 앞으로 %d시간 %d분 사용이 가능합니다.
             20080514 to latest
             귀하는 앞으로 %d시간 %d분 사용이 가능합니다.
             Your account has play time of %d hour %d minute.
             */
-            ClientMessages::MsgBillinghourminutes => 0x2a7,
+            ClientMessages::MsgBillinghourminutes => 0x2A7,
             /*20031028 to 20080513
             (태국)귀하는 무료 사용자 입니다.
             20080514 to latest
             귀하는 무료 사용자 입니다.
             Your account is a free account.
             */
-            ClientMessages::MsgBillingfreeuser => 0x2a8,
+            ClientMessages::MsgBillingfreeuser => 0x2A8,
             /*20031028 to 20080513
             (태국)이 계정으로 사크라이에 접속할수 없습니다.
             20080514 to latest
             이 계정으로 사크라이에 접속할수 없습니다.
             This account can't connect the Sakray server.
             */
-            ClientMessages::MsgRefusenonsakrayidblocked => 0x2a9,
+            ClientMessages::MsgRefusenonsakrayidblocked => 0x2A9,
             /*20031028 to latest
             펫의 이름은 영문 23, 한글 11자 이내로 정해 주세요.
             Your pet name must be 23 characters or less.
             */
-            ClientMessages::MsgPetnamein23 => 0x2aa,
+            ClientMessages::MsgPetnamein23 => 0x2AA,
             /*20031028 to latest
             이름은 단 한번만 바꿀수 있습니다. 펫 이름을 ^0000ff^0000ff %s^000000^000000 로 수정합니다. 계속 하시겠습니까?
             You may change your pet's name only once. Your pet's name will be changed to ^0000ff^0000ff %s^000000^000000.  Do you wish to continue?
             */
-            ClientMessages::MsgPetnamechangeonlyonce => 0x2ab,
+            ClientMessages::MsgPetnamechangeonlyonce => 0x2AB,
             /*20031028 to latest
             /폰트
             /font
             */
-            ClientMessages::MsgNameballoontype => 0x2ac,
+            ClientMessages::MsgNameballoontype => 0x2AC,
             /*20031028 to latest
             길드에 남은 제니가 부족하여 작업이 실패하였습니다.
             Your guild lacks the funds to pay for this venture.
             */
-            ClientMessages::MsgGuildzenynotenough => 0x2ad,
+            ClientMessages::MsgGuildzenynotenough => 0x2AD,
             /*20031028 to latest
             길드가 소유할 수 있는 최대 금액을 초과하여 작업이 실패하였습니다.
             Your guild zeny limit prevents you from performing this action.
             */
-            ClientMessages::MsgGuildzenyover => 0x2ae,
+            ClientMessages::MsgGuildzenyover => 0x2AE,
             /*20031028 to latest
             이펙트 간략화 On
             Simplified effects have been activated.
             */
-            ClientMessages::MsgMineffecton => 0x2af,
+            ClientMessages::MsgMineffecton => 0x2AF,
             /*20031028 to latest
             이펙트 간략화 Off
             Simplified effects have been deactivated.
             */
-            ClientMessages::MsgMineffectoff => 0x2b0,
+            ClientMessages::MsgMineffectoff => 0x2B0,
             /*20031028 to latest
             자본금
             Required Fee
             */
-            ClientMessages::MsgCapital => 0x2b1,
+            ClientMessages::MsgCapital => 0x2B1,
             /*20031028 to latest
             아이템을 바닥에 버리려면, 아이템 창을 열어 주십시오.
             If you wish to drop an item, you must first open your Item Window (alt+e).
             */
-            ClientMessages::MsgOpenitemwndtothrow => 0x2b2,
+            ClientMessages::MsgOpenitemwndtothrow => 0x2B2,
             /*20031028 to latest
             PC방 요금이 종료하여 개인 요금제로 전환합니다. 개인 요금으로 게임을 계속 하시겠습니까?
             Internet Cafe Time Plan has been ended. Would you like to continue the game with your personal play time?
             */
-            ClientMessages::MsgAskpngameroom => 0x2b3,
+            ClientMessages::MsgAskpngameroom => 0x2B3,
             /*20031028 to 20100928
 
             20081008 to latest
 
             Current admission application state.
             */
-            ClientMessages::MsgReplyremaintime => 0x2b4,
+            ClientMessages::MsgReplyremaintime => 0x2B4,
             /*20031028 to 20100928
 
             20081008 to latest
 
             Current admission application state.
             */
-            ClientMessages::MsgInforemaintime => 0x2b5,
+            ClientMessages::MsgInforemaintime => 0x2B5,
             /*20031028 to latest
             돈이 모자라거나, 가질 수 있는 최대 금액을 초과하였습니다.
             Your lack of zeny or your zeny limit have prevented you from performing this action.
             */
-            ClientMessages::MsgOverorlowmoney => 0x2b6,
+            ClientMessages::MsgOverorlowmoney => 0x2B6,
             /*20031028 to latest
             전투불능 상태가 되었습니다. esc키를 누르시면 선택창이 뜹니다.
             Your character has fainted. Push the ESC key to restart.
             */
-            ClientMessages::MsgPressesctorestart => 0x2b7,
+            ClientMessages::MsgPressesctorestart => 0x2B7,
             /*20031028 to latest
               %d 개 획득
             - %d obtained.
             */
-            ClientMessages::MsgEaobtain => 0x2b8,
+            ClientMessages::MsgEaobtain => 0x2B8,
             /*20031028 to latest
             스펠 리스트
             Spell List
             */
-            ClientMessages::MsgSpelllist => 0x2b9,
+            ClientMessages::MsgSpelllist => 0x2B9,
             /*20031028 to latest
             /최소화
             /minimize
             */
-            ClientMessages::MsgMineffect => 0x2ba,
+            ClientMessages::MsgMineffect => 0x2BA,
             /*20031028 to latest
             이 아이템은 손상되어 있습니다..
             This item has been damaged.
             */
-            ClientMessages::MsgDamageditem => 0x2bb,
+            ClientMessages::MsgDamageditem => 0x2BB,
             /*20031028 to latest
             /noshift : 쉬프트를 누르지않고 힐로 적을 공격할수있게됩니다 On Off
             /noshift: You may use your ''force heal'' ability without the Shift key. On | Off
             */
-            ClientMessages::MsgExplainnoshift => 0x2bc,
+            ClientMessages::MsgExplainnoshift => 0x2BC,
             /*20031028 to 20040223
             시프트를 누르지 않고도 힐로 몬스터를 공격할수 있습니다 [ON]
             20040225 to latest
             시프트를 누르지 않고도 힐로 언데드를 공격할수 있습니다 [/ns ON]
             [no shift] option activated. [ON]
             */
-            ClientMessages::MsgNoshifton => 0x2bd,
+            ClientMessages::MsgNoshifton => 0x2BD,
             /*20031028 to 20040223
             시프트를 누르지 않고도 힐로 몬스터를 공격할수 있습니다 [OFF]
             20040225 to 20040315
@@ -25728,174 +25728,174 @@ impl ClientMessages {
             시프트를 눌러야 힐로 언데드를 공격할수 있습니다 [/ns OFF]
             [no shift] option deactivated. [OFF]
             */
-            ClientMessages::MsgNoshiftoff => 0x2be,
+            ClientMessages::MsgNoshiftoff => 0x2BE,
             /*20031028 to latest
             MSIREFUSEBANBYDBA
             */
-            ClientMessages::MsgRefusebanbydba => 0x2bf,
+            ClientMessages::MsgRefusebanbydba => 0x2BF,
             /*20031028 to latest
             MSIREFUSEEMAILNOTCONFIRMED
             */
-            ClientMessages::MsgRefuseemailnotconfirmed => 0x2c0,
+            ClientMessages::MsgRefuseemailnotconfirmed => 0x2C0,
             /*20031028 to latest
             MSIREFUSEBANBYGM
             */
-            ClientMessages::MsgRefusebanbygm => 0x2c1,
+            ClientMessages::MsgRefusebanbygm => 0x2C1,
             /*20031028 to latest
             MSIREFUSETEMPBANFORDBWORK
             */
-            ClientMessages::MsgRefusetempbanfordbwork => 0x2c2,
+            ClientMessages::MsgRefusetempbanfordbwork => 0x2C2,
             /*20031028 to latest
             MSIREFUSESELFLOCK
             */
-            ClientMessages::MsgRefuseselflock => 0x2c3,
+            ClientMessages::MsgRefuseselflock => 0x2C3,
             /*20031028 to latest
             MSIREFUSENOTPERMITTEDGROUP
             */
-            ClientMessages::MsgRefusenotpermittedgroup => 0x2c4,
+            ClientMessages::MsgRefusenotpermittedgroup => 0x2C4,
             /*20031028 to latest
             MSIREFUSEWAITFORSAKRAYACTIVE
             */
-            ClientMessages::MsgRefusewaitforsakrayactive => 0x2c5,
+            ClientMessages::MsgRefusewaitforsakrayactive => 0x2C5,
             /*20031028 to latest
             /aura : 오오라를 간략화 시킬수있습니다 On Off
             /aura: Simplify Aura effect On | Off
             */
-            ClientMessages::MsgExplainaura => 0x2c6,
+            ClientMessages::MsgExplainaura => 0x2C6,
             /*20031028 to latest
             오오라가 정상적으로 표시됩니다 [오오라 ON]
             Turn On Aura [Aura ON]
             */
-            ClientMessages::MsgAuraon => 0x2c7,
+            ClientMessages::MsgAuraon => 0x2C7,
             /*20031028 to latest
             오오라가 간략화되서 표시됩니다 [오오라 OFF]
             Simplify Aura enabled. [ON]
             */
-            ClientMessages::MsgAuraoff => 0x2c8,
+            ClientMessages::MsgAuraoff => 0x2C8,
             /*20031028 to latest
             채팅금지 기록 %d 회
             Chat block record %d times
             */
-            ClientMessages::MsgProhibitlog => 0x2c9,
+            ClientMessages::MsgProhibitlog => 0x2C9,
             /*20031028 to latest
             채팅 금지 리스트
             Chat block list
             */
-            ClientMessages::MsgProhibitlist => 0x2ca,
+            ClientMessages::MsgProhibitlist => 0x2CA,
             /*20031028 to latest
             /이름표시 or /showname : 캐릭터의 이름 표시 방식을 변경합니다.
             /showname: Change the name font type.
             */
-            ClientMessages::MsgExplainshownametype => 0x2cb,
+            ClientMessages::MsgExplainshownametype => 0x2CB,
             /*20031028 to latest
             /noctrl : 콘트롤을 누르지않아도 자동공격이 됩니다. On Off
             /noctrl | /nc: Auto attack without pressing ctrl key. On | Off
             */
-            ClientMessages::MsgExplainnoctrl => 0x2cc,
+            ClientMessages::MsgExplainnoctrl => 0x2CC,
             /*20031028 to 20040223
             콘트롤을 누르지 않아도 자동공격을 합니다 [자동공격 ON]
             20040225 to latest
             콘트롤을 누르지 않아도 자동공격을 합니다 [/nc ON]
             Use auto attack without Ctrl. [Auto attack ON]
             */
-            ClientMessages::MsgNoctrlon => 0x2cd,
+            ClientMessages::MsgNoctrlon => 0x2CD,
             /*20031028 to 20040223
             콘트롤을 눌러야 자동공격을 합니다 [자동공격 OFF]
             20040225 to latest
             콘트롤을 눌러야 자동공격을 합니다 [/nc OFF]
             Use auto attack with Ctrl. [Auto attack OFF]
             */
-            ClientMessages::MsgNoctrloff => 0x2ce,
+            ClientMessages::MsgNoctrloff => 0x2CE,
             /*20031028 to latest
             채팅 금지 주기
             Mute this player.
             */
-            ClientMessages::MsgAppendprohibit => 0x2cf,
+            ClientMessages::MsgAppendprohibit => 0x2CF,
             /*20031028 to latest
             채팅 금지 완전 풀기 & 로그 삭제
             Unmute player & Erase mute time.
             */
-            ClientMessages::MsgEraseprohibit => 0x2d0,
+            ClientMessages::MsgEraseprohibit => 0x2D0,
             /*20031028 to latest
             채팅 금지 시간 줄이기(로그 삭제 안됨)
             Decrease Player Mute time.
             */
-            ClientMessages::MsgReduceprohibit => 0x2d1,
+            ClientMessages::MsgReduceprohibit => 0x2D1,
             /*20031028 to latest
             폰트가 정상적으로 바뀌었습니다 [이름표시방식 1]
             Normal Font Displayed. [showname type 1]
             */
-            ClientMessages::MsgShownameon => 0x2d2,
+            ClientMessages::MsgShownameon => 0x2D2,
             /*20031028 to latest
             폰트가 가늘게 바뀌면서 파티명도 표시됩니다 [이름표시방식 2]
             Font will be thin and party name will be shown [showname type 2]
             */
-            ClientMessages::MsgShownameoff => 0x2d3,
+            ClientMessages::MsgShownameoff => 0x2D3,
             /*20031028 to latest
             /doridori : 연속해서 이 명령어를 쳐주면 캐릭터가 도리도리 ^^;;
             /doridori: Shake head
             */
-            ClientMessages::MsgExplaindoridori => 0x2d4,
+            ClientMessages::MsgExplaindoridori => 0x2D4,
             /*20031028 to latest
             인터넷 카페에서 과금을 하고 있습니다.
             Internet room is paying now.
             */
-            ClientMessages::MsgBillinginternetcafe => 0x2d5,
+            ClientMessages::MsgBillinginternetcafe => 0x2D5,
             /*20031028 to latest
             정액제 과금은 %d일 %d시간 %d분이 남았습니다.
             종량제 과금은 %d시간 %d분이 남았습니다.
             Prepaid voucher validate until %d days %d hours %d minutes later.
             Time limit voucher validate untill %d hours %d minutes later.
             */
-            ClientMessages::MsgBillingboth => 0x2d6,
+            ClientMessages::MsgBillingboth => 0x2D6,
             /*20031028 to latest
             /bingbing : 연속해서 이 명령어를 쳐주면 캐릭터가 빙글빙글 ^^;;
             /bingbing: Rotates player counter clockwise.
             */
-            ClientMessages::MsgExplainbingbing => 0x2d7,
+            ClientMessages::MsgExplainbingbing => 0x2D7,
             /*20031028 to latest
             /bangbang : 연속해서 이 명령어를 쳐주면 캐릭터가 뱅글뱅글 ^^;;
             /bangbang: Rotates player clockwise.
             */
-            ClientMessages::MsgExplainbangbang => 0x2d8,
+            ClientMessages::MsgExplainbangbang => 0x2D8,
             /*20031028 to latest
             /skillfail : 빨간색의 스킬사용 실패 메세지를 표시하지 않습니다 On Off
             /skillfail: Display red font message when skill fails. On | Off
             */
-            ClientMessages::MsgExplainskillfail => 0x2d9,
+            ClientMessages::MsgExplainskillfail => 0x2D9,
             /*20031028 to 20040223
             스킬사용 실패 메세지를 표시합니다 [표시 ON]
             20040225 to latest
             스킬사용 실패 메세지를 표시합니다 [/sf ON]
             Skill fail messages will be displayed. [Display On]
             */
-            ClientMessages::MsgSkillfailon => 0x2da,
+            ClientMessages::MsgSkillfailon => 0x2DA,
             /*20031028 to 20040223
             스킬사용 실패 메세지를 표시하지 않습니다 [표시 OFF]
             20040225 to latest
             스킬사용 실패 메세지를 표시하지 않습니다 [/sf OFF]
             Skill fail messages will not be displayed. [Display OFF]
             */
-            ClientMessages::MsgSkillfailoff => 0x2db,
+            ClientMessages::MsgSkillfailoff => 0x2DB,
             /*20031028 to latest
             /notalkmsg : 채팅내용을 채팅창에 표시하지 않습니다 On Off
             /notalkmsg: Chat will not be displayed in chat window. On | Off
             */
-            ClientMessages::MsgExplainnotalkmsg => 0x2dc,
+            ClientMessages::MsgExplainnotalkmsg => 0x2DC,
             /*20031028 to 20040223
             채팅내용을 채팅창에 표시합니다 [표시 ON]
             20040225 to latest
             채팅내용을 채팅창에 표시합니다 [/nm ON]
             Chat content will be displayed in the chat window. [Display ON]
             */
-            ClientMessages::MsgNotalkmsgon => 0x2dd,
+            ClientMessages::MsgNotalkmsgon => 0x2DD,
             /*20031028 to 20040223
             채팅내용을 채팅창에 표시하지않습니다 [표시 OFF]
             20040225 to latest
             채팅내용을 채팅창에 표시하지않습니다 [/nm OFF]
             Chat content will not be displayed in the chat window. [Display OFF]
             */
-            ClientMessages::MsgNotalkmsgoff => 0x2de,
+            ClientMessages::MsgNotalkmsgoff => 0x2DE,
             /*20031028 to 20040423
             /set1 : /noctrl + /showname + /skillfail
             20040426 to 20040707
@@ -25904,37 +25904,37 @@ impl ClientMessages {
             /set1 : /nc + /showname + /sf + /wi, /set2 : + /q3
             /set1: /noctrl + /showname + /skillfail
             */
-            ClientMessages::MsgExplainset1 => 0x2df,
+            ClientMessages::MsgExplainset1 => 0x2DF,
             /*20031028 to latest
             /fog : FOG이펙트를 키거나 끌수있습니다 On Off
             /fog: Fog effect. On | Off
             */
-            ClientMessages::MsgExplainfog => 0x2e0,
+            ClientMessages::MsgExplainfog => 0x2E0,
             /*20031028 to latest
               청혼을 해왔습니다. 승낙하시겠습니까?
             You have received a marriage proposal. Do you accept?
             */
-            ClientMessages::MsgSuggestcouple => 0x2e1,
+            ClientMessages::MsgSuggestcouple => 0x2E1,
             /*20031028 to latest
             아이템 분배 방식
             Item sharing type
             */
-            ClientMessages::MsgHowitemdiv => 0x2e2,
+            ClientMessages::MsgHowitemdiv => 0x2E2,
             /*20031028 to latest
             각자 취득
             Individual
             */
-            ClientMessages::MsgItemdiv1 => 0x2e3,
+            ClientMessages::MsgItemdiv1 => 0x2E3,
             /*20031028 to latest
             균등하게 분배
             Shared
             */
-            ClientMessages::MsgItemdiv2 => 0x2e4,
+            ClientMessages::MsgItemdiv2 => 0x2E4,
 
             /*20031103 to latest
             nProtect KeyCrypt
             */
-            ClientMessages::MsgKeycrypt => 0x2e5,
+            ClientMessages::MsgKeycrypt => 0x2E5,
             /*20031103 to latest
             Keyboard Driver가 검출되었습니다.
 
@@ -25947,7 +25947,7 @@ impl ClientMessages {
 
             (After installation, System Reboot is required)
             */
-            ClientMessages::MsgKeycryptinstallkeydriver => 0x2e6,
+            ClientMessages::MsgKeycryptinstallkeydriver => 0x2E6,
             /*20031103 to latest
             설치가 완료 되었습니다.
 
@@ -25956,17 +25956,17 @@ impl ClientMessages {
 
             System will be rebooted.
             */
-            ClientMessages::MsgKeycryptreboot => 0x2e7,
+            ClientMessages::MsgKeycryptreboot => 0x2E7,
             /*20031103 to latest
             설치 실패.
             Installation has been failed.
             */
-            ClientMessages::MsgKeycryptinstallfail => 0x2e8,
+            ClientMessages::MsgKeycryptinstallfail => 0x2E8,
             /*20031103 to latest
             키보드 보안을 적용하지 않고 계속합니다.
             Keyboard Security will be skipped.
             */
-            ClientMessages::MsgKeycryptskipkeycrypt => 0x2e9,
+            ClientMessages::MsgKeycryptskipkeycrypt => 0x2E9,
             /*20031103 to latest
             키보드 보안에 필요한 파일이 존재하지 않습니다.
 
@@ -25975,7 +25975,7 @@ impl ClientMessages {
 
             (npkeyc.vxd, npkeyc.sys, npkeycs.sys)
             */
-            ClientMessages::MsgKeycryptnokeycryptfile => 0x2ea,
+            ClientMessages::MsgKeycryptnokeycryptfile => 0x2EA,
             /*20031103 to latest
             USB Keyboard가 검출되었습니다.
 
@@ -25988,57 +25988,57 @@ impl ClientMessages {
 
             (After installation, System Reboot is required)
             */
-            ClientMessages::MsgKeycryptusbkeyboard => 0x2eb,
+            ClientMessages::MsgKeycryptusbkeyboard => 0x2EB,
             /*20031103 to latest
             ftp://ragnarok.nefficient.co.kr/pub/ragnarok/ragnarok0526.exe
             */
-            ClientMessages::MsgFindhackpath => 0x2ec,
+            ClientMessages::MsgFindhackpath => 0x2EC,
             /*20031103 to latest
             FindHack이 정상적으로 설치가 되어있지 않습니다. ragnarok0226.exe 를 다운로드 하여 라그나로크가 설치된 폴더에 설치해 주시기 바랍니다.(%d).
             FindHack is not installed correctly. Please download ragnarok0226.exe and install it in RagnarokOnline directory.(%d).
             */
-            ClientMessages::MsgFindhacknotinstalled => 0x2ed,
+            ClientMessages::MsgFindhacknotinstalled => 0x2ED,
             /*20031103 to latest
             해킹툴이 존재하지만 치료가 정상적으로 되지 않았습니다. 라그나로크가 실행되지 않습니다.
             Hacking tool is existing but it hasn't been cleaned. Rangarok Online will not be executed.
             */
-            ClientMessages::MsgFindhackhacktoolexist => 0x2ee,
+            ClientMessages::MsgFindhackhacktoolexist => 0x2EE,
             /*20031103 to latest
             해킹툴 진단 프로그램이 정상적으로 다운로드 되지 않았습니다. ragnarok0226.exe 를 다운로드 하여 라그나로크가 설치된 폴더에 설치해 주시기 바랍니다.
             Hacking tool scan program has not been downloaded correctly. Please download ragnarok0226.exe and install it in RagnarokOnline directory.
             */
-            ClientMessages::MsgFindhackcantdownload => 0x2ef,
+            ClientMessages::MsgFindhackcantdownload => 0x2EF,
             /*20031103 to latest
             NPX.DLL 등록에러 이거나 FindHack 구동에 필요한 파일이 없습니다. ragnarok0226.exe 를 다운로드 하여 라그나로크가 설치된 폴더에 설치해 주시기 바랍니다.
             NPX.DLL register error or there is no necessary file to run FindHack. Please download ragnarok0226.exe and install it in RagnarokOnline directory.
             */
-            ClientMessages::MsgFindhacknofile => 0x2f0,
+            ClientMessages::MsgFindhacknofile => 0x2F0,
             /*20031103 to latest
             예외사항이 발생했습니다. (02-3281-0361)로 문의해주세요. 리턴값(%d)
             Exceptional Error. Please contact the customer support. Return Value: (%d)
             */
-            ClientMessages::MsgFindhackexception => 0x2f1,
+            ClientMessages::MsgFindhackexception => 0x2F1,
             /*20031103 to latest
             종료버튼을 클릭 하셨습니다.
             Exit button has been clicked.
             */
-            ClientMessages::MsgFindhackexitpressed => 0x2f2,
+            ClientMessages::MsgFindhackexitpressed => 0x2F2,
             /*20031103 to latest
             Findhack 업데이트 서버접근 실패하였습니다. 잠시 후에 다시 시도해 주시거나 그라비티 운영팀으로 연락해주시기 바랍니다.
             Unable to connect Findhack Update Server. Please try again or contact the customer support.
             */
-            ClientMessages::MsgFindhackupdatefailed => 0x2f3,
+            ClientMessages::MsgFindhackupdatefailed => 0x2F3,
             /*20031103 to latest
             사랑받고있는
             Beloved
             */
-            ClientMessages::MsgNamedpet => 0x2f4,
+            ClientMessages::MsgNamedpet => 0x2F4,
 
             /*20031110 to latest
             /report or /신고 : 신고용 갈무리 파일을 저장합니다.
             /report: Save a chat log file.
             */
-            ClientMessages::MsgReportcommandexplanation => 0x2f5,
+            ClientMessages::MsgReportcommandexplanation => 0x2F5,
             /*20031110 to 20031112
             이 파일은 (주)그라비티의 운영팀에서 게임내의 부정행위나 비매너 행위에 대한
             증거자료로사용하게 됩니다.
@@ -26051,40 +26051,40 @@ impl ClientMessages {
              될 경우 그 문서는 증거 효력을 상실하게 됩니다.
             Chat logs are not accepted as evidence for any ill-mannered violation on account of possible file modifications. However this feature is provided for players' personal reference.
             */
-            ClientMessages::MsgReporttextheader => 0x2f6,
+            ClientMessages::MsgReporttextheader => 0x2F6,
             /*20031110 to latest
             당신을 사랑해요 ♡
             I love you.
             */
-            ClientMessages::MsgLoveskill => 0x2f7,
+            ClientMessages::MsgLoveskill => 0x2F7,
 
             /*20031124 to latest
             화면 또는 이펙트가 밝아서 눈에 부담이 되시는분들은 모니터의 밝기를 조정해주시기바랍니다.
             Please adjust your monitor/video brightness if effects appear too bright.
             */
-            ClientMessages::MsgExplainbright => 0x2f8,
+            ClientMessages::MsgExplainbright => 0x2F8,
 
             /*20031218 to latest
             전체화면모드가 잘안되는 경우에 게임실행후 ALT+TAB으로 화면을 전환하면 잘되는 기종도 있습니다
             If full screen mode fails to work, it is suggested you alt+tab [or ctrl+esc] to inactivate and reactivate the Ragnarok Client.
             */
-            ClientMessages::MsgExplainalttab => 0x2f9,
+            ClientMessages::MsgExplainalttab => 0x2F9,
 
             /*20031223 to latest
             (%d 명) - 유료서버
             (%d players) - Pay to Play Server
             */
-            ClientMessages::MsgServerpropertypay => 0x2fa,
+            ClientMessages::MsgServerpropertypay => 0x2FA,
             /*20031223 to latest
             (%d 명) - 무료서버
             (%d players) - Free Server
             */
-            ClientMessages::MsgServerpropertyfree => 0x2fb,
+            ClientMessages::MsgServerpropertyfree => 0x2FB,
             /*20031223 to latest
             무료 회원은 유료 서버로 접속할 수 없습니다.
             Trial players can't connect Pay to Play Server.
             */
-            ClientMessages::MsgCantconnecttopayserver => 0x2fc,
+            ClientMessages::MsgCantconnecttopayserver => 0x2FC,
 
             /*20031230 to 20040108
             마우스 우클릭으로 F9에 저장한 스킬을 쓸수있습니다 [QUICK ON]
@@ -26092,21 +26092,21 @@ impl ClientMessages {
             마우스 우클릭으로 F9에 저장한 스킬을 쓸수있습니다 [/q1 ON]
             Right click menu skills for F9 are Enabled.[/q1 ON]
             */
-            ClientMessages::MsgQuickspellon => 0x2fd,
+            ClientMessages::MsgQuickspellon => 0x2FD,
             /*20031230 to 20040108
             마우스 우클릭으로 스킬을 사용하지 못합니다 [QUICK OFF]
             20040112 to latest
             마우스 우클릭으로 스킬을 사용하지 못합니다 [/q1 OFF]
             Right click menu skills for F9 are Disabled.[/q1 OFF]
             */
-            ClientMessages::MsgQuickspelloff => 0x2fe,
+            ClientMessages::MsgQuickspelloff => 0x2FE,
             /*20031230 to 20040119
             /quickspell : 마우스 우클릭으로 F9에 저장한 스킬을 사용합니다 On Off
             20040126 to latest
             /quickspell  : 마우스 우클릭으로 F9에 저장한 스킬을 사용합니다 On Off
             /quickspell: Right-click menu enables you to use skills assigned to the F9 hotkey. On | Off
             */
-            ClientMessages::MsgExplainquickspell => 0x2ff,
+            ClientMessages::MsgExplainquickspell => 0x2FF,
 
             /*20040112 to latest
             마우스의 WHEEL을 사용해서 F7 과 F8에 저장한 스킬을 사용합니다 [/q2 ON]
@@ -26164,32 +26164,32 @@ impl ClientMessages {
             /엠탐
             /mp
             */
-            ClientMessages::MsgEmotionsptime => 0x30a,
+            ClientMessages::MsgEmotionsptime => 0x30A,
             /*20040202 to latest
             /질질
             /slur
             */
-            ClientMessages::MsgEmotionsexy => 0x30b,
+            ClientMessages::MsgEmotionsexy => 0x30B,
             /*20040202 to latest
             /컴온
             /com
             */
-            ClientMessages::MsgEmotioncomeon => 0x30c,
+            ClientMessages::MsgEmotioncomeon => 0x30C,
             /*20040202 to latest
             /하품
             /yawn
             */
-            ClientMessages::MsgEmotionsleepy => 0x30d,
+            ClientMessages::MsgEmotionsleepy => 0x30D,
             /*20040202 to latest
             /축하
             /grat
             */
-            ClientMessages::MsgEmotioncongratulation => 0x30e,
+            ClientMessages::MsgEmotioncongratulation => 0x30E,
             /*20040202 to latest
             /피탐
             /hp
             */
-            ClientMessages::MsgEmotionhptime => 0x30f,
+            ClientMessages::MsgEmotionhptime => 0x30F,
             /*20040202 to latest
             /이모션 : 현재 사용가능한 이모션의 리스트를 보여줍니다.
             /emotion: views the emoticon list.
@@ -26261,32 +26261,32 @@ impl ClientMessages {
             님께서 당신을 입양시키고 싶어하십니다. 승낙하시겠습니까?
              wishes to adopt you. Do you accept?
             */
-            ClientMessages::MsgSuggestbaby => 0x31a,
+            ClientMessages::MsgSuggestbaby => 0x31A,
             /*20040308 to latest
                                 Z ~ > 을 누르면 스킬단축창1의 스킬들이 사용됩니다. On Off
             Z ~ > keys allow you to use skills assigned on shortcut window 1. On | Off
             */
-            ClientMessages::MsgExplainbattle3 => 0x31b,
+            ClientMessages::MsgExplainbattle3 => 0x31B,
             /*20040308 to latest
                                 Space를 한번 누른뒤에 글자를 입력하면 채팅을 할수있습니다.
             Press the space bar to Chat when in Battle mode [/battlemode | /bm].
             */
-            ClientMessages::MsgExplainbattle4 => 0x31c,
+            ClientMessages::MsgExplainbattle4 => 0x31C,
             /*20040308 to latest
             게임가드 파일이 없거나 변조되었습니다. 게임가드 셋업 파일을 설치해보시기 바랍니다.
             "Either there's no Game Guard installed on the program or Game Guard is cracked. Please, try to reinstall Game Guard from its setup file."
             */
-            ClientMessages::MsgNpgamemonerrorauthgameguard => 0x31d,
+            ClientMessages::MsgNpgamemonerrorauthgameguard => 0x31D,
             /*20040308 to latest
             윈도우의 일부 시스템 파일이 손상되었습니다. 인터넷 익스플로러(IE)를 다시 설치해보시기 바랍니다.
             Some of Windows system files have been damaged. Please re-install your Internet Explorer.
             */
-            ClientMessages::MsgNpgamemonerrorcryptoapi => 0x31e,
+            ClientMessages::MsgNpgamemonerrorcryptoapi => 0x31E,
             /*20040308 to latest
             게임가드 실행에 실패했습니다. 게임가드 셋업 파일을 다시 설치해보시기 바랍니다.
             "Failed to run Game Guard. Please, try to reinstall Game Guard from its setup file."
             */
-            ClientMessages::MsgNpgamemonerrorexecute => 0x31f,
+            ClientMessages::MsgNpgamemonerrorexecute => 0x31F,
             /*20040308 to latest
             불법 프로그램이 발견되었습니다. 불필요한 프로그램을 종료한 후 다시 실행해보시기 바랍니다.
             "At least one hazardous program has been detected. Please, terminate all the unnecessary programs before executing Game Guard."
@@ -26353,36 +26353,36 @@ impl ClientMessages {
             계정도용 조사를 위해 로그인이 금지되었습니다. 자세한 문의는 계정도용 관련 문의 메일로 해주시기 바랍니다.
             Account has been locked for a hacking investigation. Please contact the GM Team for more information.
             */
-            ClientMessages::MsgHackinginvestigation => 0x32a,
+            ClientMessages::MsgHackinginvestigation => 0x32A,
             /*20040423 to 20040429
             버그조사에 관련되어 %s 까지 로그인을 금지하고 있습니다.
             20040503 to latest
             귀하는 버그관련 조사중이므로 일시적으로 접속을 금합니다
             This account has been temporarily prohibited from login due to a bug-related investigation.
             */
-            ClientMessages::MsgBuginvestigation => 0x32b,
+            ClientMessages::MsgBuginvestigation => 0x32B,
             /*20040423 to latest
             수리가능한 아이템
             Repairable items
             */
-            ClientMessages::MsgRepairitemlist => 0x32c,
+            ClientMessages::MsgRepairitemlist => 0x32C,
 
             /*20040426 to latest
             아이템 수리 성공
             Item has been successfully repaired.
             */
-            ClientMessages::MsgItemrepairsucceess => 0x32d,
+            ClientMessages::MsgItemrepairsucceess => 0x32D,
             /*20040426 to latest
             아이템 수리 실패 (재료 또는 상대와의 거리등을 확인해주십시요)
             You have failed to repair this item. Please check the distance between you and opponent.
             */
-            ClientMessages::MsgItemrepairfail => 0x32e,
+            ClientMessages::MsgItemrepairfail => 0x32E,
 
             /*20040531 to latest
             시스템 상황을 지속적으로 체크 합니다.[운영자모드] [/sc ON]
             System process enabled [GM mode] [/sc ON]
             */
-            ClientMessages::MsgSystemcheckon => 0x32f,
+            ClientMessages::MsgSystemcheckon => 0x32F,
             /*20040531 to latest
             시스템 상황을 지속적으로 체크 하지 않습니다.[운영자모드] [/sc OFF]
             System process disabled [GM mode] [/sc OFF]
@@ -26442,34 +26442,34 @@ impl ClientMessages {
             (약간 적음)
             (Low)
             */
-            ClientMessages::MsgAlittleuser => 0x33a,
+            ClientMessages::MsgAlittleuser => 0x33A,
             /*20040628 to latest
             (보통)
             (Normal)
             */
-            ClientMessages::MsgNormleuser => 0x33b,
+            ClientMessages::MsgNormleuser => 0x33B,
             /*20040628 to latest
             (많음)
             (High)
             */
-            ClientMessages::MsgManyuser => 0x33c,
+            ClientMessages::MsgManyuser => 0x33C,
             /*20040628 to latest
             (매우 많음)
             (Very high)
             */
-            ClientMessages::MsgVerymanyuser => 0x33d,
+            ClientMessages::MsgVerymanyuser => 0x33D,
             /*20040628 to 20040714
             비매너에 의해 GM으로부터 채팅금지가 %d 분간 적용됩니다.
             20040726 to latest
             비매너에 의해 운영자로부터 채팅금지가 적용됩니다.
             You have been blocked from using chat and skills for %d minutes by the GM Team.
             */
-            ClientMessages::MsgGmbadmannerstart => 0x33e,
+            ClientMessages::MsgGmbadmannerstart => 0x33E,
             /*20040628 to latest
             GM에 의한 채팅금지가 %d 분 남아 있습니다.
             %d minutes remain until release from the GM penalty.
             */
-            ClientMessages::MsgGmbadmannerremain => 0x33f,
+            ClientMessages::MsgGmbadmannerremain => 0x33F,
             /*20040628 to latest
             GM에 의한 채팅금지가 해지 되었습니다.
             You have been released from the GM penalty.
@@ -26557,7 +26557,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 별의 장소는 %s 입니다
             */
-            ClientMessages::MsgStarplace6 => 0x34a,
+            ClientMessages::MsgStarplace6 => 0x34A,
 
             /*20040706 to 20041108
             星鬪士 %s의 태양의 몬스터로 %s 가 지정됐습니다.
@@ -26567,7 +26567,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 태양의 몬스터로 %s 가 지정됐습니다.
             */
-            ClientMessages::MsgStarmonster1 => 0x34b,
+            ClientMessages::MsgStarmonster1 => 0x34B,
             /*20040706 to 20041108
             星鬪士 %s의 달의 몬스터로 %s 가 지정됐습니다.
             20041115 to latest
@@ -26576,7 +26576,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 달의 몬스터로 %s 가 지정됐습니다.
             */
-            ClientMessages::MsgStarmonster2 => 0x34c,
+            ClientMessages::MsgStarmonster2 => 0x34C,
             /*20040706 to 20041108
             星鬪士 %s의 별의 몬스터로 %s 가 지정됐습니다.
             20041115 to latest
@@ -26585,7 +26585,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 별의 몬스터로 %s 가 지정됐습니다.
             */
-            ClientMessages::MsgStarmonster3 => 0x34d,
+            ClientMessages::MsgStarmonster3 => 0x34D,
             /*20040706 to 20040726
             星鬪士 %s의 태양의 몬스터 : %s
             20040804 to 20041108
@@ -26596,7 +26596,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 태양의 몬스터는 %s 입니다
             */
-            ClientMessages::MsgStarmonster4 => 0x34e,
+            ClientMessages::MsgStarmonster4 => 0x34E,
             /*20040706 to 20040726
             星鬪士 %s의 달의 몬스터 : %s
             20040804 to 20041108
@@ -26607,7 +26607,7 @@ impl ClientMessages {
             20041220 to 20050816
             태양과 달과 별의 전사 %s의 달의 몬스터는 %s 입니다
             */
-            ClientMessages::MsgStarmonster5 => 0x34f,
+            ClientMessages::MsgStarmonster5 => 0x34F,
             /*20040706 to 20040726
             星鬪士 %s의 별의 몬스터 : %s
             20040804 to 20041108
@@ -26675,31 +26675,31 @@ impl ClientMessages {
             채팅, 스킬, 아이템을 사용할수없게 되었습니다.
             You have been blocked from chatting, using skills and items.
             */
-            ClientMessages::MsgPkhonor => 0x35a,
+            ClientMessages::MsgPkhonor => 0x35A,
             /*20040906 to latest
             캐릭터 삭제 작업중이므로 접속이 일시적으로 제한됩니다.
             Login is temporarily unavailable while this character is being deleted.
             */
-            ClientMessages::MsgDeletingchar => 0x35b,
+            ClientMessages::MsgDeletingchar => 0x35B,
             /*20040906 to latest
             결혼 상대자의 캐릭터 삭제 작업중이므로 접속이 일시적으로 제한됩니다.
             Login is temporarily unavailable while your spouse character is being deleted.
             */
-            ClientMessages::MsgDeletingspousechar => 0x35c,
+            ClientMessages::MsgDeletingspousechar => 0x35C,
 
             /*20040913 to latest
             Novice
             */
-            ClientMessages::MsgNovice => 0x35d,
+            ClientMessages::MsgNovice => 0x35D,
             /*20040913 to latest
             Swordman
             */
-            ClientMessages::MsgSwordman => 0x35e,
+            ClientMessages::MsgSwordman => 0x35E,
             /*20040913 to latest
             Magician
             Mage
             */
-            ClientMessages::MsgMagician => 0x35f,
+            ClientMessages::MsgMagician => 0x35F,
             /*20040913 to latest
             Archer
             */
@@ -26747,28 +26747,28 @@ impl ClientMessages {
             /*20040913 to latest
             Novice
             */
-            ClientMessages::MsgNovicew => 0x36a,
+            ClientMessages::MsgNovicew => 0x36A,
             /*20040913 to latest
             Swordman
             */
-            ClientMessages::MsgSwordmanw => 0x36b,
+            ClientMessages::MsgSwordmanw => 0x36B,
             /*20040913 to latest
             Magician
             Mage
             */
-            ClientMessages::MsgMagicianw => 0x36c,
+            ClientMessages::MsgMagicianw => 0x36C,
             /*20040913 to latest
             Archer
             */
-            ClientMessages::MsgArcherw => 0x36d,
+            ClientMessages::MsgArcherw => 0x36D,
             /*20040913 to latest
             Acolyte
             */
-            ClientMessages::MsgAcolytew => 0x36e,
+            ClientMessages::MsgAcolytew => 0x36E,
             /*20040913 to latest
             Merchant
             */
-            ClientMessages::MsgMerchantw => 0x36f,
+            ClientMessages::MsgMerchantw => 0x36F,
             /*20040913 to latest
             Thief
             */
@@ -26822,32 +26822,32 @@ impl ClientMessages {
             1분간 모든 상태이상에 대해 면역이 됩니다.
             You will be immune to abnormal status effects for the next minute.
             */
-            ClientMessages::MsgGospel2 => 0x37a,
+            ClientMessages::MsgGospel2 => 0x37A,
             /*20041101 to latest
             1분간 최대 생명력이 크게 늘어납니다.
             Your Max HP will stay increased for the next minute.
             */
-            ClientMessages::MsgGospel3 => 0x37b,
+            ClientMessages::MsgGospel3 => 0x37B,
             /*20041101 to latest
             1분간 최대 마법력이 크게 늘어납니다.
             Your Max SP will stay increased for the next minute.
             */
-            ClientMessages::MsgGospel4 => 0x37c,
+            ClientMessages::MsgGospel4 => 0x37C,
             /*20041101 to latest
             1분간 모든 능력이 크게 상승합니다.
             All of your Stats will stay increased for the next minute.
             */
-            ClientMessages::MsgGospel5 => 0x37d,
+            ClientMessages::MsgGospel5 => 0x37D,
             /*20041101 to latest
             1분간 사용하는 무기에 성스러운 속성이 부여됩니다.
             Your weapon will remain blessed with Holy power for the next minute.
             */
-            ClientMessages::MsgGospel6 => 0x37e,
+            ClientMessages::MsgGospel6 => 0x37E,
             /*20041101 to latest
             1분간 사용하는 갑옷에 성스러운 속성이 부여됩니다.
             Your armor will remain blessed with Holy power for the next minute.
             */
-            ClientMessages::MsgGospel7 => 0x37f,
+            ClientMessages::MsgGospel7 => 0x37F,
             /*20041101 to latest
             10초간 방어력이 크게 상승합니다.
             Your Defense will stay increased for the next 10 seconds.
@@ -26920,33 +26920,33 @@ impl ClientMessages {
             X
             Help me out~ Please~ TT
             */
-            ClientMessages::MsgSupernovice14 => 0x38a,
+            ClientMessages::MsgSupernovice14 => 0x38A,
             /*20041115 to latest
             /notalkmsg2 : 채팅내용을 채팅창에 표시하지 않습니다 (길드말 포함) On Off
             /notalkmsg2: Hides chat messages(including guild chat). On Off
             */
-            ClientMessages::MsgExplainnotalkmsg2 => 0x38b,
+            ClientMessages::MsgExplainnotalkmsg2 => 0x38B,
             /*20041115 to latest
             채팅내용을 채팅창에 표시합니다 [/nm2 ON]
             Show chat messages. [/nm2 ON]
             */
-            ClientMessages::MsgNotalkmsg2ON => 0x38c,
+            ClientMessages::MsgNotalkmsg2ON => 0x38C,
             /*20041115 to latest
             채팅내용을 채팅창에 표시하지않습니다 (길드말 포함) [/nm2 OFF]
             Hide chat messages(including guild chat) [/nm2 OFF]
             */
-            ClientMessages::MsgNotalkmsg2OFF => 0x38d,
+            ClientMessages::MsgNotalkmsg2OFF => 0x38D,
 
             /*20041129 to latest
             제련가능한 아이템
             Upgradable Weapons
             */
-            ClientMessages::MsgRefineitemlist => 0x38e,
+            ClientMessages::MsgRefineitemlist => 0x38E,
             /*20041129 to latest
             제련한 무기 : %s
             Weapons upgraded: %s
             */
-            ClientMessages::MsgItemrefinesucceess => 0x38f,
+            ClientMessages::MsgItemrefinesucceess => 0x38F,
             /*20041129 to latest
             제련한 무기 : %s
             Weapons upgraded: %s
@@ -27007,7 +27007,7 @@ impl ClientMessages {
             ( From 캐릭터이름 : ) 이라고 표시 되는 귓속말은 친구나 길드원이 아닙니다.
             ( From character name: ) is from an anonymous character who is neither your friend nor guildsman.
             */
-            ClientMessages::MsgExplainsaching2 => 0x39a,
+            ClientMessages::MsgExplainsaching2 => 0x39A,
 
             /*20050214 to 20050310
             블랙스미스의 상위 10위권 랭킹을 보여줍니다.
@@ -27015,477 +27015,477 @@ impl ClientMessages {
             /blacksmith : 블랙스미스의 상위 10위권 랭킹을 보여줍니다.
             /blacksmith: Shows top 10 Blacksmiths in the server.
             */
-            ClientMessages::MsgExplainblacksmith => 0x39b,
+            ClientMessages::MsgExplainblacksmith => 0x39B,
             /*20050214 to 20050310
             알케미스트의 상위 10위권 랭킹을 보여줍니다.
             20050314 to latest
             /alchemist : 알케미스트의 상위 10위권 랭킹을 보여줍니다.
             /alchemist: Shows top 10 Alchemists in the server.
             */
-            ClientMessages::MsgExplainalchemist => 0x39c,
+            ClientMessages::MsgExplainalchemist => 0x39C,
             /*20050214 to latest
             ALT+Y : 여러가지 명령어를 쉽게 쓸수있는 윈도우가 열립니다.
             ALT+Y: Opens a window which allows you to use various commands with ease.
             */
-            ClientMessages::MsgExplainalty => 0x39d,
+            ClientMessages::MsgExplainalty => 0x39D,
 
             /*20050328 to latest
             [POINT] 태권미션 랭킹포인트가 %d 상승해서 %d 포인트가 되었습니다.
             [POINT] You have been rewarded with %d Tae-Kwon Mission rank points. Your point total is %d.
             */
-            ClientMessages::MsgTaekwonpoint => 0x39e,
+            ClientMessages::MsgTaekwonpoint => 0x39E,
 
             /*20050404 to latest
             [태권미션] Target Monster : %s (%d%%)
             [Taekwon Mission] Target Monster: %s (%d%%)
             */
-            ClientMessages::MsgTaekwonmission => 0x39f,
+            ClientMessages::MsgTaekwonmission => 0x39F,
 
             /*20050502 to latest
             게임가드 초기화 에러 : %lu
             Error - Failed to initialize GameGuard: %lu
             */
-            ClientMessages::MsgIniterror => 0x3a0,
+            ClientMessages::MsgIniterror => 0x3A0,
             /*20050502 to latest
             스피드핵이 감지되었습니다.
             Speed Hack has been detected.
             */
-            ClientMessages::MsgSpeedhackdetect => 0x3a1,
+            ClientMessages::MsgSpeedhackdetect => 0x3A1,
             /*20050502 to latest
             불법 프로그램 (%s) 가 발견되었습니다
             The illegal program, (%s) has been detected.
             */
-            ClientMessages::MsgGamehackdetect => 0x3a2,
+            ClientMessages::MsgGamehackdetect => 0x3A2,
             /*20050502 to latest
             게임이나 게임가드가 변조되었습니다.
             The Game or Gameguard has been cracked.
             */
-            ClientMessages::MsgGamehackdoubt => 0x3a3,
+            ClientMessages::MsgGamehackdoubt => 0x3A3,
             /*20050502 to latest
             게임가드가 실행 중 입니다. 잠시 후에 다시 실행해보시기 바랍니다.
             GameGuard is currently running. Please wait for sometime and restart the game.
             */
-            ClientMessages::MsgErrorexist => 0x3a4,
+            ClientMessages::MsgErrorexist => 0x3A4,
             /*20050502 to latest
             게임이 중복 실행되었거나 게임가드가 이미 실행 중 입니다. 게임 종료 후 다시 실행해보시기 바랍니다.
             The Game or GameGuard is already running. Please close the game and restart the game.
             */
-            ClientMessages::MsgGameexist => 0x3a5,
+            ClientMessages::MsgGameexist => 0x3A5,
             /*20050502 to latest
             게임가드 초기화 에러입니다. 재부팅 후 다시 실행해보거나 충돌할 수 있는 다른 프로그램들을 종료한 후 실행해 보시기 바랍니다.
             Failed to intialize GameGuard. Please try again after rebooting the system or closing other programs.
             */
-            ClientMessages::MsgErrorinit => 0x3a6,
+            ClientMessages::MsgErrorinit => 0x3A6,
             /*20050502 to latest
             바이러스 및 해킹툴 검사 모듈 로딩에 실패 했습니다. 메모리 부족이거나 바이러스에 의한 감염일 수 있습니다.
             Failed to load the scan module of virus and hacking tool. It's caused by lack of memory or PC virus infection.
             */
-            ClientMessages::MsgErrornpscan => 0x3a7,
+            ClientMessages::MsgErrornpscan => 0x3A7,
 
             /*20050509 to latest
             호문클루스 정보
             Homunculus Info
             */
-            ClientMessages::MsgHomuninfo => 0x3a8,
+            ClientMessages::MsgHomuninfo => 0x3A8,
 
             /*20050523 to latest
             호문클루스 스킬목록
             Homunculus Skill List
             */
-            ClientMessages::MsgHomunskilllist => 0x3a9,
+            ClientMessages::MsgHomunskilllist => 0x3A9,
             /*20050523 to latest
             호문클루스의 이름은 영문 23, 한글 11자 이내로 정해 주세요.
             Please give your Homunculus a name no longer than 23 letters.
             */
-            ClientMessages::MsgHomunnamein23 => 0x3aa,
+            ClientMessages::MsgHomunnamein23 => 0x3AA,
             /*20050523 to latest
             이름은 단 한번만 바꿀수 있습니다. 호문클루스의 이름을 ^0000ff^0000ff %s^000000^000000 로 수정합니다. 계속 하시겠습니까?
             You can name a Homunculus only once. You have entered the name, ^0000ff%s^000000. Would you like to continue?
             */
-            ClientMessages::MsgHomunnamechangeonlyonce => 0x3ab,
+            ClientMessages::MsgHomunnamechangeonlyonce => 0x3AB,
             /*20050523 to latest
             지금은 부재중~
             (Away)
             */
-            ClientMessages::MsgAutomsg => 0x3ac,
+            ClientMessages::MsgAutomsg => 0x3AC,
             /*20050523 to latest
             [자동응답]
             [Automated Message]
             */
-            ClientMessages::MsgAutomsg2 => 0x3ad,
+            ClientMessages::MsgAutomsg2 => 0x3AD,
             /*20050523 to latest
             부재시 타인의 귓말에 자동응답합니다.
             Send an automated message while you are away.
             */
-            ClientMessages::MsgAutomsgon => 0x3ae,
+            ClientMessages::MsgAutomsgon => 0x3AE,
             /*20050523 to latest
             부재시 타인의 귓말에 자동응답하지 않습니다.
             Cancel automated away message.
             */
-            ClientMessages::MsgAutomsgoff => 0x3af,
+            ClientMessages::MsgAutomsgoff => 0x3AF,
             /*20050523 to latest
             자동 응답 메시지를 입력하세요.
             Please enter Away Message.
             */
-            ClientMessages::MsgEnterautomsg => 0x3b0,
+            ClientMessages::MsgEnterautomsg => 0x3B0,
 
             /*20050530 to latest
             /번쩍
             /fsh
             */
-            ClientMessages::MsgEmotionspark => 0x3b1,
+            ClientMessages::MsgEmotionspark => 0x3B1,
             /*20050530 to latest
             /빙빙
             /spin
             */
-            ClientMessages::MsgEmotionconfuse => 0x3b2,
+            ClientMessages::MsgEmotionconfuse => 0x3B2,
             /*20050530 to latest
             /하아
             /sigh
             */
-            ClientMessages::MsgEmotionohno => 0x3b3,
+            ClientMessages::MsgEmotionohno => 0x3B3,
             /*20050530 to latest
             /덤덤
             /dum
             */
-            ClientMessages::MsgEmotionhum => 0x3b4,
+            ClientMessages::MsgEmotionhum => 0x3B4,
             /*20050530 to latest
             /시끌
             /crwd
             */
-            ClientMessages::MsgEmotionblabla => 0x3b5,
+            ClientMessages::MsgEmotionblabla => 0x3B5,
             /*20050530 to latest
             /좌절
             /desp
             */
-            ClientMessages::MsgEmotionotl => 0x3b6,
+            ClientMessages::MsgEmotionotl => 0x3B6,
             /*20050530 to latest
             /주사위
             /dice
             */
-            ClientMessages::MsgEmotiondice => 0x3b7,
+            ClientMessages::MsgEmotiondice => 0x3B7,
             /*20050530 to latest
             /pk : 학살자의 상위 10위권 랭킹을 보여줍니다.
             /pk: Shows top 10 Slayers in the server.
             */
-            ClientMessages::MsgExplainkillerrank => 0x3b8,
+            ClientMessages::MsgExplainkillerrank => 0x3B8,
             /*20050530 to latest
             [POINT] 학살자 랭킹포인트가 %d 상승해서 %d 포인트가 되었습니다.
             [POINT] You have been rewarded with %d Slayer rank points. Your point total is %d.
             */
-            ClientMessages::MsgKillerpoint => 0x3b9,
+            ClientMessages::MsgKillerpoint => 0x3B9,
 
             /*20050608 to latest
             진화 가능
             Evolution Available
             */
-            ClientMessages::MsgHomunevolve => 0x3ba,
+            ClientMessages::MsgHomunevolve => 0x3BA,
             /*20050608 to latest
             ^ff0000^ff0000호문클루스를 삭제합니다.^000000^000000 삭제하실 경우 지금까지 키운 내역이 모두 삭제됩니다. 계속하시겠습니까?
             You have decided to delete this Homunculus ^ff0000^ff0000. When deleted, the homunculus and its history will be deleted and they cannot be restored in the future. Would you like to continue?
             */
-            ClientMessages::MsgDeletehomun => 0x3bb,
+            ClientMessages::MsgDeletehomun => 0x3BB,
 
             /*20050613 to latest
             호문의 상태를 파일에 저장합니다.
             Save Homunculus status as a file.
             */
-            ClientMessages::MsgTraceaion => 0x3bc,
+            ClientMessages::MsgTraceaion => 0x3BC,
             /*20050613 to latest
             호문의 상태를 파일에 저장하지 않습니다.
             Do not save Homunculus status as a file.
             */
-            ClientMessages::MsgTraceaioff => 0x3bd,
+            ClientMessages::MsgTraceaioff => 0x3BD,
             /*20050613 to latest
             Crusader
             */
-            ClientMessages::MsgCrusader => 0x3be,
+            ClientMessages::MsgCrusader => 0x3BE,
             /*20050613 to latest
             Monk
             */
-            ClientMessages::MsgMonk => 0x3bf,
+            ClientMessages::MsgMonk => 0x3BF,
             /*20050613 to latest
             Sage
             */
-            ClientMessages::MsgSage => 0x3c0,
+            ClientMessages::MsgSage => 0x3C0,
             /*20050613 to latest
             Rouge
             Rogue
             */
-            ClientMessages::MsgRogue => 0x3c1,
+            ClientMessages::MsgRogue => 0x3C1,
             /*20050613 to latest
             Alchemist
             */
-            ClientMessages::MsgAlchemist => 0x3c2,
+            ClientMessages::MsgAlchemist => 0x3C2,
             /*20050613 to latest
             Bard
             */
-            ClientMessages::MsgBard => 0x3c3,
+            ClientMessages::MsgBard => 0x3C3,
             /*20050613 to latest
             CrusaderW
             Crusader
             */
-            ClientMessages::MsgCrusaderw => 0x3c4,
+            ClientMessages::MsgCrusaderw => 0x3C4,
             /*20050613 to latest
             MonkW
             Monk
             */
-            ClientMessages::MsgMonkw => 0x3c5,
+            ClientMessages::MsgMonkw => 0x3C5,
             /*20050613 to latest
             SageW
             Sage
             */
-            ClientMessages::MsgSagew => 0x3c6,
+            ClientMessages::MsgSagew => 0x3C6,
             /*20050613 to latest
             RougeW
             Rogue
             */
-            ClientMessages::MsgRoguew => 0x3c7,
+            ClientMessages::MsgRoguew => 0x3C7,
             /*20050613 to latest
             AlchemistW
             Alchemist
             */
-            ClientMessages::MsgAlchemistw => 0x3c8,
+            ClientMessages::MsgAlchemistw => 0x3C8,
             /*20050613 to latest
             Dancer
             */
-            ClientMessages::MsgDancer => 0x3c9,
+            ClientMessages::MsgDancer => 0x3C9,
             /*20050613 to latest
             Novice High
             High Novice
             */
-            ClientMessages::MsgNoviceh => 0x3ca,
+            ClientMessages::MsgNoviceh => 0x3CA,
             /*20050613 to latest
             Swordman High
             High Swordman
             */
-            ClientMessages::MsgSwordmanh => 0x3cb,
+            ClientMessages::MsgSwordmanh => 0x3CB,
             /*20050613 to latest
             Magician High
             High Mage
             */
-            ClientMessages::MsgMagicianh => 0x3cc,
+            ClientMessages::MsgMagicianh => 0x3CC,
             /*20050613 to latest
             Archer High
             High Archer
             */
-            ClientMessages::MsgArcherh => 0x3cd,
+            ClientMessages::MsgArcherh => 0x3CD,
             /*20050613 to latest
             Acolyte High
             High Acolyte
             */
-            ClientMessages::MsgAcolyteh => 0x3ce,
+            ClientMessages::MsgAcolyteh => 0x3CE,
             /*20050613 to latest
             Merchant High
             High Merchant
             */
-            ClientMessages::MsgMerchanth => 0x3cf,
+            ClientMessages::MsgMerchanth => 0x3CF,
             /*20050613 to latest
             Thief High
             High Thief
             */
-            ClientMessages::MsgThiefh => 0x3d0,
+            ClientMessages::MsgThiefh => 0x3D0,
             /*20050613 to latest
             Novice HighW
             High Novice
             */
-            ClientMessages::MsgNovicehw => 0x3d1,
+            ClientMessages::MsgNovicehw => 0x3D1,
             /*20050613 to latest
             Swordman HighW
             High Swordman
             */
-            ClientMessages::MsgSwordmanhw => 0x3d2,
+            ClientMessages::MsgSwordmanhw => 0x3D2,
             /*20050613 to latest
             Magician HighW
             High Mage
             */
-            ClientMessages::MsgMagicianhw => 0x3d3,
+            ClientMessages::MsgMagicianhw => 0x3D3,
             /*20050613 to latest
             Archer HighW
             High Archer
             */
-            ClientMessages::MsgArcherhw => 0x3d4,
+            ClientMessages::MsgArcherhw => 0x3D4,
             /*20050613 to latest
             Acolyte HighW
             High Acolyte
             */
-            ClientMessages::MsgAcolytehw => 0x3d5,
+            ClientMessages::MsgAcolytehw => 0x3D5,
             /*20050613 to latest
             Merchant HighW
             High Merchant
             */
-            ClientMessages::MsgMerchanthw => 0x3d6,
+            ClientMessages::MsgMerchanthw => 0x3D6,
             /*20050613 to latest
             Thief HighW
             High Thief
             */
-            ClientMessages::MsgThiefhw => 0x3d7,
+            ClientMessages::MsgThiefhw => 0x3D7,
             /*20050613 to latest
             Lord Knight
             */
-            ClientMessages::MsgKnighth => 0x3d8,
+            ClientMessages::MsgKnighth => 0x3D8,
             /*20050613 to latest
             High Priest
             */
-            ClientMessages::MsgPriesth => 0x3d9,
+            ClientMessages::MsgPriesth => 0x3D9,
             /*20050613 to latest
             High Wizard
             */
-            ClientMessages::MsgWizardh => 0x3da,
+            ClientMessages::MsgWizardh => 0x3DA,
             /*20050613 to latest
             White Smith
             MasterSmith
             */
-            ClientMessages::MsgBlacksmithh => 0x3db,
+            ClientMessages::MsgBlacksmithh => 0x3DB,
             /*20050613 to latest
             Sniper
             */
-            ClientMessages::MsgHunterh => 0x3dc,
+            ClientMessages::MsgHunterh => 0x3DC,
             /*20050613 to 20181128
             Saaassin Cross
             Assassin Cross
             20181205 to latest
             Assassin Cross
             */
-            ClientMessages::MsgAssassinh => 0x3dd,
+            ClientMessages::MsgAssassinh => 0x3DD,
             /*20050613 to latest
             Lord KnightW
             Lord Knight
             */
-            ClientMessages::MsgKnighthw => 0x3de,
+            ClientMessages::MsgKnighthw => 0x3DE,
             /*20050613 to latest
             High PriestW
             High Priest
             */
-            ClientMessages::MsgPriesthw => 0x3df,
+            ClientMessages::MsgPriesthw => 0x3DF,
             /*20050613 to latest
             High WizardW
             High Wizard
             */
-            ClientMessages::MsgWizardhw => 0x3e0,
+            ClientMessages::MsgWizardhw => 0x3E0,
             /*20050613 to latest
             White SmithW
             WhiteSmith
             */
-            ClientMessages::MsgBlacksmithhw => 0x3e1,
+            ClientMessages::MsgBlacksmithhw => 0x3E1,
             /*20050613 to latest
             SniperW
             Sniper
             */
-            ClientMessages::MsgHunterhw => 0x3e2,
+            ClientMessages::MsgHunterhw => 0x3E2,
             /*20050613 to 20181128
             Saaassin CrossW
             Assassin Cross
             20181205 to latest
             Assassin CrossW
             */
-            ClientMessages::MsgAssassinhw => 0x3e3,
+            ClientMessages::MsgAssassinhw => 0x3E3,
             /*20050613 to latest
             Paladin
             */
-            ClientMessages::MsgCrusaderh => 0x3e4,
+            ClientMessages::MsgCrusaderh => 0x3E4,
             /*20050613 to latest
             Champion
             */
-            ClientMessages::MsgMonkh => 0x3e5,
+            ClientMessages::MsgMonkh => 0x3E5,
             /*20050613 to latest
             Professor
             Scholar
             */
-            ClientMessages::MsgSageh => 0x3e6,
+            ClientMessages::MsgSageh => 0x3E6,
             /*20050613 to latest
             Stalker
             */
-            ClientMessages::MsgRogueh => 0x3e7,
+            ClientMessages::MsgRogueh => 0x3E7,
             /*20050613 to latest
             Creator
             Biochemist
             */
-            ClientMessages::MsgAlchemisth => 0x3e8,
+            ClientMessages::MsgAlchemisth => 0x3E8,
             /*20050613 to latest
             Clown
             Minstrel
             */
-            ClientMessages::MsgBardh => 0x3e9,
+            ClientMessages::MsgBardh => 0x3E9,
             /*20050613 to latest
             PaladinW
             Paladin
             */
-            ClientMessages::MsgCrusaderhw => 0x3ea,
+            ClientMessages::MsgCrusaderhw => 0x3EA,
             /*20050613 to latest
             ChampionW
             Champion
             */
-            ClientMessages::MsgMonkhw => 0x3eb,
+            ClientMessages::MsgMonkhw => 0x3EB,
             /*20050613 to latest
             ProfessorW
             Professor
             */
-            ClientMessages::MsgSagehw => 0x3ec,
+            ClientMessages::MsgSagehw => 0x3EC,
             /*20050613 to latest
             StalkerW
             Stalker
             */
-            ClientMessages::MsgRoguehw => 0x3ed,
+            ClientMessages::MsgRoguehw => 0x3ED,
             /*20050613 to latest
             CreatorW
             Creator
             */
-            ClientMessages::MsgAlchemisthw => 0x3ee,
+            ClientMessages::MsgAlchemisthw => 0x3EE,
             /*20050613 to latest
             Gypsy
             */
-            ClientMessages::MsgDancerh => 0x3ef,
+            ClientMessages::MsgDancerh => 0x3EF,
             /*20050613 to latest
             비밀번호가 지정되어 있지 않습니다. 새로운 비밀번호를 지정하시겠습니까?
             You have not set a password yet. Would you like to create one now?
             */
-            ClientMessages::MsgStorepasswordreq => 0x3f0,
+            ClientMessages::MsgStorepasswordreq => 0x3F0,
             /*20050613 to latest
             비밀번호를 3회 틀려셨습니다. 나중에 다시 시도해 주세요.
             You have incorrectly entered the password 3 times. Please try again later.
             */
-            ClientMessages::MsgStorepasswordpenalty => 0x3f1,
+            ClientMessages::MsgStorepasswordpenalty => 0x3F1,
             /*20050613 to latest
             비밀번호 변경이 실패하였습니다.
             Password creation has failed.
             */
-            ClientMessages::MsgStorepasswordchangeng => 0x3f2,
+            ClientMessages::MsgStorepasswordchangeng => 0x3F2,
             /*20050613 to latest
             비밀번호는 4자리 이상 8자리이하여야만 합니다.
             Password must be 4~8 letters long.
             */
-            ClientMessages::MsgStorepassword48 => 0x3f3,
+            ClientMessages::MsgStorepassword48 => 0x3F3,
             /*20050613 to latest
             비밀번호
             Password
             */
-            ClientMessages::MsgStorepassword => 0x3f4,
+            ClientMessages::MsgStorepassword => 0x3F4,
             /*20050613 to latest
             신규 비밀번호
             New Password
             */
-            ClientMessages::MsgStorenewpassword => 0x3f5,
+            ClientMessages::MsgStorenewpassword => 0x3F5,
             /*20050613 to latest
             확인 비밀번호
             Confirm Password
             */
-            ClientMessages::MsgStorerenewpassword => 0x3f6,
+            ClientMessages::MsgStorerenewpassword => 0x3F6,
             /*20050613 to latest
             비밀번호 변경이 완료되었습니다.
             Password has been changed.
             */
-            ClientMessages::MsgStorepasswordchangeok => 0x3f7,
+            ClientMessages::MsgStorepasswordchangeok => 0x3F7,
             /*20050613 to latest
             비밀번호가 서로 다릅니다.
             Password does not match.
             */
-            ClientMessages::MsgStorepasswordmismatch => 0x3f8,
+            ClientMessages::MsgStorepasswordmismatch => 0x3F8,
             /*20050613 to latest
             비밀번호 입력
             Enter Password
             */
-            ClientMessages::MsgStorepasswordinput => 0x3f9,
+            ClientMessages::MsgStorepasswordinput => 0x3F9,
 
             /*20050624 to 20050624
             호문이 아사 직전입니다!!! 밥좀 주셈~!!
@@ -27493,12 +27493,12 @@ impl ClientMessages {
             호문이 아사 직전입니다! 먹이를 주지 않으면 가출하게됩니다.
             Your Homunculus is starving. Please feed it, otherwise it will leave you.
             */
-            ClientMessages::MsgHomunhungry => 0x3fa,
+            ClientMessages::MsgHomunhungry => 0x3FA,
             /*20050624 to latest
             경험치
             EXP
             */
-            ClientMessages::MsgHomunexp => 0x3fb,
+            ClientMessages::MsgHomunexp => 0x3FB,
 
             /*20050628 to 20110526
             [EVENT] 이벤트에 당첨되셨습니다. 게임내에서 아이템을 지급받으십시요.
@@ -27506,26 +27506,26 @@ impl ClientMessages {
             수령하지 않은 아이템이 존재합니다. 알베르타의 존다 기획사 직원을 찾아주세요. ^ff0000※ 아이템 수령 기간이 지나면 아이템이 소실 됩니다!^000000
             [EVENT] You have won an event prize. Please claim your prize in game.
             */
-            ClientMessages::MsgEventresult => 0x3fc,
+            ClientMessages::MsgEventresult => 0x3FC,
 
             /*20050704 to latest
             싫어함
             Hate
             */
-            ClientMessages::MsgHate => 0x3fd,
+            ClientMessages::MsgHate => 0x3FD,
             /*20050704 to 20050704
             매우 싫어함
             20050711 to latest
             매우싫어함
             Hate with a Passion
             */
-            ClientMessages::MsgVeryhate => 0x3fe,
+            ClientMessages::MsgVeryhate => 0x3FE,
 
             /*20050718 to latest
             호문클루스가 사용자 인공지능으로 동작합니다.
             Homunculus has been customized.
             */
-            ClientMessages::MsgHomunuseraion => 0x3ff,
+            ClientMessages::MsgHomunuseraion => 0x3FF,
             /*20050718 to latest
             호문클루스가 기본 인공지능으로 동작합니다.
             Homunculus has been activated with the basic AI.
@@ -27591,33 +27591,33 @@ impl ClientMessages {
             경매 등록이 실패했습니다.
             The minimum starting bid for auctions is 10,000,000 zeny.
             */
-            ClientMessages::MsgAuctionaddfalse => 0x40a,
+            ClientMessages::MsgAuctionaddfalse => 0x40A,
             /*20050829 to latest
             경매 등록이 성공했습니다.
             You have successfully started a new auction.
             */
-            ClientMessages::MsgAuctionaddtrue => 0x40b,
+            ClientMessages::MsgAuctionaddtrue => 0x40B,
             /*20050829 to latest
             해당 경매가 취소되었습니다.
             The auction has been canceled.
             */
-            ClientMessages::MsgAuctionaddcancel => 0x40c,
+            ClientMessages::MsgAuctionaddcancel => 0x40C,
             /*20050829 to latest
             입찰자가 있는 경매는 취소할 수 없습니다.
             An auction with at least one bidder cannot be canceled.
             */
-            ClientMessages::MsgAuctionaddcancelfalse => 0x40d,
+            ClientMessages::MsgAuctionaddcancelfalse => 0x40D,
 
             /*20050905 to latest
             메일 삭제가 성공하였습니다.
             Mail has been successfully deleted.
             */
-            ClientMessages::MsgMaildeletesuccess => 0x40e,
+            ClientMessages::MsgMaildeletesuccess => 0x40E,
             /*20050905 to latest
             메일 삭제가 실패하였습니다.
             You have failed to delete the mail.
             */
-            ClientMessages::MsgMaildeletefailure => 0x40f,
+            ClientMessages::MsgMaildeletefailure => 0x40F,
 
             /*20050912 to latest
             던지는 단검이 장착되었습니다.
@@ -27675,34 +27675,34 @@ impl ClientMessages {
             메시지 후킹이 감지되었습니다.
             Message Hooking has been detected.
             */
-            ClientMessages::MsgSgpcodedetectedmsghook => 0x41a,
+            ClientMessages::MsgSgpcodedetectedmsghook => 0x41A,
             /*20051004 to latest
             모듈이 변조 또는 손상되었거나 버전이 일치하지 않습니다.
             Module has been modified or damaged or its version does not match.
             */
-            ClientMessages::MsgSgpcodenotequalencrypteddata => 0x41b,
+            ClientMessages::MsgSgpcodenotequalencrypteddata => 0x41B,
 
             /*20051010 to latest
             (태국)귀하는 게임방 과금으로 로그인 하셨습니다.
             (Thailand) You have logged in game with PC cafe payment.
             */
-            ClientMessages::MsgBillingpcb => 0x41c,
+            ClientMessages::MsgBillingpcb => 0x41C,
 
             /*20051017 to latest
             이전
             Prev
             */
-            ClientMessages::MsgPrevpage => 0x41d,
+            ClientMessages::MsgPrevpage => 0x41D,
             /*20051017 to latest
             다음
             Next
             */
-            ClientMessages::MsgNextpage => 0x41e,
+            ClientMessages::MsgNextpage => 0x41E,
             /*20051017 to latest
             경매
             Auction
             */
-            ClientMessages::MsgAuction => 0x41f,
+            ClientMessages::MsgAuction => 0x41F,
             /*20051017 to latest
             물품보기
             Product List
@@ -27757,34 +27757,34 @@ impl ClientMessages {
             %m월 %d일 %H시
             %m %d %H
             */
-            ClientMessages::MsgTimetype => 0x42a,
+            ClientMessages::MsgTimetype => 0x42A,
             /*20051017 to latest
             시간설정
             Time (Hr)
             */
-            ClientMessages::MsgSettime => 0x42b,
+            ClientMessages::MsgSettime => 0x42B,
             /*20051017 to latest
             수수료
             Fee
             */
-            ClientMessages::MsgCharge => 0x42c,
+            ClientMessages::MsgCharge => 0x42C,
             /*20051017 to 20170906
             검색 된 아이템이 없습니다.
             20170913 to latest
             검색된 아이템이 없습니다.
             No items found in search.
             */
-            ClientMessages::MsgNothingsearchitem => 0x42d,
+            ClientMessages::MsgNothingsearchitem => 0x42D,
             /*20051017 to latest
             현재 판매중인 아이템이 없습니다.
             Your Sale List is empty.
             */
-            ClientMessages::MsgNothingsearchsellitem => 0x42e,
+            ClientMessages::MsgNothingsearchsellitem => 0x42E,
             /*20051017 to latest
             현재 구매중인 아이템이 없습니다.
             Your Purchase List is empty.
             */
-            ClientMessages::MsgNothingsearchbuyitem => 0x42f,
+            ClientMessages::MsgNothingsearchbuyitem => 0x42F,
             /*20051017 to latest
             경매정보가 정확하지 않습니다.
             Auction Information is incorrect or incomplete.
@@ -27839,32 +27839,32 @@ impl ClientMessages {
             구입하시겠습니까?
             Press buy to confirm.
             */
-            ClientMessages::MsgBuyactionitem => 0x43a,
+            ClientMessages::MsgBuyactionitem => 0x43A,
             /*20051017 to latest
             이 가격에 판매하시겠습니까?
             Would you like to sell this item?
             */
-            ClientMessages::MsgSellactionitem => 0x43b,
+            ClientMessages::MsgSellactionitem => 0x43B,
             /*20051017 to latest
             입찰하기
             Place Bid
             */
-            ClientMessages::MsgBuyauction => 0x43c,
+            ClientMessages::MsgBuyauction => 0x43C,
             /*20051017 to latest
             즉시구매하기
             Buy Now
             */
-            ClientMessages::MsgBuyauction2 => 0x43d,
+            ClientMessages::MsgBuyauction2 => 0x43D,
             /*20051017 to latest
             경매종료하기
             End the Auction
             */
-            ClientMessages::MsgBuyauction3 => 0x43e,
+            ClientMessages::MsgBuyauction3 => 0x43E,
             /*20051017 to latest
             재입찰하기
             Place another Bid
             */
-            ClientMessages::MsgFinishauction => 0x43f,
+            ClientMessages::MsgFinishauction => 0x43F,
             /*20051017 to latest
             해당 경매에 대한 입찰이 성공했습니다.
             You have placed a bid.
@@ -27920,33 +27920,33 @@ impl ClientMessages {
             경매 번호가 정확하지 않습니다.
             Bid Number is incorrect.
             */
-            ClientMessages::MsgResultauctionidfalse => 0x44a,
+            ClientMessages::MsgResultauctionidfalse => 0x44A,
             /*20051024 to latest
             받는이
             To
             */
-            ClientMessages::MsgSender => 0x44b,
+            ClientMessages::MsgSender => 0x44B,
 
             /*20051205 to latest
             제 목
             Title
             */
-            ClientMessages::MsgTitle2 => 0x44c,
+            ClientMessages::MsgTitle2 => 0x44C,
             /*20051205 to latest
             새 메일이 도착하였습니다.
             You have received a message in the mail.
             */
-            ClientMessages::MsgNewmail => 0x44d,
+            ClientMessages::MsgNewmail => 0x44D,
             /*20051205 to latest
             검색중입니다.
             Searching...
             */
-            ClientMessages::MsgSearchingitem => 0x44e,
+            ClientMessages::MsgSearchingitem => 0x44E,
             /*20051205 to latest
             더 이상 경매 등록할 수 없습니다. 경매 등록은 최대 5개까지 가능합니다.
             You cannot register more than 5 items in an auction at a time.
             */
-            ClientMessages::MsgAuctionaddover => 0x44f,
+            ClientMessages::MsgAuctionaddover => 0x44F,
             /*20051205 to latest
             더 이상 경매 물품에 입찰할 수 없습니다. 경매 물품 입찰은 최대 5개까지 가능합니다.
             You cannot place more than 5 bids at a time.
@@ -28001,32 +28001,32 @@ impl ClientMessages {
             대기
             Stand By
             */
-            ClientMessages::MsgHomunwaiting => 0x45a,
+            ClientMessages::MsgHomunwaiting => 0x45A,
             /*20051205 to latest
             슈퍼노비스(남)
             Super Novice (Male)
             */
-            ClientMessages::MsgJobsupernovicem => 0x45b,
+            ClientMessages::MsgJobsupernovicem => 0x45B,
             /*20051205 to latest
             슈퍼노비스(여)
             Super Novice (Female)
             */
-            ClientMessages::MsgJobsupernovicef => 0x45c,
+            ClientMessages::MsgJobsupernovicef => 0x45C,
             /*20051205 to latest
             태권소년
             Taekwon Boy
             */
-            ClientMessages::MsgJobtaekwonm => 0x45d,
+            ClientMessages::MsgJobtaekwonm => 0x45D,
             /*20051205 to latest
             태권소녀
             Taekwon Girl
             */
-            ClientMessages::MsgJobtaekwonf => 0x45e,
+            ClientMessages::MsgJobtaekwonf => 0x45E,
             /*20051205 to latest
             권성(남)
             Taekwon Master (Male)
             */
-            ClientMessages::MsgKwonsungm => 0x45f,
+            ClientMessages::MsgKwonsungm => 0x45F,
             /*20051205 to latest
             권성(여)
             Taekwon Master (Female)
@@ -28083,32 +28083,32 @@ impl ClientMessages {
             새로운 유저입니다
             New User.
             */
-            ClientMessages::MsgPtnewuser => 0x46a,
+            ClientMessages::MsgPtnewuser => 0x46A,
             /*20060109 to latest
             E-mail은 캐릭터를 지울때 필요합니다.
             E-mail address is required to delete a character.
             */
-            ClientMessages::MsgPtacinfo => 0x46b,
+            ClientMessages::MsgPtacinfo => 0x46B,
             /*20060109 to latest
             정확한 형식으로 입력해 주세요.
             Please enter the correct information.
             */
-            ClientMessages::MsgPtacinfo2 => 0x46c,
+            ClientMessages::MsgPtacinfo2 => 0x46C,
             /*20060109 to latest
             이 키를 사용하세요
             Please use this key.
             */
-            ClientMessages::MsgPtnewkeyinfo => 0x46d,
+            ClientMessages::MsgPtnewkeyinfo => 0x46D,
             /*20060109 to latest
             정확한 카드 패스워드를 다시 입력해주세요
             Please enter the correct card password.
             */
-            ClientMessages::MsgPtfailcardpass => 0x46e,
+            ClientMessages::MsgPtfailcardpass => 0x46E,
             /*20060109 to latest
             PT정보
             PT Info
             */
-            ClientMessages::MsgPtid1 => 0x46f,
+            ClientMessages::MsgPtid1 => 0x46F,
             /*20060109 to latest
             PTID는 %s
             PTID is %s
@@ -28155,27 +28155,27 @@ impl ClientMessages {
             /*20060109 to latest
             1009
             */
-            ClientMessages::MsgPterror1009 => 0x47a,
+            ClientMessages::MsgPterror1009 => 0x47A,
             /*20060109 to latest
             1012
             */
-            ClientMessages::MsgPterror1012 => 0x47b,
+            ClientMessages::MsgPterror1012 => 0x47B,
             /*20060109 to latest
             1013
             */
-            ClientMessages::MsgPterror1013 => 0x47c,
+            ClientMessages::MsgPterror1013 => 0x47C,
             /*20060109 to latest
             1014
             */
-            ClientMessages::MsgPterror1014 => 0x47d,
+            ClientMessages::MsgPterror1014 => 0x47D,
             /*20060109 to latest
             1015
             */
-            ClientMessages::MsgPterror1015 => 0x47e,
+            ClientMessages::MsgPterror1015 => 0x47E,
             /*20060109 to latest
             1019
             */
-            ClientMessages::MsgPterror1019 => 0x47f,
+            ClientMessages::MsgPterror1019 => 0x47F,
             /*20060109 to latest
             1020
             Navigation
@@ -28220,27 +28220,27 @@ impl ClientMessages {
             /*20060109 to latest
             50
             */
-            ClientMessages::MsgPterror50 => 0x48a,
+            ClientMessages::MsgPterror50 => 0x48A,
             /*20060109 to latest
             60
             */
-            ClientMessages::MsgPterror60 => 0x48b,
+            ClientMessages::MsgPterror60 => 0x48B,
             /*20060109 to latest
             70
             */
-            ClientMessages::MsgPterror70 => 0x48c,
+            ClientMessages::MsgPterror70 => 0x48C,
             /*20060109 to latest
             80
             */
-            ClientMessages::MsgPterror80 => 0x48d,
+            ClientMessages::MsgPterror80 => 0x48D,
             /*20060109 to latest
             90
             */
-            ClientMessages::MsgPterror90 => 0x48e,
+            ClientMessages::MsgPterror90 => 0x48E,
             /*20060109 to latest
             100
             */
-            ClientMessages::MsgPterror100 => 0x48f,
+            ClientMessages::MsgPterror100 => 0x48F,
             /*20060109 to latest
             110
             */
@@ -28301,167 +28301,167 @@ impl ClientMessages {
             한시간 동안, 동일한 IP로 접속한 유저가 30건 이상입니다. 확인후 다시 사용하시기 바랍니다.
             More than 30 players sharing the same IP have logged into the game for an hour. Please check this matter.
             */
-            ClientMessages::MsgBanpcipcountall => 0x49a,
+            ClientMessages::MsgBanpcipcountall => 0x49A,
             /*20060522 to latest
             한시간 동안, 동일한 IP로 10번 이상 접속되었습니다. 확인후 다시 사용하시기 바랍니다.
             More than 10 connections sharing the same IP have logged into the game for an hour. Please check this matter.
             */
-            ClientMessages::MsgBanpcipcount => 0x49b,
+            ClientMessages::MsgBanpcipcount => 0x49B,
             /*20060522 to latest
             게임을 재시작 하십시오
             Please restart the game.
             */
-            ClientMessages::MsgGameguardrestart => 0x49c,
+            ClientMessages::MsgGameguardrestart => 0x49C,
 
             /*20060703 to latest
             용병정보 - 아쳐타입
             Mercenary: Archer
             */
-            ClientMessages::MsgMerinfotypearcher => 0x49d,
+            ClientMessages::MsgMerinfotypearcher => 0x49D,
             /*20060703 to latest
             용병정보 - 검사타입
             Mercenary: Swordman
             */
-            ClientMessages::MsgMerinfotypeswordman => 0x49e,
+            ClientMessages::MsgMerinfotypeswordman => 0x49E,
             /*20060703 to latest
             용병정보 - 창병타입
             Mercenary: Spearman
             */
-            ClientMessages::MsgMerinfotypelancer => 0x49f,
+            ClientMessages::MsgMerinfotypelancer => 0x49F,
             /*20060703 to 20070109
             남은시간
             20070115 to latest
             삭제시간
             Expiration
             */
-            ClientMessages::MsgLefttime => 0x4a0,
+            ClientMessages::MsgLefttime => 0x4A0,
             /*20060703 to latest
             신뢰도
             Loyalty
             */
-            ClientMessages::MsgMerfriendly => 0x4a1,
+            ClientMessages::MsgMerfriendly => 0x4A1,
             /*20060703 to latest
             소환횟수
             Summons
             */
-            ClientMessages::MsgMercallcount => 0x4a2,
+            ClientMessages::MsgMercallcount => 0x4A2,
             /*20060703 to latest
             Kill
             */
-            ClientMessages::MsgMerkill => 0x4a3,
+            ClientMessages::MsgMerkill => 0x4A3,
 
             /*20060904 to latest
             펫이 배가 고파서 당신을 원망하고 있다는 느낌이 든다.
             You can feel hatred from your pet for neglecting to feed it.
             */
-            ClientMessages::MsgPetstarving => 0x4a4,
+            ClientMessages::MsgPetstarving => 0x4A4,
             /*20060904 to latest
             [POINT] 테이밍미션 랭킹포인트가 %d 상승해서 %d 포인트가 되었습니다.
             [POINT] You earned %d Taming Mission Ranking Points, giving you a total of %d points.
             */
-            ClientMessages::MsgGangsipoint => 0x4a5,
+            ClientMessages::MsgGangsipoint => 0x4A5,
             /*20060904 to latest
             [테이밍미션] Target Monster : %s
             [Taming Mission] Target Monster: %s
             */
-            ClientMessages::MsgGangsimission => 0x4a6,
+            ClientMessages::MsgGangsimission => 0x4A6,
 
             /*20060918 to latest
             /hunting : 사냥 목록을 보여줍니다.
             /hunting: You can check the your hunting list.
             */
-            ClientMessages::MsgExplainhunting => 0x4a7,
+            ClientMessages::MsgExplainhunting => 0x4A7,
             /*20060918 to latest
             [천사의질문] 소녀에게 가르쳐주시어요. %s는 몇 스킬 찍으셨나요?
             [Angel's Question] Please tell me, how many %s skills do you have?
             */
-            ClientMessages::MsgDeathq01 => 0x4a8,
+            ClientMessages::MsgDeathq01 => 0x4A8,
             /*20060918 to latest
             [천사의질문] 소녀에게 가르쳐주시어요. 소지하시고있는 제니를 십만으로 나누면 얼마가 되시나요?
             [Angel's Question] Please tell me, how much zeny you'll have if you divide it by 100,000?
             */
-            ClientMessages::MsgDeathq02 => 0x4a9,
+            ClientMessages::MsgDeathq02 => 0x4A9,
             /*20060918 to latest
             [천사의질문] 소녀에게 가르쳐주시어요. 오늘이 몇일이신지 아시나요?
             [Angel's Question] Please tell me, what is today's date?
             */
-            ClientMessages::MsgDeathq03 => 0x4aa,
+            ClientMessages::MsgDeathq03 => 0x4AA,
             /*20060918 to latest
             [천사의질문] 소녀에게 가르쳐주시어요. %s은 지금 몇이신가요?
             [Angel's Question] Please tell me, how many %s do you have?
             */
-            ClientMessages::MsgDeathq04 => 0x4ab,
+            ClientMessages::MsgDeathq04 => 0x4AB,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 슈노, 태권계열, 무낙계열을 담당하고있는 SiYeon씨의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in SiYeon's name?
             */
-            ClientMessages::MsgDeathq05 => 0x4ac,
+            ClientMessages::MsgDeathq05 => 0x4AC,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 귀엽고 어여쁜 라그나로크의 히로인 Munak의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in Munak's name?
             */
-            ClientMessages::MsgDeathq06 => 0x4ad,
+            ClientMessages::MsgDeathq06 => 0x4AD,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 제가 어여뻐하는 Bongun의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in Bongun's name?
             */
-            ClientMessages::MsgDeathq07 => 0x4ae,
+            ClientMessages::MsgDeathq07 => 0x4AE,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 저희가 존재하는 온라인세계 Ragnarok의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, Ragnarok?
             */
-            ClientMessages::MsgDeathq08 => 0x4af,
+            ClientMessages::MsgDeathq08 => 0x4AF,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 언제나 Online상태인 천사동료들은 큰힘이 되어주죠. Online의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, online?
             */
-            ClientMessages::MsgDeathq09 => 0x4b0,
+            ClientMessages::MsgDeathq09 => 0x4B0,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 죽음도 두려워하지않는 기사들을 상징하는 단어인 Death의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, death?
             */
-            ClientMessages::MsgDeathq10 => 0x4b1,
+            ClientMessages::MsgDeathq10 => 0x4B1,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 기사들은 너무 멋진다고 생각해요. Knight의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, knight?
             */
-            ClientMessages::MsgDeathq11 => 0x4b2,
+            ClientMessages::MsgDeathq11 => 0x4B2,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 중력을 뜻하는 단어인 Gravity의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, gravity?
             */
-            ClientMessages::MsgDeathq12 => 0x4b3,
+            ClientMessages::MsgDeathq12 => 0x4B3,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 어둠속에서도 밝게 사는게 중요하지요. Dark의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, dark?
             */
-            ClientMessages::MsgDeathq13 => 0x4b4,
+            ClientMessages::MsgDeathq13 => 0x4B4,
             /*20060918 to latest
             [천사의질문] A는 1이고 Z는 26이어요. 뭐든지 수집하는 Collector의 알파벳을 더하면 몇이 되나요?
             [Angel's Question] If A is 1, B is 2, and so on, and if Z is 26, what number do you get if you add the letters in the word, collecter?
             */
-            ClientMessages::MsgDeathq14 => 0x4b5,
+            ClientMessages::MsgDeathq14 => 0x4B5,
             /*20060918 to latest
             [천사의대답] 소녀에게 정확한 사실을 가르쳐주셔서 감사하옵니다.
             [Angel's Answer] Thank you for letting me know~
             */
-            ClientMessages::MsgDeathr01 => 0x4b6,
+            ClientMessages::MsgDeathr01 => 0x4B6,
             /*20060918 to latest
             [천사의대답] 사랑스러우신 분이시군요. 소녀 감탄했사옵니다.
             [Angel's Answer] I'm very pleased with your answer. You are a splendid adventurer.
             */
-            ClientMessages::MsgDeathr02 => 0x4b7,
+            ClientMessages::MsgDeathr02 => 0x4B7,
             /*20060918 to latest
             [천사의대답] 소녀 실망했사옵니다.
             [Angel's Answer] You've disappointed me...
             */
-            ClientMessages::MsgDeathr05 => 0x4b8,
+            ClientMessages::MsgDeathr05 => 0x4B8,
 
             /*20060925 to latest
             [POINT] 랭킹포인트가 %d 상승해서 %d 포인트가 되었습니다.
             [Point] You earned %d Ranking Points, giving you a total of %d Ranking Points.
             */
-            ClientMessages::MsgDeathpoint => 0x4b9,
+            ClientMessages::MsgDeathpoint => 0x4B9,
 
             /*20060927 to 20070417
             [%s]의 소지 Point : %d Point
@@ -28469,39 +28469,39 @@ impl ClientMessages {
             [%s]의 소지 캐시 : %d 캐시
             [%s]'s Points: %d Points
             */
-            ClientMessages::MsgPointshop => 0x4ba,
+            ClientMessages::MsgPointshop => 0x4BA,
 
             /*20061009 to latest
             선택하지 않은 캐릭터는 삭제 됩니다. 완료하시겠습니까?
             Unselected Characters will be deleted. Continue?
             */
-            ClientMessages::MsgConfirmselectcharacters => 0x4bb,
+            ClientMessages::MsgConfirmselectcharacters => 0x4BB,
             /*20061009 to latest
             9개 이상 선택하실 수 없습니다.
             You cannot select more than 8.
             */
-            ClientMessages::MsgErrorselectcharacters => 0x4bc,
+            ClientMessages::MsgErrorselectcharacters => 0x4BC,
 
             /*20061016 to latest
             캐릭터명을 '%s' (으)로 변경하시겠습니까?
             Do you want to change your name to '%s'?
             */
-            ClientMessages::MsgConfirmtochangename => 0x4bd,
+            ClientMessages::MsgConfirmtochangename => 0x4BD,
             /*20061016 to latest
             캐릭터명이 성공적으로 변경되었습니다.
             Character Name has been changed successfully.
             */
-            ClientMessages::MsgChangenamesuccess => 0x4be,
+            ClientMessages::MsgChangenamesuccess => 0x4BE,
             /*20061016 to latest
             캐릭터명 변경이 실패하였습니다.
             You have failed to change this character's name.
             */
-            ClientMessages::MsgChangenamefailure => 0x4bf,
+            ClientMessages::MsgChangenamefailure => 0x4BF,
             /*20061016 to latest
             한 번에 한 종류의 아이템만 구매할 수 있습니다.
             You can purchase only one kind of item at a time.
             */
-            ClientMessages::MsgCanbuyonlyoneitem => 0x4c0,
+            ClientMessages::MsgCanbuyonlyoneitem => 0x4C0,
 
             /*20061017 to 20061017
             캐릭터가 하나도 선택되지 않았습니다.  반드시 하나 이상의 캐릭터를 선택하여야 합니다.
@@ -28509,39 +28509,39 @@ impl ClientMessages {
             캐릭터가 한개도 선택되지 않았습니다.  반드시 한개 이상의 캐릭터를 선택하여야 합니다.
             No characters were selected. You must select at least one character.
             */
-            ClientMessages::MsgNoselectcharacters => 0x4c1,
+            ClientMessages::MsgNoselectcharacters => 0x4C1,
 
             /*20061023 to latest
             이미 캐릭터명을 변경한 적이 있습니다. 더 이상 변경 할 수 없습니다.
             This character's name has already been changed. You cannot change a character's name more than once.
             */
-            ClientMessages::MsgAlreadychangedname => 0x4c2,
+            ClientMessages::MsgAlreadychangedname => 0x4C2,
             /*20061023 to latest
             사용자 정보가 정확하지 않습니다.
             User Information is not correct.
             */
-            ClientMessages::MsgNotregisteduser => 0x4c3,
+            ClientMessages::MsgNotregisteduser => 0x4C3,
             /*20061023 to latest
             다른 사용자가 같은 캐릭터 명을 먼저 사용하였습니다. 다른 캐릭터명을 사용하여 주십시요.
             Another user is using this character name, so please select another one.
             */
-            ClientMessages::MsgDuplicatedcharname => 0x4c4,
+            ClientMessages::MsgDuplicatedcharname => 0x4C4,
 
             /*20061030 to latest
             파티장 권한이 없어 파티원을 소환하지 못했습니다.
             The party member was not summoned because you are not the party leader.
             */
-            ClientMessages::MsgCannotpartycall => 0x4c5,
+            ClientMessages::MsgCannotpartycall => 0x4C5,
             /*20061030 to latest
             현재 맵에는 소환될 파티원이 존재하지 않습니다.
             There is no party member to summon in the current map.
             */
-            ClientMessages::MsgNopartymemonthismap => 0x4c6,
+            ClientMessages::MsgNopartymemonthismap => 0x4C6,
             /*20061030 to latest
             이 지역에선 보스몬스터의 흔적을 찾을 수가 없습니다.
             You cannot find any trace of a Boss Monster in this area.
             */
-            ClientMessages::MsgNotfindbossmon => 0x4c7,
+            ClientMessages::MsgNotfindbossmon => 0x4C7,
             /*20061030 to 20070122
             보스 몬스터 '%s'의 등장 예정시간 %02d시:%02d분
             20070129 to 20071205
@@ -28550,12 +28550,12 @@ impl ClientMessages {
             보스 몬스터 '%s'(이)가  %d시간 %d분 후에 등장합니다.
             Boss Monster, '%s' will appear in %02d hour(s) and %02d minute(s).
             */
-            ClientMessages::MsgAppearancetimeofbossmon => 0x4c8,
+            ClientMessages::MsgAppearancetimeofbossmon => 0x4C8,
             /*20061030 to latest
             보스 몬스터 '%s'의 위치가 미니맵에 표시됩니다.
             The location of Boss Monster, '%s', will be displayed on your Mini-Map.
             */
-            ClientMessages::MsgShowpositionofbossmon => 0x4c9,
+            ClientMessages::MsgShowpositionofbossmon => 0x4C9,
 
             /*20061106 to 20061211
             %s를 개봉 하시겠습니까?  한번 개봉된 아이템은 창고 저장 외의 다른 이동은 불가하며 동일한 아이템을 중복 사용하더라도 효과가 중첩되지 않습니다.
@@ -28571,118 +28571,118 @@ impl ClientMessages {
             '%s'를 개봉 하시겠습니까?  ^ff0000상자를 개봉하시면 청약 철회 대상에서 제외 됩니다.^000000 한번 개봉 된 아이템은 창고 저장 외의 다른 이동은 불가하며 임대 아이템은 창고 저장도 불가합니다. 한정 아이템은 거래 및 이동이 가능 합니다. 동일한 아이템을 중복 사용하더라도 효과가 중첩되지 않습니다.
             Do you want to open '%s'? Once opened, the contents cannot be moved to other locations aside from the Kafra Storage. The item effect isn't doubled, even if the same items are used more than once.
             */
-            ClientMessages::MsgConfirmtoopencashitem => 0x4ca,
+            ClientMessages::MsgConfirmtoopencashitem => 0x4CA,
             /*20061106 to latest
             NPC가 존재하지 않아 구매가 실패하였습니다.
             The Purchase has failed because the NPC does not exist.
             */
-            ClientMessages::MsgBuycashfailnpc => 0x4cb,
+            ClientMessages::MsgBuycashfailnpc => 0x4CB,
             /*20061106 to latest
             부분 유료화 시스템이 정상 작동하지 않아 구매가 실패하였습니다.
             The Purchase has failed because the Kafra Shop System is not working correctly.
             */
-            ClientMessages::MsgBuycashfailsystem => 0x4cc,
+            ClientMessages::MsgBuycashfailsystem => 0x4CC,
             /*20061106 to latest
             교환중에는 아이템을 구매 할 수 없습니다.
             You cannot purchase items while you are in a trade.
             */
-            ClientMessages::MsgBuycashfailexchange => 0x4cd,
+            ClientMessages::MsgBuycashfailexchange => 0x4CD,
             /*20061106 to latest
             아이템 정보가 정확하지 않아 구매가 실패하였습니다.
             The Purchase has failed because the Item Information was incorrect.
             */
-            ClientMessages::MsgBuycashfailitemid => 0x4ce,
+            ClientMessages::MsgBuycashfailitemid => 0x4CE,
 
             /*20061204 to latest
              STR이 향상되었습니다.
             STR has increased.
             */
-            ClientMessages::MsgEnststr => 0x4cf,
+            ClientMessages::MsgEnststr => 0x4CF,
             /*20061204 to latest
              STR이 원래대로 돌아왔습니다.
             STR has returned to normal.
             */
-            ClientMessages::MsgDsststr => 0x4d0,
+            ClientMessages::MsgDsststr => 0x4D0,
             /*20061204 to latest
              AGI이 향상되었습니다.
             AGI has increased.
             */
-            ClientMessages::MsgEnstagi => 0x4d1,
+            ClientMessages::MsgEnstagi => 0x4D1,
             /*20061204 to latest
              AGI이 원래대로 돌아왔습니다.
             AGI has returned to normal.
             */
-            ClientMessages::MsgDsstagi => 0x4d2,
+            ClientMessages::MsgDsstagi => 0x4D2,
             /*20061204 to latest
              VIT이 향상되었습니다.
             VIT has increased.
             */
-            ClientMessages::MsgEnstvit => 0x4d3,
+            ClientMessages::MsgEnstvit => 0x4D3,
             /*20061204 to latest
              VIT이 원래대로 돌아왔습니다.
             VIT has returned to normal.
             */
-            ClientMessages::MsgDsstvit => 0x4d4,
+            ClientMessages::MsgDsstvit => 0x4D4,
             /*20061204 to latest
              INT이 향상되었습니다.
             INT has increased.
             */
-            ClientMessages::MsgEnstint => 0x4d5,
+            ClientMessages::MsgEnstint => 0x4D5,
             /*20061204 to latest
              INT이 원래대로 돌아왔습니다.
             INT has returned to normal.
             */
-            ClientMessages::MsgDsstint => 0x4d6,
+            ClientMessages::MsgDsstint => 0x4D6,
             /*20061204 to latest
              DEX이 향상되었습니다.
             DEX has increased.
             */
-            ClientMessages::MsgEnstdex => 0x4d7,
+            ClientMessages::MsgEnstdex => 0x4D7,
             /*20061204 to latest
              DEX이 원래대로 돌아왔습니다.
             DEX has returned to normal.
             */
-            ClientMessages::MsgDsstdex => 0x4d8,
+            ClientMessages::MsgDsstdex => 0x4D8,
             /*20061204 to latest
              LUK이 향상되었습니다.
             LUK has increased.
             */
-            ClientMessages::MsgEnstluk => 0x4d9,
+            ClientMessages::MsgEnstluk => 0x4D9,
             /*20061204 to latest
              LUK이 원래대로 돌아왔습니다.
             LUK has returned to normal.
             */
-            ClientMessages::MsgDsstluk => 0x4da,
+            ClientMessages::MsgDsstluk => 0x4DA,
             /*20061204 to latest
              회피율이 향상되었습니다.
             Flee Rate (Flee) has increased.
             */
-            ClientMessages::MsgEnstavoidance => 0x4db,
+            ClientMessages::MsgEnstavoidance => 0x4DB,
             /*20061204 to latest
              회피율이 원래대로 돌아왔습니다.
             Flee Rate has returned to normal.
             */
-            ClientMessages::MsgDsstavoidance => 0x4dc,
+            ClientMessages::MsgDsstavoidance => 0x4DC,
             /*20061204 to latest
              명중률이 향상되었습니다.
             Accuracy Rate (Hit) has increased.
             */
-            ClientMessages::MsgEnsthit => 0x4dd,
+            ClientMessages::MsgEnsthit => 0x4DD,
             /*20061204 to latest
              명중률이 원래대로 돌아왔습니다.
             Accuracy Rate has returned to normal.
             */
-            ClientMessages::MsgDssthit => 0x4de,
+            ClientMessages::MsgDssthit => 0x4DE,
             /*20061204 to latest
              크리티컬 확률이 향상되었습니다.
             Critical Attack (Critical) has increased.
             */
-            ClientMessages::MsgEnstcriticalsuccessvalue => 0x4df,
+            ClientMessages::MsgEnstcriticalsuccessvalue => 0x4DF,
             /*20061204 to latest
              크리티컬 확률이 원래대로 돌아왔습니다.
             Critical Attack has returned to normal.
             */
-            ClientMessages::MsgDsstcriticalsuccessvalue => 0x4e0,
+            ClientMessages::MsgDsstcriticalsuccessvalue => 0x4E0,
             /*20061204 to 20111021
              몬스터 사냥을 통해 얻을 수 있는 경험치가 30분간 1.5배로 증가합니다.
             20111025 to 20111101
@@ -28691,22 +28691,22 @@ impl ClientMessages {
              30분간 얻을 수 있는 경험치가 50%% 증가합니다.
             You will receive 1.5 times more EXP from hunting monsters for the next 30 minutes.
             */
-            ClientMessages::MsgPlusexp => 0x4e1,
+            ClientMessages::MsgPlusexp => 0x4E1,
             /*20061204 to latest
              30분내 사망시 1회에 한해 경험치 감소가 일어나지 않습니다.
             This character will not receive any EXP penalty if killed within the next 30 minutes.
             */
-            ClientMessages::MsgDdeathpenalty => 0x4e2,
+            ClientMessages::MsgDdeathpenalty => 0x4E2,
             /*20061204 to latest
              몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 30분간 2배로 증가합니다.
             Regular item drops from monsters will be doubled for the next 30 minutes.
             */
-            ClientMessages::MsgReceiveitem => 0x4e3,
+            ClientMessages::MsgReceiveitem => 0x4E3,
             /*20061204 to latest
              10분간 맵 내에 출현 가능한 보스 몬스터에 대한 정보를 안내해 드립니다.
             Boss Monster Map Information for the next 10 minutes.
             */
-            ClientMessages::MsgBossalarm => 0x4e4,
+            ClientMessages::MsgBossalarm => 0x4E4,
             /*20061204 to 20061211
              정말로 %s아이템을 구매하시겠습니까?, %d포인트가 차감됩니다.
             20061218 to 20070423
@@ -28727,7 +28727,7 @@ impl ClientMessages {
              ^ff0000본 아이템을 구매 후 7일 이내에는 청약 철회가 가능합니다. 다만, 7일이 지났거나 아이템을 개봉하시면 청약 철회 대상에서 제외 됩니다.또한 구매시 사용된 무료캐시는 청약철회시 반환되지 않습니다.^000000 정말로 아이템을 구매하시겠습니까? 구매하실 경우 %d캐시가 차감됩니다.
             Do you really want to purchase this item? %d points will be deducted from your total Kafra Credit Points.
             */
-            ClientMessages::MsgBuyreconfirm => 0x4e5,
+            ClientMessages::MsgBuyreconfirm => 0x4E5,
 
             /*20061211 to 20061211
             '%s'아이템의 사용시간이 %d분 남았습니다.
@@ -28737,14 +28737,14 @@ impl ClientMessages {
              캐시가 부족합니다.
              You do not have enough Kafra Credit Points.
             */
-            ClientMessages::MsgBuycashfailmoney => 0x4e6,
+            ClientMessages::MsgBuycashfailmoney => 0x4E6,
             /*20061211 to 20061211
             1분 후, '%s'아이템이 인벤토리에서 삭제됩니다.
             20061218 to latest
              ^ff0000파기일시: %s^000000
              ^ff0000Expiration Date: %s^000000
             */
-            ClientMessages::MsgNoticetodeletetime => 0x4e7,
+            ClientMessages::MsgNoticetodeletetime => 0x4E7,
             /*20061211 to 20061211
             '%s'아이템이 인벤토리에서 삭제되었습니다.
             20061218 to latest
@@ -28753,28 +28753,28 @@ impl ClientMessages {
             20070102 to 20070312
              '%s'아이템의 사용시간이 %s 남았습니다.
             */
-            ClientMessages::MsgNoticetoremainitemusingtime => 0x4e8,
+            ClientMessages::MsgNoticetoremainitemusingtime => 0x4E8,
 
             /*20061218 to latest
              1분 후, '%s'아이템이 인벤토리에서 삭제됩니다.
              '%s' item will be deleted from the Inventory in 1 minute.
             */
-            ClientMessages::MsgLastnoticetoremainitemusingtime => 0x4e9,
+            ClientMessages::MsgLastnoticetoremainitemusingtime => 0x4E9,
             /*20061218 to latest
              '%s'아이템이 인벤토리에서 삭제되었습니다.
               '%s' item has been deleted from the Inventory.
             */
-            ClientMessages::MsgNoticetodeleteitem => 0x4ea,
+            ClientMessages::MsgNoticetodeleteitem => 0x4EA,
 
             /*20070102 to latest
             Input Number
             */
-            ClientMessages::MsgInputnumber => 0x4eb,
+            ClientMessages::MsgInputnumber => 0x4EB,
             /*20070102 to latest
             %m월 %d일 %H시 %M분
             %m/%d %H:%M
             */
-            ClientMessages::MsgTimetype2 => 0x4ec,
+            ClientMessages::MsgTimetype2 => 0x4EC,
 
             /*20070129 to 20071120
             보스 몬스터 '%s'(이)가 1분 이내에 등장합니다.
@@ -28782,55 +28782,55 @@ impl ClientMessages {
             보스 몬스터 '%s'(이)가 잠시 후에 등장합니다.
             Boss Monster '%s' will appear within 1 minute.
             */
-            ClientMessages::MsgAppearancetimeofbossmon2 => 0x4ed,
+            ClientMessages::MsgAppearancetimeofbossmon2 => 0x4ED,
             /*20070129 to latest
             용병 스킬목록
             Mercenary Soldier Skill List
             */
-            ClientMessages::MsgMerskilllist => 0x4ee,
+            ClientMessages::MsgMerskilllist => 0x4EE,
             /*20070129 to latest
             블랙젬스톤 1개와 백만제니를 소모하는 마법의 실행에 동의합니까?
             Do you agree to cast the magic spell that consumes 1 Black Gemstone and 1,000,000 Zeny?
             */
-            ClientMessages::MsgDaexpaccept => 0x4ef,
+            ClientMessages::MsgDaexpaccept => 0x4EF,
 
             /*20070220 to latest
             [POINT] 콜렉터랭킹 포인트가 %d 상승해서 %d 포인트가 되었습니다.
             [Point] You have gained %d Collector Rank Points; you now have a total of %d Collector Rank Points.
             */
-            ClientMessages::MsgCollectorpoint => 0x4f0,
+            ClientMessages::MsgCollectorpoint => 0x4F0,
             /*20070220 to latest
             [콜렉터랭킹] Target Item : %s
             [Collector Rank] Target Item: %s
             */
-            ClientMessages::MsgCollectormission => 0x4f1,
+            ClientMessages::MsgCollectormission => 0x4F1,
 
             /*20070227 to latest
             용병 사용시간이 만료되었습니다.
             The mercenary contract has expired.
             */
-            ClientMessages::MsgMerfinish => 0x4f2,
+            ClientMessages::MsgMerfinish => 0x4F2,
             /*20070227 to latest
             용병이 사망하였습니다.
             The mercenary has died.
             */
-            ClientMessages::MsgMerdie => 0x4f3,
+            ClientMessages::MsgMerdie => 0x4F3,
             /*20070227 to latest
             용병이 해고되었습니다.
             You have released the mercenary.
             */
-            ClientMessages::MsgMerretire => 0x4f4,
+            ClientMessages::MsgMerretire => 0x4F4,
             /*20070227 to latest
             용병이 도망갔습니다.
             The mercenary has run away.
             */
-            ClientMessages::MsgMerrunaway => 0x4f5,
+            ClientMessages::MsgMerrunaway => 0x4F5,
 
             /*20070319 to latest
              '%s'아이템의 사용시간이 %d초 남았습니다.
              The '%s' item will disappear in %d seconds.
             */
-            ClientMessages::MsgNoticetoremainitemusingtime2 => 0x4f6,
+            ClientMessages::MsgNoticetoremainitemusingtime2 => 0x4F6,
 
             /*20070326 to 20070821
             PC방 이벤트 : 경험치 증가 %d%%, 죽을때 경험치 %d%%, 드롭율 증가 %d%%
@@ -28838,52 +28838,52 @@ impl ClientMessages {
             PC방 프리미엄 서비스 : 경험치 %d%% 증가, 사망 페널티 %d%% 감소, 드롭율 %d%% 증가
             IP Bonus: EXP/JEXP %d%%, Death Penalty %d%%, Item Drop %d%%
             */
-            ClientMessages::MsgPcbangevent => 0x4f7,
+            ClientMessages::MsgPcbangevent => 0x4F7,
 
             /*20070402 to latest
             24시간 이후에 시도하세요
             Symbols in Character Names are forbidden.
             */
-            ClientMessages::MsgLimitchardelete => 0x4f8,
+            ClientMessages::MsgLimitchardelete => 0x4F8,
 
             /*20070416 to latest
             용병이 사용자 인공지능으로 동작합니다.
             Mercenary will follow custom AI.
             */
-            ClientMessages::MsgMeruseraion => 0x4f9,
+            ClientMessages::MsgMeruseraion => 0x4F9,
             /*20070416 to latest
             용병이 기본 인공지능으로 동작합니다.
             Mercenary will follow basic AI.
             */
-            ClientMessages::MsgMeruseraioff => 0x4fa,
+            ClientMessages::MsgMeruseraioff => 0x4FA,
 
             /*20070611 to latest
              %s님의
              %s's
             */
-            ClientMessages::MsgCharactername => 0x4fb,
+            ClientMessages::MsgCharactername => 0x4FB,
             /*20070611 to 20070801
             %s님이 %s를 획득하셨습니다.
             20070807 to latest
             %s님이 %s 아이템을 획득하셨습니다.
             %s has acquired %s.
             */
-            ClientMessages::MsgItempickupparty => 0x4fc,
+            ClientMessages::MsgItempickupparty => 0x4FC,
             /*20070611 to latest
             공개 채팅 메시지 표시
             Public Chat Display
             */
-            ClientMessages::MsgViewchatmsg => 0x4fd,
+            ClientMessages::MsgViewchatmsg => 0x4FD,
             /*20070611 to latest
             귓속말 채팅 메시지 표시
             Whisper Display
             */
-            ClientMessages::MsgViewwhispermsg => 0x4fe,
+            ClientMessages::MsgViewwhispermsg => 0x4FE,
             /*20070611 to latest
             파티 채팅 메시지 표시
             Party Chat Display
             */
-            ClientMessages::MsgViewpartymsg => 0x4ff,
+            ClientMessages::MsgViewpartymsg => 0x4FF,
             /*20070611 to latest
             길드 채팅 메시지 표시
             Guild Chat Display
@@ -28938,33 +28938,33 @@ impl ClientMessages {
             [%s]의 소지 한코인 : %d 한코인
             [%s]'s Han Coin: %d Han Coin
             */
-            ClientMessages::MsgPointshopnhn => 0x50a,
+            ClientMessages::MsgPointshopnhn => 0x50A,
 
             /*20070618 to latest
             일반 메시지
             Public Log
             */
-            ClientMessages::MsgStchat => 0x50b,
+            ClientMessages::MsgStchat => 0x50B,
             /*20070618 to latest
             배틀 메시지
             Battle Log
             */
-            ClientMessages::MsgBtchat => 0x50c,
+            ClientMessages::MsgBtchat => 0x50C,
             /*20070618 to latest
             휴대폰 인증.
             Mobile Authentication
             */
-            ClientMessages::MsgPhoneconfirm => 0x50d,
+            ClientMessages::MsgPhoneconfirm => 0x50D,
             /*20070618 to latest
             읽기
             Read
             */
-            ClientMessages::MsgBookread => 0x50e,
+            ClientMessages::MsgBookread => 0x50E,
             /*20070618 to latest
             자동낭독
             Auto Read
             */
-            ClientMessages::MsgBookautoread => 0x50f,
+            ClientMessages::MsgBookautoread => 0x50F,
             /*20070618 to latest
             책갈피
             Bookmark
@@ -29021,36 +29021,36 @@ impl ClientMessages {
             무료 캐시 사용 :
             Use Free Cash:
             */
-            ClientMessages::MsgUsefreepoint => 0x51a,
+            ClientMessages::MsgUsefreepoint => 0x51A,
             /*20070703 to latest
             캐시
             Cash
             */
-            ClientMessages::MsgCash => 0x51b,
+            ClientMessages::MsgCash => 0x51B,
 
             /*20070710 to latest
             http://payment.ro.hangame.com/index.asp
             */
-            ClientMessages::MsgSettleweburlhangame => 0x51c,
+            ClientMessages::MsgSettleweburlhangame => 0x51C,
             /*20070710 to 20090603
             그라비티 회원 정보동의를 하셔야 사용할수있습니다.
             20090610 to latest
             그라비티 회원 정보동의를 하셔야 사용할 수 있습니다.
             You need to accept the Privacy Policy from Gravity in order to use the service.
             */
-            ClientMessages::MsgBangravitymemagree => 0x51d,
+            ClientMessages::MsgBangravitymemagree => 0x51D,
             /*20070710 to latest
             이용약관에 동의를 하셔야 본 서비스를 이용하실 수 있습니다.
             You need to accept the User Agreement in order to use the service.
             */
-            ClientMessages::MsgBangamememagree => 0x51e,
+            ClientMessages::MsgBangamememagree => 0x51E,
             /*20070710 to 20080514
             존재하지 않는 한게임 ID이거나 잘못된 ID입니다.
             20080520 to latest
             입력하신 아이디와 비밀번호가 등록된 정보와 일치하지 않습니다.
             Incorrect or nonexistent ID.
             */
-            ClientMessages::MsgBanhanvalid => 0x51f,
+            ClientMessages::MsgBanhanvalid => 0x51F,
 
             /*20070711 to 20080603
              정말로 '%s'아이템을 구매하시겠습니까?, 일반 %d캐시, 무료 %d캐시가 차감됩니다.
@@ -29131,7 +29131,7 @@ impl ClientMessages {
             Memorial Dungeon, '%s' is created.
              Please enter in 5 minutes.
             */
-            ClientMessages::MsgMdungeonsubscriptionerrorexist => 0x52a,
+            ClientMessages::MsgMdungeonsubscriptionerrorexist => 0x52A,
             /*20070821 to 20070904
             메모리얼던젼 '%s' 생성에 실패했습니다.
              나중에 다시 시도하세요.
@@ -29140,29 +29140,29 @@ impl ClientMessages {
             Failed to create Memorial Dungeon, '%s'.
              Please try again.
             */
-            ClientMessages::MsgMdungeonsubscriptioncancelfail => 0x52b,
+            ClientMessages::MsgMdungeonsubscriptioncancelfail => 0x52B,
             /*20070821 to latest
             상대방이 파티 초대 거부 상태입니다.
             The character blocked the party invitation.
             */
-            ClientMessages::MsgJoinmsgrefuse => 0x52c,
+            ClientMessages::MsgJoinmsgrefuse => 0x52C,
 
             /*20070828 to latest
             모든 파티 초대를 거부합니다.
             Block all party invitations.
             */
-            ClientMessages::MsgInvitepartyrefuse => 0x52d,
+            ClientMessages::MsgInvitepartyrefuse => 0x52D,
             /*20070828 to latest
             모든 파티 초대를 수락합니다.
             Allow all party invitations.
             */
-            ClientMessages::MsgInvitepartyaccept => 0x52e,
+            ClientMessages::MsgInvitepartyaccept => 0x52E,
 
             /*20070904 to latest
             착용하시면 이 아이템은 영구 귀속됩니다. 착용하시겠습니까?
             This item will be permanently bound to this character once it is equipped. Do you really want to equip this item?
             */
-            ClientMessages::MsgYouritemequip => 0x52f,
+            ClientMessages::MsgYouritemequip => 0x52F,
             /*20070904 to latest
             %s 아이템이 귀속되었습니다.
             %s is now permanently bound to this character.
@@ -29219,34 +29219,34 @@ impl ClientMessages {
             %s 입장 가능
             %s Available
             */
-            ClientMessages::MsgMemorialdunready => 0x53a,
+            ClientMessages::MsgMemorialdunready => 0x53A,
             /*20070918 to 20071120
             %s 내부
             20071127 to latest
             %s 진행중
             %s in Progress
             */
-            ClientMessages::MsgMemorialdunin => 0x53b,
+            ClientMessages::MsgMemorialdunin => 0x53B,
             /*20070918 to latest
             시간 안에 입장하지 않아 메모리얼 던전이 사라졌습니다.
             No one entered the Memorial Dungeon within its duration; the dungeon has disappeared.
             */
-            ClientMessages::MsgMemorialdunout1 => 0x53c,
+            ClientMessages::MsgMemorialdunout1 => 0x53C,
             /*20070918 to latest
             이용하시려면 이용 신청을 처음부터 다시 해주시기 바랍니다.
             Please apply for dungeon entry again to play in this dungeon.
             */
-            ClientMessages::MsgMemorialdunout2 => 0x53d,
+            ClientMessages::MsgMemorialdunout2 => 0x53D,
             /*20070918 to latest
             대기 순위 : ^ff0000%d^000000
             Your Standby Priority: ^ff0000%d^000000
             */
-            ClientMessages::MsgMemorialdunpriority => 0x53e,
+            ClientMessages::MsgMemorialdunpriority => 0x53E,
             /*20070918 to latest
             ^ff0000%s^000000 내에 입장하지 않을 경우 신청하신 던전이 삭제 됩니다.
             The requested dungeon will be removed if you do not enter within ^ff0000%s^000000.
             */
-            ClientMessages::MsgMemorialdunnotify => 0x53f,
+            ClientMessages::MsgMemorialdunnotify => 0x53F,
             /*20070918 to latest
             던전 미션 제한 시간 :
             Dungeon Mission Time Limit:
@@ -29303,32 +29303,32 @@ impl ClientMessages {
             추후 사용예정
             Not Yet Implemented
             */
-            ClientMessages::MsgFrmap => 0x54a,
+            ClientMessages::MsgFrmap => 0x54A,
             /*20070918 to latest
             만들수 있는 케릭터 슬롯이 아닙니다.
             You are not eligible to open the Character Slot.
             */
-            ClientMessages::MsgFrerrmkcharinvalidslot => 0x54b,
+            ClientMessages::MsgFrerrmkcharinvalidslot => 0x54B,
             /*20070918 to latest
             삭제할 수 없는 케릭터 입니다.
             This character cannot be deleted.
             */
-            ClientMessages::MsgFrerrdelcharinvalidslot => 0x54c,
+            ClientMessages::MsgFrerrdelcharinvalidslot => 0x54C,
             /*20070918 to latest
             상대방의 장비창이 공개되어 있지 않습니다.
             This character's equipment information is not open to the public.
             */
-            ClientMessages::MsgOpenequipeditemrefused => 0x54d,
+            ClientMessages::MsgOpenequipeditemrefused => 0x54D,
             /*20070918 to latest
             장비창을 공개하지 않습니다.
             Equipment information not open to the public.
             */
-            ClientMessages::MsgOpenequipeditemrefuse => 0x54e,
+            ClientMessages::MsgOpenequipeditemrefuse => 0x54E,
             /*20070918 to latest
             장비창을 공개합니다.
             Equipment information open to the public.
             */
-            ClientMessages::MsgOpenequipeditemaccept => 0x54f,
+            ClientMessages::MsgOpenequipeditemaccept => 0x54F,
             /*20070918 to latest
             (%s)님 장비창 보기
             Check %s's Equipment Info
@@ -29389,36 +29389,36 @@ impl ClientMessages {
             ^ff0000^ff0000용병을 삭제합니다.^000000^000000 삭제하실 경우 지금까지 키운 내역이 모두 삭제됩니다. 계속하시겠습니까?
             ^ff0000Deleting a Mercenary Soldier^000000 will also delete his growth history. Do you really want to proceed with the deletion?
             */
-            ClientMessages::MsgDeletemer => 0x55a,
+            ClientMessages::MsgDeletemer => 0x55A,
 
             /*20071211 to latest
             메모리얼던젼이 OPEN 상태입니다.
             The Memorial Dungeon is now open.
             */
-            ClientMessages::MsgMemorialdunopen => 0x55b,
+            ClientMessages::MsgMemorialdunopen => 0x55B,
 
             /*20080108 to latest
             위의 계정은 아직 통신 안전 키에 연결되지 않았습니다.  먼저 안전 키를 해제하신 뒤 게임에 접속해 주십시오.
             This account has not been confirmed by connecting to the safe communication key. Please connect to the key first, and then log into the game.
             */
-            ClientMessages::MsgPhoneblock => 0x55c,
+            ClientMessages::MsgPhoneblock => 0x55C,
             /*20080108 to latest
             한 아이피로 접속 가능한 유저수를 초과하였습니다.
             The number of accounts connected to this IP has exceeded the limit.
             */
-            ClientMessages::MsgBanpciplimitaccess => 0x55d,
+            ClientMessages::MsgBanpciplimitaccess => 0x55D,
 
             /*20080219 to latest
             새로운 퀘스트를 받았습니다
             You have received a new quest.
             */
-            ClientMessages::MsgQuestget => 0x55e,
+            ClientMessages::MsgQuestget => 0x55E,
 
             /*20080401 to latest
             ^777777습득조건 :
             ^CC3399Requirement:
             */
-            ClientMessages::MsgFindtexttoskilldes => 0x55f,
+            ClientMessages::MsgFindtexttoskilldes => 0x55F,
             /*20080401 to latest
             스킬 설명 보기
             View Skill Info
@@ -29483,18 +29483,18 @@ impl ClientMessages {
              몬스터 사냥을 통해 얻을 수 있는 경험치가 60분간 1.5배로 증가합니다.
             EXP points from hunting monsters are increased by 50% for 60 minutes.
             */
-            ClientMessages::MsgPlusexp12312 => 0x56a,
+            ClientMessages::MsgPlusexp12312 => 0x56A,
 
             /*20080520 to latest
             이 맵에서는 파티를 결성할 수 없습니다.
             Unable to organize a party in this map.
             */
-            ClientMessages::MsgNoparty => 0x56b,
+            ClientMessages::MsgNoparty => 0x56B,
             /*20080520 to latest
             (%s)님은 파티에 참여할 수 없는 맵에 있습니다.
             (%s) are currently in restricted map to join a party.
             */
-            ClientMessages::MsgNoparty2 => 0x56c,
+            ClientMessages::MsgNoparty2 => 0x56C,
 
             /*20080528 to 20080603
             간편아이템샵.
@@ -29502,17 +29502,17 @@ impl ClientMessages {
             간편아이템샵
             Simple Item Shop
             */
-            ClientMessages::MsgSimplecashshop => 0x56d,
+            ClientMessages::MsgSimplecashshop => 0x56D,
             /*20080528 to latest
             소지 한코인 : %d 한코인
             Han Coin: %d Han Coin
             */
-            ClientMessages::MsgSimplepointshopnhn => 0x56e,
+            ClientMessages::MsgSimplepointshopnhn => 0x56E,
             /*20080528 to latest
             소지 캐시 : %d 캐시
             RoK Point: %d RoK Point
             */
-            ClientMessages::MsgSimplepointshop => 0x56f,
+            ClientMessages::MsgSimplepointshop => 0x56F,
             /*20080528 to latest
             무료 캐시 : %d 캐시
             Free Cash: %d Cash
@@ -29571,34 +29571,34 @@ impl ClientMessages {
             이 맵에서는 채팅을 할 수 없습니다.
             This skill requires other skills to be used.
             */
-            ClientMessages::MsgNochatting => 0x57a,
+            ClientMessages::MsgNochatting => 0x57A,
 
             /*20081001 to latest
             3시간이 지났습니다.
             Chat is not allowed in this map
             */
-            ClientMessages::MsgVet3HOUR => 0x57b,
+            ClientMessages::MsgVet3HOUR => 0x57B,
             /*20081001 to latest
             5시간이 지났습니다.
             3 hours have passed.
             */
-            ClientMessages::MsgVet5HOUR => 0x57c,
+            ClientMessages::MsgVet5HOUR => 0x57C,
 
             /*20081008 to latest
             게임가드 초기화 에러 또는 구버전의 게임가드 파일입니다. 게임가드 셋업파일을 다시 설치하고 게임을 실행해 보시기 바랍니다.
             5 hours have passed.
             */
-            ClientMessages::MsgNpgamemonerrorgameguard => 0x57d,
+            ClientMessages::MsgNpgamemonerrorgameguard => 0x57D,
             /*20081008 to latest
             ini 파일이 없거나 변조되었습니다. 게임가드 셋업파일을 설치하면 해결 할 수 있습니다.
             Game guard initialization error or previous version game guard file is installed. Please re-install the setup file and try again
             */
-            ClientMessages::MsgNpgmuperrorparam => 0x57e,
+            ClientMessages::MsgNpgmuperrorparam => 0x57E,
             /*20081008 to latest
             게임가드와 충돌 프로그램이 발견되었습니다.
             Either ini file is missing or altered. Install game guard setup file to fix the problem
             */
-            ClientMessages::MsgNpggerrorcollision => 0x57f,
+            ClientMessages::MsgNpggerrorcollision => 0x57F,
 
             /*20081112 to latest
             잘못된 클라이언트입니다. 정상적인 클라이언트를 실행하여 주십시요.
@@ -29659,33 +29659,33 @@ impl ClientMessages {
             아이템별 최대 소지량을 초과하여 가질 수 없습니다.
             You have exceeded the maximum amount of possession of another item.
             */
-            ClientMessages::MsgPickupmaxcountlimit => 0x58a,
+            ClientMessages::MsgPickupmaxcountlimit => 0x58A,
 
             /*20090204 to latest
             관리자 권한이 없습니다. 프로그램 최초 실행은 관리자 권한으로 실행하셔야 합니다.
             No administrative privileges. Must first run the program with administrator privileges.
             */
-            ClientMessages::MsgNpkerrornotadmin => 0x58b,
+            ClientMessages::MsgNpkerrornotadmin => 0x58B,
             /*20090204 to latest
             nProtect KeyCrypt 드라이버 버전이 맞지 않습니다. 시스템 재 부팅 후에 새로 실행 시켜 주십시오.
             nProtect KeyCrypt not the same. Please restart the program and the computer first.
             */
-            ClientMessages::MsgNpkerrordriverversion => 0x58c,
+            ClientMessages::MsgNpkerrordriverversion => 0x58C,
             /*20090204 to latest
             WindowXP 호환성 모드를 사용하고 계십니다. 현재 프로그램에서 호환성 모드를 제거하였습니다. 프로그램을 새로 시작해 주십시오.
             Currently wearing WindowXP Compatibility Mode. The program now removes Compatibility Mode. Please restart the program.
             */
-            ClientMessages::MsgNpkerrorverifyversion => 0x58d,
+            ClientMessages::MsgNpkerrorverifyversion => 0x58D,
             /*20090204 to latest
             PS/2 키로거가 존재합니다.
             PS/2 keyloggers exist.
             */
-            ClientMessages::MsgDetectps2KEYLOGGER => 0x58e,
+            ClientMessages::MsgDetectps2KEYLOGGER => 0x58E,
             /*20090204 to latest
             USB 키보드 드라이버 해킹 시도가 탐지되었습니다.
             USB Keylogging attempt was detected.
             */
-            ClientMessages::MsgDetectusbkeylogger => 0x58f,
+            ClientMessages::MsgDetectusbkeylogger => 0x58F,
             /*20090204 to latest
             HHD 모니터링 툴이 탐지되었습니다.
             HHD monitoring tool has been detected.
@@ -29746,134 +29746,134 @@ impl ClientMessages {
             길로틴크로스의 독을 바른 무기가 필요합니다.
             Poisoned weapons is required.
             */
-            ClientMessages::MsgUseskillfailgcpoisoningweapon => 0x59a,
+            ClientMessages::MsgUseskillfailgcpoisoningweapon => 0x59A,
 
             /*20090304 to latest
             마도기어 탑승시에만 사용가능합니다.
             Item can only be used when Mado Gear is mounted.
             */
-            ClientMessages::MsgUseskillfailmadogear => 0x59b,
+            ClientMessages::MsgUseskillfailmadogear => 0x59B,
             /*20090304 to latest
             발칸블릿이 필요합니다.
             Vulcan Bullet is required.
             */
-            ClientMessages::MsgUseskillfailiivulcanbullet => 0x59c,
+            ClientMessages::MsgUseskillfailiivulcanbullet => 0x59C,
             /*20090304 to latest
             마도기어 연료가 필요합니다.
             Mado Gear Fuel is required.
             */
-            ClientMessages::MsgUseskillfailiifuelgas => 0x59d,
+            ClientMessages::MsgUseskillfailiifuelgas => 0x59D,
             /*20090304 to latest
             액체냉각탄이 필요합니다.
             Liquid Cold Bullet is required.
             */
-            ClientMessages::MsgUseskillfailiicoldslowerbullet => 0x59e,
+            ClientMessages::MsgUseskillfailiicoldslowerbullet => 0x59E,
             /*20090304 to latest
             캐논볼을 장전 하세요.
             Please load a Cannon Ball.
             */
-            ClientMessages::MsgUseskillfailcanonball => 0x59f,
+            ClientMessages::MsgUseskillfailcanonball => 0x59F,
             /*20090304 to latest
             미도기어 가속장치를 착용하세요.
             Please equipped with a Mado Gear Accelerator.
             */
-            ClientMessages::MsgUseskillfailiimadogearacceleration => 0x5a0,
+            ClientMessages::MsgUseskillfailiimadogearacceleration => 0x5A0,
             /*20090304 to latest
             호버링부스터를 착용하세요.
             Please equipped with a Hovering Booster.
             */
-            ClientMessages::MsgUseskillfailiimadogearhoveringbooster => 0x5a1,
+            ClientMessages::MsgUseskillfailiimadogearhoveringbooster => 0x5A1,
             /*20090304 to latest
             [톡신] 독 효과가 무기에 적용되었습니다.
             [Toxin] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgToxin => 0x5a2,
+            ClientMessages::MsgToxin => 0x5A2,
             /*20090304 to latest
             [패럴라이즈] 독 효과가 무기에 적용되었습니다.
             [Paralysis] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgParalyze => 0x5a3,
+            ClientMessages::MsgParalyze => 0x5A3,
             /*20090304 to latest
             [베놈블리드] 독 효과가 무기에 적용되었습니다.
             [Fatigue] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgVenombleed => 0x5a4,
+            ClientMessages::MsgVenombleed => 0x5A4,
             /*20090304 to latest
             [매직 머쉬룸] 독 효과가 무기에 적용되었습니다.
             [Laughing] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgMagicmushroom => 0x5a5,
+            ClientMessages::MsgMagicmushroom => 0x5A5,
             /*20090304 to latest
             [데스 허트] 독 효과가 무기에 적용되었습니다.
             [Disheart] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgDeathhurt => 0x5a6,
+            ClientMessages::MsgDeathhurt => 0x5A6,
             /*20090304 to latest
             [파이렉시아] 독 효과가 무기에 적용되었습니다.
             [Pyrexia] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgPhyrexia => 0x5a7,
+            ClientMessages::MsgPhyrexia => 0x5A7,
             /*20090304 to latest
             [오블리비언 커즈] 독 효과가 무기에 적용되었습니다.
             [Oblivion] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgObliancurse => 0x5a8,
+            ClientMessages::MsgObliancurse => 0x5A8,
             /*20090304 to latest
             [리치 엔드] 독 효과가 무기에 적용되었습니다.
             [Leech] Poison effect was applied to the weapon.
             */
-            ClientMessages::MsgRichend => 0x5a9,
+            ClientMessages::MsgRichend => 0x5A9,
 
             /*20090311 to latest
             호버링상태에서만 사용가능합니다.
             Can only be used in Hovering state.
             */
-            ClientMessages::MsgUseskillfailmadogearhovering => 0x5aa,
+            ClientMessages::MsgUseskillfailmadogearhovering => 0x5AA,
             /*20090311 to latest
             자폭장치를 장착하세요.
             Please equip a Self-Destruct Mechanism.
             */
-            ClientMessages::MsgUseskillfailiimadogearselfdestructiondevice => 0x5ab,
+            ClientMessages::MsgUseskillfailiimadogearselfdestructiondevice => 0x5AB,
             /*20090311 to latest
             셰이프쉬프터를 장착하세요.
             Please equip a Shape Shift.
             */
-            ClientMessages::MsgUseskillfailiimadogearshapeshifter => 0x5ac,
+            ClientMessages::MsgUseskillfailiimadogearshapeshifter => 0x5AC,
             /*20090311 to latest
             길로틴독이 필요합니다.
             Guillotine Cross Poison is required.
             */
-            ClientMessages::MsgUseskillfailguillontinepoison => 0x5ad,
+            ClientMessages::MsgUseskillfailguillontinepoison => 0x5AD,
             /*20090311 to latest
             냉각장치를 장착하세요.
             Please equipped with a Cooling System.
             */
-            ClientMessages::MsgUseskillfailiimadogearcoolingdevice => 0x5ae,
+            ClientMessages::MsgUseskillfailiimadogearcoolingdevice => 0x5AE,
             /*20090311 to latest
             자기장필드생성기를 착용하세요.
             Please equipped with a Magnetic Field Generator.
             */
-            ClientMessages::MsgUseskillfailiimadogearmagneticfieldgenerator => 0x5af,
+            ClientMessages::MsgUseskillfailiimadogearmagneticfieldgenerator => 0x5AF,
             /*20090311 to latest
             베리어생성기를 착용하세요.
             Please equipped with a Barrier Generator.
             */
-            ClientMessages::MsgUseskillfailiimadogearbarriergenerator => 0x5b0,
+            ClientMessages::MsgUseskillfailiimadogearbarriergenerator => 0x5B0,
             /*20090311 to latest
             광학미채발생기를 착용하세요.
             Please equipped with a Optical Camouflage Generator.
             */
-            ClientMessages::MsgUseskillfailiimadogearopticalcamouflagegenerator => 0x5b1,
+            ClientMessages::MsgUseskillfailiimadogearopticalcamouflagegenerator => 0x5B1,
             /*20090311 to latest
             리페어키트를 착용하세요.
             Please equipped with a Repair Kit.
             */
-            ClientMessages::MsgUseskillfailiimadogearrepairkit => 0x5b2,
+            ClientMessages::MsgUseskillfailiimadogearrepairkit => 0x5B2,
             /*20090311 to latest
             몽키 스패너가 필요합니다.
             Monkey Wrench is required.
             */
-            ClientMessages::MsgUseskillfailiimonkeyspanner => 0x5b3,
+            ClientMessages::MsgUseskillfailiimonkeyspanner => 0x5B3,
 
             /*20090312 to 20090312
             '%s' 시전 시간까지 약 %d 분 남았습니다.
@@ -29881,381 +29881,381 @@ impl ClientMessages {
             [%s] 스킬을 시전 할 수 없습니다.
             [%s] Cannot use the skills due to cooldown delay.
             */
-            ClientMessages::MsgSkillinterval2 => 0x5b4,
+            ClientMessages::MsgSkillinterval2 => 0x5B4,
 
             /*20090318 to latest
             %d레벨 이상은 삭제가 불가능합니다.
             Deletion is impossible for over level %d
             */
-            ClientMessages::MsgLemitdeletelevel => 0x5b5,
+            ClientMessages::MsgLemitdeletelevel => 0x5B5,
             /*20090318 to 20110614
             마도기어 탑승시에는 사용할수 없습니다.
             20110620 to latest
             마도기어 탑승시에는 사용 할 수 없습니다.
             Can't be used while on Magic Gear.
             */
-            ClientMessages::MsgUseskillfailmadogearride => 0x5b6,
+            ClientMessages::MsgUseskillfailmadogearride => 0x5B6,
 
             /*20090325 to latest
             드래곤 내리기
             Dismount Dragon
             */
-            ClientMessages::MsgDragonoff => 0x5b7,
+            ClientMessages::MsgDragonoff => 0x5B7,
             /*20090325 to latest
             마도기어 내리기
             Dismount Magic Gear
             */
-            ClientMessages::MsgMadooff => 0x5b8,
+            ClientMessages::MsgMadooff => 0x5B8,
 
             /*20090401 to latest
             소비
             I
             */
-            ClientMessages::MsgStoretabname0 => 0x5b9,
+            ClientMessages::MsgStoretabname0 => 0x5B9,
             /*20090401 to latest
             캐쉬
             Cash
             */
-            ClientMessages::MsgStoretabname1 => 0x5ba,
+            ClientMessages::MsgStoretabname1 => 0x5BA,
             /*20090401 to latest
             방어구
             Armors
             */
-            ClientMessages::MsgStoretabname2 => 0x5bb,
+            ClientMessages::MsgStoretabname2 => 0x5BB,
             /*20090401 to latest
             무기
             Weapons
             */
-            ClientMessages::MsgStoretabname3 => 0x5bc,
+            ClientMessages::MsgStoretabname3 => 0x5BC,
             /*20090401 to latest
             투사체
             Ammo
             */
-            ClientMessages::MsgStoretabname4 => 0x5bd,
+            ClientMessages::MsgStoretabname4 => 0x5BD,
             /*20090401 to latest
             카드
             Card
             */
-            ClientMessages::MsgStoretabname5 => 0x5be,
+            ClientMessages::MsgStoretabname5 => 0x5BE,
             /*20090401 to latest
             기타
             Other
             */
-            ClientMessages::MsgStoretabname6 => 0x5bf,
+            ClientMessages::MsgStoretabname6 => 0x5BF,
             /*20090401 to latest
             클라이언트 응답시간이 초과되어 연결이 끊어집니다.
             Client response time has passed so connection is terminated
             */
-            ClientMessages::MsgErrorhstimeout => 0x5c0,
+            ClientMessages::MsgErrorhstimeout => 0x5C0,
             /*20090401 to latest
             핵쉴드 파일의 버전이 맞지 않습니다. 클라이언트를 재설치 해주십시오.
             Incorrect version of hack shield file. Please reinstall the client
             */
-            ClientMessages::MsgErrordiffclient => 0x5c1,
+            ClientMessages::MsgErrordiffclient => 0x5C1,
 
             /*20090406 to latest
             마법서가 필요합니다.
             [Magic Book] is required.
             */
-            ClientMessages::MsgUseskillfailspellbook => 0x5c2,
+            ClientMessages::MsgUseskillfailspellbook => 0x5C2,
             /*20090406 to latest
             마법서가 너무 어려워서 졸음이 몰려온다.
             Feel sleepy since Magic Book is too difficult to understand.
             */
-            ClientMessages::MsgUseskillfailspellbookdifficultsleep => 0x5c3,
+            ClientMessages::MsgUseskillfailspellbookdifficultsleep => 0x5C3,
             /*20090406 to latest
             보존포인트가 부족합니다.
             Not enough saved point.
             */
-            ClientMessages::MsgUseskillfailspellbookpreservationpoint => 0x5c4,
+            ClientMessages::MsgUseskillfailspellbookpreservationpoint => 0x5C4,
             /*20090406 to latest
             더이상 마법서를 읽을수 없습니다.
             Can't read a Magic Book anymore.
             */
-            ClientMessages::MsgUseskillfailspellbookreading => 0x5c5,
+            ClientMessages::MsgUseskillfailspellbookreading => 0x5C5,
             /*20090406 to latest
             페이스페인트가 필요합니다.
             Face Paint is required.
             */
-            ClientMessages::MsgUseskillfailiifacepaints => 0x5c6,
+            ClientMessages::MsgUseskillfailiifacepaints => 0x5C6,
             /*20090406 to latest
             분장용붓이 필요합니다.
             Brush is required.
             */
-            ClientMessages::MsgUseskillfailiimakeupbrush => 0x5c7,
+            ClientMessages::MsgUseskillfailiimakeupbrush => 0x5C7,
 
             /*20090408 to latest
             대기 시간이 초과하였습니다. 다시 로그인 해주십시오.
             Waiting time has passed. Please log in again
             */
-            ClientMessages::MsgMobiletimeover => 0x5c8,
+            ClientMessages::MsgMobiletimeover => 0x5C8,
             /*20090408 to latest
             위험! 이미 동일한 계정이 로그인 중에 있습니다. 잠시 모바일 인증 진행을 멈추시고 비번을 수정한 뒤 재 로그인 해주십시오.
             Watch out! Same account is already logged in. Stop mobile verification and log in again after changing your password
             */
-            ClientMessages::MsgMobileanotherlogin => 0x5c9,
+            ClientMessages::MsgMobileanotherlogin => 0x5C9,
             /*20090408 to latest
             위험! 현재 동일한 계정이 모바일 인증 대기 중에 있습니다. 잠시 모바일 인증 진행을 멈추시고 비번을 수정한 뒤 재 로그인 해주십시오.
             Watch out! Same account is waiting for mobile verification. Stop mobile verification and log in again after changing your password
             */
-            ClientMessages::MsgMobilewaitingstate => 0x5ca,
+            ClientMessages::MsgMobilewaitingstate => 0x5CA,
 
             /*20090506 to latest
             게임 옵션창
             Game setting window
             */
-            ClientMessages::MsgEscoptionwnd => 0x5cb,
+            ClientMessages::MsgEscoptionwnd => 0x5CB,
             /*20090506 to latest
             그래픽 설정
             Graphics Settings
             */
-            ClientMessages::MsgGraphicoptionwnd => 0x5cc,
+            ClientMessages::MsgGraphicoptionwnd => 0x5CC,
             /*20090506 to latest
             사운드 설정
             Sound Settings
             */
-            ClientMessages::MsgSoundoptionwnd => 0x5cd,
+            ClientMessages::MsgSoundoptionwnd => 0x5CD,
 
             /*20090514 to latest
             변경 할 단축키를 누르거나, 'ESC'키를 눌러 삭제 해 주세요.
             Press a key to assign. Pressing 'ESC' will remove the assigned key.
             */
-            ClientMessages::MsgHotkeywndnotice1 => 0x5ce,
+            ClientMessages::MsgHotkeywndnotice1 => 0x5CE,
             /*20090514 to latest
             단일 키로 지정 할 수 없는 키입니다.
             Unable to specify a single key.
             */
-            ClientMessages::MsgHotkeywndnotice2 => 0x5cf,
+            ClientMessages::MsgHotkeywndnotice2 => 0x5CF,
             /*20090514 to latest
             지정 할 수 없는 키입니다.
             Unable to specify the key assigned.
             */
-            ClientMessages::MsgHotkeywndnotice3 => 0x5d0,
+            ClientMessages::MsgHotkeywndnotice3 => 0x5D0,
             /*20090514 to latest
             '%s'에 사용된 단축키와 중복됩니다. 바꾸시겠습니까?
             Duplicated with ['%s']. Do you still want to change?
             */
-            ClientMessages::MsgHotkeywndnotice4 => 0x5d1,
+            ClientMessages::MsgHotkeywndnotice4 => 0x5D1,
             /*20090514 to latest
             저장된 단축키 조합이 초기화 됩니다. 초기화 하시겠습니까?
             Initialization is stored in the shortcut key settings. Do you want to initialized?
             */
-            ClientMessages::MsgHotkeywndnotice5 => 0x5d2,
+            ClientMessages::MsgHotkeywndnotice5 => 0x5D2,
             /*20090514 to latest
             스킬바
             Skill Bar
             */
-            ClientMessages::MsgHotkeywndtab1 => 0x5d3,
+            ClientMessages::MsgHotkeywndtab1 => 0x5D3,
             /*20090514 to latest
             인터페이스
             Interface
             */
-            ClientMessages::MsgHotkeywndtab2 => 0x5d4,
+            ClientMessages::MsgHotkeywndtab2 => 0x5D4,
             /*20090514 to latest
             이모션
             Macros
             */
-            ClientMessages::MsgHotkeywndtab3 => 0x5d5,
+            ClientMessages::MsgHotkeywndtab3 => 0x5D5,
             /*20090514 to latest
             단축키 설정 창
             Shortcut Settings
             */
-            ClientMessages::MsgHotkeywndtitle => 0x5d6,
+            ClientMessages::MsgHotkeywndtitle => 0x5D6,
 
             /*20090520 to latest
             배경음
             BGM
             */
-            ClientMessages::MsgBgm => 0x5d7,
+            ClientMessages::MsgBgm => 0x5D7,
             /*20090520 to latest
             효과음
             Effect
             */
-            ClientMessages::MsgSound => 0x5d8,
+            ClientMessages::MsgSound => 0x5D8,
             /*20090520 to latest
             스킨
             Skin
             */
-            ClientMessages::MsgSkin => 0x5d9,
+            ClientMessages::MsgSkin => 0x5D9,
             /*20090520 to latest
             채팅방 입장음만 소리남 On
             Chat room entrance sound on
             */
-            ClientMessages::MsgTingonlyon => 0x5da,
+            ClientMessages::MsgTingonlyon => 0x5DA,
             /*20090520 to latest
             채팅방 입장음만 소리남 Off
             Chat room entrance sound off
             */
-            ClientMessages::MsgTingonlyoff => 0x5db,
+            ClientMessages::MsgTingonlyoff => 0x5DB,
             /*20090520 to latest
             /tingonly : 채팅방 입장음만 들을수있게됩니다
             /tingonly: you can hear only sound like a chat room entry.
             */
-            ClientMessages::MsgExplaintingonly => 0x5dc,
+            ClientMessages::MsgExplaintingonly => 0x5DC,
             /*20090520 to latest
             /주먹
             /rock
             */
-            ClientMessages::MsgEmotionrock => 0x5dd,
+            ClientMessages::MsgEmotionrock => 0x5DD,
             /*20090520 to latest
             /가위
             /scissors
             */
-            ClientMessages::MsgEmotionscissor => 0x5de,
+            ClientMessages::MsgEmotionscissor => 0x5DE,
             /*20090520 to latest
             /보
             /paper
             */
-            ClientMessages::MsgEmotionwrap => 0x5df,
+            ClientMessages::MsgEmotionwrap => 0x5DF,
             /*20090520 to latest
             /러브
             /love
             */
-            ClientMessages::MsgEmotionluv => 0x5e0,
+            ClientMessages::MsgEmotionluv => 0x5E0,
             /*20090520 to latest
             /mobile
             */
-            ClientMessages::MsgEmotionmobile => 0x5e1,
+            ClientMessages::MsgEmotionmobile => 0x5E1,
             /*20090520 to latest
             /mail
             */
-            ClientMessages::MsgEmotionmail => 0x5e2,
+            ClientMessages::MsgEmotionmail => 0x5E2,
             /*20090520 to latest
             /antenna0
             */
-            ClientMessages::MsgEmotionantenna0 => 0x5e3,
+            ClientMessages::MsgEmotionantenna0 => 0x5E3,
             /*20090520 to latest
             /antenna1
             */
-            ClientMessages::MsgEmotionantenna1 => 0x5e4,
+            ClientMessages::MsgEmotionantenna1 => 0x5E4,
             /*20090520 to latest
             /antenna2
             */
-            ClientMessages::MsgEmotionantenna2 => 0x5e5,
+            ClientMessages::MsgEmotionantenna2 => 0x5E5,
             /*20090520 to latest
             /antenna3
             */
-            ClientMessages::MsgEmotionantenna3 => 0x5e6,
+            ClientMessages::MsgEmotionantenna3 => 0x5E6,
             /*20090520 to latest
             /hum
             */
-            ClientMessages::MsgEmotionhum2 => 0x5e7,
+            ClientMessages::MsgEmotionhum2 => 0x5E7,
             /*20090520 to latest
             /abs
             */
-            ClientMessages::MsgEmotionabs => 0x5e8,
+            ClientMessages::MsgEmotionabs => 0x5E8,
             /*20090520 to latest
             /oops
             */
-            ClientMessages::MsgEmotionoops => 0x5e9,
+            ClientMessages::MsgEmotionoops => 0x5E9,
             /*20090520 to latest
             /spit
             */
-            ClientMessages::MsgEmotionspit => 0x5ea,
+            ClientMessages::MsgEmotionspit => 0x5EA,
             /*20090520 to latest
             /ene
             */
-            ClientMessages::MsgEmotionene => 0x5eb,
+            ClientMessages::MsgEmotionene => 0x5EB,
             /*20090520 to latest
             /panic
             */
-            ClientMessages::MsgEmotionpanic => 0x5ec,
+            ClientMessages::MsgEmotionpanic => 0x5EC,
             /*20090520 to latest
             /whisp
             */
-            ClientMessages::MsgEmotionwhisp => 0x5ed,
+            ClientMessages::MsgEmotionwhisp => 0x5ED,
 
             /*20090527 to latest
             지정안함
             Not Assigned
             */
-            ClientMessages::MsgHotkeynothing => 0x5ee,
+            ClientMessages::MsgHotkeynothing => 0x5EE,
 
             /*20090603 to latest
             카트장착시에만 사용가능합니다.
             Only available when cart is mounted.
             */
-            ClientMessages::MsgUseskillfailcart => 0x5ef,
+            ClientMessages::MsgUseskillfailcart => 0x5EF,
             /*20090603 to latest
             [가시나무 씨앗]이 필요합니다.
             [Thorny Seed] is required.
             */
-            ClientMessages::MsgUseskillfailiithornsseed => 0x5f0,
+            ClientMessages::MsgUseskillfailiithornsseed => 0x5F0,
             /*20090603 to latest
             [흡혈 식물 씨앗]이 필요합니다.
             [Bloodsucker Seed] is required.
             */
-            ClientMessages::MsgUseskillfailiibloodsuckerseed => 0x5f1,
+            ClientMessages::MsgUseskillfailiibloodsuckerseed => 0x5F1,
             /*20090603 to latest
             더이상 시전할수 없습니다.
             Cannot be used anymore.
             */
-            ClientMessages::MsgUseskillfailnomorespell => 0x5f2,
+            ClientMessages::MsgUseskillfailnomorespell => 0x5F2,
             /*20090603 to latest
             [폭탄버섯포자]가 필요합니다.
             [Bomb Mushroom Spore] is required.
             */
-            ClientMessages::MsgUseskillfailiibombmushroomspore => 0x5f3,
+            ClientMessages::MsgUseskillfailiibombmushroomspore => 0x5F3,
             /*20090603 to latest
             [화염병]이 필요합니다.
             [Fire Bottle] is required.
             */
-            ClientMessages::MsgUseskillfailiigasolineboomb => 0x5f4,
+            ClientMessages::MsgUseskillfailiigasolineboomb => 0x5F4,
             /*20090603 to latest
             [기름병]이 필요합니다.
             [Oil Bottle] is required.
             */
-            ClientMessages::MsgUseskillfailiioilbottle => 0x5f5,
+            ClientMessages::MsgUseskillfailiioilbottle => 0x5F5,
             /*20090603 to latest
             [폭발가루]가 필요합니다.
             [Explosive Powder] is required.
             */
-            ClientMessages::MsgUseskillfailiiexplosionpowder => 0x5f6,
+            ClientMessages::MsgUseskillfailiiexplosionpowder => 0x5F6,
             /*20090603 to latest
             [연막가루]가 필요합니다.
             [Smokescreen Powder] is required.
             */
-            ClientMessages::MsgUseskillfailiismokepowder => 0x5f7,
+            ClientMessages::MsgUseskillfailiismokepowder => 0x5F7,
             /*20090603 to latest
             [최루가스]가 필요합니다.
             [Tear Gas] is required.
             */
-            ClientMessages::MsgUseskillfailiiteargas => 0x5f8,
+            ClientMessages::MsgUseskillfailiiteargas => 0x5F8,
             /*20090603 to latest
             [염산병]이 필요합니다.
             [Acid Bottle] is required.
             */
-            ClientMessages::MsgUseskillfailiihydrochloricacidbottle => 0x5f9,
+            ClientMessages::MsgUseskillfailiihydrochloricacidbottle => 0x5F9,
             /*20090603 to latest
             [식인식물병]이 필요합니다.
             [Bottom Man-Eating Plant] is required.
             */
-            ClientMessages::MsgUseskillfailiihellsplantbottle => 0x5fa,
+            ClientMessages::MsgUseskillfailiihellsplantbottle => 0x5FA,
             /*20090603 to latest
             [만드라고라의 화분]이 필요합니다.
             [Pot of Mandragora] is required.
             */
-            ClientMessages::MsgUseskillfailiimandragoraflowerpot => 0x5fb,
+            ClientMessages::MsgUseskillfailiimandragoraflowerpot => 0x5FB,
             /*20090603 to latest
             파티장 위임
             Party delegation
             */
-            ClientMessages::MsgYieldpartymaster => 0x5fc,
+            ClientMessages::MsgYieldpartymaster => 0x5FC,
             /*20090603 to latest
             정말 파티장을 위임하시겠습니까?
             Do you want to delegate the real party?
             */
-            ClientMessages::MsgDoyoureallywantyieldpartymaster => 0x5fd,
+            ClientMessages::MsgDoyoureallywantyieldpartymaster => 0x5FD,
             /*20090603 to latest
             파티장을 위임 할 수 없습니다.
             Party cannot be delegated.
             */
-            ClientMessages::MsgCannotyieldpartymaster => 0x5fe,
+            ClientMessages::MsgCannotyieldpartymaster => 0x5FE,
             /*20090603 to latest
             변경불가
             Immutable
             */
-            ClientMessages::MsgFailedchange => 0x5ff,
+            ClientMessages::MsgFailedchange => 0x5FF,
 
             /*20090610 to latest
             [%s]가 %d개 필요합니다.
@@ -30342,35 +30342,35 @@ impl ClientMessages {
             잠시후 %s 전장으로 이동 합니다. 공간 이동을 위한 안정적인 상태를 확보해 주시길 바랍니다. (거래 및 공간 이동 기능 일시 중지됨)
             Go to the battlefield quickly.
             */
-            ClientMessages::MsgMovetobattlefield => 0x60a,
+            ClientMessages::MsgMovetobattlefield => 0x60A,
             /*20090617 to 20091028
             전장 - [%s]
             20091103 to latest
             전장 명칭
             Battlefield - [%s]
             */
-            ClientMessages::MsgBattlefieldname => 0x60b,
+            ClientMessages::MsgBattlefieldname => 0x60B,
 
             /*20090624 to latest
             정말 이동 하시겠습니까?
             Do you really want to go back to your savepoint?
             */
-            ClientMessages::MsgMovetosavepoint => 0x60c,
+            ClientMessages::MsgMovetosavepoint => 0x60C,
             /*20090624 to latest
             파티원 찾기 메세지
             Search Message for Party Members
             */
-            ClientMessages::MsgViewseekparty => 0x60d,
+            ClientMessages::MsgViewseekparty => 0x60D,
             /*20090624 to latest
             파티원 찾기 메세지 옵션이 꺼져있습니다.
             Message option is off the search party members.
             */
-            ClientMessages::MsgUnviewseekparty => 0x60e,
+            ClientMessages::MsgUnviewseekparty => 0x60E,
             /*20090624 to latest
             10초간 파티 지원 딜레이가 걸려있습니다.
             10 seconds delay of party support is in effect
             */
-            ClientMessages::MsgSeekpartydealy => 0x60f,
+            ClientMessages::MsgSeekpartydealy => 0x60F,
 
             /*20090701 to latest
              파티장은 '%s' 님 입니다.
@@ -30442,35 +30442,35 @@ impl ClientMessages {
             기구체가 필요합니다
             Mind Bullet is required.
             */
-            ClientMessages::MsgUseskillfailspirits2 => 0x61a,
+            ClientMessages::MsgUseskillfailspirits2 => 0x61A,
 
             /*20090729 to latest
             최대 소지량 보다 많은 룬스톤을 제작할 수 없습니다.
             Cannot create rune stone more than the maximum amount.
             */
-            ClientMessages::MsgRunestonemakeerrorovercount => 0x61b,
+            ClientMessages::MsgRunestonemakeerrorovercount => 0x61B,
             /*20090729 to latest
             전장 리스트를 받을 수 없는 상태입니다. 확인 후 다시 시도 해 주세요.
             Not able to receive battle field list. Please check and try again
             */
-            ClientMessages::MsgErrorlistopenbattlefield => 0x61c,
+            ClientMessages::MsgErrorlistopenbattlefield => 0x61C,
             /*20090729 to latest
             레벨이 부족하여 입장 할 수 없습니다.
             Level is not high enough to enter
             */
-            ClientMessages::MsgErrorlevellimitbattlefield => 0x61d,
+            ClientMessages::MsgErrorlevellimitbattlefield => 0x61D,
 
             /*20090805 to latest
              1차 직업 스킬 %d개를 더 올려 주십시오.
             You must consume all '%d' points in your 1st Tab.
             */
-            ClientMessages::MsgUpgradeskillerrormorefirstjobskill => 0x61e,
+            ClientMessages::MsgUpgradeskillerrormorefirstjobskill => 0x61E,
 
             /*20091013 to latest
              1차 혹은 2차 직업 스킬 %d개를 더 올려 주십시오.
             You must consume all '%d' remaining points in your 2nd Tab. 1st Tab is already done.
             */
-            ClientMessages::MsgUpgradeskillerrormoresecondjobskill => 0x61f,
+            ClientMessages::MsgUpgradeskillerrormoresecondjobskill => 0x61F,
             /*20091013 to latest
             변환 가능한 아이템
             Items available for conversion
@@ -30525,12 +30525,12 @@ impl ClientMessages {
             더 이상 추가 할 수 없습니다.
             Cannot add more.
             */
-            ClientMessages::MsgFailedaddtab => 0x62a,
+            ClientMessages::MsgFailedaddtab => 0x62A,
             /*20091013 to latest
             인증에 실패 했습니다.
             Authentication failed.
             */
-            ClientMessages::MsgFailedlockserver => 0x62b,
+            ClientMessages::MsgFailedlockserver => 0x62B,
             /*20091013 to 20101012
             봇 체크
             20101019 to 20101019
@@ -30539,22 +30539,22 @@ impl ClientMessages {
             자동 입력 방지
             Bot checks
             */
-            ClientMessages::MsgBotcheck => 0x62c,
+            ClientMessages::MsgBotcheck => 0x62C,
             /*20091013 to latest
             감정이 않된 아이템은 재료로 사용할 수 없습니다.
             Items cannot be used in materials cannot be emotional.
             */
-            ClientMessages::MsgSkillfailmaterialidentity => 0x62d,
+            ClientMessages::MsgSkillfailmaterialidentity => 0x62D,
             /*20091013 to latest
             접속하신 IP는 라그나로크 온라인 이용이 불가능 합니다. 고객 지원 센터 또는 홈페이지로 문의 해 주십시오.
             It is impossible to connect using this IP in Ragnarok Online. Please contact the customer support center or home.
             */
-            ClientMessages::MsgBanipblock => 0x62e,
+            ClientMessages::MsgBanipblock => 0x62E,
             /*20091013 to latest
             비밀번호가 6회 이상 잘못 입력되어 잠시 동안 접속이 제한됩니다. 고객님의 개인정보를 다시 한 번 확인해 주시길 바랍니다.
             You have entered a wrong password for more than six times, please check your personal information again.
             */
-            ClientMessages::MsgBaninvalidpwdcnt => 0x62f,
+            ClientMessages::MsgBaninvalidpwdcnt => 0x62F,
             /*20091013 to latest
             합성에 사용한 아이템은 소모됩니다. 괜찮겠습니까?
             Consumption items are used in the synthesis. Are you sure?
@@ -30614,32 +30614,32 @@ impl ClientMessages {
             전장 신청 취소 알림
             cancellation notice of Battlefield registration.
             */
-            ClientMessages::MsgNotifybattlefieldcancel => 0x63a,
+            ClientMessages::MsgNotifybattlefieldcancel => 0x63A,
             /*20091103 to latest
             전장 필요 인원
             Required field for staff
             */
-            ClientMessages::MsgBattlefieldcount => 0x63b,
+            ClientMessages::MsgBattlefieldcount => 0x63B,
             /*20091103 to latest
             전장 A 대기 인원
             Battlefield staff A is waiting.
             */
-            ClientMessages::MsgBattlefieldateamcount => 0x63c,
+            ClientMessages::MsgBattlefieldateamcount => 0x63C,
             /*20091103 to latest
             전장 B 대기 인원
             Battlefield staff B is waiting.
             */
-            ClientMessages::MsgBattlefieldbteamcount => 0x63d,
+            ClientMessages::MsgBattlefieldbteamcount => 0x63D,
             /*20091103 to latest
             내 대기 상황 : %d(진영 A)
             Waiting for my situation: %d (Camp A)
             */
-            ClientMessages::MsgBattlefieldateamwait => 0x63e,
+            ClientMessages::MsgBattlefieldateamwait => 0x63E,
             /*20091103 to latest
             내 대기 상황 : %d(진영 B)
             Waiting for my situation: %d (Camp B)
             */
-            ClientMessages::MsgBattlefieldbteamwait => 0x63f,
+            ClientMessages::MsgBattlefieldbteamwait => 0x63F,
             /*20091103 to latest
             전장 아이콘을 보여줍니다.
             Battlefield display icon.
@@ -30698,32 +30698,32 @@ impl ClientMessages {
              [%s]퀘스트의 [%s]몬스터를 처치하였습니다. (%d/%d)
             [%s] Quest - defeated [%s] progress (%d/%d)
             */
-            ClientMessages::MsgClearquestmonster => 0x64a,
+            ClientMessages::MsgClearquestmonster => 0x64A,
             /*20091103 to latest
             %s 퀘스트가 삭제 되었습니다.
             The Quest '%s' has been removed.
             */
-            ClientMessages::MsgDeletequest => 0x64b,
+            ClientMessages::MsgDeletequest => 0x64B,
             /*20091103 to latest
             [%s]님이
             [%s] has
             */
-            ClientMessages::MsgNotifywho => 0x64c,
+            ClientMessages::MsgNotifywho => 0x64C,
             /*20091103 to latest
             '%d'의 경험치를
             You acquired '%d' Experience Points
             */
-            ClientMessages::MsgNotifyexp => 0x64d,
+            ClientMessages::MsgNotifyexp => 0x64D,
             /*20091103 to latest
             '%d'의 잡경험치를
             You acquired '%d' Job Experience Points
             */
-            ClientMessages::MsgNotifyjobexp => 0x64e,
+            ClientMessages::MsgNotifyjobexp => 0x64E,
             /*20091103 to latest
             획득했습니다.
              gained.
             */
-            ClientMessages::MsgGet => 0x64f,
+            ClientMessages::MsgGet => 0x64F,
             /*20091103 to latest
             상실했습니다.
              has lost.
@@ -30782,34 +30782,34 @@ impl ClientMessages {
             기능제한상태
             Activate lock function
             */
-            ClientMessages::MsgLockmouse => 0x65a,
+            ClientMessages::MsgLockmouse => 0x65A,
             /*20091110 to latest
             기능제한해제상태
             Deactivate lock function
             */
-            ClientMessages::MsgUnlockmouse => 0x65b,
+            ClientMessages::MsgUnlockmouse => 0x65B,
 
             /*20091201 to latest
             [%s]님이 [%s](으)로부터 '%s' 를 획득 했습니다.
             Citizens of Midgard, Lady Luck shines upon [%s] !! [%s] has awarded the player with '%s' !!
             */
-            ClientMessages::MsgBroadcastingspecialitemobtain => 0x65c,
+            ClientMessages::MsgBroadcastingspecialitemobtain => 0x65C,
 
             /*20091208 to latest
             소드맨
             Swordman
             */
-            ClientMessages::MsgJobswordman => 0x65d,
+            ClientMessages::MsgJobswordman => 0x65D,
             /*20091208 to latest
             매지션
             Magician
             */
-            ClientMessages::MsgJobmagician => 0x65e,
+            ClientMessages::MsgJobmagician => 0x65E,
             /*20091208 to latest
             아처
             Archer
             */
-            ClientMessages::MsgJobarcher => 0x65f,
+            ClientMessages::MsgJobarcher => 0x65F,
             /*20091208 to latest
             어콜라이트
             Acolyte
@@ -30864,32 +30864,32 @@ impl ClientMessages {
             몽크
             Monk
             */
-            ClientMessages::MsgJobmonk => 0x66a,
+            ClientMessages::MsgJobmonk => 0x66A,
             /*20091208 to latest
             세이지
             Sage
             */
-            ClientMessages::MsgJobsage => 0x66b,
+            ClientMessages::MsgJobsage => 0x66B,
             /*20091208 to latest
             로그
             Rogue
             */
-            ClientMessages::MsgJobrogue => 0x66c,
+            ClientMessages::MsgJobrogue => 0x66C,
             /*20091208 to latest
             알케미스트
             Alchemist
             */
-            ClientMessages::MsgJobalchemist => 0x66d,
+            ClientMessages::MsgJobalchemist => 0x66D,
             /*20091208 to latest
             바드
             Bard
             */
-            ClientMessages::MsgJobbard => 0x66e,
+            ClientMessages::MsgJobbard => 0x66E,
             /*20091208 to latest
             댄서
             Dancer
             */
-            ClientMessages::MsgJobdancer => 0x66f,
+            ClientMessages::MsgJobdancer => 0x66F,
             /*20091208 to 20100310
             룬나이트
             20100316 to latest
@@ -30950,40 +30950,40 @@ impl ClientMessages {
             수라
             Sura
             */
-            ClientMessages::MsgJobsura => 0x67a,
+            ClientMessages::MsgJobsura => 0x67A,
             /*20091208 to latest
             제네릭
             Genetic
             */
-            ClientMessages::MsgJobgenetic => 0x67b,
+            ClientMessages::MsgJobgenetic => 0x67B,
             /*20091208 to 20100310
             쉐도우체이서
             20100316 to latest
             쉐도우 체이서
             Shadow Chaser
             */
-            ClientMessages::MsgJobshadowchaser => 0x67c,
+            ClientMessages::MsgJobshadowchaser => 0x67C,
             /*20091208 to 20100113
             소드맨하이
             20100119 to latest
             소드맨 하이
             High Swordman
             */
-            ClientMessages::MsgJobswordmanh => 0x67d,
+            ClientMessages::MsgJobswordmanh => 0x67D,
             /*20091208 to 20100113
             매지션하이
             20100119 to latest
             매지션 하이
             High Magician
             */
-            ClientMessages::MsgJobmagicianh => 0x67e,
+            ClientMessages::MsgJobmagicianh => 0x67E,
             /*20091208 to 20100113
             아처하이
             20100119 to latest
             아처 하이
             High Archer
             */
-            ClientMessages::MsgJobarcherh => 0x67f,
+            ClientMessages::MsgJobarcherh => 0x67F,
             /*20091208 to 20100113
             어콜라이트하이
             20100119 to latest
@@ -31046,32 +31046,32 @@ impl ClientMessages {
             챔피온
             Champion
             */
-            ClientMessages::MsgJobmonkh => 0x68a,
+            ClientMessages::MsgJobmonkh => 0x68A,
             /*20091208 to latest
             프로페서
             Professor
             */
-            ClientMessages::MsgJobsageh => 0x68b,
+            ClientMessages::MsgJobsageh => 0x68B,
             /*20091208 to latest
             스토커
             Stalker
             */
-            ClientMessages::MsgJobrogueh => 0x68c,
+            ClientMessages::MsgJobrogueh => 0x68C,
             /*20091208 to latest
             크리에이터
             Creator
             */
-            ClientMessages::MsgJobalchemisth => 0x68d,
+            ClientMessages::MsgJobalchemisth => 0x68D,
             /*20091208 to latest
             클로운
             Clown
             */
-            ClientMessages::MsgJobbardh => 0x68e,
+            ClientMessages::MsgJobbardh => 0x68E,
             /*20091208 to latest
             집시
             Gypsy
             */
-            ClientMessages::MsgJobdancerh => 0x68f,
+            ClientMessages::MsgJobdancerh => 0x68F,
             /*20091208 to latest
             노비스
             Wedding
@@ -31132,188 +31132,188 @@ impl ClientMessages {
             파티 모집 중
             Recruiting Party
             */
-            ClientMessages::MsgSeekpartycheck => 0x69a,
+            ClientMessages::MsgSeekpartycheck => 0x69A,
 
             /*20091215 to latest
             [활]을 장착한 상태여야 합니다.
             [Bow] must be equipped.
             */
-            ClientMessages::MsgFailneedequippedbow => 0x69b,
+            ClientMessages::MsgFailneedequippedbow => 0x69B,
             /*20091215 to latest
             [악기/채찍]을 장착한 상태여야 합니다.
             [Musical Instrument/Whip] must be equipped.
             */
-            ClientMessages::MsgFailneedequippedinstrumentwhip => 0x69c,
+            ClientMessages::MsgFailneedequippedinstrumentwhip => 0x69C,
             /*20091215 to latest
             영문과 숫자만 사용가능합니다.
             Only alphanumeric characters are allowed.
             */
-            ClientMessages::MsgBadchar => 0x69d,
+            ClientMessages::MsgBadchar => 0x69D,
             /*20091215 to latest
             알림
             Notice
             */
-            ClientMessages::MsgAlram => 0x69e,
+            ClientMessages::MsgAlram => 0x69E,
             /*20091215 to latest
             상점 정보가 정확하지 않아 아이템 구매가 실패하였습니다.
             Item purchase failed due to incorrect shop information.
             */
-            ClientMessages::MsgFailbuyiteminvalidmcstore => 0x69f,
+            ClientMessages::MsgFailbuyiteminvalidmcstore => 0x69F,
 
             /*20100105 to latest
             소지 아이템 창에서 버릴 수 있습니다.
             Item cannot be discarded from the window.
             */
-            ClientMessages::MsgCandropitemtoitemwnd => 0x6a0,
+            ClientMessages::MsgCandropitemtoitemwnd => 0x6A0,
 
             /*20100112 to latest
             시간
             Time
             */
-            ClientMessages::MsgTime => 0x6a1,
+            ClientMessages::MsgTime => 0x6A1,
             /*20100112 to latest
             맵
             Map
             */
-            ClientMessages::MsgMap => 0x6a2,
+            ClientMessages::MsgMap => 0x6A2,
             /*20100112 to latest
             거래 상태에서는 아이템 사용 및 장비 착용/해제를 할 수 없습니다.
             You can't use, equip or disarm items when you're trading.
             */
-            ClientMessages::MsgCantusewhenopenedexchangewnd => 0x6a3,
+            ClientMessages::MsgCantusewhenopenedexchangewnd => 0x6A3,
             /*20100112 to latest
             미지정값
             Unspecified value
             */
-            ClientMessages::MsgHotkeyunkown => 0x6a4,
+            ClientMessages::MsgHotkeyunkown => 0x6A4,
 
             /*20100126 to latest
             /stateinfo : 상태 아이콘에 대한 설명을 보여줍니다. On Off
             /stateinfo: Shows the description of status icons. On Off
             */
-            ClientMessages::MsgExplainstateinfo => 0x6a5,
+            ClientMessages::MsgExplainstateinfo => 0x6A5,
             /*20100126 to latest
             상태 정보 On : 상태 아이콘에 대한 설명이 표시됩니다.
             Status Information On: Status icon description is enabled.
             */
-            ClientMessages::MsgShowstateinfoon => 0x6a6,
+            ClientMessages::MsgShowstateinfoon => 0x6A6,
             /*20100126 to latest
             상태 정보 Off: 상태 아이콘에 대한 설명이 표시되지 않습니다.
             Status Information Off: Status icon description is disabled.
             */
-            ClientMessages::MsgShowstateinfooff => 0x6a7,
+            ClientMessages::MsgShowstateinfooff => 0x6A7,
             /*20100126 to 20100126
             같은 아이템은 한번에 %d개 이상은 살수 없습니다.
             20100202 to latest
             같은 아이템은 한번에 %d개 이상은 살 수 없습니다.
             It is not possible to purchase the same item more than %d pieces at a time
             */
-            ClientMessages::MsgLimitbuyitem2 => 0x6a8,
+            ClientMessages::MsgLimitbuyitem2 => 0x6A8,
 
             /*20100202 to latest
             같은 아이템은 한번에 %d개 이상은 팔 수 없습니다.
             It is not possible to purchase the same item more than %d pieces at a time
             */
-            ClientMessages::MsgLimitsellitem => 0x6a9,
+            ClientMessages::MsgLimitsellitem => 0x6A9,
             /*20100202 to 20100203
             총 구매 가능 개수는 %d개 입니다.
             20100209 to latest
             해당 아이템의 총 구매 가능 개수는 %d개 입니다.
             Can purchase upto %d pieces of the same item at a time.
             */
-            ClientMessages::MsgCanbuyitemnum => 0x6aa,
+            ClientMessages::MsgCanbuyitemnum => 0x6AA,
 
             /*20100209 to latest
             설정한 내용은 정상 종료 시 [%s\%s]에 저장됩니다.
             User customized key is saved to [%s\%s]
             */
-            ClientMessages::MsgSavehotkeytofile => 0x6ab,
+            ClientMessages::MsgSavehotkeytofile => 0x6AB,
 
             /*20100216 to latest
             [%s] 님은 현재 교환 신청을 받을 수 없는 상태입니다.
             [%s] is currently on trade and cannot accept the request.
             */
-            ClientMessages::MsgCharacterisbusy => 0x6ac,
+            ClientMessages::MsgCharacterisbusy => 0x6AC,
 
             /*20100309 to latest
             ROHELP
             ROHELP.
             */
-            ClientMessages::MsgRohelp => 0x6ad,
+            ClientMessages::MsgRohelp => 0x6AD,
 
             /*20100316 to latest
             모루가 존재 하지 않습니다.
             Anvil does not exist.
             */
-            ClientMessages::MsgHavenotanvil => 0x6ae,
+            ClientMessages::MsgHavenotanvil => 0x6AE,
             /*20100316 to latest
             노비스 레벨 10 이하는 귓속말이 금지됩니다
             Novice below level 10 is not allowed to whisper.
             */
-            ClientMessages::MsgWhisperblocknovicelevel10 => 0x6af,
+            ClientMessages::MsgWhisperblocknovicelevel10 => 0x6AF,
 
             /*20100323 to latest
             공격
             Attack
             */
-            ClientMessages::MsgJobattacker => 0x6b0,
+            ClientMessages::MsgJobattacker => 0x6B0,
             /*20100323 to latest
             방어
             Defense
             */
-            ClientMessages::MsgJobtanker => 0x6b1,
+            ClientMessages::MsgJobtanker => 0x6B1,
             /*20100323 to latest
             회복
             Consumables
             */
-            ClientMessages::MsgJobhealer => 0x6b2,
+            ClientMessages::MsgJobhealer => 0x6B2,
             /*20100323 to latest
             보조
             Support
             */
-            ClientMessages::MsgJobassistance => 0x6b3,
+            ClientMessages::MsgJobassistance => 0x6B3,
             /*20100323 to latest
             파티 모집 관련 명령어
             Party recruitment related command
             */
-            ClientMessages::MsgDescribepartybooking => 0x6b4,
+            ClientMessages::MsgDescribepartybooking => 0x6B4,
 
             /*20100330 to latest
             길드 동맹신청이 불가능합니다
             Guild alliance application is not possible.
             */
-            ClientMessages::MsgGuildallyrequestdisable => 0x6b5,
+            ClientMessages::MsgGuildallyrequestdisable => 0x6B5,
             /*20100330 to latest
             길드 적대신청이 불가능합니다
             Guild hostility application is not possible.
             */
-            ClientMessages::MsgGuildhostilerequestdisable => 0x6b6,
+            ClientMessages::MsgGuildhostilerequestdisable => 0x6B6,
             /*20100330 to latest
             아지트맵에서는 친구추가가 불가능합니다
             Adding friends is not possible in this map.
             */
-            ClientMessages::MsgFriendaddfalseagit => 0x6b7,
+            ClientMessages::MsgFriendaddfalseagit => 0x6B7,
 
             /*20100406 to latest
             구매노점 개설
             Buying Store Window
             */
-            ClientMessages::MsgBuyingstoremakewndtitle => 0x6b8,
+            ClientMessages::MsgBuyingstoremakewndtitle => 0x6B8,
             /*20100406 to latest
             구매가 :
             Price:
             */
-            ClientMessages::MsgBuyingstoremakewndprice => 0x6b9,
+            ClientMessages::MsgBuyingstoremakewndprice => 0x6B9,
             /*20100406 to latest
             소지액 :
             Money:
             */
-            ClientMessages::MsgBuyingstoremakewndmyzeny => 0x6ba,
+            ClientMessages::MsgBuyingstoremakewndmyzeny => 0x6BA,
             /*20100406 to latest
             구매 한도액
             Purchase Zeny Limit
             */
-            ClientMessages::MsgBuyingstoremakewndlimitzeny => 0x6bb,
+            ClientMessages::MsgBuyingstoremakewndlimitzeny => 0x6BB,
             /*20100406 to 20100414
             판매 가능한 아이템 목록
             Available items:
@@ -31321,7 +31321,7 @@ impl ClientMessages {
             구매할 아이템을 등록하지 않았습니다. 구매하실 아이템을 등록해 주세요
             Please register the item first that has to be purchased.
             */
-            ClientMessages::MsgBuyingstoremakewndadditem => 0x6bc,
+            ClientMessages::MsgBuyingstoremakewndadditem => 0x6BC,
             /*20100406 to 20100414
             나의 구매노점
             Purchase list:
@@ -31329,7 +31329,7 @@ impl ClientMessages {
             %s 아이템의 가격을 입력해 주세요.
             Enter the price for item %s.
             */
-            ClientMessages::MsgBuyingstoremakewndinputprice => 0x6bd,
+            ClientMessages::MsgBuyingstoremakewndinputprice => 0x6BD,
             /*20100406 to 20100414
             구매 노점
             Wanted items
@@ -31337,14 +31337,14 @@ impl ClientMessages {
             %s 아이템의 가격을 9999만 Zeny이하로 입력해 주세요.
             Enter the price for item %s. It has to be below 99990000 Zeny.
             */
-            ClientMessages::MsgBuyingstoremakewndreinputprice => 0x6be,
+            ClientMessages::MsgBuyingstoremakewndreinputprice => 0x6BE,
             /*20100406 to 20100414
             제한금액 : %d Zeny
             20100420 to latest
             %s 아이템의 구매수량을 입력해 주세요.
             Enter the item number for %s.
             */
-            ClientMessages::MsgBuyingstoremakewndinputnum => 0x6bf,
+            ClientMessages::MsgBuyingstoremakewndinputnum => 0x6BF,
             /*20100406 to 20100414
             %s %s Zeny %d 개
             Buying %s for %s Zeny. Amount: %d.
@@ -31352,7 +31352,7 @@ impl ClientMessages {
             %s 아이템의 소지수량과 구매수량의 합이 9999개 이상입니다. 9999개 이하의 수량을 입력해 주세요.
             The sum of purchasing and belonging items is over 9999. The sum has to be bellow 9999.
             */
-            ClientMessages::MsgBuyingstoremakewndreinputnum => 0x6c0,
+            ClientMessages::MsgBuyingstoremakewndreinputnum => 0x6C0,
             /*20100406 to 20100414
             %s  :  %s  Zeny => %s EA
             %s: %s  Zeny => %s ea.
@@ -31360,14 +31360,14 @@ impl ClientMessages {
             중복된 아이템이 존재합니다.
             You have duplicate items in your purchase list.
             */
-            ClientMessages::MsgBuyingstoremakewndduplicateitem => 0x6c1,
+            ClientMessages::MsgBuyingstoremakewndduplicateitem => 0x6C1,
             /*20100406 to 20100414
             %s %d 개 구매.
             20100420 to latest
             제한 금액을 입력해 주세요
             Enter the limited price.
             */
-            ClientMessages::MsgBuyingstoremakewndinputlimitzeny => 0x6c2,
+            ClientMessages::MsgBuyingstoremakewndinputlimitzeny => 0x6C2,
             /*20100406 to 20100414
             아이템을 모두 구매했습니다.
             You purchased all items.
@@ -31375,7 +31375,7 @@ impl ClientMessages {
             입력한 제한금액이 소지금액을 초과합니다. 다시 설정해 주세요
             You have entered a greater amount of zeny than you have. Please check your zeny.
             */
-            ClientMessages::MsgBuyingstoremakewndreinputlimitzeny => 0x6c3,
+            ClientMessages::MsgBuyingstoremakewndreinputlimitzeny => 0x6C3,
             /*20100406 to 20100414
             해당 아이템의 총 판매 가능 개수는 %d개 입니다.
             The max. number of items you can sell is %d.
@@ -31383,21 +31383,21 @@ impl ClientMessages {
             %s  :  %s  Zeny => %s EA
             %s: %s  Zeny => %s ea.
             */
-            ClientMessages::MsgBuyingstoremakewnditemlist => 0x6c4,
+            ClientMessages::MsgBuyingstoremakewnditemlist => 0x6C4,
             /*20100406 to 20100414
             가격이 0 Zeny인 아이템이 존재합니다. 가격을 입력해 주세요.
             20100420 to latest
             구매 가능한 아이템 목록
             Available items:
             */
-            ClientMessages::MsgBuyingstoremirrorbuyitemlist => 0x6c5,
+            ClientMessages::MsgBuyingstoremirrorbuyitemlist => 0x6C5,
             /*20100406 to 20100414
             가격이 9999만 Zeny이상인 아이템이 존재합니다. 9999만 Zeny 이하의 가격을 입력해 주세요.
             20100420 to latest
             나의 구매노점
             Purchase list:
             */
-            ClientMessages::MsgBuyingstoremyshopwndtitle => 0x6c6,
+            ClientMessages::MsgBuyingstoremyshopwndtitle => 0x6C6,
             /*20100406 to 20100414
             구매수량이 0 개인 아이템이 존재합니다. 수량을 입력해 주세요.
             20100420 to 20110208
@@ -31406,14 +31406,14 @@ impl ClientMessages {
             제한금액 : %s Zeny
             Price limit: %s Zeny
             */
-            ClientMessages::MsgBuyingstoremyshopwndlimitzeny => 0x6c7,
+            ClientMessages::MsgBuyingstoremyshopwndlimitzeny => 0x6C7,
             /*20100406 to 20100414
             구매수량이 9999개 이상인 아이템이 존재합니다. 9999개 이하의 수량을 입력해 주세요.
             20100420 to latest
             %s %s Zeny %d 개
             Buying %s for %s Zeny. Amount: %d.
             */
-            ClientMessages::MsgBuyingstoremyshopwnditeminfo => 0x6c8,
+            ClientMessages::MsgBuyingstoremyshopwnditeminfo => 0x6C8,
             /*20100406 to 20100414
             중복된 아이템이 존재합니다.
             You have duplicate items in your purchase list.
@@ -31421,21 +31421,21 @@ impl ClientMessages {
             구매 노점
             Wanted items
             */
-            ClientMessages::MsgBuyingstoreshopwndtitle => 0x6c9,
+            ClientMessages::MsgBuyingstoreshopwndtitle => 0x6C9,
             /*20100406 to 20100414
             구매상점 열기에 실패했습니다.
             20100420 to latest
             판매 가능한 아이템 목록
             Available items:
             */
-            ClientMessages::MsgBuyingstoremirrorsellwndtitle => 0x6ca,
+            ClientMessages::MsgBuyingstoremirrorsellwndtitle => 0x6CA,
             /*20100406 to 20100414
             구매상점 열기에 실패했습니다.
             20100420 to latest
             해당 아이템의 총 판매 가능 개수는 %d개 입니다.
             The max. number of items you can sell is %d.
             */
-            ClientMessages::MsgBuyingstoresellwndlimitnum => 0x6cb,
+            ClientMessages::MsgBuyingstoresellwndlimitnum => 0x6CB,
             /*20100406 to 20100414
             구매가능한 최대 갯수를 초과하였습니다.
             20100420 to 20110208
@@ -31444,14 +31444,14 @@ impl ClientMessages {
             구매노점의 제한금액을 초과하여 판매할 수 없습니다.
             Buyer has insufficient money, lower the amount of items you're selling.
             */
-            ClientMessages::MsgBuyingstoresellwndlackbuyerzeny => 0x6cc,
+            ClientMessages::MsgBuyingstoresellwndlackbuyerzeny => 0x6CC,
             /*20100406 to 20100414
             남은 잔액으로 아이템 구매가 불가능 합니다.
             20100420 to latest
             구매상점 개설에 실패했습니다.
             Failed to open purchase shop.
             */
-            ClientMessages::MsgBuyingstoreopenfailed => 0x6cd,
+            ClientMessages::MsgBuyingstoreopenfailed => 0x6CD,
 
             /*20100413 to 20100414
             소환된 정령이 없습니다.
@@ -31460,7 +31460,7 @@ impl ClientMessages {
             아이템의 총 무게가 %d 만큼 소지 한계량을 초과합니다. 다시 설정해 주세요.
             You exceed the total amount of items.
             */
-            ClientMessages::MsgBuyingstoreoverweight => 0x6ce,
+            ClientMessages::MsgBuyingstoreoverweight => 0x6CE,
             /*20100413 to 20100414
             서버연합대전 제약사항 입니다.
             This is a restricted server.
@@ -31468,28 +31468,28 @@ impl ClientMessages {
             제한금액만큼의 아이템을 모두 구매하였습니다.
             You have purchased all items within the limited price.
             */
-            ClientMessages::MsgBuyingstoretradeoverlimitzeny => 0x6cf,
+            ClientMessages::MsgBuyingstoretradeoverlimitzeny => 0x6CF,
 
             /*20100420 to latest
             아이템을 모두 구매했습니다.
             You purchased all items.
             */
-            ClientMessages::MsgBuyingstoretradebuycomplete => 0x6d0,
+            ClientMessages::MsgBuyingstoretradebuycomplete => 0x6D0,
             /*20100420 to latest
             구매자의 잔액이 부족하여 거래가 실패하였습니다.
             Failed to deal because you have not enough Zeny.
             */
-            ClientMessages::MsgBuyingstoretradelackbuyerzeny => 0x6d1,
+            ClientMessages::MsgBuyingstoretradelackbuyerzeny => 0x6D1,
             /*20100420 to latest
             %s %d개를 %dz에 판매하였습니다.
             You have sold %s. Amount: %d. Total Zeny: %dz
             */
-            ClientMessages::MsgBuyingstoretradesellcomplete => 0x6d2,
+            ClientMessages::MsgBuyingstoretradesellcomplete => 0x6D2,
             /*20100420 to latest
             %s 아이템은 희망 구매갯수보다 수량이 많아 판매하지 못하였습니다
             %s item could not be sold because you do not have the wanted amount of items.
             */
-            ClientMessages::MsgBuyingstoretradeovercount => 0x6d3,
+            ClientMessages::MsgBuyingstoretradeovercount => 0x6D3,
             /*20100420 to latest
             소환된 정령이 없습니다.
             You don't have any summoned spirits.
@@ -31497,7 +31497,7 @@ impl ClientMessages {
             판매할 아이템을 등록하지 않았습니다. 판매하실 아이템을 등록해 주세요
             Has not registered to sell the item. Please register to sell the item
             */
-            ClientMessages::MsgUseskillfailelsummon => 0x6d4,
+            ClientMessages::MsgUseskillfailelsummon => 0x6D4,
             /*20100420 to latest
             서버연합대전 제약사항 입니다.
             This is a restricted server.
@@ -31505,7 +31505,7 @@ impl ClientMessages {
             소환된 정령이 없습니다.
             You don't have any summoned spirits.
             */
-            ClientMessages::MsgAgainstserversiegewarfarerestriction => 0x6d5,
+            ClientMessages::MsgAgainstserversiegewarfarerestriction => 0x6D5,
             /*20100420 to latest
             OTP 비밀번호는 6자리 입니다.
             OTP password is 6 digits long.
@@ -31513,7 +31513,7 @@ impl ClientMessages {
             서버연합대전 제약사항 입니다.
             This is a restricted server.
             */
-            ClientMessages::MsgOtpmust6CHAR => 0x6d6,
+            ClientMessages::MsgOtpmust6CHAR => 0x6D6,
             /*20100420 to latest
             OTP 정보가 없습니다. 관리자에게 문의하시기 바랍니다.
             OTP information is unavailable. Please contact your administrator.
@@ -31521,7 +31521,7 @@ impl ClientMessages {
             OTP 비밀번호는 6자리 입니다.
             OTP password is 6 digits long.
             */
-            ClientMessages::MsgDberror => 0x6d7,
+            ClientMessages::MsgDberror => 0x6D7,
             /*20100420 to latest
             OTP 인증에 실패 했습니다.
             OTP authentication failed.
@@ -31529,7 +31529,7 @@ impl ClientMessages {
             OTP 정보가 없습니다. 관리자에게 문의하시기 바랍니다.
             OTP information is unavailable. Please contact your administrator.
             */
-            ClientMessages::MsgOtpfailed => 0x6d8,
+            ClientMessages::MsgOtpfailed => 0x6D8,
             /*20100420 to latest
             파티광고가 추가되었습니다
             Party ad has been added.
@@ -31537,7 +31537,7 @@ impl ClientMessages {
             OTP 인증에 실패 했습니다.
             OTP authentication failed.
             */
-            ClientMessages::MsgPartybookingnotify => 0x6d9,
+            ClientMessages::MsgPartybookingnotify => 0x6D9,
             /*20100420 to 20110718
             파티원 모집 중
             20110726 to latest
@@ -31547,7 +31547,7 @@ impl ClientMessages {
             파티광고가 추가되었습니다
             Party ad has been added.
             */
-            ClientMessages::MsgPartybookingrequrt => 0x6da,
+            ClientMessages::MsgPartybookingrequrt => 0x6DA,
             /*20100420 to latest
             역할
             Roles
@@ -31555,7 +31555,7 @@ impl ClientMessages {
             모집 중
             Recruit party members
             */
-            ClientMessages::MsgPartybookingtype => 0x6db,
+            ClientMessages::MsgPartybookingtype => 0x6DB,
             /*20100420 to latest
             1차 직업
             1st Jobs
@@ -31563,7 +31563,7 @@ impl ClientMessages {
             역할
             Roles
             */
-            ClientMessages::MsgPartybookingtype1 => 0x6dc,
+            ClientMessages::MsgPartybookingtype1 => 0x6DC,
             /*20100420 to latest
             2차 직업
             2nd Jobs
@@ -31571,7 +31571,7 @@ impl ClientMessages {
             1차 직업
             1st Jobs
             */
-            ClientMessages::MsgPartybookingtype2 => 0x6dd,
+            ClientMessages::MsgPartybookingtype2 => 0x6DD,
             /*20100420 to latest
             3-1차 직업
             3-1 Classes
@@ -31579,7 +31579,7 @@ impl ClientMessages {
             2차 직업
             2nd Jobs
             */
-            ClientMessages::MsgPartybookingtype31 => 0x6de,
+            ClientMessages::MsgPartybookingtype31 => 0x6DE,
             /*20100420 to latest
             3-2차 직업
             3-2 Classes
@@ -31587,7 +31587,7 @@ impl ClientMessages {
             3-1차 직업
             3-1 Classes
             */
-            ClientMessages::MsgPartybookingtype32 => 0x6df,
+            ClientMessages::MsgPartybookingtype32 => 0x6DF,
             /*20100420 to latest
             전승 1차 직업
             1st Job High
@@ -31595,7 +31595,7 @@ impl ClientMessages {
             3-2차 직업
             3-2 Classes
             */
-            ClientMessages::MsgPartybookingtype1PLUS => 0x6e0,
+            ClientMessages::MsgPartybookingtype1PLUS => 0x6E0,
             /*20100420 to latest
             전승 2차 직업
             2nd Jobs High
@@ -31603,7 +31603,7 @@ impl ClientMessages {
             전승 1차 직업
             1st Job High
             */
-            ClientMessages::MsgPartybookingtype2PLUS => 0x6e1,
+            ClientMessages::MsgPartybookingtype2PLUS => 0x6E1,
             /*20100420 to latest
             기타 직업군
             Other Jobs
@@ -31611,7 +31611,7 @@ impl ClientMessages {
             전승 2차 직업
             2nd Jobs High
             */
-            ClientMessages::MsgPartybookingtypeetc => 0x6e2,
+            ClientMessages::MsgPartybookingtypeetc => 0x6E2,
             /*20100420 to latest
             모집 하기
             Recruit
@@ -31619,7 +31619,7 @@ impl ClientMessages {
             기타 직업군
             Other Jobs
             */
-            ClientMessages::MsgPartybookingrequrting => 0x6e3,
+            ClientMessages::MsgPartybookingrequrting => 0x6E3,
             /*20100420 to latest
             파티원을 모집합니다.
             Open party recruitment window.
@@ -31627,7 +31627,7 @@ impl ClientMessages {
             모집 하기
             Recruit
             */
-            ClientMessages::MsgPartybookingrequrttip => 0x6e4,
+            ClientMessages::MsgPartybookingrequrttip => 0x6E4,
             /*20100420 to 20110718
             검색중 -
             20110726 to latest
@@ -31637,7 +31637,7 @@ impl ClientMessages {
             파티원을 모집합니다.
             Open party recruitment window.
             */
-            ClientMessages::MsgPartybookingsearch => 0x6e5,
+            ClientMessages::MsgPartybookingsearch => 0x6E5,
             /*20100420 to latest
             모두 선택
             Select All
@@ -31645,7 +31645,7 @@ impl ClientMessages {
             검색 중 -
             Searching -
             */
-            ClientMessages::MsgPartybookingallselect => 0x6e6,
+            ClientMessages::MsgPartybookingallselect => 0x6E6,
             /*20100420 to latest
             최소한 하나의 직업이 모집 중이어야 합니다.
             Recruitment of at least one job must be running.
@@ -31653,7 +31653,7 @@ impl ClientMessages {
             모두 선택
             Select All
             */
-            ClientMessages::MsgPartybookingerr1 => 0x6e7,
+            ClientMessages::MsgPartybookingerr1 => 0x6E7,
             /*20100420 to latest
             최소 1개이상의 직업을 선택해 주셔야 합니다.
             You have to select atleast 1 or more jobs.
@@ -31661,7 +31661,7 @@ impl ClientMessages {
             최소한 하나의 직업이 모집 중이어야 합니다.
             Recruitment of at least one job must be running.
             */
-            ClientMessages::MsgPartybookingerr2 => 0x6e8,
+            ClientMessages::MsgPartybookingerr2 => 0x6E8,
             /*20100420 to latest
             선택된 직업은 %d개입니다. 최대 6개까지만 직업을 선택할 수 있습니다.
             You have selected %d Jobs. You can only select up to 6 different jobs.
@@ -31669,7 +31669,7 @@ impl ClientMessages {
             최소 1개이상의 직업을 선택해 주셔야 합니다.
             You have to select atleast 1 or more jobs.
             */
-            ClientMessages::MsgPartybookingerr3 => 0x6e9,
+            ClientMessages::MsgPartybookingerr3 => 0x6E9,
             /*20100420 to latest
             레벨에 숫자 이외의 문자는 들어갈 수 없습니다.
             Only numeric characters are allowed.
@@ -31677,7 +31677,7 @@ impl ClientMessages {
             선택된 직업은 %d개입니다. 최대 6개까지만 직업을 선택할 수 있습니다.
             You have selected %d Jobs. You can only select up to 6 different jobs.
             */
-            ClientMessages::MsgPartybookingerr4 => 0x6ea,
+            ClientMessages::MsgPartybookingerr4 => 0x6EA,
             /*20100420 to latest
             레벨은 1~150 사이의 숫자를 입력해 주세요.
             Please enter levels between 1~150.
@@ -31685,7 +31685,7 @@ impl ClientMessages {
             레벨에 숫자 이외의 문자는 들어갈 수 없습니다.
             Only numeric characters are allowed.
             */
-            ClientMessages::MsgPartybookingerr5 => 0x6eb,
+            ClientMessages::MsgPartybookingerr5 => 0x6EB,
 
             /*20100511 to latest
              해당 맵에서는 의상 장비가 보이지 않습니다.
@@ -31694,7 +31694,7 @@ impl ClientMessages {
             레벨은 1~150 사이의 숫자를 입력해 주세요.
             Please enter levels between 1~150.
             */
-            ClientMessages::MsgDisablecostumeitemmap => 0x6ec,
+            ClientMessages::MsgDisablecostumeitemmap => 0x6EC,
 
             /*20100525 to latest
             아이템을 착용할 수 있는 레벨이 아닙니다.
@@ -31703,7 +31703,7 @@ impl ClientMessages {
              해당 맵에서는 의상 장비가 보이지 않습니다.
             Nothing found in the selected map.
             */
-            ClientMessages::MsgCannotequipitemlevel => 0x6ed,
+            ClientMessages::MsgCannotequipitemlevel => 0x6ED,
             /*20100525 to latest
             아이템을 사용할 수 있는 레벨이 아닙니다.
             You cannot use this item with your current level.
@@ -31711,7 +31711,7 @@ impl ClientMessages {
             아이템을 착용할 수 있는 레벨이 아닙니다.
             You cannot equip this item with your current level.
             */
-            ClientMessages::MsgCannotuseitemlevel => 0x6ee,
+            ClientMessages::MsgCannotuseitemlevel => 0x6EE,
 
             /*20100601 to latest
               채팅모드 OnOff 활성화
@@ -31720,7 +31720,7 @@ impl ClientMessages {
             아이템을 사용할 수 있는 레벨이 아닙니다.
             You cannot use this item with your current level.
             */
-            ClientMessages::MsgChatmodeonoff => 0x6ef,
+            ClientMessages::MsgChatmodeonoff => 0x6EF,
             /*20100601 to latest
             탭사이즈 크기가 초과되어 추가할 수 없습니다.
             Failed to add because you have reached the limit.
@@ -31728,7 +31728,7 @@ impl ClientMessages {
               채팅모드 OnOff 활성화
             Enable Battlemode
             */
-            ClientMessages::MsgOvertabsize => 0x6f0,
+            ClientMessages::MsgOvertabsize => 0x6F0,
             /*20100601 to 20100601
              창 표시 정보.
             20100608 to latest
@@ -31738,7 +31738,7 @@ impl ClientMessages {
             탭사이즈 크기가 초과되어 추가할 수 없습니다.
             Failed to add because you have reached the limit.
             */
-            ClientMessages::MsgSetchatinfo => 0x6f1,
+            ClientMessages::MsgSetchatinfo => 0x6F1,
 
             /*20100608 to latest
             판매
@@ -31747,7 +31747,7 @@ impl ClientMessages {
              창 표시 정보
             Window Sign Information
             */
-            ClientMessages::MsgSell => 0x6f2,
+            ClientMessages::MsgSell => 0x6F2,
             /*20100608 to latest
             구매
             Purchase
@@ -31755,7 +31755,7 @@ impl ClientMessages {
             판매
             Sell
             */
-            ClientMessages::MsgBuy => 0x6f3,
+            ClientMessages::MsgBuy => 0x6F3,
             /*20100608 to latest
             노점 검색
             Search for Vends
@@ -31763,7 +31763,7 @@ impl ClientMessages {
             구매
             Purchase
             */
-            ClientMessages::MsgSearchstoreinfo => 0x6f4,
+            ClientMessages::MsgSearchstoreinfo => 0x6F4,
             /*20100608 to latest
             노점 이름
             Shop Name
@@ -31771,7 +31771,7 @@ impl ClientMessages {
             노점 검색
             Search for Vends
             */
-            ClientMessages::MsgStorename => 0x6f5,
+            ClientMessages::MsgStorename => 0x6F5,
             /*20100608 to latest
             수량
             Quantity
@@ -31779,7 +31779,7 @@ impl ClientMessages {
             노점 이름
             Shop Name
             */
-            ClientMessages::MsgSearchitemcount => 0x6f6,
+            ClientMessages::MsgSearchitemcount => 0x6F6,
             /*20100608 to latest
             가격
             Cost
@@ -31787,7 +31787,7 @@ impl ClientMessages {
             수량
             Quantity
             */
-            ClientMessages::MsgSearchitemprice => 0x6f7,
+            ClientMessages::MsgSearchitemprice => 0x6F7,
             /*20100608 to latest
             검색 결과가 너무 많습니다. 검색어를 자세히 입력 해 주세요.
             Too much results have been found. Please do a more precisely search.
@@ -31795,7 +31795,7 @@ impl ClientMessages {
             가격
             Cost
             */
-            ClientMessages::MsgSsifailedovermaxcount => 0x6f8,
+            ClientMessages::MsgSsifailedovermaxcount => 0x6F8,
             /*20100608 to latest
             해당 노점을 여시겠습니까?
             Do you want to open a street stall?
@@ -31803,7 +31803,7 @@ impl ClientMessages {
             검색 결과가 너무 많습니다. 검색어를 자세히 입력 해 주세요.
             Too much results have been found. Please do a more precisely search.
             */
-            ClientMessages::MsgOpensearchstore => 0x6f9,
+            ClientMessages::MsgOpensearchstore => 0x6F9,
             /*20100608 to latest
             SSO 인증에 실패하였습니다.
             Failed to recognize SSO.
@@ -31811,7 +31811,7 @@ impl ClientMessages {
             해당 노점을 여시겠습니까?
             Do you want to open a street stall?
             */
-            ClientMessages::MsgSsofailed => 0x6fa,
+            ClientMessages::MsgSsofailed => 0x6FA,
 
             /*20100615 to latest
             현재 해당지역으로 이동 할 수 없습니다
@@ -31820,7 +31820,7 @@ impl ClientMessages {
             SSO 인증에 실패하였습니다.
             Failed to recognize SSO.
             */
-            ClientMessages::MsgZonemovefail => 0x6fb,
+            ClientMessages::MsgZonemovefail => 0x6FB,
             /*20100615 to 20100622
             포함 검색
             20100629 to latest
@@ -31830,7 +31830,7 @@ impl ClientMessages {
             현재 해당지역으로 이동 할 수 없습니다
             Cannot move to the applied area.
             */
-            ClientMessages::MsgSearchincluded => 0x6fc,
+            ClientMessages::MsgSearchincluded => 0x6FC,
             /*20100615 to latest
             탈퇴한 유저입니다.
             User has been expelled.
@@ -31838,7 +31838,7 @@ impl ClientMessages {
             단어가 포함된 아이템 검색
             searching  item including the word
             */
-            ClientMessages::MsgWithdrewusers => 0x6fd,
+            ClientMessages::MsgWithdrewusers => 0x6FD,
             /*20100615 to latest
             게임 이용에 동의하지 않았습니다.
             You have not accepted the user agreements yet.
@@ -31846,7 +31846,7 @@ impl ClientMessages {
             탈퇴한 유저입니다.
             User has been expelled.
             */
-            ClientMessages::MsgDidnotagree => 0x6fe,
+            ClientMessages::MsgDidnotagree => 0x6FE,
             /*20100615 to latest
             존재 하지 않는 계정입니다.
             You will not be disconnect from the game.
@@ -31854,7 +31854,7 @@ impl ClientMessages {
             게임 이용에 동의하지 않았습니다.
             You have not accepted the user agreements yet.
             */
-            ClientMessages::MsgAccountdoesnotexist => 0x6ff,
+            ClientMessages::MsgAccountdoesnotexist => 0x6FF,
             /*20100615 to latest
             본 게임은 12세 이용가입니다.
             It is available only for 12 hours.
@@ -31951,7 +31951,7 @@ impl ClientMessages {
             카드 이름 또는 접두사(접미사)를 입력하세요
             Enter the card name or prefix/suffix.
             */
-            ClientMessages::MsgSsirestofnumberofsearches => 0x70a,
+            ClientMessages::MsgSsirestofnumberofsearches => 0x70A,
             /*20100629 to latest
             검색 된 노점이 없습니다.
             No result has been found.
@@ -31959,7 +31959,7 @@ impl ClientMessages {
             남은 검색 횟수 : %d
             Searches left: %d
             */
-            ClientMessages::MsgSsifailedsearchstore => 0x70b,
+            ClientMessages::MsgSsifailedsearchstore => 0x70B,
             /*20100629 to latest
             아이템 가격 범위가 잘못되었습니다.
             The item price is too high.
@@ -31967,7 +31967,7 @@ impl ClientMessages {
             검색 된 노점이 없습니다.
             No result has been found.
             */
-            ClientMessages::MsgSsifailedpriceisnotvalid => 0x70c,
+            ClientMessages::MsgSsifailedpriceisnotvalid => 0x70C,
             /*20100629 to latest
             일반 장비
             Normal Gear
@@ -31975,7 +31975,7 @@ impl ClientMessages {
             아이템 가격 범위가 잘못되었습니다.
             The item price is too high.
             */
-            ClientMessages::MsgGeneralequipment => 0x70d,
+            ClientMessages::MsgGeneralequipment => 0x70D,
             /*20100629 to latest
             의상 장비
             Costume
@@ -31983,7 +31983,7 @@ impl ClientMessages {
             일반 장비
             Normal Gear
             */
-            ClientMessages::MsgCostumeequipment => 0x70e,
+            ClientMessages::MsgCostumeequipment => 0x70E,
 
             /*20100713 to latest
             분
@@ -31992,7 +31992,7 @@ impl ClientMessages {
             의상 장비
             Costume
             */
-            ClientMessages::MsgMinute => 0x70f,
+            ClientMessages::MsgMinute => 0x70F,
             /*20100713 to latest
             초
             second
@@ -32083,7 +32083,7 @@ impl ClientMessages {
             데이타 베이스 오류가 발생하였습니다.
             A database error has occurred.
             */
-            ClientMessages::MsgResultfailguild => 0x71a,
+            ClientMessages::MsgResultfailguild => 0x71A,
             /*20100730 to latest
             캐릭터를 삭제하기 위해서는 파티에서 탈퇴 해야 합니다.
             Please leave your party first in order to remove your character.
@@ -32091,7 +32091,7 @@ impl ClientMessages {
             캐릭터를 삭제하기 위해서는 길드에서 탈퇴 해야 합니다.
             Please leave your guild first in order to remove your character.
             */
-            ClientMessages::MsgResultfailparty => 0x71b,
+            ClientMessages::MsgResultfailparty => 0x71B,
             /*20100730 to latest
             시스템 설정으로 인해 삭제할 수 없습니다.
             You cannot delete this character because the delete time has not expired yet.
@@ -32099,7 +32099,7 @@ impl ClientMessages {
             캐릭터를 삭제하기 위해서는 파티에서 탈퇴 해야 합니다.
             Please leave your party first in order to remove your character.
             */
-            ClientMessages::MsgResultfailconfiguration => 0x71c,
+            ClientMessages::MsgResultfailconfiguration => 0x71C,
             /*20100730 to latest
             아직 삭제 가능 시간이 아닙니다.
             You cannot delete this character at the moment.
@@ -32107,7 +32107,7 @@ impl ClientMessages {
             시스템 설정으로 인해 삭제할 수 없습니다.
             You cannot delete this character because the delete time has not expired yet.
             */
-            ClientMessages::MsgResultfaildate => 0x71d,
+            ClientMessages::MsgResultfaildate => 0x71D,
             /*20100730 to latest
             생년월일이 일치하지 않습니다.
             Your entered birthday does not match.
@@ -32115,7 +32115,7 @@ impl ClientMessages {
             아직 삭제 가능 시간이 아닙니다.
             You cannot delete this character at the moment.
             */
-            ClientMessages::MsgResultfailbirth => 0x71e,
+            ClientMessages::MsgResultfailbirth => 0x71E,
             /*20100730 to latest
             친밀도가 부족합니다.
             You lack of familiarity.
@@ -32123,7 +32123,7 @@ impl ClientMessages {
             생년월일이 일치하지 않습니다.
             Your entered birthday does not match.
             */
-            ClientMessages::MsgUseskillfailrelationgrade => 0x71f,
+            ClientMessages::MsgUseskillfailrelationgrade => 0x71F,
             /*20100730 to latest
             스타일체인지 파이터 상태에서만 사용가능합니다.
             This is only available on style change for fighting classes.
@@ -32215,7 +32215,7 @@ impl ClientMessages {
             20130807 to 20130814
             사망으로 인해 신생명보험서가 자동 소비되었습니다
             */
-            ClientMessages::MsgTalk => 0x72a,
+            ClientMessages::MsgTalk => 0x72A,
 
             /*20101019 to latest
             중복사용이 불가능합니다.
@@ -32224,7 +32224,7 @@ impl ClientMessages {
             대화
             Chat Dialog
             */
-            ClientMessages::MsgMacroduplicate => 0x72b,
+            ClientMessages::MsgMacroduplicate => 0x72B,
             /*20101019 to latest
             사용제한이 걸려있습니다.
             Use the limit that has been set.
@@ -32232,7 +32232,7 @@ impl ClientMessages {
             중복사용이 불가능합니다.
             Redundant is not available.
             */
-            ClientMessages::MsgMacropostdelay => 0x72c,
+            ClientMessages::MsgMacropostdelay => 0x72C,
             /*20101019 to latest
             현재 사용제한이 걸려 있지 않습니다.
             No user restrictions are set.
@@ -32240,7 +32240,7 @@ impl ClientMessages {
             사용제한이 걸려있습니다.
             Use the limit that has been set.
             */
-            ClientMessages::MsgMacronotpostdelay => 0x72d,
+            ClientMessages::MsgMacronotpostdelay => 0x72D,
             /*20101019 to latest
             예기치 못한 사유로 인해 접속이 실패하였습니다. 관리자에게 문의해 주시기 바랍니다.
             Connection has failed. Please contact your administrator.
@@ -32248,7 +32248,7 @@ impl ClientMessages {
             현재 사용제한이 걸려 있지 않습니다.
             No user restrictions are set.
             */
-            ClientMessages::MsgSsoerrormsg => 0x72e,
+            ClientMessages::MsgSsoerrormsg => 0x72E,
             /*20101019 to latest
             접속 정보 인증 실패하였습니다.
             Failed to authenticate.
@@ -32256,7 +32256,7 @@ impl ClientMessages {
             예기치 못한 사유로 인해 접속이 실패하였습니다. 관리자에게 문의해 주시기 바랍니다.
             Connection has failed. Please contact your administrator.
             */
-            ClientMessages::MsgRefusessoauthinvalidtoken => 0x72f,
+            ClientMessages::MsgRefusessoauthinvalidtoken => 0x72F,
             /*20101019 to latest
             가입하지 않은 사용자입니다.
             User is offline.
@@ -32344,7 +32344,7 @@ impl ClientMessages {
             임대장비
             Rental Items
             */
-            ClientMessages::MsgNccat5 => 0x73a,
+            ClientMessages::MsgNccat5 => 0x73A,
             /*20101019 to latest
             버프
             Scrolls
@@ -32352,7 +32352,7 @@ impl ClientMessages {
             영구장비
             Equipments
             */
-            ClientMessages::MsgNccat6 => 0x73b,
+            ClientMessages::MsgNccat6 => 0x73B,
             /*20101019 to latest
             회복
             Consumables
@@ -32360,7 +32360,7 @@ impl ClientMessages {
             버프
             Scrolls
             */
-            ClientMessages::MsgNccat7 => 0x73c,
+            ClientMessages::MsgNccat7 => 0x73C,
             /*20101019 to latest
             기타
             Other
@@ -32368,7 +32368,7 @@ impl ClientMessages {
             회복
             Consumables
             */
-            ClientMessages::MsgNccat8 => 0x73d,
+            ClientMessages::MsgNccat8 => 0x73D,
             /*20101019 to latest
             가격
             Cost
@@ -32376,7 +32376,7 @@ impl ClientMessages {
             기타
             Other
             */
-            ClientMessages::MsgNccost => 0x73e,
+            ClientMessages::MsgNccost => 0x73E,
             /*20101019 to latest
             수량
             Quantity
@@ -32384,7 +32384,7 @@ impl ClientMessages {
             가격
             Cost
             */
-            ClientMessages::MsgNcnum => 0x73f,
+            ClientMessages::MsgNcnum => 0x73F,
             /*20101019 to latest
             개
             Total
@@ -32477,7 +32477,7 @@ impl ClientMessages {
             본 서버에 접속할 수 있는 정원이 초과되어 진입이 불가능 합니다.
             Unable to proceed due to exceeding capacity.
             */
-            ClientMessages::MsgAuthenticate => 0x74a,
+            ClientMessages::MsgAuthenticate => 0x74A,
 
             /*20110104 to latest
             저장 할 슬롯을 선택 해 주세요
@@ -32486,7 +32486,7 @@ impl ClientMessages {
             실명 인증이 되지 않았습니다. 실명인증 사이트로 이동합니다
             Real name has not been verified. Go to name verification site.
             */
-            ClientMessages::MsgSelectsaveslot => 0x74b,
+            ClientMessages::MsgSelectsaveslot => 0x74B,
 
             /*20110111 to latest
             %s, 축하드립니다. '%s' 를 얻으셨습니다!
@@ -32495,7 +32495,7 @@ impl ClientMessages {
             저장 할 슬롯을 선택 해 주세요
             Please select slot you are going to save.
             */
-            ClientMessages::MsgBroadcastingspecialitemobtain2 => 0x74c,
+            ClientMessages::MsgBroadcastingspecialitemobtain2 => 0x74C,
 
             /*20110118 to latest
             그루미상태에서는 사용할 수 없습니다
@@ -32504,7 +32504,7 @@ impl ClientMessages {
             %s, 축하드립니다. '%s' 를 얻으셨습니다!
             Congratulation %s,  Acquired '%s' !
             */
-            ClientMessages::MsgNotusegroomy => 0x74d,
+            ClientMessages::MsgNotusegroomy => 0x74D,
 
             /*20110210 to latest
             구매물품의 합계금액이 케릭터가 소지할 수 있는 최대 금액을 초과하였습니다
@@ -32513,7 +32513,7 @@ impl ClientMessages {
             그루미상태에서는 사용할 수 없습니다
             Unable to use in gloomy state
             */
-            ClientMessages::MsgBuyingstoreoverflowmoney => 0x74e,
+            ClientMessages::MsgBuyingstoreoverflowmoney => 0x74E,
 
             /*20110215 to latest
             현재 맵에서는 파티 가입이 불가능합니다.
@@ -32522,7 +32522,7 @@ impl ClientMessages {
             구매물품의 합계금액이 케릭터가 소지할 수 있는 최대 금액을 초과하였습니다
             Purchased products has exceeded the total price.
             */
-            ClientMessages::MsgPreventpartyjoin => 0x74f,
+            ClientMessages::MsgPreventpartyjoin => 0x74F,
             /*20110215 to latest
             현재 맵에서는 파티 탈퇴가 불가능합니다.
             Cannot leave a party in this map.
@@ -32613,7 +32613,7 @@ impl ClientMessages {
             유저님의 정보가 인증에 성공했습니다.
             User information identification was successful.
             */
-            ClientMessages::MsgInvalidrealname => 0x75a,
+            ClientMessages::MsgInvalidrealname => 0x75A,
             /*20110222 to latest
             신분증 번호가 일치하지 않습니다. 재작성 해주세요.
             ID number does not match. Please retry.
@@ -32621,7 +32621,7 @@ impl ClientMessages {
             이름이 일치하지 않습니다. 재작성 해주세요.
             Name does not match. Please retry.
             */
-            ClientMessages::MsgInvalididnumber => 0x75b,
+            ClientMessages::MsgInvalididnumber => 0x75B,
             /*20110222 to latest
             현재 서비스에 이상이 있으니 잠시 후 재시도 해주세요.
             Service is currently unavailable. Please try again later.
@@ -32629,7 +32629,7 @@ impl ClientMessages {
             신분증 번호가 일치하지 않습니다. 재작성 해주세요.
             ID number does not match. Please retry.
             */
-            ClientMessages::MsgInvalidauthenticate => 0x75c,
+            ClientMessages::MsgInvalidauthenticate => 0x75C,
 
             /*20110224 to latest
              탑승 상태에서는 공격을 할 수 없습니다.
@@ -32638,7 +32638,7 @@ impl ClientMessages {
             현재 서비스에 이상이 있으니 잠시 후 재시도 해주세요.
             Service is currently unavailable. Please try again later.
             */
-            ClientMessages::MsgCannotattackinridingstate => 0x75d,
+            ClientMessages::MsgCannotattackinridingstate => 0x75D,
             /*20110224 to latest
              탑승 상태에서는 스킬 시전을 할 수 없습니다.
             Unable to cast the skill while riding.
@@ -32646,7 +32646,7 @@ impl ClientMessages {
              탑승 상태에서는 공격을 할 수 없습니다.
             Unable to attack while riding.
             */
-            ClientMessages::MsgCannotuseskillinridingstate => 0x75e,
+            ClientMessages::MsgCannotuseskillinridingstate => 0x75E,
 
             /*20110228 to 20110228
             비밀번호는 4자리 이상 6자리이하여야만 합니다.
@@ -32657,7 +32657,7 @@ impl ClientMessages {
              탑승 상태에서는 스킬 시전을 할 수 없습니다.
             Unable to cast the skill while riding.
             */
-            ClientMessages::MsgStorepassword46 => 0x75f,
+            ClientMessages::MsgStorepassword46 => 0x75F,
             /*20110228 to 20110228
             로그인에 성공했습니다.
             20110308 to latest
@@ -32765,7 +32765,7 @@ impl ClientMessages {
             주민등록번호는 사용할수없습니다.
             Unable to use your KSSN number.
             */
-            ClientMessages::MsgSecondpasswordmakeduplicatedpw => 0x76a,
+            ClientMessages::MsgSecondpasswordmakeduplicatedpw => 0x76A,
             /*20110228 to 20110228
             비밀번호 입력 (4~6자리)
             20110308 to latest
@@ -32775,7 +32775,7 @@ impl ClientMessages {
             이미 패스워드가 존재합니다.
             ~There is already a password.
             */
-            ClientMessages::MsgSecondpassword => 0x76b,
+            ClientMessages::MsgSecondpassword => 0x76B,
             /*20110228 to 20110228
             ITEM
             20110308 to latest
@@ -32785,7 +32785,7 @@ impl ClientMessages {
             보안 패스워드
             Security Code
             */
-            ClientMessages::MsgSecondpasswordinput => 0x76c,
+            ClientMessages::MsgSecondpasswordinput => 0x76C,
             /*20110228 to 20110228
             SKILL
             20110308 to latest
@@ -32795,7 +32795,7 @@ impl ClientMessages {
             계정보안을 위하여 추가적인 패스워드 설정을 권장합니다.
             Account for the additional password security settings are recommended.
             */
-            ClientMessages::MsgSecondpasswdrdnotavailablesuccess => 0x76d,
+            ClientMessages::MsgSecondpasswdrdnotavailablesuccess => 0x76D,
             /*20110228 to 20110228
             TACTIC
             20110308 to latest
@@ -32805,7 +32805,7 @@ impl ClientMessages {
             보안 패스워드 사용을 하지 않습니다.
             Do not use secure password.
             */
-            ClientMessages::MsgSecondpasswdrdnotavailablefailed => 0x76e,
+            ClientMessages::MsgSecondpasswdrdnotavailablefailed => 0x76E,
             /*20110228 to 20110228
             ETC
             20110308 to latest
@@ -32815,7 +32815,7 @@ impl ClientMessages {
             보안 패스워드 사용설정에 실패했습니다.
             Use the set security password failed.
             */
-            ClientMessages::MsgSecondpasswdrdavailablesuccess => 0x76f,
+            ClientMessages::MsgSecondpasswdrdavailablesuccess => 0x76F,
             /*20110228 to 20110228
             COMBAT
             20110308 to latest
@@ -32913,38 +32913,38 @@ impl ClientMessages {
             20130807 to 20130814
             NON-COMBAT
             */
-            ClientMessages::MsgMacrobuff => 0x77a,
+            ClientMessages::MsgMacrobuff => 0x77A,
 
             /*20110308 to latest
             AUTO EQUIPED
             20130807 to 20130814
             BUFF
             */
-            ClientMessages::MsgMacroautoequiped => 0x77b,
+            ClientMessages::MsgMacroautoequiped => 0x77B,
             /*20110308 to latest
             1st. ATTACK
             20130807 to 20130814
             AUTO EQUIPED
             */
-            ClientMessages::MsgMacro1STATTACK => 0x77c,
+            ClientMessages::MsgMacro1STATTACK => 0x77C,
             /*20110308 to latest
             ATTACK
             20130807 to 20130814
             1st. ATTACK
             */
-            ClientMessages::MsgMacroattack => 0x77d,
+            ClientMessages::MsgMacroattack => 0x77D,
             /*20110308 to latest
             Next attack time :
             20130807 to 20130814
             ATTACK
             */
-            ClientMessages::MsgMacronextatktime => 0x77e,
+            ClientMessages::MsgMacronextatktime => 0x77E,
             /*20110308 to latest
             When died
             20130807 to 20130814
             Next attack time :
             */
-            ClientMessages::MsgMacrowhendied => 0x77f,
+            ClientMessages::MsgMacrowhendied => 0x77F,
             /*20110308 to latest
             When invited to a party
             When invited to the party
@@ -33032,7 +33032,7 @@ impl ClientMessages {
             벽이나 물체 근처에서만 사용 할 수 있습니다.
             Objects can be used only near the wall.
             */
-            ClientMessages::MsgSeekpartyset => 0x78a,
+            ClientMessages::MsgSeekpartyset => 0x78A,
             /*20110531 to latest
             탑승 중인 상태에서는 고삐 아이템을 사용할 수 없습니다.
             While boarding reins is not available for items.
@@ -33040,7 +33040,7 @@ impl ClientMessages {
             %s : 레벨 %d %s 파티구합니다.
             %s: Level %d %s party to obtain level.
             */
-            ClientMessages::MsgFaieldridingoverlapped => 0x78b,
+            ClientMessages::MsgFaieldridingoverlapped => 0x78B,
 
             /*20110620 to latest
             이 스킬은 1%의 경험치가 필요합니다.
@@ -33049,7 +33049,7 @@ impl ClientMessages {
             탑승 중인 상태에서는 고삐 아이템을 사용할 수 없습니다.
             While boarding reins is not available for items.
             */
-            ClientMessages::MsgUseskillfailneedexp1PERCENT => 0x78c,
+            ClientMessages::MsgUseskillfailneedexp1PERCENT => 0x78C,
 
             /*20110627 to latest
             경   험   치 :
@@ -33058,7 +33058,7 @@ impl ClientMessages {
             이 스킬은 1%의 경험치가 필요합니다.
             This skill requires 1% experience.
             */
-            ClientMessages::MsgExpmsg => 0x78d,
+            ClientMessages::MsgExpmsg => 0x78D,
             /*20110627 to latest
             드   롭   율 :
             Drop rate:
@@ -33066,7 +33066,7 @@ impl ClientMessages {
             경   험   치 :
             Experience value:
             */
-            ClientMessages::MsgDropmsg => 0x78e,
+            ClientMessages::MsgDropmsg => 0x78E,
             /*20110627 to latest
             사망페널티 :
             Death Penalty:
@@ -33074,7 +33074,7 @@ impl ClientMessages {
             드   롭   율 :
             Drop rate:
             */
-            ClientMessages::MsgDeathmsg => 0x78f,
+            ClientMessages::MsgDeathmsg => 0x78F,
             /*20110627 to 20110711
             %d%% (PC방 %d%% + 프리미엄 %d%% + %s서버 %d%%)
             20110713 to latest
@@ -33172,7 +33172,7 @@ impl ClientMessages {
             개별 아이템 개수가 초과 되어 구매가 실패 하였습니다.
             Exceeded the number of individual items, purchase failed.
             */
-            ClientMessages::MsgCashfailedunkown => 0x79a,
+            ClientMessages::MsgCashfailedunkown => 0x79A,
             /*20110718 to latest
             잠시 후 다시 시도해 주십시오.
             Please try again later.
@@ -33180,7 +33180,7 @@ impl ClientMessages {
             알 수 없는 오류가 발생하여 구매가 실패 하였습니다.
             Purchase failed due to an unknown error.
             */
-            ClientMessages::MsgCashfailedbusy => 0x79b,
+            ClientMessages::MsgCashfailedbusy => 0x79B,
             /*20110718 to latest
              쿠나이 아이템을 장착 한 상태에서만 사용 가능합니다.
             Kunai must be equipped to use this skill.
@@ -33188,7 +33188,7 @@ impl ClientMessages {
             잠시 후 다시 시도해 주십시오.
             Please try again later.
             */
-            ClientMessages::MsgUseskillfailneedequipmentkunai => 0x79c,
+            ClientMessages::MsgUseskillfailneedequipmentkunai => 0x79C,
 
             /*20110726 to latest
             모집할 최소레벨값을 입력해주세요.
@@ -33197,7 +33197,7 @@ impl ClientMessages {
              쿠나이 아이템을 장착 한 상태에서만 사용 가능합니다.
             Kunai must be equipped to use this skill.
             */
-            ClientMessages::MsgSeekpartylevelhelp => 0x79d,
+            ClientMessages::MsgSeekpartylevelhelp => 0x79D,
 
             /*20110802 to latest
             존다기획사NPC 에게 아이템이 수령이 불가능합니다. 소지창의 여유공간을 확보해주세요.
@@ -33206,7 +33206,7 @@ impl ClientMessages {
             모집할 최소레벨값을 입력해주세요.
             Please enter the value of the minimum level to be recruited.
             */
-            ClientMessages::MsgFailedgetitemfromzoneda => 0x79e,
+            ClientMessages::MsgFailedgetitemfromzoneda => 0x79E,
 
             /*20110809 to latest
             이 스킬은 공성전에서만 사용 가능합니다.
@@ -33215,7 +33215,7 @@ impl ClientMessages {
             존다기획사NPC 에게 아이템이 수령이 불가능합니다. 소지창의 여유공간을 확보해주세요.
             Jonda agency receipt of the item to the NPC is not possible. Gaining possession of the free space of the window.
             */
-            ClientMessages::MsgUseskillfailsize => 0x79f,
+            ClientMessages::MsgUseskillfailsize => 0x79F,
             /*20110809 to latest
             이 스킬은 플레이어에게만 사용 가능합니다.
             This skill is available only to the player.
@@ -33223,7 +33223,7 @@ impl ClientMessages {
             이 스킬은 공성전에서만 사용 가능합니다.
             This skill is only available in the siege.
             */
-            ClientMessages::MsgUseskillfailtotargetplayer => 0x7a0,
+            ClientMessages::MsgUseskillfailtotargetplayer => 0x7A0,
             /*20110809 to latest
             착용이 금지 된 상태로 착용 할 수 없습니다.
             Forbidden to wear the state can not be worn.
@@ -33231,7 +33231,7 @@ impl ClientMessages {
             이 스킬은 플레이어에게만 사용 가능합니다.
             This skill is available only to the player.
             */
-            ClientMessages::MsgCannotequipitemforbid => 0x7a1,
+            ClientMessages::MsgCannotequipitemforbid => 0x7A1,
             /*20110809 to latest
             현재 위치에서는 상점 및 채팅방의 생성이 불가능합니다.
             Current location of the shop and chat room creation is disabled.
@@ -33239,7 +33239,7 @@ impl ClientMessages {
             착용이 금지 된 상태로 착용 할 수 없습니다.
             Forbidden to wear the state can not be worn.
             */
-            ClientMessages::MsgUseskillfailtherearenpcaround => 0x7a2,
+            ClientMessages::MsgUseskillfailtherearenpcaround => 0x7A2,
 
             /*20110816 to latest
             Elapsed time: %d:%d:%d / %d:%d:%d
@@ -33247,132 +33247,132 @@ impl ClientMessages {
             현재 위치에서는 상점 및 채팅방의 생성이 불가능합니다.
             Current location of the shop and chat room creation is disabled.
             */
-            ClientMessages::MsgReplayelapsedtime => 0x7a3,
+            ClientMessages::MsgReplayelapsedtime => 0x7A3,
             /*20110816 to latest
             Speed : X 1/4
             20130807 to 20130814
             Elapsed time: %d:%d:%d / %d:%d:%d
             */
-            ClientMessages::MsgReplayspeed14 => 0x7a4,
+            ClientMessages::MsgReplayspeed14 => 0x7A4,
             /*20110816 to latest
             Speed : X 1/2
             20130807 to 20130814
             Speed : X 1/4
             */
-            ClientMessages::MsgReplayspeed12 => 0x7a5,
+            ClientMessages::MsgReplayspeed12 => 0x7A5,
             /*20110816 to latest
             Speed : X 1
             20130807 to 20130814
             Speed : X 1/2
             */
-            ClientMessages::MsgReplayspeed1 => 0x7a6,
+            ClientMessages::MsgReplayspeed1 => 0x7A6,
             /*20110816 to latest
             Speed : X 2
             20130807 to 20130814
             Speed : X 1
             */
-            ClientMessages::MsgReplayspeed2 => 0x7a7,
+            ClientMessages::MsgReplayspeed2 => 0x7A7,
             /*20110816 to latest
             Speed : X 4
             20130807 to 20130814
             Speed : X 2
             */
-            ClientMessages::MsgReplayspeed4 => 0x7a8,
+            ClientMessages::MsgReplayspeed4 => 0x7A8,
             /*20110816 to latest
             Speed : X 8
             20130807 to 20130814
             Speed : X 4
             */
-            ClientMessages::MsgReplayspeed8 => 0x7a9,
+            ClientMessages::MsgReplayspeed8 => 0x7A9,
             /*20110816 to latest
             Speed : X 16
             20130807 to 20130814
             Speed : X 8
             */
-            ClientMessages::MsgReplayspeed16 => 0x7aa,
+            ClientMessages::MsgReplayspeed16 => 0x7AA,
             /*20110816 to latest
             Speed : 알수없음
             Speed: Unknown
             20130807 to 20130814
             Speed : X 16
             */
-            ClientMessages::MsgReplayspeedunknown => 0x7ab,
+            ClientMessages::MsgReplayspeedunknown => 0x7AB,
             /*20110816 to latest
             Service Info : %s
             20130807 to 20130814
             Speed : 알수없음
             Speed: Unknown
             */
-            ClientMessages::MsgReplaychrviceinfo => 0x7ac,
+            ClientMessages::MsgReplaychrviceinfo => 0x7AC,
             /*20110816 to latest
             Character Name : %s
             20130807 to 20130814
             Service Info : %s
             */
-            ClientMessages::MsgReplaycharactername => 0x7ad,
+            ClientMessages::MsgReplaycharactername => 0x7AD,
             /*20110816 to latest
             Map Name : %s
             20130807 to 20130814
             Character Name : %s
             */
-            ClientMessages::MsgReplaymapname => 0x7ae,
+            ClientMessages::MsgReplaymapname => 0x7AE,
             /*20110816 to latest
             Record Time: %d-%01d-%01d %d: %02d: %02d
             20130807 to 20130814
             Map Name : %s
             */
-            ClientMessages::MsgReplayrecordtime => 0x7af,
+            ClientMessages::MsgReplayrecordtime => 0x7AF,
             /*20110816 to latest
             Play Time: %02d: %02d: %02d
             20130807 to 20130814
             Record Time: %d-%01d-%01d %d: %02d: %02d
             */
-            ClientMessages::MsgReplayplaytime => 0x7b0,
+            ClientMessages::MsgReplayplaytime => 0x7B0,
             /*20110816 to latest
             No Replay File.
             20130807 to 20130814
             Play Time: %02d: %02d: %02d
             */
-            ClientMessages::MsgReplaynoreplayfile => 0x7b1,
+            ClientMessages::MsgReplaynoreplayfile => 0x7B1,
             /*20110816 to latest
             Server No Matching
             20130807 to 20130814
             No Replay File.
             */
-            ClientMessages::MsgReplayservernomatch => 0x7b2,
+            ClientMessages::MsgReplayservernomatch => 0x7B2,
             /*20110816 to latest
             Replay Option Setting
             20130807 to 20130814
             Server No Matching
             */
-            ClientMessages::MsgReplayreplayoptionsetting => 0x7b3,
+            ClientMessages::MsgReplayreplayoptionsetting => 0x7B3,
             /*20110816 to latest
             파일 이름을 입력하세요.
             Enter File Name
             20130807 to 20130814
             Replay Option Setting
             */
-            ClientMessages::MsgReplayenterthefilename => 0x7b4,
+            ClientMessages::MsgReplayenterthefilename => 0x7B4,
             /*20110816 to latest
             Set Replay Save Data
             20130807 to 20130814
             파일 이름을 입력하세요.
             Enter File Name
             */
-            ClientMessages::MsgReplaysetreplaysavedata => 0x7b5,
+            ClientMessages::MsgReplaysetreplaysavedata => 0x7B5,
             /*20110816 to latest
             Set Rec Option
             20130807 to 20130814
             Set Replay Save Data
             */
-            ClientMessages::MsgReplaysetrecoption => 0x7b6,
+            ClientMessages::MsgReplaysetrecoption => 0x7B6,
             /*20110816 to latest
             %.1f %% Pos☞:%d:%d:%d
             %.1f % Pos->:%d:%d:%d
             20130807 to 20130814
             Set Rec Option
             */
-            ClientMessages::MsgReplaygagepos1 => 0x7b7,
+            ClientMessages::MsgReplaygagepos1 => 0x7B7,
             /*20110816 to latest
             %.1f %% Pos☞:이동불가
             %.1f % Pos->:cannot move
@@ -33380,33 +33380,33 @@ impl ClientMessages {
             %.1f %% Pos☞:%d:%d:%d
             %.1f % Pos->:%d:%d:%d
             */
-            ClientMessages::MsgReplaygagepos2 => 0x7b8,
+            ClientMessages::MsgReplaygagepos2 => 0x7B8,
             /*20110816 to latest
             Start
             20130807 to 20130814
             %.1f %% Pos☞:이동불가
             %.1f % Pos->:cannot move
             */
-            ClientMessages::MsgReplaystart => 0x7b9,
+            ClientMessages::MsgReplaystart => 0x7B9,
             /*20110816 to latest
             Stop
             20130807 to 20130814
             Start
             */
-            ClientMessages::MsgReplaystop => 0x7ba,
+            ClientMessages::MsgReplaystop => 0x7BA,
             /*20110816 to latest
             Input FileName -> Start
             20130807 to 20130814
             Stop
             */
-            ClientMessages::MsgReplaystart2 => 0x7bb,
+            ClientMessages::MsgReplaystart2 => 0x7BB,
             /*20110816 to latest
             Open Option
             Open Options
             20130807 to 20130814
             Input FileName -> Start
             */
-            ClientMessages::MsgReplayopenoption => 0x7bc,
+            ClientMessages::MsgReplayopenoption => 0x7BC,
             /*20110816 to latest
             Close Option
             Close Options
@@ -33414,27 +33414,27 @@ impl ClientMessages {
             Open Option
             Open Options
             */
-            ClientMessages::MsgReplaycloseopion => 0x7bd,
+            ClientMessages::MsgReplaycloseopion => 0x7BD,
             /*20110816 to latest
             End
             20130807 to 20130814
             Close Option
             Close Options
             */
-            ClientMessages::MsgReplayend => 0x7be,
+            ClientMessages::MsgReplayend => 0x7BE,
             /*20110816 to latest
             Time
             20130807 to 20130814
             End
             */
-            ClientMessages::MsgReplaytime => 0x7bf,
+            ClientMessages::MsgReplaytime => 0x7BF,
             /*20110816 to latest
             파티&친구
             Party & Friends
             20130807 to 20130814
             Time
             */
-            ClientMessages::MsgReplaypartyfriend => 0x7c0,
+            ClientMessages::MsgReplaypartyfriend => 0x7C0,
             /*20110816 to latest
             채팅
             Chat
@@ -33442,7 +33442,7 @@ impl ClientMessages {
             파티&친구
             Party & Friends
             */
-            ClientMessages::MsgReplaychat => 0x7c1,
+            ClientMessages::MsgReplaychat => 0x7C1,
             /*20110816 to latest
             단축키
             Shortcuts
@@ -33450,7 +33450,7 @@ impl ClientMessages {
             채팅
             Chat
             */
-            ClientMessages::MsgReplayshortcuts => 0x7c2,
+            ClientMessages::MsgReplayshortcuts => 0x7C2,
             /*20110816 to latest
             자동 파일명 생성
             Automatic filename generation
@@ -33458,7 +33458,7 @@ impl ClientMessages {
             단축키
             Shortcuts
             */
-            ClientMessages::MsgReplayautomaticfilename => 0x7c3,
+            ClientMessages::MsgReplayautomaticfilename => 0x7C3,
             /*20110816 to latest
             파일 중복 채크
             Checking for duplicate files
@@ -33466,7 +33466,7 @@ impl ClientMessages {
             자동 파일명 생성
             Automatic filename generation
             */
-            ClientMessages::MsgReplaycheckingfile => 0x7c4,
+            ClientMessages::MsgReplaycheckingfile => 0x7C4,
             /*20110816 to latest
             동일한 파일이 존재 합니다.
             The same file exists already.
@@ -33474,21 +33474,21 @@ impl ClientMessages {
             파일 중복 채크
             Checking for duplicate files
             */
-            ClientMessages::MsgReplaythesamefileexists => 0x7c5,
+            ClientMessages::MsgReplaythesamefileexists => 0x7C5,
             /*20110816 to latest
             Record Start
             20130807 to 20130814
             동일한 파일이 존재 합니다.
             The same file exists already.
             */
-            ClientMessages::MsgReplayrecordstart => 0x7c6,
+            ClientMessages::MsgReplayrecordstart => 0x7C6,
             /*20110816 to latest
              is Saved.
             Recording saved
             20130807 to 20130814
             Record Start
             */
-            ClientMessages::MsgReplayrecordend => 0x7c7,
+            ClientMessages::MsgReplayrecordend => 0x7C7,
 
             /*20110823 to latest
             Weight : %3d / %3d
@@ -33496,14 +33496,14 @@ impl ClientMessages {
              is Saved.
             Recording saved
             */
-            ClientMessages::MsgWeight => 0x7c8,
+            ClientMessages::MsgWeight => 0x7C8,
             /*20110823 to latest
             Total : %s C
             Total: %s EUR
             20130807 to 20130814
             Weight : %3d / %3d
             */
-            ClientMessages::MsgTotal => 0x7c9,
+            ClientMessages::MsgTotal => 0x7C9,
             /*20110823 to latest
             [수리검]을 장착한 상태여야 합니다.
             [Shuriken] must be equipped.
@@ -33511,7 +33511,7 @@ impl ClientMessages {
             Total : %s C
             Total: %s EUR
             */
-            ClientMessages::MsgFailneedequippedsyuriken => 0x7ca,
+            ClientMessages::MsgFailneedequippedsyuriken => 0x7CA,
 
             /*20110831 to latest
             Base Lv. %d
@@ -33519,50 +33519,50 @@ impl ClientMessages {
             [수리검]을 장착한 상태여야 합니다.
             [Shuriken] must be equipped.
             */
-            ClientMessages::MsgBasicmsgbase => 0x7cb,
+            ClientMessages::MsgBasicmsgbase => 0x7CB,
             /*20110831 to latest
             Job Lv. %d
             20130807 to 20130814
             Base Lv. %d
             */
-            ClientMessages::MsgBasicmsgjob => 0x7cc,
+            ClientMessages::MsgBasicmsgjob => 0x7CC,
             /*20110831 to latest
             Zeny : %s
             20130807 to 20130814
             Job Lv. %d
             */
-            ClientMessages::MsgBasicmsgzeny => 0x7cd,
+            ClientMessages::MsgBasicmsgzeny => 0x7CD,
             /*20110831 to latest
             Trilinear
             20130807 to 20130814
             Zeny : %s
             */
-            ClientMessages::MsgGraphicmsgtrilinear => 0x7ce,
+            ClientMessages::MsgGraphicmsgtrilinear => 0x7CE,
             /*20110831 to latest
             attack
             20130807 to 20130814
             Trilinear
             */
-            ClientMessages::MsgGraphicmsgattack => 0x7cf,
+            ClientMessages::MsgGraphicmsgattack => 0x7CF,
             /*20110831 to latest
             skill
             20130807 to 20130814
             attack
             */
-            ClientMessages::MsgGraphicmsgskill => 0x7d0,
+            ClientMessages::MsgGraphicmsgskill => 0x7D0,
             /*20110831 to latest
             item
             20130807 to 20130814
             skill
             */
-            ClientMessages::MsgGraphicmsgitem => 0x7d1,
+            ClientMessages::MsgGraphicmsgitem => 0x7D1,
             /*20110831 to latest
             NoCtrl
             Ctrl
             20130807 to 20130814
             item
             */
-            ClientMessages::MsgGraphicmsgnoctrl => 0x7d2,
+            ClientMessages::MsgGraphicmsgnoctrl => 0x7D2,
             /*20110831 to latest
             전장
             More
@@ -33570,7 +33570,7 @@ impl ClientMessages {
             NoCtrl
             Ctrl
             */
-            ClientMessages::MsgGraphicmsgbattle => 0x7d3,
+            ClientMessages::MsgGraphicmsgbattle => 0x7D3,
             /*20110831 to latest
             (Character/Total Slot)
             (Characters/Total slots)
@@ -33578,7 +33578,7 @@ impl ClientMessages {
             전장
             More
             */
-            ClientMessages::MsgCharactermsgcharactertotalslot => 0x7d4,
+            ClientMessages::MsgCharactermsgcharactertotalslot => 0x7D4,
             /*20110831 to latest
             Premium Service
             VIP Service
@@ -33586,7 +33586,7 @@ impl ClientMessages {
             (Character/Total Slot)
             (Characters/Total slots)
             */
-            ClientMessages::MsgCharactermsgpremiumservice => 0x7d5,
+            ClientMessages::MsgCharactermsgpremiumservice => 0x7D5,
             /*20110831 to latest
             Premium
             VIP
@@ -33594,21 +33594,21 @@ impl ClientMessages {
             Premium Service
             VIP Service
             */
-            ClientMessages::MsgCharactermsgpremium => 0x7d6,
+            ClientMessages::MsgCharactermsgpremium => 0x7D6,
             /*20110831 to latest
             Service
             20130807 to 20130814
             Premium
             VIP
             */
-            ClientMessages::MsgCharactermsgservice => 0x7d7,
+            ClientMessages::MsgCharactermsgservice => 0x7D7,
             /*20110831 to latest
             Billing Service
             VIP
             20130807 to 20130814
             Service
             */
-            ClientMessages::MsgCharactermsgbillingservice => 0x7d8,
+            ClientMessages::MsgCharactermsgbillingservice => 0x7D8,
             /*20110831 to latest
             Billing
             VIP
@@ -33616,39 +33616,39 @@ impl ClientMessages {
             Billing Service
             VIP
             */
-            ClientMessages::MsgCharactermsgbilling => 0x7d9,
+            ClientMessages::MsgCharactermsgbilling => 0x7D9,
             /*20110831 to latest
             Command List
             20130807 to 20130814
             Billing
             VIP
             */
-            ClientMessages::MsgMsgcommandlist => 0x7da,
+            ClientMessages::MsgMsgcommandlist => 0x7DA,
             /*20110831 to latest
             LEVEL
             20130807 to 20130814
             Command List
             */
-            ClientMessages::MsgSeekpartylevel => 0x7db,
+            ClientMessages::MsgSeekpartylevel => 0x7DB,
             /*20110831 to latest
             MAP
             20130807 to 20130814
             LEVEL
             */
-            ClientMessages::MsgSeekpartymap => 0x7dc,
+            ClientMessages::MsgSeekpartymap => 0x7DC,
             /*20110831 to latest
             JOB
             20130807 to 20130814
             MAP
             */
-            ClientMessages::MsgSeekpartyjob => 0x7dd,
+            ClientMessages::MsgSeekpartyjob => 0x7DD,
 
             /*20110906 to latest
             Not Available
             20130807 to 20130814
             JOB
             */
-            ClientMessages::MsgMsgnotavailable => 0x7de,
+            ClientMessages::MsgMsgnotavailable => 0x7DE,
 
             /*20110920 to 20110929
             [수호 천사의 보호] 스킬은 만렙일 경우, 경험치 100% 이상일 때는 사용할 수 없습니다.
@@ -33658,7 +33658,7 @@ impl ClientMessages {
             20130807 to 20130814
             Not Available
             */
-            ClientMessages::MsgMsgsupernovicechopokgicappedlevel => 0x7df,
+            ClientMessages::MsgMsgsupernovicechopokgicappedlevel => 0x7DF,
 
             /*20110928 to latest
             정말 이동하시겠습니까?
@@ -33667,7 +33667,7 @@ impl ClientMessages {
             [수호 천사의 보호] 만렙일 경우 사용할 수 없습니다.
             [Protection of Guardian Angel] You can't use it when you reach the highest level.
             */
-            ClientMessages::MsgChangecharacterslot => 0x7e0,
+            ClientMessages::MsgChangecharacterslot => 0x7E0,
             /*20110928 to latest
             캐릭터 슬롯 이동에 실패했습니다.
             Failed to move Char slot.
@@ -33675,7 +33675,7 @@ impl ClientMessages {
             정말 이동하시겠습니까?
             Do you really want to move?
             */
-            ClientMessages::MsgChangecharacterslotfailed => 0x7e1,
+            ClientMessages::MsgChangecharacterslotfailed => 0x7E1,
 
             /*20111004 to latest
             캐릭터 이름이 잘못 되었습니다.
@@ -33684,7 +33684,7 @@ impl ClientMessages {
             캐릭터 슬롯 이동에 실패했습니다.
             Failed to move Char slot.
             */
-            ClientMessages::MsgCharacternameerror => 0x7e2,
+            ClientMessages::MsgCharacternameerror => 0x7E2,
             /*20111004 to latest
             퀘스트보기창
             Show Quest
@@ -33692,7 +33692,7 @@ impl ClientMessages {
             캐릭터 이름이 잘못 되었습니다.
             Character name is invalid.
             */
-            ClientMessages::MsgQuestdisplayonoff => 0x7e3,
+            ClientMessages::MsgQuestdisplayonoff => 0x7E3,
 
             /*20111017 to 20111021
             정말 탭을 제거하시겠습니까?
@@ -33705,7 +33705,7 @@ impl ClientMessages {
             퀘스트보기창
             Show Quest
             */
-            ClientMessages::MsgShutdownalertmsg => 0x7e4,
+            ClientMessages::MsgShutdownalertmsg => 0x7E4,
             /*20111017 to 20111021
             더이상 탭을 제거할 수 없습니다.
             20111025 to latest
@@ -33715,7 +33715,7 @@ impl ClientMessages {
              청소년 보호법에 따라, 잠시 후 0시 부터 6시 까지 만 16세 미만 고객님들의 게임 이용이 제한됩니다.
             Depending on the protection of youth, and 0:00 to 6:00 while under the age of 16 of your game use is limited.
             */
-            ClientMessages::MsgBanshutdownteenager => 0x7e5,
+            ClientMessages::MsgBanshutdownteenager => 0x7E5,
             /*20111017 to 20111021
             더이상 탭을 추가할 수 없습니다.
             20111025 to latest
@@ -33725,7 +33725,7 @@ impl ClientMessages {
             청소년 보호법에 따라, 0시 부터 6시 까지 ^ff0000만 16세 미만 고객님들의 게임 이용이 제한^000000되며, 게임을 종료합니다.
             Depending on the protection of youth, 0:00 to 6:00 ^ff0000 under the age of 16 ^000000 limit your use of the game and the game ends.
             */
-            ClientMessages::MsgFailedrenamebelongstoguild => 0x7e6,
+            ClientMessages::MsgFailedrenamebelongstoguild => 0x7E6,
 
             /*20111025 to latest
             캐릭터 이름을 변경하기 위해서는 파티에서 탈퇴 해야 합니다.
@@ -33734,7 +33734,7 @@ impl ClientMessages {
             캐릭터 이름을 변경하기 위해서는 길드에서 탈퇴 해야 합니다.
             In order to change the character name, you must leave the guild.
             */
-            ClientMessages::MsgFailedrenamebelongstoparty => 0x7e7,
+            ClientMessages::MsgFailedrenamebelongstoparty => 0x7E7,
             /*20111025 to latest
             알 수 없는 오류로 캐릭터 이름 변경이 실패 하였습니다.
             Character name change failed, due an unknown error.
@@ -33742,7 +33742,7 @@ impl ClientMessages {
             캐릭터 이름을 변경하기 위해서는 파티에서 탈퇴 해야 합니다.
             In order to change the character name, you must leave the party.
             */
-            ClientMessages::MsgFailedrenameunkown => 0x7e8,
+            ClientMessages::MsgFailedrenameunkown => 0x7E8,
 
             /*20111101 to latest
             이미 캐릭터 슬롯변경이 가능한 상태입니다.(%d)
@@ -33751,7 +33751,7 @@ impl ClientMessages {
             알 수 없는 오류로 캐릭터 이름 변경이 실패 하였습니다.
             Character name change failed, due an unknown error.
             */
-            ClientMessages::MsgCharslotchangeduplicate => 0x7e9,
+            ClientMessages::MsgCharslotchangeduplicate => 0x7E9,
             /*20111101 to latest
             이미 캐릭터 이름변경이 가능한 상태입니다.(%d)
             Ready to change character name in.(%d)
@@ -33759,7 +33759,7 @@ impl ClientMessages {
             이미 캐릭터 슬롯변경이 가능한 상태입니다.(%d)
             Ready to change character slot in.(%d)
             */
-            ClientMessages::MsgCharnamechangeduplicate => 0x7ea,
+            ClientMessages::MsgCharnamechangeduplicate => 0x7EA,
             /*20111101 to latest
             변경하려는 이름의 길이가 최대크기를 초과하여 캐릭터 이름 변경이 실패 하였습니다.
             Length exceeds the maximum size of the character name you want to change.
@@ -33767,7 +33767,7 @@ impl ClientMessages {
             이미 캐릭터 이름변경이 가능한 상태입니다.(%d)
             Ready to change character name in.(%d)
             */
-            ClientMessages::MsgFailedrenameoverlength => 0x7eb,
+            ClientMessages::MsgFailedrenameoverlength => 0x7EB,
             /*20111101 to latest
             사용할 수 없는 단어가 포함되어 캐릭터 이름 변경이 실패 하였습니다.
             Name contains invalid characters. Character name change failed.
@@ -33775,7 +33775,7 @@ impl ClientMessages {
             변경하려는 이름의 길이가 최대크기를 초과하여 캐릭터 이름 변경이 실패 하였습니다.
             Length exceeds the maximum size of the character name you want to change.
             */
-            ClientMessages::MsgFailedrenamepreventnam => 0x7ec,
+            ClientMessages::MsgFailedrenamepreventnam => 0x7EC,
             /*20111101 to latest
             이름 변경이 금지된 상태이므로 캐릭터 이름 변경이 실패 하였습니다.
             The name change is prohibited. Character name change failed.
@@ -33783,7 +33783,7 @@ impl ClientMessages {
             사용할 수 없는 단어가 포함되어 캐릭터 이름 변경이 실패 하였습니다.
             Name contains invalid characters. Character name change failed.
             */
-            ClientMessages::MsgFailedrenameforbidden => 0x7ed,
+            ClientMessages::MsgFailedrenameforbidden => 0x7ED,
 
             /*20111108 to latest
             완료
@@ -33792,7 +33792,7 @@ impl ClientMessages {
             이름 변경이 금지된 상태이므로 캐릭터 이름 변경이 실패 하였습니다.
             The name change is prohibited. Character name change failed.
             */
-            ClientMessages::MsgCompletehuntingquest => 0x7ee,
+            ClientMessages::MsgCompletehuntingquest => 0x7EE,
 
             /*20111114 to 20111116
              몬스터 사냥을 통해 얻을 수 있는 경험치가 %d분간 %d%% 증가합니다.
@@ -33803,7 +33803,7 @@ impl ClientMessages {
             완료
             Complete
             */
-            ClientMessages::MsgPlusexpvalue => 0x7ef,
+            ClientMessages::MsgPlusexpvalue => 0x7EF,
             /*20111114 to latest
             소환까지 %02d초남았습니다.
             %02d seconds left until summon.
@@ -33811,7 +33811,7 @@ impl ClientMessages {
              %d분간 얻을 수 있는 경험치가 %d%% 증가합니다.
             During %d minutes your Exp will increase by %d%%.
             */
-            ClientMessages::MsgPartyrecalltime => 0x7f0,
+            ClientMessages::MsgPartyrecalltime => 0x7F0,
             /*20111114 to latest
             파티장이 당신을 %s (%s) 로 소환합니다.소환시 %d zeny가 소모됩니다.
             Your party leader summons you to %s (%s). Warp costs %d Zeny.
@@ -33819,7 +33819,7 @@ impl ClientMessages {
             소환까지 %02d초남았습니다.
             %02d seconds left until summon.
             */
-            ClientMessages::MsgPartyrecallinfo => 0x7f1,
+            ClientMessages::MsgPartyrecallinfo => 0x7F1,
             /*20111114 to latest
             소환대상
             Summon target
@@ -33827,7 +33827,7 @@ impl ClientMessages {
             파티장이 당신을 %s (%s) 로 소환합니다.소환시 %d zeny가 소모됩니다.
             Your party leader summons you to %s (%s). Warp costs %d Zeny.
             */
-            ClientMessages::MsgRecalltarget => 0x7f2,
+            ClientMessages::MsgRecalltarget => 0x7F2,
             /*20111114 to latest
             차단목록
             Block List
@@ -33835,7 +33835,7 @@ impl ClientMessages {
             소환대상
             Summon target
             */
-            ClientMessages::MsgPartyblacklist => 0x7f3,
+            ClientMessages::MsgPartyblacklist => 0x7F3,
             /*20111114 to 20120209
             파티 광고를 등록하기 위해 1000제니가 소모됩니다.
             20120214 to latest
@@ -33845,7 +33845,7 @@ impl ClientMessages {
             차단목록
             Block List
             */
-            ClientMessages::MsgPartycfpay => 0x7f4,
+            ClientMessages::MsgPartycfpay => 0x7F4,
             /*20111114 to latest
             파티 광고를 하기 위한 제니가 부족합니다.
             Insufficient Zeny for making party ad.
@@ -33853,7 +33853,7 @@ impl ClientMessages {
             파티 광고를 등록하기 위해 %d제니가 소모됩니다.
             %d Zeny will be spent for making party ad.
             */
-            ClientMessages::MsgPartycfpayshortagecost => 0x7f5,
+            ClientMessages::MsgPartycfpayshortagecost => 0x7F5,
             /*20111114 to latest
             )님 파티 가입승인
             ) party: accept invitation
@@ -33861,7 +33861,7 @@ impl ClientMessages {
             파티 광고를 하기 위한 제니가 부족합니다.
             Insufficient Zeny for making party ad.
             */
-            ClientMessages::MsgPartyaddok => 0x7f6,
+            ClientMessages::MsgPartyaddok => 0x7F6,
             /*20111114 to latest
             )님 파티 가입거부
             ) party: decline invitation
@@ -33869,7 +33869,7 @@ impl ClientMessages {
             )님 파티 가입승인
             ) party: accept invitation
             */
-            ClientMessages::MsgPartyaddrefuses => 0x7f7,
+            ClientMessages::MsgPartyaddrefuses => 0x7F7,
             /*20111114 to latest
             )님 장비창보기
             ) party: show equipment window
@@ -33877,7 +33877,7 @@ impl ClientMessages {
             )님 파티 가입거부
             ) party: decline invitation
             */
-            ClientMessages::MsgPartyitemview => 0x7f8,
+            ClientMessages::MsgPartyitemview => 0x7F8,
             /*20111114 to latest
             한글18글자,영문36글자 입력가능
             Up to 36 english letters can be entered
@@ -33885,7 +33885,7 @@ impl ClientMessages {
             )님 장비창보기
             ) party: show equipment window
             */
-            ClientMessages::MsgSeekpartymemohelp => 0x7f9,
+            ClientMessages::MsgSeekpartymemohelp => 0x7F9,
             /*20111114 to latest
             지원하기
             Enter
@@ -33893,7 +33893,7 @@ impl ClientMessages {
             한글18글자,영문36글자 입력가능
             Up to 36 english letters can be entered
             */
-            ClientMessages::MsgPartyrequest => 0x7fa,
+            ClientMessages::MsgPartyrequest => 0x7FA,
             /*20111114 to latest
             1:1대화하기
             1:1 Chat
@@ -33901,7 +33901,7 @@ impl ClientMessages {
             지원하기
             Enter
             */
-            ClientMessages::MsgDirectchat => 0x7fb,
+            ClientMessages::MsgDirectchat => 0x7FB,
             /*20111114 to latest
             차단하기
             Block
@@ -33909,7 +33909,7 @@ impl ClientMessages {
             1:1대화하기
             1:1 Chat
             */
-            ClientMessages::MsgAddblacklist => 0x7fc,
+            ClientMessages::MsgAddblacklist => 0x7FC,
 
             /*20111122 to latest
             파티장에게 소환되기 위한 제니가 부족합니다.
@@ -33918,7 +33918,7 @@ impl ClientMessages {
             차단하기
             Block
             */
-            ClientMessages::MsgPartyrecruitnotrecallpay => 0x7fd,
+            ClientMessages::MsgPartyrecruitnotrecallpay => 0x7FD,
             /*20111122 to latest
             메모란에 파티광고를 써주세요.
             Input your party ad.
@@ -33926,7 +33926,7 @@ impl ClientMessages {
             파티장에게 소환되기 위한 제니가 부족합니다.
             Insufficient Zeny for recall.
             */
-            ClientMessages::MsgPartyrecruitmemoerror => 0x7fe,
+            ClientMessages::MsgPartyrecruitmemoerror => 0x7FE,
             /*20111122 to latest
             파티장만이 파티광고를 등록할수있습니다.
             Only party leader can register party ad.
@@ -33934,7 +33934,7 @@ impl ClientMessages {
             메모란에 파티광고를 써주세요.
             Input your party ad.
             */
-            ClientMessages::MsgPartyrecruiterror => 0x7ff,
+            ClientMessages::MsgPartyrecruiterror => 0x7FF,
             /*20111122 to latest
             이미 지원한 파티광고입니다.
             You have already accepted this ad.
@@ -34023,7 +34023,7 @@ impl ClientMessages {
             파티 이름 등록
             Party Name:
             */
-            ClientMessages::MsgPutplayernamein => 0x80a,
+            ClientMessages::MsgPutplayernamein => 0x80A,
             /*20111207 to latest
             님께 파티가입 요청을 보냈습니다.
              has recieved an invitation to join your party.
@@ -34031,7 +34031,7 @@ impl ClientMessages {
             초대할 캐릭터 이름
             Player Name:
             */
-            ClientMessages::MsgCharacterpartyinvitationtojoin => 0x80b,
+            ClientMessages::MsgCharacterpartyinvitationtojoin => 0x80B,
             /*20111207 to latest
             님께서 파티가입을 거절했습니다.
              rejected your party invitation.
@@ -34039,7 +34039,7 @@ impl ClientMessages {
             님께 파티가입 요청을 보냈습니다.
              has recieved an invitation to join your party.
             */
-            ClientMessages::MsgCharacterrejectpartyinvitation => 0x80c,
+            ClientMessages::MsgCharacterrejectpartyinvitation => 0x80C,
             /*20111207 to latest
             님께서 파티가입을 수락했습니다.
              accepted your party invitation.
@@ -34047,7 +34047,7 @@ impl ClientMessages {
             님께서 파티가입을 거절했습니다.
              rejected your party invitation.
             */
-            ClientMessages::MsgCharacteracceptpartyinvitation => 0x80d,
+            ClientMessages::MsgCharacteracceptpartyinvitation => 0x80D,
             /*20111207 to latest
             이미 파티모집중입니다.
             Recruitment is already a party.
@@ -34055,7 +34055,7 @@ impl ClientMessages {
             님께서 파티가입을 수락했습니다.
              accepted your party invitation.
             */
-            ClientMessages::MsgPartyrecruiterror1 => 0x80e,
+            ClientMessages::MsgPartyrecruiterror1 => 0x80E,
             /*20111207 to latest
             이전 검색과 같은 조건입니다.
             Same conditions such as the previous search.
@@ -34063,7 +34063,7 @@ impl ClientMessages {
             이미 파티모집중입니다.
             Recruitment is already a party.
             */
-            ClientMessages::MsgPartyrecruiterror2 => 0x80f,
+            ClientMessages::MsgPartyrecruiterror2 => 0x80F,
             /*20111207 to latest
             길드 탈퇴 후 사용 가능합니다.
             Guild after withdrwal.
@@ -34155,7 +34155,7 @@ impl ClientMessages {
             파티이름을 입력하셔야 합니다.
             You must enter the name of the party.
             */
-            ClientMessages::MsgGuildhelper => 0x81a,
+            ClientMessages::MsgGuildhelper => 0x81A,
             /*20111220 to latest
             가입되어 있는 길드가 없습니다.
             Join a guild or start your own!
@@ -34163,7 +34163,7 @@ impl ClientMessages {
             길드 도우미
             Guild Creation Window
             */
-            ClientMessages::MsgNoguildcurrentlyparticipatedin => 0x81b,
+            ClientMessages::MsgNoguildcurrentlyparticipatedin => 0x81B,
             /*20111220 to latest
             길드 결성
             Create Guild
@@ -34171,7 +34171,7 @@ impl ClientMessages {
             가입되어 있는 길드가 없습니다.
             Join a guild or start your own!
             */
-            ClientMessages::MsgCreateguild => 0x81c,
+            ClientMessages::MsgCreateguild => 0x81C,
             /*20111220 to latest
             생성할 길드 이름
             Guild Name
@@ -34179,7 +34179,7 @@ impl ClientMessages {
             길드 결성
             Create Guild
             */
-            ClientMessages::MISPUTGUILDNAMEIN => 0x81d,
+            ClientMessages::MISPUTGUILDNAMEIN => 0x81D,
             /*20111220 to latest
             길드 결성 도움말
             Guild System
@@ -34187,7 +34187,7 @@ impl ClientMessages {
             생성할 길드 이름
             Guild Name
             */
-            ClientMessages::MISGUILDTIP => 0x81e,
+            ClientMessages::MISGUILDTIP => 0x81E,
             /*20111220 to latest
             길드 시스템이란
             What is the guild system
@@ -34195,7 +34195,7 @@ impl ClientMessages {
             길드 결성 도움말
             Guild System
             */
-            ClientMessages::MISGUILDSYSTEM => 0x81f,
+            ClientMessages::MISGUILDSYSTEM => 0x81F,
             /*20111220 to latest
             길드이름을 입력하셔야 합니다.
             You must enter the name of your guild.
@@ -34282,7 +34282,7 @@ impl ClientMessages {
             해체할 길드 이름
             Enter Guild Name
             */
-            ClientMessages::MsgJoinguildnotexistuser => 0x82a,
+            ClientMessages::MsgJoinguildnotexistuser => 0x82A,
 
             /*20120228 to latest
             팔콘 호출에 실패하였습니다.
@@ -34291,7 +34291,7 @@ impl ClientMessages {
             접속하지 않았거나 존재하지 않는 캐릭터입니다.
             The character is not online or does not exist.
             */
-            ClientMessages::MsgFailedseteffectbird => 0x82b,
+            ClientMessages::MsgFailedseteffectbird => 0x82B,
 
             /*20120307 to 20120320
             %d%% ( 프리미엄 %d%% + %s서버 %d%% )
@@ -34302,7 +34302,7 @@ impl ClientMessages {
             팔콘 호출에 실패하였습니다.
             Failed to call Falcon.
             */
-            ClientMessages::MsgBasicexpmsgbrz => 0x82c,
+            ClientMessages::MsgBasicexpmsgbrz => 0x82C,
             /*20120307 to latest
             해당 유저는 현재 공성전에 참가하고 있습니다.
             This user is currently participating in the siege.
@@ -34310,7 +34310,7 @@ impl ClientMessages {
             %d%% ( 기본 100%% + 프리미엄 %d%% + %s서버 %d%% )
             %d%%(default 100%%+ Premium%d%%+%s Server%d%%)
             */
-            ClientMessages::MsgJoinguildtargetuserinsiegemap => 0x82d,
+            ClientMessages::MsgJoinguildtargetuserinsiegemap => 0x82D,
             /*20120307 to latest
             동일한 맵에서만 파티장 변경이 가능합니다.
             It is only possible to change the party leader while on the same map.
@@ -34318,7 +34318,7 @@ impl ClientMessages {
             해당 유저는 현재 공성전에 참가하고 있습니다.
             This user is currently participating in the siege.
             */
-            ClientMessages::MsgPartymasterchangesamemap => 0x82e,
+            ClientMessages::MsgPartymasterchangesamemap => 0x82E,
             /*20120307 to latest
             현재 지역에서는 파티장 변경이 불가능합니다.
             In the current region it is not possible to change the party.
@@ -34326,7 +34326,7 @@ impl ClientMessages {
             동일한 맵에서만 파티장 변경이 가능합니다.
             It is only possible to change the party leader while on the same map.
             */
-            ClientMessages::MsgCannotpartymasterchangeinmap => 0x82f,
+            ClientMessages::MsgCannotpartymasterchangeinmap => 0x82F,
             /*20120307 to latest
             그리폰 내리기
             Gryphon making
@@ -34418,7 +34418,7 @@ impl ClientMessages {
             중복 신청하셨습니다.
             Duplicate application.
             */
-            ClientMessages::MsgBattlefieldmsgrestart => 0x83a,
+            ClientMessages::MsgBattlefieldmsgrestart => 0x83A,
             /*20120314 to latest
             직업이 맞지 않습니다.
             Your class can't participate in this battlefield.
@@ -34426,7 +34426,7 @@ impl ClientMessages {
             재접속후 다시 신청하여 주시기 바랍니다.
             After reconnecting, please re-apply.
             */
-            ClientMessages::MsgBattlefieldmsgnotjob => 0x83b,
+            ClientMessages::MsgBattlefieldmsgnotjob => 0x83B,
             /*20120314 to latest
             파티장이나 길드장만이 신청할 수 있습니다.
             Only party leader / guild master can apply.
@@ -34434,7 +34434,7 @@ impl ClientMessages {
             직업이 맞지 않습니다.
             Your class can't participate in this battlefield.
             */
-            ClientMessages::MsgBattlefieldmsgjoinonlyboss => 0x83c,
+            ClientMessages::MsgBattlefieldmsgjoinonlyboss => 0x83C,
             /*20120314 to latest
             전장을 이용 중인 팀원이 있어 신청이 불가능 합니다.
             You can't apply while your team member is already on a battlefield.
@@ -34442,7 +34442,7 @@ impl ClientMessages {
             파티장이나 길드장만이 신청할 수 있습니다.
             Only party leader / guild master can apply.
             */
-            ClientMessages::MsgBattlefieldmsgbusypartymember => 0x83d,
+            ClientMessages::MsgBattlefieldmsgbusypartymember => 0x83D,
             /*20120314 to latest
             전장 입장 대기가 취소되었습니다.
             You have left the battlefield queue.
@@ -34450,7 +34450,7 @@ impl ClientMessages {
             전장을 이용 중인 팀원이 있어 신청이 불가능 합니다.
             You can't apply while your team member is already on a battlefield.
             */
-            ClientMessages::MsgBattlefieldmsgcanceljoinwait => 0x83e,
+            ClientMessages::MsgBattlefieldmsgcanceljoinwait => 0x83E,
             /*20120314 to latest
             잘못된 전장명 입니다.
             Wrong battlefield name.
@@ -34458,7 +34458,7 @@ impl ClientMessages {
             전장 입장 대기가 취소되었습니다.
             You have left the battlefield queue.
             */
-            ClientMessages::MsgBattlefieldmsgwrongname => 0x83f,
+            ClientMessages::MsgBattlefieldmsgwrongname => 0x83F,
             /*20120314 to latest
             전장 입장 대기 순위에 없습니다.
             You are not in the battlefield queue list
@@ -34546,7 +34546,7 @@ impl ClientMessages {
             오프라인중이거나 오프라인 된 파티원은 대기열에서 누락됩니다.
             Offline party members won't proceed to the queue.
             */
-            ClientMessages::MsgBattlefieldhelp7 => 0x84a,
+            ClientMessages::MsgBattlefieldhelp7 => 0x84A,
             /*20120314 to latest
             입장한 위치가 마을, 필드, 일반 던전이 아닐 경우 복귀 시 캐릭터 저장 좌표로 이동 됩니다.
             When the battle is finished your character will be returned to the current spot or (if it's not possible) to the save point.
@@ -34554,7 +34554,7 @@ impl ClientMessages {
             4. 전장 신청은 전장 맵을 제외한 모든 곳에서 신청 가능하나,
             4. You can add request to enter the arena from any map except for those who don't allow teleport/warp.
             */
-            ClientMessages::MsgBattlefieldhelp8 => 0x84b,
+            ClientMessages::MsgBattlefieldhelp8 => 0x84B,
             /*20120314 to latest
             5. 전장의 보상 및 기타 서비스는 각 마을에 위치한 전장 모병관을 통해 전장 대기실에서 이용해 주십시오.
             5. You can view and choose rewards in the arena waiting room.
@@ -34562,7 +34562,7 @@ impl ClientMessages {
             입장한 위치가 마을, 필드, 일반 던전이 아닐 경우 복귀 시 캐릭터 저장 좌표로 이동 됩니다.
             When the battle is finished your character will be returned to the current spot or (if it's not possible) to the save point.
             */
-            ClientMessages::MsgBattlefieldhelp9 => 0x84c,
+            ClientMessages::MsgBattlefieldhelp9 => 0x84C,
             /*20120314 to latest
             전장 입장 신청 도움말
             Request help battle position
@@ -34570,7 +34570,7 @@ impl ClientMessages {
             5. 전장의 보상 및 기타 서비스는 각 마을에 위치한 전장 모병관을 통해 전장 대기실에서 이용해 주십시오.
             5. You can view and choose rewards in the arena waiting room.
             */
-            ClientMessages::MsgBattlefieldhelp10 => 0x84d,
+            ClientMessages::MsgBattlefieldhelp10 => 0x84D,
             /*20120314 to latest
             %s 전장이 시작됩니다.
             %s battle begins.
@@ -34578,7 +34578,7 @@ impl ClientMessages {
             전장 입장 신청 도움말
             Request help battle position
             */
-            ClientMessages::MsgBattlefieldstart => 0x84e,
+            ClientMessages::MsgBattlefieldstart => 0x84E,
             /*20120314 to latest
             전장으로 이동하시겠습니까?
             Do you want to enter the arena?
@@ -34586,7 +34586,7 @@ impl ClientMessages {
             %s 전장이 시작됩니다.
             %s battle begins.
             */
-            ClientMessages::MsgBattlefielddoyoumove => 0x84f,
+            ClientMessages::MsgBattlefielddoyoumove => 0x84F,
             /*20120314 to latest
             [주의]
             [Note]
@@ -34674,7 +34674,7 @@ impl ClientMessages {
             전장 필요 인원: %d
             Persons required:%d
             */
-            ClientMessages::MsgBattlefieldmyrankd => 0x85a,
+            ClientMessages::MsgBattlefieldmyrankd => 0x85A,
             /*20120314 to latest
             명칭 :
             Name:
@@ -34682,7 +34682,7 @@ impl ClientMessages {
             내 대기순번: %d
             Your position:%d
             */
-            ClientMessages::MsgBattlefielddptitle => 0x85b,
+            ClientMessages::MsgBattlefielddptitle => 0x85B,
             /*20120314 to latest
             목표 :
             Goal:
@@ -34690,7 +34690,7 @@ impl ClientMessages {
             명칭 :
             Name:
             */
-            ClientMessages::MsgBattlefielddpaim => 0x85c,
+            ClientMessages::MsgBattlefielddpaim => 0x85C,
             /*20120314 to latest
             전장의 인원 구성 :
             Format:
@@ -34698,7 +34698,7 @@ impl ClientMessages {
             목표 :
             Goal:
             */
-            ClientMessages::MsgBattlefielddpmember => 0x85d,
+            ClientMessages::MsgBattlefielddpmember => 0x85D,
             /*20120314 to latest
             참여조건 :
             Level:
@@ -34706,7 +34706,7 @@ impl ClientMessages {
             전장의 인원 구성 :
             Format:
             */
-            ClientMessages::MsgBattlefielddprequired => 0x85e,
+            ClientMessages::MsgBattlefielddprequired => 0x85E,
             /*20120314 to latest
             보상(승) :
             Win:
@@ -34714,7 +34714,7 @@ impl ClientMessages {
             참여조건 :
             Level:
             */
-            ClientMessages::MsgBattlefielddpwin => 0x85f,
+            ClientMessages::MsgBattlefielddpwin => 0x85F,
             /*20120314 to latest
             보상(무) :
             Draw:
@@ -34800,7 +34800,7 @@ impl ClientMessages {
             Base LV %d ~ %d
             LV %d ~ %d
             */
-            ClientMessages::MsgBattlefieldlimitless => 0x86a,
+            ClientMessages::MsgBattlefieldlimitless => 0x86A,
             /*20120314 to latest
             [해당 맵에서는 신청하실 수 없습니다.]
             [You can't apply on this map.]
@@ -34808,7 +34808,7 @@ impl ClientMessages {
             제한 없음
             No restrictions
             */
-            ClientMessages::MsgBattlefieldmsgnotjoinmap => 0x86b,
+            ClientMessages::MsgBattlefieldmsgnotjoinmap => 0x86B,
             /*20120314 to latest
             [전장 재신청까지 약 1분의 대기시간을 필요로 합니다.]
             [You must wait about 1 minute to apply.]
@@ -34816,7 +34816,7 @@ impl ClientMessages {
             [해당 맵에서는 신청하실 수 없습니다.]
             [You can't apply on this map.]
             */
-            ClientMessages::MsgBattlefieldmsgwait1MM => 0x86c,
+            ClientMessages::MsgBattlefieldmsgwait1MM => 0x86C,
             /*20120314 to latest
             [파티에 먼저 가입하셔야 합니다.]
             [You must be in a party.]
@@ -34824,7 +34824,7 @@ impl ClientMessages {
             [전장 재신청까지 약 1분의 대기시간을 필요로 합니다.]
             [You must wait about 1 minute to apply.]
             */
-            ClientMessages::MsgBattlefieldmsgplzpaltyjoin => 0x86d,
+            ClientMessages::MsgBattlefieldmsgplzpaltyjoin => 0x86D,
             /*20120314 to latest
             [파티장만 신청 가능합니다.]
             [Only party leader can apply.]
@@ -34832,7 +34832,7 @@ impl ClientMessages {
             [파티에 먼저 가입하셔야 합니다.]
             [You must be in a party.]
             */
-            ClientMessages::MsgBattlefieldmsgnotpaltyboss => 0x86e,
+            ClientMessages::MsgBattlefieldmsgnotpaltyboss => 0x86E,
             /*20120314 to latest
             [접속되어있는 파티인원수가 많습니다.]
             [Too many party members online.]
@@ -34840,7 +34840,7 @@ impl ClientMessages {
             [파티장만 신청 가능합니다.]
             [Only party leader can apply.]
             */
-            ClientMessages::MsgBattlefieldmsgoverpartymember => 0x86f,
+            ClientMessages::MsgBattlefieldmsgoverpartymember => 0x86F,
             /*20120314 to latest
             [길드에 먼저 가입하셔야 합니다.]
             [You must be in a guild.]
@@ -34941,7 +34941,7 @@ impl ClientMessages {
             아이템 병합(모두선택 Ctrl+클릭)
             Item Merge
             */
-            ClientMessages::MsgSelectitemtomerge => 0x87a,
+            ClientMessages::MsgSelectitemtomerge => 0x87A,
             /*20120320 to latest
             아이템 합치기에 성공했습니다.
             Item merge is successful.
@@ -34949,7 +34949,7 @@ impl ClientMessages {
             같은 종류의 아이템을 2개 이상 선택해주세요.
             Two or more of the same type. Please select an item.
             */
-            ClientMessages::MsgMergeitemsuccess => 0x87b,
+            ClientMessages::MsgMergeitemsuccess => 0x87B,
             /*20120320 to latest
             아이템 합치기는 한번에 1종류씩만 가능합니다.
             Combining items will be only one kind at a time.
@@ -34957,7 +34957,7 @@ impl ClientMessages {
             아이템 합치기에 성공했습니다.
             Item merge is successful.
             */
-            ClientMessages::MsgMergeitemfailednotmerge => 0x87c,
+            ClientMessages::MsgMergeitemfailednotmerge => 0x87C,
             /*20120320 to latest
             아이템의 개수가 30000개 초과 했습니다.
             You cannot have more than 30,000 stacked items.
@@ -34965,7 +34965,7 @@ impl ClientMessages {
             아이템 합치기는 한번에 1종류씩만 가능합니다.
             Combining items will be only one kind at a time.
             */
-            ClientMessages::MsgMergeitemfailedmaxcount => 0x87d,
+            ClientMessages::MsgMergeitemfailedmaxcount => 0x87D,
 
             /*20120328 to latest
             좌로 회전
@@ -34974,7 +34974,7 @@ impl ClientMessages {
             아이템의 개수가 30000개 초과 했습니다.
             You cannot have more than 30,000 stacked items.
             */
-            ClientMessages::MsgCharacterleftroll => 0x87e,
+            ClientMessages::MsgCharacterleftroll => 0x87E,
             /*20120328 to latest
             우로 회전
             Rotate right
@@ -34982,7 +34982,7 @@ impl ClientMessages {
             좌로 회전
             Rotate left
             */
-            ClientMessages::MsgCharacterrightroll => 0x87f,
+            ClientMessages::MsgCharacterrightroll => 0x87F,
             /*20120328 to latest
             (%s)님의 이전서버 정보보기
             (%s) to view the old server information
@@ -35073,7 +35073,7 @@ impl ClientMessages {
             보류중
             Pen
             */
-            ClientMessages::MsgQuestuitabbest => 0x88a,
+            ClientMessages::MsgQuestuitabbest => 0x88A,
             /*20120404 to latest
             에피소드
             Episode
@@ -35081,7 +35081,7 @@ impl ClientMessages {
             추천
             Rec
             */
-            ClientMessages::MsgQuestuitabepisode => 0x88b,
+            ClientMessages::MsgQuestuitabepisode => 0x88B,
             /*20120404 to latest
             로컬
             Loc
@@ -35089,7 +35089,7 @@ impl ClientMessages {
             에피소드
             Episode
             */
-            ClientMessages::MsgQuestuitablocal => 0x88c,
+            ClientMessages::MsgQuestuitablocal => 0x88C,
             /*20120404 to latest
             이벤트
             Evt
@@ -35097,7 +35097,7 @@ impl ClientMessages {
             로컬
             Loc
             */
-            ClientMessages::MsgQuestuitabevent => 0x88d,
+            ClientMessages::MsgQuestuitabevent => 0x88D,
             /*20120404 to latest
             신규
             New
@@ -35105,7 +35105,7 @@ impl ClientMessages {
             이벤트
             Evt
             */
-            ClientMessages::MsgQuestuitabnew => 0x88e,
+            ClientMessages::MsgQuestuitabnew => 0x88E,
             /*20120404 to latest
             사냥몬스터
             Monsters to kill
@@ -35113,7 +35113,7 @@ impl ClientMessages {
             신규
             New
             */
-            ClientMessages::MsgQuestuihuntmonster => 0x88f,
+            ClientMessages::MsgQuestuihuntmonster => 0x88F,
             /*20120404 to latest
             보상아이템
             Rewards
@@ -35204,7 +35204,7 @@ impl ClientMessages {
             외부 길정보 파일 읽기
             Read Information from External File
             */
-            ClientMessages::MsgNavigationend => 0x89a,
+            ClientMessages::MsgNavigationend => 0x89A,
             /*20120417 to latest
             기본 UI로 변경
             Change the Default UI
@@ -35212,7 +35212,7 @@ impl ClientMessages {
             종료
             Exit
             */
-            ClientMessages::MsgNavigationbase => 0x89b,
+            ClientMessages::MsgNavigationbase => 0x89B,
             /*20120417 to latest
             간편 UI로 변경
             Change to Default UI
@@ -35220,7 +35220,7 @@ impl ClientMessages {
             기본 UI로 변경
             Change the Default UI
             */
-            ClientMessages::MsgNavigationmini => 0x89c,
+            ClientMessages::MsgNavigationmini => 0x89C,
             /*20120417 to latest
             도움말
             Help
@@ -35228,81 +35228,81 @@ impl ClientMessages {
             간편 UI로 변경
             Change to Default UI
             */
-            ClientMessages::MsgNavigationhelp => 0x89d,
+            ClientMessages::MsgNavigationhelp => 0x89D,
             /*20120417 to latest
             ALL
             20130807 to 20130814
             도움말
             Help
             */
-            ClientMessages::MsgNavigationall => 0x89e,
+            ClientMessages::MsgNavigationall => 0x89E,
             /*20120417 to latest
             Map
             20130807 to 20130814
             ALL
             */
-            ClientMessages::MsgNavigationmap => 0x89f,
+            ClientMessages::MsgNavigationmap => 0x89F,
             /*20120417 to latest
             Npc
             20130807 to 20130814
             Map
             */
-            ClientMessages::MsgNavigationnpc => 0x8a0,
+            ClientMessages::MsgNavigationnpc => 0x8A0,
             /*20120417 to latest
             Mob
             20130807 to 20130814
             Npc
             */
-            ClientMessages::MsgNavigationmob => 0x8a1,
+            ClientMessages::MsgNavigationmob => 0x8A1,
             /*20120417 to latest
             검색 단어 설정 (Ex: 단어 단어 ...
             Enter search string... (Ex: word word ...)
             20130807 to 20130814
             Mob
             */
-            ClientMessages::MsgNavigationsetstring => 0x8a2,
+            ClientMessages::MsgNavigationsetstring => 0x8A2,
             /*20120417 to latest
             Scroll
             20130807 to 20130814
             검색 단어 설정 (Ex: 단어 단어 ...
             Enter search string... (Ex: word word ...)
             */
-            ClientMessages::MsgNavigationscroll => 0x8a3,
+            ClientMessages::MsgNavigationscroll => 0x8A3,
             /*20120417 to latest
             던전이동 스크롤 사용 적용
             Use Scroll?
             20130807 to 20130814
             Scroll
             */
-            ClientMessages::MsgNavigationusescroll => 0x8a4,
+            ClientMessages::MsgNavigationusescroll => 0x8A4,
             /*20120417 to latest
             Service
             20130807 to 20130814
             던전이동 스크롤 사용 적용
             Use Scroll?
             */
-            ClientMessages::MsgNavigationservice => 0x8a5,
+            ClientMessages::MsgNavigationservice => 0x8A5,
             /*20120417 to latest
             위치 이동 서비스 허용
             Use Kafra Warp?
             20130807 to 20130814
             Service
             */
-            ClientMessages::MsgNavigationuseservice => 0x8a6,
+            ClientMessages::MsgNavigationuseservice => 0x8A6,
             /*20120417 to latest
             Plane
             20130807 to 20130814
             위치 이동 서비스 허용
             Use Kafra Warp?
             */
-            ClientMessages::MsgNavigationplane => 0x8a7,
+            ClientMessages::MsgNavigationplane => 0x8A7,
             /*20120417 to latest
             비공정 이동 적용
             Use Airship?
             20130807 to 20130814
             Plane
             */
-            ClientMessages::MsgNavigationuseplane => 0x8a8,
+            ClientMessages::MsgNavigationuseplane => 0x8A8,
             /*20120417 to latest
             >> 목표 정보를 읽지 못함!
             >> Failed to read the target information.
@@ -35310,7 +35310,7 @@ impl ClientMessages {
             비공정 이동 적용
             Use Airship?
             */
-            ClientMessages::MsgNavigationtargetunknown => 0x8a9,
+            ClientMessages::MsgNavigationtargetunknown => 0x8A9,
             /*20120417 to latest
             << 안내중 >>
             >> Destination <<
@@ -35318,7 +35318,7 @@ impl ClientMessages {
             >> 목표 정보를 읽지 못함!
             >> Failed to read the target information.
             */
-            ClientMessages::MsgNavigationgoing => 0x8aa,
+            ClientMessages::MsgNavigationgoing => 0x8AA,
             /*20120417 to latest
             << 검색중... >>
             <<   Goal   >>
@@ -35326,53 +35326,53 @@ impl ClientMessages {
             << 안내중 >>
             >> Destination <<
             */
-            ClientMessages::MsgNavigationsearching => 0x8ab,
+            ClientMessages::MsgNavigationsearching => 0x8AB,
             /*20120417 to latest
             -----------
             20130807 to 20130814
             << 검색중... >>
             <<   Goal   >>
             */
-            ClientMessages::MsgNavigationun => 0x8ac,
+            ClientMessages::MsgNavigationun => 0x8AC,
             /*20120417 to latest
             Navigation
             20130807 to 20130814
             -----------
             */
-            ClientMessages::MsgNavigationnavi => 0x8ad,
+            ClientMessages::MsgNavigationnavi => 0x8AD,
             /*20120417 to latest
             == 검색 결과(%d)==
             = Found (%d) ==
             20130807 to 20130814
             Navigation
             */
-            ClientMessages::MsgNavigationsearchresultd => 0x8ae,
+            ClientMessages::MsgNavigationsearchresultd => 0x8AE,
             /*20120417 to latest
             Npc)%s:%s
             20130807 to 20130814
             == 검색 결과(%d)==
             = Found (%d) ==
             */
-            ClientMessages::MsgNavigationnpcss => 0x8af,
+            ClientMessages::MsgNavigationnpcss => 0x8AF,
             /*20120417 to latest
             Mob)%s:%s
             20130807 to 20130814
             Npc)%s:%s
             */
-            ClientMessages::MsgNavigationmobss => 0x8b0,
+            ClientMessages::MsgNavigationmobss => 0x8B0,
             /*20120417 to latest
             Map)%s
             20130807 to 20130814
             Mob)%s:%s
             */
-            ClientMessages::MsgNavigationmaps => 0x8b1,
+            ClientMessages::MsgNavigationmaps => 0x8B1,
             /*20120417 to latest
             ======== 결과 정보 ==========
             ======== Results ==========
             20130807 to 20130814
             Map)%s
             */
-            ClientMessages::MsgNavigationresultinfo => 0x8b2,
+            ClientMessages::MsgNavigationresultinfo => 0x8B2,
             /*20120417 to latest
             거리   : %d Sell %d WarpMove
             Dist  %d Cell %d WarpMove
@@ -35380,7 +35380,7 @@ impl ClientMessages {
             ======== 결과 정보 ==========
             ======== Results ==========
             */
-            ClientMessages::MsgNavigationlength => 0x8b3,
+            ClientMessages::MsgNavigationlength => 0x8B3,
             /*20120417 to latest
             목표맵: %s(%s)
             Coords %s(%s)
@@ -35388,7 +35388,7 @@ impl ClientMessages {
             거리   : %d Sell %d WarpMove
             Dist  %d Cell %d WarpMove
             */
-            ClientMessages::MsgNavigationtargetmapss => 0x8b4,
+            ClientMessages::MsgNavigationtargetmapss => 0x8B4,
             /*20120417 to latest
             목표   : %s(%d, %d)
             Goal:%s (%d,%d)
@@ -35396,7 +35396,7 @@ impl ClientMessages {
             목표맵: %s(%s)
             Coords %s(%s)
             */
-            ClientMessages::MsgNavigationtargetsdd => 0x8b5,
+            ClientMessages::MsgNavigationtargetsdd => 0x8B5,
             /*20120417 to latest
             보스
             Boss
@@ -35404,7 +35404,7 @@ impl ClientMessages {
             목표   : %s(%d, %d)
             Goal:%s (%d,%d)
             */
-            ClientMessages::MsgNavigationboss => 0x8b6,
+            ClientMessages::MsgNavigationboss => 0x8B6,
             /*20120417 to latest
             일반
             General
@@ -35412,7 +35412,7 @@ impl ClientMessages {
             보스
             Boss
             */
-            ClientMessages::MsgNavigationnormal => 0x8b7,
+            ClientMessages::MsgNavigationnormal => 0x8B7,
             /*20120417 to latest
             목표   : %s(%s)
             Goal:
@@ -35420,7 +35420,7 @@ impl ClientMessages {
             일반
             General
             */
-            ClientMessages::MsgNavigationtargetss => 0x8b8,
+            ClientMessages::MsgNavigationtargetss => 0x8B8,
             /*20120417 to latest
             목표: (%d, %d)
             Goal: (%d, %d)
@@ -35428,7 +35428,7 @@ impl ClientMessages {
             목표   : %s(%s)
             Goal:
             */
-            ClientMessages::MsgNavigationtargetdd => 0x8b9,
+            ClientMessages::MsgNavigationtargetdd => 0x8B9,
             /*20120417 to latest
             ======= 길 안내 정보 =======
             ======= Guidance =======
@@ -35436,7 +35436,7 @@ impl ClientMessages {
             목표: (%d, %d)
             Goal: (%d, %d)
             */
-            ClientMessages::MsgNavigationgoinfo => 0x8ba,
+            ClientMessages::MsgNavigationgoinfo => 0x8BA,
             /*20120417 to latest
             %2d) Item:%s => %s 사용!
             %2d) Item:%s => %s Use!
@@ -35444,33 +35444,33 @@ impl ClientMessages {
             ======= 길 안내 정보 =======
             ======= Guidance =======
             */
-            ClientMessages::MsgNavigationitemss => 0x8bb,
+            ClientMessages::MsgNavigationitemss => 0x8BB,
             /*20120417 to latest
             %2d) %s(%d,%d)=>(%d,%d)
             20130807 to 20130814
             %2d) Item:%s => %s 사용!
             %2d) Item:%s => %s Use!
             */
-            ClientMessages::MsgNavigationdsdddd => 0x8bc,
+            ClientMessages::MsgNavigationdsdddd => 0x8BC,
             /*20120417 to latest
             E%2d) %s(%d,%d)=>(%d,%d)
             20130807 to 20130814
             %2d) %s(%d,%d)=>(%d,%d)
             */
-            ClientMessages::MsgNavigationedsdddd => 0x8bd,
+            ClientMessages::MsgNavigationedsdddd => 0x8BD,
             /*20120417 to latest
             E%2d) %s
             20130807 to 20130814
             E%2d) %s(%d,%d)=>(%d,%d)
             */
-            ClientMessages::MsgNavigationeds => 0x8be,
+            ClientMessages::MsgNavigationeds => 0x8BE,
             /*20120417 to latest
             안내중 입니다! 종료 하시겠습니까?
             Do you want to cancel navigation?
             20130807 to 20130814
             E%2d) %s
             */
-            ClientMessages::MsgNavigationgoexit => 0x8bf,
+            ClientMessages::MsgNavigationgoexit => 0x8BF,
             /*20120417 to latest
             내비게이션 도움말
             How to Use Navigation
@@ -35478,7 +35478,7 @@ impl ClientMessages {
             안내중 입니다! 종료 하시겠습니까?
             Do you want to cancel navigation?
             */
-            ClientMessages::MsgNavigationhelptitle => 0x8c0,
+            ClientMessages::MsgNavigationhelptitle => 0x8C0,
             /*20120417 to latest
             ------------------- 명령어 --------------------
             ------------------- Instruction --------------------
@@ -35486,7 +35486,7 @@ impl ClientMessages {
             내비게이션 도움말
             How to Use Navigation
             */
-            ClientMessages::MsgNavigationhelp1 => 0x8c1,
+            ClientMessages::MsgNavigationhelp1 => 0x8C1,
             /*20120417 to latest
             1. /navigation      /navi
             1) /Navigation or /navi
@@ -35494,7 +35494,7 @@ impl ClientMessages {
             ------------------- 명령어 --------------------
             ------------------- Instruction --------------------
             */
-            ClientMessages::MsgNavigationhelp2 => 0x8c2,
+            ClientMessages::MsgNavigationhelp2 => 0x8C2,
             /*20120417 to 20120417
               ex)/navi prontera 100 100 -> 맵이름, 100, 100
             20120424 to latest
@@ -35504,7 +35504,7 @@ impl ClientMessages {
             1. /navigation      /navi
             1) /Navigation or /navi
             */
-            ClientMessages::MsgNavigationhelp3 => 0x8c3,
+            ClientMessages::MsgNavigationhelp3 => 0x8C3,
             /*20120417 to 20120417
             2. /navigation2      /navi2
             ex) /navi2 prontera 100 111
@@ -35515,7 +35515,7 @@ impl ClientMessages {
               ex)/navi prontera 100/100 -> 맵이름, 100/100
             ex) /navi prontera 100 100 -> /navi "MAPNAME", 100, 100
             */
-            ClientMessages::MsgNavigationhelp4 => 0x8c4,
+            ClientMessages::MsgNavigationhelp4 => 0x8C4,
             /*20120417 to 20120417
               ex) /navi2 prontera 100090 111
             20120424 to latest
@@ -35525,7 +35525,7 @@ impl ClientMessages {
               기본 명령어는 제니, 비공정 검색을 기본으로 합니다.
             2) /Navigation2 or /navi2
             */
-            ClientMessages::MsgNavigationhelp5 => 0x8c5,
+            ClientMessages::MsgNavigationhelp5 => 0x8C5,
             /*20120417 to 20120417
             -> 맵이름, 위치(100 90), scrool/ zeny/ plane (1:사용함 0: 사용안함)
             20120424 to latest
@@ -35535,7 +35535,7 @@ impl ClientMessages {
             2. /navigation2      /navi2
             ex) /navi2 prontera 100 111
             */
-            ClientMessages::MsgNavigationhelp6 => 0x8c6,
+            ClientMessages::MsgNavigationhelp6 => 0x8C6,
             /*20120417 to 20120417
             ※ /navi2 의 경우 반드시 위치 좌표를 붙여서 3 자리로 적어야 한다
             20120424 to latest
@@ -35545,7 +35545,7 @@ impl ClientMessages {
               ex) /navi2 prontera 100/100 1/1/1
             -> MAPNAME location (100 90), Scroll | Zeny | Plane (1: Enable or 0: Disable)
             */
-            ClientMessages::MsgNavigationhelp7 => 0x8c7,
+            ClientMessages::MsgNavigationhelp7 => 0x8C7,
             /*20120417 to 20120417
             3. /$$all   모든 항목 출력 (Type 구분 항목으로 출력 종류 구분 가능.)
             20120424 to latest
@@ -35555,7 +35555,7 @@ impl ClientMessages {
             -> 맵이름, 위치(100/100), scrool/zeny/plane (1:사용함 0: 사용안함)
             -> /navi2 goes with the case with location coordinates. They must be no less than 3 characters
             */
-            ClientMessages::MsgNavigationhelp8 => 0x8c8,
+            ClientMessages::MsgNavigationhelp8 => 0x8C8,
             /*20120417 to 20120417
             4. /$$lv30   해당 레벨의 몬스터 출력
             20120424 to latest
@@ -35565,7 +35565,7 @@ impl ClientMessages {
             3. $$all   모든 항목 출력 (Type 구분 항목으로 출력 종류 구분 가능.)
             3) /$$ Output all the items (Can take a while...)
             */
-            ClientMessages::MsgNavigationhelp9 => 0x8c9,
+            ClientMessages::MsgNavigationhelp9 => 0x8C9,
             /*20120417 to 20120417
             5. /$$lv20~30   해당 레벨 범위의 몬스터 출력
             20120424 to latest
@@ -35575,7 +35575,7 @@ impl ClientMessages {
             4. $$lv30   해당 레벨의 몬스터 출력
             4) /$$ Lv30 monsters are placed in the output
             */
-            ClientMessages::MsgNavigationhelp10 => 0x8ca,
+            ClientMessages::MsgNavigationhelp10 => 0x8CA,
             /*20120417 to latest
             -------------------  설명  --------------------
             -------------------  Description  --------------------
@@ -35583,7 +35583,7 @@ impl ClientMessages {
             5. $$lv20~30   해당 레벨 범위의 몬스터 출력
             5) /$$ Lv20~30 monsters in that level range are placed in the output
             */
-            ClientMessages::MsgNavigationhelp11 => 0x8cb,
+            ClientMessages::MsgNavigationhelp11 => 0x8CB,
             /*20120417 to latest
             1.검색 종류는 전체, 맵, Npc, 몬스터 으로 분류 된다.
             1) One can search for monsters, npcs, maps, or all at once
@@ -35591,7 +35591,7 @@ impl ClientMessages {
             -------------------  설명  --------------------
             -------------------  Description  --------------------
             */
-            ClientMessages::MsgNavigationhelp12 => 0x8cc,
+            ClientMessages::MsgNavigationhelp12 => 0x8CC,
             /*20120417 to latest
             2.명령어로 검색한다. 규칙은 검색 하려는 문자열이 모두 포함된 정보를 출력 한다.
             2) You can press the search button to get results. It will out put the results depending on what rule you choose
@@ -35599,7 +35599,7 @@ impl ClientMessages {
             1.검색 종류는 전체, 맵, Npc, 몬스터 으로 분류 된다.
             1) One can search for monsters, npcs, maps, or all at once
             */
-            ClientMessages::MsgNavigationhelp13 => 0x8cd,
+            ClientMessages::MsgNavigationhelp13 => 0x8CD,
             /*20120417 to latest
               ex) 프론 카프 -> 검색 결과 프론테라의 카프라를 모두 출력 한다.
             ex) Drop down box -> Select "Npc", then type in the box "Kafra". Results will now be displayed
@@ -35607,7 +35607,7 @@ impl ClientMessages {
             2.명령어로 검색한다. 규칙은 검색 하려는 문자열이 모두 포함된 정보를 출력 한다.
             2) You can press the search button to get results. It will out put the results depending on what rule you choose
             */
-            ClientMessages::MsgNavigationhelp14 => 0x8ce,
+            ClientMessages::MsgNavigationhelp14 => 0x8CE,
             /*20120417 to latest
             3.리스트에서 항목을 선택하면 정보가 출력된다.
             3) When you select an item from a list, information about it are displayed.
@@ -35615,7 +35615,7 @@ impl ClientMessages {
               ex) 프론 카프 -> 검색 결과 프론테라의 카프라를 모두 출력 한다.
             ex) Drop down box -> Select "Npc", then type in the box "Kafra". Results will now be displayed
             */
-            ClientMessages::MsgNavigationhelp15 => 0x8cf,
+            ClientMessages::MsgNavigationhelp15 => 0x8CF,
             /*20120417 to latest
               출력 되고 있는 목표가 있을때 안내 버튼을 클릭하면 해당 목표로 길을 안내 한다.
             -> When button is clicked, it will point you towards your destination if available
@@ -35623,7 +35623,7 @@ impl ClientMessages {
             3.리스트에서 항목을 선택하면 정보가 출력된다.
             3) When you select an item from a list, information about it are displayed.
             */
-            ClientMessages::MsgNavigationhelp16 => 0x8d0,
+            ClientMessages::MsgNavigationhelp16 => 0x8D0,
             /*20120417 to latest
             4.scrool/ zeny/ plane 상자를 원하는 만큼 체크하여 더 빠른 경로를 안내 받을 수 있다.
             4) Scroll | Zeny | Plane options can be checked to find a faster route
@@ -35631,7 +35631,7 @@ impl ClientMessages {
               출력 되고 있는 목표가 있을때 안내 버튼을 클릭하면 해당 목표로 길을 안내 한다.
             -> When button is clicked, it will point you towards your destination if available
             */
-            ClientMessages::MsgNavigationhelp17 => 0x8d1,
+            ClientMessages::MsgNavigationhelp17 => 0x8D1,
             /*20120417 to latest
             5.안내 버튼이 눌러지면 결과 리스트창은 길안내 리스트 장으로 변경 된다.
             5) Guide button is pressed, the result list window displays where routes can change direction
@@ -35639,7 +35639,7 @@ impl ClientMessages {
             4.scrool/ zeny/ plane 상자를 원하는 만큼 체크하여 더 빠른 경로를 안내 받을 수 있다.
             4) Scroll | Zeny | Plane options can be checked to find a faster route
             */
-            ClientMessages::MsgNavigationhelp18 => 0x8d2,
+            ClientMessages::MsgNavigationhelp18 => 0x8D2,
             /*20120417 to latest
             6.검색 리스트창 하단 버튼을 이용하여
             6) Using the button below, search results can be found
@@ -35647,7 +35647,7 @@ impl ClientMessages {
             5.안내 버튼이 눌러지면 결과 리스트창은 길안내 리스트 장으로 변경 된다.
             5) Guide button is pressed, the result list window displays where routes can change direction
             */
-            ClientMessages::MsgNavigationhelp19 => 0x8d3,
+            ClientMessages::MsgNavigationhelp19 => 0x8D3,
             /*20120417 to latest
              [결과 리스트 창] <-> [길 안내 정보 창] 으로 보기 모드 변경 가능하다.
             -> [Results List Window] <-> [View Modes can be switched]
@@ -35655,7 +35655,7 @@ impl ClientMessages {
             6.검색 리스트창 하단 버튼을 이용하여
             6) Using the button below, search results can be found
             */
-            ClientMessages::MsgNavigationhelp20 => 0x8d4,
+            ClientMessages::MsgNavigationhelp20 => 0x8D4,
             /*20120417 to latest
             Level:%d (보스)
             Level:%d (Boss)
@@ -35663,7 +35663,7 @@ impl ClientMessages {
              [결과 리스트 창] <-> [길 안내 정보 창] 으로 보기 모드 변경 가능하다.
             -> [Results List Window] <-> [View Modes can be switched]
             */
-            ClientMessages::MsgNavigationleveldboss => 0x8d5,
+            ClientMessages::MsgNavigationleveldboss => 0x8D5,
             /*20120417 to latest
             Level:%d (일반)
             Level:%d (Mob)
@@ -35671,7 +35671,7 @@ impl ClientMessages {
             Level:%d (보스)
             Level:%d (Boss)
             */
-            ClientMessages::MsgNavigationleveldnormal => 0x8d6,
+            ClientMessages::MsgNavigationleveldnormal => 0x8D6,
             /*20120417 to latest
             수속성%d
             Water %d
@@ -35679,7 +35679,7 @@ impl ClientMessages {
             Level:%d (일반)
             Level:%d (Mob)
             */
-            ClientMessages::MsgNavigationproperty1 => 0x8d7,
+            ClientMessages::MsgNavigationproperty1 => 0x8D7,
             /*20120417 to latest
             지속성%d
             Earth %d
@@ -35687,7 +35687,7 @@ impl ClientMessages {
             수속성%d
             Water %d
             */
-            ClientMessages::MsgNavigationproperty2 => 0x8d8,
+            ClientMessages::MsgNavigationproperty2 => 0x8D8,
             /*20120417 to latest
             화속성%d
             Fire %d
@@ -35695,7 +35695,7 @@ impl ClientMessages {
             지속성%d
             Earth %d
             */
-            ClientMessages::MsgNavigationproperty3 => 0x8d9,
+            ClientMessages::MsgNavigationproperty3 => 0x8D9,
             /*20120417 to latest
             풍속성%d
             Wind %d
@@ -35703,7 +35703,7 @@ impl ClientMessages {
             화속성%d
             Fire %d
             */
-            ClientMessages::MsgNavigationproperty4 => 0x8da,
+            ClientMessages::MsgNavigationproperty4 => 0x8DA,
             /*20120417 to latest
             독속성%d
             Poison %d
@@ -35711,7 +35711,7 @@ impl ClientMessages {
             풍속성%d
             Wind %d
             */
-            ClientMessages::MsgNavigationproperty5 => 0x8db,
+            ClientMessages::MsgNavigationproperty5 => 0x8DB,
             /*20120417 to latest
             성속성%d
             Holy %d
@@ -35719,7 +35719,7 @@ impl ClientMessages {
             독속성%d
             Poison %d
             */
-            ClientMessages::MsgNavigationproperty6 => 0x8dc,
+            ClientMessages::MsgNavigationproperty6 => 0x8DC,
             /*20120417 to latest
             암속성%d
             Shadow %d
@@ -35727,7 +35727,7 @@ impl ClientMessages {
             성속성%d
             Holy %d
             */
-            ClientMessages::MsgNavigationproperty7 => 0x8dd,
+            ClientMessages::MsgNavigationproperty7 => 0x8DD,
             /*20120417 to latest
             염속성%d
             Ghost %d
@@ -35735,7 +35735,7 @@ impl ClientMessages {
             암속성%d
             Shadow %d
             */
-            ClientMessages::MsgNavigationproperty8 => 0x8de,
+            ClientMessages::MsgNavigationproperty8 => 0x8DE,
             /*20120417 to 20200506
             언데드%d
             Undead %d
@@ -35745,7 +35745,7 @@ impl ClientMessages {
             20200520 to latest
             불사%d
             */
-            ClientMessages::MsgNavigationproperty9 => 0x8df,
+            ClientMessages::MsgNavigationproperty9 => 0x8DF,
             /*20120417 to latest
             무속성%d
             Neutral %d
@@ -35753,7 +35753,7 @@ impl ClientMessages {
             언데드%d
             Undead %d
             */
-            ClientMessages::MsgNavigationproperty0 => 0x8e0,
+            ClientMessages::MsgNavigationproperty0 => 0x8E0,
             /*20120417 to latest
             중형
             Medium
@@ -35761,7 +35761,7 @@ impl ClientMessages {
             무속성%d
             Neutral %d
             */
-            ClientMessages::MsgNavigationscale1 => 0x8e1,
+            ClientMessages::MsgNavigationscale1 => 0x8E1,
             /*20120417 to latest
             대형
             Large
@@ -35769,7 +35769,7 @@ impl ClientMessages {
             중형
             Medium
             */
-            ClientMessages::MsgNavigationscale2 => 0x8e2,
+            ClientMessages::MsgNavigationscale2 => 0x8E2,
             /*20120417 to latest
             소형
             Small
@@ -35777,7 +35777,7 @@ impl ClientMessages {
             대형
             Large
             */
-            ClientMessages::MsgNavigationscale0 => 0x8e3,
+            ClientMessages::MsgNavigationscale0 => 0x8E3,
             /*20120417 to latest
             불사형
             Undead
@@ -35785,7 +35785,7 @@ impl ClientMessages {
             소형
             Small
             */
-            ClientMessages::MsgNavigationrace1 => 0x8e4,
+            ClientMessages::MsgNavigationrace1 => 0x8E4,
             /*20120417 to latest
             동물형
             Brute
@@ -35793,7 +35793,7 @@ impl ClientMessages {
             불사형
             Undead
             */
-            ClientMessages::MsgNavigationrace2 => 0x8e5,
+            ClientMessages::MsgNavigationrace2 => 0x8E5,
             /*20120417 to latest
             식물형
             Plant
@@ -35801,7 +35801,7 @@ impl ClientMessages {
             동물형
             Brute
             */
-            ClientMessages::MsgNavigationrace3 => 0x8e6,
+            ClientMessages::MsgNavigationrace3 => 0x8E6,
             /*20120417 to latest
             곤충형
             Insect
@@ -35809,7 +35809,7 @@ impl ClientMessages {
             식물형
             Plant
             */
-            ClientMessages::MsgNavigationrace4 => 0x8e7,
+            ClientMessages::MsgNavigationrace4 => 0x8E7,
             /*20120417 to latest
             어패형
             Fish
@@ -35817,7 +35817,7 @@ impl ClientMessages {
             곤충형
             Insect
             */
-            ClientMessages::MsgNavigationrace5 => 0x8e8,
+            ClientMessages::MsgNavigationrace5 => 0x8E8,
             /*20120417 to latest
             악마형
             Demon
@@ -35825,7 +35825,7 @@ impl ClientMessages {
             어패형
             Fish
             */
-            ClientMessages::MsgNavigationrace6 => 0x8e9,
+            ClientMessages::MsgNavigationrace6 => 0x8E9,
             /*20120417 to latest
             인간형
             Demi-Human
@@ -35833,7 +35833,7 @@ impl ClientMessages {
             악마형
             Demon
             */
-            ClientMessages::MsgNavigationrace7 => 0x8ea,
+            ClientMessages::MsgNavigationrace7 => 0x8EA,
             /*20120417 to latest
             천사형
             Angel
@@ -35841,7 +35841,7 @@ impl ClientMessages {
             인간형
             Demi-Human
             */
-            ClientMessages::MsgNavigationrace8 => 0x8eb,
+            ClientMessages::MsgNavigationrace8 => 0x8EB,
             /*20120417 to latest
             용족
             Dragon
@@ -35849,7 +35849,7 @@ impl ClientMessages {
             천사형
             Angel
             */
-            ClientMessages::MsgNavigationrace9 => 0x8ec,
+            ClientMessages::MsgNavigationrace9 => 0x8EC,
             /*20120417 to latest
             무형
             Formless
@@ -35857,7 +35857,7 @@ impl ClientMessages {
             용족
             Dragon
             */
-            ClientMessages::MsgNavigationrace0 => 0x8ed,
+            ClientMessages::MsgNavigationrace0 => 0x8ED,
             /*20120417 to latest
             %s 이동 클릭
             Click to move %s
@@ -35865,7 +35865,7 @@ impl ClientMessages {
             무형
             Formless
             */
-            ClientMessages::MsgNavigationmoveclick => 0x8ee,
+            ClientMessages::MsgNavigationmoveclick => 0x8EE,
             /*20120417 to latest
             Npc 이동 서비스 이용
             Move to the Kafra Service Npc
@@ -35873,7 +35873,7 @@ impl ClientMessages {
             %s 이동 클릭
             Click to move %s
             */
-            ClientMessages::MsgNavigationnpcmove => 0x8ef,
+            ClientMessages::MsgNavigationnpcmove => 0x8EF,
             /*20120417 to latest
             NPC 클릭
             Click the NPC
@@ -35881,7 +35881,7 @@ impl ClientMessages {
             Npc 이동 서비스 이용
             Move to the Kafra Service Npc
             */
-            ClientMessages::MsgNavigationnpcclick => 0x8f0,
+            ClientMessages::MsgNavigationnpcclick => 0x8F0,
             /*20120417 to latest
             %s 이동
             Move %s
@@ -35889,7 +35889,7 @@ impl ClientMessages {
             NPC 클릭
             Click the NPC
             */
-            ClientMessages::MsgNavigationsmove => 0x8f1,
+            ClientMessages::MsgNavigationsmove => 0x8F1,
             /*20120417 to latest
             비공정 이동
             Move to the Airship Service
@@ -35897,7 +35897,7 @@ impl ClientMessages {
             %s 이동
             Move %s
             */
-            ClientMessages::MsgNavigationplanemove => 0x8f2,
+            ClientMessages::MsgNavigationplanemove => 0x8F2,
             /*20120417 to latest
             워프 이용
             By Warp
@@ -35905,7 +35905,7 @@ impl ClientMessages {
             비공정 이동
             Move to the Airship Service
             */
-            ClientMessages::MsgNavigationwarpuse => 0x8f3,
+            ClientMessages::MsgNavigationwarpuse => 0x8F3,
             /*20120417 to latest
             도착점 : ( %d %d )
             End Points: (%d %d)
@@ -35913,7 +35913,7 @@ impl ClientMessages {
             워프 이용
             By Warp
             */
-            ClientMessages::MsgNavigationtargetpointdd => 0x8f4,
+            ClientMessages::MsgNavigationtargetpointdd => 0x8F4,
             /*20120417 to 20170517
             네비게이션이 지원 되지 않는 지역 입니다.
             20130807 to 20130814
@@ -35923,14 +35923,14 @@ impl ClientMessages {
             내비게이션이 지원 되지 않는 지역 입니다.
             That does not support the navigation area
             */
-            ClientMessages::MsgNavigationunknownmap => 0x8f5,
+            ClientMessages::MsgNavigationunknownmap => 0x8F5,
             /*20120417 to latest
             찾고자 하는 목적이 불분명 합니다.
             The purpose is unclear
             20130807 to 20130814
             네비게이션이 지원 되지 않는 지역 입니다.
             */
-            ClientMessages::MsgNavigationrsunknown => 0x8f6,
+            ClientMessages::MsgNavigationrsunknown => 0x8F6,
             /*20120417 to latest
             매칭이 맞지 않는 맵이다.
             Does not meet the map requirement
@@ -35938,7 +35938,7 @@ impl ClientMessages {
             찾고자 하는 목적이 불분명 합니다.
             The purpose is unclear
             */
-            ClientMessages::MsgNavigationrsnotsamemap => 0x8f7,
+            ClientMessages::MsgNavigationrsnotsamemap => 0x8F7,
             /*20120417 to latest
             출발 지역에 대한 정보 설정 실패!
             Information Failure | Change settings
@@ -35946,7 +35946,7 @@ impl ClientMessages {
             매칭이 맞지 않는 맵이다.
             Does not meet the map requirement
             */
-            ClientMessages::MsgNavigationrsfailstartdata => 0x8f8,
+            ClientMessages::MsgNavigationrsfailstartdata => 0x8F8,
             /*20120417 to latest
             도착 지점에 대한 정보 설정 실패!
             Failed to set info for location!
@@ -35954,7 +35954,7 @@ impl ClientMessages {
             출발 지역에 대한 정보 설정 실패!
             Information Failure | Change settings
             */
-            ClientMessages::MsgNavigationrsfailtarget => 0x8f9,
+            ClientMessages::MsgNavigationrsfailtarget => 0x8F9,
             /*20120417 to latest
             길 찾기 실패
             Failed to find a path
@@ -35962,7 +35962,7 @@ impl ClientMessages {
             도착 지점에 대한 정보 설정 실패!
             Failed to set info for location!
             */
-            ClientMessages::MsgNavigationrsfailroute => 0x8fa,
+            ClientMessages::MsgNavigationrsfailroute => 0x8FA,
             /*20120417 to latest
             플레이어 위치 찾기 실패
             Failed to find players
@@ -35970,7 +35970,7 @@ impl ClientMessages {
             길 찾기 실패
             Failed to find a path
             */
-            ClientMessages::MsgNavigationrsfailplayer => 0x8fb,
+            ClientMessages::MsgNavigationrsfailplayer => 0x8FB,
             /*20120417 to latest
             내비게이션에 정보가 없습니다.
             No Information
@@ -35978,7 +35978,7 @@ impl ClientMessages {
             플레이어 위치 찾기 실패
             Failed to find players
             */
-            ClientMessages::MsgNavigationrsnodata => 0x8fc,
+            ClientMessages::MsgNavigationrsnodata => 0x8FC,
             /*20120417 to latest
             해당 맵은 길찾기가 지원 되지 않는 맵입니다.
             Map doesn't support directions
@@ -35986,7 +35986,7 @@ impl ClientMessages {
             내비게이션에 정보가 없습니다.
             No Information
             */
-            ClientMessages::MsgNavigationrsmapnotnavigation => 0x8fd,
+            ClientMessages::MsgNavigationrsmapnotnavigation => 0x8FD,
             /*20120417 to latest
             목표를 지정 하시기 바랍니다.
             Please specify target goals.
@@ -35994,7 +35994,7 @@ impl ClientMessages {
             해당 맵은 길찾기가 지원 되지 않는 맵입니다.
             Map doesn't support directions
             */
-            ClientMessages::MsgNavigationrsfailtargetroute => 0x8fe,
+            ClientMessages::MsgNavigationrsfailtargetroute => 0x8FE,
             /*20120417 to latest
             도착.
             Found
@@ -36002,7 +36002,7 @@ impl ClientMessages {
             목표를 지정 하시기 바랍니다.
             Please specify target goals.
             */
-            ClientMessages::MsgNavigationrssuccess => 0x8ff,
+            ClientMessages::MsgNavigationrssuccess => 0x8FF,
             /*20120417 to latest
             길 안내가 시작 되었습니다.
             Directions were started
@@ -36090,21 +36090,21 @@ impl ClientMessages {
             가리키는 방향으로 가시기 바랍니다.
             Please go to indicated direction.
             */
-            ClientMessages::MsgNavigationrshere => 0x90a,
+            ClientMessages::MsgNavigationrshere => 0x90A,
             /*20120417 to latest
             Navigation >: %s
             20130807 to 20130814
             목표가 여기 입니다.
             The goal has been reached
             */
-            ClientMessages::MsgNavigationprints => 0x90b,
+            ClientMessages::MsgNavigationprints => 0x90B,
             /*20120417 to latest
             Navigation >: 안내하는 %s(을)를 이용하여
             Navigation >: Talk to Guide "%s" (A)
             20130807 to 20130814
             Navigation >: %s
             */
-            ClientMessages::MsgNavigationprintgos => 0x90c,
+            ClientMessages::MsgNavigationprintgos => 0x90C,
             /*20120417 to latest
             Navigation >: 맵(%s)으로 이동하시기 바랍니다
             Navigation >: Move to (%s) map
@@ -36112,7 +36112,7 @@ impl ClientMessages {
             Navigation >: 안내하는 %s(을)를 이용하여
             Navigation >: Talk to Guide "%s" (A)
             */
-            ClientMessages::MsgNavigationprintmaps => 0x90d,
+            ClientMessages::MsgNavigationprintmaps => 0x90D,
             /*20120417 to latest
             Navigation >: 맵(%s)을 선택하여 이동 하시기 바랍니다
             Navigation >: Choose (%s) Map from Kafra
@@ -36120,7 +36120,7 @@ impl ClientMessages {
             Navigation >: 맵(%s)으로 이동하시기 바랍니다
             Navigation >: Move to (%s) map
             */
-            ClientMessages::MsgNavigationprintselectmaps => 0x90e,
+            ClientMessages::MsgNavigationprintselectmaps => 0x90E,
             /*20120417 to latest
             Navigation >: 비공정으로 이동 하시기 바랍니다
             Navigation >: Please go to the AirShip
@@ -36128,7 +36128,7 @@ impl ClientMessages {
             Navigation >: 맵(%s)을 선택하여 이동 하시기 바랍니다
             Navigation >: Choose (%s) Map from Kafra
             */
-            ClientMessages::MsgNavigationprintplane => 0x90f,
+            ClientMessages::MsgNavigationprintplane => 0x90F,
             /*20120417 to latest
             Navigation >: 워프를 이용하여 다음 지역으로 이동하시기 바랍니다.
             Navigation >: Get to your destination by using WarpPortal
@@ -36210,7 +36210,7 @@ impl ClientMessages {
             구입하시겠습니까?
             Press buy to confirm.
             */
-            ClientMessages::MsgBasicexpmsg2 => 0x91a,
+            ClientMessages::MsgBasicexpmsg2 => 0x91A,
 
             /*20120508 to latest
             카드 북
@@ -36219,7 +36219,7 @@ impl ClientMessages {
             %.1f%% (PC방 %.1f%% + TPLUS %.1f%% + 프리미엄 %.1f%% + %s서버 %.1f%%)
             %.1f% (PCRoom %.1f% + TPLUS %.1f% + Premium %.1f% + %sServer %.1f%)
             */
-            ClientMessages::MsgCardwin => 0x91b,
+            ClientMessages::MsgCardwin => 0x91B,
 
             /*20120515 to latest
             %d%% [ ( 기본 100%% + %s서버 %d%% ) * 활성 %.1f ]
@@ -36228,7 +36228,7 @@ impl ClientMessages {
             카드 북
             Card Book
             */
-            ClientMessages::MsgPersonalinformationmsgchn => 0x91c,
+            ClientMessages::MsgPersonalinformationmsgchn => 0x91C,
             /*20120515 to latest
             %d%% [ 기본 100%% + %s서버 %d%% ]
             %d%% [ Basic 100%% + %sServer %d%% ]
@@ -36236,7 +36236,7 @@ impl ClientMessages {
             %d%% [ ( 기본 100%% + %s서버 %d%% ) * 활성 %.1f ]
             %d%% [ ( Basic 100%% + %sServer %d%% ) * Active %.1f ]
             */
-            ClientMessages::MsgPersonalinformationmsgchndeath => 0x91d,
+            ClientMessages::MsgPersonalinformationmsgchndeath => 0x91D,
 
             /*20120522 to latest
             이곳은 PK 지역입니다. 미성년자는 자발적으로 떠나주시기 바랍니다.
@@ -36245,7 +36245,7 @@ impl ClientMessages {
             %d%% [ 기본 100%% + %s서버 %d%% ]
             %d%% [ Basic 100%% + %sServer %d%% ]
             */
-            ClientMessages::MsgCautionpkzone => 0x91e,
+            ClientMessages::MsgCautionpkzone => 0x91E,
             /*20120522 to latest
             피로도
             Fatigue
@@ -36253,7 +36253,7 @@ impl ClientMessages {
             이곳은 PK 지역입니다. 미성년자는 자발적으로 떠나주시기 바랍니다.
             This is PK region. Minors,Please leave immediately.
             */
-            ClientMessages::MsgFatigue => 0x91f,
+            ClientMessages::MsgFatigue => 0x91F,
             /*20120522 to 20120529
             건강상태 이며 게임수익은 100%%입니다.
             20120604 to latest
@@ -36349,14 +36349,14 @@ impl ClientMessages {
             암호를 변경하여 주시기 바랍니다.
             Please change your password
             */
-            ClientMessages::MsgRefusechangepasswdsite => 0x92a,
+            ClientMessages::MsgRefusechangepasswdsite => 0x92A,
             /*20120612 to latest
             고객님께서는 현재 접속금지 시간입니다.
             Guest access is prohibited
             20130807 to 20130814
             http://www.ragnarok.co.kr
             */
-            ClientMessages::MsgPlannedtimeshutdown => 0x92b,
+            ClientMessages::MsgPlannedtimeshutdown => 0x92B,
             /*20120612 to latest
             셧다운제도에 의해 고객님의 게임제한 시간은 %1.2d-%1.2d-%1.2d %1.2d:%1.2d:%1.2d에 게임이 종료될 예정입니다.
             Your System is been Shutdown, %1.2d-%1.2d-%1.2d %1.2d:%1.2d:%1.2d is the end time.
@@ -36364,7 +36364,7 @@ impl ClientMessages {
             고객님께서는 현재 접속금지 시간입니다.
             Guest access is prohibited
             */
-            ClientMessages::MsgShoutdowntime => 0x92c,
+            ClientMessages::MsgShoutdowntime => 0x92C,
 
             /*20120626 to latest
             고객님의 계정은 선택적 셧다운이 적용된 계정이며, 잔여시간은 %1.2d시간 %1.2d분입니다. 게임 이용에 참고해주시기 바랍니다.
@@ -36373,7 +36373,7 @@ impl ClientMessages {
             셧다운제도에 의해 고객님의 게임제한 시간은 %1.2d-%1.2d-%1.2d %1.2d:%1.2d:%1.2d에 게임이 종료될 예정입니다.
             Your System is been Shutdown, %1.2d-%1.2d-%1.2d %1.2d:%1.2d:%1.2d is the end time.
             */
-            ClientMessages::MsgPartialshoutdowntime => 0x92d,
+            ClientMessages::MsgPartialshoutdowntime => 0x92D,
 
             /*20120702 to latest
             리플레이
@@ -36382,7 +36382,7 @@ impl ClientMessages {
             고객님의 계정은 선택적 셧다운이 적용된 계정이며, 잔여시간은 %1.2d시간 %1.2d분입니다. 게임 이용에 참고해주시기 바랍니다.
             Selected System Shutdown is activated in your account,Time Left: %1.2d hours %1.2d minutes.
             */
-            ClientMessages::MsgMenureplaywnd => 0x92e,
+            ClientMessages::MsgMenureplaywnd => 0x92E,
             /*20120702 to latest
             매크로
             Macro
@@ -36390,7 +36390,7 @@ impl ClientMessages {
             리플레이
             Replay
             */
-            ClientMessages::MsgMenumacrownd => 0x92f,
+            ClientMessages::MsgMenumacrownd => 0x92F,
             /*20120702 to latest
             Webbrowser
             20130807 to 20130814
@@ -36478,7 +36478,7 @@ impl ClientMessages {
             클랜에게 보냄
             Send to Clan
             */
-            ClientMessages::MsgClanmastername => 0x93a,
+            ClientMessages::MsgClanmastername => 0x93A,
             /*20120702 to latest
             조합원수
             Number of Members
@@ -36486,7 +36486,7 @@ impl ClientMessages {
             마스터이름
             ClanMaster Name
             */
-            ClientMessages::MsgClannummember => 0x93b,
+            ClientMessages::MsgClannummember => 0x93B,
             /*20120702 to 20120702
             조합원 평균레벨
             Avg.lvl of Guildsmen
@@ -36497,7 +36497,7 @@ impl ClientMessages {
             조합원수
             Number of Members
             */
-            ClientMessages::MsgClanmanageland => 0x93c,
+            ClientMessages::MsgClanmanageland => 0x93C,
             /*20120702 to 20130814
             관리영지
             Castles Owned
@@ -36505,7 +36505,7 @@ impl ClientMessages {
             클랜 채팅 메시지 표시
             Clan Chat Messages
             */
-            ClientMessages::MsgViewclanmsg => 0x93d,
+            ClientMessages::MsgViewclanmsg => 0x93D,
 
             /*20120716 to latest
             충전 페이지로 이동합니다.
@@ -36514,7 +36514,7 @@ impl ClientMessages {
             클랜 채팅 메시지 표시
             Clan Chat Messages
             */
-            ClientMessages::MsgTwwabwarring => 0x93e,
+            ClientMessages::MsgTwwabwarring => 0x93E,
             /*20120716 to 20120716
             http://ro.game.gnjoy.com/
             20120724 to latest
@@ -36523,7 +36523,7 @@ impl ClientMessages {
             충전 페이지로 이동합니다.
             Go to Page Charged.
             */
-            ClientMessages::MsgTwwaburl => 0x93f,
+            ClientMessages::MsgTwwaburl => 0x93F,
 
             /*20120724 to latest
             캐릭터 만들기
@@ -36628,7 +36628,7 @@ impl ClientMessages {
             게임 커맨드 ON/OFF
             Game Command ON/OFF
             */
-            ClientMessages::MsgMacrolist => 0x94a,
+            ClientMessages::MsgMacrolist => 0x94A,
             /*20120925 to latest
             이지역은 아이템교환이 금지 되어 있습니다
             Trading is prohibited in this Map
@@ -36636,7 +36636,7 @@ impl ClientMessages {
             매크로
             Macro
             */
-            ClientMessages::MsgExchangeitemdenymap => 0x94b,
+            ClientMessages::MsgExchangeitemdenymap => 0x94B,
             /*20120925 to latest
             이지역은 카트이용이 금지 되어 있습니다
             Vending is prohibited in this Map
@@ -36644,7 +36644,7 @@ impl ClientMessages {
             이지역은 아이템교환이 금지 되어 있습니다
             Trading is prohibited in this Map
             */
-            ClientMessages::MsgCartusedenymap => 0x94c,
+            ClientMessages::MsgCartusedenymap => 0x94C,
 
             /*20121010 to latest
             이지역은 태양과달과별의 기적 효과가 발생하지 않습니다.
@@ -36653,7 +36653,7 @@ impl ClientMessages {
             이지역은 카트이용이 금지 되어 있습니다
             Vending is prohibited in this Map
             */
-            ClientMessages::MsgBlocksunmoonstarmiracle => 0x94d,
+            ClientMessages::MsgBlocksunmoonstarmiracle => 0x94D,
             /*20121010 to latest
             랭킹 보드
             Ranking Board
@@ -36661,7 +36661,7 @@ impl ClientMessages {
             이지역은 태양과달과별의 기적 효과가 발생하지 않습니다.
             In this Map,Effect of Mirace of Sun and Moon is nullified.
             */
-            ClientMessages::MsgRankingboard => 0x94e,
+            ClientMessages::MsgRankingboard => 0x94E,
             /*20121010 to latest
             순위
             Rank
@@ -36669,7 +36669,7 @@ impl ClientMessages {
             랭킹 보드
             Ranking Board
             */
-            ClientMessages::MsgRankingnumber => 0x94f,
+            ClientMessages::MsgRankingnumber => 0x94F,
             /*20121010 to latest
             이름
             Name
@@ -36756,38 +36756,38 @@ impl ClientMessages {
             20130807 to 20130814
             Ranger
             */
-            ClientMessages::MsgRankingmechanic => 0x95a,
+            ClientMessages::MsgRankingmechanic => 0x95A,
 
             /*20121114 to latest
             GuillotineCross
             20130807 to 20130814
             Mechanic
             */
-            ClientMessages::MsgRankingguillotinecross => 0x95b,
+            ClientMessages::MsgRankingguillotinecross => 0x95B,
             /*20121114 to latest
             Archbishop
             20130807 to 20130814
             GuillotineCross
             */
-            ClientMessages::MsgRankingarchbishop => 0x95c,
+            ClientMessages::MsgRankingarchbishop => 0x95C,
             /*20121114 to latest
             RoyalGuard
             20130807 to 20130814
             Archbishop
             */
-            ClientMessages::MsgRankingroyalguard => 0x95d,
+            ClientMessages::MsgRankingroyalguard => 0x95D,
             /*20121114 to latest
             Sorcerer
             20130807 to 20130814
             RoyalGuard
             */
-            ClientMessages::MsgRankingsorcerer => 0x95e,
+            ClientMessages::MsgRankingsorcerer => 0x95E,
             /*20121114 to latest
             Minstrel
             20130807 to 20130814
             Sorcerer
             */
-            ClientMessages::MsgRankingminstrel => 0x95f,
+            ClientMessages::MsgRankingminstrel => 0x95F,
             /*20121114 to latest
             Wanderer
             20130807 to 20130814
@@ -36858,7 +36858,7 @@ impl ClientMessages {
             현재 접속 인원이 가득 찼습니다.           ^0000ff현재 대기순위 : %d                    예상 대기시간 : %d분 %d초
             Currently,Server is full.           ^0000ffPeople Currently Waiting: %d                    Expected Waiting Time: %dMinutes %d Seconds
             */
-            ClientMessages::MsgCbtactiveusercheck => 0x96a,
+            ClientMessages::MsgCbtactiveusercheck => 0x96A,
 
             /*20121128 to latest
              -------------- Navigation 명령어 --------------
@@ -36867,7 +36867,7 @@ impl ClientMessages {
             CBT 초청 유저가 아닙니다
             CBT is not an invited user
             */
-            ClientMessages::MsgNavigationhelp21 => 0x96b,
+            ClientMessages::MsgNavigationhelp21 => 0x96B,
             /*20121128 to latest
             /navigation    /navi  :  /navi yuno 100/100           ->> 맵이름, 위치(100/100)
             1) /Navigation or /navi ex) /navi prontera 100 100 -> /navi "MAPNAME", 100, 100
@@ -36875,7 +36875,7 @@ impl ClientMessages {
              -------------- Navigation 명령어 --------------
             ------------------- Instruction --------------------
             */
-            ClientMessages::MsgNavigationhelp22 => 0x96c,
+            ClientMessages::MsgNavigationhelp22 => 0x96C,
             /*20121128 to latest
             /navigation2  /navi2 :  /navi2 yuno 100/100 1/1/1 ->> 맵이름, 위치(100/100), scrool/zeny/plane (1:사용함 0: 사용안함)
             2) /Navigation2 or /navi2 ex) /navi2 prontera 100 111 -> MAPNAME location (100 90), Scroll | Zeny | Plane (1: Enable or 0: Disable)
@@ -36883,7 +36883,7 @@ impl ClientMessages {
             /navigation    /navi  :  /navi yuno 100/100           ->> 맵이름, 위치(100/100)
             1) /Navigation or /navi ex) /navi prontera 100 100 -> /navi "MAPNAME", 100, 100
             */
-            ClientMessages::MsgNavigationhelp23 => 0x96d,
+            ClientMessages::MsgNavigationhelp23 => 0x96D,
             /*20121128 to latest
              -------------- Navigation 검색창 명령어 -------
             -> /navi2 goes with the case with location coordinates. They must be no less than 3 characters
@@ -36891,7 +36891,7 @@ impl ClientMessages {
             /navigation2  /navi2 :  /navi2 yuno 100/100 1/1/1 ->> 맵이름, 위치(100/100), scrool/zeny/plane (1:사용함 0: 사용안함)
             2) /Navigation2 or /navi2 ex) /navi2 prontera 100 111 -> MAPNAME location (100 90), Scroll | Zeny | Plane (1: Enable or 0: Disable)
             */
-            ClientMessages::MsgNavigationhelp24 => 0x96e,
+            ClientMessages::MsgNavigationhelp24 => 0x96E,
             /*20121128 to latest
             $$all         : 모든 항목 출력 (Type 구분자에서 출력 종류를 나눌수 있다.)
             3) $$all Output all the items (Can take a while...)
@@ -36899,7 +36899,7 @@ impl ClientMessages {
              -------------- Navigation 검색창 명령어 -------
             -> /navi2 goes with the case with location coordinates. They must be no less than 3 characters
             */
-            ClientMessages::MsgNavigationhelp25 => 0x96f,
+            ClientMessages::MsgNavigationhelp25 => 0x96F,
             /*20121128 to latest
             $$lv30       : 해당 레벨의 몬스터 출력 (숫자는 변경 가능)
             4) $$lv30 monsters are placed in the output
@@ -36985,7 +36985,7 @@ impl ClientMessages {
             로그인 허용시간 초과
             Login Timeout Permitted
             */
-            ClientMessages::MsgRefusewebauthfailed => 0x97a,
+            ClientMessages::MsgRefusewebauthfailed => 0x97A,
 
             /*20130206 to latest
             길드이름에 공백문자를 사용할 수 없습니다.
@@ -36994,7 +36994,7 @@ impl ClientMessages {
             로그인 중 인증서버로부터 인증이 실패하였습니다.
             Login Authentication Failed from Authentication Server.
             */
-            ClientMessages::MsgGuildnamecheck => 0x97b,
+            ClientMessages::MsgGuildnamecheck => 0x97B,
 
             /*20130215 to latest
             고객님 안녕하세요!
@@ -37003,7 +37003,7 @@ impl ClientMessages {
             길드이름에 공백문자를 사용할 수 없습니다.
             Guild Cannot use Space in the name.
             */
-            ClientMessages::MsgBillingchn1 => 0x97c,
+            ClientMessages::MsgBillingchn1 => 0x97C,
             /*20130215 to latest
             고객님의 이용 시간은 %d년 %d 월 %d일 %d:%d 에 종료됩니다.
             Available Time will End on %d month %d hour %d:%d
@@ -37011,7 +37011,7 @@ impl ClientMessages {
             고객님 안녕하세요!
             Hey,Hello There
             */
-            ClientMessages::MsgBillingchn2 => 0x97d,
+            ClientMessages::MsgBillingchn2 => 0x97D,
             /*20130215 to latest
             고객님의 이용 시간은 아직 많이 남았으니 안심하고 플레이하세요!
             You've lot of time,Play in Peace.
@@ -37019,7 +37019,7 @@ impl ClientMessages {
             고객님의 이용 시간은 %d년 %d 월 %d일 %d:%d 에 종료됩니다.
             Available Time will End on %d month %d hour %d:%d
             */
-            ClientMessages::MsgBillingchn3 => 0x97e,
+            ClientMessages::MsgBillingchn3 => 0x97E,
             /*20130215 to latest
             고객님의 이용 시간은 이번 주 내로 종료 됩니다. 종료 전에 충전을 하시기 바랍니다.
             Your hours will be terminated within this week. Please Charge before termination.
@@ -37027,7 +37027,7 @@ impl ClientMessages {
             고객님의 이용 시간은 아직 많이 남았으니 안심하고 플레이하세요!
             You've lot of time,Play in Peace.
             */
-            ClientMessages::MsgBillingchn4 => 0x97f,
+            ClientMessages::MsgBillingchn4 => 0x97F,
             /*20130215 to latest
             고객님의 이용 시간은 24시간 내에 종료됩니다. 빨리 충전하시기 바랍니다.
             Your hours will be terminated within 24 hours.Please Charge Quickly.
@@ -37121,7 +37121,7 @@ impl ClientMessages {
             맵(Alt)
             Map(Alt)
             */
-            ClientMessages::MsgWorldmapmsg3 => 0x98a,
+            ClientMessages::MsgWorldmapmsg3 => 0x98A,
             /*20130227 to latest
             검색 정보
             Find Information
@@ -37129,7 +37129,7 @@ impl ClientMessages {
             안내 정보
             Product Information
             */
-            ClientMessages::MsgWorldmapmsg4 => 0x98b,
+            ClientMessages::MsgWorldmapmsg4 => 0x98B,
             /*20130227 to latest
             비공정
             AirShip
@@ -37137,7 +37137,7 @@ impl ClientMessages {
             검색 정보
             Find Information
             */
-            ClientMessages::MsgWorldmapmsg5 => 0x98c,
+            ClientMessages::MsgWorldmapmsg5 => 0x98C,
             /*20130227 to latest
             카프라
             Kafra
@@ -37145,7 +37145,7 @@ impl ClientMessages {
             비공정
             AirShip
             */
-            ClientMessages::MsgWorldmapmsg6 => 0x98d,
+            ClientMessages::MsgWorldmapmsg6 => 0x98D,
             /*20130227 to latest
             (도착)
             (Arrival)
@@ -37153,7 +37153,7 @@ impl ClientMessages {
             카프라
             Kafra
             */
-            ClientMessages::MsgWorldmapmsg7 => 0x98e,
+            ClientMessages::MsgWorldmapmsg7 => 0x98E,
 
             /*20130313 to latest
             Mob)%s:%s(%s)
@@ -37161,7 +37161,7 @@ impl ClientMessages {
             (도착)
             (Arrival)
             */
-            ClientMessages::MsgNavigationmobsss => 0x98f,
+            ClientMessages::MsgNavigationmobsss => 0x98F,
             /*20130313 to latest
             분포도:%s
             Distribution:%s
@@ -37250,7 +37250,7 @@ impl ClientMessages {
             1 Zeny 이상 입금 가능합니다.
             Minimum Deposit Amount: 1 zeny
             */
-            ClientMessages::MsgBankwithdrawzero => 0x99a,
+            ClientMessages::MsgBankwithdrawzero => 0x99A,
             /*20130327 to 20130605
             보유 Zeny 는 21 억을 넘을 수 없습니다.
             20130605 to latest
@@ -37260,7 +37260,7 @@ impl ClientMessages {
             1 Zeny 이상 출금 가능합니다.
             Minimum Withdrawal Amount: 1 zeny
             */
-            ClientMessages::MsgBankoverintmax => 0x99b,
+            ClientMessages::MsgBankoverintmax => 0x99B,
             /*20130327 to latest
             your account is lock by mobil otp
             your account is lock by mobile otp
@@ -37268,21 +37268,21 @@ impl ClientMessages {
             보유 Zeny 는 2,147,483,647 Zeny를 넘을 수 없습니다.
             You cannot hold more than 2,147,483,647 Zeny
             */
-            ClientMessages::MsgRefusemotplock => 0x99c,
+            ClientMessages::MsgRefusemotplock => 0x99C,
             /*20130327 to latest
             MOTP auth fail
             20130807 to 20130814
             your account is lock by mobil otp
             your account is lock by mobile otp
             */
-            ClientMessages::MsgRefusemotpauthfail => 0x99d,
+            ClientMessages::MsgRefusemotpauthfail => 0x99D,
             /*20130327 to latest
             %d분간 몬스터에게 얻을 수 있는 Job경험치가 %d%% 증가합니다.
             For %d minutes,Job Experience obtained from monster is increased by %d%%
             20130807 to 20130814
             MOTP auth fail
             */
-            ClientMessages::MsgJobplusexpvalue => 0x99e,
+            ClientMessages::MsgJobplusexpvalue => 0x99E,
 
             /*20130410 to 20130410
             소지 Zeny : %d Zeny
@@ -37293,14 +37293,14 @@ impl ClientMessages {
             %d분간 몬스터에게 얻을 수 있는 Job경험치가 %d%% 증가합니다.
             For %d minutes,Job Experience obtained from monster is increased by %d%%
             */
-            ClientMessages::MsgBankmyzeny => 0x99f,
+            ClientMessages::MsgBankmyzeny => 0x99F,
             /*20130410 to latest
             Zeny
             20130807 to 20130814
             소지 Zeny : %s Zeny
             Current Zeny: %s Zeny
             */
-            ClientMessages::MsgBankzeny => 0x9a0,
+            ClientMessages::MsgBankzeny => 0x9A0,
             /*20130410 to 20130515
             * 최대 21억 Zeny까지만 보관이 가능합니다.
             20130522 to 20130605
@@ -37313,7 +37313,7 @@ impl ClientMessages {
             20130807 to 20130814
             Zeny
             */
-            ClientMessages::MsgBankwarning => 0x9a1,
+            ClientMessages::MsgBankwarning => 0x9A1,
 
             /*20130515 to latest
             총알이 부족합니다.
@@ -37322,7 +37322,7 @@ impl ClientMessages {
             최대 2,147,483,647 Zeny 까지만 보관이 가능합니다.
             The Maximum amount is 2,147,483,647 Zeny
             */
-            ClientMessages::MsgNeedmorebullet => 0x9a2,
+            ClientMessages::MsgNeedmorebullet => 0x9A2,
             /*20130515 to latest
             10억제니 이상 입력하셔도 가격은 10억 제니로 판매됩니다.
             You entered more than 1 Billion Zeny, the price will be set to 1 Billion Zeny.
@@ -37330,7 +37330,7 @@ impl ClientMessages {
             총알이 부족합니다.
             Insufficient bullet
             */
-            ClientMessages::MsgOverpricemax => 0x9a3,
+            ClientMessages::MsgOverpricemax => 0x9A3,
 
             /*20130605 to latest
             AuthTicket is Not Vaild
@@ -37339,7 +37339,7 @@ impl ClientMessages {
             10억제니 이상 입력하셔도 가격은 10억 제니로 판매됩니다.
             You entered more than 1 Billion Zeny, the price will be set to 1 Billion Zeny.
             */
-            ClientMessages::MsgNotvalidauthticket => 0x9a4,
+            ClientMessages::MsgNotvalidauthticket => 0x9A4,
             /*20130605 to 20130605
             ErrorCode : %d, ErrorValue : %d
             20130612 to latest
@@ -37349,7 +37349,7 @@ impl ClientMessages {
             AuthTicket is Not Vaild
             AuthTicket is Not Valid
             */
-            ClientMessages::MsgSteamagencyerror => 0x9a5,
+            ClientMessages::MsgSteamagencyerror => 0x9A5,
 
             /*20130618 to 20130618
             %d%% ( Primary 100%% + Premium %d%% + PCCafe %d%% + %s Server %d%% )
@@ -37360,7 +37360,7 @@ impl ClientMessages {
             ErrorCategory : %d, ErrorCode : %d (%d,%d,%d,%d)
             ErrorCode : %d, ErrorValue : %d
             */
-            ClientMessages::MsgBasicexpmsgindonesia => 0x9a6,
+            ClientMessages::MsgBasicexpmsgindonesia => 0x9A6,
             /*20130618 to 20130925
              몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 %d분간 %d배로 증가합니다.
             20130807 to 20130814
@@ -37370,7 +37370,7 @@ impl ClientMessages {
              %d분간 몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 %d%%로 증가합니다.
             Basic item drop rate from monster hunting is increased for %dmins by %dtimes.
             */
-            ClientMessages::MsgReceiveitemvalue => 0x9a7,
+            ClientMessages::MsgReceiveitemvalue => 0x9A7,
             /*20130618 to 20130925
              몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 %d시 %.2d분간 %d배로 증가합니다.
             20130807 to 20130814
@@ -37379,7 +37379,7 @@ impl ClientMessages {
              %d시 %.2d분간 몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 %d%%로 증가합니다.
             Basic item drop rate from monster hunting is increased for %dhour %.2dmins  by %dtimes.
             */
-            ClientMessages::MsgReceiveitemvalue1 => 0x9a8,
+            ClientMessages::MsgReceiveitemvalue1 => 0x9A8,
 
             /*20130626 to latest
             %s 의 가격이
@@ -37387,35 +37387,35 @@ impl ClientMessages {
             20130807 to 20130814
              몬스터 사냥을 통해 얻을 수 있는 기본 아이템의 드롭률이 %d시 %.2d분간 %d배로 증가합니다.
             */
-            ClientMessages::MsgWarningprice1 => 0x9a9,
+            ClientMessages::MsgWarningprice1 => 0x9A9,
             /*20130626 to latest
             100000000
             20130807 to 20130814
             %s 의 가격이
             The price of^0000FF %s^000000
             */
-            ClientMessages::MsgWarningprice2 => 0x9aa,
+            ClientMessages::MsgWarningprice2 => 0x9AA,
             /*20130626 to latest
              ^ff0000%d^0000ff억
              is over ^FF0000%d^0000FF Billion^000000 Zeny and
             20130807 to 20130814
             100000000
             */
-            ClientMessages::MsgWarningprice3 => 0x9ab,
+            ClientMessages::MsgWarningprice3 => 0x9AB,
             /*20130626 to latest
             10000000
             20130807 to 20130814
              ^ff0000%d^0000ff억
              is over ^FF0000%d^0000FF Billion^000000 Zeny and
             */
-            ClientMessages::MsgWarningprice4 => 0x9ac,
+            ClientMessages::MsgWarningprice4 => 0x9AC,
             /*20130626 to latest
              ^ff0000%d^0000ff천만
              more than^FF0000 %d0^0000FF Million^000000 Zeny
             20130807 to 20130814
             10000000
             */
-            ClientMessages::MsgWarningprice5 => 0x9ad,
+            ClientMessages::MsgWarningprice5 => 0x9AD,
             /*20130626 to latest
             ^0000ffZeny 이상^000000입니다.
             입력금액이 맞습니까?
@@ -37424,7 +37424,7 @@ impl ClientMessages {
              ^ff0000%d^0000ff천만
              more than^FF0000 %d0^0000FF Million^000000 Zeny
             */
-            ClientMessages::MsgWarningprice6 => 0x9ae,
+            ClientMessages::MsgWarningprice6 => 0x9AE,
             /*20130626 to latest
             천만Zeny이상 안전확인
             Safety check for more than 10m Zeny
@@ -37433,14 +37433,14 @@ impl ClientMessages {
             입력금액이 맞습니까?
             . Is this correct?
             */
-            ClientMessages::MsgWarningprice7 => 0x9af,
+            ClientMessages::MsgWarningprice7 => 0x9AF,
             /*20130626 to latest
             https://www.warpportal.com/account/login.aspx?ReturnUrl=%2faccount%2fpayment.aspx
             20130807 to 20130814
             천만Zeny이상 안전확인
             Safety check for more than 10m Zeny
             */
-            ClientMessages::MsgAmericacashshopurl => 0x9b0,
+            ClientMessages::MsgAmericacashshopurl => 0x9B0,
             /*20130626 to 20131023
             https://kepler.warpportal.com/steam/purchase/?step=1&steamid=76561198071003044&game=rose&accountname=khanhtest111&lang=en
             20130807 to 20130814
@@ -37449,14 +37449,14 @@ impl ClientMessages {
             https://kepler.warpportal.com/ro1/purchase/?step=1&steamid=%lld&accountname=
             https://kepler.warpportal.com/ror/purchase/?step=1&steamid=%lld&accountname=
             */
-            ClientMessages::MsgAmericacashshopurlsteam => 0x9b1,
+            ClientMessages::MsgAmericacashshopurlsteam => 0x9B1,
             /*20130626 to latest
             지상의 끝, 스플랑디드와 부유대륙 알프헤임을 잇는 다리, 비프로스트에 생겨난 거대한 균열, 그리고 근원을 알 수 없는 미궁숲.
             A giant crevice appeared in Bifrost, the bridge between Splendide, the end of the world and the floating continent of Alfheim, and you do not know the source of the labyrinth forest.
             20130807 to 20130814
             https://kepler.warpportal.com/steam/purchase/?step=1&steamid=76561198071003044&game=rose&accountname=khanhtest111&lang=en
             */
-            ClientMessages::MsgQuestinfo01 => 0x9b2,
+            ClientMessages::MsgQuestinfo01 => 0x9B2,
             /*20130626 to latest
             이것은 여행의 끝을 알리는 표식인가, 새로운 세계를 여는 지표인가! 수호자는 노랫말 같은 유혹에 점차 넋을 잃어가고 있었다.
             This is a marker indicating the end of the trip, a new world is opening indicators! Guardian, such as the lyrics to the temptation was gradually losing the soul.
@@ -37464,7 +37464,7 @@ impl ClientMessages {
             지상의 끝, 스플랑디드와 부유대륙 알프헤임을 잇는 다리, 비프로스트에 생겨난 거대한 균열, 그리고 근원을 알 수 없는 미궁숲.
             A giant crevice appeared in Bifrost, the bridge between Splendide, the end of the world and the floating continent of Alfheim, and you do not know the source of the labyrinth forest.
             */
-            ClientMessages::MsgQuestinfo02 => 0x9b3,
+            ClientMessages::MsgQuestinfo02 => 0x9B3,
             /*20130626 to latest
             수천 년의 세월이 흐르는 동안, 그 스스로가 홀로 안간힘을 쓰며 지켜낸 것이 무엇이었는지, 봉인 되어 긴 시간을 갇혀버린 것은 오히려 자신이 아니었는지 혼란을 느끼고 있었다.
             For thousands of years, a mysterious melody has mesmerized the guardian. After a millennia of slumber, the guardian became confused about what he had been protecting all these years, and began to suspect that he might be the one who has been sealed and hidden away.
@@ -37472,7 +37472,7 @@ impl ClientMessages {
             이것은 여행의 끝을 알리는 표식인가, 새로운 세계를 여는 지표인가! 수호자는 노랫말 같은 유혹에 점차 넋을 잃어가고 있었다.
             This is a marker indicating the end of the trip, a new world is opening indicators! Guardian, such as the lyrics to the temptation was gradually losing the soul.
             */
-            ClientMessages::MsgQuestinfo03 => 0x9b4,
+            ClientMessages::MsgQuestinfo03 => 0x9B4,
             /*20130626 to latest
             유혹의 노랫말이 최고조에 이르렀을 때, 지상의 끝 스플랑디드와 부유대륙 알프헤임을 잇는 다리, 비프로스트에 거대한 균열이 생겨났고, 그로 인해 두 세계간의 왕래가 끊기면서 사람들은 큰 불편을 겪게 되었다.
             When the melody reached its peak, a giant crevice appeared in Bifrost, the bridge between Splendide, the end of the world and the floating continent of Alfheim. As a result, the two worlds were cut off from each other, causing a big problem for the people.
@@ -37480,7 +37480,7 @@ impl ClientMessages {
             수천 년의 세월이 흐르는 동안, 그 스스로가 홀로 안간힘을 쓰며 지켜낸 것이 무엇이었는지, 봉인 되어 긴 시간을 갇혀버린 것은 오히려 자신이 아니었는지 혼란을 느끼고 있었다.
             For thousands of years, a mysterious melody has mesmerized the guardian. After a millennia of slumber, the guardian became confused about what he had been protecting all these years, and began to suspect that he might be the one who has been sealed and hidden away.
             */
-            ClientMessages::MsgQuestinfo04 => 0x9b5,
+            ClientMessages::MsgQuestinfo04 => 0x9B5,
             /*20130626 to latest
             비프로스트의 통로는 이제 미궁숲 뿐. 근원조차 알 수 없는 그곳을 무사히 통과 한 사람은 지금까지 아무도 없었다.
             Now, the only way to get to Bifrost is through the Labyrinth Forest. Nobody knows how the forest came to exist, and nobody has ever come out of it alive...
@@ -37488,7 +37488,7 @@ impl ClientMessages {
             유혹의 노랫말이 최고조에 이르렀을 때, 지상의 끝 스플랑디드와 부유대륙 알프헤임을 잇는 다리, 비프로스트에 거대한 균열이 생겨났고, 그로 인해 두 세계간의 왕래가 끊기면서 사람들은 큰 불편을 겪게 되었다.
             When the melody reached its peak, a giant crevice appeared in Bifrost, the bridge between Splendide, the end of the world and the floating continent of Alfheim. As a result, the two worlds were cut off from each other, causing a big problem for the people.
             */
-            ClientMessages::MsgQuestinfo05 => 0x9b6,
+            ClientMessages::MsgQuestinfo05 => 0x9B6,
             /*20130626 to latest
             숱한 모험가들을 집어 삼킨 혼돈의 지옥, 미궁숲은 그 속을 방황하는 이름 모를 여인의 마음처럼 더욱 깊고 혼란스럽게 확장되고 있었다.
             Swallowed countless adventurers to put a hell of confusion, wandering in the forest labyrinth of nowhere, like the heart of a woman was being extend deeper confusion.
@@ -37496,7 +37496,7 @@ impl ClientMessages {
             비프로스트의 통로는 이제 미궁숲 뿐. 근원조차 알 수 없는 그곳을 무사히 통과 한 사람은 지금까지 아무도 없었다.
             Now, the only way to get to Bifrost is through the Labyrinth Forest. Nobody knows how the forest came to exist, and nobody has ever come out of it alive...
             */
-            ClientMessages::MsgQuestinfo06 => 0x9b7,
+            ClientMessages::MsgQuestinfo06 => 0x9B7,
 
             /*20130717 to latest
             숫자만 입력 가능합니다.
@@ -37505,7 +37505,7 @@ impl ClientMessages {
             숱한 모험가들을 집어 삼킨 혼돈의 지옥, 미궁숲은 그 속을 방황하는 이름 모를 여인의 마음처럼 더욱 깊고 혼란스럽게 확장되고 있었다.
             Swallowed countless adventurers to put a hell of confusion, wandering in the forest labyrinth of nowhere, like the heart of a woman was being extend deeper confusion.
             */
-            ClientMessages::MsgBankchecknum => 0x9b8,
+            ClientMessages::MsgBankchecknum => 0x9B8,
 
             /*20130724 to latest
             교환창 또는 상점이 활성화 된 상태에서는 입출금을 하실수 없습니다.
@@ -37514,7 +37514,7 @@ impl ClientMessages {
             숫자만 입력 가능합니다.
             You can enter only numbers.
             */
-            ClientMessages::MsgBankprohibit => 0x9b9,
+            ClientMessages::MsgBankprohibit => 0x9B9,
 
             /*20130731 to latest
             바로가기
@@ -37523,7 +37523,7 @@ impl ClientMessages {
             교환창 또는 상점이 활성화 된 상태에서는 입출금을 하실수 없습니다.
             Exchange or store window is active and can not register the withdrawal.
             */
-            ClientMessages::MsgQuestinfo00 => 0x9ba,
+            ClientMessages::MsgQuestinfo00 => 0x9BA,
             /*20130731 to latest
             아이템 비교
             Item Compare
@@ -37531,7 +37531,7 @@ impl ClientMessages {
             바로가기
             Go to
             */
-            ClientMessages::MsgItemcomparison => 0x9bb,
+            ClientMessages::MsgItemcomparison => 0x9BB,
 
             /*20130807 to 20130814
             아이템 비교
@@ -37540,7 +37540,7 @@ impl ClientMessages {
             현재 장착하려고 하는 총기가 장착하고 있는 탄환에 맞지 않습니다
             Now you are trying to mount the gun equipped with bullet does not meet
             */
-            ClientMessages::MsgWronggun => 0x9bc,
+            ClientMessages::MsgWronggun => 0x9BC,
             /*20130807 to 20130814
             현재 장착하려고 하는 총기가 장착하고 있는 탄환에 맞지 않습니다
             Now you are trying to mount the gun equipped with bullet does not meet
@@ -37548,7 +37548,7 @@ impl ClientMessages {
             현재 장착하려고 하는 탄환이 장착하고 있는 총기와 맞지 않습니다
             Now you are trying to mount the guns and bullets will not fit mounted
             */
-            ClientMessages::MsgWrongbullet => 0x9bd,
+            ClientMessages::MsgWrongbullet => 0x9BD,
             /*20130807 to 20130814
             현재 장착하려고 하는 탄환이 장착하고 있는 총기와 맞지 않습니다
             Now you are trying to mount the guns and bullets will not fit mounted
@@ -37556,12 +37556,12 @@ impl ClientMessages {
             판매할 아이템을 등록하지 않았습니다. 판매하실 아이템을 등록해 주세요
             Has not registered to sell the item. Please register to sell the item
             */
-            ClientMessages::MsgBuyingstoremakewndaddgoods => 0x9be,
+            ClientMessages::MsgBuyingstoremakewndaddgoods => 0x9BE,
 
             /*20130821 to latest
             ITEM
             */
-            ClientMessages::MsgIteminmailsystem => 0x9bf,
+            ClientMessages::MsgIteminmailsystem => 0x9BF,
 
             /*20130828 to 20130911
             길드 창고를 이용할 수 없습니다. 잠시 후 이용해주세요.
@@ -37569,271 +37569,271 @@ impl ClientMessages {
             길드 창고를 이용할 수 없습니다.
             Guild storage is not available.
             */
-            ClientMessages::MsgGuildstorageopenerror => 0x9c0,
+            ClientMessages::MsgGuildstorageopenerror => 0x9C0,
             /*20130828 to latest
             길드에 가입되어 있지 않습니다. 가입 후 이용해주세요.
             Guild is not subscribed to. After signing up, please use
             */
-            ClientMessages::MsgGuildstorageopennojoinguild => 0x9c1,
+            ClientMessages::MsgGuildstorageopennojoinguild => 0x9C1,
             /*20130828 to latest
             다른 길드원이 사용중입니다. 잠시 후 이용해주세요.
             Two other guild members are in use. Please use it after a while.
             */
-            ClientMessages::MsgGuildstoragewarningusinganothermember => 0x9c2,
+            ClientMessages::MsgGuildstoragewarningusinganothermember => 0x9C2,
             /*20130828 to latest
             창고권한
             Storage Permission
             */
-            ClientMessages::MsgGuildstoragepermisson => 0x9c3,
+            ClientMessages::MsgGuildstoragepermisson => 0x9C3,
             /*20130828 to latest
             길드창고
             Guild Storage
             */
-            ClientMessages::MsgGuildstoragetitle => 0x9c4,
+            ClientMessages::MsgGuildstoragetitle => 0x9C4,
             /*20130828 to 20130828
             길드창고의 사용 권한이 없습니다. 길드 마스터에게 요청하세요.
             20130904 to latest
             길드창고의 사용 권한이 없습니다.
             You do not have permission to use guild storage.
             */
-            ClientMessages::MsgGuildstoragepermissonwarningmsg => 0x9c5,
+            ClientMessages::MsgGuildstoragepermissonwarningmsg => 0x9C5,
 
             /*20130917 to latest
             한정판매 등록창
             Limited Sale Registration Window
             */
-            ClientMessages::MsgBargainsaletoolwndtitle => 0x9c6,
+            ClientMessages::MsgBargainsaletoolwndtitle => 0x9C6,
             /*20130917 to latest
             아이템 DB명
             Item DB Name
             */
-            ClientMessages::MsgBargainsaletoolwnddbname => 0x9c7,
+            ClientMessages::MsgBargainsaletoolwnddbname => 0x9C7,
             /*20130917 to latest
             아이템 DB번호
             Item DB Number
             */
-            ClientMessages::MsgBargainsaletoolwnddbnumber => 0x9c8,
+            ClientMessages::MsgBargainsaletoolwnddbnumber => 0x9C8,
             /*20130917 to latest
             판매 갯수
             Number of Sale
             */
-            ClientMessages::MsgBargainsaletoolwndsellcount => 0x9c9,
+            ClientMessages::MsgBargainsaletoolwndsellcount => 0x9C9,
             /*20130917 to latest
             판매 시작시간
             Sale Start Time
             */
-            ClientMessages::MsgBargainsaletoolwndsellstarttime => 0x9ca,
+            ClientMessages::MsgBargainsaletoolwndsellstarttime => 0x9CA,
             /*20130917 to latest
             판매할 시간
             Time to sell
             */
-            ClientMessages::MsgBargainsaletoolwndsellperiodtime => 0x9cb,
+            ClientMessages::MsgBargainsaletoolwndsellperiodtime => 0x9CB,
             /*20130917 to latest
             판매할 갯수를 입력해 주세요
             Please enter number you want to sell
             */
-            ClientMessages::MsgBargainsaletoolwndinputcountmsg => 0x9cc,
+            ClientMessages::MsgBargainsaletoolwndinputcountmsg => 0x9CC,
             /*20130917 to latest
             판매 시작시간을 입력해 주세요
             Enter start time of sale
             */
-            ClientMessages::MsgBargainsaletoolwndinputstarttimemsg => 0x9cd,
+            ClientMessages::MsgBargainsaletoolwndinputstarttimemsg => 0x9CD,
             /*20130917 to latest
             판매 시작시간의 범위가 맞지 않습니다
             Start time does not match the scope of sales.
             */
-            ClientMessages::MsgBargainsaletoolwndwrongrangemsg => 0x9ce,
+            ClientMessages::MsgBargainsaletoolwndwrongrangemsg => 0x9CE,
             /*20130917 to latest
             판매할 시간을 입력해 주세요
             Please enter the time
             */
-            ClientMessages::MsgBargainsaletoolwndinputperiodtimemsg => 0x9cf,
+            ClientMessages::MsgBargainsaletoolwndinputperiodtimemsg => 0x9CF,
             /*20130917 to latest
             Item DB Name을 입력해 주세요
             Please enter the Item DB Name
             */
-            ClientMessages::MsgBargainsaletoolwndinputitemdbnamemsg => 0x9d0,
+            ClientMessages::MsgBargainsaletoolwndinputitemdbnamemsg => 0x9D0,
             /*20130917 to latest
             Item ID 조회에 실패하였습니다. 확인 후 다시 시도해 주시기 바랍니다
             Item ID lookup failed. Please try again later
             */
-            ClientMessages::MsgBargainsaletoolwnditemidcheckfailedmsg => 0x9d1,
+            ClientMessages::MsgBargainsaletoolwnditemidcheckfailedmsg => 0x9D1,
             /*20130917 to latest
             >> ItemName : %s / Price : %dc / 수량 : %d / 판매기간 : %d월:%d일:%d시:%d분 ~ %d월:%d일:%d시:%d분
             >> ItemName: %s / Price: %dc / Quantity: %d / TimeOfSale: %dMonth:%dDay:%dMinute:%dSecond ~ %dMonth:%dDay:%dMinute:%dSecond
             */
-            ClientMessages::MsgBargainsaletoolwndresultformat => 0x9d2,
+            ClientMessages::MsgBargainsaletoolwndresultformat => 0x9D2,
             /*20130917 to latest
             등록에 성공하였습니다
             Registration successful
             */
-            ClientMessages::MsgBargainsaletoolwndapplysuccessmsg => 0x9d3,
+            ClientMessages::MsgBargainsaletoolwndapplysuccessmsg => 0x9D3,
             /*20130917 to latest
             등록에 실패하였습니다. 다시 시도해 주시기 바랍니다.
             Registration failure. Please try again later.
             */
-            ClientMessages::MsgBargainsaletoolwndapplyfailedmsg => 0x9d4,
+            ClientMessages::MsgBargainsaletoolwndapplyfailedmsg => 0x9D4,
             /*20130917 to latest
             이미 등록된 아이템이 있습니다. 다시 시도해 주시기 바랍니다.
             Item has already been registered. Please try again later.
             */
-            ClientMessages::MsgBargainsaletoolwndalreadyregisteredmsg => 0x9d5,
+            ClientMessages::MsgBargainsaletoolwndalreadyregisteredmsg => 0x9D5,
             /*20130917 to latest
             아이템 삭제에 실패 하였습니다. 다시 시도해 주시기 바랍니다.
             Failed to delete the item. Please try again later.
             */
-            ClientMessages::MsgBargainsaletoolwnddeletefailedmsg => 0x9d6,
+            ClientMessages::MsgBargainsaletoolwnddeletefailedmsg => 0x9D6,
             /*20130917 to latest
             %s 아이템이 삭제되었습니다.
             %s item has been deleted.
             */
-            ClientMessages::MsgBargainsaletoolwnddeletesuccessmsg => 0x9d7,
+            ClientMessages::MsgBargainsaletoolwnddeletesuccessmsg => 0x9D7,
             /*20130917 to latest
             특가
             Special
             */
-            ClientMessages::MsgBargainsalecashshoptabname => 0x9d8,
+            ClientMessages::MsgBargainsalecashshoptabname => 0x9D8,
             /*20130917 to latest
             한정판매 아이템 판매수량 갱신
             Sales limited sale item update
             */
-            ClientMessages::MsgBargainsalecashshoprefreshbtntooltip => 0x9d9,
+            ClientMessages::MsgBargainsalecashshoprefreshbtntooltip => 0x9D9,
             /*20130917 to latest
             판매종료
             Discontinued
             */
-            ClientMessages::MsgBargainsalecashshoptimer => 0x9da,
+            ClientMessages::MsgBargainsalecashshoptimer => 0x9DA,
             /*20130917 to latest
             수량갱신이 필요합니다
             Quantity update is required
             */
-            ClientMessages::MsgBargainsalecashshoprefreshmsg => 0x9db,
+            ClientMessages::MsgBargainsalecashshoprefreshmsg => 0x9DB,
             /*20130917 to latest
             재고가 부족하여 %d 개 만큼만 구입합니다
             The %d is out of stock or to buy as much as
             */
-            ClientMessages::MsgBargainsalecashshopcheckcountmsg => 0x9dc,
+            ClientMessages::MsgBargainsalecashshopcheckcountmsg => 0x9DC,
             /*20130917 to latest
             %s 아이템의 특가판매가 시작되었습니다
             %s Items are on sale
             */
-            ClientMessages::MsgBargainsalestartmsg => 0x9dd,
+            ClientMessages::MsgBargainsalestartmsg => 0x9DD,
             /*20130917 to latest
             %s 아이템의 매진 또는 판매시간만료로 인해 한정판매가 종료되었습니다
             %s time-out or sale of the items sold has been shut down due to the limited sales
             */
-            ClientMessages::MsgBargainsaleclosemsg => 0x9de,
+            ClientMessages::MsgBargainsaleclosemsg => 0x9DE,
             /*20130917 to latest
             /한정판매
             /limitedsale
             */
-            ClientMessages::MsgBargainsaletoolwndcall => 0x9df,
+            ClientMessages::MsgBargainsaletoolwndcall => 0x9DF,
 
             /*20131002 to latest
             http://www.ragnarokeurope.com/news/home-r70.html
             */
-            ClientMessages::MsgFrancecashshopurl => 0x9e0,
+            ClientMessages::MsgFrancecashshopurl => 0x9E0,
             /*20131002 to latest
             http://www.ragnarokeurope.com/index.php?rubrique=70&Steam
             */
-            ClientMessages::MsgFrancecashshopurlsteam => 0x9e1,
+            ClientMessages::MsgFrancecashshopurlsteam => 0x9E1,
 
             /*20131016 to latest
             구입에 성공한 품목
             Item purchase successful
             */
-            ClientMessages::MsgPararesulttitle => 0x9e2,
+            ClientMessages::MsgPararesulttitle => 0x9E2,
             /*20131016 to latest
             주문량이 재고량을 초과하였습니다.
             You do not have enough items.
             */
-            ClientMessages::MsgParawrongpurchasecountmsg => 0x9e3,
+            ClientMessages::MsgParawrongpurchasecountmsg => 0x9E3,
             /*20131016 to latest
             초대할수 없는 케릭터 이름입니다.
             Name of the character that cannot be invited.
             */
-            ClientMessages::MsgPartyinvite => 0x9e4,
+            ClientMessages::MsgPartyinvite => 0x9E4,
             /*20131016 to latest
             길드초대할수  없는 케릭터 이름입니다.
             You cannot invite the character to the guild.
             */
-            ClientMessages::MsgGuildinvite => 0x9e5,
+            ClientMessages::MsgGuildinvite => 0x9E5,
             /*20131016 to latest
             일부 품목은 이미 판매되어 구입에 실패하였습니다.
             Item already Sold,Purchase Failed.
             */
-            ClientMessages::MsgParapurchaseitemfail => 0x9e6,
+            ClientMessages::MsgParapurchaseitemfail => 0x9E6,
 
             /*20131030 to latest
             현재 위치에서 워프 장소를 기억 할 수 없습니다.
             The warp spot cannot be memorized in current position.
             */
-            ClientMessages::MsgNowarpskill2 => 0x9e7,
+            ClientMessages::MsgNowarpskill2 => 0x9E7,
             /*20131030 to latest
             무게가 초과되어 아이템을 구매할 수 없습니다.
             Cannot purchase item, You exceeded the weight.
             */
-            ClientMessages::MsgParapurchaseitemweight => 0x9e8,
+            ClientMessages::MsgParapurchaseitemweight => 0x9E8,
             /*20131030 to latest
             No.
             */
-            ClientMessages::MsgGuildstoragenumber => 0x9e9,
+            ClientMessages::MsgGuildstoragenumber => 0x9E9,
             /*20131030 to latest
             아이템
             Item
             */
-            ClientMessages::MsgGuildstorageitem => 0x9ea,
+            ClientMessages::MsgGuildstorageitem => 0x9EA,
             /*20131030 to latest
             개수
             Number
             */
-            ClientMessages::MsgGuildstorageitemcount => 0x9eb,
+            ClientMessages::MsgGuildstorageitemcount => 0x9EB,
             /*20131030 to latest
             이름
             Name
             */
-            ClientMessages::MsgGuildstorageusername => 0x9ec,
+            ClientMessages::MsgGuildstorageusername => 0x9EC,
             /*20131030 to latest
             시간
             Time
             */
-            ClientMessages::MsgGuildstoragelogtime => 0x9ed,
+            ClientMessages::MsgGuildstoragelogtime => 0x9ED,
             /*20131030 to latest
             입/출
             Input/Output
             */
-            ClientMessages::MsgGuildstorageiteminout => 0x9ee,
+            ClientMessages::MsgGuildstorageiteminout => 0x9EE,
             /*20131030 to latest
             로그가 존재하지 않습니다.
             Log does not exist.
             */
-            ClientMessages::MsgGuildstoragelogfinish => 0x9ef,
+            ClientMessages::MsgGuildstoragelogfinish => 0x9EF,
             /*20131030 to latest
             전 체
             Entire
             */
-            ClientMessages::MsgGuildstoragelogall => 0x9f0,
+            ClientMessages::MsgGuildstoragelogall => 0x9F0,
             /*20131030 to latest
             넣 기
             Insert Symbol
             */
-            ClientMessages::MsgGuildstoragelogin => 0x9f1,
+            ClientMessages::MsgGuildstoragelogin => 0x9F1,
             /*20131030 to latest
             빼 기
             Remaining Time
             */
-            ClientMessages::MsgGuildstoragelogout => 0x9f2,
+            ClientMessages::MsgGuildstoragelogout => 0x9F2,
 
             /*20131106 to latest
             길드 창고 내역
             Guild Storage Logs
             */
-            ClientMessages::MsgGuildstoragelogwndname => 0x9f3,
+            ClientMessages::MsgGuildstoragelogwndname => 0x9F3,
             /*20131106 to latest
             내역은 최근 100개만 표시됩니다.
             100 entries are displayed.
             */
-            ClientMessages::MsgGuildstoragelogcaution => 0x9f4,
+            ClientMessages::MsgGuildstoragelogcaution => 0x9F4,
 
             /*20131120 to 20131120
             %s : +%d
@@ -37841,150 +37841,150 @@ impl ClientMessages {
             길드창고의 사용 시간 2분이 경과되어 자동으로 종료됩니다.
             Guild Storage is open only for 2 minutes, and will close automatically.
             */
-            ClientMessages::MsgGuildstorageclosetimeout => 0x9f5,
+            ClientMessages::MsgGuildstorageclosetimeout => 0x9F5,
 
             /*20131204 to latest
             Incorrect GameSamba ID. Please Try Again.
             */
-            ClientMessages::MsgIncorrectgamesambeid => 0x9f6,
+            ClientMessages::MsgIncorrectgamesambeid => 0x9F6,
             /*20131204 to latest
             %s [%d옵션] : %d 개
             %s [%d Option]: %d Quantity
             */
-            ClientMessages::MsgEa5 => 0x9f7,
+            ClientMessages::MsgEa5 => 0x9F7,
 
             /*20131211 to latest
             코인이 필요합니다.
             Requires a Coin.
             */
-            ClientMessages::MsgUseskillfailcoints => 0x9f8,
+            ClientMessages::MsgUseskillfailcoints => 0x9F8,
             /*20131211 to latest
             코인이 %d 개가 필요합니다.
             %d Coins are required.
             */
-            ClientMessages::MsgUseskillfailcointsnum => 0x9f9,
+            ClientMessages::MsgUseskillfailcointsnum => 0x9F9,
             /*20131211 to latest
             개틀링건 계열의 총기류를 장착한 상태여야 합니다.
             Gatling Gun should be equipped with bullets.
             */
-            ClientMessages::MsgFailneedequippedgungatling => 0x9fa,
+            ClientMessages::MsgFailneedequippedgungatling => 0x9FA,
             /*20131211 to latest
             샷건 계열의 총기류를 장착한 상태여야 합니다.
             Shotguns should be equipped with bullets.
             */
-            ClientMessages::MsgFailneedequippedgunshotgun => 0x9fb,
+            ClientMessages::MsgFailneedequippedgunshotgun => 0x9FB,
             /*20131211 to latest
             라이플 계열의 총기류를 장착한 상태여야 합니다.
             Rifle should be equipped with bullets.
             */
-            ClientMessages::MsgFailneedequippedgunrifle => 0x9fc,
+            ClientMessages::MsgFailneedequippedgunrifle => 0x9FC,
             /*20131211 to latest
             리볼버 계열의 총기류를 장착한 상태여야 합니다.
             Pair of Revolver should be equipped with bullets.
             */
-            ClientMessages::MsgFailneedequippedgunhandgun => 0x9fd,
+            ClientMessages::MsgFailneedequippedgunhandgun => 0x9FD,
             /*20131211 to latest
             성속성 블릿을 장착해야 합니다
             [Silver Bullet] weapon class must be equipped.
             */
-            ClientMessages::MsgFailneedequippedpropertysaintbullet => 0x9fe,
+            ClientMessages::MsgFailneedequippedpropertysaintbullet => 0x9FE,
             /*20131211 to latest
             아이템 판매 내역
             Item Sell History
             */
-            ClientMessages::MsgMerchantsolditemlog => 0x9ff,
+            ClientMessages::MsgMerchantsolditemlog => 0x9FF,
             /*20131211 to latest
             아이템 구매 내역
             Item Purchase History
             */
-            ClientMessages::MsgMerchantitembuylog => 0xa00,
+            ClientMessages::MsgMerchantitembuylog => 0xA00,
 
             /*20131218 to latest
             그레네이드런쳐 계열의 총기류를 장착한 상태여야 합니다.
             Grenade Launcher should be equipped with bullets.
             */
-            ClientMessages::MsgFailneedequippedgungranade => 0xa01,
+            ClientMessages::MsgFailneedequippedgungranade => 0xA01,
             /*20131218 to latest
             [히트배럴],[매드니스 캔슬러],[플래티넘 알터] 의 효과들은 중첩하여 사용할 수 없습니다.
             [Heat barrel],[Last Stand],[Platinum Alter] cannot be used while sitting.
             */
-            ClientMessages::MsgFailduplicateheatbarrelgsmadnesscancelpalter => 0xa02,
+            ClientMessages::MsgFailduplicateheatbarrelgsmadnesscancelpalter => 0xA02,
 
             /*20131223 to latest
             현재 맵에서는 사용할 수 없는 스킬입니다.
             Cannot use skill in this map.
             */
-            ClientMessages::MsgUseskillfailmap => 0xa03,
+            ClientMessages::MsgUseskillfailmap => 0xA03,
 
             /*20140108 to latest
             길드 창고를 이용중인 경우 창고의 모든 아이템이 사라지게 됩니다.
             If you are using a guild storage, all items inside it will disappear.
             */
-            ClientMessages::MsgGuildstoragewarning => 0xa04,
+            ClientMessages::MsgGuildstoragewarning => 0xA04,
 
             /*20140115 to latest
             http://ragnarok.gamesamba.com/paytest.html
             http://ragnarok.gamesamba.com/
             */
-            ClientMessages::MsgAmericacashshopurlgamesamba => 0xa05,
+            ClientMessages::MsgAmericacashshopurlgamesamba => 0xA05,
             /*20140115 to latest
             로그인을 위해 패스워드를 입력해주세요.
             Please enter a password to login.
             */
-            ClientMessages::MsgSecondpasswordinfo4 => 0xa06,
+            ClientMessages::MsgSecondpasswordinfo4 => 0xA06,
 
             /*20140129 to latest
             펫 진화
             Pet Evolution
             */
-            ClientMessages::MsgPetevolution => 0xa07,
+            ClientMessages::MsgPetevolution => 0xA07,
             /*20140129 to latest
             진화 - %s
             Evolution - %s
             */
-            ClientMessages::MsgPetevolutionwithpetname => 0xa08,
+            ClientMessages::MsgPetevolutionwithpetname => 0xA08,
             /*20140129 to latest
             진화에는 다음의 재료가 필요합니다.
             Evolution requires the following ingredients:
             */
-            ClientMessages::MsgPetevolutionneeditem => 0xa09,
+            ClientMessages::MsgPetevolutionneeditem => 0xA09,
             /*20140129 to latest
             진화 하시겠습니까?
             Are you sure you want to evolve your pet?
             */
-            ClientMessages::MsgDoyouwanttoevolvepet => 0xa0a,
+            ClientMessages::MsgDoyouwanttoevolvepet => 0xA0A,
             /*20140129 to latest
             알 수 없는 오류
             Unknown Error
             */
-            ClientMessages::MsgPetevolutionfailunknown => 0xa0b,
+            ClientMessages::MsgPetevolutionfailunknown => 0xA0B,
             /*20140129 to latest
             소환된펫을 갖고 있지 않습니다.
             Pet Cannot be hatched.
             */
-            ClientMessages::MsgPetevolutionfailnotexistcallpet => 0xa0c,
+            ClientMessages::MsgPetevolutionfailnotexistcallpet => 0xA0C,
             /*20140129 to latest
             요청한 것이 펫알이 아닙니다.
             It is not requested petal.
             */
-            ClientMessages::MsgPetevolutionfailnotpetegg => 0xa0d,
+            ClientMessages::MsgPetevolutionfailnotpetegg => 0xA0D,
             /*20140129 to 20140205
             진화가 불가능한 요청입니다.
             20140212 to latest
             진화 재료가 부족합니다.
             Evolution material is low.
             */
-            ClientMessages::MsgPetevolutionfailrecipe => 0xa0e,
+            ClientMessages::MsgPetevolutionfailrecipe => 0xA0E,
             /*20140129 to latest
             진화에 필요한 재료가 부족합니다.
             Insufficient materials for evolution.
             */
-            ClientMessages::MsgPetevolutionfailmaterial => 0xa0f,
+            ClientMessages::MsgPetevolutionfailmaterial => 0xA0F,
             /*20140129 to latest
             친밀도가 절친인 상태에서만 진화가 가능합니다.
             Loyal Intimacy is required to evolve.
             */
-            ClientMessages::MsgPetevolutionfailrgfamiliar => 0xa10,
+            ClientMessages::MsgPetevolutionfailrgfamiliar => 0xA10,
 
             /*20140212 to 20170830
             자동 먹이 주기
@@ -37992,109 +37992,109 @@ impl ClientMessages {
             펫 자동 먹이 주기
             Automatic feeding
             */
-            ClientMessages::MsgPetautofeeding => 0xa11,
+            ClientMessages::MsgPetautofeeding => 0xA11,
             /*20140212 to latest
             펫에게 먹이를 주었습니다. '%s' 잔여량 %d개
             Feeding the pet. %d '%d' remaining
             */
-            ClientMessages::MsgPetautofeedingrest => 0xa12,
+            ClientMessages::MsgPetautofeedingrest => 0xA12,
             /*20140212 to 20170830
             자동 먹이 주기 활성화 On
             20170906 to latest
             펫 자동 먹이 주기 활성화 On
             Automatic feeding turned On
             */
-            ClientMessages::MsgPetautofeedingon => 0xa13,
+            ClientMessages::MsgPetautofeedingon => 0xA13,
             /*20140212 to 20170830
             자동 먹이 주기 활성화 Off
             20170906 to latest
             펫 자동 먹이 주기 활성화 Off
             Automatic feeding turned Off
             */
-            ClientMessages::MsgPetautofeedingoff => 0xa14,
+            ClientMessages::MsgPetautofeedingoff => 0xA14,
             /*20140212 to latest
             갱신
             Update
             */
-            ClientMessages::MsgRefresh => 0xa15,
+            ClientMessages::MsgRefresh => 0xA15,
             /*20140212 to 20140702
             %d 분전
             20140709 to latest
             %d 분 전
             %d minutes ago
             */
-            ClientMessages::MsgTimelineminute => 0xa16,
+            ClientMessages::MsgTimelineminute => 0xA16,
             /*20140212 to 20140702
             %d 시간전
             20140709 to latest
             %d 시간 전
             %d hours ago
             */
-            ClientMessages::MsgTimelinehour => 0xa17,
+            ClientMessages::MsgTimelinehour => 0xA17,
             /*20140212 to 20140702
             %d 일전
             20140709 to latest
             %d 일 전
             %d days ago
             */
-            ClientMessages::MsgTimelineday => 0xa18,
+            ClientMessages::MsgTimelineday => 0xA18,
 
             /*20140319 to latest
             %d%% ( Premium %d%% + %s Server )
             %d%%% ( Premium %d%%% + %s Server )
             */
-            ClientMessages::MsgBasicexpmsgph => 0xa19,
+            ClientMessages::MsgBasicexpmsgph => 0xA19,
 
             /*20140326 to latest
             우편 발송
             Mailed
             */
-            ClientMessages::MsgSendmail => 0xa1a,
+            ClientMessages::MsgSendmail => 0xA1A,
             /*20140326 to latest
             메일이 전송되었습니다.
             Your mail has been sent.
             */
-            ClientMessages::MsgMailsent => 0xa1b,
+            ClientMessages::MsgMailsent => 0xA1B,
             /*20140326 to latest
             아이템이 인벤토리로 이동되었습니다.
             This item has been moved to the inventory.
             */
-            ClientMessages::MsgGetitemsfrommailsucceed => 0xa1c,
+            ClientMessages::MsgGetitemsfrommailsucceed => 0xA1C,
             /*20140326 to latest
             아이템 받기가 실패하였습니다.
             Failed to get items.
             */
-            ClientMessages::MsgGetitemsfrommailfailed => 0xa1d,
+            ClientMessages::MsgGetitemsfrommailfailed => 0xA1D,
             /*20140326 to latest
             인벤토리를 비워주세요
             Please empty your inventory.
             */
-            ClientMessages::MsgGetitemsfrommailoverweight => 0xa1e,
+            ClientMessages::MsgGetitemsfrommailoverweight => 0xA1E,
             /*20140326 to latest
             제니를 받았습니다.
             Zeny received.
             */
-            ClientMessages::MsgGetzenyfrommailsucceed => 0xa1f,
+            ClientMessages::MsgGetzenyfrommailsucceed => 0xA1F,
             /*20140326 to latest
             제니 받기가 실패하였습니다.
             Failed to get zeny.
             */
-            ClientMessages::MsgGetzenyfrommailfailed => 0xa20,
+            ClientMessages::MsgGetzenyfrommailfailed => 0xA20,
             /*20140326 to latest
             제니의 한계치를 넘었습니다.
             Exceeded the limits of zenny.
             */
-            ClientMessages::MsgGetzenyfrommailoveramount => 0xa21,
+            ClientMessages::MsgGetzenyfrommailoveramount => 0xA21,
             /*20140326 to latest
             아이템 첨부 성공
             Items attached success
             */
-            ClientMessages::MsgSetitemstomailsucceed => 0xa22,
+            ClientMessages::MsgSetitemstomailsucceed => 0xA22,
             /*20140326 to latest
             받는 사람의 이름이 반드시 들어가야 합니다.
             The name of the recipient must be included.
             */
-            ClientMessages::MsgInvalidmailrecieverinfo => 0xa23,
+            ClientMessages::MsgInvalidmailrecieverinfo => 0xA23,
             /*20140326 to 20140416
             제목의 길이는 4자이상 이어야 합니다.
             20140423 to 20141001
@@ -38103,68 +38103,68 @@ impl ClientMessages {
             제목의 길이는 한글 2자~25자, 영문 4자~50자 이어야 합니다.
             The length of the title must be 4 to 50 characters long.
             */
-            ClientMessages::MsgInvalidmailtitleinfo => 0xa24,
+            ClientMessages::MsgInvalidmailtitleinfo => 0xA24,
             /*20140326 to latest
             메일 전송이 실패하였습니다.
             Mail delivery failed.
             */
-            ClientMessages::MsgFailedsendmail => 0xa25,
+            ClientMessages::MsgFailedsendmail => 0xA25,
             /*20140326 to latest
             적절하지 못한 아이템으로 전송 실패하였습니다.
             Transmission has failed to inappropriate items.
             */
-            ClientMessages::MsgFailedsendmailitem => 0xa26,
+            ClientMessages::MsgFailedsendmailitem => 0xA26,
             /*20140326 to latest
             받는 사람의 정보가 존재하지 않습니다.
             Information of the recipient does not exist.
             */
-            ClientMessages::MsgFaieldsendmailto => 0xa27,
+            ClientMessages::MsgFaieldsendmailto => 0xA27,
 
             /*20140402 to latest
             %s [%d옵션]
             %s [%d Option]
             */
-            ClientMessages::MsgEa6 => 0xa28,
+            ClientMessages::MsgEa6 => 0xA28,
             /*20140402 to latest
             레벨은 1~%d 사이의 숫자를 입력해 주세요.
             Level, enter a number between 1 and %d.
             */
-            ClientMessages::MsgPartybookingerr5R2 => 0xa29,
+            ClientMessages::MsgPartybookingerr5R2 => 0xA29,
 
             /*20140409 to latest
             소지창의 여유공간을 확보해주세요.
             Please free the window possessing space.
             */
-            ClientMessages::MsgItemwndoverfull => 0xa2a,
+            ClientMessages::MsgItemwndoverfull => 0xA2A,
             /*20140409 to 20140416
             수신자의 메일 보관 용량이 초과되었습니다.
             20140423 to latest
             메일 보내기 횟수가 초과되었습니다.
             Sending mail count exceeded.
             */
-            ClientMessages::MsgFailedmaillimitcnt => 0xa2b,
+            ClientMessages::MsgFailedmaillimitcnt => 0xA2B,
 
             /*20140416 to latest
             메일을 열 수 없습니다.
             You can not open the mail.
             */
-            ClientMessages::MsgFailedtowritemail => 0xa2c,
+            ClientMessages::MsgFailedtowritemail => 0xA2C,
             /*20140416 to latest
             You are currently joined in CLan !!
             You currently belong to a clan.
             */
-            ClientMessages::MsgJoinedinclan => 0xa2d,
+            ClientMessages::MsgJoinedinclan => 0xA2D,
             /*20140416 to latest
             골드 PC방 마일리지 정보
             Gold PC rooms mileage information
             */
-            ClientMessages::MsgGoldpccafemileage => 0xa2e,
+            ClientMessages::MsgGoldpccafemileage => 0xA2E,
 
             /*20140423 to latest
             펫 액세서리를 해제해야 진화가 가능합니다.
             Unequip pet accessories first to start evolution
             */
-            ClientMessages::MsgPetevolutionfailpetaccoff => 0xa2f,
+            ClientMessages::MsgPetevolutionfailpetaccoff => 0xA2F,
             /*20140423 to 20140430
              / %d 분후
             20140508 to 20140702
@@ -38173,7 +38173,7 @@ impl ClientMessages {
             %d 분 후
             %d minutes later
             */
-            ClientMessages::MsgTimelineminute2 => 0xa30,
+            ClientMessages::MsgTimelineminute2 => 0xA30,
             /*20140423 to 20140430
              / %d 시간후
             20140508 to 20140702
@@ -38182,7 +38182,7 @@ impl ClientMessages {
             %d 시간 후
             %d hours later
             */
-            ClientMessages::MsgTimelinehour2 => 0xa31,
+            ClientMessages::MsgTimelinehour2 => 0xA31,
             /*20140423 to 20140430
              / %d 일후
             20140508 to 20140702
@@ -38191,45 +38191,45 @@ impl ClientMessages {
             %d 일 후
             %d days later
             */
-            ClientMessages::MsgTimelineday2 => 0xa32,
+            ClientMessages::MsgTimelineday2 => 0xA32,
             /*20140423 to latest
             확인 버튼을 눌러 C-CODE를 확인하세요.
             Press the OK button to confirm the C-CODE.
             */
-            ClientMessages::MsgInvalidccodeinfo => 0xa33,
+            ClientMessages::MsgInvalidccodeinfo => 0xA33,
             /*20140423 to latest
             첨부된 물품을 획득 후 삭제가 가능합니다.
             After obtaining the attached article can be deleted.
             */
-            ClientMessages::MsgFaileddeletemail => 0xa34,
+            ClientMessages::MsgFaileddeletemail => 0xA34,
             /*20140423 to latest
             현재 보유 제니 보다 많은 제니를 보낼 수 없습니다.
             You can not send any more zeny.
             */
-            ClientMessages::MsgFailedsendmailzeny => 0xa35,
+            ClientMessages::MsgFailedsendmailzeny => 0xA35,
             /*20140423 to latest
             수수료 : %s Zeny
             Fee: %s Zeny
             */
-            ClientMessages::MsgSendmailcommission => 0xa36,
+            ClientMessages::MsgSendmailcommission => 0xA36,
             /*20140423 to latest
             받는 사람의 이름이 존재하지 않습니다.
             The recipient's name does not exist.
             */
-            ClientMessages::MsgFailemailrecieverinfo => 0xa37,
+            ClientMessages::MsgFailemailrecieverinfo => 0xA37,
 
             /*20140430 to latest
             E X P : %.1f%% ( basic %.1f%% premium %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgTaiwanpersonalinfoexpmsg => 0xa38,
+            ClientMessages::MsgTaiwanpersonalinfoexpmsg => 0xA38,
             /*20140430 to latest
             DROP  : %.1f%% ( basic %.1f%% premium %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgTaiwanpersonalinfodropmsg => 0xa39,
+            ClientMessages::MsgTaiwanpersonalinfodropmsg => 0xA39,
             /*20140430 to latest
             DEATH : %.1f%% ( basic %.1f%% premium %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgTaiwanpersonalinfodeathmsg => 0xa3a,
+            ClientMessages::MsgTaiwanpersonalinfodeathmsg => 0xA3A,
 
             /*20140514 to 20140528
             보유 가능한 최대 마일리지 : %d
@@ -38237,7 +38237,7 @@ impl ClientMessages {
             골드 PC방 마일리지는 최대 %d점까지 모을 수 있습니다.
             You can accumulate points of PC Gold-club up to %d points maximum.
             */
-            ClientMessages::MsgMileagehelp => 0xa3b,
+            ClientMessages::MsgMileagehelp => 0xA3B,
 
             /*20140521 to 20140521
             아이템 버리기가 불 가능한 서버 입니다.
@@ -38246,67 +38246,67 @@ impl ClientMessages {
             해당 서버에서 사용 할 수 없는 기능 입니다
             This function can not be used on the server.
             */
-            ClientMessages::MsgRestraintoftrade1 => 0xa3c,
+            ClientMessages::MsgRestraintoftrade1 => 0xA3C,
             /*20140521 to latest
             수래 이용이 불 가능한 서버 입니다.
             Imposible to use in server.
             */
-            ClientMessages::MsgRestraintoftrade2 => 0xa3d,
+            ClientMessages::MsgRestraintoftrade2 => 0xA3D,
             /*20140521 to latest
             옥션 이용이 불 가능한 서버 입니다.
             The auction is not available in server.
             */
-            ClientMessages::MsgRestraintoftrade3 => 0xa3e,
+            ClientMessages::MsgRestraintoftrade3 => 0xA3E,
             /*20140521 to latest
             거래가 불 가능한 서버 입니다.
             The deal is imposible in server.
             */
-            ClientMessages::MsgRestraintoftrade4 => 0xa3f,
+            ClientMessages::MsgRestraintoftrade4 => 0xA3F,
             /*20140521 to 20140521
             아이템 편지 보내기가 불 가능한 서버 입니다.
             20140528 to latest
             아이템 버리기가 불 가능한 서버 입니다.
             Items discard is imposible in server.
             */
-            ClientMessages::MsgRestraintoftrade5 => 0xa40,
+            ClientMessages::MsgRestraintoftrade5 => 0xA40,
             /*20140521 to latest
             상점 판매 기능을 사용할수 없습니다.
             Stores selling features are not available.
             */
-            ClientMessages::MsgRestraintoftrade6 => 0xa41,
+            ClientMessages::MsgRestraintoftrade6 => 0xA41,
             /*20140521 to latest
             소환물의 SP가 부족합니다.
             The SP's summoned enough.
             */
-            ClientMessages::MsgUseskillfailsummonspinsufficient => 0xa42,
+            ClientMessages::MsgUseskillfailsummonspinsufficient => 0xA42,
 
             /*20140528 to 20140702
             Weight : %s/%s
             20140709 to latest
             %s/%s
             */
-            ClientMessages::MsgSendmailweight => 0xa43,
+            ClientMessages::MsgSendmailweight => 0xA43,
             /*20140528 to latest
             메일 내용의 최대 길이는 1K 이하 입니다.
             The maximum length of the message content is 1K.
             */
-            ClientMessages::MsgInvalidmailcontentsinfo => 0xa44,
+            ClientMessages::MsgInvalidmailcontentsinfo => 0xA44,
             /*20140528 to latest
             아이템 첨부 실패
             Failed to attach an item.
             */
-            ClientMessages::MsgSetitemstomailfailed => 0xa45,
+            ClientMessages::MsgSetitemstomailfailed => 0xA45,
             /*20140528 to latest
             메일에 첨부할수 있는 아이템의 무게가 초과되었습니다.
             The weight of the items that can be attached to mail has been exceeded.
             */
-            ClientMessages::MsgSetitemstomailoverweight => 0xa46,
+            ClientMessages::MsgSetitemstomailoverweight => 0xA46,
 
             /*20140611 to latest
             이미 서비스 중입니다. 잠시 후 다시 시도해 주세요.
             Is already in service. Please try again in a few minutes.
             */
-            ClientMessages::MsgDynamicnpcfailduplicatename => 0xa47,
+            ClientMessages::MsgDynamicnpcfailduplicatename => 0xA47,
 
             /*20140618 to 20140924
             환상의 룰렛창을 열 수 없습니다.
@@ -38314,54 +38314,54 @@ impl ClientMessages {
             행운의 룰렛창을 열 수 없습니다.
             Unable to open the window of Lucky Roulette.
             */
-            ClientMessages::MsgFailedopenroullette => 0xa48,
+            ClientMessages::MsgFailedopenroullette => 0xA48,
             /*20140618 to 20140924
             환상의 룰렛창을 닫을 수 없습니다.
             20141001 to latest
             행운의 룰렛창을 닫을 수 없습니다.
             Unable to close the window of the Lucky Roulette.
             */
-            ClientMessages::MsgFailedcloseroullette => 0xa49,
+            ClientMessages::MsgFailedcloseroullette => 0xA49,
             /*20140618 to 20140924
             환상의 룰렛을 시작 할 수 없습니다.
             20141001 to latest
             행운의 룰렛을 시작 할 수 없습니다.
             You can not start a roulette wheel of fortune.
             */
-            ClientMessages::MsgFailedgenerateroullette => 0xa4a,
+            ClientMessages::MsgFailedgenerateroullette => 0xA4A,
             /*20140618 to 20140924
             환상의 룰렛을 시작하기 위해서는 포인트가 필요합니다.
             20141001 to latest
             행운의 룰렛을 시작하기 위해서는 포인트가 필요합니다.
             Points is required to play Lucky Roulette.
             */
-            ClientMessages::MsgNotenoughroullettepoint => 0xa4b,
+            ClientMessages::MsgNotenoughroullettepoint => 0xA4B,
             /*20140618 to latest
             당첨된 아이템을 수령할 수 없습니다.
             You can not receive a winning items.
             */
-            ClientMessages::MsgFailedrecvitem => 0xa4c,
+            ClientMessages::MsgFailedrecvitem => 0xA4C,
 
             /*20140625 to latest
             인벤토리에 아이템 개수가 초과되었습니다.
             The number of items in the inventory has been exceeded.
             */
-            ClientMessages::MsgFailedrecvitemovercount => 0xa4d,
+            ClientMessages::MsgFailedrecvitemovercount => 0xA4D,
             /*20140625 to latest
             무게가 초과하였습니다. 소지창의 여유공간을 확보해주세요.
             The weight has been exceeded. Please free up the possesion window.
             */
-            ClientMessages::MsgFailedrecvitemoverweight => 0xa4e,
+            ClientMessages::MsgFailedrecvitemoverweight => 0xA4E,
             /*20140625 to latest
             노점 개설 실패.
             Failed to open stalls.
             */
-            ClientMessages::MsgMerchantshopmakingfail => 0xa4f,
+            ClientMessages::MsgMerchantshopmakingfail => 0xA4F,
             /*20140625 to latest
             룰렛이 돌고 있습니다. 경품을 확인 후에 다시 시도해주세요.
             The roulette wheel is spinning. Please try again after checking with prizes.
             */
-            ClientMessages::MsgFailedcloseroullettewnd => 0xa50,
+            ClientMessages::MsgFailedcloseroullettewnd => 0xA50,
 
             /*20140702 to 20140917
             환상의 룰렛
@@ -38369,53 +38369,53 @@ impl ClientMessages {
             행운의 룰렛
             Lucky Roulette
             */
-            ClientMessages::MsgRoullettewnd => 0xa51,
+            ClientMessages::MsgRoullettewnd => 0xA51,
             /*20140702 to latest
             아이템 판매 시 소리로 알림
             Notify when item sell out
             */
-            ClientMessages::MsgSoundeffectitemsellwnd => 0xa52,
+            ClientMessages::MsgSoundeffectitemsellwnd => 0xA52,
 
             /*20140709 to latest
             수수료를 확인해주세요.
             Please check the fees.
             */
-            ClientMessages::MsgFailedsendmailitems => 0xa53,
+            ClientMessages::MsgFailedsendmailitems => 0xA53,
             /*20140709 to 20140716
             유저이름확인
             20140723 to latest
             유저이름 확인
             Verify user name
             */
-            ClientMessages::MsgCheckusername => 0xa54,
+            ClientMessages::MsgCheckusername => 0xA54,
             /*20140709 to latest
             삭제 예정
             Schedule deletion
             */
-            ClientMessages::MsgDeleteduedate => 0xa55,
+            ClientMessages::MsgDeleteduedate => 0xA55,
 
             /*20140723 to latest
             달성과제
             Achievable challenge
             */
-            ClientMessages::MsgAchievementsystem => 0xa56,
+            ClientMessages::MsgAchievementsystem => 0xA56,
             /*20140723 to latest
             달성총점
             Achieve overall
             */
-            ClientMessages::MsgAchievementtotalscore => 0xa57,
+            ClientMessages::MsgAchievementtotalscore => 0xA57,
             /*20140723 to latest
             달성등급
             Achieve rank
             */
-            ClientMessages::MsgAchievementgrade => 0xa58,
+            ClientMessages::MsgAchievementgrade => 0xA58,
             /*20140723 to 20150217
             다음 보상박스까지 [%5d]점
             20150225 to latest
             다음 달성등급까지 [%5d]점
             The following compensation box until [% 5d] point
             */
-            ClientMessages::MsgAchievementscorerequiredtoreward => 0xa59,
+            ClientMessages::MsgAchievementscorerequiredtoreward => 0xA59,
             /*20140723 to 20140723
             개요
             Overview
@@ -38423,7 +38423,7 @@ impl ClientMessages {
             진척상황
             Progress
             */
-            ClientMessages::MsgAchievementsummarytitle => 0xa5a,
+            ClientMessages::MsgAchievementsummarytitle => 0xA5A,
             /*20140723 to 20140723
             일반
             General
@@ -38431,7 +38431,7 @@ impl ClientMessages {
             최근 달성 업적
             Recent Achievements
             */
-            ClientMessages::MsgAchievementrecentachievement => 0xa5b,
+            ClientMessages::MsgAchievementrecentachievement => 0xA5B,
             /*20140723 to 20140723
             캐릭터
             Role
@@ -38441,7 +38441,7 @@ impl ClientMessages {
             仙貝 품목
             Cracker  Item
             */
-            ClientMessages::MsgCashgedare1 => 0xa5c,
+            ClientMessages::MsgCashgedare1 => 0xA5C,
             /*20140723 to 20140723
             행동
             Action
@@ -38451,7 +38451,7 @@ impl ClientMessages {
             仙貝 : %d / %d
             Cracker  : %d / %d
             */
-            ClientMessages::MsgCashgedare2 => 0xa5d,
+            ClientMessages::MsgCashgedare2 => 0xA5D,
             /*20140723 to 20140723
             전투
             Battle
@@ -38461,7 +38461,7 @@ impl ClientMessages {
             仙貝가 부족합니다.
             Cracker  is low.
             */
-            ClientMessages::MsgCashgedarefailmoney => 0xa5e,
+            ClientMessages::MsgCashgedarefailmoney => 0xA5E,
             /*20140723 to 20140723
             모험
             Adventure
@@ -38470,7 +38470,7 @@ impl ClientMessages {
             20141001 to latest
             %s
             */
-            ClientMessages::MsgCashgedaremoney => 0xa5f,
+            ClientMessages::MsgCashgedaremoney => 0xA5F,
             /*20140723 to 20140723
             결투
             Duel
@@ -38478,7 +38478,7 @@ impl ClientMessages {
             개요
             Overview
             */
-            ClientMessages::MsgAchievementtabsummary => 0xa60,
+            ClientMessages::MsgAchievementtabsummary => 0xA60,
             /*20140723 to 20140723
             수련
             Lily
@@ -38486,7 +38486,7 @@ impl ClientMessages {
             일반
             General
             */
-            ClientMessages::MsgAchievementtabgeneral => 0xa61,
+            ClientMessages::MsgAchievementtabgeneral => 0xA61,
             /*20140723 to 20140723
             퀘스트
             Quest
@@ -38494,7 +38494,7 @@ impl ClientMessages {
             캐릭터
             Role
             */
-            ClientMessages::MsgAchievementtabgeneralcharacter => 0xa62,
+            ClientMessages::MsgAchievementtabgeneralcharacter => 0xA62,
             /*20140723 to 20140723
             에피소드
             Episode
@@ -38502,7 +38502,7 @@ impl ClientMessages {
             행동
             Action
             */
-            ClientMessages::MsgAchievementtabgeneralaction => 0xa63,
+            ClientMessages::MsgAchievementtabgeneralaction => 0xA63,
             /*20140723 to 20140723
             이벤트
             Evt
@@ -38510,21 +38510,21 @@ impl ClientMessages {
             기타
             Other
             */
-            ClientMessages::MsgAchievementtabgeneralrest => 0xa64,
+            ClientMessages::MsgAchievementtabgeneralrest => 0xA64,
             /*20140723 to 20140723
             활동
             20140813 to latest
             모험
             Adventure
             */
-            ClientMessages::MsgAchievementtabadventure => 0xa65,
+            ClientMessages::MsgAchievementtabadventure => 0xA65,
             /*20140723 to 20140723
             커뮤니티
             20140813 to latest
             룬미드가츠
             Rune Midgarts
             */
-            ClientMessages::MsgAchievementtabadventurerunemidgarts => 0xa66,
+            ClientMessages::MsgAchievementtabadventurerunemidgarts => 0xA66,
             /*20140723 to 20140723
             제련
             Refining
@@ -38532,28 +38532,28 @@ impl ClientMessages {
             슈발츠발드
             Schwartzvald
             */
-            ClientMessages::MsgAchievementtabadventureschwarzwald => 0xa67,
+            ClientMessages::MsgAchievementtabadventureschwarzwald => 0xA67,
             /*20140723 to 20140723
             경제
             20140813 to latest
             아루나펠츠
             Arunafeltz
             */
-            ClientMessages::MsgAchievementtabadventurearunafeltz => 0xa68,
+            ClientMessages::MsgAchievementtabadventurearunafeltz => 0xA68,
             /*20140723 to 20140723
             생활
             20140813 to latest
             이계
             Commandment
             */
-            ClientMessages::MsgAchievementtabadventureanotherworld => 0xa69,
+            ClientMessages::MsgAchievementtabadventureanotherworld => 0xA69,
             /*20140723 to 20140723
             축제
             20140813 to latest
             로컬라이징
             Localizing
             */
-            ClientMessages::MsgAchievementtabadventurelocalizing => 0xa6a,
+            ClientMessages::MsgAchievementtabadventurelocalizing => 0xA6A,
             /*20140723 to 20140723
             위업
             Feat
@@ -38561,7 +38561,7 @@ impl ClientMessages {
             던전
             Dungeon
             */
-            ClientMessages::MsgAchievementtabadventuredungeon => 0xa6b,
+            ClientMessages::MsgAchievementtabadventuredungeon => 0xA6B,
             /*20140723 to 20140723
             달성한 과제
             Achieved challenge
@@ -38569,7 +38569,7 @@ impl ClientMessages {
             전투
             Battle
             */
-            ClientMessages::MsgAchievementtabbattle => 0xa6c,
+            ClientMessages::MsgAchievementtabbattle => 0xA6C,
             /*20140723 to 20140723
             진척상황
             Progress
@@ -38577,7 +38577,7 @@ impl ClientMessages {
             결투
             Duel
             */
-            ClientMessages::MsgAchievementtabbattlepvp => 0xa6d,
+            ClientMessages::MsgAchievementtabbattlepvp => 0xA6D,
             /*20140723 to 20140723
             최근 달성 업적
             Recent Achievements
@@ -38585,353 +38585,353 @@ impl ClientMessages {
             수련
             Lily
             */
-            ClientMessages::MsgAchievementtabbattletraining => 0xa6e,
+            ClientMessages::MsgAchievementtabbattletraining => 0xA6E,
 
             /*20140813 to latest
             퀘스트
             Quest
             */
-            ClientMessages::MsgAchievementtabquest => 0xa6f,
+            ClientMessages::MsgAchievementtabquest => 0xA6F,
             /*20140813 to latest
             에피소드
             Episode
             */
-            ClientMessages::MsgAchievementtabquestepisode => 0xa70,
+            ClientMessages::MsgAchievementtabquestepisode => 0xA70,
             /*20140813 to latest
             일반
             General
             */
-            ClientMessages::MsgAchievementtabquestgeneral => 0xa71,
+            ClientMessages::MsgAchievementtabquestgeneral => 0xA71,
             /*20140813 to latest
             메모리얼
             Memorial
             */
-            ClientMessages::MsgAchievementtabmemorial => 0xa72,
+            ClientMessages::MsgAchievementtabmemorial => 0xA72,
             /*20140813 to latest
             미드가르드
             Midgard
             */
-            ClientMessages::MsgAchievementtabmemorialmidgard => 0xa73,
+            ClientMessages::MsgAchievementtabmemorialmidgard => 0xA73,
             /*20140813 to latest
             이계
             Commandment
             */
-            ClientMessages::MsgAchievementtabmemorialanotherworld => 0xa74,
+            ClientMessages::MsgAchievementtabmemorialanotherworld => 0xA74,
             /*20140813 to latest
             기타
             Other
             */
-            ClientMessages::MsgAchievementtabmemorialrest => 0xa75,
+            ClientMessages::MsgAchievementtabmemorialrest => 0xA75,
             /*20140813 to latest
             위업
             Feat
             */
-            ClientMessages::MsgAchievementtabachievement => 0xa76,
+            ClientMessages::MsgAchievementtabachievement => 0xA76,
             /*20140813 to latest
             달성한 과제
             Achieved challenge
             */
-            ClientMessages::MsgAchievementtabtotal => 0xa77,
+            ClientMessages::MsgAchievementtabtotal => 0xA77,
             /*20140813 to latest
             더 이상 추가할 수 없습니다.
             You cannot add anymore.
             */
-            ClientMessages::MsgFailaddachievementtracing => 0xa78,
+            ClientMessages::MsgFailaddachievementtracing => 0xA78,
             /*20140813 to latest
             < %s > 달성하였습니다.
             < %S > achieved.
             */
-            ClientMessages::MsgNoticecompleteachievement => 0xa79,
+            ClientMessages::MsgNoticecompleteachievement => 0xA79,
 
             /*20140827 to latest
             only otp user login allow
             Only OTP users are allowed
             */
-            ClientMessages::MsgOtpuseronly => 0xa7a,
+            ClientMessages::MsgOtpuseronly => 0xA7A,
 
             /*20140917 to latest
             이 버튼을 누를 시, 지정된 상품을 받게되며 룰렛은 초기화 됩니다.
             When this button pressed, you will receive a specified initialized roulette item.
             */
-            ClientMessages::MsgGetroulleteprize => 0xa7b,
+            ClientMessages::MsgGetroulleteprize => 0xA7B,
             /*20140917 to latest
             이 버튼을 누를 시, 깜빡이는 화살표의 라인부터 룰렛을 시작 합니다.
             When this button pressed, the flashing arrows from the lines of the roulette wheel begins.
             */
-            ClientMessages::MsgNoticenextroulletestage => 0xa7c,
+            ClientMessages::MsgNoticenextroulletestage => 0xA7C,
             /*20140917 to latest
             칭호
             Style
             */
-            ClientMessages::MsgTitleequipment => 0xa7d,
+            ClientMessages::MsgTitleequipment => 0xA7D,
             /*20140917 to latest
             칭호 해제
             Title release
             */
-            ClientMessages::MsgTakeofftitle => 0xa7e,
+            ClientMessages::MsgTakeofftitle => 0xA7E,
             /*20140917 to latest
             길드 생성을 할 수 없는 지역입니다.
             Can't create a Guild in this area.
             */
-            ClientMessages::MsgGuildmakeguildnotpermittedmap => 0xa7f,
+            ClientMessages::MsgGuildmakeguildnotpermittedmap => 0xA7F,
             /*20140917 to latest
             길드 해체를 할 수 없는 지역입니다.
             Can't disband a Guild in this area.
             */
-            ClientMessages::MsgGuilddisorganizeguildnotpermittedmap => 0xa80,
+            ClientMessages::MsgGuilddisorganizeguildnotpermittedmap => 0xA80,
             /*20140917 to latest
             길드 가입을 할 수 없는 지역입니다.
             Can't join a Guild in this area.
             */
-            ClientMessages::MsgGuildjoinguildnotpermittedmap => 0xa81,
+            ClientMessages::MsgGuildjoinguildnotpermittedmap => 0xA81,
             /*20140917 to latest
             길드 탈퇴를 할 수 없는 지역입니다.
             Can't leave a Guild in this area.
             */
-            ClientMessages::MsgGuildleaveguildnotpermittedmap => 0xa82,
+            ClientMessages::MsgGuildleaveguildnotpermittedmap => 0xA82,
             /*20140917 to latest
             길드원 추방을 할 수 없는 지역입니다.
             Can't deport a Guild in this area.
             */
-            ClientMessages::MsgGuildexpelguildnotpermittedmap => 0xa83,
+            ClientMessages::MsgGuildexpelguildnotpermittedmap => 0xA83,
             /*20140917 to latest
             길드직위 변경을 할 수 없는 지역입니다.
             Can't change a Guild title in this area
             */
-            ClientMessages::MsgGuildpositionchangenotpermittedmap => 0xa84,
+            ClientMessages::MsgGuildpositionchangenotpermittedmap => 0xA84,
             /*20140917 to latest
             아이템 소지량을 5칸이상 비워주세요
             Please empty at least 5 amount of possession in item window.
             */
-            ClientMessages::MsgNotenoughspaceinitembody => 0xa85,
+            ClientMessages::MsgNotenoughspaceinitembody => 0xA85,
             /*20140917 to latest
             E X P : %.1f%% ( basic 100.0%% pccafe %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgJpnpersonalinfoexpmsg => 0xa86,
+            ClientMessages::MsgJpnpersonalinfoexpmsg => 0xA86,
             /*20140917 to latest
             DROP  : %.1f%% ( basic 100.0%% pccafe %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgJpnpersonalinfodropmsg => 0xa87,
+            ClientMessages::MsgJpnpersonalinfodropmsg => 0xA87,
             /*20140917 to latest
             DEATH : %.1f%% ( basic 100.0%% pccafe %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgJpnpersonalinfodeathmsg => 0xa88,
+            ClientMessages::MsgJpnpersonalinfodeathmsg => 0xA88,
             /*20140917 to latest
             첨부할 수 있는 아이템의 갯수가 초과되었습니다.
             The number of items that can be attached is exceeded.
             */
-            ClientMessages::MsgSetitemstomailovercount => 0xa89,
+            ClientMessages::MsgSetitemstomailovercount => 0xA89,
             /*20140917 to latest
             아이템 구매 시 소리로 알림
             Notify when item purchased
             */
-            ClientMessages::MsgSoundeffectitembuywnd => 0xa8a,
+            ClientMessages::MsgSoundeffectitembuywnd => 0xA8A,
 
             /*20140924 to latest
             첨부할 수 없는 아이템입니다.
             Unable to attach the items.
             */
-            ClientMessages::MsgIda8B => 0xa8b,
+            ClientMessages::MsgIda8B => 0xA8B,
 
             /*20141001 to latest
             꽝에 당첨되었으므로 다음 상위 단계의 룰렛을 돌리실 수 없습니다.
             Because you can not win a slam room and turn the roulette of the next higher step.
             */
-            ClientMessages::MsgIda8C => 0xa8c,
+            ClientMessages::MsgIda8C => 0xA8C,
             /*20141001 to latest
             답장쓰기
             Replying
             */
-            ClientMessages::MsgIda8D => 0xa8d,
+            ClientMessages::MsgIda8D => 0xA8D,
             /*20141001 to latest
             내용읽기
             Read more
             */
-            ClientMessages::MsgIda8E => 0xa8e,
+            ClientMessages::MsgIda8E => 0xA8E,
             /*20141001 to latest
             메일삭제
             Delete message
             */
-            ClientMessages::MsgIda8F => 0xa8f,
+            ClientMessages::MsgIda8F => 0xA8F,
             /*20141001 to latest
             仙貝 : %d
             Crackers  : %d
             */
-            ClientMessages::MsgIda90 => 0xa90,
+            ClientMessages::MsgIda90 => 0xA90,
             /*20141001 to latest
             %s %s 仙貝
             %s %s crackers
             */
-            ClientMessages::MsgIda91 => 0xa91,
+            ClientMessages::MsgIda91 => 0xA91,
             /*20141001 to latest
             仙貝
             Crackers
             */
-            ClientMessages::MsgIda92 => 0xa92,
+            ClientMessages::MsgIda92 => 0xA92,
             /*20141001 to latest
             Total : %d 仙貝
             Total : %d Crackers
             */
-            ClientMessages::MsgIda93 => 0xa93,
+            ClientMessages::MsgIda93 => 0xA93,
             /*20141001 to latest
             %d -> %s 仙貝
             %d -> %s Crackers
             */
-            ClientMessages::MsgIda94 => 0xa94,
+            ClientMessages::MsgIda94 => 0xA94,
             /*20141001 to latest
             %s 仙貝
             %s Crackers
             */
-            ClientMessages::MsgIda95 => 0xa95,
+            ClientMessages::MsgIda95 => 0xA95,
             /*20141001 to latest
                                                       Current 仙貝 : %s
                                                       Current Crackers : %s
             */
-            ClientMessages::MsgIda96 => 0xa96,
+            ClientMessages::MsgIda96 => 0xA96,
             /*20141001 to latest
                 %s  :  %s  仙貝
                 %s  :  %s  Crackers
             */
-            ClientMessages::MsgIda97 => 0xa97,
+            ClientMessages::MsgIda97 => 0xA97,
             /*20141001 to latest
             %10s 仙貝
             %10s Crackers
             */
-            ClientMessages::MsgIda98 => 0xa98,
+            ClientMessages::MsgIda98 => 0xA98,
             /*20141001 to latest
             Total : %s 仙貝
             Total : %s Crackers
             */
-            ClientMessages::MsgIda99 => 0xa99,
+            ClientMessages::MsgIda99 => 0xA99,
             /*20141001 to latest
             ※수수료 3% / 최소 1仙貝의 수수료 차감
             * Commission 3% / Minimum 1 Crackers comission deducted
             */
-            ClientMessages::MsgIda9A => 0xa9a,
+            ClientMessages::MsgIda9A => 0xA9A,
             /*20141001 to latest
             仙貝 입니다.
             The Crackers.
             */
-            ClientMessages::MsgIda9B => 0xa9b,
+            ClientMessages::MsgIda9B => 0xA9B,
             /*20141001 to latest
             ^0000ff仙貝 이상^000000입니다.
             입력금액이 맞습니까?
             ^0000ff more than crackers^000000Did you enter the correct amount?
             */
-            ClientMessages::MsgIda9C => 0xa9c,
+            ClientMessages::MsgIda9C => 0xA9C,
             /*20141001 to latest
             10억仙貝이상 안전 확인
             Over than 10billions secure check
             */
-            ClientMessages::MsgIda9D => 0xa9d,
+            ClientMessages::MsgIda9D => 0xA9D,
             /*20141001 to latest
             10억 仙貝 이상 입력하셔도 가격은 10억 仙貝로 판매됩니다.
             If you fill over 1 billion, the price will be automatically set as 10 billion Xianbei.
             */
-            ClientMessages::MsgIda9E => 0xa9e,
+            ClientMessages::MsgIda9E => 0xA9E,
             /*20141001 to latest
             9,999仙貝 이상 입력하셔도 가격은 9,999仙貝로 판매됩니다.
             If you fill over 9,999 Xianbei, the price will automatically set as 9,999 Xianbei.
             */
-            ClientMessages::MsgIda9F => 0xa9f,
+            ClientMessages::MsgIda9F => 0xA9F,
             /*20141001 to latest
             가격이 0 仙貝인 아이템이 존재 합니다. 상점을 열수 없습니다!
             There are items priced 0 Xianbei. You cannot open vending.
             */
-            ClientMessages::MsgIdaa0 => 0xaa0,
+            ClientMessages::MsgIdaa0 => 0xAA0,
             /*20141001 to latest
             상대 캐릭터가 최대 보유 仙貝량을 초과하여 거래가 불가능 합니다.
             The opponent is over the Xianbei limit. Trade failed.
             */
-            ClientMessages::MsgIdaa1 => 0xaa1,
+            ClientMessages::MsgIdaa1 => 0xAA1,
             /*20141001 to latest
             %s 아이템의 가격을 10억仙貝 이하로 입력해 주세요.
             Please fill out %s item price less than 1 billion Xianbei.
             */
-            ClientMessages::MsgIdaa2 => 0xaa2,
+            ClientMessages::MsgIdaa2 => 0xAA2,
             /*20141001 to latest
             %s  :  %s  仙貝 => %s EA
             %s:  %s  Xianbei => %s ea
             */
-            ClientMessages::MsgIdaa3 => 0xaa3,
+            ClientMessages::MsgIdaa3 => 0xAA3,
             /*20141001 to latest
             제한 금액 : %s 仙貝
             Limited price: %s Xianbei
             */
-            ClientMessages::MsgIdaa4 => 0xaa4,
+            ClientMessages::MsgIdaa4 => 0xAA4,
             /*20141001 to latest
             %s %s 仙貝 %d 개
             %s %s %d Xianbei
             */
-            ClientMessages::MsgIdaa5 => 0xaa5,
+            ClientMessages::MsgIdaa5 => 0xAA5,
             /*20141001 to latest
             %s %d개를 %d 仙貝에 판매 하였습니다. 수수료는 3%% 입니다.
             %d %s are sold. In total %d Xianbei. 3%% charge will be imposed.
             */
-            ClientMessages::MsgIdaa6 => 0xaa6,
+            ClientMessages::MsgIdaa6 => 0xAA6,
 
             /*20141008 to latest
             RODEX
             */
-            ClientMessages::MsgIdaa7 => 0xaa7,
+            ClientMessages::MsgIdaa7 => 0xAA7,
             /*20141008 to latest
             SEND
             */
-            ClientMessages::MsgIdaa8 => 0xaa8,
+            ClientMessages::MsgIdaa8 => 0xAA8,
             /*20141008 to latest
             RECEIVE
             */
-            ClientMessages::MsgIdaa9 => 0xaa9,
+            ClientMessages::MsgIdaa9 => 0xAA9,
 
             /*20141015 to latest
             메일 작성창을 닫아주세요.
             Please close the mail compose window.
             */
-            ClientMessages::MsgIdaaa => 0xaaa,
+            ClientMessages::MsgIdaaa => 0xAAA,
 
             /*20141022 to latest
             서버접근거부(A)
             Server access denied(A)
             */
-            ClientMessages::MsgIdaab => 0xaab,
+            ClientMessages::MsgIdaab => 0xAAB,
             /*20141022 to latest
             서버접근거부(B)
             Server access denied(B)
             */
-            ClientMessages::MsgIdaac => 0xaac,
+            ClientMessages::MsgIdaac => 0xAAC,
 
             /*20141112 to latest
             장착된 화살/탄환 을 해제해야합니다.
             Unequipped Arrow/Ammunition.
             */
-            ClientMessages::MsgIdaad => 0xaad,
+            ClientMessages::MsgIdaad => 0xAAD,
             /*20141112 to latest
             인벤토리의 아이템이 소모되어 로덱스 쓰기창을 닫습니다.
             Consuming item in inventory will close mail compose window.
             */
-            ClientMessages::MsgIdaae => 0xaae,
+            ClientMessages::MsgIdaae => 0xAAE,
 
             /*20141119 to latest
             소지하신 돋보기가 없습니다.
             Do not have Magnifier.
             */
-            ClientMessages::MsgIdaaf => 0xaaf,
+            ClientMessages::MsgIdaaf => 0xAAF,
 
             /*20141210 to latest
             아이템을 버릴려면 메일 쓰기창을 닫아주세요.
             Close email window if you want to discard item.
             */
-            ClientMessages::MsgIdab0 => 0xab0,
+            ClientMessages::MsgIdab0 => 0xAB0,
             /*20141210 to latest
             상대방이 친구 요청중입니다
             The opponent has already requested you to be a friend.
             */
-            ClientMessages::MsgIdab1 => 0xab1,
+            ClientMessages::MsgIdab1 => 0xAB1,
 
             /*20141217 to latest
             SCRIPT ERROR AID
             */
-            ClientMessages::MsgIdab2 => 0xab2,
+            ClientMessages::MsgIdab2 => 0xAB2,
             /*20141217 to 20141231
 
             Errorfile : %s
@@ -38951,154 +38951,154 @@ impl ClientMessages {
             ErrorLine : %d item
             ErrorContext: %s
             */
-            ClientMessages::MsgIdab3 => 0xab3,
+            ClientMessages::MsgIdab3 => 0xAB3,
 
             /*20141224 to latest
              ^ff0000해당 아이템을 구매 하시겠습니까? %d포인트 및 %d 仙貝가 차감 됩니다.
             ^ff0000Are you sure want to purchase the item? after confirmation will consume %d point and %d crackers.
             */
-            ClientMessages::MsgIdab4 => 0xab4,
+            ClientMessages::MsgIdab4 => 0xAB4,
             /*20141224 to latest
             닫기
             Close
             */
-            ClientMessages::MsgIdab5 => 0xab5,
+            ClientMessages::MsgIdab5 => 0xAB5,
             /*20141224 to latest
             퀘스트
             Quest
             */
-            ClientMessages::MsgIdab6 => 0xab6,
+            ClientMessages::MsgIdab6 => 0xAB6,
             /*20141224 to latest
             퀘스트 아이콘 보기
             View Quest icon
             */
-            ClientMessages::MsgIdab7 => 0xab7,
+            ClientMessages::MsgIdab7 => 0xAB7,
             /*20141224 to latest
             편의시설
             Facility
             */
-            ClientMessages::MsgIdab8 => 0xab8,
+            ClientMessages::MsgIdab8 => 0xAB8,
             /*20141224 to latest
             편의시설 아이콘 보기
             View Facility icon
             */
-            ClientMessages::MsgIdab9 => 0xab9,
+            ClientMessages::MsgIdab9 => 0xAB9,
             /*20141224 to latest
             길드원/파티원
             Guild/Party
             */
-            ClientMessages::MsgIdaba => 0xaba,
+            ClientMessages::MsgIdaba => 0xABA,
             /*20141224 to 20150311
             길드원/파티원 표시
             20150318 to latest
             길드원/파티원 보기
             Show Guild/Party
             */
-            ClientMessages::MsgIdabb => 0xabb,
+            ClientMessages::MsgIdabb => 0xABB,
             /*20141224 to latest
             기록하기
             Record
             */
-            ClientMessages::MsgIdabc => 0xabc,
+            ClientMessages::MsgIdabc => 0xABC,
             /*20141224 to latest
             보스몬스터
             Boss Monster
             */
-            ClientMessages::MsgIdabd => 0xabd,
+            ClientMessages::MsgIdabd => 0xABD,
             /*20141224 to latest
             나
             I
             */
-            ClientMessages::MsgIdabe => 0xabe,
+            ClientMessages::MsgIdabe => 0xABE,
             /*20141224 to latest
             삭제 하시겠습니까?
             Are you sure want to delete it?
             */
-            ClientMessages::MsgIdabf => 0xabf,
+            ClientMessages::MsgIdabf => 0xABF,
             /*20141224 to latest
             퀘스트 NPC
             Quest NPC
             */
-            ClientMessages::MsgIdac0 => 0xac0,
+            ClientMessages::MsgIdac0 => 0xAC0,
             /*20141224 to latest
             메모할 내용을 기록합니다
             Record content
             */
-            ClientMessages::MsgIdac1 => 0xac1,
+            ClientMessages::MsgIdac1 => 0xAC1,
             /*20141224 to latest
             저장하기
             Store
             */
-            ClientMessages::MsgIdac2 => 0xac2,
+            ClientMessages::MsgIdac2 => 0xAC2,
             /*20141224 to latest
             메모하기
             Record
             */
-            ClientMessages::MsgIdac3 => 0xac3,
+            ClientMessages::MsgIdac3 => 0xAC3,
 
             /*20141231 to latest
             %s [%d옵션] %d개
             %s [%d Property] %d ea
             */
-            ClientMessages::MsgIdac4 => 0xac4,
+            ClientMessages::MsgIdac4 => 0xAC4,
             /*20141231 to latest
             %s [%d옵션] %s Zeny
             %s [%d Property] %s Zeny
             */
-            ClientMessages::MsgIdac5 => 0xac5,
+            ClientMessages::MsgIdac5 => 0xAC5,
             /*20141231 to latest
             %s [%d옵션] %d %s %d -> %s %s
             %s [%d Property] %d %s %d -> %s %s
             */
-            ClientMessages::MsgIdac6 => 0xac6,
+            ClientMessages::MsgIdac6 => 0xAC6,
             /*20141231 to latest
             %s [%d옵션] %d %s %s %s
             %s [%d Property] %d %s %s %s
             */
-            ClientMessages::MsgIdac7 => 0xac7,
+            ClientMessages::MsgIdac7 => 0xAC7,
             /*20141231 to latest
             %s [%d옵션] %d -> %s %s
             %s [%d Property] %d -> %s %s
             */
-            ClientMessages::MsgIdac8 => 0xac8,
+            ClientMessages::MsgIdac8 => 0xAC8,
             /*20141231 to latest
             %s [%d옵션] %s %s
             %s [%d Property] %s %s
             */
-            ClientMessages::MsgIdac9 => 0xac9,
+            ClientMessages::MsgIdac9 => 0xAC9,
 
             /*20150107 to latest
             최소 거래 단위 100 仙貝 이상으로 설정 하셔야 합니다.
             The minimum trading unit must be 100 crackers or more.
             */
-            ClientMessages::MsgIdaca => 0xaca,
+            ClientMessages::MsgIdaca => 0xACA,
 
             /*20150114 to latest
             머리 색
             Hair color
             */
-            ClientMessages::MsgIdacb => 0xacb,
+            ClientMessages::MsgIdacb => 0xACB,
             /*20150114 to latest
             머리 모양
             Hair style
             */
-            ClientMessages::MsgIdacc => 0xacc,
+            ClientMessages::MsgIdacc => 0xACC,
             /*20150114 to latest
             옷 색
             Cloth color
             */
-            ClientMessages::MsgIdacd => 0xacd,
+            ClientMessages::MsgIdacd => 0xACD,
             /*20150114 to latest
             옷 모양
             Cloth pattern
             */
-            ClientMessages::MsgIdace => 0xace,
+            ClientMessages::MsgIdace => 0xACE,
 
             /*20150217 to latest
             지원되지 않는 맵 입니다.
             Unsupported Map.
             */
-            ClientMessages::MsgIdacf => 0xacf,
+            ClientMessages::MsgIdacf => 0xACF,
 
             /*20150304 to 20150325
             2147483647 Zeny 이하로 입력 하십시오.
@@ -39106,223 +39106,223 @@ impl ClientMessages {
             2,147,483,647 Zeny 이하로 입력 하십시오.
             Enter Zeny Below 2,147,483,647.
             */
-            ClientMessages::MsgIdad0 => 0xad0,
+            ClientMessages::MsgIdad0 => 0xAD0,
             /*20150304 to latest
             1 Zeny 이상 입력 하십시오.
             Please Enter atleast 1 zeny.
             */
-            ClientMessages::MsgIdad1 => 0xad1,
+            ClientMessages::MsgIdad1 => 0xAD1,
             /*20150304 to latest
             보유한 Zeny 가 없습니다.
             You do not hold any zeny.
             */
-            ClientMessages::MsgIdad2 => 0xad2,
+            ClientMessages::MsgIdad2 => 0xAD2,
             /*20150304 to latest
             제니 창고
             Zeny Storage
             */
-            ClientMessages::MsgIdad3 => 0xad3,
+            ClientMessages::MsgIdad3 => 0xAD3,
             /*20150304 to latest
             창고보유액
             in Bank
             */
-            ClientMessages::MsgIdad4 => 0xad4,
+            ClientMessages::MsgIdad4 => 0xAD4,
             /*20150304 to latest
             소지금
             on hand
             */
-            ClientMessages::MsgIdad5 => 0xad5,
+            ClientMessages::MsgIdad5 => 0xAD5,
             /*20150304 to latest
             입금
             Deposit
             */
-            ClientMessages::MsgIdad6 => 0xad6,
+            ClientMessages::MsgIdad6 => 0xAD6,
             /*20150304 to latest
             출금
             Withdraw
             */
-            ClientMessages::MsgIdad7 => 0xad7,
+            ClientMessages::MsgIdad7 => 0xAD7,
             /*20150304 to latest
             1 z UP
             */
-            ClientMessages::MsgIdad8 => 0xad8,
+            ClientMessages::MsgIdad8 => 0xAD8,
             /*20150304 to latest
             1 z Down
             */
-            ClientMessages::MsgIdad9 => 0xad9,
+            ClientMessages::MsgIdad9 => 0xAD9,
             /*20150304 to latest
             Max
             */
-            ClientMessages::MsgIdada => 0xada,
+            ClientMessages::MsgIdada => 0xADA,
             /*20150304 to latest
             입력값이 없습니다
             There is no Input value
             */
-            ClientMessages::MsgIdadb => 0xadb,
+            ClientMessages::MsgIdadb => 0xADB,
             /*20150304 to latest
             보유 Zeny 부족
             Not enough zeny
             */
-            ClientMessages::MsgIdadc => 0xadc,
+            ClientMessages::MsgIdadc => 0xADC,
             /*20150304 to latest
             입력값 필요
             Input Required
             */
-            ClientMessages::MsgIdadd => 0xadd,
+            ClientMessages::MsgIdadd => 0xADD,
             /*20150304 to latest
             문자 입력 불가
             Numbers only
             */
-            ClientMessages::MsgIdade => 0xade,
+            ClientMessages::MsgIdade => 0xADE,
             /*20150304 to latest
             최대 입력 초과
             Exceeded max input
             */
-            ClientMessages::MsgIdadf => 0xadf,
+            ClientMessages::MsgIdadf => 0xADF,
             /*20150304 to latest
             최소 입력 미만
             Below Minimum Input
             */
-            ClientMessages::MsgIdae0 => 0xae0,
+            ClientMessages::MsgIdae0 => 0xAE0,
             /*20150304 to latest
             보유 Zeny 부족
             Not enough zeny
             */
-            ClientMessages::MsgIdae1 => 0xae1,
+            ClientMessages::MsgIdae1 => 0xAE1,
             /*20150304 to latest
             은행 잔고 부족
             Insufficient funds
             */
-            ClientMessages::MsgIdae2 => 0xae2,
+            ClientMessages::MsgIdae2 => 0xAE2,
             /*20150304 to latest
             최대 보유 Zeny 초과
             Exceeded max zeny
             */
-            ClientMessages::MsgIdae3 => 0xae3,
+            ClientMessages::MsgIdae3 => 0xAE3,
 
             /*20150311 to latest
             드롭 X
             Drop X
             */
-            ClientMessages::MsgIdae4 => 0xae4,
+            ClientMessages::MsgIdae4 => 0xAE4,
             /*20150311 to latest
             창고 X
             Storage X
             */
-            ClientMessages::MsgIdae5 => 0xae5,
+            ClientMessages::MsgIdae5 => 0xAE5,
             /*20150311 to latest
             카트 X
             Cart X
             */
-            ClientMessages::MsgIdae6 => 0xae6,
+            ClientMessages::MsgIdae6 => 0xAE6,
             /*20150311 to latest
             메일 X
             Mail X
             */
-            ClientMessages::MsgIdae7 => 0xae7,
+            ClientMessages::MsgIdae7 => 0xAE7,
             /*20150311 to latest
             교환창 X
             Trade X
             */
-            ClientMessages::MsgIdae8 => 0xae8,
+            ClientMessages::MsgIdae8 => 0xAE8,
             /*20150311 to latest
             경매장 X
             Auction X
             */
-            ClientMessages::MsgIdae9 => 0xae9,
+            ClientMessages::MsgIdae9 => 0xAE9,
             /*20150311 to latest
             길드창고 X
             Guild Storage X
             */
-            ClientMessages::MsgIdaea => 0xaea,
+            ClientMessages::MsgIdaea => 0xAEA,
             /*20150311 to latest
             NPC에게 판매 X
             Sell to NPC X
             */
-            ClientMessages::MsgIdaeb => 0xaeb,
+            ClientMessages::MsgIdaeb => 0xAEB,
             /*20150311 to latest
             이동제한이 있는 아이템입니다.
             Item moves restriction.
             */
-            ClientMessages::MsgIdaec => 0xaec,
+            ClientMessages::MsgIdaec => 0xAEC,
 
             /*20150401 to latest
             캐릭터를 생성해주세요!
             Please Create a Character!
             */
-            ClientMessages::MsgIdaed => 0xaed,
+            ClientMessages::MsgIdaed => 0xAED,
 
             /*20150415 to latest
             장착된 투사체 아이템을 해제해야 합니다.
             You need to disarm the equipped projectiles.
             */
-            ClientMessages::MsgIdaee => 0xaee,
+            ClientMessages::MsgIdaee => 0xAEE,
 
             /*20150513 to latest
             인원 초과로 메모리얼 던전에 입장 할 수 없습니다
             You cannot enter Memorial Dungeon with excess members
             */
-            ClientMessages::MsgIdaef => 0xaef,
+            ClientMessages::MsgIdaef => 0xAEF,
             /*20150513 to latest
             인원수 초과로 인해  메모리얼 던전 입장이 거부되었습니다
             Memorial Dungeon Access was denied due to exceeding number of players
             */
-            ClientMessages::MsgIdaf0 => 0xaf0,
+            ClientMessages::MsgIdaf0 => 0xAF0,
 
             /*20150603 to latest
             %.1f%% ( %s Server: %.1f%% + Premium:%.1f%% )
             */
-            ClientMessages::MsgIdaf1 => 0xaf1,
+            ClientMessages::MsgIdaf1 => 0xAF1,
             /*20150603 to latest
             %.1f%% ( %s Server: %.1f%% + Premium:%.1f%% )
             */
-            ClientMessages::MsgIdaf2 => 0xaf2,
+            ClientMessages::MsgIdaf2 => 0xAF2,
             /*20150603 to latest
             중복된 아이템이 존재하여 사용이 불가능 합니다.
             Consuming Item denied due to multiple same item.
             */
-            ClientMessages::MsgIdaf3 => 0xaf3,
+            ClientMessages::MsgIdaf3 => 0xAF3,
             /*20150603 to latest
             중복된 효과가 존재하여 사용이 불가능 합니다.
             Consuming Item denied due to effect of same consumed item.
             */
-            ClientMessages::MsgIdaf4 => 0xaf4,
+            ClientMessages::MsgIdaf4 => 0xAF4,
 
             /*20150701 to latest
             화면 흔들림 효과 ON
             Flicker Effect ON
             */
-            ClientMessages::MsgIdaf5 => 0xaf5,
+            ClientMessages::MsgIdaf5 => 0xAF5,
             /*20150701 to latest
             화면 흔들림 효과 OFF
             Flicker Effect OFF
             */
-            ClientMessages::MsgIdaf6 => 0xaf6,
+            ClientMessages::MsgIdaf6 => 0xAF6,
 
             /*20150702 to latest
             불법 프로그램  발견되었습니다
             Illegal Programs has been detected
             */
-            ClientMessages::MsgIdaf7 => 0xaf7,
+            ClientMessages::MsgIdaf7 => 0xAF7,
 
             /*20150722 to latest
             메일 보내기
             Send Mail
             */
-            ClientMessages::MsgIdaf8 => 0xaf8,
+            ClientMessages::MsgIdaf8 => 0xAF8,
 
             /*20150729 to latest
             E X P : %.1f%% ( basic 100.0%% VIP Bonus %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgIdaf9 => 0xaf9,
+            ClientMessages::MsgIdaf9 => 0xAF9,
             /*20150729 to latest
             DROP  : %.1f%% ( basic 100.0%% VIP Bonus %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgIdafa => 0xafa,
+            ClientMessages::MsgIdafa => 0xAFA,
             /*20150729 to latest
             DEATH : %.1f%% ( basic 100.0%% VIP Bonus %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgIdafb => 0xafb,
+            ClientMessages::MsgIdafb => 0xAFB,
 
             /*20150826 to 20180919
              해당 태그는 이름으로 사용하실 수 없습니다.
@@ -39331,13 +39331,13 @@ impl ClientMessages {
              해당 내용은 이름으로 사용하실 수 없습니다.
             You cannot use the tag as a name.
             */
-            ClientMessages::MsgIdafc => 0xafc,
+            ClientMessages::MsgIdafc => 0xAFC,
 
             /*20150916 to latest
             ???? bdbac5b8c0cfb8b52098de
             Style Shop
             */
-            ClientMessages::MsgIdafd => 0xafd,
+            ClientMessages::MsgIdafd => 0xAFD,
 
             /*20151028 to 20151125
             쿠폰 없음, 상점에서 구매해야해요.
@@ -39345,14 +39345,14 @@ impl ClientMessages {
             쿠폰 없음. Cash Shop에서 아이템을 구매해 주세요.
             No serial number, Please visit the store to buy.
             */
-            ClientMessages::MsgIdafe => 0xafe,
+            ClientMessages::MsgIdafe => 0xAFE,
             /*20151028 to 20151125
             아이템창의 쿠폰 상자를 열어주세요
             20151202 to latest
             인벤토리에서 아이템 쿠폰 상자를 열어주세요.
             Please turn on Serial item number window box.
             */
-            ClientMessages::MsgIdaff => 0xaff,
+            ClientMessages::MsgIdaff => 0xAFF,
             /*20151028 to 20151125
             은행
             Bank
@@ -39360,14 +39360,14 @@ impl ClientMessages {
             해당 스타일 정보를 삭제하시겠습니까?
             Bank
             */
-            ClientMessages::MsgIdb00 => 0xb00,
+            ClientMessages::MsgIdb00 => 0xB00,
             /*20151028 to 20151125
             슬롯이 꽉 찼습니다. 캐릭터를 삭제 후 사용해 주시기 바랍니다
             20151202 to latest
             슬롯이 꽉 찼습니다. 내 스타일에서 캐릭터 삭제 후 사용해 주십시오.
             Slot is full, please delete a character.
             */
-            ClientMessages::MsgIdb01 => 0xb01,
+            ClientMessages::MsgIdb01 => 0xB01,
             /*20151028 to 20151125
             사용하신 아이템은 되돌릴 수 없습니다. 적용하시겠습니까?
             20151202 to latest
@@ -39375,7 +39375,7 @@ impl ClientMessages {
             (※ 비용은 반환되지 않습니다.)
             Item cannot be restored, are you sure want to apply it?
             */
-            ClientMessages::MsgIdb02 => 0xb02,
+            ClientMessages::MsgIdb02 => 0xB02,
 
             /*20151104 to 20151125
             관심 스타일로 등록되었습니다
@@ -39383,67 +39383,67 @@ impl ClientMessages {
             현재 스타일을 저장하였습니다.
             Registered as the following style.
             */
-            ClientMessages::MsgIdb03 => 0xb03,
+            ClientMessages::MsgIdb03 => 0xB03,
             /*20151104 to 20151125
             은행에 충분한 제니가 있습니다. 먼저 은행으로 가세요.
             20151202 to latest
             보유 Zeny 부족. 은행에 충분한 Zeny가 있습니다.
             There are plenty of golds in the bank, Please go to the bank now.
             */
-            ClientMessages::MsgIdb04 => 0xb04,
+            ClientMessages::MsgIdb04 => 0xB04,
 
             /*20151118 to latest
             으로 이동합니다.
             moving...
             */
-            ClientMessages::MsgIdb05 => 0xb05,
+            ClientMessages::MsgIdb05 => 0xB05,
             /*20151118 to latest
             해당 국가의 영공통과에 대한 허가가 나지 않았습니다.
             You are not allowed to fly over the sovereign airspace of the country.
             */
-            ClientMessages::MsgIdb06 => 0xb06,
+            ClientMessages::MsgIdb06 => 0xB06,
             /*20151118 to latest
             마나로 대기불안정이 계속되어 비공정 운행이 불가능합니다.
             Airship flight is temporarily unavailable due to atmospheric instability caused by magic.
             */
-            ClientMessages::MsgIdb07 => 0xb07,
+            ClientMessages::MsgIdb07 => 0xB07,
             /*20151118 to latest
             개인 비공정
             Private airship
             */
-            ClientMessages::MsgIdb08 => 0xb08,
+            ClientMessages::MsgIdb08 => 0xB08,
             /*20151118 to latest
             잠시 후 다시 시도해주세요.
             Please try again in a moment.
             */
-            ClientMessages::MsgIdb09 => 0xb09,
+            ClientMessages::MsgIdb09 => 0xB09,
             /*20151118 to latest
             개인 비공정 이용에 필요한 제니가 부족합니다.
             Not enough Zeny to use the private airship.
             */
-            ClientMessages::MsgIdb0A => 0xb0a,
+            ClientMessages::MsgIdb0A => 0xB0A,
             /*20151118 to 20170920
             개인 비공정 이용에 필요한 통조림이 부족합니다.
             20170927 to latest
             개인 비공정 이용에 필요한 아이템이 부족합니다.
             Not enough Cans to use the private airship.
             */
-            ClientMessages::MsgIdb0B => 0xb0b,
+            ClientMessages::MsgIdb0B => 0xB0B,
             /*20151118 to latest
             개인 비공정을 이용할 수 있는 레벨이 아닙니다.
             You cannot meet the level to use the private airship.
             */
-            ClientMessages::MsgIdb0C => 0xb0c,
+            ClientMessages::MsgIdb0C => 0xB0C,
             /*20151118 to latest
             선택한 지점으론 개인비공정이 이동할 수 없습니다.
             You cannot move to the selected point by the private airship.
             */
-            ClientMessages::MsgIdb0D => 0xb0d,
+            ClientMessages::MsgIdb0D => 0xB0D,
             /*20151118 to latest
             현 지점에선 개인비공정을 이용할 수 없습니다.
             You cannot use the private airship where you are now.
             */
-            ClientMessages::MsgIdb0E => 0xb0e,
+            ClientMessages::MsgIdb0E => 0xB0E,
 
             /*20151125 to 20151125
             악세사리
@@ -39452,33 +39452,33 @@ impl ClientMessages {
             액세서리
             Accessory
             */
-            ClientMessages::MsgIdb0F => 0xb0f,
+            ClientMessages::MsgIdb0F => 0xB0F,
             /*20151125 to latest
             세컨드코스튬
             Second costume
             */
-            ClientMessages::MsgIdb10 => 0xb10,
+            ClientMessages::MsgIdb10 => 0xB10,
             /*20151125 to 20151125
             즐겨찾기
             20151202 to latest
             내 스타일
             Wardrobe
             */
-            ClientMessages::MsgIdb11 => 0xb11,
+            ClientMessages::MsgIdb11 => 0xB11,
             /*20151125 to 20151125
             염색을 할 수 없는 머리스타일입니다.
             20151202 to latest
             염색할 수 없는 헤어스타일입니다.
             This hairstyle cannot be dyed.
             */
-            ClientMessages::MsgIdb12 => 0xb12,
+            ClientMessages::MsgIdb12 => 0xB12,
             /*20151125 to 20151125
             화살표를 눌러 마음에 드는 스타일을 선택할 수 있어요.
             20151202 to latest
             화살표를 눌러 마음에 드는 스타일을 선택해 보세요.
             Press an arrow to choose the style you want.
             */
-            ClientMessages::MsgIdb13 => 0xb13,
+            ClientMessages::MsgIdb13 => 0xB13,
 
             /*20151202 to 20151202
             스타일 새로운 스타일을 확인해 보세요.
@@ -39489,52 +39489,52 @@ impl ClientMessages {
             Come and see the new styles.
             (Purchased accessories will be sent via RODEX.)
             */
-            ClientMessages::MsgIdb14 => 0xb14,
+            ClientMessages::MsgIdb14 => 0xB14,
 
             /*20151223 to latest
             기본 스타일
             Basic style
             */
-            ClientMessages::MsgIdb15 => 0xb15,
+            ClientMessages::MsgIdb15 => 0xB15,
 
             /*20160106 to latest
              해당 스킬은 BaseLv %d 이상부터 스킬 포인트 투자가 가능합니다.
             You can level up the skill from the base Lv. %d.
             */
-            ClientMessages::MsgIdb16 => 0xb16,
+            ClientMessages::MsgIdb16 => 0xB16,
 
             /*20160113 to latest
             해당 특수기호는 이름에 사용하실 수 없습니다.
             Special symbol can't be used in name
             */
-            ClientMessages::MsgIdb17 => 0xb17,
+            ClientMessages::MsgIdb17 => 0xB17,
             /*20160113 to latest
             MHP가 너무 낮아, 해당 스킬을 사용할 수 없습니다
             MaxHP is to low to use this skill
             */
-            ClientMessages::MsgIdb18 => 0xb18,
+            ClientMessages::MsgIdb18 => 0xB18,
             /*20160113 to latest
             MSP가 너무 낮아, 해당 스킬을 사용할 수 없습니다
             MaxSP is to low to use this skill
             */
-            ClientMessages::MsgIdb19 => 0xb19,
+            ClientMessages::MsgIdb19 => 0xB19,
 
             /*20160203 to latest
             아이템 비교하기
             Compare items
             */
-            ClientMessages::MsgIdb1A => 0xb1a,
+            ClientMessages::MsgIdb1A => 0xB1A,
             /*20160203 to latest
             아이템 버리기 잠금
             Drop lock
             */
-            ClientMessages::MsgIdb1B => 0xb1b,
+            ClientMessages::MsgIdb1B => 0xB1B,
 
             /*20160224 to latest
             스크린샷 파일이 첨부 되지 않았습니다.
             Screenshots are not attached
             */
-            ClientMessages::MsgIdb1C => 0xb1c,
+            ClientMessages::MsgIdb1C => 0xB1C,
             /*20160224 to 20160511
             SNS통신
             20160518 to 20160817
@@ -39542,449 +39542,449 @@ impl ClientMessages {
             20160824 to latest
             Twitter
             */
-            ClientMessages::MsgIdb1D => 0xb1d,
+            ClientMessages::MsgIdb1D => 0xB1D,
             /*20160224 to latest
             일반
             General
             */
-            ClientMessages::MsgIdb1E => 0xb1e,
+            ClientMessages::MsgIdb1E => 0xB1E,
             /*20160224 to latest
             공지
             Notice
             */
-            ClientMessages::MsgIdb1F => 0xb1f,
+            ClientMessages::MsgIdb1F => 0xB1F,
             /*20160224 to latest
             반송
             Clear
             */
-            ClientMessages::MsgIdb20 => 0xb20,
+            ClientMessages::MsgIdb20 => 0xB20,
             /*20160224 to latest
             새로고침
             Refresh
             */
-            ClientMessages::MsgIdb21 => 0xb21,
+            ClientMessages::MsgIdb21 => 0xB21,
             /*20160224 to latest
             %d분
             %d minute
             */
-            ClientMessages::MsgIdb22 => 0xb22,
+            ClientMessages::MsgIdb22 => 0xB22,
             /*20160224 to latest
             %d시간
             %d hour
             */
-            ClientMessages::MsgIdb23 => 0xb23,
+            ClientMessages::MsgIdb23 => 0xB23,
             /*20160224 to latest
             %d일
             %d day
             */
-            ClientMessages::MsgIdb24 => 0xb24,
+            ClientMessages::MsgIdb24 => 0xB24,
             /*20160224 to latest
             반송됨
             Returned
             */
-            ClientMessages::MsgIdb25 => 0xb25,
+            ClientMessages::MsgIdb25 => 0xB25,
             /*20160224 to latest
             선택한 메일을 삭제하시겠습니까?
             Do you want to delete the message?
             */
-            ClientMessages::MsgIdb26 => 0xb26,
+            ClientMessages::MsgIdb26 => 0xB26,
 
             /*20160302 to latest
             위치표시
             Show information
             */
-            ClientMessages::MsgIdb27 => 0xb27,
+            ClientMessages::MsgIdb27 => 0xB27,
             /*20160302 to latest
             확대
             Zoom In
             */
-            ClientMessages::MsgIdb28 => 0xb28,
+            ClientMessages::MsgIdb28 => 0xB28,
             /*20160302 to latest
             축소
             Zoom Out
             */
-            ClientMessages::MsgIdb29 => 0xb29,
+            ClientMessages::MsgIdb29 => 0xB29,
             /*20160302 to latest
             맵보기
             Maximize
             */
-            ClientMessages::MsgIdb2A => 0xb2a,
+            ClientMessages::MsgIdb2A => 0xB2A,
             /*20160302 to latest
             월드보기
             Show world map
             */
-            ClientMessages::MsgIdb2B => 0xb2b,
+            ClientMessages::MsgIdb2B => 0xB2B,
             /*20160302 to latest
             아이템 소지 종류수
             Total possession item type
             */
-            ClientMessages::MsgIdb2C => 0xb2c,
+            ClientMessages::MsgIdb2C => 0xB2C,
 
             /*20160309 to latest
             /minimap
             */
-            ClientMessages::MsgIdb2D => 0xb2d,
+            ClientMessages::MsgIdb2D => 0xB2D,
             /*20160309 to latest
             미니맵 버튼을 표시합니다
             Show minimap buttons
             */
-            ClientMessages::MsgIdb2E => 0xb2e,
+            ClientMessages::MsgIdb2E => 0xB2E,
             /*20160309 to latest
             미니맵 버튼을 표시하지 않습니다
             Hide minimap buttons
             */
-            ClientMessages::MsgIdb2F => 0xb2f,
+            ClientMessages::MsgIdb2F => 0xB2F,
             /*20160309 to latest
             길드 접속자 정렬
             Show guild member login status
             */
-            ClientMessages::MsgIdb30 => 0xb30,
+            ClientMessages::MsgIdb30 => 0xB30,
 
             /*20160323 to latest
             친밀도 : %s
             Intimacy: %s
             */
-            ClientMessages::MsgIdb31 => 0xb31,
+            ClientMessages::MsgIdb31 => 0xB31,
             /*20160323 to latest
             확인 전
             Confirmation
             */
-            ClientMessages::MsgIdb32 => 0xb32,
+            ClientMessages::MsgIdb32 => 0xB32,
 
             /*20160330 to latest
             파티 이름
             Team name
             */
-            ClientMessages::MsgIdb33 => 0xb33,
+            ClientMessages::MsgIdb33 => 0xB33,
             /*20160330 to latest
             파티장
             Leader
             */
-            ClientMessages::MsgIdb34 => 0xb34,
+            ClientMessages::MsgIdb34 => 0xB34,
             /*20160330 to latest
             제한 시간 초과. 클라이언트를 종료합니다.
             Time limit exceeded. Closing the client
             */
-            ClientMessages::MsgIdb35 => 0xb35,
+            ClientMessages::MsgIdb35 => 0xB35,
             /*20160330 to latest
             잘못된 입력입니다. 클라이언트를 종료합니다.
             Input error. Closing the client
             */
-            ClientMessages::MsgIdb36 => 0xb36,
+            ClientMessages::MsgIdb36 => 0xB36,
             /*20160330 to latest
             정답 입니다. 보상으로 소정의 버프가 주어집니다.
             Incorrect input. A small buff has given to you
             */
-            ClientMessages::MsgIdb37 => 0xb37,
+            ClientMessages::MsgIdb37 => 0xB37,
             /*20160330 to latest
             영문 4자, 한글 2자 이상으로 입력해야 합니다.
             Enter 4 english words and 2 chinese words
             */
-            ClientMessages::MsgIdb38 => 0xb38,
+            ClientMessages::MsgIdb38 => 0xB38,
             /*20160330 to latest
             입력한 답이 [%s]가 맞습니까?
             Your entered answer is [%s]. Is it right?
             */
-            ClientMessages::MsgIdb39 => 0xb39,
+            ClientMessages::MsgIdb39 => 0xB39,
             /*20160330 to latest
             선택된 이미지가 없습니다.
             Icon is unchecked
             */
-            ClientMessages::MsgIdb3A => 0xb3a,
+            ClientMessages::MsgIdb3A => 0xB3A,
             /*20160330 to latest
             잘못된 입력입니다. (남은 기회 %d번)
             Incorrect input (Remaining chance: %d)
             */
-            ClientMessages::MsgIdb3B => 0xb3b,
+            ClientMessages::MsgIdb3B => 0xB3B,
             /*20160330 to latest
             총 %d명의 유저를 신고하시겠습니까?
             Do you want to announce %d to player?
             */
-            ClientMessages::MsgIdb3C => 0xb3c,
+            ClientMessages::MsgIdb3C => 0xB3C,
             /*20160330 to latest
             유저에게 메시지를 보냈습니다.
             Message has been sent to player
             */
-            ClientMessages::MsgIdb3D => 0xb3d,
+            ClientMessages::MsgIdb3D => 0xB3D,
             /*20160330 to latest
             불법 프로그램 단속에 필요한 데이터가 미등록 상태입니다.
             Needed Data for Query illegal software are not signed.
             */
-            ClientMessages::MsgIdb3E => 0xb3e,
+            ClientMessages::MsgIdb3E => 0xB3E,
             /*20160330 to latest
             이미 매크로 감시중인 유저입니다.
             The player is being monitored.
             */
-            ClientMessages::MsgIdb3F => 0xb3f,
+            ClientMessages::MsgIdb3F => 0xB3F,
             /*20160330 to latest
             매크로가 등록되었습니다..
             Already signed in investigation system.
             */
-            ClientMessages::MsgIdb40 => 0xb40,
+            ClientMessages::MsgIdb40 => 0xB40,
             /*20160330 to latest
             이미지 등록에 실패하였습니다.
             Failed to store icon.
             */
-            ClientMessages::MsgIdb41 => 0xb41,
+            ClientMessages::MsgIdb41 => 0xB41,
             /*20160330 to latest
             정답 등록에 실패하였습니다.
             Failed to store replied answer.
             */
-            ClientMessages::MsgIdb42 => 0xb42,
+            ClientMessages::MsgIdb42 => 0xB42,
             /*20160330 to latest
             안녕하세요. 불법프로그램 단속중입니다.
             Hello, illegal software is being monitored.
             */
-            ClientMessages::MsgIdb43 => 0xb43,
+            ClientMessages::MsgIdb43 => 0xB43,
             /*20160330 to latest
             지정된 시간내에 아래의 문자를 입력해주세요.
             Please enter the text below within the specified time.
             */
-            ClientMessages::MsgIdb44 => 0xb44,
+            ClientMessages::MsgIdb44 => 0xB44,
             /*20160330 to latest
             3회 오류시 운영정책에 의거하여 영구블록됩니다.
             According to game regulation, when you enter the wrong text three times, you will get banned.
             */
-            ClientMessages::MsgIdb45 => 0xb45,
+            ClientMessages::MsgIdb45 => 0xB45,
             /*20160330 to latest
             남은 횟수 : %d
             Remaining chance : %d
             */
-            ClientMessages::MsgIdb46 => 0xb46,
+            ClientMessages::MsgIdb46 => 0xB46,
             /*20160330 to latest
             캐릭터
             Role
             */
-            ClientMessages::MsgIdb47 => 0xb47,
+            ClientMessages::MsgIdb47 => 0xB47,
             /*20160330 to latest
             범위
             Range
             */
-            ClientMessages::MsgIdb48 => 0xb48,
+            ClientMessages::MsgIdb48 => 0xB48,
             /*20160330 to latest
             캐릭터 선택은 좌클릭으로 합니다.
             You use the left mouse button to specify the role
             */
-            ClientMessages::MsgIdb49 => 0xb49,
+            ClientMessages::MsgIdb49 => 0xB49,
             /*20160330 to latest
             범위 선택은 우클릭으로 합니다.
             You use the left mouse button to specify the range
             */
-            ClientMessages::MsgIdb4A => 0xb4a,
+            ClientMessages::MsgIdb4A => 0xB4A,
             /*20160330 to latest
             범위 크기를 지정하기 위해서는 엔터를 입력해주세요
             Not a valid range, please press Enter
             */
-            ClientMessages::MsgIdb4B => 0xb4b,
+            ClientMessages::MsgIdb4B => 0xB4B,
             /*20160330 to latest
             E X P : %.1f%% ( basic %.1f%% %s %.1f%%)
             */
-            ClientMessages::MsgIdb4C => 0xb4c,
+            ClientMessages::MsgIdb4C => 0xB4C,
             /*20160330 to latest
             DROP  : %.1f%% ( basic %.1f%% %s %.1f%%)
             */
-            ClientMessages::MsgIdb4D => 0xb4d,
+            ClientMessages::MsgIdb4D => 0xB4D,
             /*20160330 to latest
             DEATH : %.1f%% ( basic %.1f%% %s %.1f%%)
             */
-            ClientMessages::MsgIdb4E => 0xb4e,
+            ClientMessages::MsgIdb4E => 0xB4E,
             /*20160330 to 20160330
             변경된 캐릭명 %s 로 전송했습니다. 확인 바랍니다
             20160406 to latest
             변경된 캐릭명으로 발송했습니다. 변경된 캐릭명 : %s
             The role name will be sent: %s
             */
-            ClientMessages::MsgIdb4F => 0xb4f,
+            ClientMessages::MsgIdb4F => 0xB4F,
 
             /*20160427 to latest
             합성에 필요한 재료
             Synthesis of the required materials
             */
-            ClientMessages::MsgIdb50 => 0xb50,
+            ClientMessages::MsgIdb50 => 0xB50,
             /*20160427 to latest
             조합 재료가 부족해서 조합할 수 없습니다.
             Insufficient synthesis materials
             */
-            ClientMessages::MsgIdb51 => 0xb51,
+            ClientMessages::MsgIdb51 => 0xB51,
 
             /*20160504 to latest
             해당 재료는 %d개가 필요합니다.
             Required material %d ea.
             */
-            ClientMessages::MsgIdb52 => 0xb52,
+            ClientMessages::MsgIdb52 => 0xB52,
             /*20160504 to latest
             제련도가 낮아서 조합할 수 없습니다.
             Refine value is to low for synthesis
             */
-            ClientMessages::MsgIdb53 => 0xb53,
+            ClientMessages::MsgIdb53 => 0xB53,
             /*20160504 to latest
             모험가중개소에 등록 하시겠습니까?
             Do you want to sign in to the adventurers?
             */
-            ClientMessages::MsgIdb54 => 0xb54,
+            ClientMessages::MsgIdb54 => 0xB54,
 
             /*20160511 to latest
             자유롭게 코멘트를 남겨보세요.
             Please leave a message
             */
-            ClientMessages::MsgIdb55 => 0xb55,
+            ClientMessages::MsgIdb55 => 0xB55,
 
             /*20160518 to latest
             그림에 보이는 문자를 입력해주세요.
             Please enter the text on the graph
             */
-            ClientMessages::MsgIdb56 => 0xb56,
+            ClientMessages::MsgIdb56 => 0xB56,
             /*20160518 to latest
             %d초 남았습니다
             %d second left
             */
-            ClientMessages::MsgIdb57 => 0xb57,
+            ClientMessages::MsgIdb57 => 0xB57,
             /*20160518 to latest
             OTP 인증번호 6자리를 입력해 주세요
             Please enter your 6 identification number.
             */
-            ClientMessages::MsgIdb58 => 0xb58,
+            ClientMessages::MsgIdb58 => 0xB58,
             /*20160518 to latest
             인증번호
             Identification number.
             */
-            ClientMessages::MsgIdb59 => 0xb59,
+            ClientMessages::MsgIdb59 => 0xB59,
             /*20160518 to latest
             6자리의 숫자가 아닙니다. 다시 확인해 주세요
             It's not a 6 identification number. Please try again
             */
-            ClientMessages::MsgIdb5A => 0xb5a,
+            ClientMessages::MsgIdb5A => 0xB5A,
 
             /*20160608 to latest
             이미 삭제된 메일입니다.
             The message has been deleted
             */
-            ClientMessages::MsgIdb5B => 0xb5b,
+            ClientMessages::MsgIdb5B => 0xB5B,
 
             /*20160615 to latest
             개인 비공정으로 이동할 지역을 선택해주세요.
             Please select the area where the private airship will move
             */
-            ClientMessages::MsgIdb5C => 0xb5c,
+            ClientMessages::MsgIdb5C => 0xB5C,
             /*20160615 to latest
             E X P : %d%% ( basic 100.0%% %s %d%%)
             */
-            ClientMessages::MsgIdb5D => 0xb5d,
+            ClientMessages::MsgIdb5D => 0xB5D,
             /*20160615 to latest
             DROP  : %d%% ( basic 100.0%% %s %d%%)
             */
-            ClientMessages::MsgIdb5E => 0xb5e,
+            ClientMessages::MsgIdb5E => 0xB5E,
             /*20160615 to latest
             DEATH : %d%% ( basic 100.0%% %s %d%%)
             */
-            ClientMessages::MsgIdb5F => 0xb5f,
+            ClientMessages::MsgIdb5F => 0xB5F,
             /*20160615 to latest
             목적지로 이동중입니다.
             Move to the destination
             */
-            ClientMessages::MsgIdb60 => 0xb60,
+            ClientMessages::MsgIdb60 => 0xB60,
 
             /*20160629 to latest
             [%s] 파일이 존재하지 않아 default AI 로 동작합니다
             The [%s] is not present, the default AI will be used instead.
             */
-            ClientMessages::MsgIdb61 => 0xb61,
+            ClientMessages::MsgIdb61 => 0xB61,
             /*20160629 to 20160630
              %.1f%% ( Premium %.1f%% + %s %.1f%%)
             20160706 to latest
              %.1f%% ( Basic 100.0%% + Premium %.1f%% + %s %.1f%%)
             */
-            ClientMessages::MsgIdb62 => 0xb62,
+            ClientMessages::MsgIdb62 => 0xB62,
 
             /*20160706 to latest
             이 자리에 노점을 세우시겠습니까?
             Would you like to open a shop at this location?
             */
-            ClientMessages::MsgIdb63 => 0xb63,
+            ClientMessages::MsgIdb63 => 0xB63,
 
             /*20160713 to latest
             도람족은 해당 의상을 입을 수 없습니다.
             Doram race can't wear this clothes
             */
-            ClientMessages::MsgIdb64 => 0xb64,
+            ClientMessages::MsgIdb64 => 0xB64,
             /*20160713 to 20160727
             구입한 물건이 로덱스로 배송되었습니다.
             20160803 to latest
             판매 노점에서 거래한 아이템이 로덱스로 배송되었습니다.
             Props open-air store sales will be traded in RODEX
             */
-            ClientMessages::MsgIdb65 => 0xb65,
+            ClientMessages::MsgIdb65 => 0xB65,
             /*20160713 to latest
             30,000 z
             */
-            ClientMessages::MsgIdb66 => 0xb66,
+            ClientMessages::MsgIdb66 => 0xB66,
             /*20160713 to latest
             말랑도 특산 통조림 100개
             Malangdo Special Can 100 pc
             */
-            ClientMessages::MsgIdb67 => 0xb67,
+            ClientMessages::MsgIdb67 => 0xB67,
 
             /*20160720 to latest
             무게가 80%를 초과하여 진행할 수 없습니다.
             Cannot carry anymore because weight limit over 80%
             */
-            ClientMessages::MsgIdb68 => 0xb68,
+            ClientMessages::MsgIdb68 => 0xB68,
             /*20160720 to latest
             판매되지 못한 상품이 로덱스로 배송되었습니다.
             Unsold items are sent to RODEX
             */
-            ClientMessages::MsgIdb69 => 0xb69,
+            ClientMessages::MsgIdb69 => 0xB69,
 
             /*20160727 to latest
             장착 모습
             Preview
             */
-            ClientMessages::MsgIdb6A => 0xb6a,
+            ClientMessages::MsgIdb6A => 0xB6A,
             /*20160727 to latest
             길드마스터 위임
             Assign Guild Leader
             */
-            ClientMessages::MsgIdb6B => 0xb6b,
+            ClientMessages::MsgIdb6B => 0xB6B,
             /*20160727 to latest
             정말로 %s님께 길드마스터를 위임하시겠습니까? 위임 후 당신의 지위는 %s님과 지위가 바뀌게 됩니다.
             Are sure want to assign %s as guild leader? After assigned your position will become %s
             */
-            ClientMessages::MsgIdb6C => 0xb6c,
+            ClientMessages::MsgIdb6C => 0xB6C,
             /*20160727 to latest
             철회
             Cancel
             */
-            ClientMessages::MsgIdb6D => 0xb6d,
+            ClientMessages::MsgIdb6D => 0xB6D,
             /*20160727 to latest
             노점을 철수하시겠습니까?
             Do you want to close the shop?
             */
-            ClientMessages::MsgIdb6E => 0xb6e,
+            ClientMessages::MsgIdb6E => 0xB6E,
             /*20160727 to latest
             %02d일 %02d시간 %02d분 %02d초
             %02d day %02d hour %02d minute %02d second
             */
-            ClientMessages::MsgIdb6F => 0xb6f,
+            ClientMessages::MsgIdb6F => 0xB6F,
             /*20160727 to latest
             접속불가
             Unable to sign in
             */
-            ClientMessages::MsgIdb70 => 0xb70,
+            ClientMessages::MsgIdb70 => 0xB70,
             /*20160727 to latest
             접속가능인원을 초과하여 접속이 불가능 합니다.
             Unable to sign in because the maximum number of sign-in is exceeded
             */
-            ClientMessages::MsgIdb71 => 0xb71,
+            ClientMessages::MsgIdb71 => 0xB71,
             /*20160727 to latest
             노점을 설치할 위치를 선택해주세요.
             Please select a location for your shop
             */
-            ClientMessages::MsgIdb72 => 0xb72,
+            ClientMessages::MsgIdb72 => 0xB72,
             /*20160727 to latest
             펫 이름을 ^0000ff^0000ff %s^000000^000000 로 수정합니다. 계속 하시겠습니까?
             Pet name will be changed to ^0000ff^0000ff %s^000000^000000, do you want to continue?
             */
-            ClientMessages::MsgIdb73 => 0xb73,
+            ClientMessages::MsgIdb73 => 0xB73,
 
             /*20160803 to 20160803
             판매 일시 :
@@ -39992,147 +39992,147 @@ impl ClientMessages {
             거래 일시 :
             Trade date :
             */
-            ClientMessages::MsgIdb74 => 0xb74,
+            ClientMessages::MsgIdb74 => 0xB74,
             /*20160803 to 20160803
             판매 아이템 :
             20160810 to latest
             거래 아이템 :
             Trade item :
             */
-            ClientMessages::MsgIdb75 => 0xb75,
+            ClientMessages::MsgIdb75 => 0xB75,
             /*20160803 to 20160803
             판매 수량 :
             20160810 to latest
             거래 수량 :
             Trade quantity :
             */
-            ClientMessages::MsgIdb76 => 0xb76,
+            ClientMessages::MsgIdb76 => 0xB76,
             /*20160803 to 20160803
             판매 단가 :
             20160810 to latest
             거래 단가 :
             Trade price :
             */
-            ClientMessages::MsgIdb77 => 0xb77,
+            ClientMessages::MsgIdb77 => 0xB77,
             /*20160803 to 20160803
             판매 금액 :
             20160810 to latest
             거래 금액 :
             Total trade :
             */
-            ClientMessages::MsgIdb78 => 0xb78,
+            ClientMessages::MsgIdb78 => 0xB78,
             /*20160803 to latest
             노점 판매 아이템
             Open vending sales agent
             */
-            ClientMessages::MsgIdb79 => 0xb79,
+            ClientMessages::MsgIdb79 => 0xB79,
             /*20160803 to latest
             노점 구매 아이템
             Open vending purchase agent
             */
-            ClientMessages::MsgIdb7A => 0xb7a,
+            ClientMessages::MsgIdb7A => 0xB7A,
             /*20160803 to latest
             판매 노점 아르바이트 종료
             Close vending sales agent
             */
-            ClientMessages::MsgIdb7B => 0xb7b,
+            ClientMessages::MsgIdb7B => 0xB7B,
             /*20160803 to latest
             구매 노점 아르바이트 종료
             Close vending purchase agent
             */
-            ClientMessages::MsgIdb7C => 0xb7c,
+            ClientMessages::MsgIdb7C => 0xB7C,
             /*20160803 to latest
             남은 금액:
             Balance:
             */
-            ClientMessages::MsgIdb7D => 0xb7d,
+            ClientMessages::MsgIdb7D => 0xB7D,
             /*20160803 to latest
             아이템 리스트:
             Item list:
             */
-            ClientMessages::MsgIdb7E => 0xb7e,
+            ClientMessages::MsgIdb7E => 0xB7E,
             /*20160803 to latest
             노점 아르바이트생
             Vending agent
             */
-            ClientMessages::MsgIdb7F => 0xb7f,
+            ClientMessages::MsgIdb7F => 0xB7F,
             /*20160803 to latest
             반환 아이템:
             Returned item:
             */
-            ClientMessages::MsgIdb80 => 0xb80,
+            ClientMessages::MsgIdb80 => 0xB80,
             /*20160803 to latest
             반환 수량:
             Returned quantity:
             */
-            ClientMessages::MsgIdb81 => 0xb81,
+            ClientMessages::MsgIdb81 => 0xB81,
             /*20160803 to latest
             반환 일시:
             Returned date:
             */
-            ClientMessages::MsgIdb82 => 0xb82,
+            ClientMessages::MsgIdb82 => 0xB82,
             /*20160803 to latest
             구매 노점에서 거래한 금액이 로덱스로 배송되었습니다
             Total trade will be sent to RODEX
             */
-            ClientMessages::MsgIdb83 => 0xb83,
+            ClientMessages::MsgIdb83 => 0xB83,
             /*20160803 to latest
             사용할 수 없는 이름입니다.
             Name isn't available
             */
-            ClientMessages::MsgIdb84 => 0xb84,
+            ClientMessages::MsgIdb84 => 0xB84,
 
             /*20160817 to latest
             상품이 도착했습니다.
             Item has been delivered
             */
-            ClientMessages::MsgIdb85 => 0xb85,
+            ClientMessages::MsgIdb85 => 0xB85,
             /*20160817 to latest
             구입해주셔서 감사합니다.
             Thank you for purchasing
             */
-            ClientMessages::MsgIdb86 => 0xb86,
+            ClientMessages::MsgIdb86 => 0xB86,
 
             /*20160824 to latest
             NPC에게 아이템을 판매하지 않습니다.
             Press again to unlock
             */
-            ClientMessages::MsgIdb87 => 0xb87,
+            ClientMessages::MsgIdb87 => 0xB87,
             /*20160824 to latest
             아이템 판매 잠금
             Lock from NPC selling
             */
-            ClientMessages::MsgIdb88 => 0xb88,
+            ClientMessages::MsgIdb88 => 0xB88,
             /*20160824 to latest
             근처에서 소환가능 위치를 찾을수 없습니다.
             There is no callable location nearby
             */
-            ClientMessages::MsgIdb89 => 0xb89,
+            ClientMessages::MsgIdb89 => 0xB89,
             /*20160824 to latest
             전체 화면 캡쳐
             Capture full screens
             */
-            ClientMessages::MsgIdb8A => 0xb8a,
+            ClientMessages::MsgIdb8A => 0xB8A,
             /*20160824 to latest
             부분 화면 캡쳐
             Capture part of screen
             */
-            ClientMessages::MsgIdb8B => 0xb8b,
+            ClientMessages::MsgIdb8B => 0xB8B,
             /*20160824 to latest
             보내기
             Send
             */
-            ClientMessages::MsgIdb8C => 0xb8c,
+            ClientMessages::MsgIdb8C => 0xB8C,
             /*20160824 to latest
             가족 분과 담당자
             Family Affairs agent
             */
-            ClientMessages::MsgIdb8D => 0xb8d,
+            ClientMessages::MsgIdb8D => 0xB8D,
             /*20160824 to latest
             가족 사항 변동 안내
             Acknowledgement of family member registrations.
             */
-            ClientMessages::MsgIdb8E => 0xb8e,
+            ClientMessages::MsgIdb8E => 0xB8E,
             /*20160824 to latest
             안녕하십니까.
 
@@ -40153,18 +40153,18 @@ impl ClientMessages {
 
             Thank you.
             */
-            ClientMessages::MsgIdb8F => 0xb8f,
+            ClientMessages::MsgIdb8F => 0xB8F,
 
             /*20160831 to latest
             장착
             Equip
             */
-            ClientMessages::MsgIdb90 => 0xb90,
+            ClientMessages::MsgIdb90 => 0xB90,
             /*20160831 to latest
             이미지 없음
             No image
             */
-            ClientMessages::MsgIdb91 => 0xb91,
+            ClientMessages::MsgIdb91 => 0xB91,
 
             /*20160907 to 20160921
             %s은(는) 현재 호출을 차단한 상태입니다.
@@ -40172,482 +40172,482 @@ impl ClientMessages {
             [%s]은(는) 현재 호출을 차단한 상태입니다.
             [%s] is blocking Call Massage.
             */
-            ClientMessages::MsgIdb92 => 0xb92,
+            ClientMessages::MsgIdb92 => 0xB92,
 
             /*20160913 to latest
             현재 공성전이 진행중이므로, 길드마스터를 위임 할 수 없습니다.
             Currently in WoE hours, unable to delegate Guild leader
             */
-            ClientMessages::MsgIdb93 => 0xb93,
+            ClientMessages::MsgIdb93 => 0xB93,
             /*20160913 to latest
             현재 길드장 위임을 받은지 만 하루가 지나지 않아, 길드장을 위임할 수 없습니다.
             You have to wait for one day before delegating a new Guild leader
             */
-            ClientMessages::MsgIdb94 => 0xb94,
+            ClientMessages::MsgIdb94 => 0xB94,
             /*20160913 to latest
             아이가 되면 전승을 할 수 없고 스텟의 제한이 있으며 HP와 SP가 줄어듭니다.
             그래도 괜찮습니까?
             When adopted, character will not able to transcend, maximum stats will be limited, MaxHP and MaxSP will be reduced.
             Are you sure you want to continue?
             */
-            ClientMessages::MsgIdb95 => 0xb95,
+            ClientMessages::MsgIdb95 => 0xB95,
             /*20160913 to latest
             제련
             Refining
             */
-            ClientMessages::MsgIdb96 => 0xb96,
+            ClientMessages::MsgIdb96 => 0xB96,
             /*20160913 to latest
             대장장이의 축복을 사용중입니다.
             Use Blacksmith's Blessing
             */
-            ClientMessages::MsgIdb97 => 0xb97,
+            ClientMessages::MsgIdb97 => 0xB97,
             /*20160913 to latest
             제니가 부족합니다.
             Insufficient zeny
             */
-            ClientMessages::MsgIdb98 => 0xb98,
+            ClientMessages::MsgIdb98 => 0xB98,
             /*20160913 to latest
             대장장이의 축복 개수가 부족합니다.
             Not enough Blacksmith's Blessing
             */
-            ClientMessages::MsgIdb99 => 0xb99,
+            ClientMessages::MsgIdb99 => 0xB99,
             /*20160913 to latest
             해당 장비는 제련이 불가능합니다.
             This equipment can not be refined
             */
-            ClientMessages::MsgIdb9A => 0xb9a,
+            ClientMessages::MsgIdb9A => 0xB9A,
             /*20160913 to 20170621
             제련 성공!
             20170628 to latest
             제련 성공
             Upgrade success!
             */
-            ClientMessages::MsgIdb9B => 0xb9b,
+            ClientMessages::MsgIdb9B => 0xB9B,
             /*20160913 to 20170621
             제련 실패!
             20170628 to latest
             제련 실패
             Upgrade failed!
             */
-            ClientMessages::MsgIdb9C => 0xb9c,
+            ClientMessages::MsgIdb9C => 0xB9C,
             /*20160913 to latest
             돌아가기
             Back
             */
-            ClientMessages::MsgIdb9D => 0xb9d,
+            ClientMessages::MsgIdb9D => 0xB9D,
             /*20160913 to latest
             성공
             Success
             */
-            ClientMessages::MsgIdb9E => 0xb9e,
+            ClientMessages::MsgIdb9E => 0xB9E,
             /*20160913 to latest
             원래대로
             Return
             */
-            ClientMessages::MsgIdb9F => 0xb9f,
+            ClientMessages::MsgIdb9F => 0xB9F,
 
             /*20160921 to latest
             씨와의
             With Mr/Miss
             */
-            ClientMessages::MsgIdba0 => 0xba0,
+            ClientMessages::MsgIdba0 => 0xBA0,
             /*20160921 to latest
             호문클루스의 이름을 ^0000ff^0000ff %s^000000^000000 로 수정합니다. 계속 하시겠습니까?
             The Homunculus's name will be changed to^0000ff^0000ff %s^000000^000000, Are you sure?
             */
-            ClientMessages::MsgIdba1 => 0xba1,
+            ClientMessages::MsgIdba1 => 0xBA1,
 
             /*20160928 to latest
             호출이 허용된 상태입니다. (호출 기능 ON)
             Call function is ON
             */
-            ClientMessages::MsgIdba2 => 0xba2,
+            ClientMessages::MsgIdba2 => 0xBA2,
             /*20160928 to latest
             호출이 차단된 상태입니다. (호출 기능 OFF)
             Call function is OFF
             */
-            ClientMessages::MsgIdba3 => 0xba3,
+            ClientMessages::MsgIdba3 => 0xBA3,
             /*20160928 to latest
             호출 메시지 표시
             Display Call messages
             */
-            ClientMessages::MsgIdba4 => 0xba4,
+            ClientMessages::MsgIdba4 => 0xBA4,
             /*20160928 to latest
             해당 캐릭터가 현재 노점 아이템을 사용 중이므로 삭제할 수 없습니다.
             This character is currently opening a shop and can't be deleted
             */
-            ClientMessages::MsgIdba5 => 0xba5,
+            ClientMessages::MsgIdba5 => 0xBA5,
             /*20160928 to latest
             이미 동일한 노점 NPC가 설치 중입니다.
             The same vend shop NPC has been set up
             */
-            ClientMessages::MsgIdba6 => 0xba6,
+            ClientMessages::MsgIdba6 => 0xBA6,
             /*20160928 to latest
             노점을 설치할 수 없는 위치입니다.
             Opening shop is not allowed on this location
             */
-            ClientMessages::MsgIdba7 => 0xba7,
+            ClientMessages::MsgIdba7 => 0xBA7,
             /*20160928 to latest
             다른 캐릭터가 있는 위치에는 노점을 설치할 수 없습니다.
             Opening shop is not allowed when there is other character
             */
-            ClientMessages::MsgIdba8 => 0xba8,
+            ClientMessages::MsgIdba8 => 0xBA8,
 
             /*20161005 to latest
             펫 먹이주기가 실패했습니다. 로덱스 작성창을 닫아주세요.
             Failed to feed pet, please close RODEX window
             */
-            ClientMessages::MsgIdba9 => 0xba9,
+            ClientMessages::MsgIdba9 => 0xBA9,
             /*20161005 to latest
             장비 세트 설정
             Set item setting
             */
-            ClientMessages::MsgIdbaa => 0xbaa,
+            ClientMessages::MsgIdbaa => 0xBAA,
             /*20161005 to latest
             장착 하기
             Equip
             */
-            ClientMessages::MsgIdbab => 0xbab,
+            ClientMessages::MsgIdbab => 0xBAB,
 
             /*20161019 to latest
             제련 실패시 장비가 사라집니다.
             Equipment will dissapear when refine fails
             */
-            ClientMessages::MsgIdbac => 0xbac,
+            ClientMessages::MsgIdbac => 0xBAC,
             /*20161019 to latest
             제련 실패시 장비의 제련도가 내려갑니다.
             Equipment's refine level will decreased when refine fails
             */
-            ClientMessages::MsgIdbad => 0xbad,
+            ClientMessages::MsgIdbad => 0xBAD,
             /*20161019 to latest
             제련 실패시 장비의 제련도가 내려가거나 사라질 수 있습니다.
             Equipment will dissapear or refine level will decreased when refine fails
             */
-            ClientMessages::MsgIdbae => 0xbae,
+            ClientMessages::MsgIdbae => 0xBAE,
 
             /*20161026 to latest
             제련 중에는 로덱스를 사용할 수 없습니다. 로덱스를 강제 종료하였습니다.
             You cannot use RODEX while refining. RODEX has closed.
             */
-            ClientMessages::MsgIdbaf => 0xbaf,
+            ClientMessages::MsgIdbaf => 0xBAF,
             /*20161026 to latest
             제련 중에는 로덱스를 사용할 수 없습니다.
             You cannot use RODEX while refining.
             */
-            ClientMessages::MsgIdbb0 => 0xbb0,
+            ClientMessages::MsgIdbb0 => 0xBB0,
             /*20161026 to latest
             제련을 진행하려면 다른 창을 닫아주세요.
             Please close other windows to continue.
             */
-            ClientMessages::MsgIdbb1 => 0xbb1,
+            ClientMessages::MsgIdbb1 => 0xBB1,
             /*20161026 to latest
             오오라가 정상적으로 표시됩니다 [오오라 ON]
             Turn On Aura [Aura ON]
             */
-            ClientMessages::MsgIdbb2 => 0xbb2,
+            ClientMessages::MsgIdbb2 => 0xBB2,
             /*20161026 to latest
             오오라가 표시되지 않습니다 [오오라 OFF]
             Turn Off Aura [Auta OFF]
             */
-            ClientMessages::MsgIdbb3 => 0xbb3,
+            ClientMessages::MsgIdbb3 => 0xBB3,
             /*20161026 to latest
             오오라가 Off 상태입니다. Off 를 해제하고 시도해 주세요
             Aura is turned off. Please turn it on and try again
             */
-            ClientMessages::MsgIdbb4 => 0xbb4,
+            ClientMessages::MsgIdbb4 => 0xBB4,
             /*20161026 to latest
             스킬 발동시 최소 %d개의 탄알이 필요합니다.
             You need %d bullet(s) to activate the skill.
             */
-            ClientMessages::MsgIdbb5 => 0xbb5,
+            ClientMessages::MsgIdbb5 => 0xBB5,
             /*20161026 to latest
             장비 세트를 변경하시겠습니까?
             Do you want to change the equipment set?
             */
-            ClientMessages::MsgIdbb6 => 0xbb6,
+            ClientMessages::MsgIdbb6 => 0xBB6,
             /*20161026 to latest
             죽은 상태에서는 할 수 없습니다
             You can not do it while you are dead.
             */
-            ClientMessages::MsgIdbb7 => 0xbb7,
+            ClientMessages::MsgIdbb7 => 0xBB7,
             /*20161026 to latest
             캐스팅 도중에는 할 수 없습니다
             You can not do it while casting
             */
-            ClientMessages::MsgIdbb8 => 0xbb8,
+            ClientMessages::MsgIdbb8 => 0xBB8,
             /*20161026 to latest
             거래 도중에는 할 수 없습니다
             You can not do it while trading
             */
-            ClientMessages::MsgIdbb9 => 0xbb9,
+            ClientMessages::MsgIdbb9 => 0xBB9,
             /*20161026 to latest
             노점 개설 도중에는 할 수 없습니다
             You can not do it while opening vendor
             */
-            ClientMessages::MsgIdbba => 0xbba,
+            ClientMessages::MsgIdbba => 0xBBA,
             /*20161026 to latest
             NPC 이용중에는 할 수 없습니다
             You can not do it while using NPC
             */
-            ClientMessages::MsgIdbbb => 0xbbb,
+            ClientMessages::MsgIdbbb => 0xBBB,
             /*20161026 to latest
             채팅방 이용중에는 할 수 없습니다
             You can not do it while using chatting room
             */
-            ClientMessages::MsgIdbbc => 0xbbc,
+            ClientMessages::MsgIdbbc => 0xBBC,
             /*20161026 to latest
             파티원 전원이 접속 상태가 아닙니다.
             Party members are not connected.
             */
-            ClientMessages::MsgIdbbd => 0xbbd,
+            ClientMessages::MsgIdbbd => 0xBBD,
             /*20161026 to latest
             스킬 발동시 최소 %d개의 화살이 필요합니다.
             You need %d arrow(s) to activate the skill.
             */
-            ClientMessages::MsgIdbbe => 0xbbe,
+            ClientMessages::MsgIdbbe => 0xBBE,
 
             /*20161102 to latest
             아이템 정렬
             Align items
             */
-            ClientMessages::MsgIdbbf => 0xbbf,
+            ClientMessages::MsgIdbbf => 0xBBF,
             /*20161102 to latest
             아이템을 버리려면 장비 설정 창을 닫아주세요.
             Please close item setting window to dump item.
             */
-            ClientMessages::MsgIdbc0 => 0xbc0,
+            ClientMessages::MsgIdbc0 => 0xBC0,
 
             /*20161109 to latest
             교체 할 수 있는 아이템이 없습니다.
             There is no item to replace.
             */
-            ClientMessages::MsgIdbc1 => 0xbc1,
+            ClientMessages::MsgIdbc1 => 0xBC1,
             /*20161109 to latest
             삭제된 캐릭터
             Deleted character
             */
-            ClientMessages::MsgIdbc2 => 0xbc2,
+            ClientMessages::MsgIdbc2 => 0xBC2,
 
             /*20161116 to latest
             %Y.%m.%d
             */
-            ClientMessages::MsgIdbc3 => 0xbc3,
+            ClientMessages::MsgIdbc3 => 0xBC3,
             /*20161116 to latest
             접속일: %s
             Access date: %s
             */
-            ClientMessages::MsgIdbc4 => 0xbc4,
+            ClientMessages::MsgIdbc4 => 0xBC4,
             /*20161116 to latest
             제련 중에는 은행을 사용할 수 없습니다. 은행을 강제 종료하였습니다.
             You can not use bank while refining. Bank has closed.
             */
-            ClientMessages::MsgIdbc5 => 0xbc5,
+            ClientMessages::MsgIdbc5 => 0xBC5,
             /*20161116 to latest
             제련 중에는 은행을 사용할 수 없습니다.
             You can not use bank while refining.
             */
-            ClientMessages::MsgIdbc6 => 0xbc6,
+            ClientMessages::MsgIdbc6 => 0xBC6,
             /*20161116 to latest
             장비 세트 설정 중인 아이템입니다.
             The item has bind to set equipment.
             */
-            ClientMessages::MsgIdbc7 => 0xbc7,
+            ClientMessages::MsgIdbc7 => 0xBC7,
 
             /*20161123 to latest
             인간
             Human
             */
-            ClientMessages::MsgIdbc8 => 0xbc8,
+            ClientMessages::MsgIdbc8 => 0xBC8,
             /*20161123 to latest
             검사, 법사, 상인, 복사, 도둑, 궁수
             Swordman, Mage, Merchant, Acolyte, Thief, Archer
             */
-            ClientMessages::MsgIdbc9 => 0xbc9,
+            ClientMessages::MsgIdbc9 => 0xBC9,
             /*20161123 to latest
             도람
             Doram
             */
-            ClientMessages::MsgIdbca => 0xbca,
+            ClientMessages::MsgIdbca => 0xBCA,
             /*20161123 to latest
             소환사
             Summoner
             */
-            ClientMessages::MsgIdbcb => 0xbcb,
+            ClientMessages::MsgIdbcb => 0xBCB,
             /*20161123 to latest
             미드가르드 대륙의 대표 종족. 무한한 잠재력과 뛰어난 적응력으로 문제 해결에 탁월한 것이 특징이다.
             Delegate race of Midgard. Very talented race to solve a problem with inifite potential and great adaptability.
             */
-            ClientMessages::MsgIdbcc => 0xbcc,
+            ClientMessages::MsgIdbcc => 0xBCC,
             /*20161123 to latest
             파-스타 대륙의 대표적인 종족 중 하나로, 선천적으로 호기심이 강하고 발랄한 성격을 지녔다.
             One of delegate race of Far-star continent with natural born curiosity and sparky character.
             */
-            ClientMessages::MsgIdbcd => 0xbcd,
+            ClientMessages::MsgIdbcd => 0xBCD,
             /*20161123 to latest
             소지 한계량이 70%를 초과하거나, 인벤토리에 10칸 이상의 여유 공간이 부족한 상태입니다.
             Weight limit has reached toover 70%. Or less then 10 invenrory space.
             */
-            ClientMessages::MsgIdbce => 0xbce,
+            ClientMessages::MsgIdbce => 0xBCE,
             /*20161123 to latest
             C
             EUR
             */
-            ClientMessages::MsgIdbcf => 0xbcf,
+            ClientMessages::MsgIdbcf => 0xBCF,
             /*20161123 to latest
             C
             EUR
             */
-            ClientMessages::MsgIdbd0 => 0xbd0,
+            ClientMessages::MsgIdbd0 => 0xBD0,
             /*20161123 to latest
             다른 일을 하는 중입니다.
             Doing in other activity.
             */
-            ClientMessages::MsgIdbd1 => 0xbd1,
+            ClientMessages::MsgIdbd1 => 0xBD1,
             /*20161123 to latest
             오버히트 리미트 : %d
             Overheat limit : %d
             */
-            ClientMessages::MsgIdbd2 => 0xbd2,
+            ClientMessages::MsgIdbd2 => 0xBD2,
 
             /*20161130 to latest
             메모리얼 던전 이용 중엔 초대 및 탈퇴가 되지 않습니다.
             You cannot invite or withdraw while in memorial dungeon.
             */
-            ClientMessages::MsgIdbd3 => 0xbd3,
+            ClientMessages::MsgIdbd3 => 0xBD3,
             /*20161130 to latest
             비속어가 포함되어있습니다.
             다시 한번 확인해주세요.
             Expletive has detected.
             Please check again.
             */
-            ClientMessages::MsgIdbd4 => 0xbd4,
+            ClientMessages::MsgIdbd4 => 0xBD4,
 
             /*20161207 to latest
             아이디는 %d자 이상 입력해주세요. 사용자 계정이 없으신분들은 왼쪽 하단의 [신청] 버튼을 눌러 계정을 만드시기 바랍니다.
             Please enter over %d characters. If you don't have user account, please click [Register] button on the bottom left.
             */
-            ClientMessages::MsgIdbd5 => 0xbd5,
+            ClientMessages::MsgIdbd5 => 0xBD5,
             /*20161207 to latest
             비밀번호는 %d자 이상 입력해주세요.
             Please enter the password over %d characters.
             */
-            ClientMessages::MsgIdbd6 => 0xbd6,
+            ClientMessages::MsgIdbd6 => 0xBD6,
             /*20161207 to latest
             진행중이던 작업을 종료후 다시 시도하세요.
             Please finish your current work and try it again.
             */
-            ClientMessages::MsgIdbd7 => 0xbd7,
+            ClientMessages::MsgIdbd7 => 0xBD7,
             /*20161207 to latest
             %.1f%% (PC방 %.1f%% + TPLUS %.1f%% + %s서버 %.1f%%)
             %.1f%% (Internet-Cafe %.1f%% + TPLUS %.1f%% + %sServer %.1f%%)
             */
-            ClientMessages::MsgIdbd8 => 0xbd8,
+            ClientMessages::MsgIdbd8 => 0xBD8,
             /*20161207 to latest
             아이템을 등록할 수 없습니다
             The item cannot be registered.
             */
-            ClientMessages::MsgIdbd9 => 0xbd9,
+            ClientMessages::MsgIdbd9 => 0xBD9,
 
             /*20161214 to latest
             /100
             /300
             */
-            ClientMessages::MsgIdbda => 0xbda,
+            ClientMessages::MsgIdbda => 0xBDA,
             /*20161214 to latest
             /2000
             /4000
             */
-            ClientMessages::MsgIdbdb => 0xbdb,
+            ClientMessages::MsgIdbdb => 0xBDB,
             /*20161214 to latest
             https://member.gnjoy.com.tw/mROSecPwd.aspx
             */
-            ClientMessages::MsgIdbdc => 0xbdc,
+            ClientMessages::MsgIdbdc => 0xBDC,
             /*20161214 to latest
             등록할 emblem이 존재하지 않습니다. emblem 폴더에 파일을 넣고 시도해 주세요
             The emblem you want to register does not exist. Insert it in the emblem file and try again
             */
-            ClientMessages::MsgIdbdd => 0xbdd,
+            ClientMessages::MsgIdbdd => 0xBDD,
             /*20161214 to 20170315
             #라그나로크 #Ragnarok
             20170322 to latest
             라그나로크
             Ragnarok Ragnarok
             */
-            ClientMessages::MsgIdbde => 0xbde,
+            ClientMessages::MsgIdbde => 0xBDE,
             /*20161214 to 20161214
             스크린샷에 자신 이외의 캐리터명이 표시되는 경우나 채팅창에 자신 이외의 캐릭터 대화가 표시되는 경우, 해당 사용자에게 반드시 양해를 구한 후 사용 해 주시기 바랍니다.
             20161221 to latest
             스크린샷에 자신 이외의 캐릭터명이 표시되는 경우나 채팅창에 자신 이외의 캐릭터 대화가 표시되는 경우, 해당 사용자에게 반드시 양해를 구한 후 사용 해 주시기 바랍니다.
             If your screenshot or chat box includes other users besides yourself, first ask permission from the other users before using it.
             */
-            ClientMessages::MsgIdbdf => 0xbdf,
+            ClientMessages::MsgIdbdf => 0xBDF,
 
             /*20161221 to latest
             현재 상태에선 장비를 교체할 수 없습니다
             You cannot change equipment in current condition
             */
-            ClientMessages::MsgIdbe0 => 0xbe0,
+            ClientMessages::MsgIdbe0 => 0xBE0,
             /*20161221 to latest
             해당 유저의 이름을 가져오고 있습니다
             Getting the user's name
             */
-            ClientMessages::MsgIdbe1 => 0xbe1,
+            ClientMessages::MsgIdbe1 => 0xBE1,
             /*20161221 to latest
             해당 메시지는 사용 할 수 없는 내용을 포함하고 있습니다.
             This message includes contents you are not able to use.
             */
-            ClientMessages::MsgIdbe2 => 0xbe2,
+            ClientMessages::MsgIdbe2 => 0xBE2,
             /*20161221 to latest
             아이템 구입에 실패하였습니다.
             Failed to purchase item.
             */
-            ClientMessages::MsgIdbe3 => 0xbe3,
+            ClientMessages::MsgIdbe3 => 0xBE3,
             /*20161221 to latest
             신분증번호 하위 7자리가 일치하지 않습니다.
             The lower numbers of the identification number does not match.
             */
-            ClientMessages::MsgIdbe4 => 0xbe4,
+            ClientMessages::MsgIdbe4 => 0xBE4,
 
             /*20161228 to latest
             닫기
             Close
             */
-            ClientMessages::MsgIdbe5 => 0xbe5,
+            ClientMessages::MsgIdbe5 => 0xBE5,
             /*20161228 to latest
             규칙
             Rule
             */
-            ClientMessages::MsgIdbe6 => 0xbe6,
+            ClientMessages::MsgIdbe6 => 0xBE6,
             /*20161228 to latest
             1회 구매
             Purchase 1x
             */
-            ClientMessages::MsgIdbe7 => 0xbe7,
+            ClientMessages::MsgIdbe7 => 0xBE7,
             /*20161228 to latest
             10회 구매
             Purchase 10x
             */
-            ClientMessages::MsgIdbe8 => 0xbe8,
+            ClientMessages::MsgIdbe8 => 0xBE8,
             /*20161228 to latest
             100회 구매
             Purchase 100x
             */
-            ClientMessages::MsgIdbe9 => 0xbe9,
+            ClientMessages::MsgIdbe9 => 0xBE9,
             /*20161228 to latest
             1등 당첨
             Win 1st prize
             */
-            ClientMessages::MsgIdbea => 0xbea,
+            ClientMessages::MsgIdbea => 0xBEA,
             /*20161228 to latest
             2등 당첨
             Win 2nd prize
             */
-            ClientMessages::MsgIdbeb => 0xbeb,
+            ClientMessages::MsgIdbeb => 0xBEB,
             /*20161228 to latest
             3등 당첨
             Win 3rd prize
             */
-            ClientMessages::MsgIdbec => 0xbec,
+            ClientMessages::MsgIdbec => 0xBEC,
             /*20161228 to 20170111
             복권 구매 금액
             Lottery purchase amount
@@ -40655,7 +40655,7 @@ impl ClientMessages {
             현재 사용하지 않음
             Currently not in use
             */
-            ClientMessages::MsgIdbed => 0xbed,
+            ClientMessages::MsgIdbed => 0xBED,
             /*20161228 to 20170111
             참여 캐릭터
             Participating character
@@ -40663,44 +40663,44 @@ impl ClientMessages {
             현재 사용하지 않음
             Currently not in use
             */
-            ClientMessages::MsgIdbee => 0xbee,
+            ClientMessages::MsgIdbee => 0xBEE,
             /*20161228 to latest
             제니 로또 당첨자
             Zeny Lottery winner
             */
-            ClientMessages::MsgIdbef => 0xbef,
+            ClientMessages::MsgIdbef => 0xBEF,
             /*20161228 to 20170111
             복권 진행일
             20170118 to latest
             복권 구매 금액
             Lottery purchase amount
             */
-            ClientMessages::MsgIdbf0 => 0xbf0,
+            ClientMessages::MsgIdbf0 => 0xBF0,
             /*20161228 to latest
             참여 캐릭터
             Participating character
             */
-            ClientMessages::MsgIdbf1 => 0xbf1,
+            ClientMessages::MsgIdbf1 => 0xBF1,
             /*20161228 to latest
             1등
             1st Price
             */
-            ClientMessages::MsgIdbf2 => 0xbf2,
+            ClientMessages::MsgIdbf2 => 0xBF2,
             /*20161228 to latest
             2등
             2nd Price
             */
-            ClientMessages::MsgIdbf3 => 0xbf3,
+            ClientMessages::MsgIdbf3 => 0xBF3,
             /*20161228 to latest
             3등
             3rd Price
             */
-            ClientMessages::MsgIdbf4 => 0xbf4,
+            ClientMessages::MsgIdbf4 => 0xBF4,
             /*20161228 to latest
             구매 보상 아이템
             Purchase Reward Item
             */
-            ClientMessages::MsgIdbf5 => 0xbf5,
+            ClientMessages::MsgIdbf5 => 0xBF5,
             /*20161228 to latest
             ^1a1a1a복권 ^b%d개^/b를
             ^4435b2%dZeny^1a1a1a로
@@ -40708,180 +40708,180 @@ impl ClientMessages {
             ^1a1a1a Do you want to purchase ^b%d lottery tickets for
             ^4435b2%dZeny^1a1a1a?
             */
-            ClientMessages::MsgIdbf6 => 0xbf6,
+            ClientMessages::MsgIdbf6 => 0xBF6,
             /*20161228 to latest
             복권을 성공적으로 구매하였습니다.
             You have successfully purchased the lottery ticket.
             */
-            ClientMessages::MsgIdbf7 => 0xbf7,
+            ClientMessages::MsgIdbf7 => 0xBF7,
             /*20161228 to latest
             소지 제니가 부족하여 복권을 구매 할 수 없습니다.
             Not enough Zeny to purchase lottey ticket.
             */
-            ClientMessages::MsgIdbf8 => 0xbf8,
+            ClientMessages::MsgIdbf8 => 0xBF8,
             /*20161228 to latest
             최대 복권 구매 횟수는 1000회를 초과 할 수 없습니다.
             You are only able to purchase the tickets upto 1000 times.
             */
-            ClientMessages::MsgIdbf9 => 0xbf9,
+            ClientMessages::MsgIdbf9 => 0xBF9,
             /*20161228 to latest
             예
             Yes
             */
-            ClientMessages::MsgIdbfa => 0xbfa,
+            ClientMessages::MsgIdbfa => 0xBFA,
             /*20161228 to latest
             아니요
             No
             */
-            ClientMessages::MsgIdbfb => 0xbfb,
+            ClientMessages::MsgIdbfb => 0xBFB,
             /*20161228 to latest
             HP
             */
-            ClientMessages::MsgIdbfc => 0xbfc,
+            ClientMessages::MsgIdbfc => 0xBFC,
             /*20161228 to latest
             SP
             */
-            ClientMessages::MsgIdbfd => 0xbfd,
+            ClientMessages::MsgIdbfd => 0xBFD,
             /*20161228 to latest
             Lv
             Lv.
             */
-            ClientMessages::MsgIdbfe => 0xbfe,
+            ClientMessages::MsgIdbfe => 0xBFE,
             /*20161228 to latest
             Lv
             Lv.
             */
-            ClientMessages::MsgIdbff => 0xbff,
+            ClientMessages::MsgIdbff => 0xBFF,
             /*20161228 to latest
             Exp
             */
-            ClientMessages::MsgIdc00 => 0xc00,
+            ClientMessages::MsgIdc00 => 0xC00,
             /*20161228 to latest
              all on
             */
-            ClientMessages::MsgIdc01 => 0xc01,
+            ClientMessages::MsgIdc01 => 0xC01,
             /*20161228 to latest
             Play Replay Flie
             Start replay
             */
-            ClientMessages::MsgIdc02 => 0xc02,
+            ClientMessages::MsgIdc02 => 0xC02,
             /*20161228 to latest
             P
             */
-            ClientMessages::MsgIdc03 => 0xc03,
+            ClientMessages::MsgIdc03 => 0xC03,
             /*20161228 to latest
             Total
             */
-            ClientMessages::MsgIdc04 => 0xc04,
+            ClientMessages::MsgIdc04 => 0xC04,
             /*20161228 to latest
             Basicinfo
             */
-            ClientMessages::MsgIdc05 => 0xc05,
+            ClientMessages::MsgIdc05 => 0xC05,
             /*20161228 to latest
             Equip
             Equipment
             */
-            ClientMessages::MsgIdc06 => 0xc06,
+            ClientMessages::MsgIdc06 => 0xC06,
             /*20161228 to latest
             Item
             Items
             */
-            ClientMessages::MsgIdc07 => 0xc07,
+            ClientMessages::MsgIdc07 => 0xC07,
             /*20161228 to latest
             Skill
             Skills
             */
-            ClientMessages::MsgIdc08 => 0xc08,
+            ClientMessages::MsgIdc08 => 0xC08,
             /*20161228 to latest
             Guild
             */
-            ClientMessages::MsgIdc09 => 0xc09,
+            ClientMessages::MsgIdc09 => 0xC09,
             /*20161228 to latest
             Party
             */
-            ClientMessages::MsgIdc0A => 0xc0a,
+            ClientMessages::MsgIdc0A => 0xC0A,
             /*20161228 to latest
             Chatting
             Chat
             */
-            ClientMessages::MsgIdc0B => 0xc0b,
+            ClientMessages::MsgIdc0B => 0xC0B,
             /*20161228 to latest
             Shortcut
             Hotkeys
             */
-            ClientMessages::MsgIdc0C => 0xc0c,
+            ClientMessages::MsgIdc0C => 0xC0C,
             /*20161228 to latest
             Status
             */
-            ClientMessages::MsgIdc0D => 0xc0d,
+            ClientMessages::MsgIdc0D => 0xC0D,
             /*20161228 to latest
             ALL
             */
-            ClientMessages::MsgIdc0E => 0xc0e,
+            ClientMessages::MsgIdc0E => 0xC0E,
             /*20161228 to latest
             User Defined File Name
             Custom file name
             */
-            ClientMessages::MsgIdc0F => 0xc0f,
+            ClientMessages::MsgIdc0F => 0xC0F,
             /*20161228 to latest
             Repeated File Check
             Check file
             */
-            ClientMessages::MsgIdc10 => 0xc10,
+            ClientMessages::MsgIdc10 => 0xC10,
             /*20161228 to latest
             on
             */
-            ClientMessages::MsgIdc11 => 0xc11,
+            ClientMessages::MsgIdc11 => 0xC11,
             /*20161228 to latest
             <Basic Skin>
             <Basic>
             */
-            ClientMessages::MsgIdc12 => 0xc12,
+            ClientMessages::MsgIdc12 => 0xC12,
             /*20161228 to latest
             Select Skin
             Choose skin
             */
-            ClientMessages::MsgIdc13 => 0xc13,
+            ClientMessages::MsgIdc13 => 0xC13,
 
             /*20170111 to latest
             현재 복권에 참여 중이라 삭제할 수 없습니다
             You cannot delete it because you are currently participating in the lottery
             */
-            ClientMessages::MsgIdc14 => 0xc14,
+            ClientMessages::MsgIdc14 => 0xC14,
             /*20170111 to latest
             /achievement
             */
-            ClientMessages::MsgIdc15 => 0xc15,
+            ClientMessages::MsgIdc15 => 0xC15,
             /*20170111 to latest
             제니 복권
             Zeny Lottery ticket
             */
-            ClientMessages::MsgIdc16 => 0xc16,
+            ClientMessages::MsgIdc16 => 0xC16,
             /*20170111 to latest
             제니 복권 %d등 당첨 보상
             Zenyy Lottery %dprize reward
             */
-            ClientMessages::MsgIdc17 => 0xc17,
+            ClientMessages::MsgIdc17 => 0xC17,
             /*20170111 to latest
             %d등 당첨 보상: %s
             %dprize reward: %s
             */
-            ClientMessages::MsgIdc18 => 0xc18,
+            ClientMessages::MsgIdc18 => 0xC18,
             /*20170111 to latest
             제니 복권 누적 구매 보상
             Zeny Lottery Cumulative purchase reward
             */
-            ClientMessages::MsgIdc19 => 0xc19,
+            ClientMessages::MsgIdc19 => 0xC19,
             /*20170111 to latest
             누적 %d회 보상: %s
             Cumulative %d times reward: %s
             */
-            ClientMessages::MsgIdc1A => 0xc1a,
+            ClientMessages::MsgIdc1A => 0xC1A,
             /*20170111 to latest
             제니 복권 구매 환불
             Zeny Lottery Refund
             */
-            ClientMessages::MsgIdc1B => 0xc1b,
+            ClientMessages::MsgIdc1B => 0xC1B,
             /*20170111 to 20170111
             환불 금액: %d Zeny
             환불 사유: 서버 내 복권 추첨 달성 실패
@@ -40891,274 +40891,274 @@ impl ClientMessages {
             Refund amount: %d Zeny
             Reason for Refund: Failed to draw lottery in the server
             */
-            ClientMessages::MsgIdc1C => 0xc1c,
+            ClientMessages::MsgIdc1C => 0xC1C,
             /*20170111 to latest
             미니 파티창 추가
             Add Mini Party Chat
             */
-            ClientMessages::MsgIdc1D => 0xc1d,
+            ClientMessages::MsgIdc1D => 0xC1D,
             /*20170111 to latest
             미니 파티창 삭제
             Delete Mini Party Chat
             */
-            ClientMessages::MsgIdc1E => 0xc1e,
+            ClientMessages::MsgIdc1E => 0xC1E,
 
             /*20170118 to latest
             복권 추첨이 모두 종료 되었습니다! 당첨자를 확인해주세요
             The lottery draw had ended! Check the winner!
             */
-            ClientMessages::MsgIdc1F => 0xc1f,
+            ClientMessages::MsgIdc1F => 0xC1F,
             /*20170118 to latest
             %d월 %d일
             %dMonth %dDay
             */
-            ClientMessages::MsgIdc20 => 0xc20,
+            ClientMessages::MsgIdc20 => 0xC20,
             /*20170118 to latest
             다음 등급까지
             Till the next grade
             */
-            ClientMessages::MsgIdc21 => 0xc21,
+            ClientMessages::MsgIdc21 => 0xC21,
             /*20170118 to latest
             전체
             All
             */
-            ClientMessages::MsgIdc22 => 0xc22,
+            ClientMessages::MsgIdc22 => 0xC22,
             /*20170118 to latest
             미완료
             Incomplete
             */
-            ClientMessages::MsgIdc23 => 0xc23,
+            ClientMessages::MsgIdc23 => 0xC23,
             /*20170118 to latest
             (달성!)
             (Accomplished!)
             */
-            ClientMessages::MsgIdc24 => 0xc24,
+            ClientMessages::MsgIdc24 => 0xC24,
             /*20170118 to latest
             (미달성)
             (Not Accomplished)
             */
-            ClientMessages::MsgIdc25 => 0xc25,
+            ClientMessages::MsgIdc25 => 0xC25,
 
             /*20170208 to latest
             장비 교체
             Change equipment
             */
-            ClientMessages::MsgIdc26 => 0xc26,
+            ClientMessages::MsgIdc26 => 0xC26,
             /*20170208 to latest
             CHANGE
             */
-            ClientMessages::MsgIdc27 => 0xc27,
+            ClientMessages::MsgIdc27 => 0xC27,
             /*20170208 to latest
             힘 파라메터
              ^cc0000근접 물리 공격력^ffffff, 소지무게
             Power Parameter
              ^cc0000Melee PhysicalAttack^ffffff, Carrying Weight
             */
-            ClientMessages::MsgIdc28 => 0xc28,
+            ClientMessages::MsgIdc28 => 0xC28,
             /*20170208 to latest
             민첩성 파라메터
             ^cc0000공격 속도^ffffff, 회피율, 물리 방어력
             Agility Parameter
             ^cc0000Attack Speed^ffffff, Dodge, Physical Defense
             */
-            ClientMessages::MsgIdc29 => 0xc29,
+            ClientMessages::MsgIdc29 => 0xC29,
             /*20170208 to latest
             체력 파라메터
             ^cc0000최대 체력^ffffff, 물리 방어력, 마법 방어력
             HP Parameter
             ^cc0000Max HP^ffffff, Physical Defense, Magic Defense
             */
-            ClientMessages::MsgIdc2A => 0xc2a,
+            ClientMessages::MsgIdc2A => 0xC2A,
             /*20170208 to latest
             지력 파라메터
             ^cc0000마법 공격력^ffffff, 캐스팅 시간, 마법 방어력
             Intellect Parameter
             ^cc0000Magic Attack^ffffff, Casting Time, Magic Defense
             */
-            ClientMessages::MsgIdc2B => 0xc2b,
+            ClientMessages::MsgIdc2B => 0xC2B,
             /*20170208 to latest
             손재주 파라메터
             ^cc0000원거리 물리 공격력^ffffff, 명중률, 캐스팅 시간, 마법 공격력
             Handcraft Parameter
             ^cc0000Long Range Physical Attack^ffffff, Accuracy, Casting Time, Magic Attack
             */
-            ClientMessages::MsgIdc2C => 0xc2c,
+            ClientMessages::MsgIdc2C => 0xC2C,
             /*20170208 to latest
             운 파라메터
             ^cc0000치명타율^ffffff, 명중률, 물리공격력, 마법공격력, 회피율
             Moon Parameter
             ^cc0000Critical Rate^ffffff, Accuracy, Physical Attack, Magic Attack, Dodge
             */
-            ClientMessages::MsgIdc2D => 0xc2d,
+            ClientMessages::MsgIdc2D => 0xC2D,
             /*20170208 to latest
             물리 공격력
             Physical Attack
             */
-            ClientMessages::MsgIdc2E => 0xc2e,
+            ClientMessages::MsgIdc2E => 0xC2E,
             /*20170208 to latest
             물리 방어력
             Physical Defense
             */
-            ClientMessages::MsgIdc2F => 0xc2f,
+            ClientMessages::MsgIdc2F => 0xC2F,
             /*20170208 to latest
             명중률
             Accuracy
             */
-            ClientMessages::MsgIdc30 => 0xc30,
+            ClientMessages::MsgIdc30 => 0xC30,
             /*20170208 to latest
             치명타율
             Critical Rate
             */
-            ClientMessages::MsgIdc31 => 0xc31,
+            ClientMessages::MsgIdc31 => 0xC31,
             /*20170208 to latest
             소속길드
             Affiliated Guild
             */
-            ClientMessages::MsgIdc32 => 0xc32,
+            ClientMessages::MsgIdc32 => 0xC32,
             /*20170208 to latest
             각 파라메터 레벨업에 사용되는 포인트
             Points to level up each Parameter
             */
-            ClientMessages::MsgIdc33 => 0xc33,
+            ClientMessages::MsgIdc33 => 0xC33,
             /*20170208 to latest
             마법공격력
             Magic Attack
             */
-            ClientMessages::MsgIdc34 => 0xc34,
+            ClientMessages::MsgIdc34 => 0xC34,
             /*20170208 to latest
             마법방어력
             Magic Defense
             */
-            ClientMessages::MsgIdc35 => 0xc35,
+            ClientMessages::MsgIdc35 => 0xC35,
             /*20170208 to latest
             회피율
             Dodge
             */
-            ClientMessages::MsgIdc36 => 0xc36,
+            ClientMessages::MsgIdc36 => 0xC36,
             /*20170208 to latest
             공격 속도
             Attack Speed
             */
-            ClientMessages::MsgIdc37 => 0xc37,
+            ClientMessages::MsgIdc37 => 0xC37,
 
             /*20170215 to latest
             단축키 안내
             Shortcut
             */
-            ClientMessages::MsgIdc38 => 0xc38,
+            ClientMessages::MsgIdc38 => 0xC38,
             /*20170215 to latest
             옵션
             Option
             */
-            ClientMessages::MsgIdc39 => 0xc39,
+            ClientMessages::MsgIdc39 => 0xC39,
             /*20170215 to latest
             스킬 단축키 (F1 ~ F9)
             Skill Shortcut Key (F1 ~ F9)
             */
-            ClientMessages::MsgIdc3A => 0xc3a,
+            ClientMessages::MsgIdc3A => 0xC3A,
             /*20170215 to latest
             이미지 캡쳐
             Capture Image
             */
-            ClientMessages::MsgIdc3B => 0xc3b,
+            ClientMessages::MsgIdc3B => 0xC3B,
             /*20170215 to latest
             확대
             Zoom In
             */
-            ClientMessages::MsgIdc3C => 0xc3c,
+            ClientMessages::MsgIdc3C => 0xC3C,
             /*20170215 to latest
             축소
             Zoom Out
             */
-            ClientMessages::MsgIdc3D => 0xc3d,
+            ClientMessages::MsgIdc3D => 0xC3D,
             /*20170215 to latest
             길드
             Guild
             */
-            ClientMessages::MsgIdc3E => 0xc3e,
+            ClientMessages::MsgIdc3E => 0xC3E,
             /*20170215 to latest
             은행
             Bank
             */
-            ClientMessages::MsgIdc3F => 0xc3f,
+            ClientMessages::MsgIdc3F => 0xC3F,
             /*20170215 to latest
             우편
             Mail
             */
-            ClientMessages::MsgIdc40 => 0xc40,
+            ClientMessages::MsgIdc40 => 0xC40,
             /*20170215 to latest
             캐시 상점
             Cash Shop
             */
-            ClientMessages::MsgIdc41 => 0xc41,
+            ClientMessages::MsgIdc41 => 0xC41,
             /*20170215 to latest
             앉기
             Sit
             */
-            ClientMessages::MsgIdc42 => 0xc42,
+            ClientMessages::MsgIdc42 => 0xC42,
             /*20170215 to latest
             이동
             Move
             */
-            ClientMessages::MsgIdc43 => 0xc43,
+            ClientMessages::MsgIdc43 => 0xC43,
             /*20170215 to latest
             회전
             Rotate
             */
-            ClientMessages::MsgIdc44 => 0xc44,
+            ClientMessages::MsgIdc44 => 0xC44,
             /*20170215 to latest
             파티장은 파티장을 다른 파티원에게 위임 후 탈퇴 가능합니다.
             The Party Leader can be dropped out only after another party member becomes a Party Leader.
             */
-            ClientMessages::MsgIdc45 => 0xc45,
+            ClientMessages::MsgIdc45 => 0xC45,
             /*20170215 to latest
             이 동영상을 그만 보시겠습니까?
             Do you want to stop viewing this video?
             */
-            ClientMessages::MsgIdc46 => 0xc46,
+            ClientMessages::MsgIdc46 => 0xC46,
             /*20170215 to latest
              장비가 장비 교체 창에 장착 되었습니다.
              gear has been equipped in the gear equipment pop-up.
             */
-            ClientMessages::MsgIdc47 => 0xc47,
+            ClientMessages::MsgIdc47 => 0xC47,
             /*20170215 to latest
              장비가 장비 교체 창에서 해제 되었습니다.
              gear has been removed in the gear equipment pop-up.
             */
-            ClientMessages::MsgIdc48 => 0xc48,
+            ClientMessages::MsgIdc48 => 0xC48,
 
             /*20170222 to latest
             현재가 마지막 라인입니다.
             This is the last line.
             */
-            ClientMessages::MsgIdc49 => 0xc49,
+            ClientMessages::MsgIdc49 => 0xC49,
             /*20170222 to latest
             %.1f%% ( 기본 100%% + 프리미엄 %.1f%%+ %s서버 %.1f%% )
             %.1f%% ( Base 100%% + Premium %.1f%%+ %sServer %.1f%% )
             */
-            ClientMessages::MsgIdc4A => 0xc4a,
+            ClientMessages::MsgIdc4A => 0xC4A,
 
             /*20170228 to latest
             한자
             Chinese character
             */
-            ClientMessages::MsgIdc4B => 0xc4b,
+            ClientMessages::MsgIdc4B => 0xC4B,
             /*20170228 to latest
             단축키 설정
             Shortcut Settings
             */
-            ClientMessages::MsgIdc4C => 0xc4c,
+            ClientMessages::MsgIdc4C => 0xC4C,
 
             /*20170308 to latest
             당신의 정액제 기간은 %s에 종료됩니다.
             Your subscription will be ended on%s.
             */
-            ClientMessages::MsgIdc4D => 0xc4d,
+            ClientMessages::MsgIdc4D => 0xC4D,
             /*20170308 to latest
             리플레이 파일을 찾지 못하였습니다.
             Cannot find the replay file.
             */
-            ClientMessages::MsgIdc4E => 0xc4e,
+            ClientMessages::MsgIdc4E => 0xC4E,
             /*20170308 to 20170801
             신발
             Head
@@ -41166,7 +41166,7 @@ impl ClientMessages {
             의상
             Shoes
             */
-            ClientMessages::MsgIdc4F => 0xc4f,
+            ClientMessages::MsgIdc4F => 0xC4F,
             /*20170308 to 20170801
             머리
             Costume
@@ -41174,22 +41174,22 @@ impl ClientMessages {
             신발
             Head
             */
-            ClientMessages::MsgIdc50 => 0xc50,
+            ClientMessages::MsgIdc50 => 0xC50,
             /*20170308 to latest
             갑옷
             Armor
             */
-            ClientMessages::MsgIdc51 => 0xc51,
+            ClientMessages::MsgIdc51 => 0xC51,
             /*20170308 to latest
             어깨
             Shoulders
             */
-            ClientMessages::MsgIdc52 => 0xc52,
+            ClientMessages::MsgIdc52 => 0xC52,
             /*20170308 to latest
             악세
             Accessory
             */
-            ClientMessages::MsgIdc53 => 0xc53,
+            ClientMessages::MsgIdc53 => 0xC53,
             /*20170308 to 20170801
             의상
             Shoes
@@ -41197,12 +41197,12 @@ impl ClientMessages {
             머리
             Costume
             */
-            ClientMessages::MsgIdc54 => 0xc54,
+            ClientMessages::MsgIdc54 => 0xC54,
             /*20170308 to latest
             차순정렬
             Sort Order
             */
-            ClientMessages::MsgIdc55 => 0xc55,
+            ClientMessages::MsgIdc55 => 0xC55,
             /*20170308 to 20170308
 
             Current admission application state.
@@ -41210,7 +41210,7 @@ impl ClientMessages {
             일반 장비
             Normal Gear
             */
-            ClientMessages::MsgIdc56 => 0xc56,
+            ClientMessages::MsgIdc56 => 0xC56,
             /*20170308 to 20170308
 
             Current admission application state.
@@ -41218,7 +41218,7 @@ impl ClientMessages {
             특수 장비
             Special Gear
             */
-            ClientMessages::MsgIdc57 => 0xc57,
+            ClientMessages::MsgIdc57 => 0xC57,
             /*20170308 to 20170308
 
             Current admission application state.
@@ -41226,287 +41226,287 @@ impl ClientMessages {
             칭호
             Style
             */
-            ClientMessages::MsgIdc58 => 0xc58,
+            ClientMessages::MsgIdc58 => 0xC58,
 
             /*20170315 to latest
             /quake : 화면 흔들림 효과 On/Off
             /quake : Screen Shaking Effect On/Off
             */
-            ClientMessages::MsgIdc59 => 0xc59,
+            ClientMessages::MsgIdc59 => 0xC59,
             /*20170315 to latest
             /aura2 : 오오라를 완전히 Off 시킬 수 있습니다 On Off
             /aura2 : You can completely turn off the aurora On/Off
             */
-            ClientMessages::MsgIdc5A => 0xc5a,
+            ClientMessages::MsgIdc5A => 0xC5A,
             /*20170315 to latest
             기본 설정
             Default Settings
             */
-            ClientMessages::MsgIdc5B => 0xc5b,
+            ClientMessages::MsgIdc5B => 0xC5B,
             /*20170315 to latest
             고급 설정
             Advanced Settings
             */
-            ClientMessages::MsgIdc5C => 0xc5c,
+            ClientMessages::MsgIdc5C => 0xC5C,
             /*20170315 to latest
             기본설정값이 적용됩니다.
             The Default Settings will be applied.
             */
-            ClientMessages::MsgIdc5D => 0xc5d,
+            ClientMessages::MsgIdc5D => 0xC5D,
             /*20170315 to latest
             기본 설정값이 적용됩니다. 동의하십니까?
             The Default Settings will be applied. Do you agree?
             */
-            ClientMessages::MsgIdc5E => 0xc5e,
+            ClientMessages::MsgIdc5E => 0xC5E,
             /*20170315 to latest
             설정값이 적용됩니다. 동의하십니까?
             The settings will be applied. Do you agree?
             */
-            ClientMessages::MsgIdc5F => 0xc5f,
+            ClientMessages::MsgIdc5F => 0xC5F,
             /*20170315 to latest
             설정값을 적용하려면 재시작이 필요합니다. 동의하십니까?
             Need to restart to apply the settings. Do you agree?
             */
-            ClientMessages::MsgIdc60 => 0xc60,
+            ClientMessages::MsgIdc60 => 0xC60,
             /*20170315 to latest
             안개
             Fog
             */
-            ClientMessages::MsgIdc61 => 0xc61,
+            ClientMessages::MsgIdc61 => 0xC61,
             /*20170315 to latest
             오오라 간략화
             Simplified aurora
             */
-            ClientMessages::MsgIdc62 => 0xc62,
+            ClientMessages::MsgIdc62 => 0xC62,
             /*20170315 to latest
             오오라켜기
             Turn on aurora
             */
-            ClientMessages::MsgIdc63 => 0xc63,
+            ClientMessages::MsgIdc63 => 0xC63,
             /*20170315 to latest
             이펙트 표시
             Show Effect
             */
-            ClientMessages::MsgIdc64 => 0xc64,
+            ClientMessages::MsgIdc64 => 0xC64,
             /*20170315 to latest
             음영 표시
             Show Shadows
             */
-            ClientMessages::MsgIdc65 => 0xc65,
+            ClientMessages::MsgIdc65 => 0xC65,
             /*20170315 to latest
             No Shift
             */
-            ClientMessages::MsgIdc66 => 0xc66,
+            ClientMessages::MsgIdc66 => 0xC66,
             /*20170315 to latest
             하드웨어 T&L 가속기능을 선택합니다
             Select Hardware T&L Acceleration Function
             */
-            ClientMessages::MsgIdc67 => 0xc67,
+            ClientMessages::MsgIdc67 => 0xC67,
             /*20170315 to latest
             게임의 해상도를 선택합니다
             Select Game Resolution
             */
-            ClientMessages::MsgIdc68 => 0xc68,
+            ClientMessages::MsgIdc68 => 0xC68,
             /*20170315 to latest
             전체화면 사용
             Use full screen
             */
-            ClientMessages::MsgIdc69 => 0xc69,
+            ClientMessages::MsgIdc69 => 0xC69,
             /*20170315 to latest
             마우스 고정
             Fix mouse
             */
-            ClientMessages::MsgIdc6A => 0xc6a,
+            ClientMessages::MsgIdc6A => 0xC6A,
             /*20170315 to latest
             이펙트 설정
             Effect Settings
             */
-            ClientMessages::MsgIdc6B => 0xc6b,
+            ClientMessages::MsgIdc6B => 0xC6B,
             /*20170315 to latest
             Control 설정
             Control Settings
             */
-            ClientMessages::MsgIdc6C => 0xc6c,
+            ClientMessages::MsgIdc6C => 0xC6C,
             /*20170315 to latest
             그래픽 장치 설정
             Graphic Device Settings
             */
-            ClientMessages::MsgIdc6D => 0xc6d,
+            ClientMessages::MsgIdc6D => 0xC6D,
             /*20170315 to latest
             그래픽 해상도 설정
             Graphic Resolution Settings
             */
-            ClientMessages::MsgIdc6E => 0xc6e,
+            ClientMessages::MsgIdc6E => 0xC6E,
             /*20170315 to latest
             전체 화면 유무 설정
             Full Screen Settings
             */
-            ClientMessages::MsgIdc6F => 0xc6f,
+            ClientMessages::MsgIdc6F => 0xC6F,
             /*20170315 to latest
             마우스 고정 여부 설정
             Fix mouse Settings
             */
-            ClientMessages::MsgIdc70 => 0xc70,
+            ClientMessages::MsgIdc70 => 0xC70,
             /*20170315 to latest
             수수료 :
             Commission :
             */
-            ClientMessages::MsgIdc71 => 0xc71,
+            ClientMessages::MsgIdc71 => 0xC71,
             /*20170315 to latest
             수수료 총액 :
             Total commission amount :
             */
-            ClientMessages::MsgIdc72 => 0xc72,
+            ClientMessages::MsgIdc72 => 0xC72,
             /*20170315 to latest
             수신인 설정
             Select receiver
             */
-            ClientMessages::MsgIdc73 => 0xc73,
+            ClientMessages::MsgIdc73 => 0xC73,
             /*20170315 to latest
             수신그룹 설정
             Select receiving group
             */
-            ClientMessages::MsgIdc74 => 0xc74,
+            ClientMessages::MsgIdc74 => 0xC74,
             /*20170315 to latest
             크기 변경(F10)
             Change size(F10)
             */
-            ClientMessages::MsgIdc75 => 0xc75,
+            ClientMessages::MsgIdc75 => 0xC75,
             /*20170315 to latest
             메일함을 불러오는 중 입니다.
             불필요한 메일은 ^c92114삭제^000000해 주세요~!!
             Loading the mailbox.
             ^c92114Delete^000000unnecessary emails!!
             */
-            ClientMessages::MsgIdc76 => 0xc76,
+            ClientMessages::MsgIdc76 => 0xC76,
             /*20170315 to latest
             NOW LOADING..
             Loading...
             */
-            ClientMessages::MsgIdc77 => 0xc77,
+            ClientMessages::MsgIdc77 => 0xC77,
             /*20170315 to latest
             제목
             Title
             */
-            ClientMessages::MsgIdc78 => 0xc78,
+            ClientMessages::MsgIdc78 => 0xC78,
             /*20170315 to latest
             보낸이
             Sender
             */
-            ClientMessages::MsgIdc79 => 0xc79,
+            ClientMessages::MsgIdc79 => 0xC79,
 
             /*20170322 to latest
             라그나로크 클라이언트와 동시에 실행이 불가능 합니다. setup을 종료합니다
             */
-            ClientMessages::MsgIdc7A => 0xc7a,
+            ClientMessages::MsgIdc7A => 0xC7A,
             /*20170322 to latest
             추가 기능 설정
             */
-            ClientMessages::MsgIdc7B => 0xc7b,
+            ClientMessages::MsgIdc7B => 0xC7B,
             /*20170322 to latest
             This account does not exist.
             */
-            ClientMessages::MsgIdc7C => 0xc7c,
+            ClientMessages::MsgIdc7C => 0xC7C,
             /*20170322 to latest
             Passwords do not match.
             */
-            ClientMessages::MsgIdc7D => 0xc7d,
+            ClientMessages::MsgIdc7D => 0xC7D,
             /*20170322 to latest
             Failed to pass IP authentication
             */
-            ClientMessages::MsgIdc7E => 0xc7e,
+            ClientMessages::MsgIdc7E => 0xC7E,
             /*20170322 to latest
             No identification number, supplement your registration information
             */
-            ClientMessages::MsgIdc7F => 0xc7f,
+            ClientMessages::MsgIdc7F => 0xC7F,
             /*20170322 to latest
             Account block
             */
-            ClientMessages::MsgIdc80 => 0xc80,
+            ClientMessages::MsgIdc80 => 0xC80,
             /*20170322 to latest
             System error
             */
-            ClientMessages::MsgIdc81 => 0xc81,
+            ClientMessages::MsgIdc81 => 0xC81,
             /*20170322 to latest
             unknown error found.
             */
-            ClientMessages::MsgIdc82 => 0xc82,
+            ClientMessages::MsgIdc82 => 0xC82,
 
             /*20170329 to latest
             길안내 아이콘 설정
             */
-            ClientMessages::MsgIdc83 => 0xc83,
+            ClientMessages::MsgIdc83 => 0xC83,
             /*20170329 to latest
             길 안내 정보 UI
             */
-            ClientMessages::MsgIdc84 => 0xc84,
+            ClientMessages::MsgIdc84 => 0xC84,
             /*20170329 to latest
             길 안내 정보 열기
             */
-            ClientMessages::MsgIdc85 => 0xc85,
+            ClientMessages::MsgIdc85 => 0xC85,
             /*20170329 to latest
             현재 위치 공유
             */
-            ClientMessages::MsgIdc86 => 0xc86,
+            ClientMessages::MsgIdc86 => 0xC86,
             /*20170329 to latest
             검색결과[0]
             */
-            ClientMessages::MsgIdc87 => 0xc87,
+            ClientMessages::MsgIdc87 => 0xC87,
             /*20170329 to latest
             검색&안내
             */
-            ClientMessages::MsgIdc88 => 0xc88,
+            ClientMessages::MsgIdc88 => 0xC88,
             /*20170329 to 20170329
             위치 값은 음수 값이 들어 올 수 없습니다.
             20170405 to latest
             위치가 올바르지 않습니다.
             */
-            ClientMessages::MsgIdc89 => 0xc89,
+            ClientMessages::MsgIdc89 => 0xC89,
             /*20170329 to latest
             검색결과[%d]
             */
-            ClientMessages::MsgIdc8A => 0xc8a,
+            ClientMessages::MsgIdc8A => 0xC8A,
             /*20170329 to latest
             길안내 표시를 위한 아이콘 설정
             */
-            ClientMessages::MsgIdc8B => 0xc8b,
+            ClientMessages::MsgIdc8B => 0xC8B,
             /*20170329 to latest
             길 찾기에 zeny 허용
             */
-            ClientMessages::MsgIdc8C => 0xc8c,
+            ClientMessages::MsgIdc8C => 0xC8C,
             /*20170329 to latest
             내비게이션 도킹 해제
             */
-            ClientMessages::MsgIdc8D => 0xc8d,
+            ClientMessages::MsgIdc8D => 0xC8D,
             /*20170329 to latest
             활성화 하지 않은 계정입니다.
             */
-            ClientMessages::MsgIdc8E => 0xc8e,
+            ClientMessages::MsgIdc8E => 0xC8E,
 
             /*20170405 to latest
             클릭한 위치가 채팅창에 공유 됩니다.
             */
-            ClientMessages::MsgIdc8F => 0xc8f,
+            ClientMessages::MsgIdc8F => 0xC8F,
             /*20170405 to latest
             4. Service 항목을 선택하면 Zeny&비공정 이용을 고려하여 안내 한다.
             */
-            ClientMessages::MsgIdc90 => 0xc90,
+            ClientMessages::MsgIdc90 => 0xC90,
             /*20170405 to latest
             5. [<-] 버튼 : 길안내 모드 <-> 검색 모드를 바꾸거나
             */
-            ClientMessages::MsgIdc91 => 0xc91,
+            ClientMessages::MsgIdc91 => 0xC91,
             /*20170405 to latest
             공유하기 모드 -> 서치 모드로 돌아갈때 사용 된다.
             */
-            ClientMessages::MsgIdc92 => 0xc92,
+            ClientMessages::MsgIdc92 => 0xC92,
             /*20170405 to latest
             경험치 %lld 얻음
             */
-            ClientMessages::MsgIdc93 => 0xc93,
+            ClientMessages::MsgIdc93 => 0xC93,
             /*20170405 to latest
             '%lld'의 경험치를
             */
-            ClientMessages::MsgIdc94 => 0xc94,
+            ClientMessages::MsgIdc94 => 0xC94,
             /*20170405 to 20170517
             ^b- 노점 수수료 안내^/b
             노점 설정 가격에 따라 일정 비율의 수수료가 부가됩니다.
@@ -41546,925 +41546,925 @@ impl ClientMessages {
             100,000,001 z 이상
              = 수수료율 : ^1567fe5%^000000
             */
-            ClientMessages::MsgIdc95 => 0xc95,
+            ClientMessages::MsgIdc95 => 0xC95,
             /*20170405 to latest
             실거래가 :
             */
-            ClientMessages::MsgIdc96 => 0xc96,
+            ClientMessages::MsgIdc96 => 0xC96,
             /*20170405 to latest
             ※ 아이템 판매시, 실거래가만큼 제니를 획득합니다.
             */
-            ClientMessages::MsgIdc97 => 0xc97,
+            ClientMessages::MsgIdc97 => 0xC97,
             /*20170405 to latest
             ※ 아이템 구매시, 실거래가만큼 제니가 차감됩니다.
             */
-            ClientMessages::MsgIdc98 => 0xc98,
+            ClientMessages::MsgIdc98 => 0xC98,
             /*20170405 to latest
             채팅방 개설
             */
-            ClientMessages::MsgIdc99 => 0xc99,
+            ClientMessages::MsgIdc99 => 0xC99,
 
             /*20170412 to latest
             해당 캐릭터는 파티가입이 가능하지 않은 레벨입니다.
             */
-            ClientMessages::MsgIdc9A => 0xc9a,
+            ClientMessages::MsgIdc9A => 0xC9A,
             /*20170412 to latest
             '%lld'의 잡경험치를
             */
-            ClientMessages::MsgIdc9B => 0xc9b,
+            ClientMessages::MsgIdc9B => 0xC9B,
             /*20170412 to latest
             잡경험치 %lld 얻음
             */
-            ClientMessages::MsgIdc9C => 0xc9c,
+            ClientMessages::MsgIdc9C => 0xC9C,
 
             /*20170419 to latest
             현재위치(대로)에는 노점을 개설할 수 없습니다.
             */
-            ClientMessages::MsgIdc9D => 0xc9d,
+            ClientMessages::MsgIdc9D => 0xC9D,
 
             /*20170426 to latest
             초 후 가능합니다.
             */
-            ClientMessages::MsgIdc9E => 0xc9e,
+            ClientMessages::MsgIdc9E => 0xC9E,
 
             /*20170517 to latest
             파티원
             */
-            ClientMessages::MsgIdc9F => 0xc9f,
+            ClientMessages::MsgIdc9F => 0xC9F,
             /*20170517 to latest
             SNS 전송실패(%d)
             */
-            ClientMessages::MsgIdca0 => 0xca0,
+            ClientMessages::MsgIdca0 => 0xCA0,
             /*20170517 to latest
             SNS 서버 연결실패
             */
-            ClientMessages::MsgIdca1 => 0xca1,
+            ClientMessages::MsgIdca1 => 0xCA1,
             /*20170517 to latest
             SNS 로그인 후 사용 가능합니다.
             */
-            ClientMessages::MsgIdca2 => 0xca2,
+            ClientMessages::MsgIdca2 => 0xCA2,
             /*20170517 to latest
             접속 할 수 있는 주소가 존재하지 않습니다.
             */
-            ClientMessages::MsgIdca3 => 0xca3,
+            ClientMessages::MsgIdca3 => 0xCA3,
 
             /*20170524 to latest
             미니파티창이 겹쳐져 있어 사용하실 수 없습니다.
             */
-            ClientMessages::MsgIdca4 => 0xca4,
+            ClientMessages::MsgIdca4 => 0xCA4,
 
             /*20170531 to latest
             나의 판매노점
             */
-            ClientMessages::MsgIdca5 => 0xca5,
+            ClientMessages::MsgIdca5 => 0xCA5,
 
             /*20170614 to latest
             BOX
             */
-            ClientMessages::MsgIdca6 => 0xca6,
+            ClientMessages::MsgIdca6 => 0xCA6,
             /*20170614 to latest
             팁박스
             */
-            ClientMessages::MsgIdca7 => 0xca7,
+            ClientMessages::MsgIdca7 => 0xCA7,
 
             /*20170621 to latest
             트윗을 성공했습니다.
             */
-            ClientMessages::MsgIdca8 => 0xca8,
+            ClientMessages::MsgIdca8 => 0xCA8,
 
             /*20170628 to latest
             다시하기
             File abusing detected. Please restart the client with clean files.
             */
-            ClientMessages::MsgIdca9 => 0xca9,
+            ClientMessages::MsgIdca9 => 0xCA9,
             /*20170628 to 20170809
             제련재료가 변경되어 다시하기가 비활성화 되었습니다.
             20170816 to latest
             다시하기가 비활성화되었습니다. 제련 재료를 다시 선택해주세요.
             */
-            ClientMessages::MsgIdcaa => 0xcaa,
+            ClientMessages::MsgIdcaa => 0xCAA,
             /*20170628 to latest
             제련석이 부족하여 다시하기가 비활성화 되었습니다.
             */
-            ClientMessages::MsgIdcab => 0xcab,
+            ClientMessages::MsgIdcab => 0xCAB,
             /*20170628 to latest
             제니가 부족하여 다시하기가 비활성화 되었습니다.
             */
-            ClientMessages::MsgIdcac => 0xcac,
+            ClientMessages::MsgIdcac => 0xCAC,
             /*20170628 to latest
             대장장이의 축복이 부족하여 다시하기가 비활성화 되었습니다.
             */
-            ClientMessages::MsgIdcad => 0xcad,
+            ClientMessages::MsgIdcad => 0xCAD,
             /*20170628 to latest
             아이템이 파괴되었습니다.
             */
-            ClientMessages::MsgIdcae => 0xcae,
+            ClientMessages::MsgIdcae => 0xCAE,
             /*20170628 to latest
             모든 스테이터스가 감소되었습니다.
             */
-            ClientMessages::MsgIdcaf => 0xcaf,
+            ClientMessages::MsgIdcaf => 0xCAF,
             /*20170628 to latest
             모든 스테이터스 감소 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdcb0 => 0xcb0,
+            ClientMessages::MsgIdcb0 => 0xCB0,
             /*20170628 to latest
             OTP 비밀번호는 8자리 입니다.
             */
-            ClientMessages::MsgIdcb1 => 0xcb1,
+            ClientMessages::MsgIdcb1 => 0xCB1,
 
             /*20170705 to latest
             통합계정
             */
-            ClientMessages::MsgIdcb2 => 0xcb2,
+            ClientMessages::MsgIdcb2 => 0xCB2,
             /*20170705 to latest
             라그나로크
             */
-            ClientMessages::MsgIdcb3 => 0xcb3,
+            ClientMessages::MsgIdcb3 => 0xCB3,
             /*20170705 to latest
             서비스 점검 중입니다.
             */
-            ClientMessages::MsgIdcb4 => 0xcb4,
+            ClientMessages::MsgIdcb4 => 0xCB4,
             /*20170705 to latest
             검색어를 입력해주세요
             */
-            ClientMessages::MsgIdcb5 => 0xcb5,
+            ClientMessages::MsgIdcb5 => 0xCB5,
             /*20170705 to latest
             MOTP
             */
-            ClientMessages::MsgIdcb6 => 0xcb6,
+            ClientMessages::MsgIdcb6 => 0xCB6,
             /*20170705 to latest
             인증번호
             Identification number.
             */
-            ClientMessages::MsgIdcb7 => 0xcb7,
+            ClientMessages::MsgIdcb7 => 0xCB7,
             /*20170705 to latest
             휴대폰에 다운받은 GNJOY MOTP를 실행하여 인증번호를 입력해 주세요.
             */
-            ClientMessages::MsgIdcb8 => 0xcb8,
+            ClientMessages::MsgIdcb8 => 0xCB8,
 
             /*20170712 to latest
             파티장을 위임할 파티원이 존재하지 않습니다. 파티를 해산하시겠습니까?
             */
-            ClientMessages::MsgIdcb9 => 0xcb9,
+            ClientMessages::MsgIdcb9 => 0xCB9,
 
             /*20170719 to latest
              - 만18세이상
             */
-            ClientMessages::MsgIdcba => 0xcba,
+            ClientMessages::MsgIdcba => 0xCBA,
             /*20170719 to latest
              - 유료서버
             */
-            ClientMessages::MsgIdcbb => 0xcbb,
+            ClientMessages::MsgIdcbb => 0xCBB,
             /*20170719 to latest
              - 무료서버
             */
-            ClientMessages::MsgIdcbc => 0xcbc,
+            ClientMessages::MsgIdcbc => 0xCBC,
             /*20170719 to latest
             쾌적
             */
-            ClientMessages::MsgIdcbd => 0xcbd,
+            ClientMessages::MsgIdcbd => 0xCBD,
             /*20170719 to latest
             보통
             Normal
             */
-            ClientMessages::MsgIdcbe => 0xcbe,
+            ClientMessages::MsgIdcbe => 0xCBE,
             /*20170719 to latest
             혼잡
             */
-            ClientMessages::MsgIdcbf => 0xcbf,
+            ClientMessages::MsgIdcbf => 0xCBF,
             /*20170719 to latest
             포화
             */
-            ClientMessages::MsgIdcc0 => 0xcc0,
+            ClientMessages::MsgIdcc0 => 0xCC0,
             /*20170719 to latest
             map
             */
-            ClientMessages::MsgIdcc1 => 0xcc1,
+            ClientMessages::MsgIdcc1 => 0xCC1,
             /*20170719 to latest
             월드창고는 인벤토리 아이템만 입출고 할 수 있습니다.
             */
-            ClientMessages::MsgIdcc2 => 0xcc2,
+            ClientMessages::MsgIdcc2 => 0xCC2,
             /*20170719 to latest
             월드창고에는 펫알을 입고할 수 없습니다.
             */
-            ClientMessages::MsgIdcc3 => 0xcc3,
+            ClientMessages::MsgIdcc3 => 0xCC3,
             /*20170719 to latest
             월드창고에는 제작아이템을 입고할 수 없습니다.
             */
-            ClientMessages::MsgIdcc4 => 0xcc4,
+            ClientMessages::MsgIdcc4 => 0xCC4,
             /*20170719 to latest
             %s 에서는 출고 할 수 없는 아이템입니다.
             */
-            ClientMessages::MsgIdcc5 => 0xcc5,
+            ClientMessages::MsgIdcc5 => 0xCC5,
 
             /*20170726 to latest
             던전 파괴
             */
-            ClientMessages::MsgIdcc6 => 0xcc6,
+            ClientMessages::MsgIdcc6 => 0xCC6,
             /*20170726 to latest
             [%s] 님이 제련을 성공하여, [+%d %s] 아이템을 획득하였습니다.
             */
-            ClientMessages::MsgIdcc7 => 0xcc7,
+            ClientMessages::MsgIdcc7 => 0xCC7,
             /*20170726 to latest
             [%s] 님이 [+%d %s] 아이템의 제련에 실패하였습니다.
             */
-            ClientMessages::MsgIdcc8 => 0xcc8,
+            ClientMessages::MsgIdcc8 => 0xCC8,
             /*20170726 to latest
             파티장을 위임한 이후에 탈퇴할 수 있습니다.
             */
-            ClientMessages::MsgIdcc9 => 0xcc9,
+            ClientMessages::MsgIdcc9 => 0xCC9,
 
             /*20170809 to latest
             오름
             */
-            ClientMessages::MsgIdcca => 0xcca,
+            ClientMessages::MsgIdcca => 0xCCA,
             /*20170809 to latest
             내림
             */
-            ClientMessages::MsgIdccb => 0xccb,
+            ClientMessages::MsgIdccb => 0xCCB,
             /*20170809 to latest
             기본
             */
-            ClientMessages::MsgIdccc => 0xccc,
+            ClientMessages::MsgIdccc => 0xCCC,
             /*20170809 to latest
             변조된 파일이 발견되었습니다. 게임을 다시 실행시켜주세요.
             File abusing detected. Please restart the client with clean files.
             */
-            ClientMessages::MsgIdccd => 0xccd,
+            ClientMessages::MsgIdccd => 0xCCD,
 
             /*20170823 to latest
             %s 은(는) 이맵에서 이동이 제한된 아이템입니다.
             */
-            ClientMessages::MsgIdcce => 0xcce,
+            ClientMessages::MsgIdcce => 0xCCE,
 
             /*20170906 to latest
             스스로
             먹이먹기
             */
-            ClientMessages::MsgIdccf => 0xccf,
+            ClientMessages::MsgIdccf => 0xCCF,
             /*20170906 to latest
             로덱스 작성창이 열려있는 동안 호문클루스가 먹이를 먹지 못합니다.
             */
-            ClientMessages::MsgIdcd0 => 0xcd0,
+            ClientMessages::MsgIdcd0 => 0xCD0,
             /*20170906 to latest
             호문클루스가 먹이를 먹었습니다. '%s' 잔여량 %d개
             */
-            ClientMessages::MsgIdcd1 => 0xcd1,
+            ClientMessages::MsgIdcd1 => 0xCD1,
             /*20170906 to latest
             호문클루스 스스로 먹이 먹기 활성화 On
             */
-            ClientMessages::MsgIdcd2 => 0xcd2,
+            ClientMessages::MsgIdcd2 => 0xCD2,
             /*20170906 to latest
             호문클루스 스스로 먹이 먹기 활성화 Off
             */
-            ClientMessages::MsgIdcd3 => 0xcd3,
+            ClientMessages::MsgIdcd3 => 0xCD3,
             /*20170906 to latest
             호문클루스는 주인이 획득하는 경험치의
             10%만큼을 자신의 경험치로 분배 받습니다.
             */
-            ClientMessages::MsgIdcd4 => 0xcd4,
+            ClientMessages::MsgIdcd4 => 0xCD4,
             /*20170906 to latest
             확률 : %d%%
             */
-            ClientMessages::MsgIdcd5 => 0xcd5,
+            ClientMessages::MsgIdcd5 => 0xCD5,
             /*20170906 to latest
             해당 대상은 호문의 공격대상이 아닙니다. 'Alt + 우클릭'을 통해 호문클루스의 공격대상을 지정해주세요.
             */
-            ClientMessages::MsgIdcd6 => 0xcd6,
+            ClientMessages::MsgIdcd6 => 0xCD6,
             /*20170906 to latest
             호문의 공격대상이 존재하지 않습니다. 'Alt + 우클릭'을 통해 호문클루스의 공격대상을 지정해주세요.
             */
-            ClientMessages::MsgIdcd7 => 0xcd7,
+            ClientMessages::MsgIdcd7 => 0xCD7,
 
             /*20170913 to latest
             판매 리스트
             */
-            ClientMessages::MsgIdcd8 => 0xcd8,
+            ClientMessages::MsgIdcd8 => 0xCD8,
             /*20170913 to latest
             구입 리스트
             */
-            ClientMessages::MsgIdcd9 => 0xcd9,
+            ClientMessages::MsgIdcd9 => 0xCD9,
             /*20170913 to latest
             신규
             New
             */
-            ClientMessages::MsgIdcda => 0xcda,
+            ClientMessages::MsgIdcda => 0xCDA,
             /*20170913 to latest
             인기
             Headgears
             */
-            ClientMessages::MsgIdcdb => 0xcdb,
+            ClientMessages::MsgIdcdb => 0xCDB,
             /*20170913 to latest
             한정
             Limited
             */
-            ClientMessages::MsgIdcdc => 0xcdc,
+            ClientMessages::MsgIdcdc => 0xCDC,
             /*20170913 to latest
             임대장비
             Rental Items
             */
-            ClientMessages::MsgIdcdd => 0xcdd,
+            ClientMessages::MsgIdcdd => 0xCDD,
             /*20170913 to latest
             영구장비
             Equipments
             */
-            ClientMessages::MsgIdcde => 0xcde,
+            ClientMessages::MsgIdcde => 0xCDE,
             /*20170913 to latest
             버프
             Scrolls
             */
-            ClientMessages::MsgIdcdf => 0xcdf,
+            ClientMessages::MsgIdcdf => 0xCDF,
             /*20170913 to latest
             회복
             Consumables
             */
-            ClientMessages::MsgIdce0 => 0xce0,
+            ClientMessages::MsgIdce0 => 0xCE0,
             /*20170913 to latest
             기타
             Other
             */
-            ClientMessages::MsgIdce1 => 0xce1,
+            ClientMessages::MsgIdce1 => 0xCE1,
             /*20170913 to latest
             특가
             Special
             */
-            ClientMessages::MsgIdce2 => 0xce2,
+            ClientMessages::MsgIdce2 => 0xCE2,
             /*20170913 to latest
             충전하기
             */
-            ClientMessages::MsgIdce3 => 0xce3,
+            ClientMessages::MsgIdce3 => 0xCE3,
             /*20170913 to latest
             구입하기
             */
-            ClientMessages::MsgIdce4 => 0xce4,
+            ClientMessages::MsgIdce4 => 0xCE4,
             /*20170913 to 20171206
             https://payment.gnjoy.com/bill/login.grv
             20171213 to latest
             http://member.gnjoy.com/user/pay/chargelist.asp
             */
-            ClientMessages::MsgIdce5 => 0xce5,
+            ClientMessages::MsgIdce5 => 0xCE5,
             /*20170913 to latest
             아이템 검색
             */
-            ClientMessages::MsgIdce6 => 0xce6,
+            ClientMessages::MsgIdce6 => 0xCE6,
             /*20170913 to latest
             무료캐시
             */
-            ClientMessages::MsgIdce7 => 0xce7,
+            ClientMessages::MsgIdce7 => 0xCE7,
             /*20170913 to latest
             무료캐시 사용
             */
-            ClientMessages::MsgIdce8 => 0xce8,
+            ClientMessages::MsgIdce8 => 0xCE8,
             /*20170913 to latest
             소지캐시
             */
-            ClientMessages::MsgIdce9 => 0xce9,
+            ClientMessages::MsgIdce9 => 0xCE9,
             /*20170913 to latest
             수량갱신
             */
-            ClientMessages::MsgIdcea => 0xcea,
+            ClientMessages::MsgIdcea => 0xCEA,
             /*20170913 to latest
             성제(여)
             */
-            ClientMessages::MsgIdceb => 0xceb,
+            ClientMessages::MsgIdceb => 0xCEB,
             /*20170913 to latest
             소울리퍼(여)
             */
-            ClientMessages::MsgIdcec => 0xcec,
+            ClientMessages::MsgIdcec => 0xCEC,
             /*20170913 to latest
             성제(남)
             */
-            ClientMessages::MsgIdced => 0xced,
+            ClientMessages::MsgIdced => 0xCED,
             /*20170913 to latest
             소울리퍼(남)
             */
-            ClientMessages::MsgIdcee => 0xcee,
+            ClientMessages::MsgIdcee => 0xCEE,
 
             /*20170920 to latest
             무게가 %d 퍼센트 이상일때는 HP SP가 자연적으로 회복이 되지 않습니다.
             */
-            ClientMessages::MsgIdcef => 0xcef,
+            ClientMessages::MsgIdcef => 0xCEF,
             /*20170920 to latest
             한 번에 구입 가능한 아이템의 가짓수는 8개입니다.
             */
-            ClientMessages::MsgIdcf0 => 0xcf0,
+            ClientMessages::MsgIdcf0 => 0xCF0,
             /*20170920 to 20190228
             http://gift.zhaouc.com/#/index
             http://gift.zhaouc.com/
             20190306 to latest
             http://gift.zhaouc.com/
             */
-            ClientMessages::MsgIdcf1 => 0xcf1,
+            ClientMessages::MsgIdcf1 => 0xCF1,
 
             /*20170927 to latest
             UNKNOWN ERROR:%d
             */
-            ClientMessages::MsgIdcf2 => 0xcf2,
+            ClientMessages::MsgIdcf2 => 0xCF2,
             /*20170927 to latest
             NOT USER
             */
-            ClientMessages::MsgIdcf3 => 0xcf3,
+            ClientMessages::MsgIdcf3 => 0xCF3,
             /*20170927 to latest
             THIS ACCOUNT ID IS BLOCKED
             */
-            ClientMessages::MsgIdcf4 => 0xcf4,
+            ClientMessages::MsgIdcf4 => 0xCF4,
             /*20170927 to latest
             COUNTRY REJECT (OR NOT AVALIABLE USER )
             */
-            ClientMessages::MsgIdcf5 => 0xcf5,
+            ClientMessages::MsgIdcf5 => 0xCF5,
             /*20170927 to latest
             NOT MATCH PASSWORD
             */
-            ClientMessages::MsgIdcf6 => 0xcf6,
+            ClientMessages::MsgIdcf6 => 0xCF6,
             /*20170927 to latest
             NOT EMAIL CERT
             */
-            ClientMessages::MsgIdcf7 => 0xcf7,
+            ClientMessages::MsgIdcf7 => 0xCF7,
             /*20170927 to latest
             PAYPAL BLOCK
             */
-            ClientMessages::MsgIdcf8 => 0xcf8,
+            ClientMessages::MsgIdcf8 => 0xCF8,
             /*20170927 to latest
             COUNTRY REJECT
             */
-            ClientMessages::MsgIdcf9 => 0xcf9,
+            ClientMessages::MsgIdcf9 => 0xCF9,
             /*20170927 to latest
             PAYPAL BLOCK
             */
-            ClientMessages::MsgIdcfa => 0xcfa,
+            ClientMessages::MsgIdcfa => 0xCFA,
             /*20170927 to latest
             WEB BLOCK
             */
-            ClientMessages::MsgIdcfb => 0xcfb,
+            ClientMessages::MsgIdcfb => 0xCFB,
             /*20170927 to latest
             AGE LIMIT USER
             */
-            ClientMessages::MsgIdcfc => 0xcfc,
+            ClientMessages::MsgIdcfc => 0xCFC,
             /*20170927 to latest
             PASSWORD HAS NOT BEEN CHANGED FOR MORE THAN 90DAYS
             */
-            ClientMessages::MsgIdcfd => 0xcfd,
+            ClientMessages::MsgIdcfd => 0xCFD,
             /*20170927 to latest
             INPUT DATA ERROR
             */
-            ClientMessages::MsgIdcfe => 0xcfe,
+            ClientMessages::MsgIdcfe => 0xCFE,
             /*20170927 to latest
             ERROR DATABASE
             */
-            ClientMessages::MsgIdcff => 0xcff,
+            ClientMessages::MsgIdcff => 0xCFF,
             /*20170927 to latest
             ERROR SYSTEM
             */
-            ClientMessages::MsgIdd00 => 0xd00,
+            ClientMessages::MsgIdd00 => 0xD00,
             /*20170927 to 20171025
             %s 지불
             20171101 to latest
             %s 소모
             */
-            ClientMessages::MsgIdd01 => 0xd01,
+            ClientMessages::MsgIdd01 => 0xD01,
             /*20170927 to latest
             비용지불
             */
-            ClientMessages::MsgIdd02 => 0xd02,
+            ClientMessages::MsgIdd02 => 0xD02,
             /*20170927 to latest
             출발 가능한 맵이 아닙니다.
             */
-            ClientMessages::MsgIdd03 => 0xd03,
+            ClientMessages::MsgIdd03 => 0xD03,
             /*20170927 to latest
             이동 불가능한 맵입니다
             */
-            ClientMessages::MsgIdd04 => 0xd04,
+            ClientMessages::MsgIdd04 => 0xD04,
             /*20170927 to latest
             아이템이 부족합니다.
             */
-            ClientMessages::MsgIdd05 => 0xd05,
+            ClientMessages::MsgIdd05 => 0xD05,
             /*20170927 to latest
             줄 바꿈 없이 한 줄로 입력해주세요.
             */
-            ClientMessages::MsgIdd06 => 0xd06,
+            ClientMessages::MsgIdd06 => 0xD06,
 
             /*20171011 to latest
             불량 단어가 포함된 이름은 등록할 수 없습니다.
             */
-            ClientMessages::MsgIdd07 => 0xd07,
+            ClientMessages::MsgIdd07 => 0xD07,
 
             /*20171018 to latest
             회원 가입을 위해 공식 홈페이지로 이동됩니다.
             */
-            ClientMessages::MsgIdd08 => 0xd08,
+            ClientMessages::MsgIdd08 => 0xD08,
 
             /*20171025 to latest
             TokenAgency 서버 연결 실패
             */
-            ClientMessages::MsgIdd09 => 0xd09,
+            ClientMessages::MsgIdd09 => 0xD09,
             /*20171025 to latest
             과금정보
             */
-            ClientMessages::MsgIdd0A => 0xd0a,
+            ClientMessages::MsgIdd0A => 0xD0A,
             /*20171025 to latest
             삭제예약
             */
-            ClientMessages::MsgIdd0B => 0xd0b,
+            ClientMessages::MsgIdd0B => 0xD0B,
             /*20171025 to latest
             예약취소
             */
-            ClientMessages::MsgIdd0C => 0xd0c,
+            ClientMessages::MsgIdd0C => 0xD0C,
             /*20171025 to latest
             게임시작
             */
-            ClientMessages::MsgIdd0D => 0xd0d,
+            ClientMessages::MsgIdd0D => 0xD0D,
             /*20171025 to latest
             삭제
             Delete
             */
-            ClientMessages::MsgIdd0E => 0xd0e,
+            ClientMessages::MsgIdd0E => 0xD0E,
             /*20171025 to latest
             Character List
             */
-            ClientMessages::MsgIdd0F => 0xd0f,
+            ClientMessages::MsgIdd0F => 0xD0F,
             /*20171025 to latest
             공지
             Notice
             */
-            ClientMessages::MsgIdd10 => 0xd10,
+            ClientMessages::MsgIdd10 => 0xD10,
             /*20171025 to latest
             생성
             */
-            ClientMessages::MsgIdd11 => 0xd11,
+            ClientMessages::MsgIdd11 => 0xD11,
             /*20171025 to latest
             Hair Style
             */
-            ClientMessages::MsgIdd12 => 0xd12,
+            ClientMessages::MsgIdd12 => 0xD12,
             /*20171025 to latest
             Hair Color
             */
-            ClientMessages::MsgIdd13 => 0xd13,
+            ClientMessages::MsgIdd13 => 0xD13,
             /*20171025 to latest
             중복확인
             */
-            ClientMessages::MsgIdd14 => 0xd14,
+            ClientMessages::MsgIdd14 => 0xD14,
             /*20171025 to latest
             %d시 %d분 %d초
             */
-            ClientMessages::MsgIdd15 => 0xd15,
+            ClientMessages::MsgIdd15 => 0xD15,
             /*20171025 to latest
             MOTP 입력 시간이 초과되었습니다. 처음부터 다시 로그인해주십시오.
             */
-            ClientMessages::MsgIdd16 => 0xd16,
+            ClientMessages::MsgIdd16 => 0xD16,
             /*20171025 to latest
             뒤로가기
             */
-            ClientMessages::MsgIdd17 => 0xd17,
+            ClientMessages::MsgIdd17 => 0xD17,
 
             /*20171101 to latest
             아이템을 사용할 수 없습니다.
             */
-            ClientMessages::MsgIdd18 => 0xd18,
+            ClientMessages::MsgIdd18 => 0xD18,
             /*20171101 to latest
             동일한 맵으로 이동할 수 없습니다.
             */
-            ClientMessages::MsgIdd19 => 0xd19,
+            ClientMessages::MsgIdd19 => 0xD19,
             /*20171101 to latest
             사망시 이동이 불가능합니다.
             */
-            ClientMessages::MsgIdd1A => 0xd1a,
+            ClientMessages::MsgIdd1A => 0xD1A,
             /*20171101 to latest
             캐릭터 생성
             */
-            ClientMessages::MsgIdd1B => 0xd1b,
+            ClientMessages::MsgIdd1B => 0xD1B,
 
             /*20171108 to latest
             모험가 중개소 등록
             */
-            ClientMessages::MsgIdd1C => 0xd1c,
+            ClientMessages::MsgIdd1C => 0xD1C,
             /*20171108 to 20191120
             모집 중단
             20191127 to latest
             모험가 중개소 등록하기
             */
-            ClientMessages::MsgIdd1D => 0xd1d,
+            ClientMessages::MsgIdd1D => 0xD1D,
             /*20171108 to 20191120
             모험가 중개소 설정
             20191127 to latest
             모집 중단
             */
-            ClientMessages::MsgIdd1E => 0xd1e,
+            ClientMessages::MsgIdd1E => 0xD1E,
             /*20171108 to 20191120
             전 지역
             20191127 to latest
             메모
             Note
             */
-            ClientMessages::MsgIdd1F => 0xd1f,
+            ClientMessages::MsgIdd1F => 0xD1F,
             /*20171108 to 20191120
             직접기재
             20191127 to latest
             퀘스트
             Quest
             */
-            ClientMessages::MsgIdd20 => 0xd20,
+            ClientMessages::MsgIdd20 => 0xD20,
             /*20171108 to 20191120
             검사계열
             20191127 to latest
             필드
             */
-            ClientMessages::MsgIdd21 => 0xd21,
+            ClientMessages::MsgIdd21 => 0xD21,
             /*20171108 to 20191120
             법사계열
             20191127 to latest
             던전
             Dungeon
             */
-            ClientMessages::MsgIdd22 => 0xd22,
+            ClientMessages::MsgIdd22 => 0xD22,
             /*20171108 to 20191120
             궁수계열
             20191127 to latest
             MD
             */
-            ClientMessages::MsgIdd23 => 0xd23,
+            ClientMessages::MsgIdd23 => 0xD23,
             /*20171108 to 20191120
             복사계열
             20191127 to latest
             낙원단
             */
-            ClientMessages::MsgIdd24 => 0xd24,
+            ClientMessages::MsgIdd24 => 0xD24,
             /*20171108 to 20191120
             상인계열
             20191127 to latest
             기타
             Other
             */
-            ClientMessages::MsgIdd25 => 0xd25,
+            ClientMessages::MsgIdd25 => 0xD25,
             /*20171108 to 20191120
             도둑계열
             20191127 to latest
             검색
             Search
             */
-            ClientMessages::MsgIdd26 => 0xd26,
+            ClientMessages::MsgIdd26 => 0xD26,
             /*20171108 to 20191120
             태권계열
             20191127 to latest
             초기화
             */
-            ClientMessages::MsgIdd27 => 0xd27,
+            ClientMessages::MsgIdd27 => 0xD27,
             /*20171108 to 20191120
             닌자계열
             20191127 to latest
             파티가입신청
             */
-            ClientMessages::MsgIdd28 => 0xd28,
+            ClientMessages::MsgIdd28 => 0xD28,
             /*20171108 to 20191120
             건슬링거계열
             20191127 to latest
             목적
             */
-            ClientMessages::MsgIdd29 => 0xd29,
+            ClientMessages::MsgIdd29 => 0xD29,
             /*20171108 to 20191120
             도람족계열
             20191127 to latest
             ※욕설, 현거래등 운영 규칙에 위배되는 목적으로 사용 시 처벌 받을 수 있습니다.
             */
-            ClientMessages::MsgIdd2A => 0xd2a,
+            ClientMessages::MsgIdd2A => 0xD2A,
             /*20171108 to 20191120
             지역명
             20191127 to latest
             등록하기
             Register
             */
-            ClientMessages::MsgIdd2B => 0xd2b,
+            ClientMessages::MsgIdd2B => 0xD2B,
             /*20171108 to 20191120
             지역명 검색
             20191127 to latest
             사용할 수 없는 단어가 포함되어 있습니다.
             */
-            ClientMessages::MsgIdd2C => 0xd2c,
+            ClientMessages::MsgIdd2C => 0xD2C,
             /*20171108 to 20191120
             가입 요청하기
             20191127 to latest
             파티가입
             */
-            ClientMessages::MsgIdd2D => 0xd2d,
+            ClientMessages::MsgIdd2D => 0xD2D,
             /*20171108 to 20191120
             신고하기
             20191127 to latest
             1:1대화
             */
-            ClientMessages::MsgIdd2E => 0xd2e,
+            ClientMessages::MsgIdd2E => 0xD2E,
             /*20171108 to 20191120
             파티 모집 중단
             20191127 to latest
             모집 중지
             */
-            ClientMessages::MsgIdd2F => 0xd2f,
+            ClientMessages::MsgIdd2F => 0xD2F,
             /*20171108 to 20191120
             지역명을 입력해주세요.
             20191127 to latest
             수정하기
             */
-            ClientMessages::MsgIdd30 => 0xd30,
+            ClientMessages::MsgIdd30 => 0xD30,
             /*20171108 to 20191120
             지역
             20191127 to latest
             전체
             All
             */
-            ClientMessages::MsgIdd31 => 0xd31,
+            ClientMessages::MsgIdd31 => 0xD31,
             /*20171108 to 20191120
             전 직업
             20191127 to latest
             [%s] 님이 파티가입을 신청했습니다.
             */
-            ClientMessages::MsgIdd32 => 0xd32,
+            ClientMessages::MsgIdd32 => 0xD32,
             /*20171108 to latest
             로그인
             */
-            ClientMessages::MsgIdd33 => 0xd33,
+            ClientMessages::MsgIdd33 => 0xD33,
             /*20171108 to latest
             계정
             */
-            ClientMessages::MsgIdd34 => 0xd34,
+            ClientMessages::MsgIdd34 => 0xD34,
             /*20171108 to latest
             종료
             Exit
             */
-            ClientMessages::MsgIdd35 => 0xd35,
+            ClientMessages::MsgIdd35 => 0xD35,
             /*20171108 to latest
             신청
             */
-            ClientMessages::MsgIdd36 => 0xd36,
+            ClientMessages::MsgIdd36 => 0xD36,
             /*20171108 to latest
             접속
             */
-            ClientMessages::MsgIdd37 => 0xd37,
+            ClientMessages::MsgIdd37 => 0xD37,
             /*20171108 to latest
             확인
             */
-            ClientMessages::MsgIdd38 => 0xd38,
+            ClientMessages::MsgIdd38 => 0xD38,
             /*20171108 to latest
             휴대폰에 다운받은 GNJOY MOTP를
             */
-            ClientMessages::MsgIdd39 => 0xd39,
+            ClientMessages::MsgIdd39 => 0xD39,
             /*20171108 to latest
             실행하여 인증번호를 입력해 주세요.
             */
-            ClientMessages::MsgIdd3A => 0xd3a,
+            ClientMessages::MsgIdd3A => 0xD3A,
             /*20171108 to latest
             NPC가 있는 맵의 랜덤 좌표로 이동 됩니다.
             */
-            ClientMessages::MsgIdd3B => 0xd3b,
+            ClientMessages::MsgIdd3B => 0xD3B,
             /*20171108 to latest
             태권
             Taekwon
             */
-            ClientMessages::MsgIdd3C => 0xd3c,
+            ClientMessages::MsgIdd3C => 0xD3C,
 
             /*20171115 to 20171115
              님이 차단 상태로 설정되었습니다.
             20171122 to latest
              에게 전체채팅 및 귓말 거부상태
             */
-            ClientMessages::MsgIdd3D => 0xd3d,
+            ClientMessages::MsgIdd3D => 0xD3D,
             /*20171115 to 20171115
              님을 차단 상태로 설정하는데 실패하였습니다.
             20171122 to latest
              에게 전체채팅 및 귓말 거부 요청 실패
             */
-            ClientMessages::MsgIdd3E => 0xd3e,
+            ClientMessages::MsgIdd3E => 0xD3E,
             /*20171115 to 20171115
              님을 차단 상태로 설정하는데 실패하였습니다.(인원 초과)
             20171122 to latest
              에게 전체채팅 및 귓말 거부 요청실패 (인원초과)
             */
-            ClientMessages::MsgIdd3F => 0xd3f,
+            ClientMessages::MsgIdd3F => 0xD3F,
             /*20171115 to 20171115
              님이 차단 해제 되었습니다.
             20171122 to latest
              에게 전체채팅 및 귓말 가능상태
             */
-            ClientMessages::MsgIdd40 => 0xd40,
+            ClientMessages::MsgIdd40 => 0xD40,
             /*20171115 to 20171115
              님을 차단 해제하는데 실패하였습니다.
             20171122 to latest
              에게 전체채팅 및 귓말 가능 요청실패
             */
-            ClientMessages::MsgIdd41 => 0xd41,
+            ClientMessages::MsgIdd41 => 0xD41,
             /*20171115 to 20171115
              님을 차단 해제하는데 실패하였습니다.(인원 초과)
             20171122 to latest
              에게 전체채팅 및 귓말 가능 요청실패 (인원초과)
             */
-            ClientMessages::MsgIdd42 => 0xd42,
+            ClientMessages::MsgIdd42 => 0xD42,
             /*20171115 to latest
             차단 리스트가 없습니다
             Ignore-list is empty
             */
-            ClientMessages::MsgIdd43 => 0xd43,
+            ClientMessages::MsgIdd43 => 0xD43,
             /*20171115 to latest
             -차단 리스트-
             Characters in ignore-list:
             */
-            ClientMessages::MsgIdd44 => 0xd44,
+            ClientMessages::MsgIdd44 => 0xD44,
             /*20171115 to latest
             진행중
             Act
             */
-            ClientMessages::MsgIdd45 => 0xd45,
+            ClientMessages::MsgIdd45 => 0xD45,
             /*20171115 to latest
             추천
             Rec
             */
-            ClientMessages::MsgIdd46 => 0xd46,
+            ClientMessages::MsgIdd46 => 0xD46,
             /*20171115 to latest
             보류중
             Pen
             */
-            ClientMessages::MsgIdd47 => 0xd47,
+            ClientMessages::MsgIdd47 => 0xD47,
             /*20171115 to latest
             QUEST
             */
-            ClientMessages::MsgIdd48 => 0xd48,
+            ClientMessages::MsgIdd48 => 0xD48,
             /*20171115 to latest
             내용
             For
             */
-            ClientMessages::MsgIdd49 => 0xd49,
+            ClientMessages::MsgIdd49 => 0xD49,
             /*20171115 to latest
             몬스터
             */
-            ClientMessages::MsgIdd4A => 0xd4a,
+            ClientMessages::MsgIdd4A => 0xD4A,
             /*20171115 to latest
             보상
             */
-            ClientMessages::MsgIdd4B => 0xd4b,
+            ClientMessages::MsgIdd4B => 0xD4B,
             /*20171115 to latest
             EXP
             */
-            ClientMessages::MsgIdd4C => 0xd4c,
+            ClientMessages::MsgIdd4C => 0xD4C,
             /*20171115 to latest
             JEXP
             */
-            ClientMessages::MsgIdd4D => 0xd4d,
+            ClientMessages::MsgIdd4D => 0xD4D,
             /*20171115 to latest
             아이템
             Item
             */
-            ClientMessages::MsgIdd4E => 0xd4e,
+            ClientMessages::MsgIdd4E => 0xD4E,
             /*20171115 to latest
             진행/보류
             */
-            ClientMessages::MsgIdd4F => 0xd4f,
+            ClientMessages::MsgIdd4F => 0xD4F,
             /*20171115 to latest
             하단으로 이동
             */
-            ClientMessages::MsgIdd50 => 0xd50,
+            ClientMessages::MsgIdd50 => 0xD50,
             /*20171115 to latest
             간편 퀘스트창에 표시
             */
-            ClientMessages::MsgIdd51 => 0xd51,
+            ClientMessages::MsgIdd51 => 0xD51,
             /*20171115 to latest
             입력시간
             */
-            ClientMessages::MsgIdd52 => 0xd52,
+            ClientMessages::MsgIdd52 => 0xD52,
 
             /*20171122 to latest
             아이디 저장
             */
-            ClientMessages::MsgIdd53 => 0xd53,
+            ClientMessages::MsgIdd53 => 0xD53,
             /*20171122 to latest
             비밀번호
             Password
             */
-            ClientMessages::MsgIdd54 => 0xd54,
+            ClientMessages::MsgIdd54 => 0xD54,
             /*20171122 to latest
             아이디
             */
-            ClientMessages::MsgIdd55 => 0xd55,
+            ClientMessages::MsgIdd55 => 0xD55,
             /*20171122 to latest
             회원가입
             */
-            ClientMessages::MsgIdd56 => 0xd56,
+            ClientMessages::MsgIdd56 => 0xD56,
             /*20171122 to 20191120
             노비스계열
             20191127 to latest
             파티장
             Leader
             */
-            ClientMessages::MsgIdd57 => 0xd57,
+            ClientMessages::MsgIdd57 => 0xD57,
             /*20171122 to 20191120
             슈퍼노비스계열
             20191127 to latest
             파티에 가입할 수 있는 레벨이 아닙니다.
             */
-            ClientMessages::MsgIdd58 => 0xd58,
+            ClientMessages::MsgIdd58 => 0xD58,
             /*20171122 to latest
             모험가 중개소 등록에 실패했습니다.
             */
-            ClientMessages::MsgIdd59 => 0xd59,
+            ClientMessages::MsgIdd59 => 0xD59,
             /*20171122 to latest
             모험가 중개소에 등록되었습니다.
             */
-            ClientMessages::MsgIdd5A => 0xd5a,
+            ClientMessages::MsgIdd5A => 0xD5A,
             /*20171122 to 20180328
             직업을 한 개 이상 선택해주세요.
             20180404 to 20191120
@@ -42472,109 +42472,109 @@ impl ClientMessages {
             20191127 to latest
             검색내용입력
             */
-            ClientMessages::MsgIdd5B => 0xd5b,
+            ClientMessages::MsgIdd5B => 0xD5B,
             /*20171122 to 20191127
             지역명을 두 글자 이상 입력해주세요.
             20191204 to latest
             탱커
             */
-            ClientMessages::MsgIdd5C => 0xd5c,
+            ClientMessages::MsgIdd5C => 0xD5C,
             /*20171122 to latest
             %.1f%% (+ %s서버 %.1f%%)
             */
-            ClientMessages::MsgIdd5D => 0xd5d,
+            ClientMessages::MsgIdd5D => 0xD5D,
             /*20171122 to latest
             /ex (캐릭터이름) or /차단 (캐릭터이름) : 해당 캐릭터에 대해 전체채팅 및 귓말 차단
             */
-            ClientMessages::MsgIdd5E => 0xd5e,
+            ClientMessages::MsgIdd5E => 0xD5E,
             /*20171122 to latest
             /in (캐릭터이름) or /해제 (캐릭터이름) : 해당 캐릭터에 대해 전체채팅 및 귓말 허용
             */
-            ClientMessages::MsgIdd5F => 0xd5f,
+            ClientMessages::MsgIdd5F => 0xD5F,
             /*20171122 to latest
             /ex or /차단 : 전체채팅 및 귓말 차단 캐릭터 리스트
             */
-            ClientMessages::MsgIdd60 => 0xd60,
+            ClientMessages::MsgIdd60 => 0xD60,
             /*20171122 to latest
             /exall or /차단전부 : 모두에게 전체채팅 및 귓말 차단
             */
-            ClientMessages::MsgIdd61 => 0xd61,
+            ClientMessages::MsgIdd61 => 0xD61,
             /*20171122 to latest
             /inall or /해제전부 : 모두에게 전체채팅 및 귓말 허용
             */
-            ClientMessages::MsgIdd62 => 0xd62,
+            ClientMessages::MsgIdd62 => 0xD62,
             /*20171122 to latest
             모두에게 전체채팅 및 귓말 거부상태
             */
-            ClientMessages::MsgIdd63 => 0xd63,
+            ClientMessages::MsgIdd63 => 0xD63,
             /*20171122 to latest
             모두에게 전체채팅 및 귓말 거부요청 실패
             */
-            ClientMessages::MsgIdd64 => 0xd64,
+            ClientMessages::MsgIdd64 => 0xD64,
             /*20171122 to latest
             모두에게 전체채팅 및 귓말 가능상태
             */
-            ClientMessages::MsgIdd65 => 0xd65,
+            ClientMessages::MsgIdd65 => 0xD65,
             /*20171122 to latest
             모두에게 전체채팅 및 귓말 가능요청 실패
             */
-            ClientMessages::MsgIdd66 => 0xd66,
+            ClientMessages::MsgIdd66 => 0xD66,
             /*20171122 to latest
             오프닝
             */
-            ClientMessages::MsgIdd67 => 0xd67,
+            ClientMessages::MsgIdd67 => 0xD67,
 
             /*20171206 to latest
             로그인 화면으로 돌아가시겠습니까?
             */
-            ClientMessages::MsgIdd68 => 0xd68,
+            ClientMessages::MsgIdd68 => 0xD68,
             /*20171206 to latest
             힘과 공격력이 강해졌습니다.
             */
-            ClientMessages::MsgIdd69 => 0xd69,
+            ClientMessages::MsgIdd69 => 0xD69,
             /*20171206 to latest
             힘, 지능, 손재주 및 명중률이 증가하였습니다.
             */
-            ClientMessages::MsgIdd6A => 0xd6a,
+            ClientMessages::MsgIdd6A => 0xD6A,
             /*20171206 to latest
             방어력 및 HP가 증가되었습니다.
             */
-            ClientMessages::MsgIdd6B => 0xd6b,
+            ClientMessages::MsgIdd6B => 0xD6B,
             /*20171206 to latest
             젤스타
             */
-            ClientMessages::MsgIdd6C => 0xd6c,
+            ClientMessages::MsgIdd6C => 0xD6C,
             /*20171206 to latest
             계정버프
             */
-            ClientMessages::MsgIdd6D => 0xd6d,
+            ClientMessages::MsgIdd6D => 0xD6D,
             /*20171206 to latest
             정액서비스
             */
-            ClientMessages::MsgIdd6E => 0xd6e,
+            ClientMessages::MsgIdd6E => 0xD6E,
 
             /*20171213 to latest
             현재 접속이 지연되고 있습니다. 순차적으로 접속이 가능하니 잠시 후 재접속 부탁드립니다.
             */
-            ClientMessages::MsgIdd6F => 0xd6f,
+            ClientMessages::MsgIdd6F => 0xD6F,
             /*20171213 to latest
             현재 접속이 지연되고 있으니 잠시 후 재접속 부탁드립니다.
             */
-            ClientMessages::MsgIdd70 => 0xd70,
+            ClientMessages::MsgIdd70 => 0xD70,
             /*20171213 to latest
             불량 단어가 포함된 이름은 검색할 수 없습니다.
             */
-            ClientMessages::MsgIdd71 => 0xd71,
+            ClientMessages::MsgIdd71 => 0xD71,
             /*20171213 to 20191127
             파티 마스터가 요청을 받을 수 없는 맵에 있습니다.
             20191204 to latest
             파티 마스터가 요청을 받을 수 없는 상태입니다.
             */
-            ClientMessages::MsgIdd72 => 0xd72,
+            ClientMessages::MsgIdd72 => 0xD72,
             /*20171213 to latest
             파티를 찾을 수 없습니다.
             */
-            ClientMessages::MsgIdd73 => 0xd73,
+            ClientMessages::MsgIdd73 => 0xD73,
             /*20171213 to 20180328
             님의 파티요청입니다.
             20180404 to 20191127
@@ -42582,302 +42582,302 @@ impl ClientMessages {
             20191204 to latest
             딜러
             */
-            ClientMessages::MsgIdd74 => 0xd74,
+            ClientMessages::MsgIdd74 => 0xD74,
 
             /*20171220 to latest
             http://ro.gnjoy.com
             */
-            ClientMessages::MsgIdd75 => 0xd75,
+            ClientMessages::MsgIdd75 => 0xD75,
             /*20171220 to latest
             ▲
             */
-            ClientMessages::MsgIdd76 => 0xd76,
+            ClientMessages::MsgIdd76 => 0xD76,
             /*20171220 to latest
             ▼
             */
-            ClientMessages::MsgIdd77 => 0xd77,
+            ClientMessages::MsgIdd77 => 0xD77,
 
             /*20171227 to latest
             이미 친구입니다
             */
-            ClientMessages::MsgIdd78 => 0xd78,
+            ClientMessages::MsgIdd78 => 0xD78,
             /*20171227 to latest
             상대방을 찾을 수 없습니다
             */
-            ClientMessages::MsgIdd79 => 0xd79,
+            ClientMessages::MsgIdd79 => 0xD79,
             /*20171227 to latest
             이미 다른 캐릭터가 친구 신청 중입니다.
             */
-            ClientMessages::MsgIdd7A => 0xd7a,
+            ClientMessages::MsgIdd7A => 0xD7A,
             /*20171227 to latest
             혼구슬 표시 ON
             */
-            ClientMessages::MsgIdd7B => 0xd7b,
+            ClientMessages::MsgIdd7B => 0xD7B,
             /*20171227 to latest
             혼구슬 표시 OFF
             */
-            ClientMessages::MsgIdd7C => 0xd7c,
+            ClientMessages::MsgIdd7C => 0xD7C,
 
             /*20180117 to latest
             해당 계정은 2차 비밀번호 오입력으로 인해 게임내 접속이 제한된 상태입니다.
              %02d시간 %02d분 후에 접속제한이 해제되며, 접속제한의 해제는 홈페이지 -> 개인정보변경 -> 2차 비밀번호 에서 본인인증 후 진행해주시기 바랍니다.
             */
-            ClientMessages::MsgIdd7D => 0xd7d,
+            ClientMessages::MsgIdd7D => 0xD7D,
             /*20180117 to latest
             보안패스워드를 3회이상 틀리셨습니다. 계정 보안을 위해 24시간동안 게임내 접속이 제한됩니다.
              접속제한의 해제는 홈페이지 -> 개인정보변경 -> 2차 비밀번호 에서 본인인증 후 진행해주시기 바랍니다.
             */
-            ClientMessages::MsgIdd7E => 0xd7e,
+            ClientMessages::MsgIdd7E => 0xD7E,
             /*20180117 to latest
             운영진
             */
-            ClientMessages::MsgIdd7F => 0xd7f,
+            ClientMessages::MsgIdd7F => 0xD7F,
             /*20180117 to latest
             %d일차 출석 보상이 지급되었습니다.
             */
-            ClientMessages::MsgIdd80 => 0xd80,
+            ClientMessages::MsgIdd80 => 0xD80,
             /*20180117 to 20180117
             계정설정정보 받아오는데 실패 했습니다.( 재시도를 위해서는 재시작 해야 합니다. )
             20180124 to latest
             계정 설정 데이터를 불러오는 중에 오류가 발생했습니다. ( 재시도를 위해서는 재시작 해야 합니다. )
             */
-            ClientMessages::MsgIdd81 => 0xd81,
+            ClientMessages::MsgIdd81 => 0xD81,
             /*20180117 to latest
             해당 스킬은 파티 상태에서 사용 가능합니다.
             */
-            ClientMessages::MsgIdd82 => 0xd82,
+            ClientMessages::MsgIdd82 => 0xD82,
 
             /*20180124 to latest
             파티 모집을 중단하였습니다.
             */
-            ClientMessages::MsgIdd83 => 0xd83,
+            ClientMessages::MsgIdd83 => 0xD83,
             /*20180124 to latest
             길드 상납 경험치는 최대 %d%%까지 가능합니다.
             */
-            ClientMessages::MsgIdd84 => 0xd84,
+            ClientMessages::MsgIdd84 => 0xD84,
             /*20180124 to latest
             길드 레벨이 최대여서 더 이상 경험치를 상납할 수 없습니다.
             */
-            ClientMessages::MsgIdd85 => 0xd85,
+            ClientMessages::MsgIdd85 => 0xD85,
 
             /*20180207 to latest
             계정보안을 위하여 MOTP미사용자는 홈페이지 로그인만 가능합니다.
             홈페이지로 로그인을 시도해주시기 바랍니다.
             */
-            ClientMessages::MsgIdd86 => 0xd86,
+            ClientMessages::MsgIdd86 => 0xD86,
             /*20180207 to latest
             물리 공격력과 마법 공격력이 향상되었습니다.
             */
-            ClientMessages::MsgIdd87 => 0xd87,
+            ClientMessages::MsgIdd87 => 0xD87,
             /*20180207 to latest
             물리 공격력과 마법 공격력이 감소되었습니다.
             */
-            ClientMessages::MsgIdd88 => 0xd88,
+            ClientMessages::MsgIdd88 => 0xD88,
             /*20180207 to latest
             %s 출석체크 보상
             %s Attendance Check Reward
             */
-            ClientMessages::MsgIdd89 => 0xd89,
+            ClientMessages::MsgIdd89 => 0xD89,
             /*20180207 to 20180509
             이벤트 기간 : %02d월 %02d일 ~ %2d월 %2d일 24:00까지
             Event period : From %02d/%02d ~ Until %2d/%2d (Month/Day) 24:00
             20180516 to latest
             이벤트 기간 : %02d월 %02d일 ~ %02d월 %02d일 24:00까지
             */
-            ClientMessages::MsgIdd8A => 0xd8a,
+            ClientMessages::MsgIdd8A => 0xD8A,
             /*20180207 to latest
             %d일차
             %d Day
             */
-            ClientMessages::MsgIdd8B => 0xd8b,
+            ClientMessages::MsgIdd8B => 0xD8B,
             /*20180207 to latest
             %d일차 출석체크
             클릭해주세요~!
             %d Day attendance check
             Please click~!
             */
-            ClientMessages::MsgIdd8C => 0xd8c,
+            ClientMessages::MsgIdd8C => 0xD8C,
             /*20180207 to latest
             %d일차 출석 성공!
             %d Day attendance success!
             */
-            ClientMessages::MsgIdd8D => 0xd8d,
+            ClientMessages::MsgIdd8D => 0xD8D,
             /*20180207 to latest
             D-day
             */
-            ClientMessages::MsgIdd8E => 0xd8e,
+            ClientMessages::MsgIdd8E => 0xD8E,
             /*20180207 to latest
             일
             Day
             */
-            ClientMessages::MsgIdd8F => 0xd8f,
+            ClientMessages::MsgIdd8F => 0xD8F,
             /*20180207 to latest
             출석체크에 실패하였습니다. 다시 실행해주세요.
             Attendance Check failed. Please run again.
             */
-            ClientMessages::MsgIdd90 => 0xd90,
+            ClientMessages::MsgIdd90 => 0xD90,
             /*20180207 to latest
             출석체크
             Attendance Check
             */
-            ClientMessages::MsgIdd91 => 0xd91,
+            ClientMessages::MsgIdd91 => 0xD91,
             /*20180207 to latest
             현재 출석체크 이벤트 기간이 아닙니다
             This is not the current attendance check event
             */
-            ClientMessages::MsgAttendanceunavailable => 0xd92,
+            ClientMessages::MsgAttendanceunavailable => 0xD92,
             /*20180207 to 20180328
             길드 상납 경험치가 max에 도달하여, 더 이상 길드 경험치를 누적할 수 없습니다
             20180404 to latest
             길드 상납 경험치가 max에 도달하여, 더 이상 길드 경험치를 누적할 수 없습니다.
             */
-            ClientMessages::MsgIdd93 => 0xd93,
+            ClientMessages::MsgIdd93 => 0xD93,
             /*20180207 to latest
             개인 상납 경험치가 max에 도달하여, 더 이상 길드 경험치를 누적할 수 없습니다.
 
             */
-            ClientMessages::MsgIdd94 => 0xd94,
+            ClientMessages::MsgIdd94 => 0xD94,
 
             /*20180213 to latest
             메시지
             */
-            ClientMessages::MsgIdd95 => 0xd95,
+            ClientMessages::MsgIdd95 => 0xD95,
             /*20180213 to latest
             트위터에 메세지 전송을 실패 했습니다.
             */
-            ClientMessages::MsgIdd96 => 0xd96,
+            ClientMessages::MsgIdd96 => 0xD96,
             /*20180213 to latest
             영문 4자, 한글 2자 이상으로 입력해야 합니다.
             Enter 4 english words and 2 chinese words
             */
-            ClientMessages::MsgIdd97 => 0xd97,
+            ClientMessages::MsgIdd97 => 0xD97,
 
             /*20180307 to latest
             몬스터의 테이밍이 불가능한 지역입니다.
             */
-            ClientMessages::MsgIdd98 => 0xd98,
+            ClientMessages::MsgIdd98 => 0xD98,
 
             /*20180321 to latest
             순위를 가져오고 있습니다...
             */
-            ClientMessages::MsgIdd99 => 0xd99,
+            ClientMessages::MsgIdd99 => 0xD99,
             /*20180321 to latest
             해당 스킬은 파티장일때만 사용 가능합니다.
             */
-            ClientMessages::MsgIdd9A => 0xd9a,
+            ClientMessages::MsgIdd9A => 0xD9A,
 
             /*20180404 to latest
             파트너의 SP가 부족하거나, 스킬 사용 불가 상태입니다.
             */
-            ClientMessages::MsgIdd9B => 0xd9b,
+            ClientMessages::MsgIdd9B => 0xD9B,
             /*20180404 to latest
             아르바이트 노점 강제 종료 알림메일
             */
-            ClientMessages::MsgIdd9C => 0xd9c,
+            ClientMessages::MsgIdd9C => 0xD9C,
             /*20180404 to latest
             안녕하세요. 운영팀입니다.
             해당 아르바이트 노점은 운영정책 위배되는 사항이 확인되어 강제 종료되었습니다.
             자세한 확인을 원하시는 경우에는 1:1 문의를 접수해 주시기 바랍니다.
             감사합니다
             */
-            ClientMessages::MsgIdd9D => 0xd9d,
+            ClientMessages::MsgIdd9D => 0xD9D,
             /*20180404 to latest
             50% 이상의 값을 입력할 수 없습니다.
             The guild tax rate can't be set to more than 50%.
             */
-            ClientMessages::MsgIdd9E => 0xd9e,
+            ClientMessages::MsgIdd9E => 0xD9E,
             /*20180404 to 20191204
             파티 가입 요청을 보냈습니다.
             20191211 to latest
             파티가 모험가 중개소에 등록되어, 파티장을 변경 할 수 없습니다.
             */
-            ClientMessages::MsgIdd9F => 0xd9f,
+            ClientMessages::MsgIdd9F => 0xD9F,
             /*20180404 to latest
             모험가 중개소에 파티를 등록할 수 없습니다
             */
-            ClientMessages::MsgIdda0 => 0xda0,
+            ClientMessages::MsgIdda0 => 0xDA0,
             /*20180404 to latest
             수락
             */
-            ClientMessages::MsgIdda1 => 0xda1,
+            ClientMessages::MsgIdda1 => 0xDA1,
             /*20180404 to latest
             거절
             */
-            ClientMessages::MsgIdda2 => 0xda2,
+            ClientMessages::MsgIdda2 => 0xDA2,
             /*20180404 to 20191127
             설정 권한은 파티장에게 있습니다.
             20191204 to latest
             힐러
             */
-            ClientMessages::MsgIdda3 => 0xda3,
+            ClientMessages::MsgIdda3 => 0xDA3,
             /*20180404 to latest
             해당 캐릭터를 찾을 수 없습니다.
             */
-            ClientMessages::MsgIdda4 => 0xda4,
+            ClientMessages::MsgIdda4 => 0xDA4,
             /*20180404 to latest
             노점 강제 철거
             */
-            ClientMessages::MsgIdda5 => 0xda5,
+            ClientMessages::MsgIdda5 => 0xDA5,
             /*20180404 to latest
             해당 파티의 파티장을 찾을 수 없습니다.
             */
-            ClientMessages::MsgIdda6 => 0xda6,
+            ClientMessages::MsgIdda6 => 0xDA6,
             /*20180404 to latest
             잡레벨이 낮아 파티에 가입 할 수 없습니다.
             */
-            ClientMessages::MsgIdda7 => 0xda7,
+            ClientMessages::MsgIdda7 => 0xDA7,
             /*20180404 to latest
             현재 요청자가 파티가입이 불가능한 지역에 있습니다.
             */
-            ClientMessages::MsgIdda8 => 0xda8,
+            ClientMessages::MsgIdda8 => 0xDA8,
             /*20180404 to latest
             파티 인원수가 초과되었습니다.
             */
-            ClientMessages::MsgIdda9 => 0xda9,
+            ClientMessages::MsgIdda9 => 0xDA9,
             /*20180404 to latest
             %s 파티의 파티장이 파티 가입을 승인했습니다.
             */
-            ClientMessages::MsgIddaa => 0xdaa,
+            ClientMessages::MsgIddaa => 0xDAA,
             /*20180404 to latest
             %s 파티의 파티장이 파티 가입을 거부했습니다.
             */
-            ClientMessages::MsgIddab => 0xdab,
+            ClientMessages::MsgIddab => 0xDAB,
             /*20180404 to latest
             %s 님이 이미 파티에 가입 중입니다.
             */
-            ClientMessages::MsgIddac => 0xdac,
+            ClientMessages::MsgIddac => 0xDAC,
             /*20180404 to latest
             %s 님의 파티 가입을 수락했습니다.
             */
-            ClientMessages::MsgIddad => 0xdad,
+            ClientMessages::MsgIddad => 0xDAD,
             /*20180404 to latest
             %s 님의 파티 가입을 거부했습니다.
             */
-            ClientMessages::MsgIddae => 0xdae,
+            ClientMessages::MsgIddae => 0xDAE,
             /*20180404 to latest
             파티 요청을 받을 수 없는 상태여서 %s님의 신청이 거절되었습니다.
             */
-            ClientMessages::MsgIddaf => 0xdaf,
+            ClientMessages::MsgIddaf => 0xDAF,
             /*20180404 to latest
             모험가 중개소 리스트
             */
-            ClientMessages::MsgIddb0 => 0xdb0,
+            ClientMessages::MsgIddb0 => 0xDB0,
             /*20180404 to latest
             파티 가입 요청
             */
-            ClientMessages::MsgIddb1 => 0xdb1,
+            ClientMessages::MsgIddb1 => 0xDB1,
             /*20180404 to 20191120
             파티장이 아닌 경우, 모험가 중개소에 파티를 등록할 수 없습니다.
             20191127 to latest
             파티장이 아닌 경우 모험가 중개소에 파티를 등록할 수 없습니다.
             */
-            ClientMessages::MsgIddb2 => 0xdb2,
+            ClientMessages::MsgIddb2 => 0xDB2,
             /*20180404 to 20180404
             파티 모집 중단에 실패했습니다.
             20180418 to latest
             파티 모집을 중단할 수 없습니다.
             */
-            ClientMessages::MsgIddb3 => 0xdb3,
+            ClientMessages::MsgIddb3 => 0xDB3,
 
             /*20180418 to 20191127
             존재하지 않는 파티 글입니다.
@@ -42885,252 +42885,252 @@ impl ClientMessages {
             보조
             Support
             */
-            ClientMessages::MsgIddb4 => 0xdb4,
+            ClientMessages::MsgIddb4 => 0xDB4,
             /*20180418 to 20180418
             시야 확장
             20180425 to latest
             Zoom Out
             */
-            ClientMessages::MsgIddb5 => 0xdb5,
+            ClientMessages::MsgIddb5 => 0xDB5,
             /*20180418 to 20180418
             %s : 시야확장을 켜거나 끌수 있습니다 On Off
             20180425 to latest
             %s : Zoom Out을 켜거나 끌수 있습니다 On Off
             */
-            ClientMessages::MsgIddb6 => 0xdb6,
+            ClientMessages::MsgIddb6 => 0xDB6,
             /*20180418 to 20180418
             시야를 확장합니다(On)
             20180425 to latest
             Zoom Out 기능을 켭니다 (On)
             */
-            ClientMessages::MsgIddb7 => 0xdb7,
+            ClientMessages::MsgIddb7 => 0xDB7,
             /*20180418 to 20180418
             시야확장을 해제합니다(Off)
             20180425 to latest
             Zoom Out 기능을 해제합니다 (Off)
             */
-            ClientMessages::MsgIddb8 => 0xdb8,
+            ClientMessages::MsgIddb8 => 0xDB8,
             /*20180418 to 20180418
             /expandsight
             20180425 to latest
             /zoom
             */
-            ClientMessages::MsgIddb9 => 0xdb9,
+            ClientMessages::MsgIddb9 => 0xDB9,
             /*20180418 to latest
             모험가 중개소
             */
-            ClientMessages::MsgIddba => 0xdba,
+            ClientMessages::MsgIddba => 0xDBA,
             /*20180418 to latest
             파티장인 경우, 가입 요청을 할 수 없습니다.
             */
-            ClientMessages::MsgIddbb => 0xdbb,
+            ClientMessages::MsgIddbb => 0xDBB,
             /*20180418 to 20191211
             모험가 중개소에 등록 중입니다. 잠시만 기다려 주세요.
             20191218 to latest
             파티 가입 최대 레벨은 최소 레벨 설정보다 높아야 합니다.
             */
-            ClientMessages::MsgIddbc => 0xdbc,
+            ClientMessages::MsgIddbc => 0xDBC,
             /*20180418 to latest
             더 이상 직업을 선택할 수 없습니다.
             */
-            ClientMessages::MsgIddbd => 0xdbd,
+            ClientMessages::MsgIddbd => 0xDBD,
             /*20180418 to 20191120
             게임 중 해당 유저의 가입 요청을 받지 않습니다.
             20191127 to latest
             게임 중 해당 유저의 가입 요청을 받지 않습니다.(클라이언트 종료 전까지 유효)
             */
-            ClientMessages::MsgIddbe => 0xdbe,
+            ClientMessages::MsgIddbe => 0xDBE,
 
             /*20180502 to latest
             잠시 후 다시 열어주시기 바랍니다.
             */
-            ClientMessages::MsgIddbf => 0xdbf,
+            ClientMessages::MsgIddbf => 0xDBF,
             /*20180502 to latest
             공성시작 전 %d분 동안은 해당 기능을 이용하실 수 없습니다.
             */
-            ClientMessages::MsgIddc0 => 0xdc0,
+            ClientMessages::MsgIddc0 => 0xDC0,
 
             /*20180516 to latest
             /viewclear
             */
-            ClientMessages::MsgIddc1 => 0xdc1,
+            ClientMessages::MsgIddc1 => 0xDC1,
             /*20180516 to latest
             건물 반 투명화 ON
             */
-            ClientMessages::MsgIddc2 => 0xdc2,
+            ClientMessages::MsgIddc2 => 0xDC2,
             /*20180516 to latest
             건물 반 투명화 OFF
             */
-            ClientMessages::MsgIddc3 => 0xdc3,
+            ClientMessages::MsgIddc3 => 0xDC3,
             /*20180516 to latest
             건물 투명화
             */
-            ClientMessages::MsgIddc4 => 0xdc4,
+            ClientMessages::MsgIddc4 => 0xDC4,
             /*20180516 to latest
             알로 되돌리기가 실패했습니다. 로덱스 작성창을 닫아주세요.
             */
-            ClientMessages::MsgIddc5 => 0xdc5,
+            ClientMessages::MsgIddc5 => 0xDC5,
             /*20180516 to latest
             Emblem Frame
             */
-            ClientMessages::MsgIddc6 => 0xdc6,
+            ClientMessages::MsgIddc6 => 0xDC6,
             /*20180516 to latest
             Emblem 테두리를 그려줍니다
             */
-            ClientMessages::MsgIddc7 => 0xdc7,
+            ClientMessages::MsgIddc7 => 0xDC7,
             /*20180516 to latest
             Emblem 테두리를 그려주지 않습니다
             */
-            ClientMessages::MsgIddc8 => 0xdc8,
+            ClientMessages::MsgIddc8 => 0xDC8,
 
             /*20180605 to latest
             장착된 무기가 없습니다.
             */
-            ClientMessages::MsgIddc9 => 0xdc9,
+            ClientMessages::MsgIddc9 => 0xDC9,
             /*20180605 to latest
             에너지 구체가 부족합니다.
             */
-            ClientMessages::MsgIddca => 0xdca,
+            ClientMessages::MsgIddca => 0xDCA,
             /*20180605 to latest
             배울 수 없는 스킬(%s)이 포함되어있습니다.
             */
-            ClientMessages::MsgIddcb => 0xdcb,
+            ClientMessages::MsgIddcb => 0xDCB,
             /*20180605 to latest
             /frame
             */
-            ClientMessages::MsgIddcc => 0xdcc,
+            ClientMessages::MsgIddcc => 0xDCC,
 
             /*20180620 to latest
             웨폰 블로킹 발동후 제한시간 내에 사용가능한 스킬입니다.
             */
-            ClientMessages::MsgIddcd => 0xdcd,
+            ClientMessages::MsgIddcd => 0xDCD,
 
             /*20180704 to latest
             아이디혹은 패스워드가 잘못되었읍니다.
             */
-            ClientMessages::MsgIddce => 0xdce,
+            ClientMessages::MsgIddce => 0xDCE,
 
             /*20180718 to latest
             E X P : %.1f%% ( basic 100.0%% %s %.1f%%)
             EXP: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIddcf => 0xdcf,
+            ClientMessages::MsgIddcf => 0xDCF,
             /*20180718 to latest
             DROP  : %.1f%% ( basic 100.0%% %s %.1f%%)
             DROP: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIddd0 => 0xdd0,
+            ClientMessages::MsgIddd0 => 0xDD0,
             /*20180718 to latest
             DEATH : %.1f%% ( basic 100.0%% %s %.1f%%)
             DEATH: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIddd1 => 0xdd1,
+            ClientMessages::MsgIddd1 => 0xDD1,
 
             /*20180829 to latest
             영문이나 러시아어 단독으로만 사용이 가능합니다.
             Forbidden symbols in character name.
             */
-            ClientMessages::MsgIddd2 => 0xdd2,
+            ClientMessages::MsgIddd2 => 0xDD2,
             /*20180829 to latest
             you must have an AccessTicket to login
             */
-            ClientMessages::MsgIddd3 => 0xdd3,
+            ClientMessages::MsgIddd3 => 0xDD3,
             /*20180829 to latest
             창고를 불러오는 중입니다.
             Loading....
             */
-            ClientMessages::MsgIddd4 => 0xdd4,
+            ClientMessages::MsgIddd4 => 0xDD4,
             /*20180829 to latest
             NOW LOADING..
             Loading...
             */
-            ClientMessages::MsgIddd5 => 0xdd5,
+            ClientMessages::MsgIddd5 => 0xDD5,
 
             /*20181002 to latest
             삭제
             Delete
             */
-            ClientMessages::MsgIddd6 => 0xdd6,
+            ClientMessages::MsgIddd6 => 0xDD6,
             /*20181002 to latest
             답장
             Reply
             */
-            ClientMessages::MsgIddd7 => 0xdd7,
+            ClientMessages::MsgIddd7 => 0xDD7,
             /*20181002 to latest
             전송
             Send
             */
-            ClientMessages::MsgIddd8 => 0xdd8,
+            ClientMessages::MsgIddd8 => 0xDD8,
             /*20181002 to latest
             이름확인
             Name Check
             */
-            ClientMessages::MsgIddd9 => 0xdd9,
+            ClientMessages::MsgIddd9 => 0xDD9,
             /*20181002 to latest
             공지
             Notice
             */
-            ClientMessages::MsgIddda => 0xdda,
+            ClientMessages::MsgIddda => 0xDDA,
             /*20181002 to latest
             일반
             General
             */
-            ClientMessages::MsgIdddb => 0xddb,
+            ClientMessages::MsgIdddb => 0xDDB,
             /*20181002 to latest
             반송
             Clear
             */
-            ClientMessages::MsgIdddc => 0xddc,
+            ClientMessages::MsgIdddc => 0xDDC,
             /*20181002 to latest
             검색
             Search
             */
-            ClientMessages::MsgIdddd => 0xddd,
+            ClientMessages::MsgIdddd => 0xDDD,
 
             /*20181031 to latest
             펫 먹이주기에 실패했습니다. 먹이를 줄 수 없는 상태입니다.
             */
-            ClientMessages::MsgIddde => 0xdde,
+            ClientMessages::MsgIddde => 0xDDE,
             /*20181031 to latest
             호문 먹이주기에 실패했습니다. 먹이를 줄 수 없는 상태입니다.
             */
-            ClientMessages::MsgIdddf => 0xddf,
+            ClientMessages::MsgIdddf => 0xDDF,
             /*20181031 to latest
             화폐
             */
-            ClientMessages::MsgIdde0 => 0xde0,
+            ClientMessages::MsgIdde0 => 0xDE0,
             /*20181031 to latest
             %s %d개
             */
-            ClientMessages::MsgIdde1 => 0xde1,
+            ClientMessages::MsgIdde1 => 0xDE1,
             /*20181031 to latest
             교환에 실패하였습니다.
             */
-            ClientMessages::MsgIdde2 => 0xde2,
+            ClientMessages::MsgIdde2 => 0xDE2,
             /*20181031 to latest
             교환이 잘 이루어졌습니다.
             */
-            ClientMessages::MsgIdde3 => 0xde3,
+            ClientMessages::MsgIdde3 => 0xDE3,
             /*20181031 to latest
             교환에 필요한 재화가 부족합니다.
             */
-            ClientMessages::MsgIdde4 => 0xde4,
+            ClientMessages::MsgIdde4 => 0xDE4,
             /*20181031 to latest
             해당 아이템은 이미 판매되어 재고가 부족합니다.
             */
-            ClientMessages::MsgIdde5 => 0xde5,
+            ClientMessages::MsgIdde5 => 0xDE5,
             /*20181031 to latest
             사망
             */
-            ClientMessages::MsgIdde6 => 0xde6,
+            ClientMessages::MsgIdde6 => 0xDE6,
             /*20181031 to latest
             PvP
             */
-            ClientMessages::MsgIdde7 => 0xde7,
+            ClientMessages::MsgIdde7 => 0xDE7,
             /*20181031 to latest
             아이템 소지 확장
             */
-            ClientMessages::MsgIdde8 => 0xde8,
+            ClientMessages::MsgIdde8 => 0xDE8,
             /*20181031 to 20181031
             (^0000ff%s^000000)을 소모하여, 아이템 최대 소지 종류수를 확장하시겠습니까?
             (^0000ff%d^000000)에서 (^0000ff%d^000000)로 확장됩니다.
@@ -43140,316 +43140,316 @@ impl ClientMessages {
             (^0000ff%d^000000)에서 (^0000ff%d^000000)로 확장됩니다.
             ^ff0000※ 소모된 아이템 및 확장된 최대 소지 종류수는 되돌릴 수 없습니다.^000000
             */
-            ClientMessages::MsgIdde9 => 0xde9,
+            ClientMessages::MsgIdde9 => 0xDE9,
             /*20181031 to 20181031
             아이템 소지 종류 수 확장에 실패하였습니다.
             20181107 to latest
             아이템 최대 소지 종류수 확장에 실패하였습니다.
             */
-            ClientMessages::MsgIddea => 0xdea,
+            ClientMessages::MsgIddea => 0xDEA,
             /*20181031 to 20181031
             아이템 소지 종류 수 확장을 위해, 다른 작업을 종료하여 주시기 바랍니다.
             20181107 to latest
             아이템 최대 소지 종류수 확장을 위해, 다른 작업을 종료하여 주시기 바랍니다.
             */
-            ClientMessages::MsgIddeb => 0xdeb,
+            ClientMessages::MsgIddeb => 0xDEB,
             /*20181031 to 20181031
             아이템 소지 확장에 필요한 아이템을 소지하고 있지 않습니다.
             20181107 to latest
             아이템 최대 소지 종류수 확장에 필요한 아이템을 소지하고 있지 않습니다.
             */
-            ClientMessages::MsgIddec => 0xdec,
+            ClientMessages::MsgIddec => 0xDEC,
             /*20181031 to 20181031
             이미 아이템 소지 종류 수 확장이 최대로 적용 중입니다.
             20181107 to latest
             더 이상 아이템 최대 소지 종류수를 확장 할 수 없습니다.
             */
-            ClientMessages::MsgIdded => 0xded,
+            ClientMessages::MsgIdded => 0xDED,
             /*20181031 to 20181031
             아이템 소지 확장에 성공하였습니다.
             20181107 to latest
             아이템 최대 소지 종류수 확장에 성공하였습니다.
             */
-            ClientMessages::MsgIddee => 0xdee,
+            ClientMessages::MsgIddee => 0xDEE,
 
             /*20181121 to latest
             같은 아이템을 %d개 이상 가질 수 없습니다.
             */
-            ClientMessages::MsgIddef => 0xdef,
+            ClientMessages::MsgIddef => 0xDEF,
             /*20181121 to latest
             소지 한계량 초과로 구입이 불가능합니다.
             */
-            ClientMessages::MsgIddf0 => 0xdf0,
+            ClientMessages::MsgIddf0 => 0xDF0,
             /*20181121 to latest
             해당 아이템은 한 번에 한 개만 살 수 있습니다.
             */
-            ClientMessages::MsgIddf1 => 0xdf1,
+            ClientMessages::MsgIddf1 => 0xDF1,
 
             /*20181205 to latest
             성제
             */
-            ClientMessages::MsgIddf2 => 0xdf2,
+            ClientMessages::MsgIddf2 => 0xDF2,
             /*20181205 to latest
             소울리퍼
             */
-            ClientMessages::MsgIddf3 => 0xdf3,
+            ClientMessages::MsgIddf3 => 0xDF3,
 
             /*20181212 to latest
             설정한 내용은 정상 종료 시 서버에 저장됩니다.
             */
-            ClientMessages::MsgIddf4 => 0xdf4,
+            ClientMessages::MsgIddf4 => 0xDF4,
 
             /*20190109 to latest
             Capture Monster
             Taming monster
             */
-            ClientMessages::MsgIddf5 => 0xdf5,
+            ClientMessages::MsgIddf5 => 0xDF5,
             /*20190109 to latest
             message
             */
-            ClientMessages::MsgIddf6 => 0xdf6,
+            ClientMessages::MsgIddf6 => 0xDF6,
             /*20190109 to latest
             TITLE
             Header
             */
-            ClientMessages::MsgIddf7 => 0xdf7,
+            ClientMessages::MsgIddf7 => 0xDF7,
             /*20190109 to latest
             데미지 표기 확장
             */
-            ClientMessages::MsgIddf8 => 0xdf8,
+            ClientMessages::MsgIddf8 => 0xDF8,
 
             /*20190213 to latest
             맵 이름 표기
             */
-            ClientMessages::MsgIddf9 => 0xdf9,
+            ClientMessages::MsgIddf9 => 0xDF9,
             /*20190213 to latest
             시스템 메세지 : 현재 노점보기 기능이 %s 상태입니다. (/노점보기)
             */
-            ClientMessages::MsgIddfa => 0xdfa,
+            ClientMessages::MsgIddfa => 0xDFA,
             /*20190213 to latest
             수직 동기
             */
-            ClientMessages::MsgIddfb => 0xdfb,
+            ClientMessages::MsgIddfb => 0xDFB,
             /*20190213 to latest
             자료
             */
-            ClientMessages::MsgIddfc => 0xdfc,
+            ClientMessages::MsgIddfc => 0xDFC,
             /*20190213 to 20190228
             http://rodata.zhaouc.com/renwu.html#container
             20190306 to latest
             http://rodata.zhaouc.com/renwu.html
             */
-            ClientMessages::MsgIddfd => 0xdfd,
+            ClientMessages::MsgIddfd => 0xDFD,
             /*20190213 to latest
             작위
             */
-            ClientMessages::MsgIddfe => 0xdfe,
+            ClientMessages::MsgIddfe => 0xDFE,
             /*20190213 to latest
             프레임 제한
             */
-            ClientMessages::MsgIddff => 0xdff,
+            ClientMessages::MsgIddff => 0xDFF,
 
             /*20190227 to latest
             %d개를 초과할 경우 더 이상 설치 할 수 없습니다.
             */
-            ClientMessages::MsgIde00 => 0xe00,
+            ClientMessages::MsgIde00 => 0xE00,
             /*20190227 to latest
             목적지
             */
-            ClientMessages::MsgIde01 => 0xe01,
+            ClientMessages::MsgIde01 => 0xE01,
 
             /*20190306 to latest
             잠시 후 다시 시도해주세요.
             Please try again in a moment.
             */
-            ClientMessages::MsgIde02 => 0xe02,
+            ClientMessages::MsgIde02 => 0xE02,
             /*20190306 to latest
             등록할 수 없는 파일입니다.
             */
-            ClientMessages::MsgIde03 => 0xe03,
+            ClientMessages::MsgIde03 => 0xE03,
 
             /*20190320 to latest
             선택 삭제
             */
-            ClientMessages::MsgIde04 => 0xe04,
+            ClientMessages::MsgIde04 => 0xE04,
             /*20190320 to latest
             모두 삭제
             */
-            ClientMessages::MsgIde05 => 0xe05,
+            ClientMessages::MsgIde05 => 0xE05,
             /*20190320 to latest
             [%s]편지함의 모든 메일을 삭제하시겠습니까?
             */
-            ClientMessages::MsgIde06 => 0xe06,
+            ClientMessages::MsgIde06 => 0xE06,
             /*20190320 to latest
             선택 받기
             */
-            ClientMessages::MsgIde07 => 0xe07,
+            ClientMessages::MsgIde07 => 0xE07,
             /*20190320 to latest
             모두 받기
             */
-            ClientMessages::MsgIde08 => 0xe08,
+            ClientMessages::MsgIde08 => 0xE08,
             /*20190320 to latest
             선택한 메일의 첨부 물품을 받으시겠습니까?
             */
-            ClientMessages::MsgIde09 => 0xe09,
+            ClientMessages::MsgIde09 => 0xE09,
             /*20190320 to latest
             [%s]편지함의 모든 첨부 물품을 받으시겠습니까?
             */
-            ClientMessages::MsgIde0A => 0xe0a,
+            ClientMessages::MsgIde0A => 0xE0A,
 
             /*20190403 to latest
             스킬바2
             */
-            ClientMessages::MsgIde0B => 0xe0b,
+            ClientMessages::MsgIde0B => 0xE0B,
             /*20190403 to latest
             스킬바 교체
             */
-            ClientMessages::MsgIde0C => 0xe0c,
+            ClientMessages::MsgIde0C => 0xE0C,
             /*20190403 to latest
             ←
             */
-            ClientMessages::MsgIde0D => 0xe0d,
+            ClientMessages::MsgIde0D => 0xE0D,
             /*20190403 to latest
             ↑
             */
-            ClientMessages::MsgIde0E => 0xe0e,
+            ClientMessages::MsgIde0E => 0xE0E,
             /*20190403 to latest
             →
             */
-            ClientMessages::MsgIde0F => 0xe0f,
+            ClientMessages::MsgIde0F => 0xE0F,
             /*20190403 to latest
             ↓
             */
-            ClientMessages::MsgIde10 => 0xe10,
+            ClientMessages::MsgIde10 => 0xE10,
             /*20190403 to latest
             ▤
             */
-            ClientMessages::MsgIde11 => 0xe11,
+            ClientMessages::MsgIde11 => 0xE11,
             /*20190403 to latest
             ←
             */
-            ClientMessages::MsgIde12 => 0xe12,
+            ClientMessages::MsgIde12 => 0xE12,
             /*20190403 to latest
             로딩중에는 창을 닫을 수 없습니다.
             */
-            ClientMessages::MsgIde13 => 0xe13,
+            ClientMessages::MsgIde13 => 0xE13,
 
             /*20190417 to latest
             리딩 스펠북으로 저장된 마법이 없습니다.
             */
-            ClientMessages::MsgIde14 => 0xe14,
+            ClientMessages::MsgIde14 => 0xE14,
             /*20190417 to latest
             이동 시 사용한 아이템은 재교환이 불가능합니다.
             */
-            ClientMessages::MsgIde15 => 0xe15,
+            ClientMessages::MsgIde15 => 0xE15,
             /*20190417 to latest
             자유이동권을 구매 하였습니다
             */
-            ClientMessages::MsgIde16 => 0xe16,
+            ClientMessages::MsgIde16 => 0xE16,
             /*20190417 to latest
             자유이동권 사용 중, 관련 아이템을 소모하지 않습니다.
             */
-            ClientMessages::MsgIde17 => 0xe17,
+            ClientMessages::MsgIde17 => 0xE17,
             /*20190417 to latest
             적용
             */
-            ClientMessages::MsgIde18 => 0xe18,
+            ClientMessages::MsgIde18 => 0xE18,
             /*20190417 to latest
             중지
             */
-            ClientMessages::MsgIde19 => 0xe19,
+            ClientMessages::MsgIde19 => 0xE19,
 
             /*20190508 to latest
             자유이동권
             */
-            ClientMessages::MsgIde1A => 0xe1a,
+            ClientMessages::MsgIde1A => 0xE1A,
             /*20190508 to latest
             %d시간 이용, %s %d개
             */
-            ClientMessages::MsgIde1B => 0xe1b,
+            ClientMessages::MsgIde1B => 0xE1B,
             /*20190508 to latest
             자유이용권 사용중
             */
-            ClientMessages::MsgIde1C => 0xe1c,
+            ClientMessages::MsgIde1C => 0xE1C,
             /*20190508 to latest
             특성 스테이터스
             */
-            ClientMessages::MsgIde1D => 0xe1d,
+            ClientMessages::MsgIde1D => 0xE1D,
             /*20190508 to latest
             파워 파라메터
             ^cc0000물리 공격력, 특성 공격력^ffffff 증가
             */
-            ClientMessages::MsgIde1E => 0xe1e,
+            ClientMessages::MsgIde1E => 0xE1E,
             /*20190508 to latest
             스테미나 파라메터
             ^cc0000물리 저항력^ffffff 증가
             */
-            ClientMessages::MsgIde1F => 0xe1f,
+            ClientMessages::MsgIde1F => 0xE1F,
             /*20190508 to latest
             위즈덤 파라메터
             ^cc0000마법 저항력^ffffff 증가
             */
-            ClientMessages::MsgIde20 => 0xe20,
+            ClientMessages::MsgIde20 => 0xE20,
             /*20190508 to latest
             스펠 파라메터
             ^cc0000마법 공격력, 마법 공격력^ffffff 증가
             */
-            ClientMessages::MsgIde21 => 0xe21,
+            ClientMessages::MsgIde21 => 0xE21,
             /*20190508 to latest
             컨센트레이션 파라메터
             ^cc0000명중률, 회피율, 특성 물리/마법 공격력^ffffff 증가
             */
-            ClientMessages::MsgIde22 => 0xe22,
+            ClientMessages::MsgIde22 => 0xE22,
             /*20190508 to latest
             크리에이티브 파라메터
             ^cc0000특성 힐 회복량, 크리티컬 데미지 비율^ffffff 증가
             */
-            ClientMessages::MsgIde23 => 0xe23,
+            ClientMessages::MsgIde23 => 0xE23,
             /*20190508 to latest
             특성 물리 공격력
             */
-            ClientMessages::MsgIde24 => 0xe24,
+            ClientMessages::MsgIde24 => 0xE24,
             /*20190508 to latest
             특성 마법 공격력
             */
-            ClientMessages::MsgIde25 => 0xe25,
+            ClientMessages::MsgIde25 => 0xE25,
             /*20190508 to latest
             물리 저항력
             */
-            ClientMessages::MsgIde26 => 0xe26,
+            ClientMessages::MsgIde26 => 0xE26,
             /*20190508 to latest
             마법 저항력
             */
-            ClientMessages::MsgIde27 => 0xe27,
+            ClientMessages::MsgIde27 => 0xE27,
             /*20190508 to latest
             특성 힐 회복량
             */
-            ClientMessages::MsgIde28 => 0xe28,
+            ClientMessages::MsgIde28 => 0xE28,
             /*20190508 to latest
             크리티컬 데미지 비율
             */
-            ClientMessages::MsgIde29 => 0xe29,
+            ClientMessages::MsgIde29 => 0xE29,
             /*20190508 to latest
             특성 파라메터 레벨업에 사용되는 포인트
             */
-            ClientMessages::MsgIde2A => 0xe2a,
+            ClientMessages::MsgIde2A => 0xE2A,
             /*20190508 to latest
             J.Lv
             */
-            ClientMessages::MsgIde2B => 0xe2b,
+            ClientMessages::MsgIde2B => 0xE2B,
             /*20190508 to latest
             AP
             */
-            ClientMessages::MsgIde2C => 0xe2c,
+            ClientMessages::MsgIde2C => 0xE2C,
 
             /*20190522 to latest
             영지로 이동
             */
-            ClientMessages::MsgIde2D => 0xe2d,
+            ClientMessages::MsgIde2D => 0xE2D,
             /*20190522 to latest
             상업도/방어도 확인
             */
-            ClientMessages::MsgIde2E => 0xe2e,
+            ClientMessages::MsgIde2E => 0xE2E,
             /*20190522 to 20190605
             관리영지 "%s"(으)로 이동하시겠습니까?
             (1회 이동 시 마다 1,000제니가 소모됩니다.
@@ -43462,7 +43462,7 @@ impl ClientMessages {
             이동 시 마다 %d제니가 소모됩니다.
             (공성전 시간에는 %d제니가 소모됩니다.)
             */
-            ClientMessages::MsgIde2F => 0xe2f,
+            ClientMessages::MsgIde2F => 0xE2F,
             /*20190522 to latest
 
             관리영지 "%s"
@@ -43470,818 +43470,818 @@ impl ClientMessages {
             방어도: %d / %d
             상업도: %d / %d
             */
-            ClientMessages::MsgIde30 => 0xe30,
+            ClientMessages::MsgIde30 => 0xE30,
             /*20190522 to 20190717
             공성 영지 내에서는 다른 공성 영지로 이동 할 수 없습니다.
             20190717 to latest
             공성 영지에서는 사용할 수 없는 기능입니다.
             */
-            ClientMessages::MsgIde31 => 0xe31,
+            ClientMessages::MsgIde31 => 0xE31,
 
             /*20190619 to latest
             기본 기능 스킬을 습득하지 않은 캐릭터입니다.
             */
-            ClientMessages::MsgIde32 => 0xe32,
+            ClientMessages::MsgIde32 => 0xE32,
 
             /*20190703 to latest
             접속하신 IP는 라그나로크 제로 이용이 불가능합니다.
             고객센터 또는 홈페이지로 문의해 주십시오.
             */
-            ClientMessages::MsgIde33 => 0xe33,
+            ClientMessages::MsgIde33 => 0xE33,
 
             /*20190717 to latest
             탑승/장착 해제
             */
-            ClientMessages::MsgIde34 => 0xe34,
+            ClientMessages::MsgIde34 => 0xE34,
             /*20190717 to latest
             가져오기
             */
-            ClientMessages::MsgIde35 => 0xe35,
+            ClientMessages::MsgIde35 => 0xE35,
             /*20190717 to latest
             직전 노점에 등록된 아이템 정보를 가져옵니다.
             */
-            ClientMessages::MsgIde36 => 0xe36,
+            ClientMessages::MsgIde36 => 0xE36,
             /*20190717 to latest
             서버 이슈로 인해 로그인이 제한되고 있습니다.
             */
-            ClientMessages::MsgIde37 => 0xe37,
+            ClientMessages::MsgIde37 => 0xE37,
             /*20190717 to latest
             메시지
             */
-            ClientMessages::MsgIde38 => 0xe38,
+            ClientMessages::MsgIde38 => 0xE38,
             /*20190717 to latest
             +18 이상만 플레이가 가능합니다.
             */
-            ClientMessages::MsgIde39 => 0xe39,
+            ClientMessages::MsgIde39 => 0xE39,
             /*20190717 to latest
             3시간 이상의 게임 플레이를 권장하지 않습니다.
             */
-            ClientMessages::MsgIde3A => 0xe3a,
+            ClientMessages::MsgIde3A => 0xE3A,
             /*20190717 to latest
             AP가 부족합니다.
             */
-            ClientMessages::MsgIde3B => 0xe3b,
+            ClientMessages::MsgIde3B => 0xE3B,
 
             /*20190731 to latest
             제련도가 높아서 조합할 수 없습니다.
             */
-            ClientMessages::MsgIde3C => 0xe3c,
+            ClientMessages::MsgIde3C => 0xE3C,
             /*20190731 to latest
             제련도가 조합에 필요한 요구치보다 높습니다.
             */
-            ClientMessages::MsgIde3D => 0xe3d,
+            ClientMessages::MsgIde3D => 0xE3D,
             /*20190731 to 20191107
             '카드가 끼워져있거나 인챈트 되어 있습니다.
             20191113 to latest
             카드가 끼워져있거나 인챈트 되어 있습니다.
             */
-            ClientMessages::MsgIde3E => 0xe3e,
+            ClientMessages::MsgIde3E => 0xE3E,
             /*20190731 to latest
             ∞
             ?
             */
-            ClientMessages::MsgIde3F => 0xe3f,
+            ClientMessages::MsgIde3F => 0xE3F,
             /*20190731 to latest
             Z
             */
-            ClientMessages::MsgIde40 => 0xe40,
+            ClientMessages::MsgIde40 => 0xE40,
             /*20190731 to latest
             Total : %s Zeny
             */
-            ClientMessages::MsgIde41 => 0xe41,
+            ClientMessages::MsgIde41 => 0xE41,
 
             /*20190821 to latest
             계정한정판매 등록창
             Limited Account Registration Window
             */
-            ClientMessages::MsgIde42 => 0xe42,
+            ClientMessages::MsgIde42 => 0xE42,
             /*20190821 to latest
             아이템 DB명
             Item DB Name
             */
-            ClientMessages::MsgIde43 => 0xe43,
+            ClientMessages::MsgIde43 => 0xE43,
             /*20190821 to latest
             아이템 DB번호
             Item DB Number
             */
-            ClientMessages::MsgIde44 => 0xe44,
+            ClientMessages::MsgIde44 => 0xE44,
             /*20190821 to latest
             판매 갯수
             Number of Sale
             */
-            ClientMessages::MsgIde45 => 0xe45,
+            ClientMessages::MsgIde45 => 0xE45,
             /*20190821 to latest
             판매 시작시간
             Sale Start Time
             */
-            ClientMessages::MsgIde46 => 0xe46,
+            ClientMessages::MsgIde46 => 0xE46,
             /*20190821 to latest
             판매 종료시간
             Sale end time
             */
-            ClientMessages::MsgIde47 => 0xe47,
+            ClientMessages::MsgIde47 => 0xE47,
             /*20190821 to latest
             계정 한정
             Account only
             */
-            ClientMessages::MsgIde48 => 0xe48,
+            ClientMessages::MsgIde48 => 0xE48,
             /*20190821 to latest
             판매기간 : %d월 %d일 %d시 %d분
             Sale period:% d month% d day% d hours% d
             */
-            ClientMessages::MsgIde49 => 0xe49,
+            ClientMessages::MsgIde49 => 0xE49,
             /*20190821 to 20191002
             구입가능 %d개
             % D available
             20191016 to latest
             계정당 구매가능
             */
-            ClientMessages::MsgIde4A => 0xe4a,
+            ClientMessages::MsgIde4A => 0xE4A,
             /*20190821 to latest
             %d개 한정
             limited to% d
             */
-            ClientMessages::MsgIde4B => 0xe4b,
+            ClientMessages::MsgIde4B => 0xE4B,
             /*20190821 to latest
             >> ItemName : %s /  수량 : %d / 판매기간 : %d월:%d일:%d시:%d분 ~ %d월:%d일:%d시:%d분
             >> ItemName:% s / Quantity:% d / Sales Period:% d Month:% d Day:% d Hour:% d Minute ~% d Month:% d Day:% d Hour:% d Minute
             */
-            ClientMessages::MsgIde4C => 0xe4c,
+            ClientMessages::MsgIde4C => 0xE4C,
             /*20190821 to latest
             Sold Out
             */
-            ClientMessages::MsgIde4D => 0xe4d,
+            ClientMessages::MsgIde4D => 0xE4D,
             /*20190821 to latest
             [%s]은(는) 현재 소환할 수 없는 지역에 있습니다.
             % s] is currently in a region that cannot be summoned.
             */
-            ClientMessages::MsgIde4E => 0xe4e,
+            ClientMessages::MsgIde4E => 0xE4E,
             /*20190821 to latest
             ~ %d월 %d일 %d시 %d분
             % d min% d days% d days
             */
-            ClientMessages::MsgIde4F => 0xe4f,
+            ClientMessages::MsgIde4F => 0xE4F,
             /*20190821 to latest
             상품을 더이상 추가할 수 없습니다
             Can't add any more items
             */
-            ClientMessages::MsgIde50 => 0xe50,
+            ClientMessages::MsgIde50 => 0xE50,
 
             /*20190828 to latest
             장착 중인 아이템은 교환할 수 없습니다. 장착을 해제한 뒤 시도해 주시길 바랍니다.
             The item being mounted cannot be exchanged. Please unmount it and try again.
             */
-            ClientMessages::MsgIde51 => 0xe51,
+            ClientMessages::MsgIde51 => 0xE51,
 
             /*20190904 to latest
             길드 창고 이용 중엔 캐릭터 선택창으로 이동 할 수 없습니다.
             You can not move to the character selection window while using the Guild Warehouse.
             */
-            ClientMessages::MsgIde52 => 0xe52,
+            ClientMessages::MsgIde52 => 0xE52,
             /*20190904 to latest
             아이템 태그가 포함되어 있어 사용할 수 없습니다.
             Item tag is included and cannot be used.
             */
-            ClientMessages::MsgIde53 => 0xe53,
+            ClientMessages::MsgIde53 => 0xE53,
             /*20190904 to latest
             Monster
             */
-            ClientMessages::MsgIde54 => 0xe54,
+            ClientMessages::MsgIde54 => 0xE54,
             /*20190904 to latest
             Unknown
             */
-            ClientMessages::MsgIde55 => 0xe55,
+            ClientMessages::MsgIde55 => 0xE55,
             /*20190904 to latest
             Undead
             */
-            ClientMessages::MsgIde56 => 0xe56,
+            ClientMessages::MsgIde56 => 0xE56,
             /*20190904 to latest
             Animal
             */
-            ClientMessages::MsgIde57 => 0xe57,
+            ClientMessages::MsgIde57 => 0xE57,
             /*20190904 to latest
             Plant
             */
-            ClientMessages::MsgIde58 => 0xe58,
+            ClientMessages::MsgIde58 => 0xE58,
             /*20190904 to latest
             Insect
             */
-            ClientMessages::MsgIde59 => 0xe59,
+            ClientMessages::MsgIde59 => 0xE59,
             /*20190904 to latest
             Marine
             */
-            ClientMessages::MsgIde5A => 0xe5a,
+            ClientMessages::MsgIde5A => 0xE5A,
             /*20190904 to latest
             Devil
             */
-            ClientMessages::MsgIde5B => 0xe5b,
+            ClientMessages::MsgIde5B => 0xE5B,
             /*20190904 to latest
             Human
             */
-            ClientMessages::MsgIde5C => 0xe5c,
+            ClientMessages::MsgIde5C => 0xE5C,
             /*20190904 to latest
             Angel
             */
-            ClientMessages::MsgIde5D => 0xe5d,
+            ClientMessages::MsgIde5D => 0xE5D,
             /*20190904 to latest
             Dragon
             */
-            ClientMessages::MsgIde5E => 0xe5e,
+            ClientMessages::MsgIde5E => 0xE5E,
 
             /*20190918 to latest
             Balance: %s %c
             */
-            ClientMessages::MsgIde5F => 0xe5f,
+            ClientMessages::MsgIde5F => 0xE5F,
             /*20190918 to latest
              ^ff0000본 아이템을 구매 후 7일 이내에는 청약 철회가 가능합니다. 다만, 7일이 지났거나 아이템을 개봉하시면 청약 철회 대상에서 제외 됩니다.또한 구매시 사용된 무료캐시는 청약철회시 반환되지 않습니다.^000000 정말로 아이템을 구매하시겠습니까? 구매하실 경우 %s캐시가 차감됩니다.
             Do you really want to purchase this item? %s Money will be deducted from your total balance.
             */
-            ClientMessages::MsgIde60 => 0xe60,
+            ClientMessages::MsgIde60 => 0xE60,
             /*20190918 to latest
              ^ff0000본 아이템을 구매 후 7일 이내에는 청약 철회가 가능합니다. 다만, 7일이 지났거나 아이템을 개봉하시면 청약 철회 대상에서 제외 됩니다.또한 구매시 사용된 무료캐시는 청약철회시 반환되지 않습니다.^000000 정말로 아이템을 구매하시겠습니까? 구매하실 경우 일반 %s캐시, 무료 %s캐시가 차감됩니다.
             Do you really want to purchase this item? %s Money and %s Free Points will be deducted from your total balance.
             */
-            ClientMessages::MsgIde61 => 0xe61,
+            ClientMessages::MsgIde61 => 0xE61,
             /*20190918 to 20190918
             [%s]의 호출이 거부되었습니다.
             20190925 to latest
             호출이 거부되었습니다.
             */
-            ClientMessages::MsgIde62 => 0xe62,
+            ClientMessages::MsgIde62 => 0xE62,
             /*20190918 to latest
             구매 한도액은 소지액을 초과할 수 없습니다.
             */
-            ClientMessages::MsgIde63 => 0xe63,
+            ClientMessages::MsgIde63 => 0xE63,
             /*20190918 to latest
             노점을 여는데 실패하였습니다. 구매노점 개설을 닫아주시기 바랍니다.
             */
-            ClientMessages::MsgIde64 => 0xe64,
+            ClientMessages::MsgIde64 => 0xE64,
 
             /*20191002 to latest
             판매 노점 아이템 리스트가 저장되었습니다.
             */
-            ClientMessages::MsgIde65 => 0xe65,
+            ClientMessages::MsgIde65 => 0xE65,
             /*20191002 to latest
             구매 노점 아이템 리스트가 저장되었습니다.
             */
-            ClientMessages::MsgIde66 => 0xe66,
+            ClientMessages::MsgIde66 => 0xE66,
             /*20191002 to latest
             VTC 인증에 실패하였습니다.
             */
-            ClientMessages::MsgIde67 => 0xe67,
+            ClientMessages::MsgIde67 => 0xE67,
 
             /*20191016 to latest
             물물교환 중에는 장비를 착용할 수 없습니다.
             */
-            ClientMessages::MsgIde68 => 0xe68,
+            ClientMessages::MsgIde68 => 0xE68,
             /*20191016 to latest
             교환하려는 품목
             */
-            ClientMessages::MsgIde69 => 0xe69,
+            ClientMessages::MsgIde69 => 0xE69,
             /*20191016 to latest
              1차, 2차, 3차 직업 스킬 %d개를 더 올려 주십시오.
             */
-            ClientMessages::MsgIde6A => 0xe6a,
+            ClientMessages::MsgIde6A => 0xE6A,
 
             /*20191030 to latest
             같은 아이템은 %d개까지 소유할 수 있습니다.
             */
-            ClientMessages::MsgIde6B => 0xe6b,
+            ClientMessages::MsgIde6B => 0xE6B,
             /*20191030 to latest
             같은 아이템은 한 번에 %d개까지 교환할 수 있습니다.
             */
-            ClientMessages::MsgIde6C => 0xe6c,
+            ClientMessages::MsgIde6C => 0xE6C,
             /*20191030 to latest
             해당 로덱스는 "%s"서버에서 열 수 있습니다.
             */
-            ClientMessages::MsgIde6D => 0xe6d,
+            ClientMessages::MsgIde6D => 0xE6D,
             /*20191030 to latest
             [공지]편지함의 모든 메일을 삭제하시겠습니까 ?
             (해당 "%s"서버의 메일만 삭제됩니다.)
             */
-            ClientMessages::MsgIde6E => 0xe6e,
+            ClientMessages::MsgIde6E => 0xE6E,
             /*20191030 to latest
             [공지]편지함의 모든 첨부 물품을 받으시겠습니까?
             (해당 "%s"서버의 메일의 물품만 받으실 수 있습니다.)
             */
-            ClientMessages::MsgIde6F => 0xe6f,
+            ClientMessages::MsgIde6F => 0xE6F,
             /*20191030 to latest
             해당 메일은 "%s"서버에서만 삭제 가능합니다.
             */
-            ClientMessages::MsgIde70 => 0xe70,
+            ClientMessages::MsgIde70 => 0xE70,
             /*20191030 to latest
             해당 메일은 "%s"서버에서만 물품 받기가 가능합니다.
             */
-            ClientMessages::MsgIde71 => 0xe71,
+            ClientMessages::MsgIde71 => 0xE71,
             /*20191030 to latest
             해당 메일은 "%s"서버에서만 내용읽기가 가능합니다.
             */
-            ClientMessages::MsgIde72 => 0xe72,
+            ClientMessages::MsgIde72 => 0xE72,
             /*20191030 to latest
             합계 : %d z
             */
-            ClientMessages::MsgIde73 => 0xe73,
+            ClientMessages::MsgIde73 => 0xE73,
             /*20191030 to latest
             메세지
             */
-            ClientMessages::MsgIde74 => 0xe74,
+            ClientMessages::MsgIde74 => 0xE74,
 
             /*20191106 to latest
             구매상점 개설 중에는 개인상점의 물건을 구입할 수 없습니다.
             */
-            ClientMessages::MsgIde75 => 0xe75,
+            ClientMessages::MsgIde75 => 0xE75,
 
             /*20191113 to latest
             등급강화가 성공적으로 되었습니다.
             */
-            ClientMessages::MsgIde76 => 0xe76,
+            ClientMessages::MsgIde76 => 0xE76,
             /*20191113 to latest
             등급강화가 실패하였습니다.
             */
-            ClientMessages::MsgIde77 => 0xe77,
+            ClientMessages::MsgIde77 => 0xE77,
             /*20191113 to latest
             등급 수치가 하향 조정 되었습니다.
             */
-            ClientMessages::MsgIde78 => 0xe78,
+            ClientMessages::MsgIde78 => 0xE78,
             /*20191113 to latest
             장비가 파괴되었습니다.
             */
-            ClientMessages::MsgIde79 => 0xe79,
+            ClientMessages::MsgIde79 => 0xE79,
             /*20191113 to latest
             장비가 보호되었습니다.
             */
-            ClientMessages::MsgIde7A => 0xe7a,
+            ClientMessages::MsgIde7A => 0xE7A,
             /*20191113 to latest
             재료가 선택되지 않았습니다.
             */
-            ClientMessages::MsgIde7B => 0xe7b,
+            ClientMessages::MsgIde7B => 0xE7B,
             /*20191113 to latest
             재료가 부족합니다.
             */
-            ClientMessages::MsgIde7C => 0xe7c,
+            ClientMessages::MsgIde7C => 0xE7C,
             /*20191113 to latest
             소지 금액이 부족합니다.
             */
-            ClientMessages::MsgIde7D => 0xe7d,
+            ClientMessages::MsgIde7D => 0xE7D,
             /*20191113 to latest
             아이템 공간이 부족합니다.
             */
-            ClientMessages::MsgIde7E => 0xe7e,
+            ClientMessages::MsgIde7E => 0xE7E,
             /*20191113 to latest
             장비가 보호되고 있습니다.
             */
-            ClientMessages::MsgIde7F => 0xe7f,
+            ClientMessages::MsgIde7F => 0xE7F,
             /*20191113 to latest
             장비가 파괴될 수 있습니다.
             */
-            ClientMessages::MsgIde80 => 0xe80,
+            ClientMessages::MsgIde80 => 0xE80,
             /*20191113 to latest
             등급강화 실패 시 등급이 내려갑니다.
             */
-            ClientMessages::MsgIde81 => 0xe81,
+            ClientMessages::MsgIde81 => 0xE81,
             /*20191113 to latest
             등급강화 중에는 로덱스를 사용할 수 없습니다. 로덱스를 강제 종료하였습니다.
             */
-            ClientMessages::MsgIde82 => 0xe82,
+            ClientMessages::MsgIde82 => 0xE82,
             /*20191113 to latest
             등급강화 중에는 로덱스를 사용할 수 없습니다.
             */
-            ClientMessages::MsgIde83 => 0xe83,
+            ClientMessages::MsgIde83 => 0xE83,
             /*20191113 to latest
             등급강화 중에는 은행을 사용할 수 없습니다. 은행을 강제 종료하였습니다.
             */
-            ClientMessages::MsgIde84 => 0xe84,
+            ClientMessages::MsgIde84 => 0xE84,
             /*20191113 to latest
             등급강화 중에는 은행을 사용할 수 없습니다.
             */
-            ClientMessages::MsgIde85 => 0xe85,
+            ClientMessages::MsgIde85 => 0xE85,
             /*20191113 to latest
             [%s] 님이 등급강화를 성공하여, [%s등급 %s] 아이템을 획득하였습니다.
             */
-            ClientMessages::MsgIde86 => 0xe86,
+            ClientMessages::MsgIde86 => 0xE86,
             /*20191113 to latest
             [%s] 님이 [%s등급 %s] 아이템의 등급강화에 실패하였습니다.
             */
-            ClientMessages::MsgIde87 => 0xe87,
+            ClientMessages::MsgIde87 => 0xE87,
             /*20191113 to latest
             등급 강화가 불가능한 장비입니다.
             */
-            ClientMessages::MsgIde88 => 0xe88,
+            ClientMessages::MsgIde88 => 0xE88,
             /*20191113 to latest
             체인지 메테리얼
             */
-            ClientMessages::MsgIde89 => 0xe89,
+            ClientMessages::MsgIde89 => 0xE89,
             /*20191113 to latest
             가나다 정렬
             */
-            ClientMessages::MsgIde8A => 0xe8a,
+            ClientMessages::MsgIde8A => 0xE8A,
             /*20191113 to 20191224
             기본 결과물은 %s %d개 이나, 낮은 확률로 최대 %d개까지 생성될 수 있습니다.
             20200108 to latest
             ※[%s] %d~%d개 제작
             */
-            ClientMessages::MsgIde8B => 0xe8b,
+            ClientMessages::MsgIde8B => 0xE8B,
             /*20191113 to latest
             성공 %d%%
             */
-            ClientMessages::MsgIde8C => 0xe8c,
+            ClientMessages::MsgIde8C => 0xE8C,
             /*20191113 to latest
             아이템 태그는 소지한 아이템만 태그할 수 있습니다.
             */
-            ClientMessages::MsgIde8D => 0xe8d,
+            ClientMessages::MsgIde8D => 0xE8D,
 
             /*20191127 to latest
             공격력 및 특성 공격력이 증가되었습니다.
             */
-            ClientMessages::MsgIde8E => 0xe8e,
+            ClientMessages::MsgIde8E => 0xE8E,
             /*20191127 to latest
             강인한 신념 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde8F => 0xe8f,
+            ClientMessages::MsgIde8F => 0xE8F,
             /*20191127 to latest
             HP 및 물리 저항력이 증가되었습니다.
             */
-            ClientMessages::MsgIde90 => 0xe90,
+            ClientMessages::MsgIde90 => 0xE90,
             /*20191127 to latest
             굳건한 신념 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde91 => 0xe91,
+            ClientMessages::MsgIde91 => 0xE91,
             /*20191127 to latest
             공격 속도 및 유도 공격 확률이 증가되었습니다.
             */
-            ClientMessages::MsgIde92 => 0xe92,
+            ClientMessages::MsgIde92 => 0xE92,
             /*20191127 to latest
             신실한 신념 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde93 => 0xe93,
+            ClientMessages::MsgIde93 => 0xE93,
             /*20191127 to latest
             POW, CRT 및 CON 이 증가되었습니다.
             */
-            ClientMessages::MsgIde94 => 0xe94,
+            ClientMessages::MsgIde94 => 0xE94,
             /*20191127 to latest
             베네딕툼 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde95 => 0xe95,
+            ClientMessages::MsgIde95 => 0xE95,
             /*20191127 to latest
             SPL, WIS 및 CRT 가 증가되었습니다.
             */
-            ClientMessages::MsgIde96 => 0xe96,
+            ClientMessages::MsgIde96 => 0xE96,
             /*20191127 to latest
             렐리지오 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde97 => 0xe97,
+            ClientMessages::MsgIde97 => 0xE97,
             /*20191127 to latest
             특성 공격력 및 특성 마법 공격력이 증가되었습니다.
             */
-            ClientMessages::MsgIde98 => 0xe98,
+            ClientMessages::MsgIde98 => 0xE98,
             /*20191127 to latest
             콤페텐티아 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde99 => 0xe99,
+            ClientMessages::MsgIde99 => 0xE99,
             /*20191127 to latest
             크리티컬 데미지 비율이 증가되었습니다.
             */
-            ClientMessages::MsgIde9A => 0xe9a,
+            ClientMessages::MsgIde9A => 0xE9A,
             /*20191127 to latest
             프레센스 아치에스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde9B => 0xe9b,
+            ClientMessages::MsgIde9B => 0xE9B,
             /*20191127 to latest
             물리 저항력 무시 효과가 부여되었습니다.
             */
-            ClientMessages::MsgIde9C => 0xe9c,
+            ClientMessages::MsgIde9C => 0xE9C,
             /*20191127 to latest
             아르구투스 텔룸 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde9D => 0xe9d,
+            ClientMessages::MsgIde9D => 0xE9D,
             /*20191127 to latest
             마법 저항력 무시 효과가 부여되었습니다.
             */
-            ClientMessages::MsgIde9E => 0xe9e,
+            ClientMessages::MsgIde9E => 0xE9E,
             /*20191127 to latest
             아르구투스 비타 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIde9F => 0xe9f,
+            ClientMessages::MsgIde9F => 0xE9F,
             /*20191127 to latest
             Num: %d/%d Weight: %d/%d
             */
-            ClientMessages::MsgIdea0 => 0xea0,
+            ClientMessages::MsgIdea0 => 0xEA0,
 
             /*20191204 to latest
             서번트 웨폰 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea1 => 0xea1,
+            ClientMessages::MsgIdea1 => 0xEA1,
             /*20191204 to latest
             챠징 피어스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea2 => 0xea2,
+            ClientMessages::MsgIdea2 => 0xEA2,
             /*20191204 to latest
             비고르 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea3 => 0xea3,
+            ClientMessages::MsgIdea3 => 0xEA3,
             /*20191204 to latest
             공격력이 증가하고, 방어력이 감소되었습니다.
             */
-            ClientMessages::MsgIdea4 => 0xea4,
+            ClientMessages::MsgIdea4 => 0xEA4,
             /*20191204 to latest
             어택 스탠스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea5 => 0xea5,
+            ClientMessages::MsgIdea5 => 0xEA5,
             /*20191204 to latest
             방어력이 증가하고, 공격력이 감소되었습니다.
             */
-            ClientMessages::MsgIdea6 => 0xea6,
+            ClientMessages::MsgIdea6 => 0xEA6,
             /*20191204 to latest
             가드 스탠스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea7 => 0xea7,
+            ClientMessages::MsgIdea7 => 0xEA7,
             /*20191204 to latest
             배리어가 부여되었습니다.
             */
-            ClientMessages::MsgIdea8 => 0xea8,
+            ClientMessages::MsgIdea8 => 0xEA8,
             /*20191204 to latest
             가디언 쉴드 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdea9 => 0xea9,
+            ClientMessages::MsgIdea9 => 0xEA9,
             /*20191204 to latest
             헌신 효과로 받는 데미지가 감소되었습니다.
             */
-            ClientMessages::MsgIdeaa => 0xeaa,
+            ClientMessages::MsgIdeaa => 0xEAA,
             /*20191204 to latest
             리바운드 쉴드 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeab => 0xeab,
+            ClientMessages::MsgIdeab => 0xEAB,
             /*20191204 to latest
             성속성 마법 데미지와 암/불사속성 내성이 증가되었습니다.
             */
-            ClientMessages::MsgIdeac => 0xeac,
+            ClientMessages::MsgIdeac => 0xEAC,
             /*20191204 to latest
             홀리 쉴드 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdead => 0xead,
+            ClientMessages::MsgIdead => 0xEAD,
             /*20191204 to latest
             즉시 부활 효과가 부여되었습니다.
             */
-            ClientMessages::MsgIdeae => 0xeae,
+            ClientMessages::MsgIdeae => 0xEAE,
             /*20191204 to latest
             얼티메이트 세크리파이스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeaf => 0xeaf,
+            ClientMessages::MsgIdeaf => 0xEAF,
             /*20191204 to latest
             특정 스킬의 효능이 변경되었습니다.
             */
-            ClientMessages::MsgIdeb0 => 0xeb0,
+            ClientMessages::MsgIdeb0 => 0xEB0,
             /*20191204 to latest
             클라이막스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeb1 => 0xeb1,
+            ClientMessages::MsgIdeb1 => 0xEB1,
             /*20191204 to latest
             특정 스킬의 효능이 변경되었습니다.
             */
-            ClientMessages::MsgIdeb2 => 0xeb2,
+            ClientMessages::MsgIdeb2 => 0xEB2,
             /*20191204 to latest
             쉐도우 익시드 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeb3 => 0xeb3,
+            ClientMessages::MsgIdeb3 => 0xEB3,
             /*20191204 to latest
             물리 저항력 무시 효과가 부여되었습니다.
             */
-            ClientMessages::MsgIdeb4 => 0xeb4,
+            ClientMessages::MsgIdeb4 => 0xEB4,
             /*20191204 to latest
             포텐트 베넘 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeb5 => 0xeb5,
+            ClientMessages::MsgIdeb5 => 0xEB5,
             /*20191204 to latest
             매 공격 시, 일정 확률로 대상이 받는 데미지를 증가시킵니다.
             */
-            ClientMessages::MsgIdeb6 => 0xeb6,
+            ClientMessages::MsgIdeb6 => 0xEB6,
             /*20191204 to latest
             인챈팅 쉐도우 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeb7 => 0xeb7,
+            ClientMessages::MsgIdeb7 => 0xEB7,
 
             /*20191211 to latest
             토벌 카운트 On
             */
-            ClientMessages::MsgIdeb8 => 0xeb8,
+            ClientMessages::MsgIdeb8 => 0xEB8,
             /*20191211 to latest
             토벌 카운트 Off
             */
-            ClientMessages::MsgIdeb9 => 0xeb9,
+            ClientMessages::MsgIdeb9 => 0xEB9,
             /*20191211 to latest
             대상의 AP가 최대치입니다
             */
-            ClientMessages::MsgIdeba => 0xeba,
+            ClientMessages::MsgIdeba => 0xEBA,
             /*20191211 to latest
              ^ff0000본 아이템을 구매 후 7일 이내에는 청약 철회가 가능합니다. 다만, 7일이 지났거나 아이템을 개봉하시면 청약 철회 대상에서 제외 됩니다.또한 구매시 사용된 무료캐시는 청약철회시 반환되지 않습니다.일부(이벤트) 아이템의 경우	이벤트 종료 시 삭제될 수 있으며, 아이템 설명 내 기재된 삭제기간을 확인해 주시기 바랍니다.^000000 정말로 아이템을 구매하시겠습니까? 구매하실 경우 %d캐시가 차감됩니다.
             */
-            ClientMessages::MsgIdebb => 0xebb,
+            ClientMessages::MsgIdebb => 0xEBB,
             /*20191211 to latest
              ^ff0000본 아이템을 구매 후 7일 이내에는 청약 철회가 가능합니다. 다만, 7일이 지났거나 아이템을 개봉하시면 청약 철회 대상에서 제외 됩니다.또한 구매시 사용된 무료캐시는 청약철회시 반환되지 않습니다.일부(이벤트) 아이템의 경우	이벤트 종료 시 삭제될 수 있으며, 아이템 설명 내 기재된 삭제기간을 확인해 주시기 바랍니다.^000000 정말로 아이템을 구매하시겠습니까? 구매하실 경우 일반 %d캐시, 무료 %d캐시가 차감됩니다.
             */
-            ClientMessages::MsgIdebc => 0xebc,
+            ClientMessages::MsgIdebc => 0xEBC,
 
             /*20191218 to latest
             서번트 웨폰 %d개가 필요합니다.
             */
-            ClientMessages::MsgIdebd => 0xebd,
+            ClientMessages::MsgIdebd => 0xEBD,
             /*20191218 to latest
             https://member.gnjoy.com.tw/billing.aspx
             */
-            ClientMessages::MsgIdebe => 0xebe,
+            ClientMessages::MsgIdebe => 0xEBE,
 
             /*20200108 to latest
             역순 정렬
             */
-            ClientMessages::MsgIdebf => 0xebf,
+            ClientMessages::MsgIdebf => 0xEBF,
             /*20200108 to latest
             검색 내용 입력
             */
-            ClientMessages::MsgIdec0 => 0xec0,
+            ClientMessages::MsgIdec0 => 0xEC0,
             /*20200108 to latest
             검색
             Search
             */
-            ClientMessages::MsgIdec1 => 0xec1,
+            ClientMessages::MsgIdec1 => 0xEC1,
 
             /*20200122 to latest
             리서치 리포트 상태가 됩니다.
             */
-            ClientMessages::MsgIdec2 => 0xec2,
+            ClientMessages::MsgIdec2 => 0xEC2,
             /*20200122 to latest
             리서치 리포트 상태가 해제됩니다.
             */
-            ClientMessages::MsgIdec3 => 0xec3,
+            ClientMessages::MsgIdec3 => 0xEC3,
             /*20200122 to latest
             제조에 성공 했습니다.
             */
-            ClientMessages::MsgIdec4 => 0xec4,
+            ClientMessages::MsgIdec4 => 0xEC4,
             /*20200122 to latest
             제조에 실패 했습니다.
             */
-            ClientMessages::MsgIdec5 => 0xec5,
+            ClientMessages::MsgIdec5 => 0xEC5,
             /*20200122 to latest
             쉐도우 장비가 파괴 및 해제에서 보호됩니다.
             */
-            ClientMessages::MsgIdec6 => 0xec6,
+            ClientMessages::MsgIdec6 => 0xEC6,
             /*20200122 to latest
             풀 쉐도우 프로텍션이 해제됩니다.
             */
-            ClientMessages::MsgIdec7 => 0xec7,
+            ClientMessages::MsgIdec7 => 0xEC7,
             /*20200122 to latest
             식물형, 무형 몬스터에게 주는 데미지가 증가합니다.
             */
-            ClientMessages::MsgIdec8 => 0xec8,
+            ClientMessages::MsgIdec8 => 0xEC8,
             /*20200122 to latest
             지옥 나무의 가루효과가 사라집니다.
             */
-            ClientMessages::MsgIdec9 => 0xec9,
+            ClientMessages::MsgIdec9 => 0xEC9,
 
             /*20200129 to latest
             공격 장치가 활성화되었습니다.
             */
-            ClientMessages::MsgIdeca => 0xeca,
+            ClientMessages::MsgIdeca => 0xECA,
             /*20200129 to latest
             공격 장치가 해제되었습니다.
             */
-            ClientMessages::MsgIdecb => 0xecb,
+            ClientMessages::MsgIdecb => 0xECB,
             /*20200129 to latest
             물리 방어력 및 물리 저항력이 증가되었습니다.
             */
-            ClientMessages::MsgIdecc => 0xecc,
+            ClientMessages::MsgIdecc => 0xECC,
             /*20200129 to latest
             방어 장치가 해제되었습니다.
             */
-            ClientMessages::MsgIdecd => 0xecd,
+            ClientMessages::MsgIdecd => 0xECD,
             /*20200129 to latest
             검색
             Search
             */
-            ClientMessages::MsgIdece => 0xece,
+            ClientMessages::MsgIdece => 0xECE,
 
             /*20200212 to latest
             합주를 혼자 사용할 수 있습니다.
             */
-            ClientMessages::MsgIdecf => 0xecf,
+            ClientMessages::MsgIdecf => 0xECF,
             /*20200212 to latest
             크바시르의 지혜가 사라집니다.
             */
-            ClientMessages::MsgIded0 => 0xed0,
+            ClientMessages::MsgIded0 => 0xED0,
             /*20200212 to latest
             미스틱 심포니의 효과가 부여됩니다.
             */
-            ClientMessages::MsgIded1 => 0xed1,
+            ClientMessages::MsgIded1 => 0xED1,
             /*20200212 to latest
             미스틱 심포니의 효과가 사라집니다.
             */
-            ClientMessages::MsgIded2 => 0xed2,
+            ClientMessages::MsgIded2 => 0xED2,
             /*20200212 to latest
             마법 저항력이 감소했습니다.
             */
-            ClientMessages::MsgIded3 => 0xed3,
+            ClientMessages::MsgIded3 => 0xED3,
             /*20200212 to latest
             게페니아 녹턴의 효과가 해제 되었습니다.
             */
-            ClientMessages::MsgIded4 => 0xed4,
+            ClientMessages::MsgIded4 => 0xED4,
             /*20200212 to latest
             물리 저항력이 감소했습니다.
             */
-            ClientMessages::MsgIded5 => 0xed5,
+            ClientMessages::MsgIded5 => 0xED5,
             /*20200212 to latest
             마인워커 랩소디 상태가 해제되었습니다.
             */
-            ClientMessages::MsgIded6 => 0xed6,
+            ClientMessages::MsgIded6 => 0xED6,
             /*20200212 to latest
             물리 저항력이 증가했습니다.
             */
-            ClientMessages::MsgIded7 => 0xed7,
+            ClientMessages::MsgIded7 => 0xED7,
             /*20200212 to latest
             뮤지컬 인터루드 상태가 해제되었습니다.
             */
-            ClientMessages::MsgIded8 => 0xed8,
+            ClientMessages::MsgIded8 => 0xED8,
             /*20200212 to latest
             특성 마법 공격력과 이동 속도가 증가합니다.
             */
-            ClientMessages::MsgIded9 => 0xed9,
+            ClientMessages::MsgIded9 => 0xED9,
             /*20200212 to latest
             저녁 노을의 세레나데 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdeda => 0xeda,
+            ClientMessages::MsgIdeda => 0xEDA,
             /*20200212 to latest
             특성 물리 공격력과 이동 속도가 증가합니다.
             */
-            ClientMessages::MsgIdedb => 0xedb,
+            ClientMessages::MsgIdedb => 0xEDB,
             /*20200212 to latest
              프론테라의 행진곡 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdedc => 0xedc,
+            ClientMessages::MsgIdedc => 0xEDC,
             /*20200212 to latest
             바람의 분노가 시전자에게 흘러 들어옵니다.
             */
-            ClientMessages::MsgIdedd => 0xedd,
+            ClientMessages::MsgIdedd => 0xEDD,
             /*20200212 to latest
             캘러미티 가일 상태가 해제되었습니다.
             */
-            ClientMessages::MsgIdede => 0xede,
+            ClientMessages::MsgIdede => 0xEDE,
             /*20200212 to latest
             바람에 의해 약점과 모습이 드러납니다.
             */
-            ClientMessages::MsgIdedf => 0xedf,
+            ClientMessages::MsgIdedf => 0xEDF,
             /*20200212 to latest
             윈드 사인 효과가 사라집니다.
             */
-            ClientMessages::MsgIdee0 => 0xee0,
+            ClientMessages::MsgIdee0 => 0xEE0,
 
             /*20200304 to latest
             E X P : %.1f%% ( basic 100.0%% %s %.1f%%)
             EXP: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIdee1 => 0xee1,
+            ClientMessages::MsgIdee1 => 0xEE1,
             /*20200304 to latest
             DROP  : %.1f%% ( basic 100.0%% %s %.1f%%)
             DROP: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIdee2 => 0xee2,
+            ClientMessages::MsgIdee2 => 0xEE2,
             /*20200304 to latest
             DEATH : %.1f%% ( basic 100.0%% %s %.1f%%)
             DEATH: %.1f%% (basic: 100.0%%, %s: %.1f%%)
             */
-            ClientMessages::MsgIdee3 => 0xee3,
+            ClientMessages::MsgIdee3 => 0xEE3,
 
             /*20200506 to latest
             특성 마법 공격력이 증가되었습니다.
             */
-            ClientMessages::MsgIdee4 => 0xee4,
+            ClientMessages::MsgIdee4 => 0xEE4,
             /*20200506 to latest
             스펠 인챈팅 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdee5 => 0xee5,
+            ClientMessages::MsgIdee5 => 0xEE5,
             /*20200506 to latest
             프롬 디 어비스 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdee6 => 0xee6,
+            ClientMessages::MsgIdee6 => 0xEE6,
             /*20200506 to latest
             특성 물리 공격력, 특성 마법 공격력 및 명중률이 증가되었습니다.
             */
-            ClientMessages::MsgIdee7 => 0xee7,
+            ClientMessages::MsgIdee7 => 0xEE7,
             /*20200506 to latest
             어비스 슬레이어 효과가 해제되었습니다.
             */
-            ClientMessages::MsgIdee8 => 0xee8,
+            ClientMessages::MsgIdee8 => 0xEE8,
 
             /*20200617 to latest
             캐릭터 생성에 제한이 있을 수 있습니다.
             */
-            ClientMessages::MsgIdee9 => 0xee9,
+            ClientMessages::MsgIdee9 => 0xEE9,
             /*20200617 to latest
             월드가 포화상태입니다. 다른 월드를 이용해 주세요.
             */
-            ClientMessages::MsgIdeea => 0xeea,
+            ClientMessages::MsgIdeea => 0xEEA,
 
             /*20200701 to latest
             채팅차단해제(수신거부해제)
             */
-            ClientMessages::MsgIdeeb => 0xeeb,
+            ClientMessages::MsgIdeeb => 0xEEB,
         }
     }
 }

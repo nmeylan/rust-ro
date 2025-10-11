@@ -1,80 +1,158 @@
 #![allow(unused_imports)]
 
-
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
-
-
-use crate::base::dancer_base::{*};
+use crate::base::dancer_base::*;
+use crate::{GroundSkill, InteractiveSkill, OffensiveSkill, PassiveSkill, PerformanceSkill, Skill, SupportiveSkill};
 
 impl Skill for DanceLessons {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PassiveSkill for DanceLessons {
-}
+impl PassiveSkill for DanceLessons {}
 impl Skill for SlingingArrow {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl OffensiveSkill for SlingingArrow {
-}
+impl OffensiveSkill for SlingingArrow {}
 impl Skill for HipShaker {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PerformanceSkill for HipShaker {
-}
+impl PerformanceSkill for HipShaker {}
 impl Skill for Dazzler {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 5 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 5 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl OffensiveSkill for Dazzler {
-}
+impl OffensiveSkill for Dazzler {}
 impl Skill for FocusBallet {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PerformanceSkill for FocusBallet {
-}
+impl PerformanceSkill for FocusBallet {}
 impl Skill for SlowGrace {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PerformanceSkill for SlowGrace {
-}
+impl PerformanceSkill for SlowGrace {}
 impl Skill for LadyLuck {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PerformanceSkill for LadyLuck {
-}
+impl PerformanceSkill for LadyLuck {}
 impl Skill for GypsysKiss {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 10 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 10 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl PerformanceSkill for GypsysKiss {
-}
+impl PerformanceSkill for GypsysKiss {}
 impl Skill for WinkofCharm {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level > 1 { return None }
-        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized,
+    {
+        if level > 1 {
+            return None;
+        }
+        Some(Self {
+            level,
+            cast_time: 0,
+            after_cast_act_delay: 0,
+            after_cast_walk_delay: 0,
+        })
     }
 }
-impl SupportiveSkill for WinkofCharm {
-}
+impl SupportiveSkill for WinkofCharm {}

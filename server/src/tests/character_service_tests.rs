@@ -1,5 +1,9 @@
 #![allow(dead_code)]
 
+use std::sync::Arc;
+
+use tokio::runtime::Runtime;
+
 use crate::repository::CharacterRepository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
@@ -11,15 +15,13 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::sync_helper::CountDownLatch;
-use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
-use std::sync::Arc;
-use tokio::runtime::Runtime;
+use crate::tests::common::{TestContext, create_mpsc, test_script_vm};
 
 struct CharacterServiceTestContext {
     test_context: TestContext,
     character_service: CharacterService,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
-    runtime: Arc<Runtime>
+    runtime: Arc<Runtime>,
 }
 
 impl CharacterServiceTestContext {
@@ -32,7 +34,6 @@ fn before_each(character_repository: Arc<dyn CharacterRepository + Sync>) -> Cha
     before_each_with_latch(character_repository, 0)
 }
 
-
 fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sync>, latch_size: usize) -> CharacterServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
@@ -41,11 +42,22 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
     let server_task_queue = Arc::new(TasksQueue::new());
     StatusService::init(GlobalConfigService::instance(), test_script_vm());
     CharacterServiceTestContext {
-        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        character_service: CharacterService::new(client_notification_sender.clone(), persistence_event_sender, character_repository, GlobalConfigService::instance(),
-                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()),
-                                                 StatusService::instance(),
-                                                 server_task_queue.clone()),
+        test_context: TestContext::new(
+            client_notification_sender.clone(),
+            client_notification_receiver,
+            persistence_event_sender.clone(),
+            persistence_event_receiver,
+            count_down_latch,
+        ),
+        character_service: CharacterService::new(
+            client_notification_sender.clone(),
+            persistence_event_sender,
+            character_repository,
+            GlobalConfigService::instance(),
+            SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()),
+            StatusService::instance(),
+            server_task_queue.clone(),
+        ),
         server_task_queue,
         runtime: Arc::new(Runtime::new().unwrap()),
     }
@@ -54,41 +66,48 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use crate::repository::CharacterRepository;
-    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
-    use crate::server::model::events::map_event::MapEvent;
-    use crate::server::model::events::map_event::MobDropItems;
-    use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
-    use crate::server::model::map_instance::MapInstanceKey;
-    use crate::server::model::movement::Movement;
-    use crate::server::model::tasks_queue::TasksQueue;
-    use crate::tests::character_service_tests::before_each;
-    use crate::tests::character_service_tests::GameEvent;
-    use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, task_queue_contains_event, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
-    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
-    use crate::tests::common::mocked_repository;
-    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
+    use std::sync::Arc;
+    use std::sync::atomic::AtomicBool;
+    use std::sync::atomic::Ordering::Relaxed;
+    use std::time::Duration;
+
     use async_trait::async_trait;
     use models::enums::class::JobName;
     use models::enums::look::LookType;
     use models::enums::skill_enums::SkillEnum;
     use models::enums::status::StatusTypes;
-    use models::enums::EnumWithNumberValue;
-    use models::enums::EnumWithStringValue;
+    use models::enums::{EnumWithNumberValue, EnumWithStringValue};
     use models::position::Position;
     use models::status::KnownSkill;
-    use packets::packets::{PacketZcLongparChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillinfoList, PacketZcSpriteChange2, PacketZcStatusChangeAck};
+    use packets::packets::{
+        PacketZcLongparChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillinfoList, PacketZcSpriteChange2,
+        PacketZcStatusChangeAck,
+    };
     use sqlx::Error;
-    use std::sync::atomic::AtomicBool;
-    use std::sync::atomic::Ordering::Relaxed;
-    use std::sync::Arc;
-    use std::time::Duration;
 
-
+    use crate::repository::CharacterRepository;
+    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
+    use crate::server::model::events::map_event::{MapEvent, MobDropItems};
+    use crate::server::model::events::persistence_event::{
+        IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate,
+    };
+    use crate::server::model::map_instance::MapInstanceKey;
+    use crate::server::model::movement::Movement;
+    use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::tests::character_service_tests::{GameEvent, before_each};
+    use crate::tests::common::assert_helper::{
+        NotificationExpectation, SentPacket, has_sent_notification, has_sent_persistence_event, task_queue_contains_event,
+        task_queue_contains_event_at_tick,
+    };
+    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
-
+    use crate::tests::common::mocked_repository;
     use crate::util::tick::get_tick;
+    use crate::{
+        assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event,
+        assert_task_queue_contains_event_at_tick,
+    };
 
     #[test]
     fn test_max_weight() {
@@ -101,11 +120,31 @@ mod tests {
         }
         // Note that client side display weight values / 10.
         let expectations = vec![
-            WeightExpectation { job: "Novice", str: 1, expected_max_weight: 20300 },
-            WeightExpectation { job: "Archer", str: 1, expected_max_weight: 26300 },
-            WeightExpectation { job: "Blacksmith", str: 1, expected_max_weight: 30300 },
-            WeightExpectation { job: "Swordsman", str: 1, expected_max_weight: 28300 },
-            WeightExpectation { job: "Swordsman", str: 50, expected_max_weight: 43000 },
+            WeightExpectation {
+                job: "Novice",
+                str: 1,
+                expected_max_weight: 20300,
+            },
+            WeightExpectation {
+                job: "Archer",
+                str: 1,
+                expected_max_weight: 26300,
+            },
+            WeightExpectation {
+                job: "Blacksmith",
+                str: 1,
+                expected_max_weight: 30300,
+            },
+            WeightExpectation {
+                job: "Swordsman",
+                str: 1,
+                expected_max_weight: 28300,
+            },
+            WeightExpectation {
+                job: "Swordsman",
+                str: 50,
+                expected_max_weight: 43000,
+            },
         ];
         for expectation in expectations.iter() {
             let mut character = create_character();
@@ -114,7 +153,11 @@ mod tests {
             // When
             let max_weight = context.character_service.max_weight(&character);
             // Then
-            assert_eq!(max_weight, expectation.expected_max_weight, "Expected max weight to be {} but was {} for class {}", expectation.expected_max_weight, max_weight, expectation.job);
+            assert_eq!(
+                max_weight, expectation.expected_max_weight,
+                "Expected max weight to be {} but was {} for class {}",
+                expectation.expected_max_weight, max_weight, expectation.job
+            );
         }
     }
 
@@ -149,7 +192,9 @@ mod tests {
         character.movements = vec![Movement::new(100, 100, get_tick())];
         assert!(!character.movements.is_empty());
         // When
-        context.character_service.change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
+        context
+            .character_service
+            .change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
         assert!(character.movements.is_empty());
     }
@@ -163,7 +208,9 @@ mod tests {
         character.x = 99;
         character.y = 99;
         // When
-        context.character_service.change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
+        context
+            .character_service
+            .change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
         assert_eq!(character.x(), 120);
         assert_eq!(character.y(), 120);
@@ -176,10 +223,24 @@ mod tests {
         let map_instance_key = MapInstanceKey::new("geffen.gat".to_string(), 0);
         let mut character = create_character();
         // When
-        context.character_service.change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
+        context
+            .character_service
+            .change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::SaveCharacterPosition(SavePositionUpdate { char_id: character.char_id, account_id: character.account_id, map_name: "geffen.gat".to_string(), x: 120, y: 120 }));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::SaveCharacterPosition(SavePositionUpdate {
+                char_id: character.char_id,
+                account_id: character.account_id,
+                map_name: "geffen.gat".to_string(),
+                x: 120,
+                y: 120
+            })
+        );
     }
 
     #[test]
@@ -191,7 +252,9 @@ mod tests {
         character.x = 99;
         character.y = 99;
         // When
-        context.character_service.change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
+        context
+            .character_service
+            .change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
         assert_eq!(character.map_instance_key.map_name(), &"geffen.gat".to_string());
         assert_eq!(character.map_instance_key.map_instance(), 1);
@@ -202,13 +265,27 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let character_look = CharacterLook { char_id: character.char_id, look_type: LookType::Hair, look_value: 10 };
+        let character_look = CharacterLook {
+            char_id: character.char_id,
+            look_type: LookType::Hair,
+            look_value: 10,
+        };
         // When
         context.character_service.change_look(character_look, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(10, character.get_look(LookType::Hair));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "hair".to_string(), value: 10, }));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "hair".to_string(),
+                value: 10,
+            })
+        );
     }
 
     #[test]
@@ -216,12 +293,24 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let character_look = CharacterLook { char_id: character.char_id, look_type: LookType::Hair, look_value: 10 };
+        let character_look = CharacterLook {
+            char_id: character.char_id,
+            look_type: LookType::Hair,
+            look_value: 10,
+        };
         // When
         context.character_service.change_look(character_look, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
+                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -232,8 +321,16 @@ mod tests {
         // When
         context.character_service.change_sprite(&character, LookType::Hair, 10, 0);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
+                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -241,14 +338,34 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let character_zeny = CharacterZeny { char_id: character.char_id, zeny: Some(100) };
+        let character_zeny = CharacterZeny {
+            char_id: character.char_id,
+            zeny: Some(100),
+        };
         // When
-        context.character_service.update_zeny(context.runtime(), character_zeny, &mut character);
+        context
+            .character_service
+            .update_zeny(context.runtime(), character_zeny, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 100);
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "zeny".to_string(), value: 100, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id(GlobalConfigService::instance().packetver()))]));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "zeny".to_string(),
+                value: 100,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
     }
     #[test]
     fn test_update_hp_and_sp_should_update_and_notify_client() {
@@ -258,10 +375,19 @@ mod tests {
         // When
         context.character_service.update_hp_sp(&mut character, 150, 175);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_eq!(character.status.hp, 150);
         assert_eq!(character.status.sp, 175);
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 2)]));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()),
+                2
+            )])
+        );
     }
 
     #[test]
@@ -277,14 +403,24 @@ mod tests {
                 Ok(50)
             }
         }
-        let mocked_character_repository = Arc::new(MockedCharacterRepository { called_fetch_zeny: AtomicBool::new(false) });
+        let mocked_character_repository = Arc::new(MockedCharacterRepository {
+            called_fetch_zeny: AtomicBool::new(false),
+        });
         let context = before_each(mocked_character_repository.clone());
         let mut character = create_character();
-        let character_zeny = CharacterZeny { char_id: character.char_id, zeny: None };
+        let character_zeny = CharacterZeny {
+            char_id: character.char_id,
+            zeny: None,
+        };
         // When
-        context.character_service.update_zeny(context.runtime(), character_zeny, &mut character);
+        context
+            .character_service
+            .update_zeny(context.runtime(), character_zeny, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 50);
         assert!(mocked_character_repository.called_fetch_zeny.load(Relaxed));
     }
@@ -330,11 +466,38 @@ mod tests {
         // Then
         assert_eq!(character.status.base_level, 78);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: 78, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: 849, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()))]));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "base_level".to_string(),
+                value: 78,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "status_point".to_string(),
+                value: 849,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
+                PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -348,7 +511,6 @@ mod tests {
         assert_eq!(delta, 77);
     }
 
-
     #[test]
     fn test_update_base_level_should_update_status_point_when_leveling_up_or_down() {
         // Given
@@ -361,23 +523,64 @@ mod tests {
         }
 
         let scenario = vec![
-            Scenarii { source_level: 1, target_level: 10, source_not_allocated_point: 0, target_not_allocated_point: 32 },
-            Scenarii { source_level: 10, target_level: 63, source_not_allocated_point: 0, target_not_allocated_point: 520 },
-            Scenarii { source_level: 63, target_level: 74, source_not_allocated_point: 6, target_not_allocated_point: 184 },
-            Scenarii { source_level: 74, target_level: 72, source_not_allocated_point: 184, target_not_allocated_point: 150 },
-            Scenarii { source_level: 74, target_level: 60, source_not_allocated_point: 184, target_not_allocated_point: 0 },
-            Scenarii { source_level: 74, target_level: 87, source_not_allocated_point: 184, target_not_allocated_point: 426 },
-            Scenarii { source_level: 87, target_level: 92, source_not_allocated_point: 426, target_not_allocated_point: 528 },
+            Scenarii {
+                source_level: 1,
+                target_level: 10,
+                source_not_allocated_point: 0,
+                target_not_allocated_point: 32,
+            },
+            Scenarii {
+                source_level: 10,
+                target_level: 63,
+                source_not_allocated_point: 0,
+                target_not_allocated_point: 520,
+            },
+            Scenarii {
+                source_level: 63,
+                target_level: 74,
+                source_not_allocated_point: 6,
+                target_not_allocated_point: 184,
+            },
+            Scenarii {
+                source_level: 74,
+                target_level: 72,
+                source_not_allocated_point: 184,
+                target_not_allocated_point: 150,
+            },
+            Scenarii {
+                source_level: 74,
+                target_level: 60,
+                source_not_allocated_point: 184,
+                target_not_allocated_point: 0,
+            },
+            Scenarii {
+                source_level: 74,
+                target_level: 87,
+                source_not_allocated_point: 184,
+                target_not_allocated_point: 426,
+            },
+            Scenarii {
+                source_level: 87,
+                target_level: 92,
+                source_not_allocated_point: 426,
+                target_not_allocated_point: 528,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
             character.status.base_level = scenarii.source_level as u32;
             character.status.status_point = scenarii.source_not_allocated_point;
             // When
-            context.character_service.update_base_level(&mut character, Some(scenarii.target_level as u32), None);
+            context
+                .character_service
+                .update_base_level(&mut character, Some(scenarii.target_level as u32), None);
             let status_point_count = character.status.status_point;
             // Then
-            assert_eq!(status_point_count, scenarii.target_not_allocated_point, "Expected character at level {} when leveling up/down to {} to have {} status point but got {}", scenarii.source_level, scenarii.target_level, scenarii.target_not_allocated_point, status_point_count);
+            assert_eq!(
+                status_point_count, scenarii.target_not_allocated_point,
+                "Expected character at level {} when leveling up/down to {} to have {} status point but got {}",
+                scenarii.source_level, scenarii.target_level, scenarii.target_not_allocated_point, status_point_count
+            );
         }
     }
 
@@ -408,8 +611,48 @@ mod tests {
         }
 
         let scenario = vec![
-            Scenarii { source_level: 63, target_level: 60, job: "Thief", source_str: 31, source_agi: 77, source_dex: 33, source_int: 1, source_luk: 1, source_vit: 1, target_str: 1, target_agi: 1, target_dex: 1, target_int: 1, target_luk: 1, target_vit: 1, source_allocated_status_point: 594, target_allocated_status_point: 0, source_available_status_point: 6, target_available_status_point: 555 },
-            Scenarii { source_level: 92, target_level: 82, job: "Clown", source_str: 20, source_agi: 3, source_dex: 91, source_int: 4, source_luk: 1, source_vit: 1, target_str: 20, target_agi: 3, target_dex: 91, target_int: 4, target_luk: 1, target_vit: 1, source_allocated_status_point: 597, target_allocated_status_point: 597, source_available_status_point: 577, target_available_status_point: 378 },
+            Scenarii {
+                source_level: 63,
+                target_level: 60,
+                job: "Thief",
+                source_str: 31,
+                source_agi: 77,
+                source_dex: 33,
+                source_int: 1,
+                source_luk: 1,
+                source_vit: 1,
+                target_str: 1,
+                target_agi: 1,
+                target_dex: 1,
+                target_int: 1,
+                target_luk: 1,
+                target_vit: 1,
+                source_allocated_status_point: 594,
+                target_allocated_status_point: 0,
+                source_available_status_point: 6,
+                target_available_status_point: 555,
+            },
+            Scenarii {
+                source_level: 92,
+                target_level: 82,
+                job: "Clown",
+                source_str: 20,
+                source_agi: 3,
+                source_dex: 91,
+                source_int: 4,
+                source_luk: 1,
+                source_vit: 1,
+                target_str: 20,
+                target_agi: 3,
+                target_dex: 91,
+                target_int: 4,
+                target_luk: 1,
+                target_vit: 1,
+                source_allocated_status_point: 597,
+                target_allocated_status_point: 597,
+                source_available_status_point: 577,
+                target_available_status_point: 378,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -422,13 +665,31 @@ mod tests {
             character.status.luk = scenarii.source_luk;
             character.status.vit = scenarii.source_vit;
             character.status.status_point = scenarii.source_available_status_point;
-            assert_eq!(context.character_service.get_spent_status_point(&character), scenarii.source_allocated_status_point);
+            assert_eq!(
+                context.character_service.get_spent_status_point(&character),
+                scenarii.source_allocated_status_point
+            );
             // When
-            context.character_service.update_base_level(&mut character, Some(scenarii.target_level as u32), None);
+            context
+                .character_service
+                .update_base_level(&mut character, Some(scenarii.target_level as u32), None);
             let status_point_count = character.status.status_point;
             // Then
-            assert_eq!(context.character_service.get_spent_status_point(&character), scenarii.target_allocated_status_point, "Expected character of class {} at level {} when down leveling to {} to have {} allocated stats but got {}", scenarii.job, scenarii.source_level, scenarii.target_level, scenarii.target_allocated_status_point, context.character_service.get_spent_status_point(&character));
-            assert_eq!(status_point_count, scenarii.target_available_status_point, "Expected character of class {} at level {} when down leveling to {} to have {} available status point but got {}", scenarii.job, scenarii.source_level, scenarii.target_level, scenarii.target_available_status_point, status_point_count);
+            assert_eq!(
+                context.character_service.get_spent_status_point(&character),
+                scenarii.target_allocated_status_point,
+                "Expected character of class {} at level {} when down leveling to {} to have {} allocated stats but got {}",
+                scenarii.job,
+                scenarii.source_level,
+                scenarii.target_level,
+                scenarii.target_allocated_status_point,
+                context.character_service.get_spent_status_point(&character)
+            );
+            assert_eq!(
+                status_point_count, scenarii.target_available_status_point,
+                "Expected character of class {} at level {} when down leveling to {} to have {} available status point but got {}",
+                scenarii.job, scenarii.source_level, scenarii.target_level, scenarii.target_available_status_point, status_point_count
+            );
             if scenarii.target_allocated_status_point == 0 {
                 assert_eq!(character.status.str, 1);
                 assert_eq!(character.status.dex, 1);
@@ -452,27 +713,105 @@ mod tests {
             expected: u32,
         }
         let scenario = vec![
-            Scenarii { job: JobName::Paladin.value(), job_level: 1, maybe_new_job_level: Some(68), maybe_job_level_delta: None, expected: 68 },
-            Scenarii { job: JobName::Paladin.value(), job_level: 68, maybe_new_job_level: Some(788), maybe_job_level_delta: None, expected: 70 },
-            Scenarii { job: JobName::Paladin.value(), job_level: 70, maybe_new_job_level: None, maybe_job_level_delta: Some(-6), expected: 64 },
-            Scenarii { job: JobName::Paladin.value(), job_level: 64, maybe_new_job_level: None, maybe_job_level_delta: Some(5), expected: 69 },
-            Scenarii { job: JobName::Paladin.value(), job_level: 69, maybe_new_job_level: None, maybe_job_level_delta: Some(-150), expected: 1 },
-            Scenarii { job: JobName::Paladin.value(), job_level: 1, maybe_new_job_level: Some(66), maybe_job_level_delta: Some(10), expected: 66 },
-            Scenarii { job: JobName::Novice.value(), job_level: 1, maybe_new_job_level: Some(15), maybe_job_level_delta: None, expected: 10 },
-            Scenarii { job: JobName::Archer.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
-            Scenarii { job: JobName::Bard.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
-            Scenarii { job: JobName::NoviceHigh.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 10 },
-            Scenarii { job: JobName::ArcherHigh.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
-            Scenarii { job: JobName::Clown.value(), job_level: 1, maybe_new_job_level: Some(80), maybe_job_level_delta: None, expected: 70 },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(68),
+                maybe_job_level_delta: None,
+                expected: 68,
+            },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 68,
+                maybe_new_job_level: Some(788),
+                maybe_job_level_delta: None,
+                expected: 70,
+            },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 70,
+                maybe_new_job_level: None,
+                maybe_job_level_delta: Some(-6),
+                expected: 64,
+            },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 64,
+                maybe_new_job_level: None,
+                maybe_job_level_delta: Some(5),
+                expected: 69,
+            },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 69,
+                maybe_new_job_level: None,
+                maybe_job_level_delta: Some(-150),
+                expected: 1,
+            },
+            Scenarii {
+                job: JobName::Paladin.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(66),
+                maybe_job_level_delta: Some(10),
+                expected: 66,
+            },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(15),
+                maybe_job_level_delta: None,
+                expected: 10,
+            },
+            Scenarii {
+                job: JobName::Archer.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(60),
+                maybe_job_level_delta: None,
+                expected: 50,
+            },
+            Scenarii {
+                job: JobName::Bard.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(60),
+                maybe_job_level_delta: None,
+                expected: 50,
+            },
+            Scenarii {
+                job: JobName::NoviceHigh.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(60),
+                maybe_job_level_delta: None,
+                expected: 10,
+            },
+            Scenarii {
+                job: JobName::ArcherHigh.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(60),
+                maybe_job_level_delta: None,
+                expected: 50,
+            },
+            Scenarii {
+                job: JobName::Clown.value(),
+                job_level: 1,
+                maybe_new_job_level: Some(80),
+                maybe_job_level_delta: None,
+                expected: 70,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
             character.status.job_level = scenarii.job_level;
             character.status.job = scenarii.job as u32;
             // When
-            context.character_service.update_job_level(&mut character, scenarii.maybe_new_job_level, scenarii.maybe_job_level_delta);
+            context
+                .character_service
+                .update_job_level(&mut character, scenarii.maybe_new_job_level, scenarii.maybe_job_level_delta);
             // Then
-            assert_eq!(character.status.job_level, scenarii.expected, "Expected character of class {} to be level {} but was {}", scenarii.job, scenarii.expected, character.status.job_level);
+            assert_eq!(
+                character.status.job_level, scenarii.expected,
+                "Expected character of class {} to be level {} but was {}",
+                scenarii.job, scenarii.expected, character.status.job_level
+            );
         }
     }
 
@@ -487,11 +826,38 @@ mod tests {
         // Then
         assert_eq!(character.status.job_level, 68);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: 68, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: 67, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()))]));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "job_level".to_string(),
+                value: 68,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "skill_point".to_string(),
+                value: 67,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
+                PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -505,27 +871,84 @@ mod tests {
         let scenario = vec![
             Scenarii {
                 expected_allocated_points: 25,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 6 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_BASH"),
+                        level: 6,
+                    },
+                ],
             },
             Scenarii {
                 expected_allocated_points: 85,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_FATALBLOW"), level: 1 },
-                             KnownSkill { value: SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_RECOVERY"), level: 6 },
-                             KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 7 },
-                             KnownSkill { value: SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_MAGNUM"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_ENDURE"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("KN_SPEARMASTERY"), level: 1 },
-                             KnownSkill { value: SkillEnum::from_name("KN_PIERCE"), level: 3 },
-                             KnownSkill { value: SkillEnum::from_name("KN_TWOHANDQUICKEN"), level: 8 },
-                             KnownSkill { value: SkillEnum::from_name("KN_AUTOCOUNTER"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("KN_RIDING"), level: 1 },
-                             KnownSkill { value: SkillEnum::from_name("KN_CAVALIERMASTERY"), level: 5 },
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_FATALBLOW"),
+                        level: 1,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_TWOHAND"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_RECOVERY"),
+                        level: 6,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_BASH"),
+                        level: 7,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_PROVOKE"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_MAGNUM"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_ENDURE"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_SPEARMASTERY"),
+                        level: 1,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_PIERCE"),
+                        level: 3,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_TWOHANDQUICKEN"),
+                        level: 8,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_AUTOCOUNTER"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_RIDING"),
+                        level: 1,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("KN_CAVALIERMASTERY"),
+                        level: 5,
+                    },
                 ],
             },
         ];
@@ -554,14 +977,85 @@ mod tests {
             skills: Vec<KnownSkill>,
         }
         let scenario = vec![
-            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1, skills: vec![] },
-            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9, skills: vec![] },
-            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![] },
-            Scenarii { source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 3 }] },
-            Scenarii { source_level: 40, job: JobName::Knight.value(), target_level: 41, current_skill_point: 80, expected_skill_point: 81, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii {
+                source_level: 1,
+                job: JobName::Novice.value(),
+                target_level: 2,
+                current_skill_point: 0,
+                expected_skill_point: 1,
+                skills: vec![],
+            },
+            Scenarii {
+                source_level: 1,
+                job: JobName::Novice.value(),
+                target_level: 10,
+                current_skill_point: 0,
+                expected_skill_point: 9,
+                skills: vec![],
+            },
+            Scenarii {
+                source_level: 1,
+                job: JobName::Novice.value(),
+                target_level: 4,
+                current_skill_point: 0,
+                expected_skill_point: 3,
+                skills: vec![],
+            },
+            Scenarii {
+                source_level: 4,
+                job: JobName::Novice.value(),
+                target_level: 10,
+                current_skill_point: 3,
+                expected_skill_point: 9,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 3,
+                }],
+            },
+            Scenarii {
+                source_level: 40,
+                job: JobName::Knight.value(),
+                target_level: 41,
+                current_skill_point: 80,
+                expected_skill_point: 81,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+            },
+            Scenarii {
+                source_level: 10,
+                job: JobName::Novice.value(),
+                target_level: 4,
+                current_skill_point: 0,
+                expected_skill_point: 3,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+            },
+            Scenarii {
+                source_level: 10,
+                job: JobName::Novice.value(),
+                target_level: 4,
+                current_skill_point: 2,
+                expected_skill_point: 3,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+            },
+            Scenarii {
+                source_level: 10,
+                job: JobName::Novice.value(),
+                target_level: 1,
+                current_skill_point: 10,
+                expected_skill_point: 0,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -570,9 +1064,15 @@ mod tests {
             character.status.skill_point = scenarii.current_skill_point;
             character.status.known_skills = scenarii.skills;
             // When
-            context.character_service.update_job_level(&mut character, Some(scenarii.target_level), None);
+            context
+                .character_service
+                .update_job_level(&mut character, Some(scenarii.target_level), None);
             // Then
-            assert_eq!(character.status.skill_point, scenarii.expected_skill_point, "Expected character after job level change from {} to {}, to have {} skill points but got {}", scenarii.source_level, scenarii.target_level, scenarii.expected_skill_point, character.status.skill_point);
+            assert_eq!(
+                character.status.skill_point, scenarii.expected_skill_point,
+                "Expected character after job level change from {} to {}, to have {} skill points but got {}",
+                scenarii.source_level, scenarii.target_level, scenarii.expected_skill_point, character.status.skill_point
+            );
         }
     }
 
@@ -586,16 +1086,56 @@ mod tests {
             expected_skill_point_count: u8,
         }
         let scenario = vec![
-            Scenarii { job: JobName::Novice.value(), job_level: 5, expected_skill_point_count: 4 },
-            Scenarii { job: JobName::Novice.value(), job_level: 10, expected_skill_point_count: 9 },
-            Scenarii { job: JobName::Archer.value(), job_level: 41, expected_skill_point_count: 9 + 40 },
-            Scenarii { job: JobName::Archer.value(), job_level: 50, expected_skill_point_count: 9 + 49 },
-            Scenarii { job: JobName::Hunter.value(), job_level: 50, expected_skill_point_count: 9 + 49 + 49 },
-            Scenarii { job: JobName::Hunter.value(), job_level: 41, expected_skill_point_count: 9 + 49 + 40 },
-            Scenarii { job: JobName::NoviceHigh.value(), job_level: 10, expected_skill_point_count: 9 },
-            Scenarii { job: JobName::ArcherHigh.value(), job_level: 41, expected_skill_point_count: 9 + 40 },
-            Scenarii { job: JobName::Sniper.value(), job_level: 70, expected_skill_point_count: 9 + 49 + 69 },
-            Scenarii { job: JobName::Sniper.value(), job_level: 55, expected_skill_point_count: 9 + 49 + 54 },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 5,
+                expected_skill_point_count: 4,
+            },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 10,
+                expected_skill_point_count: 9,
+            },
+            Scenarii {
+                job: JobName::Archer.value(),
+                job_level: 41,
+                expected_skill_point_count: 9 + 40,
+            },
+            Scenarii {
+                job: JobName::Archer.value(),
+                job_level: 50,
+                expected_skill_point_count: 9 + 49,
+            },
+            Scenarii {
+                job: JobName::Hunter.value(),
+                job_level: 50,
+                expected_skill_point_count: 9 + 49 + 49,
+            },
+            Scenarii {
+                job: JobName::Hunter.value(),
+                job_level: 41,
+                expected_skill_point_count: 9 + 49 + 40,
+            },
+            Scenarii {
+                job: JobName::NoviceHigh.value(),
+                job_level: 10,
+                expected_skill_point_count: 9,
+            },
+            Scenarii {
+                job: JobName::ArcherHigh.value(),
+                job_level: 41,
+                expected_skill_point_count: 9 + 40,
+            },
+            Scenarii {
+                job: JobName::Sniper.value(),
+                job_level: 70,
+                expected_skill_point_count: 9 + 49 + 69,
+            },
+            Scenarii {
+                job: JobName::Sniper.value(),
+                job_level: 55,
+                expected_skill_point_count: 9 + 49 + 54,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -604,7 +1144,15 @@ mod tests {
             // When
             let skill_points = context.character_service.get_skill_point_count_for_level(&character);
             // Then
-            assert_eq!(skill_points, scenarii.expected_skill_point_count, "Expected job {} at level {} to have {} skill points but got {}", JobName::from_value(scenarii.job).as_str(), scenarii.job_level, scenarii.expected_skill_point_count, skill_points);
+            assert_eq!(
+                skill_points,
+                scenarii.expected_skill_point_count,
+                "Expected job {} at level {} to have {} skill points but got {}",
+                JobName::from_value(scenarii.job).as_str(),
+                scenarii.job_level,
+                scenarii.expected_skill_point_count,
+                skill_points
+            );
         }
     }
 
@@ -628,7 +1176,10 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.job, JobName::Assassin.value() as u32);
     }
 
@@ -644,8 +1195,17 @@ mod tests {
         // Then
         assert_eq!(character.status.job_level, 1);
         assert_eq!(character.status.skill_point, 10);
-        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
     }
 
     #[test]
@@ -660,13 +1220,55 @@ mod tests {
             from_skill_point: u32,
         }
         let scenario = vec![
-            Scenarii { from_job: JobName::Novice.value(), to_job: JobName::Archer.value(), job_level: 5, from_skill_point: 5, expected_skill_point_count: 9 + 4 },
-            Scenarii { from_job: JobName::Novice.value(), to_job: JobName::Clown.value(), job_level: 5, from_skill_point: 5, expected_skill_point_count: 9 + 49 + 4 },
-            Scenarii { from_job: JobName::Archer.value(), to_job: JobName::Clown.value(), job_level: 5, from_skill_point: 9 + 4, expected_skill_point_count: 9 + 49 + 4 },
-            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Novice.value(), job_level: 5, from_skill_point: 9 + 49 + 4 , expected_skill_point_count: 4 },
-            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Archer.value(), job_level: 5, from_skill_point: 9 + 49 + 4, expected_skill_point_count: 9 + 4 },
-            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::LordKnight.value(), job_level: 5, from_skill_point: 9 + 49 + 4, expected_skill_point_count: 9 + 49 + 4 },
-            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Archer.value(), job_level: 40, from_skill_point: 9 + 49 + 39, expected_skill_point_count: 9 + 39 },
+            Scenarii {
+                from_job: JobName::Novice.value(),
+                to_job: JobName::Archer.value(),
+                job_level: 5,
+                from_skill_point: 5,
+                expected_skill_point_count: 9 + 4,
+            },
+            Scenarii {
+                from_job: JobName::Novice.value(),
+                to_job: JobName::Clown.value(),
+                job_level: 5,
+                from_skill_point: 5,
+                expected_skill_point_count: 9 + 49 + 4,
+            },
+            Scenarii {
+                from_job: JobName::Archer.value(),
+                to_job: JobName::Clown.value(),
+                job_level: 5,
+                from_skill_point: 9 + 4,
+                expected_skill_point_count: 9 + 49 + 4,
+            },
+            Scenarii {
+                from_job: JobName::Clown.value(),
+                to_job: JobName::Novice.value(),
+                job_level: 5,
+                from_skill_point: 9 + 49 + 4,
+                expected_skill_point_count: 4,
+            },
+            Scenarii {
+                from_job: JobName::Clown.value(),
+                to_job: JobName::Archer.value(),
+                job_level: 5,
+                from_skill_point: 9 + 49 + 4,
+                expected_skill_point_count: 9 + 4,
+            },
+            Scenarii {
+                from_job: JobName::Clown.value(),
+                to_job: JobName::LordKnight.value(),
+                job_level: 5,
+                from_skill_point: 9 + 49 + 4,
+                expected_skill_point_count: 9 + 49 + 4,
+            },
+            Scenarii {
+                from_job: JobName::Clown.value(),
+                to_job: JobName::Archer.value(),
+                job_level: 40,
+                from_skill_point: 9 + 49 + 39,
+                expected_skill_point_count: 9 + 39,
+            },
         ];
         // When
         for scenarii in scenario {
@@ -676,14 +1278,47 @@ mod tests {
             character.status.job_level = scenarii.job_level;
             character.status.skill_point = scenarii.from_skill_point;
             // When
-            context.character_service.change_job(&mut character, JobName::from_value(scenarii.to_job), true);
+            context
+                .character_service
+                .change_job(&mut character, JobName::from_value(scenarii.to_job), true);
             // Then
-            assert_eq!(character.status.skill_point, scenarii.expected_skill_point_count, "Expected from job {} at level {} to job {} to have {} skill points but got {}", JobName::from_value(scenarii.from_job).as_str(), JobName::from_value(scenarii.to_job).as_str(), scenarii.job_level, scenarii.expected_skill_point_count, character.status.skill_point);
-            context.test_context.increment_latch().wait_expected_count_with_timeout(6, Duration::from_millis(200));
-            assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
-            assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: vec![], }));
+            assert_eq!(
+                character.status.skill_point,
+                scenarii.expected_skill_point_count,
+                "Expected from job {} at level {} to job {} to have {} skill points but got {}",
+                JobName::from_value(scenarii.from_job).as_str(),
+                JobName::from_value(scenarii.to_job).as_str(),
+                scenarii.job_level,
+                scenarii.expected_skill_point_count,
+                character.status.skill_point
+            );
+            context
+                .test_context
+                .increment_latch()
+                .wait_expected_count_with_timeout(6, Duration::from_millis(200));
+            assert_sent_persistence_event!(
+                context,
+                PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                    char_id: character.char_id,
+                    db_column: "skill_point".to_string(),
+                    value: character.status.skill_point,
+                })
+            );
+            assert_sent_persistence_event!(
+                context,
+                PersistenceEvent::ResetSkills(ResetSkills {
+                    char_id: character.char_id as i32,
+                    skills: vec![],
+                })
+            );
             // Platinium skill are not reset
-            assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+            assert_sent_packet_in_current_packetver!(
+                context,
+                NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                    PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                    1
+                )])
+            );
         }
     }
 
@@ -695,8 +1330,18 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: JobName::Assassin.value() as u32, }));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "class".to_string(),
+                value: JobName::Assassin.value() as u32,
+            })
+        );
     }
 
     #[test]
@@ -707,8 +1352,16 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
+                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -731,7 +1384,6 @@ mod tests {
         // Then
     }
 
-
     #[test]
     fn test_get_status_point_count_for_level() {
         // Given
@@ -742,12 +1394,36 @@ mod tests {
             expected: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", expected: 48 },
-            Scenarii { level: 63, job: "Thief", expected: 600 },
-            Scenarii { level: 99, job: "Assassin", expected: 1273 },
-            Scenarii { level: 1, job: "Novice High", expected: 100 },
-            Scenarii { level: 63, job: "Archer High", expected: 652 },
-            Scenarii { level: 99, job: "Clown", expected: 1325 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                expected: 48,
+            },
+            Scenarii {
+                level: 63,
+                job: "Thief",
+                expected: 600,
+            },
+            Scenarii {
+                level: 99,
+                job: "Assassin",
+                expected: 1273,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice High",
+                expected: 100,
+            },
+            Scenarii {
+                level: 63,
+                job: "Archer High",
+                expected: 652,
+            },
+            Scenarii {
+                level: 99,
+                job: "Clown",
+                expected: 1325,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -756,7 +1432,11 @@ mod tests {
             // When
             let status_point_count = context.character_service.get_status_point_count_for_level(&character);
             // Then
-            assert_eq!(status_point_count, scenarii.expected, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected, status_point_count);
+            assert_eq!(
+                status_point_count, scenarii.expected,
+                "Expected character of class {} at level {} to have {} status point but got {}",
+                scenarii.job, scenarii.level, scenarii.expected, status_point_count
+            );
         }
     }
 
@@ -776,12 +1456,72 @@ mod tests {
             expected_allocated: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 1, int: 1, luk: 1, vit: 1, expected_allocated: 48 },
-            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 1, luk: 1, vit: 1, expected_allocated: 594 },
-            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 1, luk: 1, vit: 1, expected_allocated: 1266 },
-            Scenarii { level: 1, job: "Novice High", str: 33, agi: 1, dex: 1, int: 1, luk: 1, vit: 1, expected_allocated: 100 },
-            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 1, luk: 1, vit: 54, expected_allocated: 503 },
-            Scenarii { level: 99, job: "Clown", str: 1, agi: 1, dex: 99, int: 75, luk: 66, vit: 1, expected_allocated: 1324 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                str: 19,
+                agi: 3,
+                dex: 1,
+                int: 1,
+                luk: 1,
+                vit: 1,
+                expected_allocated: 48,
+            },
+            Scenarii {
+                level: 63,
+                job: "Thief",
+                str: 31,
+                agi: 77,
+                dex: 33,
+                int: 1,
+                luk: 1,
+                vit: 1,
+                expected_allocated: 594,
+            },
+            Scenarii {
+                level: 99,
+                job: "Assassin",
+                str: 85,
+                agi: 99,
+                dex: 44,
+                int: 1,
+                luk: 1,
+                vit: 1,
+                expected_allocated: 1266,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice High",
+                str: 33,
+                agi: 1,
+                dex: 1,
+                int: 1,
+                luk: 1,
+                vit: 1,
+                expected_allocated: 100,
+            },
+            Scenarii {
+                level: 63,
+                job: "Archer High",
+                str: 0,
+                agi: 48,
+                dex: 33,
+                int: 1,
+                luk: 1,
+                vit: 54,
+                expected_allocated: 503,
+            },
+            Scenarii {
+                level: 99,
+                job: "Clown",
+                str: 1,
+                agi: 1,
+                dex: 99,
+                int: 75,
+                luk: 66,
+                vit: 1,
+                expected_allocated: 1324,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -796,10 +1536,13 @@ mod tests {
             // When
             let status_point_count = context.character_service.get_spent_status_point(&character);
             // Then
-            assert_eq!(status_point_count, scenarii.expected_allocated, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected_allocated, status_point_count);
+            assert_eq!(
+                status_point_count, scenarii.expected_allocated,
+                "Expected character of class {} at level {} to have {} status point but got {}",
+                scenarii.job, scenarii.level, scenarii.expected_allocated, status_point_count
+            );
         }
     }
-
 
     #[test]
     fn test_calculate_status_point_delta_when_leveling_up_1_level_from_level_1() {
@@ -867,12 +1610,72 @@ mod tests {
             status_point_expected: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 0, int: 0, luk: 0, vit: 0, status_point_expected: 48 },
-            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 0, luk: 0, vit: 0, status_point_expected: 600 },
-            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 0, luk: 0, vit: 0, status_point_expected: 1273 },
-            Scenarii { level: 1, job: "Novice High", str: 33, agi: 0, dex: 0, int: 0, luk: 0, vit: 0, status_point_expected: 100 },
-            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 0, luk: 0, vit: 54, status_point_expected: 652 },
-            Scenarii { level: 99, job: "Clown", str: 0, agi: 0, dex: 99, int: 75, luk: 66, vit: 0, status_point_expected: 1325 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                str: 19,
+                agi: 3,
+                dex: 0,
+                int: 0,
+                luk: 0,
+                vit: 0,
+                status_point_expected: 48,
+            },
+            Scenarii {
+                level: 63,
+                job: "Thief",
+                str: 31,
+                agi: 77,
+                dex: 33,
+                int: 0,
+                luk: 0,
+                vit: 0,
+                status_point_expected: 600,
+            },
+            Scenarii {
+                level: 99,
+                job: "Assassin",
+                str: 85,
+                agi: 99,
+                dex: 44,
+                int: 0,
+                luk: 0,
+                vit: 0,
+                status_point_expected: 1273,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice High",
+                str: 33,
+                agi: 0,
+                dex: 0,
+                int: 0,
+                luk: 0,
+                vit: 0,
+                status_point_expected: 100,
+            },
+            Scenarii {
+                level: 63,
+                job: "Archer High",
+                str: 0,
+                agi: 48,
+                dex: 33,
+                int: 0,
+                luk: 0,
+                vit: 54,
+                status_point_expected: 652,
+            },
+            Scenarii {
+                level: 99,
+                job: "Clown",
+                str: 0,
+                agi: 0,
+                dex: 99,
+                int: 75,
+                luk: 66,
+                vit: 0,
+                status_point_expected: 1325,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -894,7 +1697,11 @@ mod tests {
             assert_eq!(character.status.vit, 1);
             assert_eq!(character.status.int, 1);
             assert_eq!(character.status.luk, 1);
-            assert_eq!(status_point_count, scenarii.status_point_expected, "Expected character of class {} at level {} to have {} status point after stats reset but got {}", scenarii.job, scenarii.level, scenarii.status_point_expected, status_point_count);
+            assert_eq!(
+                status_point_count, scenarii.status_point_expected,
+                "Expected character of class {} at level {} to have {} status point after stats reset but got {}",
+                scenarii.job, scenarii.level, scenarii.status_point_expected, status_point_count
+            );
         }
     }
 
@@ -927,7 +1734,6 @@ mod tests {
         assert!(!result);
     }
 
-
     #[test]
     fn test_should_reset_skills() {
         // Given
@@ -941,73 +1747,202 @@ mod tests {
         }
 
         let scenario = vec![
-            Scenarii { job: JobName::Novice.value(), job_level: 10, skill_points: 0, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }], expected: false },
-            Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 0, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 }], expected: true },
-            Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 1, skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 6 }], expected: false },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 10,
+                skill_points: 0,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+                expected: false,
+            },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 8,
+                skill_points: 0,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 9,
+                }],
+                expected: true,
+            },
+            Scenarii {
+                job: JobName::Novice.value(),
+                job_level: 8,
+                skill_points: 1,
+                skills: vec![KnownSkill {
+                    value: SkillEnum::from_name("NV_BASIC"),
+                    level: 6,
+                }],
+                expected: false,
+            },
             Scenarii {
                 job: JobName::Swordsman.value(),
                 job_level: 8,
                 skill_points: 0,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 7 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 7,
+                    },
+                ],
                 expected: false,
             },
             Scenarii {
                 job: JobName::Swordsman.value(),
                 job_level: 8,
                 skill_points: 2,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 5 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 5,
+                    },
+                ],
                 expected: false,
             },
             Scenarii {
                 job: JobName::Swordsman.value(),
                 job_level: 8,
                 skill_points: 2,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 7 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 7,
+                    },
+                ],
                 expected: true,
             },
             Scenarii {
                 job: JobName::Knight.value(),
                 job_level: 8,
                 skill_points: 0,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_RECOVERY"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 7 },
-                             KnownSkill { value: SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_MAGNUM"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_ENDURE"), level: 10 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_TWOHAND"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_RECOVERY"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_BASH"),
+                        level: 7,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_PROVOKE"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_MAGNUM"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_ENDURE"),
+                        level: 10,
+                    },
+                ],
                 expected: false,
             },
             Scenarii {
                 job: JobName::Knight.value(),
                 job_level: 8,
                 skill_points: 5,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_RECOVERY"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 7 },
-                             KnownSkill { value: SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_MAGNUM"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_ENDURE"), level: 10 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_TWOHAND"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_RECOVERY"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_BASH"),
+                        level: 7,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_PROVOKE"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_MAGNUM"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_ENDURE"),
+                        level: 10,
+                    },
+                ],
                 expected: true,
             },
             Scenarii {
                 job: JobName::Knight.value(),
                 job_level: 1,
                 skill_points: 0,
-                skills: vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                             KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_RECOVERY"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 7 },
-                             KnownSkill { value: SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                             KnownSkill { value: SkillEnum::from_name("SM_MAGNUM"), level: 10 },
-                             KnownSkill { value: SkillEnum::from_name("SM_ENDURE"), level: 5 }, ],
+                skills: vec![
+                    KnownSkill {
+                        value: SkillEnum::from_name("NV_BASIC"),
+                        level: 9,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_SWORD"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_TWOHAND"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_RECOVERY"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_BASH"),
+                        level: 7,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_PROVOKE"),
+                        level: 5,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_MAGNUM"),
+                        level: 10,
+                    },
+                    KnownSkill {
+                        value: SkillEnum::from_name("SM_ENDURE"),
+                        level: 5,
+                    },
+                ],
                 expected: true,
             },
         ];
@@ -1022,7 +1957,16 @@ mod tests {
             // When
             let result = context.character_service.should_reset_skills(&mut character);
             // Then
-            assert_eq!(result, scenarii.expected, "Expected should_reset_skills to be {} when job is {} and lvl {} with {} free skill points and {} allocated skill point", scenarii.expected, JobName::from_value(scenarii.job).as_str(), scenarii.job_level, scenarii.skill_points, context.character_service.get_allocated_skills_point(&character));
+            assert_eq!(
+                result,
+                scenarii.expected,
+                "Expected should_reset_skills to be {} when job is {} and lvl {} with {} free skill points and {} allocated skill point",
+                scenarii.expected,
+                JobName::from_value(scenarii.job).as_str(),
+                scenarii.job_level,
+                scenarii.skill_points,
+                context.character_service.get_allocated_skills_point(&character)
+            );
         }
     }
 
@@ -1034,9 +1978,24 @@ mod tests {
         // When
         context.character_service.update_status_point(&mut character, 10);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: 10, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "status_point".to_string(),
+                value: 10,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
     }
 
     #[test]
@@ -1047,16 +2006,78 @@ mod tests {
         // When
         context.character_service.reset_stats(&mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(8, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "agi".to_string(), value: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "dex".to_string(), value: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "vit".to_string(), value: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "int".to_string(), value: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "luk".to_string(), value: 1, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(character.char_id), 0);
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(8, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "status_point".to_string(),
+                value: character.status.status_point,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "str".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "agi".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "dex".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "vit".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "int".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "luk".to_string(),
+                value: 1,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
+        assert_task_queue_contains_event_at_tick!(
+            context.server_task_queue,
+            GameEvent::CharacterUpdateClientSideStats(character.char_id),
+            0
+        );
     }
 
     #[test]
@@ -1064,31 +2085,106 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        character.status.known_skills = vec![KnownSkill { value: SkillEnum::from_name("NV_BASIC"), level: 9 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_SWORD"), level: 10 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
-                                      KnownSkill { value: SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_RECOVERY"), level: 5 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_BASH"), level: 7 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_MAGNUM"), level: 10 },
-                                      KnownSkill { value: SkillEnum::from_name("SM_ENDURE"), level: 5 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_SPEARMASTERY"), level: 1 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_PIERCE"), level: 3 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_TWOHANDQUICKEN"), level: 8 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_AUTOCOUNTER"), level: 5 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_RIDING"), level: 1 },
-                                      KnownSkill { value: SkillEnum::from_name("KN_CAVALIERMASTERY"), level: 5 }, ];
-        let skills_to_reset: Vec<i32> = character.status.known_skills.iter().filter(|s| s.value != SkillEnum::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
+        character.status.known_skills = vec![
+            KnownSkill {
+                value: SkillEnum::from_name("NV_BASIC"),
+                level: 9,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_SWORD"),
+                level: 10,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_FATALBLOW"),
+                level: 1,
+            }, // Platinium
+            KnownSkill {
+                value: SkillEnum::from_name("SM_TWOHAND"),
+                level: 10,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_RECOVERY"),
+                level: 5,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_BASH"),
+                level: 7,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_PROVOKE"),
+                level: 5,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_MAGNUM"),
+                level: 10,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("SM_ENDURE"),
+                level: 5,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_SPEARMASTERY"),
+                level: 1,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_PIERCE"),
+                level: 3,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_TWOHANDQUICKEN"),
+                level: 8,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_AUTOCOUNTER"),
+                level: 5,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_RIDING"),
+                level: 1,
+            },
+            KnownSkill {
+                value: SkillEnum::from_name("KN_CAVALIERMASTERY"),
+                level: 5,
+            },
+        ];
+        let skills_to_reset: Vec<i32> = character
+            .status
+            .known_skills
+            .iter()
+            .filter(|s| s.value != SkillEnum::from_name("SM_FATALBLOW"))
+            .map(|s| s.value.id() as i32)
+            .collect();
         // When
         context.character_service.reset_skills(&mut character, true);
         // Then
         assert_eq!(character.status.skill_point, 84);
-        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, }));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "skill_point".to_string(),
+                value: character.status.skill_point,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::ResetSkills(ResetSkills {
+                char_id: character.char_id as i32,
+                skills: skills_to_reset,
+            })
+        );
         // Platinium skill are not reset
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
     }
 
     #[test]
@@ -1104,12 +2200,24 @@ mod tests {
         character.status.luk = 6;
         character.status.status_point = 1000;
         // When
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 10);
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Int, 11);
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Agi, 12);
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Dex, 13);
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Vit, 14);
-        context.character_service.allocate_status_point(&mut character, StatusTypes::Luk, 15);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Str, 10);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Int, 11);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Agi, 12);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Dex, 13);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Vit, 14);
+        context
+            .character_service
+            .allocate_status_point(&mut character, StatusTypes::Luk, 15);
         // Then
         assert_eq!(character.status.str, 11);
         assert_eq!(character.status.int, 13);
@@ -1130,19 +2238,51 @@ mod tests {
             expected_available_status_point: u32,
         }
         let scenario = vec![
-            Scenarii { available_status_point: 3, initial_stat_level: 60, value_to_add: 10, expected_available_status_point: 3 },
-            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_available_status_point: 0 },
-            Scenarii { available_status_point: 7, initial_stat_level: 60, value_to_add: 1, expected_available_status_point: 0 },
-            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 3, expected_available_status_point: 14 },
-            Scenarii { available_status_point: 23, initial_stat_level: 60, value_to_add: 3, expected_available_status_point: 1 },
-            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 10, expected_available_status_point: 22 },
+            Scenarii {
+                available_status_point: 3,
+                initial_stat_level: 60,
+                value_to_add: 10,
+                expected_available_status_point: 3,
+            },
+            Scenarii {
+                available_status_point: 14,
+                initial_stat_level: 60,
+                value_to_add: 2,
+                expected_available_status_point: 0,
+            },
+            Scenarii {
+                available_status_point: 7,
+                initial_stat_level: 60,
+                value_to_add: 1,
+                expected_available_status_point: 0,
+            },
+            Scenarii {
+                available_status_point: 14,
+                initial_stat_level: 60,
+                value_to_add: 3,
+                expected_available_status_point: 14,
+            },
+            Scenarii {
+                available_status_point: 23,
+                initial_stat_level: 60,
+                value_to_add: 3,
+                expected_available_status_point: 1,
+            },
+            Scenarii {
+                available_status_point: 22,
+                initial_stat_level: 60,
+                value_to_add: 10,
+                expected_available_status_point: 22,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
             character.status.str = scenarii.initial_stat_level;
             character.status.status_point = scenarii.available_status_point;
             // When
-            context.character_service.allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            context
+                .character_service
+                .allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
             // Then
             assert_eq!(character.status.status_point, scenarii.expected_available_status_point);
         }
@@ -1159,12 +2299,42 @@ mod tests {
             expected_can_raise_stat: bool,
         }
         let scenario = vec![
-            Scenarii { available_status_point: 0, initial_stat_level: 60, value_to_add: 10, expected_can_raise_stat: false },
-            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_can_raise_stat: true },
-            Scenarii { available_status_point: 7, initial_stat_level: 60, value_to_add: 1, expected_can_raise_stat: true },
-            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 3, expected_can_raise_stat: false },
-            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 3, expected_can_raise_stat: true },
-            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 10, expected_can_raise_stat: false },
+            Scenarii {
+                available_status_point: 0,
+                initial_stat_level: 60,
+                value_to_add: 10,
+                expected_can_raise_stat: false,
+            },
+            Scenarii {
+                available_status_point: 14,
+                initial_stat_level: 60,
+                value_to_add: 2,
+                expected_can_raise_stat: true,
+            },
+            Scenarii {
+                available_status_point: 7,
+                initial_stat_level: 60,
+                value_to_add: 1,
+                expected_can_raise_stat: true,
+            },
+            Scenarii {
+                available_status_point: 14,
+                initial_stat_level: 60,
+                value_to_add: 3,
+                expected_can_raise_stat: false,
+            },
+            Scenarii {
+                available_status_point: 22,
+                initial_stat_level: 60,
+                value_to_add: 3,
+                expected_can_raise_stat: true,
+            },
+            Scenarii {
+                available_status_point: 22,
+                initial_stat_level: 60,
+                value_to_add: 10,
+                expected_can_raise_stat: false,
+            },
         ];
 
         for scenarii in scenario {
@@ -1172,7 +2342,9 @@ mod tests {
             character.status.str = scenarii.initial_stat_level;
             character.status.status_point = scenarii.available_status_point;
             // When
-            context.character_service.allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            context
+                .character_service
+                .allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
             // Then
             if scenarii.expected_can_raise_stat {
                 assert_eq!(character.status.str, scenarii.initial_stat_level + scenarii.value_to_add);
@@ -1192,7 +2364,11 @@ mod tests {
         // When
         context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(character.char_id), 0);
+        assert_task_queue_contains_event_at_tick!(
+            context.server_task_queue,
+            GameEvent::CharacterUpdateClientSideStats(character.char_id),
+            0
+        );
     }
 
     #[test]
@@ -1218,9 +2394,26 @@ mod tests {
         // When
         context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 99, }));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "status_point".to_string(),
+                value: character.status.status_point,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "str".to_string(),
+                value: 99,
+            })
+        );
     }
 
     #[test]
@@ -1233,13 +2426,51 @@ mod tests {
         // When
         context.character_service.allocate_skill_point(&mut character, SkillEnum::NvBasic);
         // Then
-        assert_eq!(character.status.known_skills.iter().find(|s| matches!(s.value, SkillEnum::NvBasic)).unwrap().level, 1);
+        assert_eq!(
+            character
+                .status
+                .known_skills
+                .iter()
+                .find(|s| matches!(s.value, SkillEnum::NvBasic))
+                .unwrap()
+                .level,
+            1
+        );
         assert_eq!(character.status.skill_point, 0);
-        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: SkillEnum::NvBasic, increment: 1, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id as u32, db_column: "skill_point".to_string(), value: 0, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel {
+                char_id: character.char_id as i32,
+                skill: SkillEnum::NvBasic,
+                increment: 1,
+            })
+        );
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id as u32,
+                db_column: "skill_point".to_string(),
+                value: 0,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
     }
 
     #[test]
@@ -1278,10 +2509,26 @@ mod tests {
         // When
         context.character_service.gain_base_exp(&mut character, 100);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.base_exp, 110);
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_exp".to_string(), value: character.status.base_exp, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "base_exp".to_string(),
+                value: character.status.base_exp,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
     }
 
     #[test]
@@ -1291,7 +2538,9 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut config = GlobalConfigService::instance().config().clone();
         config.game.base_exp_rate = 10.0;
-        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        unsafe {
+            GlobalConfigService::instance_mut().set_config(config);
+        }
         let mut character = create_character();
         character.status.base_exp = 10;
         character.status.base_level = 10;
@@ -1301,7 +2550,9 @@ mod tests {
         assert_eq!(character.status.base_exp, 110);
         let mut config = GlobalConfigService::instance().config().clone();
         config.game.base_exp_rate = 1.0;
-        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        unsafe {
+            GlobalConfigService::instance_mut().set_config(config);
+        }
     }
 
     #[test]
@@ -1317,11 +2568,46 @@ mod tests {
             expected_exp: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", exp: 0, gain_exp: 4, expected_level: 1, expected_exp: 4 },
-            Scenarii { level: 1, job: "Novice", exp: 0, gain_exp: 12, expected_level: 2, expected_exp: 3 },
-            Scenarii { level: 21, job: "Novice", exp: 263, gain_exp: 9631, expected_level: 25, expected_exp: 1300 },
-            Scenarii { level: 98, job: "Hunter", exp: 99999997, gain_exp: 9631, expected_level: 99, expected_exp: 0 },
-            Scenarii { level: 99, job: "Hunter", exp: 0, gain_exp: 9631, expected_level: 99, expected_exp: 0 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                exp: 0,
+                gain_exp: 4,
+                expected_level: 1,
+                expected_exp: 4,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                exp: 0,
+                gain_exp: 12,
+                expected_level: 2,
+                expected_exp: 3,
+            },
+            Scenarii {
+                level: 21,
+                job: "Novice",
+                exp: 263,
+                gain_exp: 9631,
+                expected_level: 25,
+                expected_exp: 1300,
+            },
+            Scenarii {
+                level: 98,
+                job: "Hunter",
+                exp: 99999997,
+                gain_exp: 9631,
+                expected_level: 99,
+                expected_exp: 0,
+            },
+            Scenarii {
+                level: 99,
+                job: "Hunter",
+                exp: 0,
+                gain_exp: 9631,
+                expected_level: 99,
+                expected_exp: 0,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -1331,8 +2617,16 @@ mod tests {
             // When
             context.character_service.gain_base_exp(&mut character, scenarii.gain_exp);
             // Then
-            assert_eq!(character.status.base_level, scenarii.expected_level, "Expected {} from level {} to be level {} after gaining {} exp but got {}", scenarii.job, scenarii.level, scenarii.expected_level, scenarii.gain_exp, character.status.base_level);
-            assert_eq!(character.status.base_exp, scenarii.expected_exp, "Expected {} at level {} to have {} exp after gaining {} exp but got {}", scenarii.job, character.status.base_level, scenarii.expected_exp, scenarii.gain_exp, character.status.base_exp);
+            assert_eq!(
+                character.status.base_level, scenarii.expected_level,
+                "Expected {} from level {} to be level {} after gaining {} exp but got {}",
+                scenarii.job, scenarii.level, scenarii.expected_level, scenarii.gain_exp, character.status.base_level
+            );
+            assert_eq!(
+                character.status.base_exp, scenarii.expected_exp,
+                "Expected {} at level {} to have {} exp after gaining {} exp but got {}",
+                scenarii.job, character.status.base_level, scenarii.expected_exp, scenarii.gain_exp, character.status.base_exp
+            );
         }
     }
 
@@ -1346,10 +2640,26 @@ mod tests {
         // When
         context.character_service.gain_job_exp(&mut character, 60);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.job_exp, 70);
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_exp".to_string(), value: character.status.job_exp, }));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        assert_sent_persistence_event!(
+            context,
+            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                char_id: character.char_id,
+                db_column: "job_exp".to_string(),
+                value: character.status.job_exp,
+            })
+        );
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
     }
 
     #[test]
@@ -1359,7 +2669,9 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut config = GlobalConfigService::instance().config().clone();
         config.game.job_exp_rate = 5.0;
-        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        unsafe {
+            GlobalConfigService::instance_mut().set_config(config);
+        }
         let mut character = create_character();
         character.status.job_exp = 10;
         character.status.job_level = 8;
@@ -1369,7 +2681,9 @@ mod tests {
         assert_eq!(character.status.job_exp, 60);
         let mut config = GlobalConfigService::instance().config().clone();
         config.game.job_exp_rate = 1.0;
-        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        unsafe {
+            GlobalConfigService::instance_mut().set_config(config);
+        }
     }
 
     #[test]
@@ -1385,11 +2699,46 @@ mod tests {
             expected_job_exp: u32,
         }
         let scenario = vec![
-            Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 4, expected_job_level: 1, expected_job_exp: 4 },
-            Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 12, expected_job_level: 2, expected_job_exp: 2 },
-            Scenarii { job_level: 21, job: "Archer", job_exp: 1125, gain_exp: 54411, expected_job_level: 27, expected_job_exp: 802 },
-            Scenarii { job_level: 49, job: "Hunter", job_exp: 2083380, gain_exp: 169, expected_job_level: 50, expected_job_exp: 0 },
-            Scenarii { job_level: 50, job: "Hunter", job_exp: 0, gain_exp: 9631, expected_job_level: 50, expected_job_exp: 0 },
+            Scenarii {
+                job_level: 1,
+                job: "Novice",
+                job_exp: 0,
+                gain_exp: 4,
+                expected_job_level: 1,
+                expected_job_exp: 4,
+            },
+            Scenarii {
+                job_level: 1,
+                job: "Novice",
+                job_exp: 0,
+                gain_exp: 12,
+                expected_job_level: 2,
+                expected_job_exp: 2,
+            },
+            Scenarii {
+                job_level: 21,
+                job: "Archer",
+                job_exp: 1125,
+                gain_exp: 54411,
+                expected_job_level: 27,
+                expected_job_exp: 802,
+            },
+            Scenarii {
+                job_level: 49,
+                job: "Hunter",
+                job_exp: 2083380,
+                gain_exp: 169,
+                expected_job_level: 50,
+                expected_job_exp: 0,
+            },
+            Scenarii {
+                job_level: 50,
+                job: "Hunter",
+                job_exp: 0,
+                gain_exp: 9631,
+                expected_job_level: 50,
+                expected_job_exp: 0,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -1399,8 +2748,16 @@ mod tests {
             // When
             context.character_service.gain_job_exp(&mut character, scenarii.gain_exp);
             // Then
-            assert_eq!(character.status.job_level, scenarii.expected_job_level, "Expected {} from job level {} to be job level {} after gaining {} exp but got {}", scenarii.job, scenarii.job_level, scenarii.expected_job_level, scenarii.gain_exp, character.status.job_level);
-            assert_eq!(character.status.job_exp, scenarii.expected_job_exp, "Expected {} at job level {} to have {} job exp after gaining {} job exp but got {}", scenarii.job, character.status.job_level, scenarii.expected_job_exp, scenarii.gain_exp, character.status.job_exp);
+            assert_eq!(
+                character.status.job_level, scenarii.expected_job_level,
+                "Expected {} from job level {} to be job level {} after gaining {} exp but got {}",
+                scenarii.job, scenarii.job_level, scenarii.expected_job_level, scenarii.gain_exp, character.status.job_level
+            );
+            assert_eq!(
+                character.status.job_exp, scenarii.expected_job_exp,
+                "Expected {} at job level {} to have {} job exp after gaining {} job exp but got {}",
+                scenarii.job, character.status.job_level, scenarii.expected_job_exp, scenarii.gain_exp, character.status.job_exp
+            );
         }
     }
 
@@ -1414,13 +2771,41 @@ mod tests {
             required_exp: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", required_exp: 9 },
-            Scenarii { level: 54, job: "Archer", required_exp: 178184 },
-            Scenarii { level: 95, job: "Hunter", required_exp: 35658000 },
-            Scenarii { level: 1, job: "Novice High", required_exp: 10 },
-            Scenarii { level: 54, job: "Archer High", required_exp: 329640 },
-            Scenarii { level: 95, job: "Sniper", required_exp: 106974000 },
-            Scenarii { level: 98, job: "Sniper", required_exp: 343210000 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                required_exp: 9,
+            },
+            Scenarii {
+                level: 54,
+                job: "Archer",
+                required_exp: 178184,
+            },
+            Scenarii {
+                level: 95,
+                job: "Hunter",
+                required_exp: 35658000,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice High",
+                required_exp: 10,
+            },
+            Scenarii {
+                level: 54,
+                job: "Archer High",
+                required_exp: 329640,
+            },
+            Scenarii {
+                level: 95,
+                job: "Sniper",
+                required_exp: 106974000,
+            },
+            Scenarii {
+                level: 98,
+                job: "Sniper",
+                required_exp: 343210000,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -1429,7 +2814,11 @@ mod tests {
             // When
             let required_exp = context.character_service.next_base_level_required_exp(&character.status);
             // Then
-            assert_eq!(required_exp, scenarii.required_exp, "Expected {} at level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
+            assert_eq!(
+                required_exp, scenarii.required_exp,
+                "Expected {} at level {} to need {} exp to reach next level but got {}",
+                scenarii.job, scenarii.level, scenarii.required_exp, required_exp
+            );
         }
     }
 
@@ -1443,17 +2832,61 @@ mod tests {
             required_exp: u32,
         }
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", required_exp: 10 },
-            Scenarii { level: 34, job: "Archer", required_exp: 52417 },
-            Scenarii { level: 45, job: "Hunter", required_exp: 1260955 },
-            Scenarii { level: 1, job: "Novice High", required_exp: 11 },
-            Scenarii { level: 34, job: "Archer High", required_exp: 131043 },
-            Scenarii { level: 45, job: "Sniper", required_exp: 3782865 },
-            Scenarii { level: 68, job: "Sniper", required_exp: 167071930 },
-            Scenarii { level: 68, job: "Ninja", required_exp: 5123654 },
-            Scenarii { level: 68, job: "Gunslinger", required_exp: 5123654 },
-            Scenarii { level: 45, job: "Taekwon", required_exp: 2521910 },
-            Scenarii { level: 45, job: "Soul Linker", required_exp: 2521910 },
+            Scenarii {
+                level: 1,
+                job: "Novice",
+                required_exp: 10,
+            },
+            Scenarii {
+                level: 34,
+                job: "Archer",
+                required_exp: 52417,
+            },
+            Scenarii {
+                level: 45,
+                job: "Hunter",
+                required_exp: 1260955,
+            },
+            Scenarii {
+                level: 1,
+                job: "Novice High",
+                required_exp: 11,
+            },
+            Scenarii {
+                level: 34,
+                job: "Archer High",
+                required_exp: 131043,
+            },
+            Scenarii {
+                level: 45,
+                job: "Sniper",
+                required_exp: 3782865,
+            },
+            Scenarii {
+                level: 68,
+                job: "Sniper",
+                required_exp: 167071930,
+            },
+            Scenarii {
+                level: 68,
+                job: "Ninja",
+                required_exp: 5123654,
+            },
+            Scenarii {
+                level: 68,
+                job: "Gunslinger",
+                required_exp: 5123654,
+            },
+            Scenarii {
+                level: 45,
+                job: "Taekwon",
+                required_exp: 2521910,
+            },
+            Scenarii {
+                level: 45,
+                job: "Soul Linker",
+                required_exp: 2521910,
+            },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -1462,10 +2895,13 @@ mod tests {
             // When
             let required_exp = context.character_service.next_job_level_required_exp(&character.status);
             // Then
-            assert_eq!(required_exp, scenarii.required_exp, "Expected {} at job level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
+            assert_eq!(
+                required_exp, scenarii.required_exp,
+                "Expected {} at job level {} to need {} exp to reach next level but got {}",
+                scenarii.job, scenarii.level, scenarii.required_exp, required_exp
+            );
         }
     }
-
 
     #[test]
     fn character_increase_stat_point_should_send_ack_packet() {
@@ -1473,14 +2909,24 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character_state = create_character();
         // When
-        context.character_service.character_increase_stat(&mut character_state, CharacterUpdateStat {
-            char_id: 150000,
-            stat_id: StatusTypes::Str.value() as u16,
-            change_amount: 1,
-        });
+        context
+            .character_service
+            .character_increase_stat(&mut character_state, CharacterUpdateStat {
+                char_id: 150000,
+                stat_id: StatusTypes::Str.value() as u16,
+                change_amount: 1,
+            });
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id(GlobalConfigService::instance().packetver()))]));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(3, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(
+                PacketZcStatusChangeAck::packet_id(GlobalConfigService::instance().packetver())
+            )])
+        );
     }
 
     #[test]
@@ -1496,17 +2942,29 @@ mod tests {
         character_state.status.base_level = 10;
         character_state.status.job_exp = 5;
         character_state.status.job_level = 9;
-        context.character_service.character_kill_monster(&mut character_state, CharacterKillMonster {
-            char_id,
-            mob_id: 1001,
-            mob_x: 54,
-            mob_y: 54,
-            map_instance_key: map_instance.key().clone(),
-            mob_base_exp: 100,
-            mob_job_exp: 60,
-        }, &map_instance);
+        context.character_service.character_kill_monster(
+            &mut character_state,
+            CharacterKillMonster {
+                char_id,
+                mob_id: 1001,
+                mob_x: 54,
+                mob_y: 54,
+                map_instance_key: map_instance.key().clone(),
+                mob_base_exp: 100,
+                mob_job_exp: 60,
+            },
+            &map_instance,
+        );
         // Then
-        assert_task_queue_contains_event!(task_queue, MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
+        assert_task_queue_contains_event!(
+            task_queue,
+            MapEvent::MobDropItems(MobDropItems {
+                owner_id: char_id,
+                mob_id: 1001,
+                mob_x: 54,
+                mob_y: 54
+            })
+        );
         assert_eq!(character_state.status.base_exp, 110);
         assert_eq!(character_state.status.job_exp, 65);
     }
@@ -1534,7 +2992,8 @@ mod tests {
         character_state.last_regen_hp_at = 8000;
         context.character_service.regen_hp(&mut character_state, 14200);
         assert_eq!(character_state.status.hp, 2);
-        // When, Stand, last hp regen and last move is greater than 3sec, should not regen
+        // When, Stand, last hp regen and last move is greater than 3sec, should not
+        // regen
         character_state.status.hp = 1;
         character_state.last_moved_at = 8000;
         character_state.last_regen_hp_at = 8000;
@@ -1579,7 +3038,8 @@ mod tests {
         character_state.last_regen_sp_at = 8000;
         context.character_service.regen_sp(&mut character_state, 16200);
         assert_eq!(character_state.status.sp, 2);
-        // When, Stand, last sp regen and last move is greater than 4sec, should not regen
+        // When, Stand, last sp regen and last move is greater than 4sec, should not
+        // regen
         character_state.status.sp = 1;
         character_state.last_moved_at = 8000;
         character_state.last_regen_sp_at = 8000;

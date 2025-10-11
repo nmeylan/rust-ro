@@ -1,15 +1,16 @@
 use std::any::Any;
-use models::enums::element::Element;
+
 use models::enums::EnumWithNumberValue;
+use models::enums::element::Element;
 use models::enums::skill::{SkillTargetType, SkillType, UseSkillFailure};
 use models::enums::status::StatusEffect;
-use models::enums::weapon::{AmmoType};
-use models::item::{NormalInventoryItem};
-use models::status::{StatusSnapshot};
+use models::enums::weapon::AmmoType;
+use models::item::NormalInventoryItem;
+use models::status::StatusSnapshot;
 use models::status_bonus::TemporaryStatusBonuses;
 
-pub mod skill_enums;
 pub mod base;
+pub mod skill_enums;
 pub mod skills;
 
 type SkillRequirementResult<T> = std::result::Result<T, ()>;
@@ -22,29 +23,53 @@ pub trait SkillBase {
 
     fn as_any(&self) -> &dyn Any;
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool { false }
+    fn is_offensive_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> { None }
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        None
+    }
     #[inline(always)]
-    fn is_supportive_skill(&self) -> bool { false }
+    fn is_supportive_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> { None }
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        None
+    }
     #[inline(always)]
-    fn is_interactive_skill(&self) -> bool { false }
+    fn is_interactive_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> { None }
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        None
+    }
     #[inline(always)]
-    fn is_ground_skill(&self) -> bool { false }
+    fn is_ground_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> { None }
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        None
+    }
     #[inline(always)]
-    fn is_performance_skill(&self) -> bool { false }
+    fn is_performance_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> { None }
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        None
+    }
     #[inline(always)]
-    fn is_passive_skill(&self) -> bool { false }
+    fn is_passive_skill(&self) -> bool {
+        false
+    }
     #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> { None }
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        None
+    }
 
     #[inline(always)]
     fn _validate_sp(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -154,7 +179,8 @@ pub trait SkillBase {
         TemporaryStatusBonuses::empty()
     }
 
-    // Type in packet to send to client. it is use by the client to determine if target is valid or if it should display specific cursor
+    // Type in packet to send to client. it is use by the client to determine if
+    // target is valid or if it should display specific cursor
     #[inline(always)]
     fn _client_type(&self) -> usize {
         self._target_type().value()
@@ -386,7 +412,12 @@ pub trait OffensiveSkillBase: Skill {
     }
     fn _element(&self) -> Element;
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn _inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         vec![]
     }
     #[inline(always)]
@@ -415,7 +446,12 @@ pub trait OffensiveSkill: OffensiveSkillBase {
         self._element()
     }
     #[inline(always)]
-    fn inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+    fn inflict_status_effect_to_target(
+        &self,
+        _status: &StatusSnapshot,
+        _target_status: &StatusSnapshot,
+        mut _rng: fastrand::Rng,
+    ) -> Vec<StatusEffect> {
         self._inflict_status_effect_to_target(_status, _target_status, _rng)
     }
     #[inline(always)]
@@ -427,8 +463,7 @@ pub trait OffensiveSkill: OffensiveSkillBase {
     }
 }
 
-pub trait SupportiveSkillBase: Skill {
-}
+pub trait SupportiveSkillBase: Skill {}
 pub trait SupportiveSkill: SupportiveSkillBase {}
 
 pub trait PerformanceSkillBase: Skill {}
@@ -444,7 +479,7 @@ pub trait GroundSkillBase: Skill {
 }
 pub trait GroundSkill: GroundSkillBase {
     fn mitigate_skills(&self) -> Vec<u32> {
-       self._mitigate_skills()
+        self._mitigate_skills()
     }
 }
 pub trait InteractiveSkillBase: Skill {}

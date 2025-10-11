@@ -1,18 +1,20 @@
-use futures::future::join_all;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 use std::sync::{Arc, Mutex};
+
+use configuration::configuration::Config;
+use futures::future::join_all;
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
-use configuration::configuration::Config;
+
 use crate::server::model::Npc;
 
+pub mod map_loader;
 pub mod mob_spawn_loader;
 pub mod script_loader;
 pub mod warps_loader;
-pub mod map_loader;
 
 pub struct NpcLoader {
     pub(crate) conf_file: File,
@@ -25,7 +27,10 @@ pub trait NpcLoaderTrait<NpcKind: Npc> {
 }
 
 impl NpcLoader {
-    pub async fn load_npc<NpcKind: Npc + Clone + Send + 'static, T: NpcLoaderTrait<NpcKind>>(&self, config: &'static Config) -> HashMap<String, Vec<NpcKind>> {
+    pub async fn load_npc<NpcKind: Npc + Clone + Send + 'static, T: NpcLoaderTrait<NpcKind>>(
+        &self,
+        config: &'static Config,
+    ) -> HashMap<String, Vec<NpcKind>> {
         let semaphore = Semaphore::new(self.parallel_execution);
         let reader = BufReader::new(&self.conf_file);
         let npcs_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<NpcKind>>::new()));

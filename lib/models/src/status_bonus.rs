@@ -1,11 +1,13 @@
-use crate::enums::bonus::BonusType;
-use crate::enums::skill_enums::SkillEnum;
-use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
-use accessor::GettersAll;
-use enum_macro::{WithMaskValueU64, WithStringValue};
 use std::fmt::{Display, Formatter};
 use std::slice::{Iter, IterMut};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+use accessor::GettersAll;
+use enum_macro::{WithMaskValueU64, WithStringValue};
+
+use crate::enums::bonus::BonusType;
+use crate::enums::skill_enums::SkillEnum;
+use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
 
 #[derive(Default, Debug, Clone)]
 pub struct StatusBonuses(Vec<StatusBonus>);
@@ -18,6 +20,7 @@ impl StatusBonuses {
     pub fn iter(&self) -> Iter<'_, StatusBonus> {
         self.0.iter()
     }
+
     pub fn iter_mut(&mut self) -> IterMut<'_, StatusBonus> {
         self.0.iter_mut()
     }
@@ -52,7 +55,6 @@ impl PartialEq for TemporaryStatusBonus {
     }
 }
 
-
 impl TemporaryStatusBonus {
     pub fn with_duration(bonus: BonusType, flags: u64, tick: u128, duration: u32, skill_id: u16) -> Self {
         Self {
@@ -63,6 +65,7 @@ impl TemporaryStatusBonus {
             source: Some(StatusBonusSource::Skill(skill_id)),
         }
     }
+
     pub fn with_duration_and_source(bonus: BonusType, flags: u64, tick: u128, duration: u32, source: Option<StatusBonusSource>) -> Self {
         Self {
             bonus,
@@ -79,7 +82,7 @@ impl TemporaryStatusBonus {
             flags,
             expirency: BonusExpiry::Never,
             state: StatusBonusState::No,
-            source: Some(StatusBonusSource::PassiveSkill(skill_id))
+            source: Some(StatusBonusSource::PassiveSkill(skill_id)),
         }
     }
 
@@ -95,7 +98,7 @@ impl TemporaryStatusBonus {
             match source {
                 StatusBonusSource::Skill(skill_id) => {
                     let skill = SkillEnum::from_id(*skill_id as u32);
-                    return skill.client_icon().map(|icon| icon.value() as u16).or(None)
+                    return skill.client_icon().map(|icon| icon.value() as u16).or(None);
                 }
                 StatusBonusSource::PassiveSkill(_) => {}
                 StatusBonusSource::Item(_) => {}
@@ -104,15 +107,20 @@ impl TemporaryStatusBonus {
         None
     }
 
-    pub fn remaining_ms(&self, tick: u128) -> u32{
+    pub fn remaining_ms(&self, tick: u128) -> u32 {
         match self.expirency {
             BonusExpiry::Never => u32::max_value(),
-            BonusExpiry::Time(until) => if until > tick { (until - tick) as u32 } else { 0 },
-            BonusExpiry::Counter(_) => u32::max_value()
+            BonusExpiry::Time(until) => {
+                if until > tick {
+                    (until - tick) as u32
+                } else {
+                    0
+                }
+            }
+            BonusExpiry::Counter(_) => u32::max_value(),
         }
     }
 }
-
 
 impl Display for StatusBonus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -126,8 +134,12 @@ impl Display for TemporaryStatusBonus {
         write!(f, ", Expire: ")?;
         match self.expirency {
             BonusExpiry::Never => write!(f, " Never "),
-            BonusExpiry::Time(_until) => write!(f, " {}ms ", self.remaining_ms(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis())),
-            BonusExpiry::Counter(count) => write!(f, " {} hit ", count)
+            BonusExpiry::Time(_until) => write!(
+                f,
+                " {}ms ",
+                self.remaining_ms(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis())
+            ),
+            BonusExpiry::Counter(count) => write!(f, " {} hit ", count),
         }?;
         if let Some(ref source) = self.source {
             match source {
@@ -161,6 +173,7 @@ impl TemporaryStatusBonuses {
     pub fn new(bonuses: Vec<TemporaryStatusBonus>) -> Self {
         Self(bonuses)
     }
+
     pub fn empty() -> Self {
         Self(vec![])
     }
@@ -179,21 +192,30 @@ impl TemporaryStatusBonuses {
         }
     }
 
-    pub fn to_vec(&self) ->  Vec<StatusBonus> {
-            self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
+    pub fn to_vec(&self) -> Vec<StatusBonus> {
+        self.0
+            .iter()
+            .map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus {
+                bonus: temporary_status_bonus.bonus,
+            })
+            .collect()
     }
 
     pub fn iter(&self) -> Iter<'_, TemporaryStatusBonus> {
         self.0.iter()
     }
+
     pub fn iter_mut(&mut self) -> IterMut<'_, TemporaryStatusBonus> {
         self.0.iter_mut()
     }
+
     pub fn retain(&mut self, f: impl Fn(&TemporaryStatusBonus) -> bool) {
         self.0.retain(f)
     }
 
-    /// This should be used only internally or when loading bonuses from database, otherwise we can stack bonuses which are not supposed to be stacked
+    /// This should be used only internally or when loading bonuses from
+    /// database, otherwise we can stack bonuses which are not supposed to be
+    /// stacked
     pub fn add(&mut self, temporary_bonus: TemporaryStatusBonus) {
         self.0.push(temporary_bonus)
     }
@@ -209,7 +231,7 @@ impl From<TemporaryStatusBonuses> for Vec<TemporaryStatusBonus> {
 pub enum StatusBonusSource {
     Skill(u16),
     PassiveSkill(u16),
-    Item(u32)
+    Item(u32),
 }
 
 impl StatusBonusSource {
@@ -226,28 +248,25 @@ impl StatusBonusSource {
             "Skill" => Some(StatusBonusSource::Skill(value as u16)),
             "PassiveSkill" => Some(StatusBonusSource::PassiveSkill(value as u16)),
             "Item" => Some(StatusBonusSource::Item(value as u32)),
-            _ =>  None
+            _ => None,
         }
     }
 }
-
 
 #[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum StatusBonusFlag {
     #[mask_value = 0]
     Default,
-    Unique, // Meaning that the same BonusType with the same source, cannot be present more than once in StatusBonuses, when adding an already present BonusType, the new one will replace the old one
+    Unique, /* Meaning that the same BonusType with the same source, cannot be present more than once in StatusBonuses, when adding an
+             * already present BonusType, the new one will replace the old one */
     Persist,
     Icon, // If there is an icon to display on client side
 }
 
 impl StatusBonus {
     pub fn new(bonus: BonusType) -> StatusBonus {
-        Self {
-            bonus
-        }
+        Self { bonus }
     }
-
 }
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
@@ -261,13 +280,13 @@ pub enum BonusExpiry {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum StatusBonusState {
     No,
-    Counter(u64) // counter can be a number of hit (eg: Safety wall) or an amount of damage received (eg: kyrie eleison)
+    Counter(u64), // counter can be a number of hit (eg: Safety wall) or an amount of damage received (eg: kyrie eleison)
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::enums::bonus::BonusType;
     use crate::enums::EnumWithMaskValueU64;
+    use crate::enums::bonus::BonusType;
     use crate::status_bonus::{StatusBonus, StatusBonusFlag, StatusBonusSource, TemporaryStatusBonus, TemporaryStatusBonuses};
 
     #[test]
@@ -296,7 +315,7 @@ mod tests {
             StatusBonusFlag::Persist.as_flag(),
             1000,
             5000,
-            Some(StatusBonusSource::Skill(123))
+            Some(StatusBonusSource::Skill(123)),
         );
         bonuses2.add(bonus);
 
@@ -316,7 +335,7 @@ mod tests {
             StatusBonusFlag::Persist.as_flag(),
             1000,
             3000,
-            Some(StatusBonusSource::Item(456))
+            Some(StatusBonusSource::Item(456)),
         );
         bonuses1.add(bonus);
 
@@ -337,14 +356,14 @@ mod tests {
             StatusBonusFlag::Persist.as_flag(),
             1000,
             5000,
-            Some(StatusBonusSource::Skill(123))
+            Some(StatusBonusSource::Skill(123)),
         );
         let bonus2 = TemporaryStatusBonus::with_duration_and_source(
             BonusType::Agi(15),
             StatusBonusFlag::Persist.as_flag(),
             1000,
             3000,
-            Some(StatusBonusSource::Item(456))
+            Some(StatusBonusSource::Item(456)),
         );
 
         bonuses1.add(bonus1);
@@ -368,14 +387,14 @@ mod tests {
             StatusBonusFlag::Persist.as_flag(),
             1000,
             5000,
-            Some(StatusBonusSource::Skill(123))
+            Some(StatusBonusSource::Skill(123)),
         );
         let bonus2 = TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Str(20), // Same bonus type, different value
+            BonusType::Str(20),              // Same bonus type, different value
             StatusBonusFlag::Icon.as_flag(), // Different flags
             2000,
             8000,
-            Some(StatusBonusSource::Skill(123)) // Same source
+            Some(StatusBonusSource::Skill(123)), // Same source
         );
 
         bonuses1.add(bonus1);
@@ -406,14 +425,14 @@ mod tests {
             StatusBonusFlag::Persist.as_flag(),
             1000,
             5000,
-            Some(StatusBonusSource::Skill(123))
+            Some(StatusBonusSource::Skill(123)),
         );
         let bonus2 = TemporaryStatusBonus::with_duration_and_source(
             BonusType::Agi(15), // Different bonus type
             StatusBonusFlag::Icon.as_flag(),
             2000,
             8000,
-            Some(StatusBonusSource::Skill(123)) // Same source
+            Some(StatusBonusSource::Skill(123)), // Same source
         );
 
         bonuses1.add(bonus1);
@@ -445,31 +464,48 @@ mod tests {
 
         // bonuses1: [Skill(1)+Str, Item(2)+Agi, Skill(3)+Vit]
         bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Str(10), StatusBonusFlag::Persist.as_flag(), 1000, 5000,
-            Some(StatusBonusSource::Skill(1))
+            BonusType::Str(10),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            5000,
+            Some(StatusBonusSource::Skill(1)),
         ));
         bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Agi(15), StatusBonusFlag::Persist.as_flag(), 1000, 3000,
-            Some(StatusBonusSource::Item(2))
+            BonusType::Agi(15),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            3000,
+            Some(StatusBonusSource::Item(2)),
         ));
         bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Vit(20), StatusBonusFlag::Persist.as_flag(), 1000, 7000,
-            Some(StatusBonusSource::Skill(3))
+            BonusType::Vit(20),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            7000,
+            Some(StatusBonusSource::Skill(3)),
         ));
 
-        // bonuses2: [Skill(1)+Str, Item(4)+Dex] - one replacement (same source+bonus), one new
+        // bonuses2: [Skill(1)+Str, Item(4)+Dex] - one replacement (same source+bonus),
+        // one new
         bonuses2.add(TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Str(25), StatusBonusFlag::Icon.as_flag(), 2000, 6000,
-            Some(StatusBonusSource::Skill(1)) // Should replace first bonus (same source and bonus type)
+            BonusType::Str(25),
+            StatusBonusFlag::Icon.as_flag(),
+            2000,
+            6000,
+            Some(StatusBonusSource::Skill(1)), // Should replace first bonus (same source and bonus type)
         ));
         bonuses2.add(TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Dex(30), StatusBonusFlag::Persist.as_flag(), 1000, 4000,
-            Some(StatusBonusSource::Item(4)) // Should be added as new
+            BonusType::Dex(30),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            4000,
+            Some(StatusBonusSource::Item(4)), // Should be added as new
         ));
 
         bonuses1.merge(bonuses2);
 
-        // Should have 4 bonuses: [Skill(1)+Str-replaced, Item(2)+Agi, Skill(3)+Vit, Item(4)+Dex-new]
+        // Should have 4 bonuses: [Skill(1)+Str-replaced, Item(2)+Agi, Skill(3)+Vit,
+        // Item(4)+Dex-new]
         assert_eq!(bonuses1.0.len(), 4);
 
         // Check that Skill(1)+Str was replaced at position 0
@@ -512,12 +548,10 @@ mod tests {
         let mut bonuses2 = TemporaryStatusBonuses::empty();
 
         // Create bonuses with no source
-        let bonus1 = TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Str(10), StatusBonusFlag::Persist.as_flag(), 1000, 5000, None
-        );
-        let bonus2 = TemporaryStatusBonus::with_duration_and_source(
-            BonusType::Agi(15), StatusBonusFlag::Persist.as_flag(), 1000, 3000, None
-        );
+        let bonus1 =
+            TemporaryStatusBonus::with_duration_and_source(BonusType::Str(10), StatusBonusFlag::Persist.as_flag(), 1000, 5000, None);
+        let bonus2 =
+            TemporaryStatusBonus::with_duration_and_source(BonusType::Agi(15), StatusBonusFlag::Persist.as_flag(), 1000, 3000, None);
 
         bonuses1.add(bonus1);
         bonuses2.add(bonus2);

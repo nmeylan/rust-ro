@@ -1,23 +1,16 @@
-
-
-
 use std::thread::sleep;
-
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use models::position::Position;
 
+use models::position::Position;
 use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
 
-
-use crate::server::model::movement::{Movable, Movement};
+use crate::server::Server;
 use crate::server::model::events::game_event::CharacterMovement;
-use crate::server::model::events::game_event::GameEvent::{CharacterMove};
+use crate::server::model::events::game_event::GameEvent::CharacterMove;
+use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::path_search_client_side_algorithm;
 use crate::server::model::position::PositionPacket;
 use crate::server::model::request::Request;
-use crate::server::Server;
-
-
 
 pub fn handle_char_move(server: &Server, context: Request) {
     let destination = if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
@@ -29,19 +22,35 @@ pub fn handle_char_move(server: &Server, context: Request) {
     };
     debug!("Request move to {}", destination);
     let character = server.state().get_character_from_context_unsafe(&context);
-    let map_instance = server.state().get_map_instance_from_character(character).unwrap_or_else(|| panic!("Expected to find map instance for character but didn't succeed"));
+    let map_instance = server
+        .state()
+        .get_map_instance_from_character(character)
+        .unwrap_or_else(|| panic!("Expected to find map instance for character but didn't succeed"));
     // server.add_to_next_movement_tick(CharacterClearMove(character.char_id));
-    let mut current_position = Position { x: character.x(), y: character.y(), dir: 0 };
+    let mut current_position = Position {
+        x: character.x(),
+        y: character.y(),
+        dir: 0,
+    };
     if character.is_moving() {
         if let Some(previous_movement) = character.peek_movement() {
-            // if get_current_time() > previous_movement.move_at() && ((get_current_time() - previous_movement.move_at()) < (character.status.speed/2) as u128) {
-                current_position = *previous_movement.position()
+            // if get_current_time() > previous_movement.move_at() && ((get_current_time() -
+            // previous_movement.move_at()) < (character.status.speed/2) as u128) {
+            current_position = *previous_movement.position()
             // }
         }
     }
     // let maybe_previous_movement = character.peek_movement().cloned();
 
-    let path = path_search_client_side_algorithm(map_instance.x_size(), map_instance.y_size(), map_instance.state().cells().as_ref(), current_position.x(), current_position.y(), destination.x, destination.y);
+    let path = path_search_client_side_algorithm(
+        map_instance.x_size(),
+        map_instance.y_size(),
+        map_instance.state().cells().as_ref(),
+        current_position.x(),
+        current_position.y(),
+        destination.x,
+        destination.y,
+    );
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     if character.is_attacking() {
         let attack = character.attack();
@@ -62,8 +71,10 @@ pub fn handle_char_move(server: &Server, context: Request) {
         path,
         start_at,
         current_position,
-        cancel_attack: true
+        cancel_attack: true,
     }));
-    // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
-    // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
+    // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node|
+    // (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
+    // debug_in_game_chat(&session, format!("current_position: {:?}, destination
+    // {:?}", current_position, destination));
 }

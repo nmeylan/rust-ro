@@ -2,6 +2,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::Data::Enum;
 use syn::{DeriveInput, parse_macro_input};
+
 use crate::helper::get_number_value;
 
 pub fn with_number_value(input: TokenStream) -> TokenStream {
@@ -23,19 +24,18 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
             res
         });
         let mut j: usize = 1;
-        let try_from_value_match_arms =
-            enum_data.variants.iter().map(|variant| {
-                let variant_name = variant.ident.clone();
-                let maybe_value = get_number_value::<usize>(variant, "value");
-                if let Some(value) = maybe_value {
-                    j = value;
-                }
-                let res = quote! {
-                    #j => Ok(#enum_name::#variant_name),
-                };
-                j += 1;
-                res
-            });
+        let try_from_value_match_arms = enum_data.variants.iter().map(|variant| {
+            let variant_name = variant.ident.clone();
+            let maybe_value = get_number_value::<usize>(variant, "value");
+            if let Some(value) = maybe_value {
+                j = value;
+            }
+            let res = quote! {
+                #j => Ok(#enum_name::#variant_name),
+            };
+            j += 1;
+            res
+        });
         let mut j: usize = 1;
         let value_match_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();

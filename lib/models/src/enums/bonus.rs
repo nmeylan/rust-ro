@@ -1,3 +1,7 @@
+use std::fmt::Debug;
+
+use enum_macro::{WithEq, WithStackable};
+
 use crate::enums::element::Element;
 use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
@@ -5,11 +9,8 @@ use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
 use crate::enums::{EnumStackable, EnumWithNumberValue};
 use crate::status::StatusSnapshot;
-use enum_macro::{WithEq, WithStackable};
-use std::fmt::Debug;
 
-#[derive(Debug, Clone, Copy)]
-#[derive(WithEq, WithStackable)]
+#[derive(Debug, Clone, Copy, WithEq, WithStackable)]
 pub enum BonusType {
     Str(i8),
     Agi(i8),
@@ -179,12 +180,12 @@ impl Eq for BonusType {}
 impl BonusType {
     pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {
-            BonusType::Str(str) => { status_snapshot.set_bonus_str(status_snapshot.bonus_str() + *str as i16) }
-            BonusType::Agi(agi) => { status_snapshot.set_bonus_agi(status_snapshot.bonus_agi() + *agi as i16) }
-            BonusType::Vit(vit) => { status_snapshot.set_bonus_vit(status_snapshot.bonus_vit() + *vit as i16) }
-            BonusType::Int(int) => { status_snapshot.set_bonus_int(status_snapshot.bonus_int() + *int as i16) }
-            BonusType::Dex(dex) => { status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *dex as i16) }
-            BonusType::Luk(luk) => { status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *luk as i16) }
+            BonusType::Str(str) => status_snapshot.set_bonus_str(status_snapshot.bonus_str() + *str as i16),
+            BonusType::Agi(agi) => status_snapshot.set_bonus_agi(status_snapshot.bonus_agi() + *agi as i16),
+            BonusType::Vit(vit) => status_snapshot.set_bonus_vit(status_snapshot.bonus_vit() + *vit as i16),
+            BonusType::Int(int) => status_snapshot.set_bonus_int(status_snapshot.bonus_int() + *int as i16),
+            BonusType::Dex(dex) => status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *dex as i16),
+            BonusType::Luk(luk) => status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *luk as i16),
             BonusType::AllStats(all) => {
                 status_snapshot.set_bonus_str(status_snapshot.bonus_str() + *all as i16);
                 status_snapshot.set_bonus_agi(status_snapshot.bonus_agi() + *all as i16);
@@ -193,21 +194,23 @@ impl BonusType {
                 status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *all as i16);
                 status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *all as i16);
             }
-            BonusType::Hit(hit) => { status_snapshot.set_hit(status_snapshot.hit() + { *hit }) }
-            BonusType::Flee(flee) => { status_snapshot.set_flee(status_snapshot.flee() + { *flee }) }
-            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + { *crit }) }
-            BonusType::Aspd(aspd) => { status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32) }
-            BonusType::Maxhp(hp) => { status_snapshot.set_hp(status_snapshot.hp() + *hp as u32) }
-            BonusType::Maxsp(sp) => { status_snapshot.set_sp(status_snapshot.sp() + *sp as u32) }
-            BonusType::MatkPercentage(matk_percentage) => { status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32 / 100.0)) }
-            BonusType::Atk(atk) => { status_snapshot.set_bonus_atk(status_snapshot.bonus_atk() + *atk as u16) }
-            BonusType::Def(def) => { status_snapshot.set_def(status_snapshot.def() + { *def }) }
-            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + { *mdef }) }
+            BonusType::Hit(hit) => status_snapshot.set_hit(status_snapshot.hit() + { *hit }),
+            BonusType::Flee(flee) => status_snapshot.set_flee(status_snapshot.flee() + { *flee }),
+            BonusType::Crit(crit) => status_snapshot.set_crit(status_snapshot.crit() + { *crit }),
+            BonusType::Aspd(aspd) => status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32),
+            BonusType::Maxhp(hp) => status_snapshot.set_hp(status_snapshot.hp() + *hp as u32),
+            BonusType::Maxsp(sp) => status_snapshot.set_sp(status_snapshot.sp() + *sp as u32),
+            BonusType::MatkPercentage(matk_percentage) => {
+                status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32 / 100.0))
+            }
+            BonusType::Atk(atk) => status_snapshot.set_bonus_atk(status_snapshot.bonus_atk() + *atk as u16),
+            BonusType::Def(def) => status_snapshot.set_def(status_snapshot.def() + { *def }),
+            BonusType::Mdef(mdef) => status_snapshot.set_mdef(status_snapshot.mdef() + { *mdef }),
             BonusType::Matk(matk) => {
                 status_snapshot.set_matk_min(status_snapshot.matk_min() + *matk as u16);
                 status_snapshot.set_matk_max(status_snapshot.matk_max() + *matk as u16);
             }
-            BonusType::ElementDefense(element) => { status_snapshot.set_element(*element) }
+            BonusType::ElementDefense(element) => status_snapshot.set_element(*element),
             BonusType::SpeedPercentage(speed_percentage) => {
                 let speed = (status_snapshot.base_speed() as f32 * (*speed_percentage as f32 / 100.0)).ceil() as u16;
                 if status_snapshot.speed() > speed {
@@ -220,18 +223,32 @@ impl BonusType {
 
     pub fn add_percentage_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {
-            BonusType::HitPercentage(value) => { status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
-            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd(status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * ({ *value } / 100.0))); }
-            BonusType::MaxhpPercentage(value) => { status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
-            BonusType::MaxspPercentage(value) => { status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
+            BonusType::HitPercentage(value) => {
+                status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16);
+            }
+            BonusType::AspdPercentage(value) => {
+                status_snapshot.set_aspd(status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * ({ *value } / 100.0)));
+            }
+            BonusType::MaxhpPercentage(value) => {
+                status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32);
+            }
+            BonusType::MaxspPercentage(value) => {
+                status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32);
+            }
             BonusType::VitDefPercentage(_) => {}
-            BonusType::DefPercentage(value) => { status_snapshot.set_def((status_snapshot.def() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
+            BonusType::DefPercentage(value) => {
+                status_snapshot.set_def((status_snapshot.def() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16);
+            }
             BonusType::MatkBasedOnStaffPercentage(_) => {}
-            BonusType::AtkPercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
+            BonusType::AtkPercentage(value) => {
+                status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16);
+            }
             BonusType::PerfectHitPercentage(_) => {}
-            BonusType::CriticalDamagePercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
-            BonusType::CastTimePercentage(value) => { status_snapshot.set_cast_time(status_snapshot.cast_time() + *value as f32 / 100.0) }
-            BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => {}
+            BonusType::CriticalDamagePercentage(value) => {
+                status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16);
+            }
+            BonusType::CastTimePercentage(value) => status_snapshot.set_cast_time(status_snapshot.cast_time() + *value as f32 / 100.0),
+            BonusType::CastTimeWhenUsingSkillIdPercentage(..) => {}
             BonusType::AfterCastDelayPercentage(_) => {}
             BonusType::NaturalHpRecoveryPercentage(_) => {}
             BonusType::NaturalSpRecoveryPercentage(_) => {}
@@ -263,7 +280,7 @@ impl BonusType {
             BonusType::MaxhpPercentage(_) => 18usize,
             BonusType::MaxspPercentage(_) => 19usize,
             BonusType::Atk(_) => 20usize,
-            BonusType::AtkBaneAgainstRace(_, _) => 21usize,
+            BonusType::AtkBaneAgainstRace(..) => 21usize,
             BonusType::Def(_) => 22usize,
             BonusType::VitDefPercentage(_) => 23usize,
             BonusType::DefPercentage(_) => 24usize,
@@ -277,7 +294,7 @@ impl BonusType {
             BonusType::ElementDefense(_) => 32usize,
             BonusType::CriticalDamagePercentage(_) => 33usize,
             BonusType::CastTimePercentage(_) => 34usize,
-            BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => 35usize,
+            BonusType::CastTimeWhenUsingSkillIdPercentage(..) => 35usize,
             BonusType::AfterCastDelayPercentage(_) => 36usize,
             BonusType::NaturalHpRecoveryPercentage(_) => 37usize,
             BonusType::NaturalSpRecoveryPercentage(_) => 38usize,
@@ -285,7 +302,7 @@ impl BonusType {
             BonusType::SpRecoveryMaxSpPercentage(_) => 40usize,
             BonusType::HpRegenFromItemPercentage(_) => 41usize,
             BonusType::SpRegenFromItemPercentage(_) => 42usize,
-            BonusType::HpRegenFromItemIDPercentage(_, _) => 43usize,
+            BonusType::HpRegenFromItemIDPercentage(..) => 43usize,
             BonusType::HpRegenFromHerbPercentage(_) => 44usize,
             BonusType::HpRegenFromFruitPercentage(_) => 45usize,
             BonusType::HpRegenFromMeatPercentage(_) => 46usize,
@@ -305,36 +322,36 @@ impl BonusType {
             BonusType::SpConsumption(_) => 60usize,
             BonusType::NormalAttackPercentage(_) => 61usize,
             BonusType::NullifyAttackChancePercentage(_) => 62usize,
-            BonusType::PhysicalDamageAgainstSizePercentage(_, _) => 63usize,
-            BonusType::MagicalDamageAgainstSizePercentage(_, _) => 64usize,
-            BonusType::PhysicalDamageAgainstRacePercentage(_, _) => 65usize,
-            BonusType::MagicalDamageAgainstRacePercentage(_, _) => 66usize,
-            BonusType::PhysicalDamageAgainstElementPercentage(_, _) => 67usize,
-            BonusType::DamageAgainstMobGroupPercentage(_, _) => 68usize,
-            BonusType::CriticalAgainstRacePercentage(_, _) => 69usize,
-            BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(_, _) => 70usize,
-            BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(_, _) => 71usize,
-            BonusType::PhysicalDamageAgainstClassPercentage(_, _) => 72usize,
-            BonusType::ResistanceDamageFromClassPercentage(_, _) => 73usize,
-            BonusType::ResistanceDamageFromElementPercentage(_, _) => 74usize,
-            BonusType::ResistanceDamageFromRacePercentage(_, _) => 75usize,
-            BonusType::ResistanceDamageFromSizePercentage(_, _) => 76usize,
+            BonusType::PhysicalDamageAgainstSizePercentage(..) => 63usize,
+            BonusType::MagicalDamageAgainstSizePercentage(..) => 64usize,
+            BonusType::PhysicalDamageAgainstRacePercentage(..) => 65usize,
+            BonusType::MagicalDamageAgainstRacePercentage(..) => 66usize,
+            BonusType::PhysicalDamageAgainstElementPercentage(..) => 67usize,
+            BonusType::DamageAgainstMobGroupPercentage(..) => 68usize,
+            BonusType::CriticalAgainstRacePercentage(..) => 69usize,
+            BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(..) => 70usize,
+            BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(..) => 71usize,
+            BonusType::PhysicalDamageAgainstClassPercentage(..) => 72usize,
+            BonusType::ResistanceDamageFromClassPercentage(..) => 73usize,
+            BonusType::ResistanceDamageFromElementPercentage(..) => 74usize,
+            BonusType::ResistanceDamageFromRacePercentage(..) => 75usize,
+            BonusType::ResistanceDamageFromSizePercentage(..) => 76usize,
             BonusType::IgnoreDefClass(_) => 77usize,
             BonusType::IgnoreDefRace(_) => 78usize,
-            BonusType::IgnoreDefRacePercentage(_, _) => 79usize,
-            BonusType::IgnoreMDefRacePercentage(_, _) => 80usize,
-            BonusType::IgnoreMDefClassPercentage(_, _) => 81usize,
-            BonusType::PhysicalDamageAgainstMobIdPercentage(_, _) => 82usize,
-            BonusType::DamageUsingElementPercentage(_, _) => 83usize,
-            BonusType::MasteryDamageUsingWeaponType(_, _) => 84usize,
+            BonusType::IgnoreDefRacePercentage(..) => 79usize,
+            BonusType::IgnoreMDefRacePercentage(..) => 80usize,
+            BonusType::IgnoreMDefClassPercentage(..) => 81usize,
+            BonusType::PhysicalDamageAgainstMobIdPercentage(..) => 82usize,
+            BonusType::DamageUsingElementPercentage(..) => 83usize,
+            BonusType::MasteryDamageUsingWeaponType(..) => 84usize,
             BonusType::IncreaseDamageAgainstClassBaseOnDef(_) => 85usize,
-            BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(_, _) => 86usize,
-            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(_, _) => 87usize,
-            BonusType::ChanceToInflictStatusOnAttackPercentage(_, _) => 88usize,
-            BonusType::ResistanceToStatusPercentage(_, _) => 89usize,
-            BonusType::GainExpWhenKillingRacePercentage(_, _) => 90usize,
-            BonusType::SpDrainWhenAttackingRace(_, _) => 91usize,
-            BonusType::SpDrainWhenKillingRace(_, _) => 92usize,
+            BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(..) => 86usize,
+            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(..) => 87usize,
+            BonusType::ChanceToInflictStatusOnAttackPercentage(..) => 88usize,
+            BonusType::ResistanceToStatusPercentage(..) => 89usize,
+            BonusType::GainExpWhenKillingRacePercentage(..) => 90usize,
+            BonusType::SpDrainWhenAttackingRace(..) => 91usize,
+            BonusType::SpDrainWhenKillingRace(..) => 92usize,
             BonusType::BreakArmorPercentage(_) => 93usize,
             BonusType::BreakWeaponPercentage(_) => 94usize,
             BonusType::BreakSelfWeaponPercentage(_) => 95usize,
@@ -343,7 +360,7 @@ impl BonusType {
             BonusType::SkillDelayIncDecPercentage(_) => 98usize,
             BonusType::DoubleAttackChancePercentage(_) => 99usize,
             BonusType::HealSkillPercentage(_) => 100usize,
-            BonusType::HealSkillIdPercentage(_, _) => 101usize,
+            BonusType::HealSkillIdPercentage(..) => 101usize,
             BonusType::ResistanceRangeAttackPercentage(_) => 102usize,
             BonusType::DamageRangedAtkPercentage(_) => 103usize,
             BonusType::ResistanceMagicAttackPercentage(_) => 104usize,
@@ -366,33 +383,32 @@ impl BonusType {
             BonusType::UnbreakableShield => 121usize,
             BonusType::UnbreakableShoes => 122usize,
             BonusType::UnbreakableWeapon => 123usize,
-            BonusType::ResistancePhysicalAttackFromMobIdPercentage(_, _) => 124usize,
-            BonusType::DropChanceItemIdPercentage(_, _) => 125usize,
+            BonusType::ResistancePhysicalAttackFromMobIdPercentage(..) => 124usize,
+            BonusType::DropChanceItemIdPercentage(..) => 125usize,
             BonusType::DropChanceJewelPercentage(_) => 126usize,
             BonusType::DropChanceOrePercentage(_) => 127usize,
             BonusType::DropChanceRecoveryPercentage(_) => 128usize,
             BonusType::DropChanceFoodPercentage(_) => 129usize,
-            BonusType::KnockbackWhenUsingSkillId(_, _) => 130usize,
-            BonusType::GainZenyWhenKillingMonster(_, _) => 131usize,
-            BonusType::HpDrainWhenAttackingPercentage(_, _) => 132usize,
-            BonusType::SpDrainWhenAttackingPercentage(_, _) => 133usize,
+            BonusType::KnockbackWhenUsingSkillId(..) => 130usize,
+            BonusType::GainZenyWhenKillingMonster(..) => 131usize,
+            BonusType::HpDrainWhenAttackingPercentage(..) => 132usize,
+            BonusType::SpDrainWhenAttackingPercentage(..) => 133usize,
             BonusType::SpDrainPerHit(_) => 134usize,
-            BonusType::SpBurnOnTargetWhenAttackingPercentage(_, _) => 135usize,
-            BonusType::HpLossEveryMs(_, _) => 136usize,
-            BonusType::HpRegenEveryMs(_, _) => 137usize,
-            BonusType::SpLossEveryMs(_, _) => 138usize,
-            BonusType::SpRegenEveryMs(_, _) => 139usize,
-            BonusType::SkillIdDamagePercentage(_, _) => 140usize,
-            BonusType::EnableSkillId(_, _) => 141usize,
-            BonusType::SkillIdSuccessPercentage(_, _) => 142usize,
-            BonusType::AutospellSkillIdChancePercentage(_, _) => 143usize,
-            BonusType::DoubleCastSkillIdChancePercentage(_, _) => 144usize,
+            BonusType::SpBurnOnTargetWhenAttackingPercentage(..) => 135usize,
+            BonusType::HpLossEveryMs(..) => 136usize,
+            BonusType::HpRegenEveryMs(..) => 137usize,
+            BonusType::SpLossEveryMs(..) => 138usize,
+            BonusType::SpRegenEveryMs(..) => 139usize,
+            BonusType::SkillIdDamagePercentage(..) => 140usize,
+            BonusType::EnableSkillId(..) => 141usize,
+            BonusType::SkillIdSuccessPercentage(..) => 142usize,
+            BonusType::AutospellSkillIdChancePercentage(..) => 143usize,
+            BonusType::DoubleCastSkillIdChancePercentage(..) => 144usize,
             _ => {
                 panic!("Value can\'t be found for enum {:?}", self);
             }
         }
     }
-
 
     pub fn serialize_to_sc_data(&self) -> (i32, i32, i32) {
         match self {
@@ -465,8 +481,12 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstElementPercentage(element, val) => (self.id() as i32, element.value() as i32, *val as i32),
             BonusType::DamageAgainstMobGroupPercentage(group, val) => (self.id() as i32, group.value() as i32, *val as i32),
             BonusType::CriticalAgainstRacePercentage(race, val) => (self.id() as i32, race.value() as i32, *val as i32),
-            BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(class, val) => (self.id() as i32, class.value() as i32, (*val * 100.0) as i32),
-            BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(race, val) => (self.id() as i32, race.value() as i32, (*val * 100.0) as i32),
+            BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(class, val) => {
+                (self.id() as i32, class.value() as i32, (*val * 100.0) as i32)
+            }
+            BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(race, val) => {
+                (self.id() as i32, race.value() as i32, (*val * 100.0) as i32)
+            }
             BonusType::PhysicalDamageAgainstClassPercentage(class, val) => (self.id() as i32, class.value() as i32, *val as i32),
             BonusType::ResistanceDamageFromClassPercentage(class, val) => (self.id() as i32, class.value() as i32, *val as i32),
             BonusType::ResistanceDamageFromElementPercentage(element, val) => (self.id() as i32, element.value() as i32, *val as i32),
@@ -481,9 +501,15 @@ impl BonusType {
             BonusType::DamageUsingElementPercentage(element, val) => (self.id() as i32, element.value() as i32, *val as i32),
             BonusType::MasteryDamageUsingWeaponType(weapon_type, val) => (self.id() as i32, weapon_type.value() as i32, *val as i32),
             BonusType::IncreaseDamageAgainstClassBaseOnDef(class) => (self.id() as i32, class.value() as i32, 0),
-            BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(status, val) => (self.id() as i32, status.value() as i32, (*val * 100.0) as i32),
-            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(status, val) => (self.id() as i32, status.value() as i32, (*val * 100.0) as i32),
-            BonusType::ChanceToInflictStatusOnAttackPercentage(status, val) => (self.id() as i32, status.value() as i32, (*val * 100.0) as i32),
+            BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(status, val) => {
+                (self.id() as i32, status.value() as i32, (*val * 100.0) as i32)
+            }
+            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(status, val) => {
+                (self.id() as i32, status.value() as i32, (*val * 100.0) as i32)
+            }
+            BonusType::ChanceToInflictStatusOnAttackPercentage(status, val) => {
+                (self.id() as i32, status.value() as i32, (*val * 100.0) as i32)
+            }
             BonusType::ResistanceToStatusPercentage(status, val) => (self.id() as i32, status.value() as i32, (*val * 100.0) as i32),
             BonusType::GainExpWhenKillingRacePercentage(race, val) => (self.id() as i32, race.value() as i32, *val as i32),
             BonusType::SpDrainWhenAttackingRace(race, val) => (self.id() as i32, race.value() as i32, *val as i32),
@@ -607,36 +633,116 @@ impl BonusType {
             60 => Some(BonusType::SpConsumption(val1 as i8)),
             61 => Some(BonusType::NormalAttackPercentage(val1 as i8)),
             62 => Some(BonusType::NullifyAttackChancePercentage(val1 as u8)),
-            63 => Some(BonusType::PhysicalDamageAgainstSizePercentage(Size::from_value(val1 as usize), val2 as i8)),
-            64 => Some(BonusType::MagicalDamageAgainstSizePercentage(Size::from_value(val1 as usize), val2 as i8)),
-            65 => Some(BonusType::PhysicalDamageAgainstRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            66 => Some(BonusType::MagicalDamageAgainstRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            67 => Some(BonusType::PhysicalDamageAgainstElementPercentage(Element::from_value(val1 as usize), val2 as i8)),
-            68 => Some(BonusType::DamageAgainstMobGroupPercentage(MobGroup::from_value(val1 as usize), val2 as i8)),
-            69 => Some(BonusType::CriticalAgainstRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            70 => Some(BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(MobClass::from_value(val1 as usize), val2 as f32 / 100.0)),
-            71 => Some(BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::from_value(val1 as usize), val2 as f32 / 100.0)),
-            72 => Some(BonusType::PhysicalDamageAgainstClassPercentage(MobClass::from_value(val1 as usize), val2 as i8)),
-            73 => Some(BonusType::ResistanceDamageFromClassPercentage(MobClass::from_value(val1 as usize), val2 as i8)),
-            74 => Some(BonusType::ResistanceDamageFromElementPercentage(Element::from_value(val1 as usize), val2 as i8)),
-            75 => Some(BonusType::ResistanceDamageFromRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            76 => Some(BonusType::ResistanceDamageFromSizePercentage(Size::from_value(val1 as usize), val2 as i8)),
+            63 => Some(BonusType::PhysicalDamageAgainstSizePercentage(
+                Size::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            64 => Some(BonusType::MagicalDamageAgainstSizePercentage(
+                Size::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            65 => Some(BonusType::PhysicalDamageAgainstRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            66 => Some(BonusType::MagicalDamageAgainstRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            67 => Some(BonusType::PhysicalDamageAgainstElementPercentage(
+                Element::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            68 => Some(BonusType::DamageAgainstMobGroupPercentage(
+                MobGroup::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            69 => Some(BonusType::CriticalAgainstRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            70 => Some(BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(
+                MobClass::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            71 => Some(BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            72 => Some(BonusType::PhysicalDamageAgainstClassPercentage(
+                MobClass::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            73 => Some(BonusType::ResistanceDamageFromClassPercentage(
+                MobClass::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            74 => Some(BonusType::ResistanceDamageFromElementPercentage(
+                Element::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            75 => Some(BonusType::ResistanceDamageFromRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            76 => Some(BonusType::ResistanceDamageFromSizePercentage(
+                Size::from_value(val1 as usize),
+                val2 as i8,
+            )),
             77 => Some(BonusType::IgnoreDefClass(MobClass::from_value(val1 as usize))),
             78 => Some(BonusType::IgnoreDefRace(MobRace::from_value(val1 as usize))),
-            79 => Some(BonusType::IgnoreDefRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            80 => Some(BonusType::IgnoreMDefRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            81 => Some(BonusType::IgnoreMDefClassPercentage(MobClass::from_value(val1 as usize), val2 as i8)),
+            79 => Some(BonusType::IgnoreDefRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            80 => Some(BonusType::IgnoreMDefRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            81 => Some(BonusType::IgnoreMDefClassPercentage(
+                MobClass::from_value(val1 as usize),
+                val2 as i8,
+            )),
             82 => Some(BonusType::PhysicalDamageAgainstMobIdPercentage(val1 as u32, val2 as i8)),
-            83 => Some(BonusType::DamageUsingElementPercentage(Element::from_value(val1 as usize), val2 as i8)),
-            84 => Some(BonusType::MasteryDamageUsingWeaponType(WeaponType::from_value(val1 as usize), val2 as i8)),
-            85 => Some(BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::from_value(val1 as usize))),
-            86 => Some(BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::from_value(val1 as usize), val2 as f32 / 100.0)),
-            87 => Some(BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(StatusEffect::from_value(val1 as usize), val2 as f32 / 100.0)),
-            88 => Some(BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::from_value(val1 as usize), val2 as f32 / 100.0)),
-            89 => Some(BonusType::ResistanceToStatusPercentage(StatusEffect::from_value(val1 as usize), val2 as f32 / 100.0)),
-            90 => Some(BonusType::GainExpWhenKillingRacePercentage(MobRace::from_value(val1 as usize), val2 as i8)),
-            91 => Some(BonusType::SpDrainWhenAttackingRace(MobRace::from_value(val1 as usize), val2 as u16)),
-            92 => Some(BonusType::SpDrainWhenKillingRace(MobRace::from_value(val1 as usize), val2 as u16)),
+            83 => Some(BonusType::DamageUsingElementPercentage(
+                Element::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            84 => Some(BonusType::MasteryDamageUsingWeaponType(
+                WeaponType::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            85 => Some(BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::from_value(
+                val1 as usize,
+            ))),
+            86 => Some(BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(
+                StatusEffect::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            87 => Some(BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(
+                StatusEffect::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            88 => Some(BonusType::ChanceToInflictStatusOnAttackPercentage(
+                StatusEffect::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            89 => Some(BonusType::ResistanceToStatusPercentage(
+                StatusEffect::from_value(val1 as usize),
+                val2 as f32 / 100.0,
+            )),
+            90 => Some(BonusType::GainExpWhenKillingRacePercentage(
+                MobRace::from_value(val1 as usize),
+                val2 as i8,
+            )),
+            91 => Some(BonusType::SpDrainWhenAttackingRace(
+                MobRace::from_value(val1 as usize),
+                val2 as u16,
+            )),
+            92 => Some(BonusType::SpDrainWhenKillingRace(
+                MobRace::from_value(val1 as usize),
+                val2 as u16,
+            )),
             93 => Some(BonusType::BreakArmorPercentage(val1 as f32 / 100.0)),
             94 => Some(BonusType::BreakWeaponPercentage(val1 as i8)),
             95 => Some(BonusType::BreakSelfWeaponPercentage(val1 as f32 / 100.0)),
@@ -696,9 +802,9 @@ impl BonusType {
 
 #[cfg(test)]
 mod tests {
+    use crate::enums::EnumStackable;
     use crate::enums::bonus::BonusType;
     use crate::enums::element::Element;
-    use crate::enums::EnumStackable;
 
     #[test]
     fn test_merge_bonus() {
@@ -713,8 +819,14 @@ mod tests {
         println!("{:?}", merged_bonus);
         assert_eq!(merged_bonus.len(), 3);
         assert_eq!(merged_bonus[0], BonusType::Str(13));
-        assert_eq!(merged_bonus[1], BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15));
-        assert_eq!(merged_bonus[2], BonusType::PhysicalDamageAgainstElementPercentage(Element::Fire, 5));
+        assert_eq!(
+            merged_bonus[1],
+            BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15)
+        );
+        assert_eq!(
+            merged_bonus[2],
+            BonusType::PhysicalDamageAgainstElementPercentage(Element::Fire, 5)
+        );
     }
     #[test]
     fn test_get_bonus() {
@@ -727,8 +839,24 @@ mod tests {
 
         let merged_bonus = BonusType::merge_enums(&bonuses);
         let bonuses_ref: Vec<&BonusType> = bonuses.iter().map(|b| b).collect();
-        assert_eq!(*BonusType::get_enum(&BonusType::Str(0), &bonuses_ref).unwrap(), BonusType::Str(13));
-        assert_eq!(*BonusType::get_enum(&BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 0), &bonuses_ref).unwrap(), BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15));
-        assert_eq!(BonusType::get_enum(&BonusType::PhysicalDamageAgainstElementPercentage(Element::Earth, 0), &bonuses_ref), None);
+        assert_eq!(
+            *BonusType::get_enum(&BonusType::Str(0), &bonuses_ref).unwrap(),
+            BonusType::Str(13)
+        );
+        assert_eq!(
+            *BonusType::get_enum(
+                &BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 0),
+                &bonuses_ref
+            )
+            .unwrap(),
+            BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15)
+        );
+        assert_eq!(
+            BonusType::get_enum(
+                &BonusType::PhysicalDamageAgainstElementPercentage(Element::Earth, 0),
+                &bonuses_ref
+            ),
+            None
+        );
     }
 }
