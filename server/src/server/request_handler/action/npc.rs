@@ -7,9 +7,9 @@ use tokio::sync::mpsc;
 use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist};
 
 use crate::server::model::request::Request;
-use crate::server::script::PlayerInteractionScriptHandler;
-use crate::server::Server;
+use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_ACCOUNT_ID, VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_NPC_ID};
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
 
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);
@@ -31,9 +31,13 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let map_instance = character.current_map_instance();
     thread::Builder::new().name(format!("script-player-{}-thread", session.account_id)).spawn(move || {
         let script = server_clone.state().map_item_script(&map_item, &map_name, map_instance).expect("Expect to retrieve script from map instance");
+        let mut thread_constants = vec![];
+        thread_constants.insert(VM_THREAD_CONSTANT_INDEX_NPC_ID, npc_id);
+        thread_constants.insert(VM_THREAD_CONSTANT_INDEX_CHAR_ID, session.char_id.unwrap());
+        thread_constants.insert(VM_THREAD_CONSTANT_INDEX_ACCOUNT_ID, session.account_id);
         Vm::run_main_function(server.script_service().vm.clone(), script.class_reference, script.instance_reference,
                               Box::new(&PlayerInteractionScriptHandler::new(client_notification_channel, server_clone.clone(), RwLock::new(rx), server.runtime.clone(), GlobalConfigService::instance())),
-                              vec![npc_id, session.char_id.unwrap(), session.account_id]
+                              thread_constants
         )
             .unwrap()
     }).unwrap();

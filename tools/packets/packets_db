@@ -570,7 +570,7 @@ struct PACKET_ZC_BROADCAST {
   short PacketLength
   char msg[...]
  }
-0x9b
+0x9b,0x9008
 struct PACKET_CZ_CHANGE_DIRECTION {
   short PacketId
   short headDir

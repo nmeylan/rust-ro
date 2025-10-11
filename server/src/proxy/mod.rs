@@ -1,15 +1,15 @@
-use std::sync::{Arc, Mutex};
+use packets::packets::Packet;
 use std::net::{Shutdown, SocketAddr, TcpListener, TcpStream};
-use packets::packets::{Packet};
+use std::sync::{Arc, Mutex};
 
-use std::thread::{JoinHandle, spawn};
-use std::{panic, thread};
-use tokio::runtime::Runtime;
+use crate::util::packet::{debug_packets, PacketDirection};
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering::SeqCst;
-use crate::util::packet::{debug_packets, PacketDirection};
+use std::thread::{spawn, JoinHandle};
+use std::{panic, thread};
+use tokio::runtime::Runtime;
 
 pub mod map;
 pub mod char;
@@ -26,8 +26,6 @@ pub struct Proxy<T: PacketHandler + Clone + Send> {
 pub trait PacketHandler {
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet);
 }
-
-
 
 impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     pub fn proxy(&self, packetver: u32) -> JoinHandle<()> {
@@ -106,6 +104,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
+                    info!("Proxy: {:02X?}", buffer);
                     self.proxy_request(outgoing, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
                     debug_packets(Some(outgoing.peer_addr().as_ref().unwrap()), direction, packetver, &mut buffer, bytes_read, &Some(self.name.clone()));
                 }

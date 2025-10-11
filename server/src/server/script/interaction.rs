@@ -1,13 +1,13 @@
-use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
-use rathena_script_lang_interpreter::lang::thread::Thread;
-use rathena_script_lang_interpreter::lang::value;
-use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 use crate::packets::packets::Packet;
 use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_NPC_ID};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::string::StringUtil;
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
+use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
+use rathena_script_lang_interpreter::lang::thread::Thread;
+use rathena_script_lang_interpreter::lang::value;
+use rathena_script_lang_interpreter::lang::value::{Native, Value};
 
 impl PlayerInteractionScriptHandler {
     pub fn handle_interaction(&self, native: &Native, params: &Vec<Value>, execution_thread: &Thread, call_frame: &CallFrame) -> bool {
@@ -164,8 +164,10 @@ impl PlayerInteractionScriptHandler {
             return true;
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
+            return true;
         } else if native.name.eq("menu") {
             if let Some(_option) = self.handle_menu(execution_thread, params) {}
+            return true;
         } else if native.name.eq("message") {
             let _char_name = params[0].string_value().unwrap();
             let message = params[1].string_value().unwrap();

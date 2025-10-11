@@ -44,7 +44,7 @@ use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
 
-use crate::util::packet::{debug_packets_from_vec, PacketDirection, PacketsBuffer};
+use crate::util::packet::{debug_packets_from_vec, print_packet, PacketDirection, PacketsBuffer};
 use crate::util::tick::{delayed_tick, get_tick};
 
 pub mod boot;
@@ -300,6 +300,9 @@ impl Server {
                                             break;
                                         }
                                         let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
+                                        if GlobalConfigService::instance().config().server.trace_packet {
+                                            print_packet(&None, None, PacketDirection::Forward, &packet);
+                                        }
                                         let context = Request::new(server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                         request_handler::handle(server_shared_ref.clone(), context);
                                     }

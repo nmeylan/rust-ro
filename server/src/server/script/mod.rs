@@ -188,9 +188,9 @@ impl PlayerInteractionScriptHandler {
         self.player_action_receiver.write().unwrap().blocking_recv()
     }
 
-    pub(crate) fn send_packet_to_char(&self, account_id: u32, packet: &mut dyn Packet) {
+    pub(crate) fn send_packet_to_char(&self, char_id: u32, packet: &mut dyn Packet) {
         self.client_notification_channel.send(Notification::Char(
-            CharNotification::new(account_id, std::mem::take(packet.raw_mut())))).expect("Failed to send packet to char");
+            CharNotification::new(char_id, std::mem::take(packet.raw_mut())))).expect("Failed to send packet to char");
     }
 
 }

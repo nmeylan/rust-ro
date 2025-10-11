@@ -1,10 +1,10 @@
-use std::fmt::{Display, Formatter};
-use std::net::{SocketAddr};
-use std::panic;
-use packets::packets::Packet;
-use packets::packets_parser::parse;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::tick::get_tick;
+use packets::packets::Packet;
+use packets::packets_parser::parse;
+use std::fmt::{Display, Formatter};
+use std::net::SocketAddr;
+use std::panic;
 
 pub fn chain_packets(packets: Vec<&dyn Packet>) -> Vec<u8> {
     let mut res: Vec<u8> = Vec::new();
@@ -72,18 +72,18 @@ pub fn debug_packets(outgoing: Option<&SocketAddr>, direction: PacketDirection, 
             });
             if let Ok(packet) = result {
                 offset += packet.raw().len();
-                print_packet(name, outgoing, direction, packet);
+                print_packet(name, outgoing, direction, &packet);
             } else {
                 break;
             }
         }
     } else {
-        print_packet(name, outgoing, direction, packet);
+        print_packet(name, outgoing, direction, &packet);
     }
 }
 
 
-fn print_packet(name: &Option<String>, outgoing: Option<&SocketAddr>, direction: PacketDirection, packet: Box<dyn Packet>) {
+pub fn print_packet(name: &Option<String>, outgoing: Option<&SocketAddr>, direction: PacketDirection, packet: &Box<dyn Packet>) {
     if packet.id(GlobalConfigService::instance().packetver()) != "0x6003"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x0887"
@@ -92,7 +92,7 @@ fn print_packet(name: &Option<String>, outgoing: Option<&SocketAddr>, direction:
         if let Some(outgoing) = outgoing {
             info!("{} {} {}", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" }, outgoing);
         } else {
-            info!("{} {} Client", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" });
+            info!("{} {} Client", name.as_ref().cloned().unwrap_or("".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" });
         }
         packet.display();
         packet.pretty_debug();
