@@ -18,6 +18,7 @@ jobs:
     - name: Run build script
       run: ./.github/workflows/pipeline.sh
       shell: bash
+    - uses: rui314/setup-mold@v1
     - uses: actions/cache@v3
       with:
         path: |
