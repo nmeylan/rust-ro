@@ -30,7 +30,7 @@ pub trait EnumWithStringValue {
         Self: Sized;
     fn from_string(value: &str) -> Self;
     fn from_string_ignore_case(value: &str) -> Self;
-    fn as_str(&self) -> &str;
+    fn as_str(&self) -> &'static str;
 }
 
 macro_rules! enum_with_mask_trait {

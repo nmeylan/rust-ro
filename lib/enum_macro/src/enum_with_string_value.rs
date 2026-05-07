@@ -113,7 +113,7 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                     }
                 }
 
-                fn as_str(&self) -> &str {
+                fn as_str(&self) -> &'static str {
                     match self {
                         #(#value_match_arms)*
                         _ => panic!("Value can't be found for enum_macro {}", stringify!(#enum_name))
