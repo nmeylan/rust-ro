@@ -7,6 +7,7 @@ pub mod class;
 pub mod client_effect_icon;
 pub mod client_messages;
 pub mod effect;
+pub mod effect_id;
 pub mod element;
 pub mod item;
 pub mod look;

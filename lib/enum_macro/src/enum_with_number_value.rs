@@ -60,7 +60,7 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
                 fn try_from_value(value: usize) -> Result<Self, String> {
                     match value {
                         #(#try_from_value_match_arms)*
-                        _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
+                        _ => Err(format!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value))
                     }
                 }
 
