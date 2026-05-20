@@ -514,9 +514,15 @@ pub enum EffectId {
     /// `EF_TAMINGFAILED`
     #[value_string = "EF_TAMINGFAILED"]
     Tamingfailed,
+    /// `EF_ENERGYCOAT`
+    #[value_string = "EF_ENERGYCOAT"]
+    Energycoat,
     /// `EF_CARTREVOLUTION`
     #[value_string = "EF_CARTREVOLUTION"]
     Cartrevolution,
+    /// `EF_VENOMDUST2`
+    #[value_string = "EF_VENOMDUST2"]
+    Venomdust2,
     /// `EF_CHANGEDARK`
     #[value_string = "EF_CHANGEDARK"]
     Changedark,
