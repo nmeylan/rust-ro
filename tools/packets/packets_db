@@ -1465,7 +1465,7 @@ struct PACKET_ZC_NOTIFY_SKILL_POSITION {
   short count
   unsigned char action
  }
-0x116
+0x116, 0x0438:20120307
 struct PACKET_CZ_USE_SKILL_TOGROUND {
   short PacketId
   short selectedLevel

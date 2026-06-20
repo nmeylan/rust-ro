@@ -43,6 +43,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120307 && buffer[0] == 0x89 && buffer[1] == 0x08 {
         return Box::new(PacketCzUseSkill::from(buffer, packetver));
     }
+    if packetver >= 20120307 && buffer[0] == 0x38 && buffer[1] == 0x04 {
+        return Box::new(PacketCzUseSkillToground::from(buffer, packetver));
+    }
     if packetver >= 20120307 && buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
@@ -2591,6 +2594,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8908") {
         return  PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3804") {
+        return  PacketCzUseSkillToground::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6A08") {
         return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
