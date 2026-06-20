@@ -4193,7 +4193,7 @@ impl Debug for PacketZcWarplist {
         f.debug_struct("PacketZcWarplist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
-            .field("map_name[4, 8]", &format!("{:02X?}", &self.map_name_raw))
+            .field("map_name[4, 68]", &format!("{:02X?}", &self.map_name_raw))
         .finish()
     }
 }
@@ -4203,7 +4203,7 @@ impl Display for PacketZcWarplist {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("skid(unsigned short as u16)[2, 4]: {}", &self.skid));
-        fields.push(format!("map_name(char[] as char[])[4, 8]: {}", &self.map_name.pretty_output()));
+        fields.push(format!("map_name(char[] as char[])[4, 68]: {}", &self.map_name.pretty_output()));
         write!(f, "PacketZcWarplist\n {}", fields.join(",\n "))
     }
 }

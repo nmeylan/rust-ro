@@ -1515,7 +1515,7 @@ struct PACKET_CZ_SELECT_WARPPOINT {
 struct PACKET_ZC_WARPLIST {
   short PacketId
   unsigned short SKID
-  char mapName[4][16]
+  char mapName[64]
  }
 0x11d
 struct PACKET_CZ_REMEMBER_WARPPOINT {

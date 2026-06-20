@@ -2520,8 +2520,8 @@ pub struct PacketZcWarplist {
     pub packet_id_raw: [u8; 2],
     pub skid: u16,
     pub skid_raw: [u8; 2],
-    pub map_name: [char; 4],
-    pub map_name_raw: [u8; 4],
+    pub map_name: [char; 64],
+    pub map_name_raw: [u8; 64],
 }
 
 #[derive(Clone)]
