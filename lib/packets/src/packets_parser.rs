@@ -2422,6 +2422,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x15 && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyStandentry7::from(buffer, packetver));
     }
+    if buffer[0] == 0x0f && buffer[1] == 0x09 {
+        return Box::new(PacketZcNotifyNewentry7::from(buffer, packetver));
+    }
     if buffer[0] == 0xfd && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyMoveentry8::from(buffer, packetver));
     }
@@ -4973,6 +4976,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0x1509") {
         return PacketZcNotifyStandentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x0f09") {
+        return PacketZcNotifyNewentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xfd09") {
         return PacketZcNotifyMoveentry8::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
