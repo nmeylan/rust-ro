@@ -234,6 +234,8 @@ pub enum ClientEffectIcon {
     Autoberserk,
     #[value = 133]
     Run,
+    #[value = 134]
+    Ting,
     #[value = 135]
     StormkickOn,
     #[value = 137]
