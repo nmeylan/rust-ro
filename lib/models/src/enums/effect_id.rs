@@ -2482,15 +2482,20 @@ pub enum EffectId {
     /// `EF_DECAGILITYBUF`
     #[value_string = "EF_DECAGILITYBUF"]
     Decagilitybuf,
-    // Deployed-trap ground sprites with no rathena EF id. Values sit above the
-    // server-sent effect range so they can never collide with a real effect number.
-    #[value_string = "EF_HT_LANDMINE"]
+    // Deployed-trap ground sprites (color-coded, shared across traps). No rathena
+    // EF id exists; values sit above the server-sent range so they can never
+    // collide with a real effect number.
+    #[value_string = "EF_TRAP_DEFAULT"]
     #[value = 3000]
-    Landmine,
-    #[value_string = "EF_HT_ANKLESNARE"]
-    Anklesnare,
-    #[value_string = "EF_HT_TALKIEBOX"]
-    Talkiebox,
+    TrapDefault,
+    #[value_string = "EF_TRAP_YELLOW"]
+    TrapYellow,
+    #[value_string = "EF_TRAP_BLUE"]
+    TrapBlue,
+    #[value_string = "EF_TRAP_RED"]
+    TrapRed,
+    #[value_string = "EF_TRAP_GREEN"]
+    TrapGreen,
 }
 
 
