@@ -2555,8 +2555,12 @@ pub struct PacketZcSkillEntry {
     pub y_pos_raw: [u8; 2],
     pub job: u8,
     pub job_raw: [u8; 1],
+    pub radius_range: i8,
+    pub radius_range_raw: [u8; 1],
     pub is_visible: bool,
     pub is_visible_raw: [u8; 1],
+    pub level: u8,
+    pub level_raw: [u8; 1],
 }
 
 #[derive(Clone)]
