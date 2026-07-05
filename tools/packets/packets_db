@@ -1534,9 +1534,7 @@ struct PACKET_ZC_SKILL_ENTRY {
   short xPos
   short yPos
   unsigned char job
-#V GTE 20110718 char RadiusRange
   bool isVisible
-#V GTE 20130731 unsigned char level
  }
 0x120
 struct PACKET_ZC_SKILL_DISAPPEAR {

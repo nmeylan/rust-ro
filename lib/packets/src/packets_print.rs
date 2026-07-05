@@ -4251,9 +4251,7 @@ impl Debug for PacketZcSkillEntry {
             .field("x_pos[10, 12]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[12, 14]", &format!("{:02X?}", &self.y_pos_raw))
             .field("job[14, 15]", &format!("{:02X?}", &self.job_raw))
-            .field("radius_range[15, 16]", &format!("{:02X?}", &self.radius_range_raw))
-            .field("is_visible[16, 17]", &format!("{:02X?}", &self.is_visible_raw))
-            .field("level[17, 18]", &format!("{:02X?}", &self.level_raw))
+            .field("is_visible[15, 16]", &format!("{:02X?}", &self.is_visible_raw))
         .finish()
     }
 }
@@ -4267,9 +4265,7 @@ impl Display for PacketZcSkillEntry {
         fields.push(format!("x_pos(short as i16)[10, 12]: {}", &self.x_pos));
         fields.push(format!("y_pos(short as i16)[12, 14]: {}", &self.y_pos));
         fields.push(format!("job(unsigned char as u8)[14, 15]: {}", &self.job));
-        fields.push(format!("radius_range(char as i8)[15, 16]: {}", &self.radius_range));
-        fields.push(format!("is_visible(bool as bool)[16, 17]: {}", &self.is_visible));
-        fields.push(format!("level(unsigned char as u8)[17, 18]: {}", &self.level));
+        fields.push(format!("is_visible(bool as bool)[15, 16]: {}", &self.is_visible));
         write!(f, "PacketZcSkillEntry\n {}", fields.join(",\n "))
     }
 }
