@@ -18,4 +18,5 @@ pub enum ActionType {
     AttackLucky,
     Touchskill,
     AttackMultipleCritical,
+    SplashEndure,
 }
