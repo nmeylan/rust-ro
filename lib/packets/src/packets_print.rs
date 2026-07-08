@@ -4552,6 +4552,24 @@ impl Display for PacketZcOpenstore {
     }
 }
 
+impl Debug for PacketZcAckOpenstore2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcAckOpenstore2")
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcAckOpenstore2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!("result(unsigned char as u8)[2, 3]: {}", &self.result));
+        write!(f, "PacketZcAckOpenstore2\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for PacketCzReqClosestore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqClosestore")

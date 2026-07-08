@@ -2714,6 +2714,15 @@ pub struct PacketZcOpenstore {
 }
 
 #[derive(Clone)]
+pub struct PacketZcAckOpenstore2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub result: u8,
+    pub result_raw: [u8; 1],
+}
+
+#[derive(Clone)]
 pub struct PacketCzReqClosestore {
     pub raw: Vec<u8>,
     pub packet_id: i16,

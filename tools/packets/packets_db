@@ -1647,6 +1647,11 @@ struct PACKET_ZC_OPENSTORE {
   short PacketId
   short itemcount
  }
+0xa28
+struct PACKET_ZC_ACK_OPENSTORE2 {
+  short PacketId
+  unsigned char result
+ }
 0x12e
 struct PACKET_CZ_REQ_CLOSESTORE {
   short PacketId

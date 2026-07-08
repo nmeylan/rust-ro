@@ -682,6 +682,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x2d && buffer[1] == 0x01 {
         return Box::new(PacketZcOpenstore::from(buffer, packetver));
     }
+    if buffer[0] == 0x28 && buffer[1] == 0x0a {
+        return Box::new(PacketZcAckOpenstore2::from(buffer, packetver));
+    }
     if buffer[0] == 0x2e && buffer[1] == 0x01 {
         return Box::new(PacketCzReqClosestore::from(buffer, packetver));
     }
@@ -3236,6 +3239,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0x2d01") {
         return PacketZcOpenstore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x280a") {
+        return PacketZcAckOpenstore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0x2e01") {
         return PacketCzReqClosestore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
