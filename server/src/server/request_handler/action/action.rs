@@ -1,10 +1,10 @@
-use models::enums::EnumWithNumberValue;
 use models::enums::action::ActionType;
+use models::enums::EnumWithNumberValue;
 use packets::packets::{PacketCzItemPickup, PacketCzRequestAct};
 
-use crate::server::Server;
 use crate::server::model::events::game_event::{CharacterAttack, CharacterPickUpItem, GameEvent};
 use crate::server::model::request::Request;
+use crate::server::Server;
 
 pub fn handle_pickup_item(server: &Server, context: Request) {
     let packet_cz_item_pickup = cast!(context.packet(), PacketCzItemPickup);
@@ -46,5 +46,6 @@ pub fn handle_action(server: &Server, context: Request) {
         ActionType::AttackLucky => {}
         ActionType::Touchskill => {}
         ActionType::AttackMultipleCritical => {}
+        ActionType::SplashEndure => {}
     }
 }
