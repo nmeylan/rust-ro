@@ -1078,6 +1078,28 @@ impl Display for PacketZcStopmove {
     }
 }
 
+impl Debug for PacketZcFastmove {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcFastmove")
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
+            .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
+            .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcFastmove {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
+        fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
+        fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
+        write!(f, "PacketZcFastmove\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for PacketCzRequestAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestAct")
@@ -6526,7 +6548,7 @@ impl Debug for PacketZcMakableitemlist {
         f.debug_struct("PacketZcMakableitemlist")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("info[4, ?]", &format!("{:02X?}", &self.info_raw))
+            .field("info[4, 12]", &format!("{:02X?}", &self.info_raw))
         .finish()
     }
 }
@@ -6536,7 +6558,8 @@ impl Display for PacketZcMakableitemlist {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("info(struct as Struct)[4, ?]: {}", &self.info));
+        fields.push(format!("info([] as Vec)[4, 12]: {}", &self.info.iter().map(|item| format!("
+  >{}", item)).collect::<String>()));
         write!(f, "PacketZcMakableitemlist\n {}", fields.join(",\n "))
     }
 }

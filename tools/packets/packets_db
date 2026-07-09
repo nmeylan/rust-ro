@@ -445,6 +445,13 @@ struct PACKET_ZC_STOPMOVE {
   short xPos
   short yPos
  }
+0x8d2
+struct PACKET_ZC_FASTMOVE {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
 0x89,0x0885:20120307
 struct PACKET_CZ_REQUEST_ACT {
   short PacketId
@@ -2391,7 +2398,7 @@ struct PACKET_ZC_MONSTER_INFO {
 struct PACKET_ZC_MAKABLEITEMLIST {
   short PacketId
   short PacketLength
-  struct MAKABLEITEM_INFO info {
+  struct MAKABLEITEM_INFO info[...] { // Size 8
   unsigned short ITID
   unsigned short materialID[3]
   }

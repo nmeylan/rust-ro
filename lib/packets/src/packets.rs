@@ -739,6 +739,19 @@ pub struct PacketZcStopmove {
 }
 
 #[derive(Clone)]
+pub struct PacketZcFastmove {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+    pub x_pos: i16,
+    pub x_pos_raw: [u8; 2],
+    pub y_pos: i16,
+    pub y_pos_raw: [u8; 2],
+}
+
+#[derive(Clone)]
 pub struct PacketCzRequestAct {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -3810,8 +3823,8 @@ pub struct PacketZcMakableitemlist {
     pub packet_id_raw: [u8; 2],
     pub packet_length: i16,
     pub packet_length_raw: [u8; 2],
-    pub info: MakableitemInfo,
-    pub info_raw: Vec<u8>,
+    pub info: Vec<MakableitemInfo>,
+    pub info_raw: Vec<Vec<u8>>,
 }
 
 #[derive(Clone)]

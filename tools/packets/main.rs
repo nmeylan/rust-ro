@@ -35,6 +35,7 @@ pub struct StructField<'a> {
     pub complex_type: Option<String>,
     pub sub_type: Option<&'a Type>,
     pub condition: Option<Condition>,
+    pub array_count: Option<i16>,
 }
 #[derive(Debug, Clone)]
 pub enum Condition {

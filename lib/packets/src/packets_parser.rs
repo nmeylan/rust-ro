@@ -187,6 +187,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x88 && buffer[1] == 0x00 {
         return Box::new(PacketZcStopmove::from(buffer, packetver));
     }
+    if buffer[0] == 0xd2 && buffer[1] == 0x08 {
+        return Box::new(PacketZcFastmove::from(buffer, packetver));
+    }
     if buffer[0] == 0x89 && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
@@ -2495,6 +2498,7 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packet_id == [0x7b, 0x01] { return true; }
     if packet_id == [0x7e, 0x01] { return true; }
     if packet_id == [0x7f, 0x01] { return true; }
+    if packet_id == [0x8d, 0x01] { return true; }
     if packet_id == [0xa6, 0x01] { return true; }
     if packet_id == [0xad, 0x01] { return true; }
     if packet_id == [0xb2, 0x01] { return true; }
@@ -2744,6 +2748,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0x8800") {
         return PacketZcStopmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0xd208") {
+        return PacketZcFastmove::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0x8900") {
         return PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

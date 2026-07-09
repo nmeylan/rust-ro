@@ -230,11 +230,14 @@ fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'
     if let Some(length_match) = length_match {
         length = length_match.as_str().parse::<i16>().unwrap();
     }
+    let array_count = nested_struct_matches
+        .get(3)
+        .map(|c| c.as_str().parse::<i16>().unwrap());
     StructField {
         name: get_field_name(&name),
         position,
         data_type: if line.contains('[') {
-            if let Some(array_len) = nested_struct_matches.get(3) {
+            if array_count.is_some() {
                 TYPES_MAP.get("array of struct with size").unwrap()
             } else {
                 TYPES_MAP.get("array of struct").unwrap()
@@ -246,6 +249,7 @@ fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'
         complex_type: Some(struct_name(&complex_type_name)),
         sub_type: None,
         condition: None,
+        array_count,
     }
 }
 
@@ -295,6 +299,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
         complex_type: None,
         sub_type,
         condition,
+        array_count: None,
     }
 }
 

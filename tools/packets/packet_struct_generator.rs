@@ -704,10 +704,28 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
     }
 }
 
+fn field_static_byte_len(field: &StructField) -> i16 {
+    if field.data_type.name == "Array" {
+        field.length
+            * field
+                .sub_type
+                .unwrap_or_else(|| panic!("Expected subtype for field {:?}", field))
+                .length
+                .unwrap()
+    } else {
+        field.length
+    }
+}
+
 fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all("    pub fn base_len(packetver: u32) -> usize {\n".to_string().as_bytes())
         .unwrap();
-    let base_len_is_mut = struct_definition.fields.iter().filter(|f| f.condition.is_some()).count() > 0;
+    let fixed_count_vecs: Vec<&StructField> = struct_definition
+        .fields
+        .iter()
+        .filter(|f| f.condition.is_none() && f.data_type.name == "Vec" && f.array_count.is_some())
+        .collect();
+    let base_len_is_mut = struct_definition.fields.iter().any(|f| f.condition.is_some()) || !fixed_count_vecs.is_empty();
     file.write_all(
         format!(
             "        let {} base_len: usize = {};\n",
@@ -716,16 +734,27 @@ fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefin
                 .fields
                 .iter()
                 .filter(|f| f.condition.is_none() && f.data_type.name != "Vec" && f.length > -1)
-                .map(|f| f.length)
+                .map(field_static_byte_len)
                 .sum::<i16>()
         )
         .as_bytes(),
     )
     .unwrap();
+    for f in fixed_count_vecs {
+        file.write_all(
+            format!(
+                "        base_len += {} * {}::base_len(packetver);\n",
+                f.array_count.unwrap(),
+                f.complex_type.as_ref().unwrap()
+            )
+            .as_bytes(),
+        )
+        .unwrap();
+    }
     for f in struct_definition.fields.iter().filter(|f| f.condition.is_some()) {
         file.write_all(format!("        {}", packetver_if("packetver", f)).as_bytes())
             .unwrap();
-        file.write_all(format!("            base_len += {};\n", f.length).as_bytes())
+        file.write_all(format!("            base_len += {};\n", field_static_byte_len(f)).as_bytes())
             .unwrap();
         file.write_all("        }\n".to_string().as_bytes()).unwrap();
     }
@@ -850,14 +879,19 @@ fn write_vec_field(file: &mut File, field: &StructField) {
         .as_bytes(),
     )
     .unwrap();
-    file.write_all(
-        format!(
-            "        let iter_count = (&buffer.len() - {}) / vec_type_len;\n",
-            field.position
+    if let Some(count) = field.array_count {
+        file.write_all(format!("        let iter_count = {};\n", count).as_bytes())
+            .unwrap();
+    } else {
+        file.write_all(
+            format!(
+                "        let iter_count = (&buffer.len() - {}) / vec_type_len;\n",
+                field.position
+            )
+            .as_bytes(),
         )
-        .as_bytes(),
-    )
-    .unwrap();
+        .unwrap();
+    }
     file.write_all(
         format!(
             "        let mut vec_field: Vec<{}> = Vec::new();\n",
