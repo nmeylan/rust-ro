@@ -6054,6 +6054,17 @@ pub struct PacketZcPropertyHomun {
 }
 
 #[derive(Clone)]
+pub struct PacketZcFeedMer {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub c_ret: i8,
+    pub c_ret_raw: [u8; 1],
+    pub itid: u16,
+    pub itid_raw: [u8; 2],
+}
+
+#[derive(Clone)]
 pub struct PacketZcChangestateMer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -6108,6 +6119,34 @@ pub struct PacketCzRequestMovetoowner {
     pub packet_id_raw: [u8; 2],
     pub gid: u32,
     pub gid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcHoskillinfoList {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub packet_length: i16,
+    pub packet_length_raw: [u8; 2],
+    pub skill_list: Vec<SKILLINFO>,
+    pub skill_list_raw: Vec<Vec<u8>>,
+}
+
+#[derive(Clone)]
+pub struct PacketZcHoskillinfoUpdate {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub skid: u16,
+    pub skid_raw: [u8; 2],
+    pub level: i16,
+    pub level_raw: [u8; 2],
+    pub spcost: i16,
+    pub spcost_raw: [u8; 2],
+    pub attack_range: i16,
+    pub attack_range_raw: [u8; 2],
+    pub upgradable: bool,
+    pub upgradable_raw: [u8; 1],
 }
 
 #[derive(Clone)]

@@ -1456,6 +1456,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x2e && buffer[1] == 0x02 {
         return Box::new(PacketZcPropertyHomun::from(buffer, packetver));
     }
+    if buffer[0] == 0x2f && buffer[1] == 0x02 {
+        return Box::new(PacketZcFeedMer::from(buffer, packetver));
+    }
     if buffer[0] == 0x30 && buffer[1] == 0x02 {
         return Box::new(PacketZcChangestateMer::from(buffer, packetver));
     }
@@ -1470,6 +1473,12 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if buffer[0] == 0x34 && buffer[1] == 0x02 {
         return Box::new(PacketCzRequestMovetoowner::from(buffer, packetver));
+    }
+    if buffer[0] == 0x35 && buffer[1] == 0x02 {
+        return Box::new(PacketZcHoskillinfoList::from(buffer, packetver));
+    }
+    if buffer[0] == 0x39 && buffer[1] == 0x02 {
+        return Box::new(PacketZcHoskillinfoUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x3a && buffer[1] == 0x02 {
         return Box::new(PacketZcReqStorePassword::from(buffer, packetver));
@@ -2513,6 +2522,7 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packet_id == [0x01, 0x02] { return true; }
     if packet_id == [0x0d, 0x02] { return true; }
     if packet_id == [0x21, 0x02] { return true; }
+    if packet_id == [0x35, 0x02] { return true; }
     if packet_id == [0x40, 0x02] { return true; }
     if packet_id == [0x42, 0x02] { return true; }
     if packet_id == [0x48, 0x02] { return true; }
@@ -4018,6 +4028,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0x2e02") {
         return PacketZcPropertyHomun::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
+    if packet_id.value.unwrap().eq("0x2f02") {
+        return PacketZcFeedMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packet_id.value.unwrap().eq("0x3002") {
         return PacketZcChangestateMer::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -4032,6 +4045,12 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0x3402") {
         return PacketCzRequestMovetoowner::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x3502") {
+        return PacketZcHoskillinfoList::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x3902") {
+        return PacketZcHoskillinfoUpdate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0x3a02") {
         return PacketZcReqStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

@@ -73,6 +73,7 @@ pub enum StatusTypes {
     Bankvault,
     #[value = 165]
     Mercflee,
+    #[value = 189]
     Merckills,
     Mercfaith,
     #[value = 219]
