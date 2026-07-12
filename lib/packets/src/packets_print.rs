@@ -3940,7 +3940,7 @@ impl Debug for PacketZcAddSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddSkill")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("data[2, ?]", &format!("{:02X?}", &self.data_raw))
+            .field("data[2, 39]", &format!("{:02X?}", &self.data_raw))
         .finish()
     }
 }
@@ -3949,7 +3949,7 @@ impl Display for PacketZcAddSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("data(struct as Struct)[2, ?]: {}", &self.data));
+        fields.push(format!("data(struct as Struct)[2, 39]: {}", &self.data));
         write!(f, "PacketZcAddSkill\n {}", fields.join(",\n "))
     }
 }

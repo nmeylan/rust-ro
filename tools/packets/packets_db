@@ -1420,7 +1420,7 @@ struct PACKET_ZC_ACK_TOUSESKILL {
 0x111
 struct PACKET_ZC_ADD_SKILL {
   short PacketId
-  struct SKILLINFO data {
+  struct SKILLINFO data { // Size 37
   unsigned short SKID
   int type
   short level
@@ -3700,6 +3700,12 @@ struct PACKET_ZC_PROPERTY_HOMUN {
   short SKPoint
   short ATKRange
  }
+0x22f
+struct PACKET_ZC_FEED_MER {
+  short PacketId
+  char cRet
+  unsigned short ITID
+ }
 0x230
 struct PACKET_ZC_CHANGESTATE_MER {
   short PacketId
@@ -3730,6 +3736,29 @@ struct PACKET_CZ_REQUEST_ACTNPC {
 struct PACKET_CZ_REQUEST_MOVETOOWNER {
   short PacketId
   unsigned long GID
+ }
+0x235
+struct PACKET_ZC_HOSKILLINFO_LIST {
+  short PacketId
+  short PacketLength
+  struct SKILLINFO skillList[...] { // Size 37
+  short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  unsigned char skillName[24]
+  char upgradable
+  }
+ }
+0x239
+struct PACKET_ZC_HOSKILLINFO_UPDATE {
+  short PacketId
+  unsigned short SKID
+  short level
+  short spcost
+  short attackRange
+  bool upgradable
  }
 0x23a
 struct PACKET_ZC_REQ_STORE_PASSWORD {

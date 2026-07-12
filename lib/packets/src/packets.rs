@@ -2357,7 +2357,7 @@ pub struct PacketZcAddSkill {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub data: SKILLINFO,
-    pub data_raw: Vec<u8>,
+    pub data_raw: [u8; 37],
 }
 
 #[derive(Clone)]
