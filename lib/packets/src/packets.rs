@@ -2055,6 +2055,17 @@ pub struct PacketCzMoveItemFromStoreToBody {
 }
 
 #[derive(Clone)]
+pub struct PacketCzMoveItemFromBodyToStore {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub index: i16,
+    pub index_raw: [u8; 2],
+    pub count: i32,
+    pub count_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct PacketZcDeleteItemFromStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,

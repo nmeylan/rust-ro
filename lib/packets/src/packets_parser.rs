@@ -40,6 +40,12 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120307 && buffer[0] == 0x39 && buffer[1] == 0x04 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
+    if packetver >= 20120307 && buffer[0] == 0x63 && buffer[1] == 0x09 {
+        return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x93 && buffer[1] == 0x01 {
+        return Box::new(PacketCzCloseStore::from(buffer, packetver));
+    }
     if packetver >= 20120307 && buffer[0] == 0x89 && buffer[1] == 0x08 {
         return Box::new(PacketCzUseSkill::from(buffer, packetver));
     }
@@ -516,6 +522,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if buffer[0] == 0xf5 && buffer[1] == 0x00 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
+    }
+    if buffer[0] == 0x3b && buffer[1] == 0x09 {
+        return Box::new(PacketCzMoveItemFromBodyToStore::from(buffer, packetver));
     }
     if buffer[0] == 0xf6 && buffer[1] == 0x00 {
         return Box::new(PacketZcDeleteItemFromStore::from(buffer, packetver));
@@ -2612,6 +2621,12 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x3904") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
+    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6309") {
+        return  PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x9301") {
+        return  PacketCzCloseStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8908") {
         return  PacketCzUseSkill::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -3088,6 +3103,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0xf500") {
         return PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x3b09") {
+        return PacketCzMoveItemFromBodyToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xf600") {
         return PacketZcDeleteItemFromStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

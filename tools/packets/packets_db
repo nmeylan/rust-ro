@@ -1235,8 +1235,14 @@ struct PACKET_ZC_ADD_ITEM_TO_STORE {
   unsigned short card4
   }
  }
-0xf5
+0xf5,0x0963:20120307
 struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_BODY {
+  short PacketId
+  short index
+  int count
+ }
+0x093b
+struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
   short PacketId
   short index
   int count
@@ -1247,7 +1253,7 @@ struct PACKET_ZC_DELETE_ITEM_FROM_STORE {
   short index
   int count
  }
-0xf7
+0xf7,0x0193:20120307
 struct PACKET_CZ_CLOSE_STORE {
   short PacketId
  }

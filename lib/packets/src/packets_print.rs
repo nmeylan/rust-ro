@@ -3394,6 +3394,26 @@ impl Display for PacketCzMoveItemFromStoreToBody {
     }
 }
 
+impl Debug for PacketCzMoveItemFromBodyToStore {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzMoveItemFromBodyToStore")
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
+            .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzMoveItemFromBodyToStore {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
+        fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
+        write!(f, "PacketCzMoveItemFromBodyToStore\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for PacketZcDeleteItemFromStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteItemFromStore")
