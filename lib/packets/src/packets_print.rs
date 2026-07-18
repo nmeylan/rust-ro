@@ -1414,7 +1414,8 @@ impl Debug for PacketZcWhisper {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("sender[4, 28]", &format!("{:02X?}", &self.sender_raw))
-            .field("msg[28, ?]", &format!("{:02X?}", &self.msg_raw))
+            .field("is_admin[28, 32]", &format!("{:02X?}", &self.is_admin_raw))
+            .field("msg[32, ?]", &format!("{:02X?}", &self.msg_raw))
         .finish()
     }
 }
@@ -1425,7 +1426,8 @@ impl Display for PacketZcWhisper {
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("sender(char[] as char[])[4, 28]: {}", &self.sender.pretty_output()));
-        fields.push(format!("msg(char[] as String)[28, ?]: {}", &self.msg));
+        fields.push(format!("is_admin(unsigned int as u32)[28, 32]: {}", &self.is_admin));
+        fields.push(format!("msg(char[] as String)[32, ?]: {}", &self.msg));
         write!(f, "PacketZcWhisper\n {}", fields.join(",\n "))
     }
 }
@@ -9647,8 +9649,8 @@ impl Debug for PacketZcBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBlacksmithRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
+            .field("name[2, 242]", &format!("{:02X?}", &self.name_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -9657,8 +9659,8 @@ impl Display for PacketZcBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
+        fields.push(format!("name(char[] as char[])[2, 242]: {}", &self.name.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcBlacksmithRank\n {}", fields.join(",\n "))
     }
 }
@@ -9667,8 +9669,8 @@ impl Debug for PacketZcAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAlchemistRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
+            .field("name[2, 242]", &format!("{:02X?}", &self.name_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -9677,8 +9679,8 @@ impl Display for PacketZcAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
+        fields.push(format!("name(char[] as char[])[2, 242]: {}", &self.name.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcAlchemistRank\n {}", fields.join(",\n "))
     }
 }
@@ -9904,8 +9906,8 @@ impl Debug for PacketZcTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcTaekwonRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
+            .field("name[2, 242]", &format!("{:02X?}", &self.name_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -9914,8 +9916,8 @@ impl Display for PacketZcTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
+        fields.push(format!("name(char[] as char[])[2, 242]: {}", &self.name.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcTaekwonRank\n {}", fields.join(",\n "))
     }
 }
@@ -11912,9 +11914,9 @@ impl Debug for PacketZcGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGangsiRank")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
-            .field("packet_switch[22, 24]", &format!("{:02X?}", &self.packet_switch_raw))
+            .field("name[2, 242]", &format!("{:02X?}", &self.name_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
+            .field("packet_switch[252, 254]", &format!("{:02X?}", &self.packet_switch_raw))
         .finish()
     }
 }
@@ -11923,9 +11925,9 @@ impl Display for PacketZcGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
-        fields.push(format!("packet_switch(short as i16)[22, 24]: {}", &self.packet_switch));
+        fields.push(format!("name(char[] as char[])[2, 242]: {}", &self.name.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
+        fields.push(format!("packet_switch(short as i16)[252, 254]: {}", &self.packet_switch));
         write!(f, "PacketZcGangsiRank\n {}", fields.join(",\n "))
     }
 }

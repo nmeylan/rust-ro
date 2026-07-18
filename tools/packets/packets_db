@@ -558,6 +558,7 @@ struct PACKET_ZC_WHISPER {
   short PacketId
   short PacketLength
   char sender[24]
+  #V GTE 20091104 unsigned int isAdmin
   char msg[...]
  }
 0x98
@@ -3476,13 +3477,13 @@ struct PACKET_CZ_ALCHEMIST_RANK {
 0x219
 struct PACKET_ZC_BLACKSMITH_RANK {
   short PacketId
-  char Name[10][24]
+  char Name[240]
   int Point[10]
  }
 0x21a
 struct PACKET_ZC_ALCHEMIST_RANK {
   short PacketId
-  char Name[10][24]
+  char Name[240]
   int Point[10]
  }
 0x21b
@@ -3565,7 +3566,7 @@ struct PACKET_CZ_TAEKWON_RANK {
 0x226
 struct PACKET_ZC_TAEKWON_RANK {
   short PacketId
-  char Name[10][24]
+  char Name[240]
   int Point[10]
  }
 0x227
@@ -4254,7 +4255,7 @@ struct PACKET_CZ_GANGSI_RANK {
 0x282
 struct PACKET_ZC_GANGSI_RANK {
   short PacketId
-  char Name[10][24]
+  char Name[240]
   int Point[10]
   short PacketSwitch
  }
