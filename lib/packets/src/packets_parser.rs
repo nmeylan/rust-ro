@@ -1093,7 +1093,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xb2 && buffer[1] == 0x01 {
         return Box::new(PacketCzReqOpenstore2::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xb3 {
+    if buffer[0] == 0xb3 && buffer[1] == 0x01 {
         return Box::new(PacketZcShowImage2::from(buffer, packetver));
     }
     if buffer[0] == 0xb4 && buffer[1] == 0x01 {
@@ -1192,10 +1192,10 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xd3 && buffer[1] == 0x01 {
         return Box::new(PacketZcSound::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd4 {
+    if buffer[0] == 0xd4 && buffer[1] == 0x01 {
         return Box::new(PacketZcOpenEditdlgstr::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd5 {
+    if buffer[0] == 0xd5 && buffer[1] == 0x01 {
         return Box::new(PacketCzInputEditdlgstr::from(buffer, packetver));
     }
     if buffer[0] == 0xd6 && buffer[1] == 0x01 {
@@ -2521,7 +2521,7 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packet_id == [0xad, 0x01] { return true; }
     if packet_id == [0xb2, 0x01] { return true; }
     if packet_id == [0xc3, 0x01] { return true; }
-    if packet_id == [0x01, 0xd5] { return true; }
+    if packet_id == [0xd5, 0x01] { return true; }
     if packet_id == [0xdc, 0x01] { return true; }
     if packet_id == [0xee, 0x01] { return true; }
     if packet_id == [0xef, 0x01] { return true; }
@@ -3674,7 +3674,7 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0xb201") {
         return PacketCzReqOpenstore2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x01b3") {
+    if packet_id.value.unwrap().eq("0xb301") {
         return PacketZcShowImage2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xb401") {
@@ -3773,10 +3773,10 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0xd301") {
         return PacketZcSound::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x01d4") {
+    if packet_id.value.unwrap().eq("0xd401") {
         return PacketZcOpenEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x01d5") {
+    if packet_id.value.unwrap().eq("0xd501") {
         return PacketCzInputEditdlgstr::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xd601") {

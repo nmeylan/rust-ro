@@ -2640,7 +2640,7 @@ struct PACKET_CZ_REQ_OPENSTORE2 {
   int Price
   }
  }
-0xb301
+0x1b3
 struct PACKET_ZC_SHOW_IMAGE2 {
   short PacketId
   char imageName[64]
@@ -2882,12 +2882,12 @@ struct PACKET_ZC_SOUND {
   unsigned long term
   unsigned long NAID
  }
-0xd401
+0x1d4
 struct PACKET_ZC_OPEN_EDITDLGSTR {
   short PacketId
   unsigned long NAID
  }
-0xd501
+0x1d5
 struct PACKET_CZ_INPUT_EDITDLGSTR {
   short PacketId
   short PacketLength
