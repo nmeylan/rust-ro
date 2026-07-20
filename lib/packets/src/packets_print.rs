@@ -5724,7 +5724,7 @@ impl Debug for PacketZcBanList {
         f.debug_struct("PacketZcBanList")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("ban_list[4, 92]", &format!("{:02X?}", &self.ban_list_raw))
+            .field("ban_list[4, 68]", &format!("{:02X?}", &self.ban_list_raw))
         .finish()
     }
 }
@@ -5734,7 +5734,7 @@ impl Display for PacketZcBanList {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("ban_list([] as Vec)[4, 92]: {}", &self.ban_list.iter().map(|item| format!("
+        fields.push(format!("ban_list([] as Vec)[4, 68]: {}", &self.ban_list.iter().map(|item| format!("
   >{}", item)).collect::<String>()));
         write!(f, "PacketZcBanList\n {}", fields.join(",\n "))
     }

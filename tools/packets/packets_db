@@ -2094,9 +2094,9 @@ struct PACKET_ZC_GUILD_SKILLINFO {
 struct PACKET_ZC_BAN_LIST {
   short PacketId
   short PacketLength
-  struct GUILD_BAN_INFO banList[...] { // Size 88
+  struct GUILD_BAN_INFO banList[...] { // Size 64
   char charname[24]
-  char account[24]
+  #V LT 20100803 char account[24]
   char reason[40]
   }
  }
