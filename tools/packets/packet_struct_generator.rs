@@ -1350,7 +1350,7 @@ fn struct_impl_default_field_value(field: &StructField) -> String {
                 if sub_type_name == "char" {
                     format!("[0 as char; {length}]")
                 } else {
-                    format!("[{sub_type_name}; {length}]")
+                    format!("[0 as {sub_type_name}; {length}]")
                 }
             } else if field.length > -1 {
                 format!("[0 as u8; {}]", field.length)
@@ -1613,5 +1613,6 @@ fn packetver_if(packetver_variable: &str, field: &StructField) -> String {
         Condition::GT(ver) => format!("> {ver}"),
         Condition::LTE(ver) => format!("<= {ver}"),
         Condition::LT(ver) => format!("< {ver}"),
+        Condition::Range(start, end) => format!(">= {start} && {packetver_variable} < {end}"),
     })
 }

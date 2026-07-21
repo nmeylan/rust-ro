@@ -43,6 +43,7 @@ pub enum Condition {
     GT(u32),
     LTE(u32),
     LT(u32),
+    Range(u32, u32),
 }
 
 #[derive(Debug)]

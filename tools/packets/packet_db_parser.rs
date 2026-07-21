@@ -111,7 +111,7 @@ lazy_static! {
     static ref FIRST_CHAR_REGEX: Regex = Regex::new(r"^(\w)").unwrap();
     static ref ARRAY_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[(\d+)\]").unwrap();
     static ref ARRAY_OF_UNKNOWN_LENGTH_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[...\]").unwrap();
-    static ref CONDITION_REGEX: Regex = Regex::new(r"#V\s([A-Z]{2,3})\s(\d{8})").unwrap();
+    static ref CONDITION_REGEX: Regex = Regex::new(r"#V\s([A-Z]{2,5})\s(\d{8})(?:\s(\d{8}))?").unwrap();
 }
 
 pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructDefinition>) {
@@ -377,6 +377,10 @@ fn get_condition(line: &str) -> Condition {
             "GTE" => Condition::GTE(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
             "LT" => Condition::LT(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
             "LTE" => Condition::LTE(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "RANGE" => Condition::Range(
+                condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap(),
+                condition_matches.get(3).expect("RANGE condition needs a second date").as_str().parse::<u32>().unwrap(),
+            ),
             _ => panic!("Packet version condition should match regex"),
         }
     } else {

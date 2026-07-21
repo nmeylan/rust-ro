@@ -1000,7 +1000,23 @@ impl Debug for PacketCzRequestMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestMove")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("dest[2, 5]", &format!("{:02X?}", &self.dest_raw))
+            .field("pad0[2, 5]", &format!("{:02X?}", &self.pad0_raw))
+            .field("pad1[5, 9]", &format!("{:02X?}", &self.pad1_raw))
+            .field("pad2[9, 10]", &format!("{:02X?}", &self.pad2_raw))
+            .field("pad3[10, 20]", &format!("{:02X?}", &self.pad3_raw))
+            .field("pad4[20, 24]", &format!("{:02X?}", &self.pad4_raw))
+            .field("pad5[24, 33]", &format!("{:02X?}", &self.pad5_raw))
+            .field("pad6[33, 34]", &format!("{:02X?}", &self.pad6_raw))
+            .field("pad7[34, 36]", &format!("{:02X?}", &self.pad7_raw))
+            .field("pad8[36, 44]", &format!("{:02X?}", &self.pad8_raw))
+            .field("pad9[44, 47]", &format!("{:02X?}", &self.pad9_raw))
+            .field("pad10[47, 53]", &format!("{:02X?}", &self.pad10_raw))
+            .field("pad11[53, 63]", &format!("{:02X?}", &self.pad11_raw))
+            .field("pad12[63, 69]", &format!("{:02X?}", &self.pad12_raw))
+            .field("pad13[69, 79]", &format!("{:02X?}", &self.pad13_raw))
+            .field("pad14[79, 82]", &format!("{:02X?}", &self.pad14_raw))
+            .field("pad15[82, 86]", &format!("{:02X?}", &self.pad15_raw))
+            .field("dest[86, 89]", &format!("{:02X?}", &self.dest_raw))
         .finish()
     }
 }
@@ -1009,7 +1025,23 @@ impl Display for PacketCzRequestMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("dest(unsigned char[] as u8[])[2, 5]: {}", &self.dest.pretty_output()));
+        fields.push(format!("pad0(unsigned char[] as u8[])[2, 5]: {}", &self.pad0.pretty_output()));
+        fields.push(format!("pad1(unsigned char[] as u8[])[5, 9]: {}", &self.pad1.pretty_output()));
+        fields.push(format!("pad2(unsigned char[] as u8[])[9, 10]: {}", &self.pad2.pretty_output()));
+        fields.push(format!("pad3(unsigned char[] as u8[])[10, 20]: {}", &self.pad3.pretty_output()));
+        fields.push(format!("pad4(unsigned char[] as u8[])[20, 24]: {}", &self.pad4.pretty_output()));
+        fields.push(format!("pad5(unsigned char[] as u8[])[24, 33]: {}", &self.pad5.pretty_output()));
+        fields.push(format!("pad6(unsigned char[] as u8[])[33, 34]: {}", &self.pad6.pretty_output()));
+        fields.push(format!("pad7(unsigned char[] as u8[])[34, 36]: {}", &self.pad7.pretty_output()));
+        fields.push(format!("pad8(unsigned char[] as u8[])[36, 44]: {}", &self.pad8.pretty_output()));
+        fields.push(format!("pad9(unsigned char[] as u8[])[44, 47]: {}", &self.pad9.pretty_output()));
+        fields.push(format!("pad10(unsigned char[] as u8[])[47, 53]: {}", &self.pad10.pretty_output()));
+        fields.push(format!("pad11(unsigned char[] as u8[])[53, 63]: {}", &self.pad11.pretty_output()));
+        fields.push(format!("pad12(unsigned char[] as u8[])[63, 69]: {}", &self.pad12.pretty_output()));
+        fields.push(format!("pad13(unsigned char[] as u8[])[69, 79]: {}", &self.pad13.pretty_output()));
+        fields.push(format!("pad14(unsigned char[] as u8[])[79, 82]: {}", &self.pad14.pretty_output()));
+        fields.push(format!("pad15(unsigned char[] as u8[])[82, 86]: {}", &self.pad15.pretty_output()));
+        fields.push(format!("dest(unsigned char[] as u8[])[86, 89]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMove\n {}", fields.join(",\n "))
     }
 }
