@@ -4774,7 +4774,7 @@ struct PACKET_ZC_FORMATSTRING_MSG {
   char value[...]
  }
 
-0x2c4:20070227
+0x2c4, 0x088d:20111102, 0x0929:20120307, 0x091c:20120410, 0x0802:20120418, 0x086d:20130320
 struct PACKET_CZ_PARTY_JOIN_REQ {
   short PacketId
   char characterName[24]

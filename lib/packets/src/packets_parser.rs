@@ -4,6 +4,15 @@
 use crate::packets::*;
 
 pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
+    if packetver >= 20130320 && buffer[0] == 0x6d && buffer[1] == 0x08 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
+    if packetver >= 20120418 && buffer[0] == 0x02 && buffer[1] == 0x08 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
+    if packetver >= 20120410 && buffer[0] == 0x1c && buffer[1] == 0x09 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
     if packetver >= 20120307 && buffer[0] == 0x87 && buffer[1] == 0x08 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
@@ -52,6 +61,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120307 && buffer[0] == 0x61 && buffer[1] == 0x08 {
         return Box::new(PacketCzAckStorePassword::from(buffer, packetver));
     }
+    if packetver >= 20120307 && buffer[0] == 0x29 && buffer[1] == 0x09 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
     if packetver >= 20120307 && buffer[0] == 0x6a && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
@@ -87,6 +99,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20111102 && buffer[0] == 0x81 && buffer[1] == 0x02 {
         return Box::new(PacketCzAckStorePassword::from(buffer, packetver));
+    }
+    if packetver >= 20111102 && buffer[0] == 0x8d && buffer[1] == 0x08 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
     }
     if packetver >= 20111102 && buffer[0] == 0x3c && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
@@ -183,9 +198,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20080910 && buffer[0] == 0x36 && buffer[1] == 0x04 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
-    }
-    if packetver >= 20070227 && buffer[0] == 0xc4 && buffer[1] == 0x02 {
-        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
     }
     if packetver >= 20050110 && buffer[0] == 0x90 && buffer[1] == 0x01 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
@@ -2137,6 +2149,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xc2 && buffer[1] == 0x02 {
         return Box::new(PacketZcFormatstringMsg::from(buffer, packetver));
     }
+    if buffer[0] == 0xc4 && buffer[1] == 0x02 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
     if buffer[0] == 0xc5 && buffer[1] == 0x02 {
         return Box::new(PacketZcPartyJoinReqAck::from(buffer, packetver));
     }
@@ -2856,6 +2871,15 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
 pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String> {
     let entries: Vec<json_flat_parser::FlatJsonValue<&str>> = json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;
     if let Some(packet_id) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_id")){
+    if packetver >= 20130320 && packet_id.value.unwrap().eq("0x6d08") {
+        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20120418 && packet_id.value.unwrap().eq("0x0208") {
+        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20120410 && packet_id.value.unwrap().eq("0x1c09") {
+        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x8708") {
         return  PacketCzRequestTime::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -2904,6 +2928,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6108") {
         return  PacketCzAckStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
+    if packetver >= 20120307 && packet_id.value.unwrap().eq("0x2909") {
+        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packetver >= 20120307 && packet_id.value.unwrap().eq("0x6a08") {
         return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -2939,6 +2966,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20111102 && packet_id.value.unwrap().eq("0x8102") {
         return  PacketCzAckStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20111102 && packet_id.value.unwrap().eq("0x8d08") {
+        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20111102 && packet_id.value.unwrap().eq("0x3c08") {
         return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -3035,9 +3065,6 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20080910 && packet_id.value.unwrap().eq("0x3604") {
         return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packetver >= 20070227 && packet_id.value.unwrap().eq("0xc402") {
-        return  PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20050110 && packet_id.value.unwrap().eq("0x9001") {
         return  PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -4988,6 +5015,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0xc202") {
         return PacketZcFormatstringMsg::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0xc402") {
+        return PacketCzPartyJoinReq::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xc502") {
         return PacketZcPartyJoinReqAck::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
