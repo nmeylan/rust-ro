@@ -16358,18 +16358,19 @@ impl Debug for PacketZcNotifyMoveentry7 {
             .field("headpalette[37, 39]", &format!("{:02X?}", &self.headpalette_raw))
             .field("bodypalette[39, 41]", &format!("{:02X?}", &self.bodypalette_raw))
             .field("head_dir[41, 43]", &format!("{:02X?}", &self.head_dir_raw))
-            .field("guid[43, 47]", &format!("{:02X?}", &self.guid_raw))
-            .field("gemblem_ver[47, 49]", &format!("{:02X?}", &self.gemblem_ver_raw))
-            .field("honor[49, 51]", &format!("{:02X?}", &self.honor_raw))
-            .field("virtue[51, 55]", &format!("{:02X?}", &self.virtue_raw))
-            .field("is_pkmode_on[55, 56]", &format!("{:02X?}", &self.is_pkmode_on_raw))
-            .field("sex[56, 57]", &format!("{:02X?}", &self.sex_raw))
-            .field("move_data[57, 63]", &format!("{:02X?}", &self.move_data_raw))
-            .field("x_size[63, 64]", &format!("{:02X?}", &self.x_size_raw))
-            .field("y_size[64, 65]", &format!("{:02X?}", &self.y_size_raw))
-            .field("clevel[65, 67]", &format!("{:02X?}", &self.clevel_raw))
-            .field("font[67, 69]", &format!("{:02X?}", &self.font_raw))
-            .field("name[69, 93]", &format!("{:02X?}", &self.name_raw))
+            .field("robe[43, 45]", &format!("{:02X?}", &self.robe_raw))
+            .field("guid[45, 49]", &format!("{:02X?}", &self.guid_raw))
+            .field("gemblem_ver[49, 51]", &format!("{:02X?}", &self.gemblem_ver_raw))
+            .field("honor[51, 53]", &format!("{:02X?}", &self.honor_raw))
+            .field("virtue[53, 57]", &format!("{:02X?}", &self.virtue_raw))
+            .field("is_pkmode_on[57, 58]", &format!("{:02X?}", &self.is_pkmode_on_raw))
+            .field("sex[58, 59]", &format!("{:02X?}", &self.sex_raw))
+            .field("move_data[59, 65]", &format!("{:02X?}", &self.move_data_raw))
+            .field("x_size[65, 66]", &format!("{:02X?}", &self.x_size_raw))
+            .field("y_size[66, 67]", &format!("{:02X?}", &self.y_size_raw))
+            .field("clevel[67, 69]", &format!("{:02X?}", &self.clevel_raw))
+            .field("font[69, 71]", &format!("{:02X?}", &self.font_raw))
+            .field("name[71, 95]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16395,18 +16396,19 @@ impl Display for PacketZcNotifyMoveentry7 {
         fields.push(format!("headpalette(short as i16)[37, 39]: {}", &self.headpalette));
         fields.push(format!("bodypalette(short as i16)[39, 41]: {}", &self.bodypalette));
         fields.push(format!("head_dir(short as i16)[41, 43]: {}", &self.head_dir));
-        fields.push(format!("guid(unsigned long as u32)[43, 47]: {}", &self.guid));
-        fields.push(format!("gemblem_ver(short as i16)[47, 49]: {}", &self.gemblem_ver));
-        fields.push(format!("honor(short as i16)[49, 51]: {}", &self.honor));
-        fields.push(format!("virtue(int as i32)[51, 55]: {}", &self.virtue));
-        fields.push(format!("is_pkmode_on(bool as bool)[55, 56]: {}", &self.is_pkmode_on));
-        fields.push(format!("sex(unsigned char as u8)[56, 57]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned char[] as u8[])[57, 63]: {}", &self.move_data.pretty_output()));
-        fields.push(format!("x_size(unsigned char as u8)[63, 64]: {}", &self.x_size));
-        fields.push(format!("y_size(unsigned char as u8)[64, 65]: {}", &self.y_size));
-        fields.push(format!("clevel(short as i16)[65, 67]: {}", &self.clevel));
-        fields.push(format!("font(short as i16)[67, 69]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[69, 93]: {}", &self.name.pretty_output()));
+        fields.push(format!("robe(unsigned short as u16)[43, 45]: {}", &self.robe));
+        fields.push(format!("guid(unsigned long as u32)[45, 49]: {}", &self.guid));
+        fields.push(format!("gemblem_ver(short as i16)[49, 51]: {}", &self.gemblem_ver));
+        fields.push(format!("honor(short as i16)[51, 53]: {}", &self.honor));
+        fields.push(format!("virtue(int as i32)[53, 57]: {}", &self.virtue));
+        fields.push(format!("is_pkmode_on(bool as bool)[57, 58]: {}", &self.is_pkmode_on));
+        fields.push(format!("sex(unsigned char as u8)[58, 59]: {}", &self.sex));
+        fields.push(format!("move_data(unsigned char[] as u8[])[59, 65]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("x_size(unsigned char as u8)[65, 66]: {}", &self.x_size));
+        fields.push(format!("y_size(unsigned char as u8)[66, 67]: {}", &self.y_size));
+        fields.push(format!("clevel(short as i16)[67, 69]: {}", &self.clevel));
+        fields.push(format!("font(short as i16)[69, 71]: {}", &self.font));
+        fields.push(format!("name(char[] as char[])[71, 95]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyMoveentry7\n {}", fields.join(",\n "))
     }
 }
@@ -16431,18 +16433,19 @@ impl Debug for PacketZcNotifyNewentry5 {
             .field("headpalette[33, 35]", &format!("{:02X?}", &self.headpalette_raw))
             .field("bodypalette[35, 37]", &format!("{:02X?}", &self.bodypalette_raw))
             .field("head_dir[37, 39]", &format!("{:02X?}", &self.head_dir_raw))
-            .field("guid[39, 43]", &format!("{:02X?}", &self.guid_raw))
-            .field("gemblem_ver[43, 45]", &format!("{:02X?}", &self.gemblem_ver_raw))
-            .field("honor[45, 47]", &format!("{:02X?}", &self.honor_raw))
-            .field("virtue[47, 51]", &format!("{:02X?}", &self.virtue_raw))
-            .field("is_pkmode_on[51, 52]", &format!("{:02X?}", &self.is_pkmode_on_raw))
-            .field("sex[52, 53]", &format!("{:02X?}", &self.sex_raw))
-            .field("pos_dir[53, 56]", &format!("{:02X?}", &self.pos_dir_raw))
-            .field("x_size[56, 57]", &format!("{:02X?}", &self.x_size_raw))
-            .field("y_size[57, 58]", &format!("{:02X?}", &self.y_size_raw))
-            .field("clevel[58, 60]", &format!("{:02X?}", &self.clevel_raw))
-            .field("font[60, 62]", &format!("{:02X?}", &self.font_raw))
-            .field("name[62, 86]", &format!("{:02X?}", &self.name_raw))
+            .field("robe[39, 41]", &format!("{:02X?}", &self.robe_raw))
+            .field("guid[41, 45]", &format!("{:02X?}", &self.guid_raw))
+            .field("gemblem_ver[45, 47]", &format!("{:02X?}", &self.gemblem_ver_raw))
+            .field("honor[47, 49]", &format!("{:02X?}", &self.honor_raw))
+            .field("virtue[49, 53]", &format!("{:02X?}", &self.virtue_raw))
+            .field("is_pkmode_on[53, 54]", &format!("{:02X?}", &self.is_pkmode_on_raw))
+            .field("sex[54, 55]", &format!("{:02X?}", &self.sex_raw))
+            .field("pos_dir[55, 58]", &format!("{:02X?}", &self.pos_dir_raw))
+            .field("x_size[58, 59]", &format!("{:02X?}", &self.x_size_raw))
+            .field("y_size[59, 60]", &format!("{:02X?}", &self.y_size_raw))
+            .field("clevel[60, 62]", &format!("{:02X?}", &self.clevel_raw))
+            .field("font[62, 64]", &format!("{:02X?}", &self.font_raw))
+            .field("name[64, 88]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16467,18 +16470,19 @@ impl Display for PacketZcNotifyNewentry5 {
         fields.push(format!("headpalette(short as i16)[33, 35]: {}", &self.headpalette));
         fields.push(format!("bodypalette(short as i16)[35, 37]: {}", &self.bodypalette));
         fields.push(format!("head_dir(short as i16)[37, 39]: {}", &self.head_dir));
-        fields.push(format!("guid(unsigned long as u32)[39, 43]: {}", &self.guid));
-        fields.push(format!("gemblem_ver(short as i16)[43, 45]: {}", &self.gemblem_ver));
-        fields.push(format!("honor(short as i16)[45, 47]: {}", &self.honor));
-        fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
-        fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
-        fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
-        fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
-        fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
-        fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
-        fields.push(format!("font(short as i16)[60, 62]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[62, 86]: {}", &self.name.pretty_output()));
+        fields.push(format!("robe(unsigned short as u16)[39, 41]: {}", &self.robe));
+        fields.push(format!("guid(unsigned long as u32)[41, 45]: {}", &self.guid));
+        fields.push(format!("gemblem_ver(short as i16)[45, 47]: {}", &self.gemblem_ver));
+        fields.push(format!("honor(short as i16)[47, 49]: {}", &self.honor));
+        fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
+        fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
+        fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[55, 58]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("x_size(unsigned char as u8)[58, 59]: {}", &self.x_size));
+        fields.push(format!("y_size(unsigned char as u8)[59, 60]: {}", &self.y_size));
+        fields.push(format!("clevel(short as i16)[60, 62]: {}", &self.clevel));
+        fields.push(format!("font(short as i16)[62, 64]: {}", &self.font));
+        fields.push(format!("name(char[] as char[])[64, 88]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyNewentry5\n {}", fields.join(",\n "))
     }
 }
@@ -16503,19 +16507,20 @@ impl Debug for PacketZcNotifyStandentry5 {
             .field("headpalette[33, 35]", &format!("{:02X?}", &self.headpalette_raw))
             .field("bodypalette[35, 37]", &format!("{:02X?}", &self.bodypalette_raw))
             .field("head_dir[37, 39]", &format!("{:02X?}", &self.head_dir_raw))
-            .field("guid[39, 43]", &format!("{:02X?}", &self.guid_raw))
-            .field("gemblem_ver[43, 45]", &format!("{:02X?}", &self.gemblem_ver_raw))
-            .field("honor[45, 47]", &format!("{:02X?}", &self.honor_raw))
-            .field("virtue[47, 51]", &format!("{:02X?}", &self.virtue_raw))
-            .field("is_pkmode_on[51, 52]", &format!("{:02X?}", &self.is_pkmode_on_raw))
-            .field("sex[52, 53]", &format!("{:02X?}", &self.sex_raw))
-            .field("pos_dir[53, 56]", &format!("{:02X?}", &self.pos_dir_raw))
-            .field("x_size[56, 57]", &format!("{:02X?}", &self.x_size_raw))
-            .field("y_size[57, 58]", &format!("{:02X?}", &self.y_size_raw))
-            .field("state[58, 59]", &format!("{:02X?}", &self.state_raw))
-            .field("clevel[59, 61]", &format!("{:02X?}", &self.clevel_raw))
-            .field("font[61, 63]", &format!("{:02X?}", &self.font_raw))
-            .field("name[63, 87]", &format!("{:02X?}", &self.name_raw))
+            .field("robe[39, 41]", &format!("{:02X?}", &self.robe_raw))
+            .field("guid[41, 45]", &format!("{:02X?}", &self.guid_raw))
+            .field("gemblem_ver[45, 47]", &format!("{:02X?}", &self.gemblem_ver_raw))
+            .field("honor[47, 49]", &format!("{:02X?}", &self.honor_raw))
+            .field("virtue[49, 53]", &format!("{:02X?}", &self.virtue_raw))
+            .field("is_pkmode_on[53, 54]", &format!("{:02X?}", &self.is_pkmode_on_raw))
+            .field("sex[54, 55]", &format!("{:02X?}", &self.sex_raw))
+            .field("pos_dir[55, 58]", &format!("{:02X?}", &self.pos_dir_raw))
+            .field("x_size[58, 59]", &format!("{:02X?}", &self.x_size_raw))
+            .field("y_size[59, 60]", &format!("{:02X?}", &self.y_size_raw))
+            .field("state[60, 61]", &format!("{:02X?}", &self.state_raw))
+            .field("clevel[61, 63]", &format!("{:02X?}", &self.clevel_raw))
+            .field("font[63, 65]", &format!("{:02X?}", &self.font_raw))
+            .field("name[65, 89]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16540,19 +16545,20 @@ impl Display for PacketZcNotifyStandentry5 {
         fields.push(format!("headpalette(short as i16)[33, 35]: {}", &self.headpalette));
         fields.push(format!("bodypalette(short as i16)[35, 37]: {}", &self.bodypalette));
         fields.push(format!("head_dir(short as i16)[37, 39]: {}", &self.head_dir));
-        fields.push(format!("guid(unsigned long as u32)[39, 43]: {}", &self.guid));
-        fields.push(format!("gemblem_ver(short as i16)[43, 45]: {}", &self.gemblem_ver));
-        fields.push(format!("honor(short as i16)[45, 47]: {}", &self.honor));
-        fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
-        fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
-        fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
-        fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
-        fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
-        fields.push(format!("state(unsigned char as u8)[58, 59]: {}", &self.state));
-        fields.push(format!("clevel(short as i16)[59, 61]: {}", &self.clevel));
-        fields.push(format!("font(short as i16)[61, 63]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[63, 87]: {}", &self.name.pretty_output()));
+        fields.push(format!("robe(unsigned short as u16)[39, 41]: {}", &self.robe));
+        fields.push(format!("guid(unsigned long as u32)[41, 45]: {}", &self.guid));
+        fields.push(format!("gemblem_ver(short as i16)[45, 47]: {}", &self.gemblem_ver));
+        fields.push(format!("honor(short as i16)[47, 49]: {}", &self.honor));
+        fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
+        fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
+        fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[55, 58]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("x_size(unsigned char as u8)[58, 59]: {}", &self.x_size));
+        fields.push(format!("y_size(unsigned char as u8)[59, 60]: {}", &self.y_size));
+        fields.push(format!("state(unsigned char as u8)[60, 61]: {}", &self.state));
+        fields.push(format!("clevel(short as i16)[61, 63]: {}", &self.clevel));
+        fields.push(format!("font(short as i16)[63, 65]: {}", &self.font));
+        fields.push(format!("name(char[] as char[])[65, 89]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyStandentry5\n {}", fields.join(",\n "))
     }
 }

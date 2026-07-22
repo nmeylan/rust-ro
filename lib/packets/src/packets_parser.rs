@@ -196,6 +196,24 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20101124 && buffer[0] == 0x69 && buffer[1] == 0x03 {
         return Box::new(PacketCzReqnameBygid::from(buffer, packetver));
     }
+    if packetver >= 20101124 && buffer[0] == 0x56 && buffer[1] == 0x08 {
+        return Box::new(PacketZcNotifyMoveentry7::from(buffer, packetver));
+    }
+    if packetver >= 20101124 && buffer[0] == 0x58 && buffer[1] == 0x08 {
+        return Box::new(PacketZcNotifyNewentry5::from(buffer, packetver));
+    }
+    if packetver >= 20101124 && buffer[0] == 0x57 && buffer[1] == 0x08 {
+        return Box::new(PacketZcNotifyStandentry5::from(buffer, packetver));
+    }
+    if packetver >= 20091103 && buffer[0] == 0xf7 && buffer[1] == 0x07 {
+        return Box::new(PacketZcNotifyMoveentry7::from(buffer, packetver));
+    }
+    if packetver >= 20091103 && buffer[0] == 0xf8 && buffer[1] == 0x07 {
+        return Box::new(PacketZcNotifyNewentry5::from(buffer, packetver));
+    }
+    if packetver >= 20091103 && buffer[0] == 0xf9 && buffer[1] == 0x07 {
+        return Box::new(PacketZcNotifyStandentry5::from(buffer, packetver));
+    }
     if packetver >= 20080910 && buffer[0] == 0x37 && buffer[1] == 0x04 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
@@ -2521,13 +2539,13 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xf6 && buffer[1] == 0x07 {
         return Box::new(PacketZcNotifyExp::from(buffer, packetver));
     }
-    if buffer[0] == 0xf7 && buffer[1] == 0x07 {
+    if buffer[0] == 0x56 && buffer[1] == 0x08 {
         return Box::new(PacketZcNotifyMoveentry7::from(buffer, packetver));
     }
-    if buffer[0] == 0xf8 && buffer[1] == 0x07 {
+    if buffer[0] == 0x58 && buffer[1] == 0x08 {
         return Box::new(PacketZcNotifyNewentry5::from(buffer, packetver));
     }
-    if buffer[0] == 0xf9 && buffer[1] == 0x07 {
+    if buffer[0] == 0x57 && buffer[1] == 0x08 {
         return Box::new(PacketZcNotifyStandentry5::from(buffer, packetver));
     }
     if buffer[0] == 0xfa && buffer[1] == 0x07 {
@@ -3122,6 +3140,24 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20101124 && packet_id.value.unwrap().eq("0x6903") {
         return  PacketCzReqnameBygid::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20101124 && packet_id.value.unwrap().eq("0x5608") {
+        return  PacketZcNotifyMoveentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20101124 && packet_id.value.unwrap().eq("0x5808") {
+        return  PacketZcNotifyNewentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20101124 && packet_id.value.unwrap().eq("0x5708") {
+        return  PacketZcNotifyStandentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20091103 && packet_id.value.unwrap().eq("0xf707") {
+        return  PacketZcNotifyMoveentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20091103 && packet_id.value.unwrap().eq("0xf807") {
+        return  PacketZcNotifyNewentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20091103 && packet_id.value.unwrap().eq("0xf907") {
+        return  PacketZcNotifyStandentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20080910 && packet_id.value.unwrap().eq("0x3704") {
         return  PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -5448,13 +5484,13 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0xf607") {
         return PacketZcNotifyExp::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0xf707") {
+    if packet_id.value.unwrap().eq("0x5608") {
         return PacketZcNotifyMoveentry7::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0xf807") {
+    if packet_id.value.unwrap().eq("0x5808") {
         return PacketZcNotifyNewentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0xf907") {
+    if packet_id.value.unwrap().eq("0x5708") {
         return PacketZcNotifyStandentry5::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xfa07") {

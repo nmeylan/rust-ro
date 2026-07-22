@@ -6070,7 +6070,7 @@ struct PACKET_ZC_NOTIFY_EXP {
   unsigned short varID
   short expType
  }
-0x7f7
+0x0856, 0x07f7:20091103, 0x0856:20101124
 struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
   short PacketId
   short PacketLength
@@ -6090,6 +6090,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
   short headpalette
   short bodypalette
   short headDir
+  #V GTE 20101124 unsigned short robe
   unsigned long GUID
   short GEmblemVer
   short honor
@@ -6103,7 +6104,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
   short font
   unsigned char name[24]
  }
-0x7f8
+0x0858, 0x07f8:20091103, 0x0858:20101124
 struct PACKET_ZC_NOTIFY_NEWENTRY5 {
   short PacketId
   short PacketLength
@@ -6122,6 +6123,7 @@ struct PACKET_ZC_NOTIFY_NEWENTRY5 {
   short headpalette
   short bodypalette
   short headDir
+  #V GTE 20101124 unsigned short robe
   unsigned long GUID
   short GEmblemVer
   short honor
@@ -6135,7 +6137,7 @@ struct PACKET_ZC_NOTIFY_NEWENTRY5 {
   short font
   unsigned char name[24]
  }
-0x7f9
+0x0857, 0x07f9:20091103, 0x0857:20101124
 struct PACKET_ZC_NOTIFY_STANDENTRY5 {
   short PacketId
   short PacketLength
@@ -6154,6 +6156,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY5 {
   short headpalette
   short bodypalette
   short headDir
+  #V GTE 20101124 unsigned short robe
   unsigned long GUID
   short GEmblemVer
   short honor
