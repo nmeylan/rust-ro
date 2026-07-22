@@ -878,7 +878,22 @@ impl Debug for PacketCzRequestTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestTime")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
+            .field("p0[2, 6]", &format!("{:02X?}", &self.p0_raw))
+            .field("p1[6, 13]", &format!("{:02X?}", &self.p1_raw))
+            .field("p2[13, 18]", &format!("{:02X?}", &self.p2_raw))
+            .field("p3[18, 26]", &format!("{:02X?}", &self.p3_raw))
+            .field("p4[26, 30]", &format!("{:02X?}", &self.p4_raw))
+            .field("p5[30, 33]", &format!("{:02X?}", &self.p5_raw))
+            .field("p6[33, 34]", &format!("{:02X?}", &self.p6_raw))
+            .field("p7[34, 37]", &format!("{:02X?}", &self.p7_raw))
+            .field("p8[37, 39]", &format!("{:02X?}", &self.p8_raw))
+            .field("p9[39, 46]", &format!("{:02X?}", &self.p9_raw))
+            .field("p10[46, 47]", &format!("{:02X?}", &self.p10_raw))
+            .field("p11[47, 54]", &format!("{:02X?}", &self.p11_raw))
+            .field("p12[54, 59]", &format!("{:02X?}", &self.p12_raw))
+            .field("p13[59, 61]", &format!("{:02X?}", &self.p13_raw))
+            .field("p14[61, 66]", &format!("{:02X?}", &self.p14_raw))
+            .field("client_time[66, 70]", &format!("{:02X?}", &self.client_time_raw))
         .finish()
     }
 }
@@ -887,7 +902,22 @@ impl Display for PacketCzRequestTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("client_time(unsigned long as u32)[2, 6]: {}", &self.client_time));
+        fields.push(format!("p0(unsigned char[] as u8[])[2, 6]: {}", &self.p0.pretty_output()));
+        fields.push(format!("p1(unsigned char[] as u8[])[6, 13]: {}", &self.p1.pretty_output()));
+        fields.push(format!("p2(unsigned char[] as u8[])[13, 18]: {}", &self.p2.pretty_output()));
+        fields.push(format!("p3(unsigned char[] as u8[])[18, 26]: {}", &self.p3.pretty_output()));
+        fields.push(format!("p4(unsigned char[] as u8[])[26, 30]: {}", &self.p4.pretty_output()));
+        fields.push(format!("p5(unsigned char[] as u8[])[30, 33]: {}", &self.p5.pretty_output()));
+        fields.push(format!("p6(unsigned char[] as u8[])[33, 34]: {}", &self.p6.pretty_output()));
+        fields.push(format!("p7(unsigned char[] as u8[])[34, 37]: {}", &self.p7.pretty_output()));
+        fields.push(format!("p8(unsigned char[] as u8[])[37, 39]: {}", &self.p8.pretty_output()));
+        fields.push(format!("p9(unsigned char[] as u8[])[39, 46]: {}", &self.p9.pretty_output()));
+        fields.push(format!("p10(unsigned char[] as u8[])[46, 47]: {}", &self.p10.pretty_output()));
+        fields.push(format!("p11(unsigned char[] as u8[])[47, 54]: {}", &self.p11.pretty_output()));
+        fields.push(format!("p12(unsigned char[] as u8[])[54, 59]: {}", &self.p12.pretty_output()));
+        fields.push(format!("p13(unsigned char[] as u8[])[59, 61]: {}", &self.p13.pretty_output()));
+        fields.push(format!("p14(unsigned char[] as u8[])[61, 66]: {}", &self.p14.pretty_output()));
+        fields.push(format!("client_time(unsigned long as u32)[66, 70]: {}", &self.client_time));
         write!(f, "PacketCzRequestTime\n {}", fields.join(",\n "))
     }
 }
@@ -1136,8 +1166,38 @@ impl Debug for PacketCzRequestAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestAct")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("target_gid[2, 6]", &format!("{:02X?}", &self.target_gid_raw))
-            .field("action[6, 7]", &format!("{:02X?}", &self.action_raw))
+            .field("a0[2, 3]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[3, 8]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[8, 15]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[15, 16]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[16, 18]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[18, 22]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[22, 29]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[29, 32]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[32, 41]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[41, 44]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[44, 53]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[53, 58]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[58, 60]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[60, 63]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[63, 70]", &format!("{:02X?}", &self.a14_raw))
+            .field("target_gid[70, 74]", &format!("{:02X?}", &self.target_gid_raw))
+            .field("b0[74, 75]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[75, 81]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[81, 90]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[90, 91]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[91, 97]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[97, 104]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[104, 110]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[110, 119]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[119, 127]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[127, 138]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[138, 146]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[146, 152]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[152, 153]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[153, 162]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[162, 171]", &format!("{:02X?}", &self.b14_raw))
+            .field("action[171, 172]", &format!("{:02X?}", &self.action_raw))
         .finish()
     }
 }
@@ -1146,8 +1206,38 @@ impl Display for PacketCzRequestAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("target_gid(unsigned long as u32)[2, 6]: {}", &self.target_gid));
-        fields.push(format!("action(unsigned char as u8)[6, 7]: {}", &self.action));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 3]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[3, 8]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[8, 15]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[15, 16]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[16, 18]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[18, 22]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[22, 29]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[29, 32]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[32, 41]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[41, 44]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[44, 53]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[53, 58]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[58, 60]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[60, 63]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[63, 70]: {}", &self.a14.pretty_output()));
+        fields.push(format!("target_gid(unsigned long as u32)[70, 74]: {}", &self.target_gid));
+        fields.push(format!("b0(unsigned char[] as u8[])[74, 75]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[75, 81]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[81, 90]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[90, 91]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[91, 97]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[97, 104]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[104, 110]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[110, 119]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[119, 127]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[127, 138]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[138, 146]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[146, 152]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[152, 153]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[153, 162]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[162, 171]: {}", &self.b14.pretty_output()));
+        fields.push(format!("action(unsigned char as u8)[171, 172]: {}", &self.action));
         write!(f, "PacketCzRequestAct\n {}", fields.join(",\n "))
     }
 }
@@ -1384,7 +1474,23 @@ impl Debug for PacketCzReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqname")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
+            .field("p0[2, 11]", &format!("{:02X?}", &self.p0_raw))
+            .field("p1[11, 17]", &format!("{:02X?}", &self.p1_raw))
+            .field("p2[17, 25]", &format!("{:02X?}", &self.p2_raw))
+            .field("p3[25, 29]", &format!("{:02X?}", &self.p3_raw))
+            .field("p4[29, 38]", &format!("{:02X?}", &self.p4_raw))
+            .field("p5[38, 42]", &format!("{:02X?}", &self.p5_raw))
+            .field("p6[42, 49]", &format!("{:02X?}", &self.p6_raw))
+            .field("p7[49, 51]", &format!("{:02X?}", &self.p7_raw))
+            .field("p8[51, 56]", &format!("{:02X?}", &self.p8_raw))
+            .field("p9[56, 58]", &format!("{:02X?}", &self.p9_raw))
+            .field("p10[58, 63]", &format!("{:02X?}", &self.p10_raw))
+            .field("p11[63, 65]", &format!("{:02X?}", &self.p11_raw))
+            .field("p12[65, 71]", &format!("{:02X?}", &self.p12_raw))
+            .field("p13[71, 82]", &format!("{:02X?}", &self.p13_raw))
+            .field("p14[82, 87]", &format!("{:02X?}", &self.p14_raw))
+            .field("p15[87, 95]", &format!("{:02X?}", &self.p15_raw))
+            .field("aid[95, 99]", &format!("{:02X?}", &self.aid_raw))
         .finish()
     }
 }
@@ -1393,7 +1499,23 @@ impl Display for PacketCzReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
+        fields.push(format!("p0(unsigned char[] as u8[])[2, 11]: {}", &self.p0.pretty_output()));
+        fields.push(format!("p1(unsigned char[] as u8[])[11, 17]: {}", &self.p1.pretty_output()));
+        fields.push(format!("p2(unsigned char[] as u8[])[17, 25]: {}", &self.p2.pretty_output()));
+        fields.push(format!("p3(unsigned char[] as u8[])[25, 29]: {}", &self.p3.pretty_output()));
+        fields.push(format!("p4(unsigned char[] as u8[])[29, 38]: {}", &self.p4.pretty_output()));
+        fields.push(format!("p5(unsigned char[] as u8[])[38, 42]: {}", &self.p5.pretty_output()));
+        fields.push(format!("p6(unsigned char[] as u8[])[42, 49]: {}", &self.p6.pretty_output()));
+        fields.push(format!("p7(unsigned char[] as u8[])[49, 51]: {}", &self.p7.pretty_output()));
+        fields.push(format!("p8(unsigned char[] as u8[])[51, 56]: {}", &self.p8.pretty_output()));
+        fields.push(format!("p9(unsigned char[] as u8[])[56, 58]: {}", &self.p9.pretty_output()));
+        fields.push(format!("p10(unsigned char[] as u8[])[58, 63]: {}", &self.p10.pretty_output()));
+        fields.push(format!("p11(unsigned char[] as u8[])[63, 65]: {}", &self.p11.pretty_output()));
+        fields.push(format!("p12(unsigned char[] as u8[])[65, 71]: {}", &self.p12.pretty_output()));
+        fields.push(format!("p13(unsigned char[] as u8[])[71, 82]: {}", &self.p13.pretty_output()));
+        fields.push(format!("p14(unsigned char[] as u8[])[82, 87]: {}", &self.p14.pretty_output()));
+        fields.push(format!("p15(unsigned char[] as u8[])[87, 95]: {}", &self.p15.pretty_output()));
+        fields.push(format!("aid(unsigned long as u32)[95, 99]: {}", &self.aid));
         write!(f, "PacketCzReqname\n {}", fields.join(",\n "))
     }
 }
@@ -1526,8 +1648,39 @@ impl Debug for PacketCzChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeDirection")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("head_dir[2, 4]", &format!("{:02X?}", &self.head_dir_raw))
-            .field("dir[4, 5]", &format!("{:02X?}", &self.dir_raw))
+            .field("a0[2, 5]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[5, 10]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[10, 12]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[12, 18]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[18, 21]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[21, 25]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[25, 26]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[26, 36]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[36, 41]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[41, 47]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[47, 51]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[51, 57]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[57, 62]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[62, 70]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[70, 75]", &format!("{:02X?}", &self.a14_raw))
+            .field("a15[75, 77]", &format!("{:02X?}", &self.a15_raw))
+            .field("head_dir[77, 79]", &format!("{:02X?}", &self.head_dir_raw))
+            .field("b0[79, 84]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[84, 86]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[86, 89]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[89, 96]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[96, 101]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[101, 107]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[107, 109]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[109, 117]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[117, 118]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[118, 124]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[124, 126]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[126, 132]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[132, 134]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[134, 135]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[135, 138]", &format!("{:02X?}", &self.b14_raw))
+            .field("dir[138, 139]", &format!("{:02X?}", &self.dir_raw))
         .finish()
     }
 }
@@ -1536,8 +1689,39 @@ impl Display for PacketCzChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("head_dir(short as i16)[2, 4]: {}", &self.head_dir));
-        fields.push(format!("dir(unsigned char as u8)[4, 5]: {}", &self.dir));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 5]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[5, 10]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[10, 12]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[12, 18]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[18, 21]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[21, 25]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[25, 26]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[26, 36]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[36, 41]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[41, 47]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[47, 51]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[51, 57]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[57, 62]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[62, 70]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[70, 75]: {}", &self.a14.pretty_output()));
+        fields.push(format!("a15(unsigned char[] as u8[])[75, 77]: {}", &self.a15.pretty_output()));
+        fields.push(format!("head_dir(short as i16)[77, 79]: {}", &self.head_dir));
+        fields.push(format!("b0(unsigned char[] as u8[])[79, 84]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[84, 86]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[86, 89]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[89, 96]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[96, 101]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[101, 107]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[107, 109]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[109, 117]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[117, 118]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[118, 124]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[124, 126]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[126, 132]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[132, 134]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[134, 135]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[135, 138]: {}", &self.b14.pretty_output()));
+        fields.push(format!("dir(unsigned char as u8)[138, 139]: {}", &self.dir));
         write!(f, "PacketCzChangeDirection\n {}", fields.join(",\n "))
     }
 }
@@ -1632,7 +1816,22 @@ impl Debug for PacketCzItemPickup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemPickup")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
+            .field("p0[2, 6]", &format!("{:02X?}", &self.p0_raw))
+            .field("p1[6, 13]", &format!("{:02X?}", &self.p1_raw))
+            .field("p2[13, 18]", &format!("{:02X?}", &self.p2_raw))
+            .field("p3[18, 26]", &format!("{:02X?}", &self.p3_raw))
+            .field("p4[26, 30]", &format!("{:02X?}", &self.p4_raw))
+            .field("p5[30, 33]", &format!("{:02X?}", &self.p5_raw))
+            .field("p6[33, 34]", &format!("{:02X?}", &self.p6_raw))
+            .field("p7[34, 37]", &format!("{:02X?}", &self.p7_raw))
+            .field("p8[37, 39]", &format!("{:02X?}", &self.p8_raw))
+            .field("p9[39, 46]", &format!("{:02X?}", &self.p9_raw))
+            .field("p10[46, 47]", &format!("{:02X?}", &self.p10_raw))
+            .field("p11[47, 54]", &format!("{:02X?}", &self.p11_raw))
+            .field("p12[54, 59]", &format!("{:02X?}", &self.p12_raw))
+            .field("p13[59, 61]", &format!("{:02X?}", &self.p13_raw))
+            .field("p14[61, 66]", &format!("{:02X?}", &self.p14_raw))
+            .field("itaid[66, 70]", &format!("{:02X?}", &self.itaid_raw))
         .finish()
     }
 }
@@ -1641,7 +1840,22 @@ impl Display for PacketCzItemPickup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("itaid(unsigned long as u32)[2, 6]: {}", &self.itaid));
+        fields.push(format!("p0(unsigned char[] as u8[])[2, 6]: {}", &self.p0.pretty_output()));
+        fields.push(format!("p1(unsigned char[] as u8[])[6, 13]: {}", &self.p1.pretty_output()));
+        fields.push(format!("p2(unsigned char[] as u8[])[13, 18]: {}", &self.p2.pretty_output()));
+        fields.push(format!("p3(unsigned char[] as u8[])[18, 26]: {}", &self.p3.pretty_output()));
+        fields.push(format!("p4(unsigned char[] as u8[])[26, 30]: {}", &self.p4.pretty_output()));
+        fields.push(format!("p5(unsigned char[] as u8[])[30, 33]: {}", &self.p5.pretty_output()));
+        fields.push(format!("p6(unsigned char[] as u8[])[33, 34]: {}", &self.p6.pretty_output()));
+        fields.push(format!("p7(unsigned char[] as u8[])[34, 37]: {}", &self.p7.pretty_output()));
+        fields.push(format!("p8(unsigned char[] as u8[])[37, 39]: {}", &self.p8.pretty_output()));
+        fields.push(format!("p9(unsigned char[] as u8[])[39, 46]: {}", &self.p9.pretty_output()));
+        fields.push(format!("p10(unsigned char[] as u8[])[46, 47]: {}", &self.p10.pretty_output()));
+        fields.push(format!("p11(unsigned char[] as u8[])[47, 54]: {}", &self.p11.pretty_output()));
+        fields.push(format!("p12(unsigned char[] as u8[])[54, 59]: {}", &self.p12.pretty_output()));
+        fields.push(format!("p13(unsigned char[] as u8[])[59, 61]: {}", &self.p13.pretty_output()));
+        fields.push(format!("p14(unsigned char[] as u8[])[61, 66]: {}", &self.p14.pretty_output()));
+        fields.push(format!("itaid(unsigned long as u32)[66, 70]: {}", &self.itaid));
         write!(f, "PacketCzItemPickup\n {}", fields.join(",\n "))
     }
 }
@@ -1704,8 +1918,40 @@ impl Debug for PacketCzItemThrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemThrow")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-            .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
+            .field("a0[2, 5]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[5, 11]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[11, 15]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[15, 25]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[25, 28]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[28, 32]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[32, 34]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[34, 47]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[47, 50]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[50, 51]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[51, 55]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[55, 56]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[56, 62]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[62, 71]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[71, 74]", &format!("{:02X?}", &self.a14_raw))
+            .field("a15[74, 78]", &format!("{:02X?}", &self.a15_raw))
+            .field("index[78, 80]", &format!("{:02X?}", &self.index_raw))
+            .field("b0[80, 85]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[85, 90]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[90, 97]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[97, 100]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[100, 105]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[105, 107]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[107, 111]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[111, 112]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[112, 113]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[113, 118]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[118, 120]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[120, 125]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[125, 130]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[130, 134]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[134, 135]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[135, 142]", &format!("{:02X?}", &self.b15_raw))
+            .field("count[142, 144]", &format!("{:02X?}", &self.count_raw))
         .finish()
     }
 }
@@ -1714,8 +1960,40 @@ impl Display for PacketCzItemThrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
-        fields.push(format!("count(short as i16)[4, 6]: {}", &self.count));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 5]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[5, 11]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[11, 15]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[15, 25]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[25, 28]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[28, 32]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[32, 34]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[34, 47]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[47, 50]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[50, 51]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[51, 55]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[55, 56]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[56, 62]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[62, 71]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[71, 74]: {}", &self.a14.pretty_output()));
+        fields.push(format!("a15(unsigned char[] as u8[])[74, 78]: {}", &self.a15.pretty_output()));
+        fields.push(format!("index(unsigned short as u16)[78, 80]: {}", &self.index));
+        fields.push(format!("b0(unsigned char[] as u8[])[80, 85]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[85, 90]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[90, 97]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[97, 100]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[100, 105]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[105, 107]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[107, 111]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[111, 112]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[112, 113]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[113, 118]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[118, 120]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[120, 125]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[125, 130]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[130, 134]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[134, 135]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[135, 142]: {}", &self.b15.pretty_output()));
+        fields.push(format!("count(short as i16)[142, 144]: {}", &self.count));
         write!(f, "PacketCzItemThrow\n {}", fields.join(",\n "))
     }
 }
@@ -1808,8 +2086,38 @@ impl Debug for PacketCzUseItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseItem")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-            .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
+            .field("a0[2, 5]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[5, 9]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[9, 16]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[16, 24]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[24, 28]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[28, 31]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[31, 32]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[32, 35]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[35, 37]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[37, 44]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[44, 45]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[45, 52]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[52, 57]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[57, 59]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[59, 64]", &format!("{:02X?}", &self.a14_raw))
+            .field("index[64, 66]", &format!("{:02X?}", &self.index_raw))
+            .field("b0[66, 68]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[68, 73]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[73, 77]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[77, 86]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[86, 88]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[88, 93]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[93, 95]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[95, 101]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[101, 105]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[105, 108]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[108, 112]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[112, 121]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[121, 129]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[129, 133]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[133, 144]", &format!("{:02X?}", &self.b14_raw))
+            .field("aid[144, 148]", &format!("{:02X?}", &self.aid_raw))
         .finish()
     }
 }
@@ -1818,8 +2126,38 @@ impl Display for PacketCzUseItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
-        fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 5]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[5, 9]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[9, 16]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[16, 24]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[24, 28]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[28, 31]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[31, 32]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[32, 35]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[35, 37]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[37, 44]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[44, 45]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[45, 52]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[52, 57]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[57, 59]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[59, 64]: {}", &self.a14.pretty_output()));
+        fields.push(format!("index(unsigned short as u16)[64, 66]: {}", &self.index));
+        fields.push(format!("b0(unsigned char[] as u8[])[66, 68]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[68, 73]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[73, 77]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[77, 86]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[86, 88]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[88, 93]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[93, 95]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[95, 101]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[101, 105]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[105, 108]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[108, 112]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[112, 121]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[121, 129]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[129, 133]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[133, 144]: {}", &self.b14.pretty_output()));
+        fields.push(format!("aid(unsigned long as u32)[144, 148]: {}", &self.aid));
         write!(f, "PacketCzUseItem\n {}", fields.join(",\n "))
     }
 }
@@ -3412,8 +3750,39 @@ impl Debug for PacketCzMoveItemFromStoreToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromStoreToBody")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-            .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
+            .field("a0[2, 10]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[10, 19]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[19, 20]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[20, 22]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[22, 30]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[30, 40]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[40, 42]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[42, 51]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[51, 63]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[63, 72]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[72, 75]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[75, 84]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[84, 85]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[85, 97]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[97, 98]", &format!("{:02X?}", &self.a14_raw))
+            .field("index[98, 100]", &format!("{:02X?}", &self.index_raw))
+            .field("b0[100, 110]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[110, 119]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[119, 127]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[127, 129]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[129, 139]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[139, 143]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[143, 154]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[154, 158]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[158, 160]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[160, 161]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[161, 163]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[163, 164]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[164, 173]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[173, 179]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[179, 181]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[181, 189]", &format!("{:02X?}", &self.b15_raw))
+            .field("count[189, 193]", &format!("{:02X?}", &self.count_raw))
         .finish()
     }
 }
@@ -3422,8 +3791,39 @@ impl Display for PacketCzMoveItemFromStoreToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
-        fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 10]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[10, 19]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[19, 20]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[20, 22]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[22, 30]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[30, 40]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[40, 42]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[42, 51]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[51, 63]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[63, 72]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[72, 75]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[75, 84]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[84, 85]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[85, 97]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[97, 98]: {}", &self.a14.pretty_output()));
+        fields.push(format!("index(short as i16)[98, 100]: {}", &self.index));
+        fields.push(format!("b0(unsigned char[] as u8[])[100, 110]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[110, 119]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[119, 127]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[127, 129]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[129, 139]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[139, 143]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[143, 154]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[154, 158]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[158, 160]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[160, 161]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[161, 163]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[163, 164]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[164, 173]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[173, 179]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[179, 181]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[181, 189]: {}", &self.b15.pretty_output()));
+        fields.push(format!("count(int as i32)[189, 193]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromStoreToBody\n {}", fields.join(",\n "))
     }
 }
@@ -3432,8 +3832,40 @@ impl Debug for PacketCzMoveItemFromBodyToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromBodyToStore")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-            .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
+            .field("a0[2, 5]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[5, 8]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[8, 9]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[9, 13]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[13, 16]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[16, 20]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[20, 22]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[22, 30]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[30, 35]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[35, 49]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[49, 59]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[59, 73]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[73, 76]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[76, 78]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[78, 83]", &format!("{:02X?}", &self.a14_raw))
+            .field("a15[83, 84]", &format!("{:02X?}", &self.a15_raw))
+            .field("index[84, 86]", &format!("{:02X?}", &self.index_raw))
+            .field("b0[86, 91]", &format!("{:02X?}", &self.b0_raw))
+            .field("b1[91, 103]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[103, 113]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[113, 126]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[126, 131]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[131, 132]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[132, 136]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[136, 140]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[140, 141]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[141, 150]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[150, 153]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[153, 162]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[162, 174]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[174, 181]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[181, 182]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[182, 192]", &format!("{:02X?}", &self.b15_raw))
+            .field("count[192, 196]", &format!("{:02X?}", &self.count_raw))
         .finish()
     }
 }
@@ -3442,8 +3874,40 @@ impl Display for PacketCzMoveItemFromBodyToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
-        fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 5]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[5, 8]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[8, 9]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[9, 13]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[13, 16]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[16, 20]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[20, 22]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[22, 30]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[30, 35]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[35, 49]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[49, 59]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[59, 73]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[73, 76]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[76, 78]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[78, 83]: {}", &self.a14.pretty_output()));
+        fields.push(format!("a15(unsigned char[] as u8[])[83, 84]: {}", &self.a15.pretty_output()));
+        fields.push(format!("index(short as i16)[84, 86]: {}", &self.index));
+        fields.push(format!("b0(unsigned char[] as u8[])[86, 91]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b1(unsigned char[] as u8[])[91, 103]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[103, 113]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[113, 126]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[126, 131]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[131, 132]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[132, 136]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[136, 140]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[140, 141]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[141, 150]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[150, 153]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[153, 162]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[162, 174]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[174, 181]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[181, 182]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[182, 192]: {}", &self.b15.pretty_output()));
+        fields.push(format!("count(int as i32)[192, 196]: {}", &self.count));
         write!(f, "PacketCzMoveItemFromBodyToStore\n {}", fields.join(",\n "))
     }
 }
@@ -4030,9 +4494,61 @@ impl Debug for PacketCzUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkill")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
-            .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
-            .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
+            .field("a0[2, 4]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[4, 9]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[9, 14]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[14, 23]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[23, 30]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[30, 32]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[32, 37]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[37, 39]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[39, 45]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[45, 51]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[51, 55]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[55, 59]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[59, 62]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[62, 66]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[66, 75]", &format!("{:02X?}", &self.a14_raw))
+            .field("a15[75, 83]", &format!("{:02X?}", &self.a15_raw))
+            .field("a16[83, 87]", &format!("{:02X?}", &self.a16_raw))
+            .field("a17[87, 94]", &format!("{:02X?}", &self.a17_raw))
+            .field("selected_level[94, 96]", &format!("{:02X?}", &self.selected_level_raw))
+            .field("b0[96, 99]", &format!("{:02X?}", &self.b0_raw))
+            .field("b2[99, 102]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[102, 107]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[107, 111]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[111, 112]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[112, 115]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[115, 119]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[119, 121]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[121, 127]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[127, 129]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[129, 138]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[138, 142]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[142, 151]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[151, 156]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[156, 158]", &format!("{:02X?}", &self.b15_raw))
+            .field("b16[158, 160]", &format!("{:02X?}", &self.b16_raw))
+            .field("b17[160, 164]", &format!("{:02X?}", &self.b17_raw))
+            .field("skid[164, 166]", &format!("{:02X?}", &self.skid_raw))
+            .field("c1[166, 170]", &format!("{:02X?}", &self.c1_raw))
+            .field("c2[170, 172]", &format!("{:02X?}", &self.c2_raw))
+            .field("c3[172, 174]", &format!("{:02X?}", &self.c3_raw))
+            .field("c4[174, 175]", &format!("{:02X?}", &self.c4_raw))
+            .field("c5[175, 176]", &format!("{:02X?}", &self.c5_raw))
+            .field("c6[176, 178]", &format!("{:02X?}", &self.c6_raw))
+            .field("c7[178, 188]", &format!("{:02X?}", &self.c7_raw))
+            .field("c8[188, 192]", &format!("{:02X?}", &self.c8_raw))
+            .field("c9[192, 196]", &format!("{:02X?}", &self.c9_raw))
+            .field("c10[196, 205]", &format!("{:02X?}", &self.c10_raw))
+            .field("c11[205, 216]", &format!("{:02X?}", &self.c11_raw))
+            .field("c12[216, 218]", &format!("{:02X?}", &self.c12_raw))
+            .field("c13[218, 229]", &format!("{:02X?}", &self.c13_raw))
+            .field("c14[229, 231]", &format!("{:02X?}", &self.c14_raw))
+            .field("c15[231, 241]", &format!("{:02X?}", &self.c15_raw))
+            .field("c16[241, 250]", &format!("{:02X?}", &self.c16_raw))
+            .field("c17[250, 251]", &format!("{:02X?}", &self.c17_raw))
+            .field("target_id[251, 255]", &format!("{:02X?}", &self.target_id_raw))
         .finish()
     }
 }
@@ -4041,9 +4557,61 @@ impl Display for PacketCzUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
-        fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
-        fields.push(format!("target_id(unsigned long as u32)[6, 10]: {}", &self.target_id));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 4]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[4, 9]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[9, 14]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[14, 23]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[23, 30]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[30, 32]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[32, 37]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[37, 39]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[39, 45]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[45, 51]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[51, 55]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[55, 59]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[59, 62]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[62, 66]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[66, 75]: {}", &self.a14.pretty_output()));
+        fields.push(format!("a15(unsigned char[] as u8[])[75, 83]: {}", &self.a15.pretty_output()));
+        fields.push(format!("a16(unsigned char[] as u8[])[83, 87]: {}", &self.a16.pretty_output()));
+        fields.push(format!("a17(unsigned char[] as u8[])[87, 94]: {}", &self.a17.pretty_output()));
+        fields.push(format!("selected_level(short as i16)[94, 96]: {}", &self.selected_level));
+        fields.push(format!("b0(unsigned char[] as u8[])[96, 99]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[99, 102]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[102, 107]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[107, 111]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[111, 112]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[112, 115]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[115, 119]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[119, 121]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[121, 127]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[127, 129]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[129, 138]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[138, 142]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[142, 151]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[151, 156]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[156, 158]: {}", &self.b15.pretty_output()));
+        fields.push(format!("b16(unsigned char[] as u8[])[158, 160]: {}", &self.b16.pretty_output()));
+        fields.push(format!("b17(unsigned char[] as u8[])[160, 164]: {}", &self.b17.pretty_output()));
+        fields.push(format!("skid(unsigned short as u16)[164, 166]: {}", &self.skid));
+        fields.push(format!("c1(unsigned char[] as u8[])[166, 170]: {}", &self.c1.pretty_output()));
+        fields.push(format!("c2(unsigned char[] as u8[])[170, 172]: {}", &self.c2.pretty_output()));
+        fields.push(format!("c3(unsigned char[] as u8[])[172, 174]: {}", &self.c3.pretty_output()));
+        fields.push(format!("c4(unsigned char[] as u8[])[174, 175]: {}", &self.c4.pretty_output()));
+        fields.push(format!("c5(unsigned char[] as u8[])[175, 176]: {}", &self.c5.pretty_output()));
+        fields.push(format!("c6(unsigned char[] as u8[])[176, 178]: {}", &self.c6.pretty_output()));
+        fields.push(format!("c7(unsigned char[] as u8[])[178, 188]: {}", &self.c7.pretty_output()));
+        fields.push(format!("c8(unsigned char[] as u8[])[188, 192]: {}", &self.c8.pretty_output()));
+        fields.push(format!("c9(unsigned char[] as u8[])[192, 196]: {}", &self.c9.pretty_output()));
+        fields.push(format!("c10(unsigned char[] as u8[])[196, 205]: {}", &self.c10.pretty_output()));
+        fields.push(format!("c11(unsigned char[] as u8[])[205, 216]: {}", &self.c11.pretty_output()));
+        fields.push(format!("c12(unsigned char[] as u8[])[216, 218]: {}", &self.c12.pretty_output()));
+        fields.push(format!("c13(unsigned char[] as u8[])[218, 229]: {}", &self.c13.pretty_output()));
+        fields.push(format!("c14(unsigned char[] as u8[])[229, 231]: {}", &self.c14.pretty_output()));
+        fields.push(format!("c15(unsigned char[] as u8[])[231, 241]: {}", &self.c15.pretty_output()));
+        fields.push(format!("c16(unsigned char[] as u8[])[241, 250]: {}", &self.c16.pretty_output()));
+        fields.push(format!("c17(unsigned char[] as u8[])[250, 251]: {}", &self.c17.pretty_output()));
+        fields.push(format!("target_id(unsigned long as u32)[251, 255]: {}", &self.target_id));
         write!(f, "PacketCzUseSkill\n {}", fields.join(",\n "))
     }
 }
@@ -4128,10 +4696,78 @@ impl Debug for PacketCzUseSkillToground {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkillToground")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
-            .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
-            .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
-            .field("y_pos[8, 10]", &format!("{:02X?}", &self.y_pos_raw))
+            .field("a0[2, 4]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[4, 9]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[9, 10]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[10, 13]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[13, 21]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[21, 25]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[25, 26]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[26, 30]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[30, 32]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[32, 40]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[40, 43]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[43, 53]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[53, 60]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[60, 70]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[70, 73]", &format!("{:02X?}", &self.a14_raw))
+            .field("a15[73, 81]", &format!("{:02X?}", &self.a15_raw))
+            .field("a16[81, 84]", &format!("{:02X?}", &self.a16_raw))
+            .field("a17[84, 92]", &format!("{:02X?}", &self.a17_raw))
+            .field("selected_level[92, 94]", &format!("{:02X?}", &self.selected_level_raw))
+            .field("b0[94, 97]", &format!("{:02X?}", &self.b0_raw))
+            .field("b2[97, 98]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[98, 106]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[106, 108]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[108, 120]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[120, 121]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[121, 122]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[122, 125]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[125, 131]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[131, 133]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[133, 134]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[134, 138]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[138, 139]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[139, 147]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[147, 154]", &format!("{:02X?}", &self.b15_raw))
+            .field("b16[154, 156]", &format!("{:02X?}", &self.b16_raw))
+            .field("b17[156, 158]", &format!("{:02X?}", &self.b17_raw))
+            .field("skid[158, 160]", &format!("{:02X?}", &self.skid_raw))
+            .field("c1[160, 164]", &format!("{:02X?}", &self.c1_raw))
+            .field("c2[164, 173]", &format!("{:02X?}", &self.c2_raw))
+            .field("c3[173, 185]", &format!("{:02X?}", &self.c3_raw))
+            .field("c4[185, 187]", &format!("{:02X?}", &self.c4_raw))
+            .field("c5[187, 188]", &format!("{:02X?}", &self.c5_raw))
+            .field("c6[188, 197]", &format!("{:02X?}", &self.c6_raw))
+            .field("c7[197, 209]", &format!("{:02X?}", &self.c7_raw))
+            .field("c8[209, 220]", &format!("{:02X?}", &self.c8_raw))
+            .field("c9[220, 222]", &format!("{:02X?}", &self.c9_raw))
+            .field("c10[222, 223]", &format!("{:02X?}", &self.c10_raw))
+            .field("c11[223, 224]", &format!("{:02X?}", &self.c11_raw))
+            .field("c12[224, 230]", &format!("{:02X?}", &self.c12_raw))
+            .field("c13[230, 231]", &format!("{:02X?}", &self.c13_raw))
+            .field("c14[231, 243]", &format!("{:02X?}", &self.c14_raw))
+            .field("c15[243, 245]", &format!("{:02X?}", &self.c15_raw))
+            .field("c16[245, 246]", &format!("{:02X?}", &self.c16_raw))
+            .field("c17[246, 248]", &format!("{:02X?}", &self.c17_raw))
+            .field("x_pos[248, 250]", &format!("{:02X?}", &self.x_pos_raw))
+            .field("d2[250, 252]", &format!("{:02X?}", &self.d2_raw))
+            .field("d3[252, 259]", &format!("{:02X?}", &self.d3_raw))
+            .field("d4[259, 262]", &format!("{:02X?}", &self.d4_raw))
+            .field("d5[262, 264]", &format!("{:02X?}", &self.d5_raw))
+            .field("d6[264, 266]", &format!("{:02X?}", &self.d6_raw))
+            .field("d7[266, 267]", &format!("{:02X?}", &self.d7_raw))
+            .field("d8[267, 271]", &format!("{:02X?}", &self.d8_raw))
+            .field("d9[271, 279]", &format!("{:02X?}", &self.d9_raw))
+            .field("d10[279, 285]", &format!("{:02X?}", &self.d10_raw))
+            .field("d11[285, 296]", &format!("{:02X?}", &self.d11_raw))
+            .field("d12[296, 299]", &format!("{:02X?}", &self.d12_raw))
+            .field("d13[299, 310]", &format!("{:02X?}", &self.d13_raw))
+            .field("d14[310, 317]", &format!("{:02X?}", &self.d14_raw))
+            .field("d15[317, 330]", &format!("{:02X?}", &self.d15_raw))
+            .field("d16[330, 336]", &format!("{:02X?}", &self.d16_raw))
+            .field("d17[336, 339]", &format!("{:02X?}", &self.d17_raw))
+            .field("y_pos[339, 341]", &format!("{:02X?}", &self.y_pos_raw))
         .finish()
     }
 }
@@ -4140,10 +4776,78 @@ impl Display for PacketCzUseSkillToground {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("selected_level(short as i16)[2, 4]: {}", &self.selected_level));
-        fields.push(format!("skid(unsigned short as u16)[4, 6]: {}", &self.skid));
-        fields.push(format!("x_pos(short as i16)[6, 8]: {}", &self.x_pos));
-        fields.push(format!("y_pos(short as i16)[8, 10]: {}", &self.y_pos));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 4]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[4, 9]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[9, 10]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[10, 13]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[13, 21]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[21, 25]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[25, 26]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[26, 30]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[30, 32]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[32, 40]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[40, 43]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[43, 53]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[53, 60]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[60, 70]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[70, 73]: {}", &self.a14.pretty_output()));
+        fields.push(format!("a15(unsigned char[] as u8[])[73, 81]: {}", &self.a15.pretty_output()));
+        fields.push(format!("a16(unsigned char[] as u8[])[81, 84]: {}", &self.a16.pretty_output()));
+        fields.push(format!("a17(unsigned char[] as u8[])[84, 92]: {}", &self.a17.pretty_output()));
+        fields.push(format!("selected_level(short as i16)[92, 94]: {}", &self.selected_level));
+        fields.push(format!("b0(unsigned char[] as u8[])[94, 97]: {}", &self.b0.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[97, 98]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[98, 106]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[106, 108]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[108, 120]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[120, 121]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[121, 122]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[122, 125]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[125, 131]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[131, 133]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[133, 134]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[134, 138]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[138, 139]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[139, 147]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[147, 154]: {}", &self.b15.pretty_output()));
+        fields.push(format!("b16(unsigned char[] as u8[])[154, 156]: {}", &self.b16.pretty_output()));
+        fields.push(format!("b17(unsigned char[] as u8[])[156, 158]: {}", &self.b17.pretty_output()));
+        fields.push(format!("skid(unsigned short as u16)[158, 160]: {}", &self.skid));
+        fields.push(format!("c1(unsigned char[] as u8[])[160, 164]: {}", &self.c1.pretty_output()));
+        fields.push(format!("c2(unsigned char[] as u8[])[164, 173]: {}", &self.c2.pretty_output()));
+        fields.push(format!("c3(unsigned char[] as u8[])[173, 185]: {}", &self.c3.pretty_output()));
+        fields.push(format!("c4(unsigned char[] as u8[])[185, 187]: {}", &self.c4.pretty_output()));
+        fields.push(format!("c5(unsigned char[] as u8[])[187, 188]: {}", &self.c5.pretty_output()));
+        fields.push(format!("c6(unsigned char[] as u8[])[188, 197]: {}", &self.c6.pretty_output()));
+        fields.push(format!("c7(unsigned char[] as u8[])[197, 209]: {}", &self.c7.pretty_output()));
+        fields.push(format!("c8(unsigned char[] as u8[])[209, 220]: {}", &self.c8.pretty_output()));
+        fields.push(format!("c9(unsigned char[] as u8[])[220, 222]: {}", &self.c9.pretty_output()));
+        fields.push(format!("c10(unsigned char[] as u8[])[222, 223]: {}", &self.c10.pretty_output()));
+        fields.push(format!("c11(unsigned char[] as u8[])[223, 224]: {}", &self.c11.pretty_output()));
+        fields.push(format!("c12(unsigned char[] as u8[])[224, 230]: {}", &self.c12.pretty_output()));
+        fields.push(format!("c13(unsigned char[] as u8[])[230, 231]: {}", &self.c13.pretty_output()));
+        fields.push(format!("c14(unsigned char[] as u8[])[231, 243]: {}", &self.c14.pretty_output()));
+        fields.push(format!("c15(unsigned char[] as u8[])[243, 245]: {}", &self.c15.pretty_output()));
+        fields.push(format!("c16(unsigned char[] as u8[])[245, 246]: {}", &self.c16.pretty_output()));
+        fields.push(format!("c17(unsigned char[] as u8[])[246, 248]: {}", &self.c17.pretty_output()));
+        fields.push(format!("x_pos(short as i16)[248, 250]: {}", &self.x_pos));
+        fields.push(format!("d2(unsigned char[] as u8[])[250, 252]: {}", &self.d2.pretty_output()));
+        fields.push(format!("d3(unsigned char[] as u8[])[252, 259]: {}", &self.d3.pretty_output()));
+        fields.push(format!("d4(unsigned char[] as u8[])[259, 262]: {}", &self.d4.pretty_output()));
+        fields.push(format!("d5(unsigned char[] as u8[])[262, 264]: {}", &self.d5.pretty_output()));
+        fields.push(format!("d6(unsigned char[] as u8[])[264, 266]: {}", &self.d6.pretty_output()));
+        fields.push(format!("d7(unsigned char[] as u8[])[266, 267]: {}", &self.d7.pretty_output()));
+        fields.push(format!("d8(unsigned char[] as u8[])[267, 271]: {}", &self.d8.pretty_output()));
+        fields.push(format!("d9(unsigned char[] as u8[])[271, 279]: {}", &self.d9.pretty_output()));
+        fields.push(format!("d10(unsigned char[] as u8[])[279, 285]: {}", &self.d10.pretty_output()));
+        fields.push(format!("d11(unsigned char[] as u8[])[285, 296]: {}", &self.d11.pretty_output()));
+        fields.push(format!("d12(unsigned char[] as u8[])[296, 299]: {}", &self.d12.pretty_output()));
+        fields.push(format!("d13(unsigned char[] as u8[])[299, 310]: {}", &self.d13.pretty_output()));
+        fields.push(format!("d14(unsigned char[] as u8[])[310, 317]: {}", &self.d14.pretty_output()));
+        fields.push(format!("d15(unsigned char[] as u8[])[317, 330]: {}", &self.d15.pretty_output()));
+        fields.push(format!("d16(unsigned char[] as u8[])[330, 336]: {}", &self.d16.pretty_output()));
+        fields.push(format!("d17(unsigned char[] as u8[])[336, 339]: {}", &self.d17.pretty_output()));
+        fields.push(format!("y_pos(short as i16)[339, 341]: {}", &self.y_pos));
         write!(f, "PacketCzUseSkillToground\n {}", fields.join(",\n "))
     }
 }
@@ -6730,7 +7434,23 @@ impl Debug for PacketCzReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqnameBygid")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+            .field("p0[2, 8]", &format!("{:02X?}", &self.p0_raw))
+            .field("p1[8, 13]", &format!("{:02X?}", &self.p1_raw))
+            .field("p2[13, 21]", &format!("{:02X?}", &self.p2_raw))
+            .field("p3[21, 25]", &format!("{:02X?}", &self.p3_raw))
+            .field("p4[25, 31]", &format!("{:02X?}", &self.p4_raw))
+            .field("p5[31, 41]", &format!("{:02X?}", &self.p5_raw))
+            .field("p6[41, 49]", &format!("{:02X?}", &self.p6_raw))
+            .field("p7[49, 54]", &format!("{:02X?}", &self.p7_raw))
+            .field("p8[54, 63]", &format!("{:02X?}", &self.p8_raw))
+            .field("p9[63, 66]", &format!("{:02X?}", &self.p9_raw))
+            .field("p10[66, 78]", &format!("{:02X?}", &self.p10_raw))
+            .field("p11[78, 81]", &format!("{:02X?}", &self.p11_raw))
+            .field("p12[81, 86]", &format!("{:02X?}", &self.p12_raw))
+            .field("p13[86, 90]", &format!("{:02X?}", &self.p13_raw))
+            .field("p14[90, 99]", &format!("{:02X?}", &self.p14_raw))
+            .field("p15[99, 107]", &format!("{:02X?}", &self.p15_raw))
+            .field("gid[107, 111]", &format!("{:02X?}", &self.gid_raw))
         .finish()
     }
 }
@@ -6739,7 +7459,23 @@ impl Display for PacketCzReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        fields.push(format!("p0(unsigned char[] as u8[])[2, 8]: {}", &self.p0.pretty_output()));
+        fields.push(format!("p1(unsigned char[] as u8[])[8, 13]: {}", &self.p1.pretty_output()));
+        fields.push(format!("p2(unsigned char[] as u8[])[13, 21]: {}", &self.p2.pretty_output()));
+        fields.push(format!("p3(unsigned char[] as u8[])[21, 25]: {}", &self.p3.pretty_output()));
+        fields.push(format!("p4(unsigned char[] as u8[])[25, 31]: {}", &self.p4.pretty_output()));
+        fields.push(format!("p5(unsigned char[] as u8[])[31, 41]: {}", &self.p5.pretty_output()));
+        fields.push(format!("p6(unsigned char[] as u8[])[41, 49]: {}", &self.p6.pretty_output()));
+        fields.push(format!("p7(unsigned char[] as u8[])[49, 54]: {}", &self.p7.pretty_output()));
+        fields.push(format!("p8(unsigned char[] as u8[])[54, 63]: {}", &self.p8.pretty_output()));
+        fields.push(format!("p9(unsigned char[] as u8[])[63, 66]: {}", &self.p9.pretty_output()));
+        fields.push(format!("p10(unsigned char[] as u8[])[66, 78]: {}", &self.p10.pretty_output()));
+        fields.push(format!("p11(unsigned char[] as u8[])[78, 81]: {}", &self.p11.pretty_output()));
+        fields.push(format!("p12(unsigned char[] as u8[])[81, 86]: {}", &self.p12.pretty_output()));
+        fields.push(format!("p13(unsigned char[] as u8[])[86, 90]: {}", &self.p13.pretty_output()));
+        fields.push(format!("p14(unsigned char[] as u8[])[90, 99]: {}", &self.p14.pretty_output()));
+        fields.push(format!("p15(unsigned char[] as u8[])[99, 107]: {}", &self.p15.pretty_output()));
+        fields.push(format!("gid(unsigned long as u32)[107, 111]: {}", &self.gid));
         write!(f, "PacketCzReqnameBygid\n {}", fields.join(",\n "))
     }
 }
@@ -14346,11 +15082,58 @@ impl Debug for PacketCzEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEnter2")
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
-            .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
-            .field("auth_code[10, 14]", &format!("{:02X?}", &self.auth_code_raw))
-            .field("client_time[14, 18]", &format!("{:02X?}", &self.client_time_raw))
-            .field("sex[18, 19]", &format!("{:02X?}", &self.sex_raw))
+            .field("a0[2, 5]", &format!("{:02X?}", &self.a0_raw))
+            .field("a1[5, 15]", &format!("{:02X?}", &self.a1_raw))
+            .field("a2[15, 22]", &format!("{:02X?}", &self.a2_raw))
+            .field("a3[22, 27]", &format!("{:02X?}", &self.a3_raw))
+            .field("a4[27, 35]", &format!("{:02X?}", &self.a4_raw))
+            .field("a5[35, 45]", &format!("{:02X?}", &self.a5_raw))
+            .field("a6[45, 48]", &format!("{:02X?}", &self.a6_raw))
+            .field("a7[48, 49]", &format!("{:02X?}", &self.a7_raw))
+            .field("a8[49, 51]", &format!("{:02X?}", &self.a8_raw))
+            .field("a9[51, 58]", &format!("{:02X?}", &self.a9_raw))
+            .field("a10[58, 59]", &format!("{:02X?}", &self.a10_raw))
+            .field("a11[59, 66]", &format!("{:02X?}", &self.a11_raw))
+            .field("a12[66, 71]", &format!("{:02X?}", &self.a12_raw))
+            .field("a13[71, 73]", &format!("{:02X?}", &self.a13_raw))
+            .field("a14[73, 78]", &format!("{:02X?}", &self.a14_raw))
+            .field("aid[78, 82]", &format!("{:02X?}", &self.aid_raw))
+            .field("b1[82, 88]", &format!("{:02X?}", &self.b1_raw))
+            .field("b2[88, 90]", &format!("{:02X?}", &self.b2_raw))
+            .field("b3[90, 98]", &format!("{:02X?}", &self.b3_raw))
+            .field("b4[98, 102]", &format!("{:02X?}", &self.b4_raw))
+            .field("b5[102, 105]", &format!("{:02X?}", &self.b5_raw))
+            .field("b6[105, 107]", &format!("{:02X?}", &self.b6_raw))
+            .field("b7[107, 112]", &format!("{:02X?}", &self.b7_raw))
+            .field("b8[112, 115]", &format!("{:02X?}", &self.b8_raw))
+            .field("b9[115, 120]", &format!("{:02X?}", &self.b9_raw))
+            .field("b10[120, 121]", &format!("{:02X?}", &self.b10_raw))
+            .field("b11[121, 123]", &format!("{:02X?}", &self.b11_raw))
+            .field("b12[123, 129]", &format!("{:02X?}", &self.b12_raw))
+            .field("b13[129, 131]", &format!("{:02X?}", &self.b13_raw))
+            .field("b14[131, 139]", &format!("{:02X?}", &self.b14_raw))
+            .field("b15[139, 149]", &format!("{:02X?}", &self.b15_raw))
+            .field("b16[149, 150]", &format!("{:02X?}", &self.b16_raw))
+            .field("b17[150, 154]", &format!("{:02X?}", &self.b17_raw))
+            .field("gid[154, 158]", &format!("{:02X?}", &self.gid_raw))
+            .field("c1[158, 162]", &format!("{:02X?}", &self.c1_raw))
+            .field("c2[162, 164]", &format!("{:02X?}", &self.c2_raw))
+            .field("c3[164, 167]", &format!("{:02X?}", &self.c3_raw))
+            .field("c4[167, 173]", &format!("{:02X?}", &self.c4_raw))
+            .field("c5[173, 175]", &format!("{:02X?}", &self.c5_raw))
+            .field("c6[175, 177]", &format!("{:02X?}", &self.c6_raw))
+            .field("c7[177, 183]", &format!("{:02X?}", &self.c7_raw))
+            .field("c8[183, 190]", &format!("{:02X?}", &self.c8_raw))
+            .field("c9[190, 194]", &format!("{:02X?}", &self.c9_raw))
+            .field("c10[194, 199]", &format!("{:02X?}", &self.c10_raw))
+            .field("c11[199, 203]", &format!("{:02X?}", &self.c11_raw))
+            .field("c12[203, 206]", &format!("{:02X?}", &self.c12_raw))
+            .field("c13[206, 207]", &format!("{:02X?}", &self.c13_raw))
+            .field("c14[207, 211]", &format!("{:02X?}", &self.c14_raw))
+            .field("c15[211, 217]", &format!("{:02X?}", &self.c15_raw))
+            .field("auth_code[217, 221]", &format!("{:02X?}", &self.auth_code_raw))
+            .field("client_time[221, 225]", &format!("{:02X?}", &self.client_time_raw))
+            .field("sex[225, 226]", &format!("{:02X?}", &self.sex_raw))
         .finish()
     }
 }
@@ -14359,11 +15142,58 @@ impl Display for PacketCzEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
-        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
-        fields.push(format!("gid(unsigned long as u32)[6, 10]: {}", &self.gid));
-        fields.push(format!("auth_code(int as i32)[10, 14]: {}", &self.auth_code));
-        fields.push(format!("client_time(unsigned long as u32)[14, 18]: {}", &self.client_time));
-        fields.push(format!("sex(unsigned char as u8)[18, 19]: {}", &self.sex));
+        fields.push(format!("a0(unsigned char[] as u8[])[2, 5]: {}", &self.a0.pretty_output()));
+        fields.push(format!("a1(unsigned char[] as u8[])[5, 15]: {}", &self.a1.pretty_output()));
+        fields.push(format!("a2(unsigned char[] as u8[])[15, 22]: {}", &self.a2.pretty_output()));
+        fields.push(format!("a3(unsigned char[] as u8[])[22, 27]: {}", &self.a3.pretty_output()));
+        fields.push(format!("a4(unsigned char[] as u8[])[27, 35]: {}", &self.a4.pretty_output()));
+        fields.push(format!("a5(unsigned char[] as u8[])[35, 45]: {}", &self.a5.pretty_output()));
+        fields.push(format!("a6(unsigned char[] as u8[])[45, 48]: {}", &self.a6.pretty_output()));
+        fields.push(format!("a7(unsigned char[] as u8[])[48, 49]: {}", &self.a7.pretty_output()));
+        fields.push(format!("a8(unsigned char[] as u8[])[49, 51]: {}", &self.a8.pretty_output()));
+        fields.push(format!("a9(unsigned char[] as u8[])[51, 58]: {}", &self.a9.pretty_output()));
+        fields.push(format!("a10(unsigned char[] as u8[])[58, 59]: {}", &self.a10.pretty_output()));
+        fields.push(format!("a11(unsigned char[] as u8[])[59, 66]: {}", &self.a11.pretty_output()));
+        fields.push(format!("a12(unsigned char[] as u8[])[66, 71]: {}", &self.a12.pretty_output()));
+        fields.push(format!("a13(unsigned char[] as u8[])[71, 73]: {}", &self.a13.pretty_output()));
+        fields.push(format!("a14(unsigned char[] as u8[])[73, 78]: {}", &self.a14.pretty_output()));
+        fields.push(format!("aid(unsigned long as u32)[78, 82]: {}", &self.aid));
+        fields.push(format!("b1(unsigned char[] as u8[])[82, 88]: {}", &self.b1.pretty_output()));
+        fields.push(format!("b2(unsigned char[] as u8[])[88, 90]: {}", &self.b2.pretty_output()));
+        fields.push(format!("b3(unsigned char[] as u8[])[90, 98]: {}", &self.b3.pretty_output()));
+        fields.push(format!("b4(unsigned char[] as u8[])[98, 102]: {}", &self.b4.pretty_output()));
+        fields.push(format!("b5(unsigned char[] as u8[])[102, 105]: {}", &self.b5.pretty_output()));
+        fields.push(format!("b6(unsigned char[] as u8[])[105, 107]: {}", &self.b6.pretty_output()));
+        fields.push(format!("b7(unsigned char[] as u8[])[107, 112]: {}", &self.b7.pretty_output()));
+        fields.push(format!("b8(unsigned char[] as u8[])[112, 115]: {}", &self.b8.pretty_output()));
+        fields.push(format!("b9(unsigned char[] as u8[])[115, 120]: {}", &self.b9.pretty_output()));
+        fields.push(format!("b10(unsigned char[] as u8[])[120, 121]: {}", &self.b10.pretty_output()));
+        fields.push(format!("b11(unsigned char[] as u8[])[121, 123]: {}", &self.b11.pretty_output()));
+        fields.push(format!("b12(unsigned char[] as u8[])[123, 129]: {}", &self.b12.pretty_output()));
+        fields.push(format!("b13(unsigned char[] as u8[])[129, 131]: {}", &self.b13.pretty_output()));
+        fields.push(format!("b14(unsigned char[] as u8[])[131, 139]: {}", &self.b14.pretty_output()));
+        fields.push(format!("b15(unsigned char[] as u8[])[139, 149]: {}", &self.b15.pretty_output()));
+        fields.push(format!("b16(unsigned char[] as u8[])[149, 150]: {}", &self.b16.pretty_output()));
+        fields.push(format!("b17(unsigned char[] as u8[])[150, 154]: {}", &self.b17.pretty_output()));
+        fields.push(format!("gid(unsigned long as u32)[154, 158]: {}", &self.gid));
+        fields.push(format!("c1(unsigned char[] as u8[])[158, 162]: {}", &self.c1.pretty_output()));
+        fields.push(format!("c2(unsigned char[] as u8[])[162, 164]: {}", &self.c2.pretty_output()));
+        fields.push(format!("c3(unsigned char[] as u8[])[164, 167]: {}", &self.c3.pretty_output()));
+        fields.push(format!("c4(unsigned char[] as u8[])[167, 173]: {}", &self.c4.pretty_output()));
+        fields.push(format!("c5(unsigned char[] as u8[])[173, 175]: {}", &self.c5.pretty_output()));
+        fields.push(format!("c6(unsigned char[] as u8[])[175, 177]: {}", &self.c6.pretty_output()));
+        fields.push(format!("c7(unsigned char[] as u8[])[177, 183]: {}", &self.c7.pretty_output()));
+        fields.push(format!("c8(unsigned char[] as u8[])[183, 190]: {}", &self.c8.pretty_output()));
+        fields.push(format!("c9(unsigned char[] as u8[])[190, 194]: {}", &self.c9.pretty_output()));
+        fields.push(format!("c10(unsigned char[] as u8[])[194, 199]: {}", &self.c10.pretty_output()));
+        fields.push(format!("c11(unsigned char[] as u8[])[199, 203]: {}", &self.c11.pretty_output()));
+        fields.push(format!("c12(unsigned char[] as u8[])[203, 206]: {}", &self.c12.pretty_output()));
+        fields.push(format!("c13(unsigned char[] as u8[])[206, 207]: {}", &self.c13.pretty_output()));
+        fields.push(format!("c14(unsigned char[] as u8[])[207, 211]: {}", &self.c14.pretty_output()));
+        fields.push(format!("c15(unsigned char[] as u8[])[211, 217]: {}", &self.c15.pretty_output()));
+        fields.push(format!("auth_code(int as i32)[217, 221]: {}", &self.auth_code));
+        fields.push(format!("client_time(unsigned long as u32)[221, 225]: {}", &self.client_time));
+        fields.push(format!("sex(unsigned char as u8)[225, 226]: {}", &self.sex));
         write!(f, "PacketCzEnter2\n {}", fields.join(",\n "))
     }
 }

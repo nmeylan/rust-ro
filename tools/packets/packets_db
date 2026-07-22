@@ -387,9 +387,24 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
 struct PACKET_CZ_NOTIFY_ACTORINIT {
   short PacketId
  }
-0x0887, 0x00f7:20040726, 0x0116:20040906, 0x0089:20041129, 0x0360:20101124, 0x0817:20111005, 0x0887:20120307
+0x0887, 0x007e:20040705, 0x00f7:20040726, 0x0116:20040906, 0x0089:20041129, 0x0360:20101124, 0x0817:20111005, 0x0887:20120307
 struct PACKET_CZ_REQUEST_TIME {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[4]
+  #V RANGE 20040809 20040906 unsigned byte p1[7]
+  #V RANGE 20040906 20040920 unsigned byte p2[5]
+  #V RANGE 20040920 20041005 unsigned byte p3[8]
+  #V RANGE 20041005 20041025 unsigned byte p4[4]
+  #V RANGE 20041025 20041129 unsigned byte p5[3]
+  #V RANGE 20041129 20050110 unsigned byte p6[1]
+  #V RANGE 20050110 20050509 unsigned byte p7[3]
+  #V RANGE 20050509 20050628 unsigned byte p8[2]
+  #V RANGE 20050628 20050718 unsigned byte p9[7]
+  #V RANGE 20050718 20050719 unsigned byte p10[1]
+  #V RANGE 20050719 20070108 unsigned byte p11[7]
+  #V RANGE 20070108 20070212 unsigned byte p12[5]
+  #V RANGE 20070212 20080827 unsigned byte p13[2]
+  #V RANGE 20080827 20101124 unsigned byte p14[5]
   unsigned long clientTime
  }
 0x7f
@@ -468,10 +483,40 @@ struct PACKET_ZC_FASTMOVE {
   short xPos
   short yPos
  }
-0x0885, 0x0193:20040726, 0x0085:20040906, 0x009f:20041129, 0x0190:20050110, 0x0437:20080910, 0x08aa:20111102, 0x0885:20120307
+0x0885, 0x0089:20040705, 0x0193:20040726, 0x0085:20040906, 0x009f:20041129, 0x0190:20050110, 0x0437:20080910, 0x08aa:20111102, 0x0885:20120307
 struct PACKET_CZ_REQUEST_ACT {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[1]
+  #V RANGE 20040809 20040906 unsigned byte a1[5]
+  #V RANGE 20040906 20040920 unsigned byte a2[7]
+  #V RANGE 20040920 20041025 unsigned byte a3[1]
+  #V RANGE 20041025 20041129 unsigned byte a4[2]
+  #V RANGE 20041129 20050110 unsigned byte a5[4]
+  #V RANGE 20050110 20050509 unsigned byte a6[7]
+  #V RANGE 20050509 20050628 unsigned byte a7[3]
+  #V RANGE 20050628 20050718 unsigned byte a8[9]
+  #V RANGE 20050718 20050719 unsigned byte a9[3]
+  #V RANGE 20050719 20060327 unsigned byte a10[9]
+  #V RANGE 20060327 20070108 unsigned byte a11[5]
+  #V RANGE 20070108 20070212 unsigned byte a12[2]
+  #V RANGE 20070212 20080827 unsigned byte a13[3]
+  #V RANGE 20080827 20080910 unsigned byte a14[7]
   unsigned long targetGID
+  #V RANGE 20040726 20040809 unsigned byte b0[1]
+  #V RANGE 20040809 20040906 unsigned byte b1[6]
+  #V RANGE 20040906 20040920 unsigned byte b2[9]
+  #V RANGE 20040920 20041025 unsigned byte b3[1]
+  #V RANGE 20041025 20041129 unsigned byte b4[6]
+  #V RANGE 20041129 20050110 unsigned byte b5[7]
+  #V RANGE 20050110 20050509 unsigned byte b6[6]
+  #V RANGE 20050509 20050628 unsigned byte b7[9]
+  #V RANGE 20050628 20050718 unsigned byte b8[8]
+  #V RANGE 20050718 20050719 unsigned byte b9[11]
+  #V RANGE 20050719 20060327 unsigned byte b10[8]
+  #V RANGE 20060327 20070108 unsigned byte b11[6]
+  #V RANGE 20070108 20070212 unsigned byte b12[1]
+  #V RANGE 20070212 20080827 unsigned byte b13[9]
+  #V RANGE 20080827 20080910 unsigned byte b14[9]
   unsigned char action
  }
 0x8a
@@ -551,9 +596,25 @@ struct PACKET_ZC_NPCACK_SERVERMOVE {
 struct PACKET_ZC_NPCACK_ENABLE {
   short PacketId
  }
-0x096a, 0x0089:20040726, 0x009b:20040906, 0x008c:20041129, 0x0368:20101124, 0x088a:20111005, 0x096a:20120307
+0x096a, 0x0094:20040705, 0x0089:20040726, 0x009b:20040906, 0x008c:20041129, 0x0368:20101124, 0x088a:20111005, 0x096a:20120307
 struct PACKET_CZ_REQNAME {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[9]
+  #V RANGE 20040809 20040906 unsigned byte p1[6]
+  #V RANGE 20040906 20040920 unsigned byte p2[8]
+  #V RANGE 20040920 20041005 unsigned byte p3[4]
+  #V RANGE 20041005 20041025 unsigned byte p4[9]
+  #V RANGE 20041025 20041129 unsigned byte p5[4]
+  #V RANGE 20041129 20050110 unsigned byte p6[7]
+  #V RANGE 20050110 20050509 unsigned byte p7[2]
+  #V RANGE 20050509 20050628 unsigned byte p8[5]
+  #V RANGE 20050628 20050718 unsigned byte p9[2]
+  #V RANGE 20050718 20050719 unsigned byte p10[5]
+  #V RANGE 20050719 20060327 unsigned byte p11[2]
+  #V RANGE 20060327 20070108 unsigned byte p12[6]
+  #V RANGE 20070108 20070212 unsigned byte p13[11]
+  #V RANGE 20070212 20080827 unsigned byte p14[5]
+  #V RANGE 20080827 20101124 unsigned byte p15[8]
   unsigned long AID
  }
 0x95
@@ -594,10 +655,41 @@ struct PACKET_ZC_BROADCAST {
   short PacketLength
   char msg[...]
  }
-0x0890, 0x009f:20040726, 0x00f3:20040906, 0x0085:20050110, 0x0361:20101124, 0x0366:20111005, 0x0890:20120307
+0x0890, 0x009b:20040705, 0x009f:20040726, 0x00f3:20040906, 0x0085:20050110, 0x0361:20101124, 0x0366:20111005, 0x0890:20120307
 struct PACKET_CZ_CHANGE_DIRECTION {
   short PacketId
+  #V RANGE 20040713 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[5]
+  #V RANGE 20040906 20040920 unsigned byte a2[2]
+  #V RANGE 20040920 20041005 unsigned byte a3[6]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[1]
+  #V RANGE 20050110 20050509 unsigned byte a7[10]
+  #V RANGE 20050509 20050628 unsigned byte a8[5]
+  #V RANGE 20050628 20050718 unsigned byte a9[6]
+  #V RANGE 20050718 20050719 unsigned byte a10[4]
+  #V RANGE 20050719 20060327 unsigned byte a11[6]
+  #V RANGE 20060327 20070108 unsigned byte a12[5]
+  #V RANGE 20070108 20070212 unsigned byte a13[8]
+  #V RANGE 20070212 20080827 unsigned byte a14[5]
+  #V RANGE 20080827 20101124 unsigned byte a15[2]
   short headDir
+  #V RANGE 20040713 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[2]
+  #V RANGE 20040906 20040920 unsigned byte b2[3]
+  #V RANGE 20040920 20041005 unsigned byte b3[7]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[6]
+  #V RANGE 20041129 20050110 unsigned byte b6[2]
+  #V RANGE 20050110 20050509 unsigned byte b7[8]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[6]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[6]
+  #V RANGE 20060327 20070108 unsigned byte b12[2]
+  #V RANGE 20070108 20080827 unsigned byte b13[1]
+  #V RANGE 20080827 20101124 unsigned byte b14[3]
   unsigned char dir
  }
 0x9c
@@ -631,9 +723,24 @@ struct PACKET_ZC_ITEM_FALL_ENTRY {
   unsigned char subY
   short count
  }
-0x0865, 0x0094:20040726, 0x0113:20040906, 0x00a2:20041129, 0x00f5:20050110, 0x0362:20101124, 0x0815:20111005, 0x0865:20120307
+0x0865, 0x009f:20040705, 0x0094:20040726, 0x0113:20040906, 0x00a2:20041129, 0x00f5:20050110, 0x0362:20101124, 0x0815:20111005, 0x0865:20120307
 struct PACKET_CZ_ITEM_PICKUP {
   short PacketId
+  #V RANGE 20040713 20040809 unsigned byte p0[4]
+  #V RANGE 20040809 20040906 unsigned byte p1[7]
+  #V RANGE 20040906 20040920 unsigned byte p2[5]
+  #V RANGE 20040920 20041005 unsigned byte p3[8]
+  #V RANGE 20041005 20041025 unsigned byte p4[4]
+  #V RANGE 20041025 20041129 unsigned byte p5[3]
+  #V RANGE 20041129 20050110 unsigned byte p6[1]
+  #V RANGE 20050110 20050509 unsigned byte p7[3]
+  #V RANGE 20050509 20050628 unsigned byte p8[2]
+  #V RANGE 20050628 20050718 unsigned byte p9[7]
+  #V RANGE 20050718 20050719 unsigned byte p10[1]
+  #V RANGE 20050719 20070108 unsigned byte p11[7]
+  #V RANGE 20070108 20070212 unsigned byte p12[5]
+  #V RANGE 20070212 20080827 unsigned byte p13[2]
+  #V RANGE 20080827 20101124 unsigned byte p14[5]
   unsigned long ITAID
  }
 0xa0
@@ -660,10 +767,42 @@ struct PACKET_ZC_ITEM_DISAPPEAR {
   short PacketId
   unsigned long ITAID
  }
-0x02c4, 0x0072:20040726, 0x0094:20040906, 0x0116:20041129, 0x0363:20101124, 0x0885:20111005, 0x02c4:20120307
+0x02c4, 0x00a2:20040705, 0x0072:20040726, 0x0094:20040906, 0x0116:20041129, 0x0363:20101124, 0x0885:20111005, 0x02c4:20120307
 struct PACKET_CZ_ITEM_THROW {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[6]
+  #V RANGE 20040906 20040920 unsigned byte a2[4]
+  #V RANGE 20040920 20041005 unsigned byte a3[10]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[13]
+  #V RANGE 20050509 20050628 unsigned byte a8[3]
+  #V RANGE 20050628 20050718 unsigned byte a9[1]
+  #V RANGE 20050718 20050719 unsigned byte a10[4]
+  #V RANGE 20050719 20060327 unsigned byte a11[1]
+  #V RANGE 20060327 20070108 unsigned byte a12[6]
+  #V RANGE 20070108 20070212 unsigned byte a13[9]
+  #V RANGE 20070212 20080827 unsigned byte a14[3]
+  #V RANGE 20080827 20101124 unsigned byte a15[4]
   unsigned short Index
+  #V RANGE 20040726 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[5]
+  #V RANGE 20040906 20040920 unsigned byte b2[7]
+  #V RANGE 20040920 20041005 unsigned byte b3[3]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[2]
+  #V RANGE 20041129 20050110 unsigned byte b6[4]
+  #V RANGE 20050110 20050509 unsigned byte b7[1]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[5]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[5]
+  #V RANGE 20060327 20070108 unsigned byte b12[5]
+  #V RANGE 20070108 20070212 unsigned byte b13[4]
+  #V RANGE 20070212 20080827 unsigned byte b14[1]
+  #V RANGE 20080827 20101124 unsigned byte b15[7]
   short count
  }
 
@@ -735,10 +874,40 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST {
    }
   }
  }
-0x0439, 0x00f5:20040726, 0x0072:20040906, 0x0190:20041129, 0x009f:20050110, 0x0439:20080910, 0x0439:20120307
+0x0439, 0x00a7:20040705, 0x00f5:20040726, 0x0072:20040906, 0x0190:20041129, 0x009f:20050110, 0x0439:20080910, 0x0439:20120307
 struct PACKET_CZ_USE_ITEM {
   short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[3]
+  #V RANGE 20040713 20040809 unsigned byte a1[4]
+  #V RANGE 20040809 20040920 unsigned byte a2[7]
+  #V RANGE 20040920 20041005 unsigned byte a3[8]
+  #V RANGE 20041005 20041025 unsigned byte a4[4]
+  #V RANGE 20041025 20041129 unsigned byte a5[3]
+  #V RANGE 20041129 20050110 unsigned byte a6[1]
+  #V RANGE 20050110 20050509 unsigned byte a7[3]
+  #V RANGE 20050509 20050628 unsigned byte a8[2]
+  #V RANGE 20050628 20050718 unsigned byte a9[7]
+  #V RANGE 20050718 20050719 unsigned byte a10[1]
+  #V RANGE 20050719 20070108 unsigned byte a11[7]
+  #V RANGE 20070108 20070212 unsigned byte a12[5]
+  #V RANGE 20070212 20080827 unsigned byte a13[2]
+  #V RANGE 20080827 20080910 unsigned byte a14[5]
   unsigned short index
+  #V RANGE 20040705 20040713 unsigned byte b0[2]
+  #V RANGE 20040713 20040726 unsigned byte b1[5]
+  #V RANGE 20040726 20040809 unsigned byte b2[4]
+  #V RANGE 20040809 20040920 unsigned byte b3[9]
+  #V RANGE 20040920 20041005 unsigned byte b4[2]
+  #V RANGE 20041005 20041025 unsigned byte b5[5]
+  #V RANGE 20041025 20041129 unsigned byte b6[2]
+  #V RANGE 20041129 20050509 unsigned byte b7[6]
+  #V RANGE 20050509 20050718 unsigned byte b8[4]
+  #V RANGE 20050718 20050719 unsigned byte b9[3]
+  #V RANGE 20050719 20060327 unsigned byte b10[4]
+  #V RANGE 20060327 20070108 unsigned byte b11[9]
+  #V RANGE 20070108 20070212 unsigned byte b12[8]
+  #V RANGE 20070212 20080827 unsigned byte b13[4]
+  #V RANGE 20080827 20080910 unsigned byte b14[11]
   unsigned long AID
  }
 0xa8
@@ -1252,16 +1421,79 @@ struct PACKET_ZC_ADD_ITEM_TO_STORE {
   unsigned short card4
   }
  }
-0x0963, 0x0190:20040726, 0x0193:20040906, 0x00f7:20050110, 0x0365:20101124, 0x0897:20111005, 0x0963:20120307
+0x0963, 0x00f5:20040705, 0x0190:20040726, 0x0193:20040906, 0x00f7:20050110, 0x0365:20101124, 0x0897:20111005, 0x0963:20120307
 struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_BODY {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[8]
+  #V RANGE 20040809 20040906 unsigned byte a1[9]
+  #V RANGE 20040906 20040920 unsigned byte a2[1]
+  #V RANGE 20040920 20041005 unsigned byte a3[2]
+  #V RANGE 20041005 20041025 unsigned byte a4[8]
+  #V RANGE 20041025 20041129 unsigned byte a5[10]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[9]
+  #V RANGE 20050509 20050628 unsigned byte a8[12]
+  #V RANGE 20050628 20050718 unsigned byte a9[9]
+  #V RANGE 20050718 20050719 unsigned byte a10[3]
+  #V RANGE 20050719 20070108 unsigned byte a11[9]
+  #V RANGE 20070108 20070212 unsigned byte a12[1]
+  #V RANGE 20070212 20080827 unsigned byte a13[12]
+  #V RANGE 20080827 20101124 unsigned byte a14[1]
   short index
+  #V RANGE 20040726 20040809 unsigned byte b0[10]
+  #V RANGE 20040809 20040906 unsigned byte b1[9]
+  #V RANGE 20040906 20040920 unsigned byte b2[8]
+  #V RANGE 20040920 20041005 unsigned byte b3[2]
+  #V RANGE 20041005 20041025 unsigned byte b4[10]
+  #V RANGE 20041025 20041129 unsigned byte b5[4]
+  #V RANGE 20041129 20050110 unsigned byte b6[11]
+  #V RANGE 20050110 20050509 unsigned byte b7[4]
+  #V RANGE 20050509 20050628 unsigned byte b8[2]
+  #V RANGE 20050628 20050718 unsigned byte b9[1]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[1]
+  #V RANGE 20060327 20070108 unsigned byte b12[9]
+  #V RANGE 20070108 20070212 unsigned byte b13[6]
+  #V RANGE 20070212 20080827 unsigned byte b14[2]
+  #V RANGE 20080827 20101124 unsigned byte b15[8]
   int count
  }
-0x093b, 0x0113:20040726, 0x007e:20040906, 0x0094:20041129, 0x0364:20101124, 0x0893:20111005, 0x093b:20120307
+0x093b, 0x00f3:20040705, 0x0113:20040726, 0x007e:20040906, 0x0094:20041129, 0x0364:20101124, 0x0893:20111005, 0x093b:20120307
 struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[3]
+  #V RANGE 20040906 20040920 unsigned byte a2[1]
+  #V RANGE 20040920 20041005 unsigned byte a3[4]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[8]
+  #V RANGE 20050509 20050628 unsigned byte a8[5]
+  #V RANGE 20050628 20050718 unsigned byte a9[14]
+  #V RANGE 20050718 20050719 unsigned byte a10[10]
+  #V RANGE 20050719 20060327 unsigned byte a11[14]
+  #V RANGE 20060327 20070108 unsigned byte a12[3]
+  #V RANGE 20070108 20070212 unsigned byte a13[2]
+  #V RANGE 20070212 20080827 unsigned byte a14[5]
+  #V RANGE 20080827 20101124 unsigned byte a15[1]
   short index
+  #V RANGE 20040726 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[12]
+  #V RANGE 20040906 20040920 unsigned byte b2[10]
+  #V RANGE 20040920 20041005 unsigned byte b3[13]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[1]
+  #V RANGE 20041129 20050110 unsigned byte b6[4]
+  #V RANGE 20050110 20050509 unsigned byte b7[4]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[9]
+  #V RANGE 20050718 20050719 unsigned byte b10[3]
+  #V RANGE 20050719 20060327 unsigned byte b11[9]
+  #V RANGE 20060327 20070108 unsigned byte b12[12]
+  #V RANGE 20070108 20070212 unsigned byte b13[7]
+  #V RANGE 20070212 20080827 unsigned byte b14[1]
+  #V RANGE 20080827 20101124 unsigned byte b15[10]
   int count
  }
 0xf6
@@ -1458,11 +1690,63 @@ struct PACKET_CZ_UPGRADE_SKILLLEVEL {
   short PacketId
   unsigned short SKID
  }
-0x0889, 0x0085:20040726, 0x0190:20040906, 0x0072:20041129, 0x0438:20080910, 0x02c4:20111102, 0x0889:20120307
+0x0889, 0x0113:20040705, 0x0085:20040726, 0x0190:20040906, 0x0072:20041129, 0x0438:20080910, 0x02c4:20111102, 0x0889:20120307
 struct PACKET_CZ_USE_SKILL {
   short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[2]
+  #V RANGE 20040713 20040726 unsigned byte a1[5]
+  #V RANGE 20040726 20040809 unsigned byte a2[5]
+  #V RANGE 20040809 20040906 unsigned byte a3[9]
+  #V RANGE 20040906 20040920 unsigned byte a4[7]
+  #V RANGE 20040920 20041005 unsigned byte a5[2]
+  #V RANGE 20041005 20041025 unsigned byte a6[5]
+  #V RANGE 20041025 20041129 unsigned byte a7[2]
+  #V RANGE 20041129 20050110 unsigned byte a8[6]
+  #V RANGE 20050110 20050509 unsigned byte a9[6]
+  #V RANGE 20050509 20050628 unsigned byte a10[4]
+  #V RANGE 20050628 20050718 unsigned byte a11[4]
+  #V RANGE 20050718 20050719 unsigned byte a12[3]
+  #V RANGE 20050719 20060327 unsigned byte a13[4]
+  #V RANGE 20060327 20070108 unsigned byte a14[9]
+  #V RANGE 20070108 20070212 unsigned byte a15[8]
+  #V RANGE 20070212 20080827 unsigned byte a16[4]
+  #V RANGE 20080827 20080910 unsigned byte a17[7]
   short selectedLevel
+  #V RANGE 20040705 20040713 unsigned byte b0[3]
+  #V RANGE 20040726 20040809 unsigned byte b2[3]
+  #V RANGE 20040809 20040906 unsigned byte b3[5]
+  #V RANGE 20040906 20040920 unsigned byte b4[4]
+  #V RANGE 20040920 20041005 unsigned byte b5[1]
+  #V RANGE 20041005 20041025 unsigned byte b6[3]
+  #V RANGE 20041025 20041129 unsigned byte b7[4]
+  #V RANGE 20041129 20050110 unsigned byte b8[2]
+  #V RANGE 20050110 20050509 unsigned byte b9[6]
+  #V RANGE 20050509 20050628 unsigned byte b10[2]
+  #V RANGE 20050628 20050718 unsigned byte b11[9]
+  #V RANGE 20050718 20050719 unsigned byte b12[4]
+  #V RANGE 20050719 20060327 unsigned byte b13[9]
+  #V RANGE 20060327 20070108 unsigned byte b14[5]
+  #V RANGE 20070108 20070212 unsigned byte b15[2]
+  #V RANGE 20070212 20080827 unsigned byte b16[2]
+  #V RANGE 20080827 20080910 unsigned byte b17[4]
   unsigned short SKID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[2]
+  #V RANGE 20040809 20040906 unsigned byte c3[2]
+  #V RANGE 20040906 20040920 unsigned byte c4[1]
+  #V RANGE 20040920 20041005 unsigned byte c5[1]
+  #V RANGE 20041005 20041025 unsigned byte c6[2]
+  #V RANGE 20041025 20041129 unsigned byte c7[10]
+  #V RANGE 20041129 20050110 unsigned byte c8[4]
+  #V RANGE 20050110 20050509 unsigned byte c9[4]
+  #V RANGE 20050509 20050628 unsigned byte c10[9]
+  #V RANGE 20050628 20050718 unsigned byte c11[11]
+  #V RANGE 20050718 20050719 unsigned byte c12[2]
+  #V RANGE 20050719 20060327 unsigned byte c13[11]
+  #V RANGE 20060327 20070108 unsigned byte c14[2]
+  #V RANGE 20070108 20070212 unsigned byte c15[10]
+  #V RANGE 20070212 20080827 unsigned byte c16[9]
+  #V RANGE 20080827 20080910 unsigned byte c17[1]
   unsigned long targetID
  }
 0x114
@@ -1495,12 +1779,80 @@ struct PACKET_ZC_NOTIFY_SKILL_POSITION {
   short count
   unsigned char action
  }
-0x0438, 0x008c:20040726, 0x00a7:20040906, 0x007e:20041129, 0x0113:20050110, 0x0366:20101124, 0x0369:20111005, 0x0438:20120307
+0x0438, 0x0116:20040705, 0x008c:20040726, 0x00a7:20040906, 0x007e:20041129, 0x0113:20050110, 0x0366:20101124, 0x0369:20111005, 0x0438:20120307
 struct PACKET_CZ_USE_SKILL_TOGROUND {
   short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[2]
+  #V RANGE 20040713 20040726 unsigned byte a1[5]
+  #V RANGE 20040726 20040809 unsigned byte a2[1]
+  #V RANGE 20040809 20040906 unsigned byte a3[3]
+  #V RANGE 20040906 20040920 unsigned byte a4[8]
+  #V RANGE 20040920 20041005 unsigned byte a5[4]
+  #V RANGE 20041005 20041025 unsigned byte a6[1]
+  #V RANGE 20041025 20041129 unsigned byte a7[4]
+  #V RANGE 20041129 20050110 unsigned byte a8[2]
+  #V RANGE 20050110 20050509 unsigned byte a9[8]
+  #V RANGE 20050509 20050628 unsigned byte a10[3]
+  #V RANGE 20050628 20050718 unsigned byte a11[10]
+  #V RANGE 20050718 20050719 unsigned byte a12[7]
+  #V RANGE 20050719 20060327 unsigned byte a13[10]
+  #V RANGE 20060327 20070108 unsigned byte a14[3]
+  #V RANGE 20070108 20070212 unsigned byte a15[8]
+  #V RANGE 20070212 20080827 unsigned byte a16[3]
+  #V RANGE 20080827 20101124 unsigned byte a17[8]
   short selectedLevel
+  #V RANGE 20040705 20040713 unsigned byte b0[3]
+  #V RANGE 20040726 20040809 unsigned byte b2[1]
+  #V RANGE 20040809 20040906 unsigned byte b3[8]
+  #V RANGE 20040906 20040920 unsigned byte b4[2]
+  #V RANGE 20040920 20041005 unsigned byte b5[12]
+  #V RANGE 20041005 20041025 unsigned byte b6[1]
+  #V RANGE 20041025 20041129 unsigned byte b7[1]
+  #V RANGE 20041129 20050110 unsigned byte b8[3]
+  #V RANGE 20050110 20050509 unsigned byte b9[6]
+  #V RANGE 20050509 20050628 unsigned byte b10[2]
+  #V RANGE 20050628 20050718 unsigned byte b11[1]
+  #V RANGE 20050718 20050719 unsigned byte b12[4]
+  #V RANGE 20050719 20060327 unsigned byte b13[1]
+  #V RANGE 20060327 20070108 unsigned byte b14[8]
+  #V RANGE 20070108 20070212 unsigned byte b15[7]
+  #V RANGE 20070212 20080827 unsigned byte b16[2]
+  #V RANGE 20080827 20101124 unsigned byte b17[2]
   unsigned short SKID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[9]
+  #V RANGE 20040809 20040906 unsigned byte c3[12]
+  #V RANGE 20040906 20040920 unsigned byte c4[2]
+  #V RANGE 20040920 20041005 unsigned byte c5[1]
+  #V RANGE 20041005 20041025 unsigned byte c6[9]
+  #V RANGE 20041025 20041129 unsigned byte c7[12]
+  #V RANGE 20041129 20050110 unsigned byte c8[11]
+  #V RANGE 20050110 20050509 unsigned byte c9[2]
+  #V RANGE 20050509 20050628 unsigned byte c10[1]
+  #V RANGE 20050628 20050718 unsigned byte c11[1]
+  #V RANGE 20050718 20050719 unsigned byte c12[6]
+  #V RANGE 20050719 20060327 unsigned byte c13[1]
+  #V RANGE 20060327 20070108 unsigned byte c14[12]
+  #V RANGE 20070108 20070212 unsigned byte c15[2]
+  #V RANGE 20070212 20080827 unsigned byte c16[1]
+  #V RANGE 20080827 20101124 unsigned byte c17[2]
   short xPos
+  #V RANGE 20040726 20040809 unsigned byte d2[2]
+  #V RANGE 20040809 20040906 unsigned byte d3[7]
+  #V RANGE 20040906 20040920 unsigned byte d4[3]
+  #V RANGE 20040920 20041005 unsigned byte d5[2]
+  #V RANGE 20041005 20041025 unsigned byte d6[2]
+  #V RANGE 20041025 20041129 unsigned byte d7[1]
+  #V RANGE 20041129 20050110 unsigned byte d8[4]
+  #V RANGE 20050110 20050509 unsigned byte d9[8]
+  #V RANGE 20050509 20050628 unsigned byte d10[6]
+  #V RANGE 20050628 20050718 unsigned byte d11[11]
+  #V RANGE 20050718 20050719 unsigned byte d12[3]
+  #V RANGE 20050719 20060327 unsigned byte d13[11]
+  #V RANGE 20060327 20070108 unsigned byte d14[7]
+  #V RANGE 20070108 20070212 unsigned byte d15[13]
+  #V RANGE 20070212 20080827 unsigned byte d16[6]
+  #V RANGE 20080827 20101124 unsigned byte d17[3]
   short yPos
  }
 0x117
@@ -2463,9 +2815,25 @@ struct PACKET_ZC_UPDATE_MAPINFO {
   short type
   char mapName[16]
  }
-0x193
+0x0368, 0x0193:20040705, 0x00a7:20040726, 0x00a2:20040906, 0x00f7:20041129, 0x00a2:20050110, 0x0369:20101124, 0x0838:20111005, 0x0368:20120307
 struct PACKET_CZ_REQNAME_BYGID {
   short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[6]
+  #V RANGE 20040809 20040906 unsigned byte p1[5]
+  #V RANGE 20040906 20040920 unsigned byte p2[8]
+  #V RANGE 20040920 20041005 unsigned byte p3[4]
+  #V RANGE 20041005 20041025 unsigned byte p4[6]
+  #V RANGE 20041025 20041129 unsigned byte p5[10]
+  #V RANGE 20041129 20050110 unsigned byte p6[8]
+  #V RANGE 20050110 20050509 unsigned byte p7[5]
+  #V RANGE 20050509 20050628 unsigned byte p8[9]
+  #V RANGE 20050628 20050718 unsigned byte p9[3]
+  #V RANGE 20050718 20050719 unsigned byte p10[12]
+  #V RANGE 20050719 20060327 unsigned byte p11[3]
+  #V RANGE 20060327 20070108 unsigned byte p12[5]
+  #V RANGE 20070108 20070212 unsigned byte p13[4]
+  #V RANGE 20070212 20080827 unsigned byte p14[9]
+  #V RANGE 20080827 20101124 unsigned byte p15[8]
   unsigned long GID
  }
 0x194
@@ -5280,11 +5648,58 @@ struct PACKET_CAH_ACK_GAME_GUARD {
   short PacketId
   unsigned long AuthData[4]
  }
-0x086a, 0x007e:20040726, 0x00f5:20040906, 0x009b:20050110, 0x0436:20080910, 0x083c:20111102, 0x086a:20120307
+0x086a, 0x0072:20040705, 0x007e:20040726, 0x00f5:20040906, 0x009b:20050110, 0x0436:20080910, 0x083c:20111102, 0x086a:20120307
 struct PACKET_CZ_ENTER2 {
   short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[3]
+  #V RANGE 20040713 20040809 unsigned byte a1[10]
+  #V RANGE 20040809 20040906 unsigned byte a2[7]
+  #V RANGE 20040906 20040920 unsigned byte a3[5]
+  #V RANGE 20040920 20041005 unsigned byte a4[8]
+  #V RANGE 20041005 20041025 unsigned byte a5[10]
+  #V RANGE 20041025 20041129 unsigned byte a6[3]
+  #V RANGE 20041129 20050509 unsigned byte a7[1]
+  #V RANGE 20050509 20050628 unsigned byte a8[2]
+  #V RANGE 20050628 20050718 unsigned byte a9[7]
+  #V RANGE 20050718 20050719 unsigned byte a10[1]
+  #V RANGE 20050719 20070108 unsigned byte a11[7]
+  #V RANGE 20070108 20070212 unsigned byte a12[5]
+  #V RANGE 20070212 20080827 unsigned byte a13[2]
+  #V RANGE 20080827 20080910 unsigned byte a14[5]
   unsigned long AID
+  #V RANGE 20040713 20040726 unsigned byte b1[6]
+  #V RANGE 20040726 20040809 unsigned byte b2[2]
+  #V RANGE 20040809 20040906 unsigned byte b3[8]
+  #V RANGE 20040906 20040920 unsigned byte b4[4]
+  #V RANGE 20040920 20041005 unsigned byte b5[3]
+  #V RANGE 20041005 20041025 unsigned byte b6[2]
+  #V RANGE 20041025 20041129 unsigned byte b7[5]
+  #V RANGE 20041129 20050110 unsigned byte b8[3]
+  #V RANGE 20050110 20050509 unsigned byte b9[5]
+  #V RANGE 20050509 20050628 unsigned byte b10[1]
+  #V RANGE 20050628 20050718 unsigned byte b11[2]
+  #V RANGE 20050718 20050719 unsigned byte b12[6]
+  #V RANGE 20050719 20060327 unsigned byte b13[2]
+  #V RANGE 20060327 20070108 unsigned byte b14[8]
+  #V RANGE 20070108 20070212 unsigned byte b15[10]
+  #V RANGE 20070212 20080827 unsigned byte b16[1]
+  #V RANGE 20080827 20080910 unsigned byte b17[4]
   unsigned long GID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[2]
+  #V RANGE 20040809 20040906 unsigned byte c3[3]
+  #V RANGE 20040906 20040920 unsigned byte c4[6]
+  #V RANGE 20040920 20041025 unsigned byte c5[2]
+  #V RANGE 20041025 20041129 unsigned byte c6[2]
+  #V RANGE 20041129 20050110 unsigned byte c7[6]
+  #V RANGE 20050110 20050509 unsigned byte c8[7]
+  #V RANGE 20050509 20050718 unsigned byte c9[4]
+  #V RANGE 20050718 20050719 unsigned byte c10[5]
+  #V RANGE 20050719 20060327 unsigned byte c11[4]
+  #V RANGE 20060327 20070108 unsigned byte c12[3]
+  #V RANGE 20070108 20070212 unsigned byte c13[1]
+  #V RANGE 20070212 20080827 unsigned byte c14[4]
+  #V RANGE 20080827 20080910 unsigned byte c15[6]
   int AuthCode
   unsigned long clientTime
   unsigned char Sex

@@ -790,8 +790,9 @@ fn write_struct_packet_id_method(file: &mut File, ids: &Option<Vec<PacketId>>) {
             file.write_all(format!("            \"{}\"\n", packet_id(&id.id)).as_bytes())
                 .unwrap();
         }
+        let fallback_id = ids_with_version.last().cloned().unwrap_or_else(|| ids_without_version[0].clone());
         file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
-        file.write_all(format!("            \"{}\"\n", packet_id(&ids_without_version[0].id)).as_bytes())
+        file.write_all(format!("            \"{}\"\n", packet_id(&fallback_id.id)).as_bytes())
             .unwrap();
         file.write_all("        }\n".to_string().as_bytes()).unwrap();
     }
@@ -843,7 +844,8 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
                 )
                 .unwrap();
             }
-            let packetid = packet_id(&ids_without_version[0].id).replace("0x", "");
+            let fallback_id = ids_with_version.last().cloned().unwrap_or_else(|| ids_without_version[0].clone());
+            let packetid = packet_id(&fallback_id.id).replace("0x", "");
             let (first_byte, second_byte) = packetid.split_at(2);
             file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
             file.write_all(
