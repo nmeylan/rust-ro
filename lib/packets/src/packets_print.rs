@@ -792,7 +792,7 @@ impl Display for PacketZcNotifyMoveentry {
         fields.push(format!("virtue(short as i16)[46, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[50, 56]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[50, 56]: {}", &self.move_data.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -9083,7 +9083,7 @@ impl Display for PacketZcNotifyMoveentry2 {
         fields.push(format!("virtue(short as i16)[46, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[50, 56]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[50, 56]: {}", &self.move_data.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -10942,7 +10942,7 @@ impl Display for PacketZcNotifyMoveentry3 {
         fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[55, 61]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[55, 61]: {}", &self.move_data.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[61, 62]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[62, 63]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[63, 65]: {}", &self.clevel));
@@ -14764,7 +14764,7 @@ impl Display for PacketZcNotifyMoveentry4 {
         fields.push(format!("virtue(int as i32)[49, 53]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[53, 54]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[54, 55]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[55, 61]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[55, 61]: {}", &self.move_data.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[61, 62]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[62, 63]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[63, 65]: {}", &self.clevel));
@@ -16401,7 +16401,7 @@ impl Display for PacketZcNotifyMoveentry7 {
         fields.push(format!("virtue(int as i32)[51, 55]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[55, 56]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[56, 57]: {}", &self.sex));
-        fields.push(format!("move_data(unsigned short[] as u16[])[57, 63]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[57, 63]: {}", &self.move_data.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[63, 64]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[64, 65]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[65, 67]: {}", &self.clevel));

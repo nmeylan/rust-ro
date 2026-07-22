@@ -353,7 +353,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY {
   short virtue
   bool isPKModeON
   unsigned char sex
-  unsigned short MoveData[6]
+  unsigned byte MoveData[6]
   unsigned char xSize
   unsigned char ySize
   short clevel
@@ -928,7 +928,7 @@ struct PACKET_ZC_REQ_WEAR_EQUIP_ACK {
   short PacketId
   unsigned short index
   unsigned short wearLocation
-  unsigned short viewId
+  #V GTE 20101123 unsigned short viewId
   unsigned char result
  }
 0x08d0
@@ -2921,7 +2921,7 @@ struct PACKET_ZC_PROPERTY_PET {
   short nFullness
   short nRelationship
   unsigned short ITID
-  short job
+  #V GTE 20081126 short job
  }
 0x1a3
 struct PACKET_ZC_FEED_PET {
@@ -3373,7 +3373,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY2 {
   short virtue
   bool isPKModeON
   unsigned char sex
-  unsigned short MoveData[6]
+  unsigned byte MoveData[6]
   unsigned char xSize
   unsigned char ySize
   short clevel
@@ -4032,7 +4032,7 @@ struct PACKET_ZC_NOTIFY_NEWENTRY3 {
 0x22c
 struct PACKET_ZC_NOTIFY_MOVEENTRY3 {
   short PacketId
-  unsigned char objecttype
+  #V GTE 20071106 unsigned char objecttype
   unsigned long GID
   short speed
   short bodyState
@@ -4054,7 +4054,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY3 {
   int virtue
   bool isPKModeON
   unsigned char sex
-  unsigned short MoveData[6]
+  unsigned byte MoveData[6]
   unsigned char xSize
   unsigned char ySize
   short clevel
@@ -4872,8 +4872,8 @@ struct PACKET_ZC_MER_INIT {
   int maxSP
   long ExpireDate
   short faith
-  int toal_call_num
-  int approval_monster_kill_counter
+  #V GTE 20071106 int toal_call_num
+  #V GTE 20071106 int approval_monster_kill_counter
   short ATKRange
  }
 0x29c
@@ -5529,7 +5529,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY4 {
   int virtue
   bool isPKModeON
   unsigned char sex
-  unsigned short MoveData[6]
+  unsigned byte MoveData[6]
   unsigned char xSize
   unsigned char ySize
   short clevel
@@ -6096,7 +6096,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
   int virtue
   bool isPKModeON
   unsigned char sex
-  unsigned short MoveData[6]
+  unsigned byte MoveData[6]
   unsigned char xSize
   unsigned char ySize
   short clevel
