@@ -527,7 +527,7 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
         .unwrap();
     let field_with_vec = struct_definition.fields.iter().find(|field| field.data_type.name == "Vec");
     if let Some(field_with_vec) = field_with_vec {
-        write_vec_field(file, field_with_vec);
+        write_vec_field(file, struct_definition, field_with_vec);
     }
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes())
         .unwrap();
@@ -872,7 +872,7 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_vec_field(file: &mut File, field: &StructField) {
+fn write_vec_field(file: &mut File, struct_definition: &StructDefinition, field: &StructField) {
     file.write_all(
         format!(
             "        let vec_type_len = {}::base_len(packetver);\n",
@@ -881,16 +881,33 @@ fn write_vec_field(file: &mut File, field: &StructField) {
         .as_bytes(),
     )
     .unwrap();
+    let preceding_conditional: Vec<&StructField> = struct_definition
+        .fields
+        .iter()
+        .take_while(|f| f.data_type.name != "Vec")
+        .filter(|f| f.condition.is_some())
+        .collect();
+    let conditional_len: i16 = preceding_conditional.iter().map(|f| f.length).sum();
+    file.write_all(
+        format!(
+            "        let {}vec_start: usize = {};\n",
+            if preceding_conditional.is_empty() { "" } else { "mut " },
+            field.position - conditional_len
+        )
+        .as_bytes(),
+    )
+    .unwrap();
+    for f in &preceding_conditional {
+        file.write_all(format!("        {}", packetver_if("packetver", f)).as_bytes()).unwrap();
+        file.write_all(format!("            vec_start += {};\n", f.length).as_bytes()).unwrap();
+        file.write_all("        }\n".to_string().as_bytes()).unwrap();
+    }
     if let Some(count) = field.array_count {
         file.write_all(format!("        let iter_count = {};\n", count).as_bytes())
             .unwrap();
     } else {
         file.write_all(
-            format!(
-                "        let iter_count = (&buffer.len() - {}) / vec_type_len;\n",
-                field.position
-            )
-            .as_bytes(),
+            "        let iter_count = (&buffer.len() - vec_start) / vec_type_len;\n".to_string().as_bytes(),
         )
         .unwrap();
     }
@@ -904,9 +921,9 @@ fn write_vec_field(file: &mut File, field: &StructField) {
     .unwrap();
     file.write_all("        let mut i = 1;\n".to_string().as_bytes()).unwrap();
     file.write_all("        while i <= iter_count {\n".to_string().as_bytes()).unwrap();
-    file.write_all(format!("            let start_pos = {} + (vec_type_len * (i - 1));\n", field.position).as_bytes())
+    file.write_all("            let start_pos = vec_start + (vec_type_len * (i - 1));\n".to_string().as_bytes())
         .unwrap();
-    file.write_all(format!("            let end_pos = {} + vec_type_len * i;\n", field.position).as_bytes())
+    file.write_all("            let end_pos = vec_start + vec_type_len * i;\n".to_string().as_bytes())
         .unwrap();
     file.write_all(
         format!(

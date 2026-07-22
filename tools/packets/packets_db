@@ -99,9 +99,9 @@ struct PACKET_AC_REFUSE_LOGIN {
 struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
   short PacketId
   short PacketLength
-  unsigned char TotalSlotNum
-  unsigned char PremiumStartSlot
-  unsigned char PremiumEndSlot
+#V GTE 20100413 unsigned char TotalSlotNum
+#V GTE 20100413 unsigned char PremiumStartSlot
+#V GTE 20100413 unsigned char PremiumEndSlot
   char dummy1_beginbilling
   unsigned long code
   unsigned long time1
@@ -403,8 +403,8 @@ struct PACKET_CZ_REQUEST_TIME {
   #V RANGE 20050718 20050719 unsigned byte p10[1]
   #V RANGE 20050719 20070108 unsigned byte p11[7]
   #V RANGE 20070108 20070212 unsigned byte p12[5]
-  #V RANGE 20070212 20080827 unsigned byte p13[2]
-  #V RANGE 20080827 20101124 unsigned byte p14[5]
+  #V RANGE 20070212 20090408 unsigned byte p13[2]
+  #V RANGE 20090408 20101124 unsigned byte p14[5]
   unsigned long clientTime
  }
 0x7f
@@ -452,8 +452,8 @@ struct PACKET_CZ_REQUEST_MOVE {
   #V RANGE 20050718 20050719 unsigned byte pad11[10]
   #V RANGE 20050719 20060327 unsigned byte pad12[6]
   #V RANGE 20060327 20070108 unsigned byte pad13[10]
-  #V RANGE 20070108 20080827 unsigned byte pad14[3]
-  #V RANGE 20080827 20101124 unsigned byte pad15[4]
+  #V RANGE 20070108 20090408 unsigned byte pad14[3]
+  #V RANGE 20090408 20101124 unsigned byte pad15[4]
   unsigned byte dest[3]
  }
 0x86
@@ -613,8 +613,8 @@ struct PACKET_CZ_REQNAME {
   #V RANGE 20050719 20060327 unsigned byte p11[2]
   #V RANGE 20060327 20070108 unsigned byte p12[6]
   #V RANGE 20070108 20070212 unsigned byte p13[11]
-  #V RANGE 20070212 20080827 unsigned byte p14[5]
-  #V RANGE 20080827 20101124 unsigned byte p15[8]
+  #V RANGE 20070212 20090408 unsigned byte p14[5]
+  #V RANGE 20090408 20101124 unsigned byte p15[8]
   unsigned long AID
  }
 0x95
@@ -672,8 +672,8 @@ struct PACKET_CZ_CHANGE_DIRECTION {
   #V RANGE 20050719 20060327 unsigned byte a11[6]
   #V RANGE 20060327 20070108 unsigned byte a12[5]
   #V RANGE 20070108 20070212 unsigned byte a13[8]
-  #V RANGE 20070212 20080827 unsigned byte a14[5]
-  #V RANGE 20080827 20101124 unsigned byte a15[2]
+  #V RANGE 20070212 20090408 unsigned byte a14[5]
+  #V RANGE 20090408 20101124 unsigned byte a15[2]
   short headDir
   #V RANGE 20040713 20040809 unsigned byte b0[5]
   #V RANGE 20040809 20040906 unsigned byte b1[2]
@@ -688,8 +688,8 @@ struct PACKET_CZ_CHANGE_DIRECTION {
   #V RANGE 20050718 20050719 unsigned byte b10[2]
   #V RANGE 20050719 20060327 unsigned byte b11[6]
   #V RANGE 20060327 20070108 unsigned byte b12[2]
-  #V RANGE 20070108 20080827 unsigned byte b13[1]
-  #V RANGE 20080827 20101124 unsigned byte b14[3]
+  #V RANGE 20070108 20090408 unsigned byte b13[1]
+  #V RANGE 20090408 20101124 unsigned byte b14[3]
   unsigned char dir
  }
 0x9c
@@ -739,8 +739,8 @@ struct PACKET_CZ_ITEM_PICKUP {
   #V RANGE 20050718 20050719 unsigned byte p10[1]
   #V RANGE 20050719 20070108 unsigned byte p11[7]
   #V RANGE 20070108 20070212 unsigned byte p12[5]
-  #V RANGE 20070212 20080827 unsigned byte p13[2]
-  #V RANGE 20080827 20101124 unsigned byte p14[5]
+  #V RANGE 20070212 20090408 unsigned byte p13[2]
+  #V RANGE 20090408 20101124 unsigned byte p14[5]
   unsigned long ITAID
  }
 0xa0
@@ -784,8 +784,8 @@ struct PACKET_CZ_ITEM_THROW {
   #V RANGE 20050719 20060327 unsigned byte a11[1]
   #V RANGE 20060327 20070108 unsigned byte a12[6]
   #V RANGE 20070108 20070212 unsigned byte a13[9]
-  #V RANGE 20070212 20080827 unsigned byte a14[3]
-  #V RANGE 20080827 20101124 unsigned byte a15[4]
+  #V RANGE 20070212 20090408 unsigned byte a14[3]
+  #V RANGE 20090408 20101124 unsigned byte a15[4]
   unsigned short Index
   #V RANGE 20040726 20040809 unsigned byte b0[5]
   #V RANGE 20040809 20040906 unsigned byte b1[5]
@@ -801,8 +801,8 @@ struct PACKET_CZ_ITEM_THROW {
   #V RANGE 20050719 20060327 unsigned byte b11[5]
   #V RANGE 20060327 20070108 unsigned byte b12[5]
   #V RANGE 20070108 20070212 unsigned byte b13[4]
-  #V RANGE 20070212 20080827 unsigned byte b14[1]
-  #V RANGE 20080827 20101124 unsigned byte b15[7]
+  #V RANGE 20070212 20090408 unsigned byte b14[1]
+  #V RANGE 20090408 20101124 unsigned byte b15[7]
   short count
  }
 
@@ -1437,8 +1437,8 @@ struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_BODY {
   #V RANGE 20050718 20050719 unsigned byte a10[3]
   #V RANGE 20050719 20070108 unsigned byte a11[9]
   #V RANGE 20070108 20070212 unsigned byte a12[1]
-  #V RANGE 20070212 20080827 unsigned byte a13[12]
-  #V RANGE 20080827 20101124 unsigned byte a14[1]
+  #V RANGE 20070212 20090408 unsigned byte a13[12]
+  #V RANGE 20090408 20101124 unsigned byte a14[1]
   short index
   #V RANGE 20040726 20040809 unsigned byte b0[10]
   #V RANGE 20040809 20040906 unsigned byte b1[9]
@@ -1454,8 +1454,8 @@ struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_BODY {
   #V RANGE 20050719 20060327 unsigned byte b11[1]
   #V RANGE 20060327 20070108 unsigned byte b12[9]
   #V RANGE 20070108 20070212 unsigned byte b13[6]
-  #V RANGE 20070212 20080827 unsigned byte b14[2]
-  #V RANGE 20080827 20101124 unsigned byte b15[8]
+  #V RANGE 20070212 20090408 unsigned byte b14[2]
+  #V RANGE 20090408 20101124 unsigned byte b15[8]
   int count
  }
 0x093b, 0x00f3:20040705, 0x0113:20040726, 0x007e:20040906, 0x0094:20041129, 0x0364:20101124, 0x0893:20111005, 0x093b:20120307
@@ -1475,8 +1475,8 @@ struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
   #V RANGE 20050719 20060327 unsigned byte a11[14]
   #V RANGE 20060327 20070108 unsigned byte a12[3]
   #V RANGE 20070108 20070212 unsigned byte a13[2]
-  #V RANGE 20070212 20080827 unsigned byte a14[5]
-  #V RANGE 20080827 20101124 unsigned byte a15[1]
+  #V RANGE 20070212 20090408 unsigned byte a14[5]
+  #V RANGE 20090408 20101124 unsigned byte a15[1]
   short index
   #V RANGE 20040726 20040809 unsigned byte b0[5]
   #V RANGE 20040809 20040906 unsigned byte b1[12]
@@ -1492,8 +1492,8 @@ struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
   #V RANGE 20050719 20060327 unsigned byte b11[9]
   #V RANGE 20060327 20070108 unsigned byte b12[12]
   #V RANGE 20070108 20070212 unsigned byte b13[7]
-  #V RANGE 20070212 20080827 unsigned byte b14[1]
-  #V RANGE 20080827 20101124 unsigned byte b15[10]
+  #V RANGE 20070212 20090408 unsigned byte b14[1]
+  #V RANGE 20090408 20101124 unsigned byte b15[10]
   int count
  }
 0xf6
@@ -1798,8 +1798,8 @@ struct PACKET_CZ_USE_SKILL_TOGROUND {
   #V RANGE 20050719 20060327 unsigned byte a13[10]
   #V RANGE 20060327 20070108 unsigned byte a14[3]
   #V RANGE 20070108 20070212 unsigned byte a15[8]
-  #V RANGE 20070212 20080827 unsigned byte a16[3]
-  #V RANGE 20080827 20101124 unsigned byte a17[8]
+  #V RANGE 20070212 20090408 unsigned byte a16[3]
+  #V RANGE 20090408 20101124 unsigned byte a17[8]
   short selectedLevel
   #V RANGE 20040705 20040713 unsigned byte b0[3]
   #V RANGE 20040726 20040809 unsigned byte b2[1]
@@ -1816,8 +1816,8 @@ struct PACKET_CZ_USE_SKILL_TOGROUND {
   #V RANGE 20050719 20060327 unsigned byte b13[1]
   #V RANGE 20060327 20070108 unsigned byte b14[8]
   #V RANGE 20070108 20070212 unsigned byte b15[7]
-  #V RANGE 20070212 20080827 unsigned byte b16[2]
-  #V RANGE 20080827 20101124 unsigned byte b17[2]
+  #V RANGE 20070212 20090408 unsigned byte b16[2]
+  #V RANGE 20090408 20101124 unsigned byte b17[2]
   unsigned short SKID
   #V RANGE 20040713 20040726 unsigned byte c1[4]
   #V RANGE 20040726 20040809 unsigned byte c2[9]
@@ -1834,8 +1834,8 @@ struct PACKET_CZ_USE_SKILL_TOGROUND {
   #V RANGE 20050719 20060327 unsigned byte c13[1]
   #V RANGE 20060327 20070108 unsigned byte c14[12]
   #V RANGE 20070108 20070212 unsigned byte c15[2]
-  #V RANGE 20070212 20080827 unsigned byte c16[1]
-  #V RANGE 20080827 20101124 unsigned byte c17[2]
+  #V RANGE 20070212 20090408 unsigned byte c16[1]
+  #V RANGE 20090408 20101124 unsigned byte c17[2]
   short xPos
   #V RANGE 20040726 20040809 unsigned byte d2[2]
   #V RANGE 20040809 20040906 unsigned byte d3[7]
@@ -1851,8 +1851,8 @@ struct PACKET_CZ_USE_SKILL_TOGROUND {
   #V RANGE 20050719 20060327 unsigned byte d13[11]
   #V RANGE 20060327 20070108 unsigned byte d14[7]
   #V RANGE 20070108 20070212 unsigned byte d15[13]
-  #V RANGE 20070212 20080827 unsigned byte d16[6]
-  #V RANGE 20080827 20101124 unsigned byte d17[3]
+  #V RANGE 20070212 20090408 unsigned byte d16[6]
+  #V RANGE 20090408 20101124 unsigned byte d17[3]
   short yPos
  }
 0x117
@@ -2832,8 +2832,8 @@ struct PACKET_CZ_REQNAME_BYGID {
   #V RANGE 20050719 20060327 unsigned byte p11[3]
   #V RANGE 20060327 20070108 unsigned byte p12[5]
   #V RANGE 20070108 20070212 unsigned byte p13[4]
-  #V RANGE 20070212 20080827 unsigned byte p14[9]
-  #V RANGE 20080827 20101124 unsigned byte p15[8]
+  #V RANGE 20070212 20090408 unsigned byte p14[9]
+  #V RANGE 20090408 20101124 unsigned byte p15[8]
   unsigned long GID
  }
 0x194
