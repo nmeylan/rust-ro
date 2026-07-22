@@ -16370,7 +16370,6 @@ impl Debug for PacketZcNotifyMoveentry7 {
             .field("y_size[66, 67]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[67, 69]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[69, 71]", &format!("{:02X?}", &self.font_raw))
-            .field("name[71, 95]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16408,7 +16407,6 @@ impl Display for PacketZcNotifyMoveentry7 {
         fields.push(format!("y_size(unsigned char as u8)[66, 67]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[67, 69]: {}", &self.clevel));
         fields.push(format!("font(short as i16)[69, 71]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[71, 95]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyMoveentry7\n {}", fields.join(",\n "))
     }
 }
@@ -16445,7 +16443,6 @@ impl Debug for PacketZcNotifyNewentry5 {
             .field("y_size[59, 60]", &format!("{:02X?}", &self.y_size_raw))
             .field("clevel[60, 62]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[62, 64]", &format!("{:02X?}", &self.font_raw))
-            .field("name[64, 88]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16482,7 +16479,6 @@ impl Display for PacketZcNotifyNewentry5 {
         fields.push(format!("y_size(unsigned char as u8)[59, 60]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[60, 62]: {}", &self.clevel));
         fields.push(format!("font(short as i16)[62, 64]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[64, 88]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyNewentry5\n {}", fields.join(",\n "))
     }
 }
@@ -16520,7 +16516,6 @@ impl Debug for PacketZcNotifyStandentry5 {
             .field("state[60, 61]", &format!("{:02X?}", &self.state_raw))
             .field("clevel[61, 63]", &format!("{:02X?}", &self.clevel_raw))
             .field("font[63, 65]", &format!("{:02X?}", &self.font_raw))
-            .field("name[65, 89]", &format!("{:02X?}", &self.name_raw))
         .finish()
     }
 }
@@ -16558,7 +16553,6 @@ impl Display for PacketZcNotifyStandentry5 {
         fields.push(format!("state(unsigned char as u8)[60, 61]: {}", &self.state));
         fields.push(format!("clevel(short as i16)[61, 63]: {}", &self.clevel));
         fields.push(format!("font(short as i16)[63, 65]: {}", &self.font));
-        fields.push(format!("name(char[] as char[])[65, 89]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyStandentry5\n {}", fields.join(",\n "))
     }
 }
@@ -17878,6 +17872,27 @@ impl Display for PacketChSelectAccessibleMapname {
         fields.push(format!("char_num(unsigned char as u8)[2, 3]: {}", &self.char_num));
         fields.push(format!("map_list_num(unsigned char as u8)[3, 4]: {}", &self.map_list_num));
         write!(f, "PacketChSelectAccessibleMapname\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketHcNotifyAccessibleMapname {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketHcNotifyAccessibleMapname")
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
+            .field("maps[4, 24]", &format!("{:02X?}", &self.maps_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketHcNotifyAccessibleMapname {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
+        fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
+        fields.push(format!("maps([] as Vec)[4, 24]: {}", &self.maps.iter().map(|item| format!("
+  >{}", item)).collect::<String>()));
+        write!(f, "PacketHcNotifyAccessibleMapname\n {}", fields.join(",\n "))
     }
 }
 
@@ -20259,6 +20274,24 @@ impl Display for ResultItemInfo {
         fields.push(format!("card3(unsigned short as u16)[102, 104]: {}", &self.card3));
         fields.push(format!("card4(unsigned short as u16)[104, 106]: {}", &self.card4));
         write!(f, "ResultItemInfo\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for AccessibleMapnameInfo {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("AccessibleMapnameInfo")
+            .field("status[0, 4]", &format!("{:02X?}", &self.status_raw))
+            .field("map_name[4, 20]", &format!("{:02X?}", &self.map_name_raw))
+        .finish()
+    }
+}
+
+impl Display for AccessibleMapnameInfo {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("status(unsigned int as u32)[0, 4]: {}", &self.status));
+        fields.push(format!("map_name(char[] as char[])[4, 20]: {}", &self.map_name.pretty_output()));
+        write!(f, "AccessibleMapnameInfo\n {}", fields.join(",\n "))
     }
 }
 

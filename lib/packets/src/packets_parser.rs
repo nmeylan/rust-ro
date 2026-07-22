@@ -2734,6 +2734,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x41 && buffer[1] == 0x08 {
         return Box::new(PacketChSelectAccessibleMapname::from(buffer, packetver));
     }
+    if buffer[0] == 0x40 && buffer[1] == 0x08 {
+        return Box::new(PacketHcNotifyAccessibleMapname::from(buffer, packetver));
+    }
     if buffer[0] == 0x5f && buffer[1] == 0x03 {
         return Box::new(PacketCzRequestMove2::from(buffer, packetver));
     }
@@ -2942,6 +2945,7 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packet_id == [0x5a, 0x82] { return true; }
     if packet_id == [0x25, 0x08] { return true; }
     if packet_id == [0x36, 0x08] { return true; }
+    if packet_id == [0x40, 0x08] { return true; }
     if packet_id == [0x3b, 0x0a] { return true; }
     false
 }
@@ -5678,6 +5682,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packet_id.value.unwrap().eq("0x4108") {
         return PacketChSelectAccessibleMapname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packet_id.value.unwrap().eq("0x4008") {
+        return PacketHcNotifyAccessibleMapname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0x5f03") {
         return PacketCzRequestMove2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

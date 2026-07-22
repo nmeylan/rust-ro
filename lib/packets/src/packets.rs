@@ -10026,8 +10026,6 @@ pub struct PacketZcNotifyMoveentry7 {
     pub clevel_raw: [u8; 2],
     pub font: i16,
     pub font_raw: [u8; 2],
-    pub name: [char; 24],
-    pub name_raw: [u8; 24],
 }
 
 #[derive(Clone)]
@@ -10091,8 +10089,6 @@ pub struct PacketZcNotifyNewentry5 {
     pub clevel_raw: [u8; 2],
     pub font: i16,
     pub font_raw: [u8; 2],
-    pub name: [char; 24],
-    pub name_raw: [u8; 24],
 }
 
 #[derive(Clone)]
@@ -10158,8 +10154,6 @@ pub struct PacketZcNotifyStandentry5 {
     pub clevel_raw: [u8; 2],
     pub font: i16,
     pub font_raw: [u8; 2],
-    pub name: [char; 24],
-    pub name_raw: [u8; 24],
 }
 
 #[derive(Clone)]
@@ -10912,6 +10906,17 @@ pub struct PacketChSelectAccessibleMapname {
     pub char_num_raw: [u8; 1],
     pub map_list_num: u8,
     pub map_list_num_raw: [u8; 1],
+}
+
+#[derive(Clone)]
+pub struct PacketHcNotifyAccessibleMapname {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub packet_length: i16,
+    pub packet_length_raw: [u8; 2],
+    pub maps: Vec<AccessibleMapnameInfo>,
+    pub maps_raw: Vec<Vec<u8>>,
 }
 
 #[derive(Clone)]
@@ -12509,6 +12514,15 @@ pub struct ResultItemInfo {
     pub card3_raw: [u8; 2],
     pub card4: u16,
     pub card4_raw: [u8; 2],
+}
+
+#[derive(Clone)]
+pub struct AccessibleMapnameInfo {
+    pub raw: Vec<u8>,
+    pub status: u32,
+    pub status_raw: [u8; 4],
+    pub map_name: [char; 16],
+    pub map_name_raw: [u8; 16],
 }
 
 #[derive(Debug)]

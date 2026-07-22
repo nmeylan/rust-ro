@@ -6102,7 +6102,6 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
   unsigned char ySize
   short clevel
   short font
-  unsigned char name[24]
  }
 0x0858, 0x07f8:20091103, 0x0858:20101124
 struct PACKET_ZC_NOTIFY_NEWENTRY5 {
@@ -6135,7 +6134,6 @@ struct PACKET_ZC_NOTIFY_NEWENTRY5 {
   unsigned char ySize
   short clevel
   short font
-  unsigned char name[24]
  }
 0x0857, 0x07f9:20091103, 0x0857:20101124
 struct PACKET_ZC_NOTIFY_STANDENTRY5 {
@@ -6169,7 +6167,6 @@ struct PACKET_ZC_NOTIFY_STANDENTRY5 {
   unsigned char state
   short clevel
   short font
-  unsigned char name[24]
  }
 0x7fa
 struct PACKET_ZC_DELETE_ITEM_FROM_BODY {
@@ -6658,6 +6655,15 @@ struct PACKET_CH_SELECT_ACCESSIBLE_MAPNAME {
   short PacketId
   unsigned char CharNum
   unsigned char mapListNum
+ }
+0x840
+struct PACKET_HC_NOTIFY_ACCESSIBLE_MAPNAME {
+  short PacketId
+  short PacketLength
+  struct ACCESSIBLE_MAPNAME_INFO maps[...] { // Size 20
+  unsigned int status
+  char mapName[16]
+  }
  }
 0x035f
 struct PACKET_CZ_REQUEST_MOVE2 {
