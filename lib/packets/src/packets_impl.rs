@@ -38019,7 +38019,19 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
 
 impl PacketCzPlayerChat {
     pub fn packet_id(packetver: u32) -> &'static str {
-        "0xf300"
+        if packetver >= 20050110 {
+            "0xf300"
+        } else if packetver >= 20041129 {
+            "0x8500"
+        } else if packetver >= 20040906 {
+            "0x9f00"
+        } else if packetver >= 20040726 {
+            "0xf300"
+        } else if packetver >= 20040705 {
+            "0x8c00"
+        } else {
+            "0x8c00"
+        }
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPlayerChat {
         let mut offset: usize = 0;
@@ -38079,8 +38091,19 @@ impl PacketCzPlayerChat {
         self.msg_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCzPlayerChat {
-        let packet_id = i16::from_le_bytes([0xf3, 0x00]);
-        let packet_id_raw = [0xf3, 0x00];
+        let (packet_id, packet_id_raw) = if packetver >= 20050110 {
+            (i16::from_le_bytes([0xf3, 0x00]), [0xf3, 0x00])
+        } else if packetver >= 20041129 {
+            (i16::from_le_bytes([0x85, 0x00]), [0x85, 0x00])
+        } else if packetver >= 20040906 {
+            (i16::from_le_bytes([0x9f, 0x00]), [0x9f, 0x00])
+        } else if packetver >= 20040726 {
+            (i16::from_le_bytes([0xf3, 0x00]), [0xf3, 0x00])
+        } else if packetver >= 20040705 {
+            (i16::from_le_bytes([0x8c, 0x00]), [0x8c, 0x00])
+        } else {
+            (i16::from_le_bytes([0x8c, 0x00]), [0x8c, 0x00])
+        };
         PacketCzPlayerChat {
         raw: vec![],
         packet_id,

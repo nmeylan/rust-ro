@@ -238,6 +238,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20050110 && buffer[0] == 0x9f && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
+    if packetver >= 20050110 && buffer[0] == 0xf3 && buffer[1] == 0x00 {
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
+    }
     if packetver >= 20050110 && buffer[0] == 0xf7 && buffer[1] == 0x00 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
     }
@@ -276,6 +279,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20041129 && buffer[0] == 0x90 && buffer[1] == 0x01 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
+    }
+    if packetver >= 20041129 && buffer[0] == 0x85 && buffer[1] == 0x00 {
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
     }
     if packetver >= 20041129 && buffer[0] == 0x94 && buffer[1] == 0x00 {
         return Box::new(PacketCzMoveItemFromBodyToStore::from(buffer, packetver));
@@ -318,6 +324,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20040906 && buffer[0] == 0x72 && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
+    }
+    if packetver >= 20040906 && buffer[0] == 0x9f && buffer[1] == 0x00 {
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
     }
     if packetver >= 20040906 && buffer[0] == 0x93 && buffer[1] == 0x01 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
@@ -367,6 +376,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20040726 && buffer[0] == 0xf5 && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
+    if packetver >= 20040726 && buffer[0] == 0xf3 && buffer[1] == 0x00 {
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
+    }
     if packetver >= 20040726 && buffer[0] == 0x90 && buffer[1] == 0x01 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
     }
@@ -414,6 +426,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20040705 && buffer[0] == 0xa7 && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
+    }
+    if packetver >= 20040705 && buffer[0] == 0x8c && buffer[1] == 0x00 {
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
     }
     if packetver >= 20040705 && buffer[0] == 0xf5 && buffer[1] == 0x00 {
         return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
@@ -2829,6 +2844,11 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packetver >= 20120307 && packet_id == [0x11, 0x08] { return true; }
     if packetver >= 20111102 && packet_id == [0x35, 0x08] { return true; }
     if packetver >= 20111102 && packet_id == [0x9e, 0x08] { return true; }
+    if packetver >= 20050110 && packet_id == [0xf3, 0x00] { return true; }
+    if packetver >= 20041129 && packet_id == [0x85, 0x00] { return true; }
+    if packetver >= 20040906 && packet_id == [0x9f, 0x00] { return true; }
+    if packetver >= 20040726 && packet_id == [0xf3, 0x00] { return true; }
+    if packetver >= 20040705 && packet_id == [0x8c, 0x00] { return true; }
     if packet_id == [0x69, 0x00] { return true; }
     if packet_id == [0xc4, 0x0a] { return true; }
     if packet_id == [0x6b, 0x00] { return true; }
@@ -2948,6 +2968,827 @@ pub fn is_variable_length(packet_id: [u8; 2], packetver: u32) -> bool {
     if packet_id == [0x40, 0x08] { return true; }
     if packet_id == [0x3b, 0x0a] { return true; }
     false
+}
+
+pub fn packet_len(packet_id: [u8; 2], packetver: u32) -> Option<usize> {
+    if packetver >= 20130320 && packet_id == [0x6d, 0x08] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packetver >= 20120418 && packet_id == [0x02, 0x08] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packetver >= 20120410 && packet_id == [0x1c, 0x09] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x87, 0x08] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x37, 0x04] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x85, 0x08] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x6a, 0x09] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x90, 0x08] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x65, 0x08] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0xc4, 0x02] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x39, 0x04] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x63, 0x09] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x3b, 0x09] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x93, 0x01] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x89, 0x08] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x38, 0x04] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x66, 0x03] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x68, 0x03] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x69, 0x03] { return Some(PacketCzAddFriends::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x61, 0x08] { return Some(PacketCzAckStorePassword::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x29, 0x09] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x6a, 0x08] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x65, 0x03] { return Some(PacketCzPartyBookingReqRegister::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x17, 0x08] { return Some(PacketCzReqCloseBuyingStore::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x60, 0x03] { return Some(PacketCzReqClickToBuyingStore::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x84, 0x08] { return Some(PacketCzSearchStoreInfo::base_len(packetver)); }
+    if packetver >= 20120307 && packet_id == [0x35, 0x08] { return Some(PacketCzSearchStoreInfoNextPage::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0xaa, 0x08] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0xc4, 0x02] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x36, 0x04] { return Some(PacketCzAddFriends::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x81, 0x02] { return Some(PacketCzAckStorePassword::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x8d, 0x08] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x3c, 0x08] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0xa5, 0x08] { return Some(PacketCzPartyBookingReqRegister::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x9b, 0x08] { return Some(PacketCzReqCloseBuyingStore::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0xa1, 0x08] { return Some(PacketCzReqClickToBuyingStore::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0xab, 0x08] { return Some(PacketCzSearchStoreInfo::base_len(packetver)); }
+    if packetver >= 20111102 && packet_id == [0x8b, 0x08] { return Some(PacketCzSearchStoreInfoNextPage::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x17, 0x08] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x64, 0x03] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x8a, 0x08] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x66, 0x03] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x15, 0x08] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x85, 0x08] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x97, 0x08] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x93, 0x08] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x69, 0x03] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0xad, 0x08] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20111005 && packet_id == [0x38, 0x08] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x60, 0x03] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x5f, 0x03] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x68, 0x03] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x61, 0x03] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x62, 0x03] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x63, 0x03] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x65, 0x03] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x64, 0x03] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x66, 0x03] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x67, 0x03] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x69, 0x03] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x56, 0x08] { return Some(PacketZcNotifyMoveentry7::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x58, 0x08] { return Some(PacketZcNotifyNewentry5::base_len(packetver)); }
+    if packetver >= 20101124 && packet_id == [0x57, 0x08] { return Some(PacketZcNotifyStandentry5::base_len(packetver)); }
+    if packetver >= 20091103 && packet_id == [0xf7, 0x07] { return Some(PacketZcNotifyMoveentry7::base_len(packetver)); }
+    if packetver >= 20091103 && packet_id == [0xf8, 0x07] { return Some(PacketZcNotifyNewentry5::base_len(packetver)); }
+    if packetver >= 20091103 && packet_id == [0xf9, 0x07] { return Some(PacketZcNotifyStandentry5::base_len(packetver)); }
+    if packetver >= 20080910 && packet_id == [0x37, 0x04] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20080910 && packet_id == [0x39, 0x04] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20080910 && packet_id == [0x38, 0x04] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20080910 && packet_id == [0x36, 0x04] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x90, 0x01] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x85, 0x00] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0xf5, 0x00] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x9f, 0x00] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0xf7, 0x00] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x93, 0x01] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x13, 0x01] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x7e, 0x00] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0xa2, 0x00] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20050110 && packet_id == [0x9b, 0x00] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x89, 0x00] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0xa7, 0x00] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x9f, 0x00] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x8c, 0x00] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0xa2, 0x00] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x16, 0x01] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x90, 0x01] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x94, 0x00] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x9b, 0x00] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x72, 0x00] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x7e, 0x00] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0x13, 0x01] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20041129 && packet_id == [0xf7, 0x00] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x16, 0x01] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x89, 0x00] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x85, 0x00] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x9b, 0x00] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0xf3, 0x00] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x13, 0x01] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x94, 0x00] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x72, 0x00] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x93, 0x01] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x7e, 0x00] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0xf7, 0x00] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x90, 0x01] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0xa7, 0x00] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0x8c, 0x00] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0xa2, 0x00] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20040906 && packet_id == [0xf5, 0x00] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0xf7, 0x00] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x9b, 0x00] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x93, 0x01] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x89, 0x00] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x9f, 0x00] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x94, 0x00] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x72, 0x00] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0xf5, 0x00] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x90, 0x01] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x13, 0x01] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x16, 0x01] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x85, 0x00] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x8c, 0x00] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0xa2, 0x00] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0xa7, 0x00] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20040726 && packet_id == [0x7e, 0x00] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x7e, 0x00] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x85, 0x00] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x89, 0x00] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x94, 0x00] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x9b, 0x00] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x9f, 0x00] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0xa2, 0x00] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0xa7, 0x00] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0xf5, 0x00] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0xf3, 0x00] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x13, 0x01] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x16, 0x01] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x93, 0x01] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packetver >= 20040705 && packet_id == [0x72, 0x00] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packet_id == [0x64, 0x00] { return Some(PacketCaLogin::base_len(packetver)); }
+    if packet_id == [0x65, 0x00] { return Some(PacketChEnter::base_len(packetver)); }
+    if packet_id == [0x66, 0x00] { return Some(PacketChSelectChar::base_len(packetver)); }
+    if packet_id == [0x67, 0x00] { return Some(PacketChMakeChar::base_len(packetver)); }
+    if packet_id == [0x70, 0x09] { return Some(PacketChMakeChar2::base_len(packetver)); }
+    if packet_id == [0x68, 0x00] { return Some(PacketChDeleteChar::base_len(packetver)); }
+    if packet_id == [0x6a, 0x00] { return Some(PacketAcRefuseLogin::base_len(packetver)); }
+    if packet_id == [0x6c, 0x00] { return Some(PacketHcRefuseEnter::base_len(packetver)); }
+    if packet_id == [0x6d, 0x00] { return Some(PacketHcAcceptMakecharNeoUnion::base_len(packetver)); }
+    if packet_id == [0x6e, 0x00] { return Some(PacketHcRefuseMakechar::base_len(packetver)); }
+    if packet_id == [0x6f, 0x00] { return Some(PacketHcAcceptDeletechar::base_len(packetver)); }
+    if packet_id == [0x70, 0x00] { return Some(PacketHcRefuseDeletechar::base_len(packetver)); }
+    if packet_id == [0x71, 0x00] { return Some(PacketHcNotifyZonesvr::base_len(packetver)); }
+    if packet_id == [0x72, 0x00] { return Some(PacketCzEnter::base_len(packetver)); }
+    if packet_id == [0x73, 0x00] { return Some(PacketZcAcceptEnter::base_len(packetver)); }
+    if packet_id == [0x74, 0x00] { return Some(PacketZcRefuseEnter::base_len(packetver)); }
+    if packet_id == [0x75, 0x00] { return Some(PacketZcNotifyInitchar::base_len(packetver)); }
+    if packet_id == [0x76, 0x00] { return Some(PacketZcNotifyUpdatechar::base_len(packetver)); }
+    if packet_id == [0x77, 0x00] { return Some(PacketZcNotifyUpdateplayer::base_len(packetver)); }
+    if packet_id == [0x78, 0x00] { return Some(PacketZcNotifyStandentry::base_len(packetver)); }
+    if packet_id == [0x79, 0x00] { return Some(PacketZcNotifyNewentry::base_len(packetver)); }
+    if packet_id == [0x7a, 0x00] { return Some(PacketZcNotifyActentry::base_len(packetver)); }
+    if packet_id == [0x7b, 0x00] { return Some(PacketZcNotifyMoveentry::base_len(packetver)); }
+    if packet_id == [0x7c, 0x00] { return Some(PacketZcNotifyStandentryNpc::base_len(packetver)); }
+    if packet_id == [0x7d, 0x00] { return Some(PacketCzNotifyActorinit::base_len(packetver)); }
+    if packet_id == [0x87, 0x08] { return Some(PacketCzRequestTime::base_len(packetver)); }
+    if packet_id == [0x7f, 0x00] { return Some(PacketZcNotifyTime::base_len(packetver)); }
+    if packet_id == [0x80, 0x00] { return Some(PacketZcNotifyVanish::base_len(packetver)); }
+    if packet_id == [0x81, 0x00] { return Some(PacketScNotifyBan::base_len(packetver)); }
+    if packet_id == [0x82, 0x00] { return Some(PacketCzRequestQuit::base_len(packetver)); }
+    if packet_id == [0x83, 0x00] { return Some(PacketZcAcceptQuit::base_len(packetver)); }
+    if packet_id == [0x84, 0x00] { return Some(PacketZcRefuseQuit::base_len(packetver)); }
+    if packet_id == [0x37, 0x04] { return Some(PacketCzRequestMove::base_len(packetver)); }
+    if packet_id == [0x86, 0x00] { return Some(PacketZcNotifyMove::base_len(packetver)); }
+    if packet_id == [0x87, 0x00] { return Some(PacketZcNotifyPlayermove::base_len(packetver)); }
+    if packet_id == [0x88, 0x00] { return Some(PacketZcStopmove::base_len(packetver)); }
+    if packet_id == [0xd2, 0x08] { return Some(PacketZcFastmove::base_len(packetver)); }
+    if packet_id == [0x85, 0x08] { return Some(PacketCzRequestAct::base_len(packetver)); }
+    if packet_id == [0x8a, 0x00] { return Some(PacketZcNotifyAct::base_len(packetver)); }
+    if packet_id == [0x8b, 0x00] { return Some(PacketZcNotifyActPosition::base_len(packetver)); }
+    if packet_id == [0x8f, 0x00] { return Some(PacketServerEntryAck::base_len(packetver)); }
+    if packet_id == [0x90, 0x00] { return Some(PacketCzContactnpc::base_len(packetver)); }
+    if packet_id == [0x91, 0x00] { return Some(PacketZcNpcackMapmove::base_len(packetver)); }
+    if packet_id == [0x92, 0x00] { return Some(PacketZcNpcackServermove::base_len(packetver)); }
+    if packet_id == [0x93, 0x00] { return Some(PacketZcNpcackEnable::base_len(packetver)); }
+    if packet_id == [0x6a, 0x09] { return Some(PacketCzReqname::base_len(packetver)); }
+    if packet_id == [0x95, 0x00] { return Some(PacketZcAckReqname::base_len(packetver)); }
+    if packet_id == [0x98, 0x00] { return Some(PacketZcAckWhisper::base_len(packetver)); }
+    if packet_id == [0x90, 0x08] { return Some(PacketCzChangeDirection::base_len(packetver)); }
+    if packet_id == [0x9c, 0x00] { return Some(PacketZcChangeDirection::base_len(packetver)); }
+    if packet_id == [0x9d, 0x00] { return Some(PacketZcItemEntry::base_len(packetver)); }
+    if packet_id == [0x9e, 0x00] { return Some(PacketZcItemFallEntry::base_len(packetver)); }
+    if packet_id == [0x65, 0x08] { return Some(PacketCzItemPickup::base_len(packetver)); }
+    if packet_id == [0xa0, 0x00] { return Some(PacketZcItemPickupAck::base_len(packetver)); }
+    if packet_id == [0xa1, 0x00] { return Some(PacketZcItemDisappear::base_len(packetver)); }
+    if packet_id == [0xc4, 0x02] { return Some(PacketCzItemThrow::base_len(packetver)); }
+    if packet_id == [0x39, 0x04] { return Some(PacketCzUseItem::base_len(packetver)); }
+    if packet_id == [0xa8, 0x00] { return Some(PacketZcUseItemAck::base_len(packetver)); }
+    if packet_id == [0xa9, 0x00] { return Some(PacketCzReqWearEquip::base_len(packetver)); }
+    if packet_id == [0xaa, 0x00] { return Some(PacketZcReqWearEquipAck::base_len(packetver)); }
+    if packet_id == [0xd0, 0x08] { return Some(PacketZcReqWearEquipAck2::base_len(packetver)); }
+    if packet_id == [0xab, 0x00] { return Some(PacketCzReqTakeoffEquip::base_len(packetver)); }
+    if packet_id == [0xac, 0x00] { return Some(PacketZcReqTakeoffEquipAck::base_len(packetver)); }
+    if packet_id == [0xd1, 0x08] { return Some(PacketZcReqTakeoffEquipAck2::base_len(packetver)); }
+    if packet_id == [0xaf, 0x00] { return Some(PacketZcItemThrowAck::base_len(packetver)); }
+    if packet_id == [0xb0, 0x00] { return Some(PacketZcParChange::base_len(packetver)); }
+    if packet_id == [0xb1, 0x00] { return Some(PacketZcLongparChange::base_len(packetver)); }
+    if packet_id == [0xb2, 0x00] { return Some(PacketCzRestart::base_len(packetver)); }
+    if packet_id == [0xb3, 0x00] { return Some(PacketZcRestartAck::base_len(packetver)); }
+    if packet_id == [0xb5, 0x00] { return Some(PacketZcWaitDialog::base_len(packetver)); }
+    if packet_id == [0xb6, 0x00] { return Some(PacketZcCloseDialog::base_len(packetver)); }
+    if packet_id == [0xb8, 0x00] { return Some(PacketCzChooseMenu::base_len(packetver)); }
+    if packet_id == [0xb9, 0x00] { return Some(PacketCzReqNextScript::base_len(packetver)); }
+    if packet_id == [0xba, 0x00] { return Some(PacketCzReqStatus::base_len(packetver)); }
+    if packet_id == [0xbb, 0x00] { return Some(PacketCzStatusChange::base_len(packetver)); }
+    if packet_id == [0xbc, 0x00] { return Some(PacketZcStatusChangeAck::base_len(packetver)); }
+    if packet_id == [0xbd, 0x00] { return Some(PacketZcStatus::base_len(packetver)); }
+    if packet_id == [0xbe, 0x00] { return Some(PacketZcStatusChange::base_len(packetver)); }
+    if packet_id == [0xbf, 0x00] { return Some(PacketCzReqEmotion::base_len(packetver)); }
+    if packet_id == [0xc0, 0x00] { return Some(PacketZcEmotion::base_len(packetver)); }
+    if packet_id == [0xc1, 0x00] { return Some(PacketCzReqUserCount::base_len(packetver)); }
+    if packet_id == [0xc2, 0x00] { return Some(PacketZcUserCount::base_len(packetver)); }
+    if packet_id == [0xc3, 0x00] { return Some(PacketZcSpriteChange::base_len(packetver)); }
+    if packet_id == [0xc4, 0x00] { return Some(PacketZcSelectDealtype::base_len(packetver)); }
+    if packet_id == [0xc5, 0x00] { return Some(PacketCzAckSelectDealtype::base_len(packetver)); }
+    if packet_id == [0xca, 0x00] { return Some(PacketZcPcPurchaseResult::base_len(packetver)); }
+    if packet_id == [0xcb, 0x00] { return Some(PacketZcPcSellResult::base_len(packetver)); }
+    if packet_id == [0xcc, 0x00] { return Some(PacketCzDisconnectCharacter::base_len(packetver)); }
+    if packet_id == [0xcd, 0x00] { return Some(PacketZcAckDisconnectCharacter::base_len(packetver)); }
+    if packet_id == [0xce, 0x00] { return Some(PacketCzDisconnectAllCharacter::base_len(packetver)); }
+    if packet_id == [0xcf, 0x00] { return Some(PacketCzSettingWhisperPc::base_len(packetver)); }
+    if packet_id == [0xd0, 0x00] { return Some(PacketCzSettingWhisperState::base_len(packetver)); }
+    if packet_id == [0xd1, 0x00] { return Some(PacketZcSettingWhisperPc::base_len(packetver)); }
+    if packet_id == [0xd2, 0x00] { return Some(PacketZcSettingWhisperState::base_len(packetver)); }
+    if packet_id == [0xd3, 0x00] { return Some(PacketCzReqWhisperList::base_len(packetver)); }
+    if packet_id == [0xd6, 0x00] { return Some(PacketZcAckCreateChatroom::base_len(packetver)); }
+    if packet_id == [0xd8, 0x00] { return Some(PacketZcDestroyRoom::base_len(packetver)); }
+    if packet_id == [0xd9, 0x00] { return Some(PacketCzReqEnterRoom::base_len(packetver)); }
+    if packet_id == [0xda, 0x00] { return Some(PacketZcRefuseEnterRoom::base_len(packetver)); }
+    if packet_id == [0xdc, 0x00] { return Some(PacketZcMemberNewentry::base_len(packetver)); }
+    if packet_id == [0xdd, 0x00] { return Some(PacketZcMemberExit::base_len(packetver)); }
+    if packet_id == [0xe0, 0x00] { return Some(PacketCzReqRoleChange::base_len(packetver)); }
+    if packet_id == [0xe1, 0x00] { return Some(PacketZcRoleChange::base_len(packetver)); }
+    if packet_id == [0xe2, 0x00] { return Some(PacketCzReqExpelMember::base_len(packetver)); }
+    if packet_id == [0xe3, 0x00] { return Some(PacketCzExitRoom::base_len(packetver)); }
+    if packet_id == [0xe4, 0x00] { return Some(PacketCzReqExchangeItem::base_len(packetver)); }
+    if packet_id == [0xe5, 0x00] { return Some(PacketZcReqExchangeItem::base_len(packetver)); }
+    if packet_id == [0xe6, 0x00] { return Some(PacketCzAckExchangeItem::base_len(packetver)); }
+    if packet_id == [0xe7, 0x00] { return Some(PacketZcAckExchangeItem::base_len(packetver)); }
+    if packet_id == [0xe8, 0x00] { return Some(PacketCzAddExchangeItem::base_len(packetver)); }
+    if packet_id == [0xe9, 0x00] { return Some(PacketZcAddExchangeItem::base_len(packetver)); }
+    if packet_id == [0xea, 0x00] { return Some(PacketZcAckAddExchangeItem::base_len(packetver)); }
+    if packet_id == [0xeb, 0x00] { return Some(PacketCzConcludeExchangeItem::base_len(packetver)); }
+    if packet_id == [0xec, 0x00] { return Some(PacketZcConcludeExchangeItem::base_len(packetver)); }
+    if packet_id == [0xed, 0x00] { return Some(PacketCzCancelExchangeItem::base_len(packetver)); }
+    if packet_id == [0xee, 0x00] { return Some(PacketZcCancelExchangeItem::base_len(packetver)); }
+    if packet_id == [0xef, 0x00] { return Some(PacketCzExecExchangeItem::base_len(packetver)); }
+    if packet_id == [0xf0, 0x00] { return Some(PacketZcExecExchangeItem::base_len(packetver)); }
+    if packet_id == [0xf1, 0x00] { return Some(PacketZcExchangeitemUndo::base_len(packetver)); }
+    if packet_id == [0xf2, 0x00] { return Some(PacketZcNotifyStoreitemCountinfo::base_len(packetver)); }
+    if packet_id == [0xf4, 0x00] { return Some(PacketZcAddItemToStore::base_len(packetver)); }
+    if packet_id == [0x63, 0x09] { return Some(PacketCzMoveItemFromStoreToBody::base_len(packetver)); }
+    if packet_id == [0x3b, 0x09] { return Some(PacketCzMoveItemFromBodyToStore::base_len(packetver)); }
+    if packet_id == [0xf6, 0x00] { return Some(PacketZcDeleteItemFromStore::base_len(packetver)); }
+    if packet_id == [0x93, 0x01] { return Some(PacketCzCloseStore::base_len(packetver)); }
+    if packet_id == [0xf8, 0x00] { return Some(PacketZcCloseStore::base_len(packetver)); }
+    if packet_id == [0xf9, 0x00] { return Some(PacketCzMakeGroup::base_len(packetver)); }
+    if packet_id == [0xfa, 0x00] { return Some(PacketZcAckMakeGroup::base_len(packetver)); }
+    if packet_id == [0xfc, 0x00] { return Some(PacketCzReqJoinGroup::base_len(packetver)); }
+    if packet_id == [0xfd, 0x00] { return Some(PacketZcAckReqJoinGroup::base_len(packetver)); }
+    if packet_id == [0xfe, 0x00] { return Some(PacketZcReqJoinGroup::base_len(packetver)); }
+    if packet_id == [0xff, 0x00] { return Some(PacketCzJoinGroup::base_len(packetver)); }
+    if packet_id == [0x00, 0x01] { return Some(PacketCzReqLeaveGroup::base_len(packetver)); }
+    if packet_id == [0x01, 0x01] { return Some(PacketZcGroupinfoChange::base_len(packetver)); }
+    if packet_id == [0x02, 0x01] { return Some(PacketCzChangeGroupexpoption::base_len(packetver)); }
+    if packet_id == [0x03, 0x01] { return Some(PacketCzReqExpelGroupMember::base_len(packetver)); }
+    if packet_id == [0x04, 0x01] { return Some(PacketZcAddMemberToGroup::base_len(packetver)); }
+    if packet_id == [0x05, 0x01] { return Some(PacketZcDeleteMemberFromGroup::base_len(packetver)); }
+    if packet_id == [0x06, 0x01] { return Some(PacketZcNotifyHpToGroupm::base_len(packetver)); }
+    if packet_id == [0x07, 0x01] { return Some(PacketZcNotifyPositionToGroupm::base_len(packetver)); }
+    if packet_id == [0x0a, 0x01] { return Some(PacketZcMvpGettingItem::base_len(packetver)); }
+    if packet_id == [0x0b, 0x01] { return Some(PacketZcMvpGettingSpecialExp::base_len(packetver)); }
+    if packet_id == [0x0c, 0x01] { return Some(PacketZcMvp::base_len(packetver)); }
+    if packet_id == [0x0d, 0x01] { return Some(PacketZcThrowMvpitem::base_len(packetver)); }
+    if packet_id == [0x0e, 0x01] { return Some(PacketZcSkillinfoUpdate::base_len(packetver)); }
+    if packet_id == [0x10, 0x01] { return Some(PacketZcAckTouseskill::base_len(packetver)); }
+    if packet_id == [0x11, 0x01] { return Some(PacketZcAddSkill::base_len(packetver)); }
+    if packet_id == [0x12, 0x01] { return Some(PacketCzUpgradeSkilllevel::base_len(packetver)); }
+    if packet_id == [0x89, 0x08] { return Some(PacketCzUseSkill::base_len(packetver)); }
+    if packet_id == [0x14, 0x01] { return Some(PacketZcNotifySkill::base_len(packetver)); }
+    if packet_id == [0x15, 0x01] { return Some(PacketZcNotifySkillPosition::base_len(packetver)); }
+    if packet_id == [0x38, 0x04] { return Some(PacketCzUseSkillToground::base_len(packetver)); }
+    if packet_id == [0x17, 0x01] { return Some(PacketZcNotifyGroundskill::base_len(packetver)); }
+    if packet_id == [0x18, 0x01] { return Some(PacketCzCancelLockon::base_len(packetver)); }
+    if packet_id == [0x19, 0x01] { return Some(PacketZcStateChange::base_len(packetver)); }
+    if packet_id == [0x1a, 0x01] { return Some(PacketZcUseSkill::base_len(packetver)); }
+    if packet_id == [0x1b, 0x01] { return Some(PacketCzSelectWarppoint::base_len(packetver)); }
+    if packet_id == [0x1c, 0x01] { return Some(PacketZcWarplist::base_len(packetver)); }
+    if packet_id == [0x1d, 0x01] { return Some(PacketCzRememberWarppoint::base_len(packetver)); }
+    if packet_id == [0x1e, 0x01] { return Some(PacketZcAckRememberWarppoint::base_len(packetver)); }
+    if packet_id == [0x1f, 0x01] { return Some(PacketZcSkillEntry::base_len(packetver)); }
+    if packet_id == [0x20, 0x01] { return Some(PacketZcSkillDisappear::base_len(packetver)); }
+    if packet_id == [0x21, 0x01] { return Some(PacketZcNotifyCartitemCountinfo::base_len(packetver)); }
+    if packet_id == [0x24, 0x01] { return Some(PacketZcAddItemToCart::base_len(packetver)); }
+    if packet_id == [0x25, 0x01] { return Some(PacketZcDeleteItemFromCart::base_len(packetver)); }
+    if packet_id == [0x26, 0x01] { return Some(PacketCzMoveItemFromBodyToCart::base_len(packetver)); }
+    if packet_id == [0x27, 0x01] { return Some(PacketCzMoveItemFromCartToBody::base_len(packetver)); }
+    if packet_id == [0x28, 0x01] { return Some(PacketCzMoveItemFromStoreToCart::base_len(packetver)); }
+    if packet_id == [0x29, 0x01] { return Some(PacketCzMoveItemFromCartToStore::base_len(packetver)); }
+    if packet_id == [0x2a, 0x01] { return Some(PacketCzReqCartoff::base_len(packetver)); }
+    if packet_id == [0x2b, 0x01] { return Some(PacketZcCartoff::base_len(packetver)); }
+    if packet_id == [0x2c, 0x01] { return Some(PacketZcAckAdditemToCart::base_len(packetver)); }
+    if packet_id == [0x2d, 0x01] { return Some(PacketZcOpenstore::base_len(packetver)); }
+    if packet_id == [0x28, 0x0a] { return Some(PacketZcAckOpenstore2::base_len(packetver)); }
+    if packet_id == [0x2e, 0x01] { return Some(PacketCzReqClosestore::base_len(packetver)); }
+    if packet_id == [0x30, 0x01] { return Some(PacketCzReqBuyFrommc::base_len(packetver)); }
+    if packet_id == [0x31, 0x01] { return Some(PacketZcStoreEntry::base_len(packetver)); }
+    if packet_id == [0x32, 0x01] { return Some(PacketZcDisappearEntry::base_len(packetver)); }
+    if packet_id == [0x35, 0x01] { return Some(PacketZcPcPurchaseResultFrommc::base_len(packetver)); }
+    if packet_id == [0x37, 0x01] { return Some(PacketZcDeleteitemFromMcstore::base_len(packetver)); }
+    if packet_id == [0x38, 0x01] { return Some(PacketCzPkmodeChange::base_len(packetver)); }
+    if packet_id == [0x39, 0x01] { return Some(PacketZcAttackFailureForDistance::base_len(packetver)); }
+    if packet_id == [0x3a, 0x01] { return Some(PacketZcAttackRange::base_len(packetver)); }
+    if packet_id == [0x3b, 0x01] { return Some(PacketZcActionFailure::base_len(packetver)); }
+    if packet_id == [0x3c, 0x01] { return Some(PacketZcEquipArrow::base_len(packetver)); }
+    if packet_id == [0x3d, 0x01] { return Some(PacketZcRecovery::base_len(packetver)); }
+    if packet_id == [0x3e, 0x01] { return Some(PacketZcUseskillAck::base_len(packetver)); }
+    if packet_id == [0x3f, 0x01] { return Some(PacketCzItemCreate::base_len(packetver)); }
+    if packet_id == [0x40, 0x01] { return Some(PacketCzMovetoMap::base_len(packetver)); }
+    if packet_id == [0x41, 0x01] { return Some(PacketZcStatusValues::base_len(packetver)); }
+    if packet_id == [0x42, 0x01] { return Some(PacketZcOpenEditdlg::base_len(packetver)); }
+    if packet_id == [0x43, 0x01] { return Some(PacketCzInputEditdlg::base_len(packetver)); }
+    if packet_id == [0x44, 0x01] { return Some(PacketZcCompass::base_len(packetver)); }
+    if packet_id == [0x45, 0x01] { return Some(PacketZcShowImage::base_len(packetver)); }
+    if packet_id == [0x46, 0x01] { return Some(PacketCzCloseDialog::base_len(packetver)); }
+    if packet_id == [0x47, 0x01] { return Some(PacketZcAutorunSkill::base_len(packetver)); }
+    if packet_id == [0x48, 0x01] { return Some(PacketZcResurrection::base_len(packetver)); }
+    if packet_id == [0x49, 0x01] { return Some(PacketCzReqGiveMannerPoint::base_len(packetver)); }
+    if packet_id == [0x4a, 0x01] { return Some(PacketZcAckGiveMannerPoint::base_len(packetver)); }
+    if packet_id == [0x4b, 0x01] { return Some(PacketZcNotifyMannerPointGiven::base_len(packetver)); }
+    if packet_id == [0x4d, 0x01] { return Some(PacketCzReqGuildMenuinterface::base_len(packetver)); }
+    if packet_id == [0x4e, 0x01] { return Some(PacketZcAckGuildMenuinterface::base_len(packetver)); }
+    if packet_id == [0x4f, 0x01] { return Some(PacketCzReqGuildMenu::base_len(packetver)); }
+    if packet_id == [0x50, 0x01] { return Some(PacketZcGuildInfo::base_len(packetver)); }
+    if packet_id == [0x51, 0x01] { return Some(PacketCzReqGuildEmblemImg::base_len(packetver)); }
+    if packet_id == [0x57, 0x01] { return Some(PacketCzReqOpenMemberInfo::base_len(packetver)); }
+    if packet_id == [0x58, 0x01] { return Some(PacketZcAckOpenMemberInfo::base_len(packetver)); }
+    if packet_id == [0x59, 0x01] { return Some(PacketCzReqLeaveGuild::base_len(packetver)); }
+    if packet_id == [0x5a, 0x01] { return Some(PacketZcAckLeaveGuild::base_len(packetver)); }
+    if packet_id == [0x5b, 0x01] { return Some(PacketCzReqBanGuild::base_len(packetver)); }
+    if packet_id == [0x5c, 0x01] { return Some(PacketZcAckBanGuild::base_len(packetver)); }
+    if packet_id == [0x5d, 0x01] { return Some(PacketCzReqDisorganizeGuild::base_len(packetver)); }
+    if packet_id == [0x5e, 0x01] { return Some(PacketZcAckDisorganizeGuildResult::base_len(packetver)); }
+    if packet_id == [0x5f, 0x01] { return Some(PacketZcAckDisorganizeGuild::base_len(packetver)); }
+    if packet_id == [0x65, 0x01] { return Some(PacketCzReqMakeGuild::base_len(packetver)); }
+    if packet_id == [0x67, 0x01] { return Some(PacketZcResultMakeGuild::base_len(packetver)); }
+    if packet_id == [0x68, 0x01] { return Some(PacketCzReqJoinGuild::base_len(packetver)); }
+    if packet_id == [0x69, 0x01] { return Some(PacketZcAckReqJoinGuild::base_len(packetver)); }
+    if packet_id == [0x6a, 0x01] { return Some(PacketZcReqJoinGuild::base_len(packetver)); }
+    if packet_id == [0x6b, 0x01] { return Some(PacketCzJoinGuild::base_len(packetver)); }
+    if packet_id == [0x6c, 0x01] { return Some(PacketZcUpdateGdid::base_len(packetver)); }
+    if packet_id == [0x6d, 0x01] { return Some(PacketZcUpdateCharstat::base_len(packetver)); }
+    if packet_id == [0x6e, 0x01] { return Some(PacketCzGuildNotice::base_len(packetver)); }
+    if packet_id == [0x6f, 0x01] { return Some(PacketZcGuildNotice::base_len(packetver)); }
+    if packet_id == [0x70, 0x01] { return Some(PacketCzReqAllyGuild::base_len(packetver)); }
+    if packet_id == [0x71, 0x01] { return Some(PacketZcReqAllyGuild::base_len(packetver)); }
+    if packet_id == [0x72, 0x01] { return Some(PacketCzAllyGuild::base_len(packetver)); }
+    if packet_id == [0x73, 0x01] { return Some(PacketZcAckReqAllyGuild::base_len(packetver)); }
+    if packet_id == [0x75, 0x01] { return Some(PacketCzReqGuildMemberInfo::base_len(packetver)); }
+    if packet_id == [0x76, 0x01] { return Some(PacketZcAckGuildMemberInfo::base_len(packetver)); }
+    if packet_id == [0x78, 0x01] { return Some(PacketCzReqItemidentify::base_len(packetver)); }
+    if packet_id == [0x79, 0x01] { return Some(PacketZcAckItemidentify::base_len(packetver)); }
+    if packet_id == [0x7a, 0x01] { return Some(PacketCzReqItemcompositionList::base_len(packetver)); }
+    if packet_id == [0x7c, 0x01] { return Some(PacketCzReqItemcomposition::base_len(packetver)); }
+    if packet_id == [0x7d, 0x01] { return Some(PacketZcAckItemcomposition::base_len(packetver)); }
+    if packet_id == [0x80, 0x01] { return Some(PacketCzReqHostileGuild::base_len(packetver)); }
+    if packet_id == [0x81, 0x01] { return Some(PacketZcAckReqHostileGuild::base_len(packetver)); }
+    if packet_id == [0x82, 0x01] { return Some(PacketZcMemberAdd::base_len(packetver)); }
+    if packet_id == [0x83, 0x01] { return Some(PacketCzReqDeleteRelatedGuild::base_len(packetver)); }
+    if packet_id == [0x84, 0x01] { return Some(PacketZcDeleteRelatedGuild::base_len(packetver)); }
+    if packet_id == [0x85, 0x01] { return Some(PacketZcAddRelatedGuild::base_len(packetver)); }
+    if packet_id == [0x86, 0x01] { return Some(PacketCollectordead::base_len(packetver)); }
+    if packet_id == [0x87, 0x01] { return Some(PacketPing::base_len(packetver)); }
+    if packet_id == [0x88, 0x01] { return Some(PacketZcAckItemrefining::base_len(packetver)); }
+    if packet_id == [0x89, 0x01] { return Some(PacketZcNotifyMapinfo::base_len(packetver)); }
+    if packet_id == [0x8a, 0x01] { return Some(PacketCzReqDisconnect::base_len(packetver)); }
+    if packet_id == [0x8b, 0x01] { return Some(PacketZcAckReqDisconnect::base_len(packetver)); }
+    if packet_id == [0x8c, 0x01] { return Some(PacketZcMonsterInfo::base_len(packetver)); }
+    if packet_id == [0x8e, 0x01] { return Some(PacketCzReqmakingitem::base_len(packetver)); }
+    if packet_id == [0x8f, 0x01] { return Some(PacketZcAckReqmakingitem::base_len(packetver)); }
+    if packet_id == [0x66, 0x03] { return Some(PacketCzUseSkillTogroundWithtalkbox::base_len(packetver)); }
+    if packet_id == [0x91, 0x01] { return Some(PacketZcTalkboxChatcontents::base_len(packetver)); }
+    if packet_id == [0x92, 0x01] { return Some(PacketZcUpdateMapinfo::base_len(packetver)); }
+    if packet_id == [0x68, 0x03] { return Some(PacketCzReqnameBygid::base_len(packetver)); }
+    if packet_id == [0x94, 0x01] { return Some(PacketZcAckReqnameBygid::base_len(packetver)); }
+    if packet_id == [0x95, 0x01] { return Some(PacketZcAckReqnameall::base_len(packetver)); }
+    if packet_id == [0x96, 0x01] { return Some(PacketZcMsgStateChange::base_len(packetver)); }
+    if packet_id == [0x97, 0x01] { return Some(PacketCzReset::base_len(packetver)); }
+    if packet_id == [0x98, 0x01] { return Some(PacketCzChangeMaptype::base_len(packetver)); }
+    if packet_id == [0x99, 0x01] { return Some(PacketZcNotifyMapproperty::base_len(packetver)); }
+    if packet_id == [0x9a, 0x01] { return Some(PacketZcNotifyRanking::base_len(packetver)); }
+    if packet_id == [0x9b, 0x01] { return Some(PacketZcNotifyEffect::base_len(packetver)); }
+    if packet_id == [0x9d, 0x01] { return Some(PacketCzChangeEffectstate::base_len(packetver)); }
+    if packet_id == [0x9e, 0x01] { return Some(PacketZcStartCapture::base_len(packetver)); }
+    if packet_id == [0x9f, 0x01] { return Some(PacketCzTrycaptureMonster::base_len(packetver)); }
+    if packet_id == [0xa0, 0x01] { return Some(PacketZcTrycaptureMonster::base_len(packetver)); }
+    if packet_id == [0xa1, 0x01] { return Some(PacketCzCommandPet::base_len(packetver)); }
+    if packet_id == [0xa2, 0x01] { return Some(PacketZcPropertyPet::base_len(packetver)); }
+    if packet_id == [0xa3, 0x01] { return Some(PacketZcFeedPet::base_len(packetver)); }
+    if packet_id == [0xa4, 0x01] { return Some(PacketZcChangestatePet::base_len(packetver)); }
+    if packet_id == [0xa5, 0x01] { return Some(PacketCzRenamePet::base_len(packetver)); }
+    if packet_id == [0xa7, 0x01] { return Some(PacketCzSelectPetegg::base_len(packetver)); }
+    if packet_id == [0xa8, 0x01] { return Some(PacketCzPeteggInfo::base_len(packetver)); }
+    if packet_id == [0xa9, 0x01] { return Some(PacketCzPetAct::base_len(packetver)); }
+    if packet_id == [0xaa, 0x01] { return Some(PacketZcPetAct::base_len(packetver)); }
+    if packet_id == [0xab, 0x01] { return Some(PacketZcParChangeUser::base_len(packetver)); }
+    if packet_id == [0xac, 0x01] { return Some(PacketZcSkillUpdate::base_len(packetver)); }
+    if packet_id == [0xae, 0x01] { return Some(PacketCzReqMakingarrow::base_len(packetver)); }
+    if packet_id == [0xaf, 0x01] { return Some(PacketCzReqChangecart::base_len(packetver)); }
+    if packet_id == [0xb0, 0x01] { return Some(PacketZcNpcspriteChange::base_len(packetver)); }
+    if packet_id == [0xb1, 0x01] { return Some(PacketZcShowdigit::base_len(packetver)); }
+    if packet_id == [0xb3, 0x01] { return Some(PacketZcShowImage2::base_len(packetver)); }
+    if packet_id == [0xb4, 0x01] { return Some(PacketZcChangeGuild::base_len(packetver)); }
+    if packet_id == [0xb5, 0x01] { return Some(PacketScBillingInfo::base_len(packetver)); }
+    if packet_id == [0xb6, 0x01] { return Some(PacketZcGuildInfo2::base_len(packetver)); }
+    if packet_id == [0xb7, 0x01] { return Some(PacketCzGuildZeny::base_len(packetver)); }
+    if packet_id == [0xb8, 0x01] { return Some(PacketZcGuildZenyAck::base_len(packetver)); }
+    if packet_id == [0xb9, 0x01] { return Some(PacketZcDispel::base_len(packetver)); }
+    if packet_id == [0xba, 0x01] { return Some(PacketCzRemoveAid::base_len(packetver)); }
+    if packet_id == [0xbb, 0x01] { return Some(PacketCzShift::base_len(packetver)); }
+    if packet_id == [0xbc, 0x01] { return Some(PacketCzRecall::base_len(packetver)); }
+    if packet_id == [0xbd, 0x01] { return Some(PacketCzRecallGid::base_len(packetver)); }
+    if packet_id == [0xbe, 0x01] { return Some(PacketAcAskPngameroom::base_len(packetver)); }
+    if packet_id == [0xbf, 0x01] { return Some(PacketCaReplyPngameroom::base_len(packetver)); }
+    if packet_id == [0xc0, 0x01] { return Some(PacketCzReqRemaintime::base_len(packetver)); }
+    if packet_id == [0xc1, 0x01] { return Some(PacketZcReplyRemaintime::base_len(packetver)); }
+    if packet_id == [0xc2, 0x01] { return Some(PacketZcInfoRemaintime::base_len(packetver)); }
+    if packet_id == [0xc4, 0x01] { return Some(PacketZcAddItemToStore2::base_len(packetver)); }
+    if packet_id == [0xc5, 0x01] { return Some(PacketZcAddItemToCart2::base_len(packetver)); }
+    if packet_id == [0xc6, 0x01] { return Some(PacketCsReqEncryption::base_len(packetver)); }
+    if packet_id == [0xc7, 0x01] { return Some(PacketScAckEncryption::base_len(packetver)); }
+    if packet_id == [0xc8, 0x01] { return Some(PacketZcUseItemAck2::base_len(packetver)); }
+    if packet_id == [0xc9, 0x01] { return Some(PacketZcSkillEntry2::base_len(packetver)); }
+    if packet_id == [0xca, 0x01] { return Some(PacketCzReqmakinghomun::base_len(packetver)); }
+    if packet_id == [0xcb, 0x01] { return Some(PacketCzMonsterTalk::base_len(packetver)); }
+    if packet_id == [0xcc, 0x01] { return Some(PacketZcMonsterTalk::base_len(packetver)); }
+    if packet_id == [0xcd, 0x01] { return Some(PacketZcAutospelllist::base_len(packetver)); }
+    if packet_id == [0xce, 0x01] { return Some(PacketCzSelectautospell::base_len(packetver)); }
+    if packet_id == [0xcf, 0x01] { return Some(PacketZcDevotionlist::base_len(packetver)); }
+    if packet_id == [0xd0, 0x01] { return Some(PacketZcSpirits::base_len(packetver)); }
+    if packet_id == [0xd1, 0x01] { return Some(PacketZcBladestop::base_len(packetver)); }
+    if packet_id == [0xd2, 0x01] { return Some(PacketZcCombodelay::base_len(packetver)); }
+    if packet_id == [0xd3, 0x01] { return Some(PacketZcSound::base_len(packetver)); }
+    if packet_id == [0xd4, 0x01] { return Some(PacketZcOpenEditdlgstr::base_len(packetver)); }
+    if packet_id == [0xd6, 0x01] { return Some(PacketZcNotifyMaptypeproperty2::base_len(packetver)); }
+    if packet_id == [0xd7, 0x01] { return Some(PacketZcSpriteChange2::base_len(packetver)); }
+    if packet_id == [0xd8, 0x01] { return Some(PacketZcNotifyStandentry2::base_len(packetver)); }
+    if packet_id == [0xd9, 0x01] { return Some(PacketZcNotifyNewentry2::base_len(packetver)); }
+    if packet_id == [0xda, 0x01] { return Some(PacketZcNotifyMoveentry2::base_len(packetver)); }
+    if packet_id == [0xdb, 0x01] { return Some(PacketCaReqHash::base_len(packetver)); }
+    if packet_id == [0xdd, 0x01] { return Some(PacketCaLogin2::base_len(packetver)); }
+    if packet_id == [0xde, 0x01] { return Some(PacketZcNotifySkill2::base_len(packetver)); }
+    if packet_id == [0xdf, 0x01] { return Some(PacketCzReqAccountname::base_len(packetver)); }
+    if packet_id == [0xe0, 0x01] { return Some(PacketZcAckAccountname::base_len(packetver)); }
+    if packet_id == [0xe1, 0x01] { return Some(PacketZcSpirits2::base_len(packetver)); }
+    if packet_id == [0xe2, 0x01] { return Some(PacketZcReqCouple::base_len(packetver)); }
+    if packet_id == [0xe3, 0x01] { return Some(PacketCzJoinCouple::base_len(packetver)); }
+    if packet_id == [0xe4, 0x01] { return Some(PacketZcStartCouple::base_len(packetver)); }
+    if packet_id == [0xe5, 0x01] { return Some(PacketCzReqJoinCouple::base_len(packetver)); }
+    if packet_id == [0xe6, 0x01] { return Some(PacketZcCouplename::base_len(packetver)); }
+    if packet_id == [0xe7, 0x01] { return Some(PacketCzDoridori::base_len(packetver)); }
+    if packet_id == [0xe8, 0x01] { return Some(PacketCzMakeGroup2::base_len(packetver)); }
+    if packet_id == [0xe9, 0x01] { return Some(PacketZcAddMemberToGroup2::base_len(packetver)); }
+    if packet_id == [0xea, 0x01] { return Some(PacketZcCongratulation::base_len(packetver)); }
+    if packet_id == [0xeb, 0x01] { return Some(PacketZcNotifyPositionToGuildm::base_len(packetver)); }
+    if packet_id == [0xec, 0x01] { return Some(PacketZcGuildMemberMapChange::base_len(packetver)); }
+    if packet_id == [0xed, 0x01] { return Some(PacketCzChopokgi::base_len(packetver)); }
+    if packet_id == [0xf2, 0x01] { return Some(PacketZcUpdateCharstat2::base_len(packetver)); }
+    if packet_id == [0xf3, 0x01] { return Some(PacketZcNotifyEffect2::base_len(packetver)); }
+    if packet_id == [0xf4, 0x01] { return Some(PacketZcReqExchangeItem2::base_len(packetver)); }
+    if packet_id == [0xf5, 0x01] { return Some(PacketZcAckExchangeItem2::base_len(packetver)); }
+    if packet_id == [0xf6, 0x01] { return Some(PacketZcReqBaby::base_len(packetver)); }
+    if packet_id == [0xf7, 0x01] { return Some(PacketCzJoinBaby::base_len(packetver)); }
+    if packet_id == [0xf8, 0x01] { return Some(PacketZcStartBaby::base_len(packetver)); }
+    if packet_id == [0xf9, 0x01] { return Some(PacketCzReqJoinBaby::base_len(packetver)); }
+    if packet_id == [0xfa, 0x01] { return Some(PacketCaLogin3::base_len(packetver)); }
+    if packet_id == [0xfb, 0x01] { return Some(PacketChDeleteChar2::base_len(packetver)); }
+    if packet_id == [0xfd, 0x01] { return Some(PacketCzReqItemrepair::base_len(packetver)); }
+    if packet_id == [0xfe, 0x01] { return Some(PacketZcAckItemrepair::base_len(packetver)); }
+    if packet_id == [0xff, 0x01] { return Some(PacketZcHighjump::base_len(packetver)); }
+    if packet_id == [0x00, 0x02] { return Some(PacketCaConnectInfoChanged::base_len(packetver)); }
+    if packet_id == [0x69, 0x03] { return Some(PacketCzAddFriends::base_len(packetver)); }
+    if packet_id == [0x03, 0x02] { return Some(PacketCzDeleteFriends::base_len(packetver)); }
+    if packet_id == [0x04, 0x02] { return Some(PacketCaExeHashcheck::base_len(packetver)); }
+    if packet_id == [0x05, 0x02] { return Some(PacketZcDivorce::base_len(packetver)); }
+    if packet_id == [0x06, 0x02] { return Some(PacketZcFriendsState::base_len(packetver)); }
+    if packet_id == [0x07, 0x02] { return Some(PacketZcReqAddFriends::base_len(packetver)); }
+    if packet_id == [0x08, 0x02] { return Some(PacketCzAckReqAddFriends::base_len(packetver)); }
+    if packet_id == [0x09, 0x02] { return Some(PacketZcAddFriendsList::base_len(packetver)); }
+    if packet_id == [0x0a, 0x02] { return Some(PacketZcDeleteFriends::base_len(packetver)); }
+    if packet_id == [0x0b, 0x02] { return Some(PacketAcRefuseLoginR3::base_len(packetver)); }
+    if packet_id == [0x0c, 0x02] { return Some(PacketCzExeHashcheck::base_len(packetver)); }
+    if packet_id == [0x0e, 0x02] { return Some(PacketZcStarskill::base_len(packetver)); }
+    if packet_id == [0x0f, 0x02] { return Some(PacketCzReqPvppoint::base_len(packetver)); }
+    if packet_id == [0x10, 0x02] { return Some(PacketZcAckPvppoint::base_len(packetver)); }
+    if packet_id == [0x11, 0x02] { return Some(PacketZhMovePvpworld::base_len(packetver)); }
+    if packet_id == [0x12, 0x02] { return Some(PacketCzReqGiveMannerByname::base_len(packetver)); }
+    if packet_id == [0x13, 0x02] { return Some(PacketCzReqStatusGm::base_len(packetver)); }
+    if packet_id == [0x14, 0x02] { return Some(PacketZcAckStatusGm::base_len(packetver)); }
+    if packet_id == [0x15, 0x02] { return Some(PacketZcSkillmsg::base_len(packetver)); }
+    if packet_id == [0x16, 0x02] { return Some(PacketZcBabymsg::base_len(packetver)); }
+    if packet_id == [0x17, 0x02] { return Some(PacketCzBlacksmithRank::base_len(packetver)); }
+    if packet_id == [0x18, 0x02] { return Some(PacketCzAlchemistRank::base_len(packetver)); }
+    if packet_id == [0x19, 0x02] { return Some(PacketZcBlacksmithRank::base_len(packetver)); }
+    if packet_id == [0x1a, 0x02] { return Some(PacketZcAlchemistRank::base_len(packetver)); }
+    if packet_id == [0x1b, 0x02] { return Some(PacketZcBlacksmithPoint::base_len(packetver)); }
+    if packet_id == [0x1c, 0x02] { return Some(PacketZcAlchemistPoint::base_len(packetver)); }
+    if packet_id == [0x1d, 0x02] { return Some(PacketCzLesseffect::base_len(packetver)); }
+    if packet_id == [0x1e, 0x02] { return Some(PacketZcLesseffect::base_len(packetver)); }
+    if packet_id == [0x1f, 0x02] { return Some(PacketZcNotifyPkinfo::base_len(packetver)); }
+    if packet_id == [0x20, 0x02] { return Some(PacketZcNotifyCrazykiller::base_len(packetver)); }
+    if packet_id == [0x22, 0x02] { return Some(PacketCzReqWeaponrefine::base_len(packetver)); }
+    if packet_id == [0x23, 0x02] { return Some(PacketZcAckWeaponrefine::base_len(packetver)); }
+    if packet_id == [0x24, 0x02] { return Some(PacketZcTaekwonPoint::base_len(packetver)); }
+    if packet_id == [0x25, 0x02] { return Some(PacketCzTaekwonRank::base_len(packetver)); }
+    if packet_id == [0x26, 0x02] { return Some(PacketZcTaekwonRank::base_len(packetver)); }
+    if packet_id == [0x27, 0x02] { return Some(PacketZcGameGuard::base_len(packetver)); }
+    if packet_id == [0x28, 0x02] { return Some(PacketCzAckGameGuard::base_len(packetver)); }
+    if packet_id == [0x29, 0x02] { return Some(PacketZcStateChange3::base_len(packetver)); }
+    if packet_id == [0x2a, 0x02] { return Some(PacketZcNotifyStandentry3::base_len(packetver)); }
+    if packet_id == [0x2b, 0x02] { return Some(PacketZcNotifyNewentry3::base_len(packetver)); }
+    if packet_id == [0x2c, 0x02] { return Some(PacketZcNotifyMoveentry3::base_len(packetver)); }
+    if packet_id == [0x2d, 0x02] { return Some(PacketCzCommandMer::base_len(packetver)); }
+    if packet_id == [0x2e, 0x02] { return Some(PacketZcPropertyHomun::base_len(packetver)); }
+    if packet_id == [0x2f, 0x02] { return Some(PacketZcFeedMer::base_len(packetver)); }
+    if packet_id == [0x30, 0x02] { return Some(PacketZcChangestateMer::base_len(packetver)); }
+    if packet_id == [0x31, 0x02] { return Some(PacketCzRenameMer::base_len(packetver)); }
+    if packet_id == [0x32, 0x02] { return Some(PacketCzRequestMovenpc::base_len(packetver)); }
+    if packet_id == [0x33, 0x02] { return Some(PacketCzRequestActnpc::base_len(packetver)); }
+    if packet_id == [0x34, 0x02] { return Some(PacketCzRequestMovetoowner::base_len(packetver)); }
+    if packet_id == [0x39, 0x02] { return Some(PacketZcHoskillinfoUpdate::base_len(packetver)); }
+    if packet_id == [0x3a, 0x02] { return Some(PacketZcReqStorePassword::base_len(packetver)); }
+    if packet_id == [0x61, 0x08] { return Some(PacketCzAckStorePassword::base_len(packetver)); }
+    if packet_id == [0x3c, 0x02] { return Some(PacketZcResultStorePassword::base_len(packetver)); }
+    if packet_id == [0x3d, 0x02] { return Some(PacketAcEventResult::base_len(packetver)); }
+    if packet_id == [0x3e, 0x02] { return Some(PacketHcRequestCharacterPassword::base_len(packetver)); }
+    if packet_id == [0x3f, 0x02] { return Some(PacketCzMailGetList::base_len(packetver)); }
+    if packet_id == [0x41, 0x02] { return Some(PacketCzMailOpen::base_len(packetver)); }
+    if packet_id == [0x43, 0x02] { return Some(PacketCzMailDelete::base_len(packetver)); }
+    if packet_id == [0x44, 0x02] { return Some(PacketCzMailGetItem::base_len(packetver)); }
+    if packet_id == [0x45, 0x02] { return Some(PacketZcMailReqGetItem::base_len(packetver)); }
+    if packet_id == [0x46, 0x02] { return Some(PacketCzMailResetItem::base_len(packetver)); }
+    if packet_id == [0x47, 0x02] { return Some(PacketCzMailAddItem::base_len(packetver)); }
+    if packet_id == [0x49, 0x02] { return Some(PacketZcMailReqSend::base_len(packetver)); }
+    if packet_id == [0x4a, 0x02] { return Some(PacketZcMailReceive::base_len(packetver)); }
+    if packet_id == [0x4b, 0x02] { return Some(PacketCzAuctionCreate::base_len(packetver)); }
+    if packet_id == [0x4c, 0x02] { return Some(PacketCzAuctionAddItem::base_len(packetver)); }
+    if packet_id == [0x4d, 0x02] { return Some(PacketCzAuctionAdd::base_len(packetver)); }
+    if packet_id == [0x4e, 0x02] { return Some(PacketCzAuctionAddCancel::base_len(packetver)); }
+    if packet_id == [0x4f, 0x02] { return Some(PacketCzAuctionBuy::base_len(packetver)); }
+    if packet_id == [0x50, 0x02] { return Some(PacketZcAuctionResult::base_len(packetver)); }
+    if packet_id == [0x51, 0x02] { return Some(PacketCzAuctionItemSearch::base_len(packetver)); }
+    if packet_id == [0x53, 0x02] { return Some(PacketZcStarplace::base_len(packetver)); }
+    if packet_id == [0x54, 0x02] { return Some(PacketCzAgreeStarplace::base_len(packetver)); }
+    if packet_id == [0x55, 0x02] { return Some(PacketZcAckMailAddItem::base_len(packetver)); }
+    if packet_id == [0x56, 0x02] { return Some(PacketZcAckAuctionAddItem::base_len(packetver)); }
+    if packet_id == [0x57, 0x02] { return Some(PacketZcAckMailDelete::base_len(packetver)); }
+    if packet_id == [0x58, 0x02] { return Some(PacketCaReqGameGuardCheck::base_len(packetver)); }
+    if packet_id == [0x59, 0x02] { return Some(PacketAcAckGameGuard::base_len(packetver)); }
+    if packet_id == [0x5b, 0x02] { return Some(PacketCzReqMakingitem::base_len(packetver)); }
+    if packet_id == [0x5c, 0x02] { return Some(PacketCzAuctionReqMyInfo::base_len(packetver)); }
+    if packet_id == [0x5d, 0x02] { return Some(PacketCzAuctionReqMySellStop::base_len(packetver)); }
+    if packet_id == [0x5e, 0x02] { return Some(PacketZcAuctionAckMySellStop::base_len(packetver)); }
+    if packet_id == [0x5f, 0x02] { return Some(PacketZcAuctionWindows::base_len(packetver)); }
+    if packet_id == [0x60, 0x02] { return Some(PacketZcMailWindows::base_len(packetver)); }
+    if packet_id == [0x61, 0x02] { return Some(PacketAcReqLoginOldekey::base_len(packetver)); }
+    if packet_id == [0x62, 0x02] { return Some(PacketAcReqLoginNewekey::base_len(packetver)); }
+    if packet_id == [0x63, 0x02] { return Some(PacketAcReqLoginCardpass::base_len(packetver)); }
+    if packet_id == [0x64, 0x02] { return Some(PacketCaAckLoginOldekey::base_len(packetver)); }
+    if packet_id == [0x65, 0x02] { return Some(PacketCaAckLoginNewekey::base_len(packetver)); }
+    if packet_id == [0x66, 0x02] { return Some(PacketCaAckLoginCardpass::base_len(packetver)); }
+    if packet_id == [0x67, 0x02] { return Some(PacketAcAckEkeyFailNotexist::base_len(packetver)); }
+    if packet_id == [0x68, 0x02] { return Some(PacketAcAckEkeyFailNotusesekey::base_len(packetver)); }
+    if packet_id == [0x69, 0x02] { return Some(PacketAcAckEkeyFailNotusedekey::base_len(packetver)); }
+    if packet_id == [0x6a, 0x02] { return Some(PacketAcAckEkeyFailAuthrefuse::base_len(packetver)); }
+    if packet_id == [0x6b, 0x02] { return Some(PacketAcAckEkeyFailInputekey::base_len(packetver)); }
+    if packet_id == [0x6c, 0x02] { return Some(PacketAcAckEkeyFailNotice::base_len(packetver)); }
+    if packet_id == [0x6d, 0x02] { return Some(PacketAcAckEkeyFailNeedcardpass::base_len(packetver)); }
+    if packet_id == [0x6e, 0x02] { return Some(PacketAcAckAuthekeyFailNotmatchcardpass::base_len(packetver)); }
+    if packet_id == [0x6f, 0x02] { return Some(PacketAcAckFirstLogin::base_len(packetver)); }
+    if packet_id == [0x70, 0x02] { return Some(PacketAcReqLoginAccountInfo::base_len(packetver)); }
+    if packet_id == [0x71, 0x02] { return Some(PacketCaAckLoginAccountInfo::base_len(packetver)); }
+    if packet_id == [0x72, 0x02] { return Some(PacketAcAckPtIdInfo::base_len(packetver)); }
+    if packet_id == [0x73, 0x02] { return Some(PacketCzReqMailReturn::base_len(packetver)); }
+    if packet_id == [0x74, 0x02] { return Some(PacketZcAckMailReturn::base_len(packetver)); }
+    if packet_id == [0x75, 0x02] { return Some(PacketChEnter2::base_len(packetver)); }
+    if packet_id == [0x76, 0x02] { return Some(PacketCaAcceptLogin2::base_len(packetver)); }
+    if packet_id == [0x77, 0x02] { return Some(PacketCaLoginPcbang::base_len(packetver)); }
+    if packet_id == [0x78, 0x02] { return Some(PacketZcNotifyPcbang::base_len(packetver)); }
+    if packet_id == [0x79, 0x02] { return Some(PacketCzHuntinglist::base_len(packetver)); }
+    if packet_id == [0x7b, 0x02] { return Some(PacketZcPcbangEffect::base_len(packetver)); }
+    if packet_id == [0x7c, 0x02] { return Some(PacketCaLogin4::base_len(packetver)); }
+    if packet_id == [0x7d, 0x02] { return Some(PacketZcPropertyMerce::base_len(packetver)); }
+    if packet_id == [0x7f, 0x02] { return Some(PacketCaClientType::base_len(packetver)); }
+    if packet_id == [0x80, 0x02] { return Some(PacketZcGangsiPoint::base_len(packetver)); }
+    if packet_id == [0x81, 0x02] { return Some(PacketCzGangsiRank::base_len(packetver)); }
+    if packet_id == [0x82, 0x02] { return Some(PacketZcGangsiRank::base_len(packetver)); }
+    if packet_id == [0x83, 0x02] { return Some(PacketZcAid::base_len(packetver)); }
+    if packet_id == [0x84, 0x02] { return Some(PacketZcNotifyEffect3::base_len(packetver)); }
+    if packet_id == [0x85, 0x02] { return Some(PacketZcDeathQuestion::base_len(packetver)); }
+    if packet_id == [0x86, 0x02] { return Some(PacketCzDeathQuestion::base_len(packetver)); }
+    if packet_id == [0x88, 0x02] { return Some(PacketCzPcBuyCashPointItem::base_len(packetver)); }
+    if packet_id == [0x89, 0x02] { return Some(PacketZcPcCashPointUpdate::base_len(packetver)); }
+    if packet_id == [0x8a, 0x02] { return Some(PacketZcNpcShowefstUpdate::base_len(packetver)); }
+    if packet_id == [0x8c, 0x02] { return Some(PacketChSelectCharGoingtobeused::base_len(packetver)); }
+    if packet_id == [0x8d, 0x02] { return Some(PacketChReqIsValidCharname::base_len(packetver)); }
+    if packet_id == [0x8e, 0x02] { return Some(PacketHcAckIsValidCharname::base_len(packetver)); }
+    if packet_id == [0x8f, 0x02] { return Some(PacketChReqChangeCharname::base_len(packetver)); }
+    if packet_id == [0x90, 0x02] { return Some(PacketHcAckChangeCharname::base_len(packetver)); }
+    if packet_id == [0x91, 0x02] { return Some(PacketZcMsg::base_len(packetver)); }
+    if packet_id == [0x92, 0x02] { return Some(PacketCzStandingResurrection::base_len(packetver)); }
+    if packet_id == [0x93, 0x02] { return Some(PacketZcBossInfo::base_len(packetver)); }
+    if packet_id == [0x94, 0x02] { return Some(PacketZcReadBook::base_len(packetver)); }
+    if packet_id == [0x98, 0x02] { return Some(PacketZcCashTimeCounter::base_len(packetver)); }
+    if packet_id == [0x99, 0x02] { return Some(PacketZcCashItemDelete::base_len(packetver)); }
+    if packet_id == [0x9a, 0x02] { return Some(PacketZcItemPickupAck2::base_len(packetver)); }
+    if packet_id == [0x9b, 0x02] { return Some(PacketZcMerInit::base_len(packetver)); }
+    if packet_id == [0x9c, 0x02] { return Some(PacketZcMerProperty::base_len(packetver)); }
+    if packet_id == [0x9e, 0x02] { return Some(PacketZcMerSkillinfoUpdate::base_len(packetver)); }
+    if packet_id == [0x9f, 0x02] { return Some(PacketCzMerCommand::base_len(packetver)); }
+    if packet_id == [0xa0, 0x02] { return Some(UnusedPacketCzMerUseSkill::base_len(packetver)); }
+    if packet_id == [0xa1, 0x02] { return Some(UnusedPacketCzMerUpgradeSkilllevel::base_len(packetver)); }
+    if packet_id == [0xa2, 0x02] { return Some(PacketZcMerParChange::base_len(packetver)); }
+    if packet_id == [0xa3, 0x02] { return Some(PacketZcGameguardLingoKey::base_len(packetver)); }
+    if packet_id == [0xa5, 0x02] { return Some(PacketCzKsyEvent::base_len(packetver)); }
+    if packet_id == [0xaa, 0x02] { return Some(PacketZcReqCashPassword::base_len(packetver)); }
+    if packet_id == [0xab, 0x02] { return Some(PacketCzAckCashPassword::base_len(packetver)); }
+    if packet_id == [0xac, 0x02] { return Some(PacketZcResultCashPassword::base_len(packetver)); }
+    if packet_id == [0xad, 0x02] { return Some(PacketAcRequestSecondPassword::base_len(packetver)); }
+    if packet_id == [0xb0, 0x02] { return Some(PacketCaLoginHan::base_len(packetver)); }
+    if packet_id == [0xb3, 0x02] { return Some(PacketZcAddQuest::base_len(packetver)); }
+    if packet_id == [0xb4, 0x02] { return Some(PacketZcDelQuest::base_len(packetver)); }
+    if packet_id == [0xb6, 0x02] { return Some(PacketCzActiveQuest::base_len(packetver)); }
+    if packet_id == [0xb7, 0x02] { return Some(PacketZcActiveQuest::base_len(packetver)); }
+    if packet_id == [0xb8, 0x02] { return Some(PacketZcItemPickupParty::base_len(packetver)); }
+    if packet_id == [0xb9, 0x02] { return Some(PacketZcShortcutKeyList::base_len(packetver)); }
+    if packet_id == [0xba, 0x02] { return Some(PacketCzShortcutKeyChange::base_len(packetver)); }
+    if packet_id == [0xbb, 0x02] { return Some(PacketZcEquipitemDamaged::base_len(packetver)); }
+    if packet_id == [0xbc, 0x02] { return Some(PacketZcNotifyPcbangPlayingTime::base_len(packetver)); }
+    if packet_id == [0xbf, 0x02] { return Some(PacketZcSrpacketr2Init::base_len(packetver)); }
+    if packet_id == [0xc0, 0x02] { return Some(PacketCzSrpacketr2Start::base_len(packetver)); }
+    if packet_id == [0xc4, 0x02] { return Some(PacketCzPartyJoinReq::base_len(packetver)); }
+    if packet_id == [0xc5, 0x02] { return Some(PacketZcPartyJoinReqAck::base_len(packetver)); }
+    if packet_id == [0xc6, 0x02] { return Some(PacketZcPartyJoinReq::base_len(packetver)); }
+    if packet_id == [0xc7, 0x02] { return Some(PacketCzPartyJoinReqAck::base_len(packetver)); }
+    if packet_id == [0xc8, 0x02] { return Some(PacketCzPartyConfig::base_len(packetver)); }
+    if packet_id == [0xc9, 0x02] { return Some(PacketZcPartyConfig::base_len(packetver)); }
+    if packet_id == [0xca, 0x02] { return Some(PacketHcRefuseSelectchar::base_len(packetver)); }
+    if packet_id == [0xcb, 0x02] { return Some(PacketZcMemorialdungeonSubscriptionInfo::base_len(packetver)); }
+    if packet_id == [0xcc, 0x02] { return Some(PacketZcMemorialdungeonSubscriptionNotify::base_len(packetver)); }
+    if packet_id == [0xcd, 0x02] { return Some(PacketZcMemorialdungeonInfo::base_len(packetver)); }
+    if packet_id == [0xce, 0x02] { return Some(PacketZcMemorialdungeonNotify::base_len(packetver)); }
+    if packet_id == [0xcf, 0x02] { return Some(PacketCzMemorialdungeonCommand::base_len(packetver)); }
+    if packet_id == [0xd3, 0x02] { return Some(PacketZcNotifyBindOnEquip::base_len(packetver)); }
+    if packet_id == [0xd4, 0x02] { return Some(PacketZcItemPickupAck3::base_len(packetver)); }
+    if packet_id == [0xd5, 0x02] { return Some(PacketZcIsvrDisconnect::base_len(packetver)); }
+    if packet_id == [0xd6, 0x02] { return Some(PacketCzEquipwinMicroscope::base_len(packetver)); }
+    if packet_id == [0xd8, 0x02] { return Some(PacketCzConfig::base_len(packetver)); }
+    if packet_id == [0xd9, 0x02] { return Some(PacketZcConfig::base_len(packetver)); }
+    if packet_id == [0xda, 0x02] { return Some(PacketZcConfigNotify::base_len(packetver)); }
+    if packet_id == [0xdd, 0x02] { return Some(PacketZcBattlefieldNotifyCampinfo::base_len(packetver)); }
+    if packet_id == [0xde, 0x02] { return Some(PacketZcBattlefieldNotifyPoint::base_len(packetver)); }
+    if packet_id == [0xdf, 0x02] { return Some(PacketZcBattlefieldNotifyPosition::base_len(packetver)); }
+    if packet_id == [0xe0, 0x02] { return Some(PacketZcBattlefieldNotifyHp::base_len(packetver)); }
+    if packet_id == [0xe1, 0x02] { return Some(PacketZcNotifyAct2::base_len(packetver)); }
+    if packet_id == [0xe6, 0x02] { return Some(PacketCzBotCheck::base_len(packetver)); }
+    if packet_id == [0xeb, 0x02] { return Some(PacketZcAcceptEnter2::base_len(packetver)); }
+    if packet_id == [0xec, 0x02] { return Some(PacketZcNotifyMoveentry4::base_len(packetver)); }
+    if packet_id == [0xed, 0x02] { return Some(PacketZcNotifyNewentry4::base_len(packetver)); }
+    if packet_id == [0xee, 0x02] { return Some(PacketZcNotifyStandentry4::base_len(packetver)); }
+    if packet_id == [0xef, 0x02] { return Some(PacketZcNotifyFont::base_len(packetver)); }
+    if packet_id == [0xf0, 0x02] { return Some(PacketZcProgress::base_len(packetver)); }
+    if packet_id == [0xf1, 0x02] { return Some(PacketCzProgress::base_len(packetver)); }
+    if packet_id == [0xf2, 0x02] { return Some(PacketZcProgressCancel::base_len(packetver)); }
+    if packet_id == [0x5c, 0x03] { return Some(PacketCzOpenSimpleCashshopItemlist::base_len(packetver)); }
+    if packet_id == [0x5e, 0x03] { return Some(PacketCzCloseWindow::base_len(packetver)); }
+    if packet_id == [0xdd, 0x03] { return Some(PacketAhcGameGuard::base_len(packetver)); }
+    if packet_id == [0xde, 0x03] { return Some(PacketCahAckGameGuard::base_len(packetver)); }
+    if packet_id == [0x6a, 0x08] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packet_id == [0x38, 0x04] { return Some(PacketCzUseSkill2::base_len(packetver)); }
+    if packet_id == [0x39, 0x04] { return Some(PacketCzUseItem2::base_len(packetver)); }
+    if packet_id == [0x3d, 0x04] { return Some(PacketZcSkillPostdelay::base_len(packetver)); }
+    if packet_id == [0x3f, 0x04] { return Some(PacketZcMsgStateChange2::base_len(packetver)); }
+    if packet_id == [0x40, 0x04] { return Some(PacketZcMillenniumshield::base_len(packetver)); }
+    if packet_id == [0x41, 0x04] { return Some(PacketZcSkillinfoDelete::base_len(packetver)); }
+    if packet_id == [0x43, 0x04] { return Some(PacketCzSkillSelectResponse::base_len(packetver)); }
+    if packet_id == [0x45, 0x04] { return Some(PacketCzSimpleBuyCashPointItem::base_len(packetver)); }
+    if packet_id == [0x46, 0x04] { return Some(PacketZcQuestNotifyEffect::base_len(packetver)); }
+    if packet_id == [0x49, 0x04] { return Some(PacketZcHackshErrorMsg::base_len(packetver)); }
+    if packet_id == [0x4a, 0x04] { return Some(PacketCzClientVersion::base_len(packetver)); }
+    if packet_id == [0x4b, 0x04] { return Some(PacketCzCloseSimplecashShop::base_len(packetver)); }
+    if packet_id == [0xd0, 0x07] { return Some(PacketZcEsResult::base_len(packetver)); }
+    if packet_id == [0xd1, 0x07] { return Some(PacketCzEsGetList::base_len(packetver)); }
+    if packet_id == [0xd2, 0x07] { return Some(PacketZcEsList::base_len(packetver)); }
+    if packet_id == [0xd3, 0x07] { return Some(PacketCzEsChoose::base_len(packetver)); }
+    if packet_id == [0xd4, 0x07] { return Some(PacketCzEsCancel::base_len(packetver)); }
+    if packet_id == [0xd5, 0x07] { return Some(PacketZcEsReady::base_len(packetver)); }
+    if packet_id == [0xd6, 0x07] { return Some(PacketZcEsGoto::base_len(packetver)); }
+    if packet_id == [0xd7, 0x07] { return Some(PacketCzGroupinfoChangeV2::base_len(packetver)); }
+    if packet_id == [0xd8, 0x07] { return Some(PacketZcReqGroupinfoChangeV2::base_len(packetver)); }
+    if packet_id == [0xd9, 0x07] { return Some(PacketZcShortcutKeyListV2::base_len(packetver)); }
+    if packet_id == [0xda, 0x07] { return Some(PacketCzChangeGroupMaster::base_len(packetver)); }
+    if packet_id == [0xdb, 0x07] { return Some(PacketZcHoParChange::base_len(packetver)); }
+    if packet_id == [0xdc, 0x07] { return Some(PacketCzSeekParty::base_len(packetver)); }
+    if packet_id == [0xdd, 0x07] { return Some(PacketZcSeekParty::base_len(packetver)); }
+    if packet_id == [0xde, 0x07] { return Some(PacketCzSeekPartyMember::base_len(packetver)); }
+    if packet_id == [0xdf, 0x07] { return Some(PacketZcSeekPartyMember::base_len(packetver)); }
+    if packet_id == [0xe0, 0x07] { return Some(PacketZcEsNotiMyinfo::base_len(packetver)); }
+    if packet_id == [0xe1, 0x07] { return Some(PacketZcSkillinfoUpdate2::base_len(packetver)); }
+    if packet_id == [0xe2, 0x07] { return Some(PacketZcMsgValue::base_len(packetver)); }
+    if packet_id == [0xe3, 0x07] { return Some(PacketZcItemlistwinOpen::base_len(packetver)); }
+    if packet_id == [0xe4, 0x07] { return Some(PacketCzItemlistwinRes::base_len(packetver)); }
+    if packet_id == [0xe6, 0x07] { return Some(PacketZcMsgSkill::base_len(packetver)); }
+    if packet_id == [0xe7, 0x07] { return Some(PacketChCheckbot::base_len(packetver)); }
+    if packet_id == [0xe9, 0x07] { return Some(PacketHcCheckbotResult::base_len(packetver)); }
+    if packet_id == [0xea, 0x07] { return Some(PacketCzBattleFieldList::base_len(packetver)); }
+    if packet_id == [0xec, 0x07] { return Some(PacketCzJoinBattleField::base_len(packetver)); }
+    if packet_id == [0xed, 0x07] { return Some(PacketZcJoinBattleField::base_len(packetver)); }
+    if packet_id == [0xee, 0x07] { return Some(PacketCzCancelBattleField::base_len(packetver)); }
+    if packet_id == [0xef, 0x07] { return Some(PacketZcCancelBattleField::base_len(packetver)); }
+    if packet_id == [0xf0, 0x07] { return Some(PacketCzReqBattleStateMonitor::base_len(packetver)); }
+    if packet_id == [0xf1, 0x07] { return Some(PacketZcAckBattleStateMonitor::base_len(packetver)); }
+    if packet_id == [0xf2, 0x07] { return Some(PacketZcBattleNotiStartStep::base_len(packetver)); }
+    if packet_id == [0xf3, 0x07] { return Some(PacketZcBattleJoinNotiDefer::base_len(packetver)); }
+    if packet_id == [0xf4, 0x07] { return Some(PacketZcBattleJoinDisableState::base_len(packetver)); }
+    if packet_id == [0xf5, 0x07] { return Some(PacketCzGmFullstrip::base_len(packetver)); }
+    if packet_id == [0xf6, 0x07] { return Some(PacketZcNotifyExp::base_len(packetver)); }
+    if packet_id == [0x56, 0x08] { return Some(PacketZcNotifyMoveentry7::base_len(packetver)); }
+    if packet_id == [0x58, 0x08] { return Some(PacketZcNotifyNewentry5::base_len(packetver)); }
+    if packet_id == [0x57, 0x08] { return Some(PacketZcNotifyStandentry5::base_len(packetver)); }
+    if packet_id == [0xfa, 0x07] { return Some(PacketZcDeleteItemFromBody::base_len(packetver)); }
+    if packet_id == [0xfb, 0x07] { return Some(PacketZcUseskillAck2::base_len(packetver)); }
+    if packet_id == [0xfc, 0x07] { return Some(PacketZcChangeGroupMaster::base_len(packetver)); }
+    if packet_id == [0xfe, 0x07] { return Some(PacketZcPlayNpcBgm::base_len(packetver)); }
+    if packet_id == [0xff, 0x07] { return Some(PacketZcDefineCheck::base_len(packetver)); }
+    if packet_id == [0x65, 0x03] { return Some(PacketCzPartyBookingReqRegister::base_len(packetver)); }
+    if packet_id == [0x03, 0x08] { return Some(PacketZcPartyBookingAckRegister::base_len(packetver)); }
+    if packet_id == [0x04, 0x08] { return Some(PacketCzPartyBookingReqSearch::base_len(packetver)); }
+    if packet_id == [0x06, 0x08] { return Some(PacketCzPartyBookingReqDelete::base_len(packetver)); }
+    if packet_id == [0x07, 0x08] { return Some(PacketZcPartyBookingAckDelete::base_len(packetver)); }
+    if packet_id == [0x08, 0x08] { return Some(PacketCzPartyBookingReqUpdate::base_len(packetver)); }
+    if packet_id == [0x09, 0x08] { return Some(PacketZcPartyBookingNotifyInsert::base_len(packetver)); }
+    if packet_id == [0x0a, 0x08] { return Some(PacketZcPartyBookingNotifyUpdate::base_len(packetver)); }
+    if packet_id == [0x0b, 0x08] { return Some(PacketZcPartyBookingNotifyDelete::base_len(packetver)); }
+    if packet_id == [0x0c, 0x08] { return Some(PacketCzSimpleCashBtnshow::base_len(packetver)); }
+    if packet_id == [0x0d, 0x08] { return Some(PacketZcSimpleCashBtnshow::base_len(packetver)); }
+    if packet_id == [0x0e, 0x08] { return Some(PacketZcNotifyHpToGroupmR2::base_len(packetver)); }
+    if packet_id == [0x0f, 0x08] { return Some(PacketZcAddExchangeItem2::base_len(packetver)); }
+    if packet_id == [0x10, 0x08] { return Some(PacketZcOpenBuyingStore::base_len(packetver)); }
+    if packet_id == [0x12, 0x08] { return Some(PacketZcFailedOpenBuyingStoreToBuyer::base_len(packetver)); }
+    if packet_id == [0x14, 0x08] { return Some(PacketZcBuyingStoreEntry::base_len(packetver)); }
+    if packet_id == [0x17, 0x08] { return Some(PacketCzReqCloseBuyingStore::base_len(packetver)); }
+    if packet_id == [0x16, 0x08] { return Some(PacketZcDisappearBuyingStoreEntry::base_len(packetver)); }
+    if packet_id == [0x60, 0x03] { return Some(PacketCzReqClickToBuyingStore::base_len(packetver)); }
+    if packet_id == [0x1a, 0x08] { return Some(PacketZcFailedTradeBuyingStoreToBuyer::base_len(packetver)); }
+    if packet_id == [0x1b, 0x08] { return Some(PacketZcUpdateItemFromBuyingStore::base_len(packetver)); }
+    if packet_id == [0x1c, 0x08] { return Some(PacketZcItemDeleteBuyingStore::base_len(packetver)); }
+    if packet_id == [0x1d, 0x08] { return Some(PacketZcElInit::base_len(packetver)); }
+    if packet_id == [0x1e, 0x08] { return Some(PacketZcElParChange::base_len(packetver)); }
+    if packet_id == [0x20, 0x08] { return Some(PacketZcCostumeSpriteChange::base_len(packetver)); }
+    if packet_id == [0x21, 0x08] { return Some(PacketAcOtpUser::base_len(packetver)); }
+    if packet_id == [0x22, 0x08] { return Some(PacketCaOtpAuthReq::base_len(packetver)); }
+    if packet_id == [0x23, 0x08] { return Some(PacketAcOtpAuthAck::base_len(packetver)); }
+    if packet_id == [0x24, 0x08] { return Some(PacketZcFailedTradeBuyingStoreToSeller::base_len(packetver)); }
+    if packet_id == [0x26, 0x08] { return Some(PacketAcSsoLoginAck::base_len(packetver)); }
+    if packet_id == [0x27, 0x08] { return Some(PacketChDeleteChar3Reserved::base_len(packetver)); }
+    if packet_id == [0x28, 0x08] { return Some(PacketHcDeleteChar3Reserved::base_len(packetver)); }
+    if packet_id == [0x29, 0x08] { return Some(PacketChDeleteChar3::base_len(packetver)); }
+    if packet_id == [0x2a, 0x08] { return Some(PacketHcDeleteChar3::base_len(packetver)); }
+    if packet_id == [0x2b, 0x08] { return Some(PacketChDeleteChar3Cancel::base_len(packetver)); }
+    if packet_id == [0x2c, 0x08] { return Some(PacketHcDeleteChar3Cancel::base_len(packetver)); }
+    if packet_id == [0x84, 0x08] { return Some(PacketCzSearchStoreInfo::base_len(packetver)); }
+    if packet_id == [0x37, 0x08] { return Some(PacketZcSearchStoreInfoFailed::base_len(packetver)); }
+    if packet_id == [0x35, 0x08] { return Some(PacketCzSearchStoreInfoNextPage::base_len(packetver)); }
+    if packet_id == [0x39, 0x08] { return Some(PacketZcAckBanGuildSso::base_len(packetver)); }
+    if packet_id == [0x3a, 0x08] { return Some(PacketZcOpenSearchStoreInfo::base_len(packetver)); }
+    if packet_id == [0x3b, 0x08] { return Some(PacketCzCloseSearchStoreInfo::base_len(packetver)); }
+    if packet_id == [0x3c, 0x08] { return Some(PacketCzSsilistItemClick::base_len(packetver)); }
+    if packet_id == [0x3d, 0x08] { return Some(PacketZcSsilistItemClickAck::base_len(packetver)); }
+    if packet_id == [0x3e, 0x08] { return Some(PacketAcRefuseLoginR2::base_len(packetver)); }
+    if packet_id == [0x41, 0x08] { return Some(PacketChSelectAccessibleMapname::base_len(packetver)); }
+    if packet_id == [0x5f, 0x03] { return Some(PacketCzRequestMove2::base_len(packetver)); }
+    if packet_id == [0xc5, 0x0a] { return Some(PacketChSendMapInfo::base_len(packetver)); }
+    if packet_id == [0x2d, 0x08] { return Some(PacketHcAcceptEnterNeoUnionHeader::base_len(packetver)); }
+    if packet_id == [0x87, 0x01] { return Some(PacketCzPing::base_len(packetver)); }
+    if packet_id == [0x87, 0x01] { return Some(PacketZcAid2::base_len(packetver)); }
+    if packet_id == [0x83, 0x02] { return Some(PacketMapConnection::base_len(packetver)); }
+    if packet_id == [0xb9, 0x08] { return Some(PacketPincodeLoginstate::base_len(packetver)); }
+    if packet_id == [0x39, 0x0a] { return Some(PacketChMakeChar3::base_len(packetver)); }
+    if packet_id == [0x27, 0x08] { return Some(PacketChDeleteChar4Reserved::base_len(packetver)); }
+    if packet_id == [0x28, 0x08] { return Some(PacketHcDeleteChar4Reserved::base_len(packetver)); }
+    if packet_id == [0x18, 0x0b] { return Some(PacketZcInventoryExpansionInfo::base_len(packetver)); }
+    if packet_id == [0xde, 0x0a] { return Some(PacketZcOverweightPercent::base_len(packetver)); }
+    if packet_id == [0x8a, 0x01] { return Some(PacketCzReqDisconnect2::base_len(packetver)); }
+    if packet_id == [0x8b, 0x01] { return Some(PacketZcReqDisconnectAck2::base_len(packetver)); }
+    if packet_id == [0x68, 0x03] { return Some(PacketCzReqnameall2::base_len(packetver)); }
+    if packet_id == [0x30, 0x0a] { return Some(PacketZcAckReqnameall2::base_len(packetver)); }
+    if packet_id == [0x60, 0x03] { return Some(PacketCzRequestTime2::base_len(packetver)); }
+    if packet_id == [0xcd, 0x09] { return Some(PacketZcMsgColor::base_len(packetver)); }
+    if packet_id == [0x9b, 0x09] { return Some(PacketZcNotifyMapproperty2::base_len(packetver)); }
+    if packet_id == [0x47, 0x04] { return Some(PacketCzBlockingPlayCancel::base_len(packetver)); }
+    if packet_id == [0x1B, 0x0B] { return Some(PacketZcLoadConfirm::base_len(packetver)); }
+    if packet_id == [0xff, 0x09] { return Some(PacketZcNotifyStandentry6::base_len(packetver)); }
+    if packet_id == [0x15, 0x09] { return Some(PacketZcNotifyStandentry7::base_len(packetver)); }
+    if packet_id == [0x0f, 0x09] { return Some(PacketZcNotifyNewentry7::base_len(packetver)); }
+    if packet_id == [0xfd, 0x09] { return Some(PacketZcNotifyMoveentry8::base_len(packetver)); }
+    if packet_id == [0x14, 0x09] { return Some(PacketZcNotifyMoveentry9::base_len(packetver)); }
+    if packet_id == [0xc8, 0x08] { return Some(PacketZcNotifyAct3::base_len(packetver)); }
+    None
 }
 
 pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String> {
@@ -3187,6 +4028,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packetver >= 20050110 && packet_id.value.unwrap().eq("0x9f00") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
+    if packetver >= 20050110 && packet_id.value.unwrap().eq("0xf300") {
+        return  PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packetver >= 20050110 && packet_id.value.unwrap().eq("0xf700") {
         return  PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -3225,6 +4069,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20041129 && packet_id.value.unwrap().eq("0x9001") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20041129 && packet_id.value.unwrap().eq("0x8500") {
+        return  PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20041129 && packet_id.value.unwrap().eq("0x9400") {
         return  PacketCzMoveItemFromBodyToStore::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -3267,6 +4114,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20040906 && packet_id.value.unwrap().eq("0x7200") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20040906 && packet_id.value.unwrap().eq("0x9f00") {
+        return  PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20040906 && packet_id.value.unwrap().eq("0x9301") {
         return  PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -3316,6 +4166,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packetver >= 20040726 && packet_id.value.unwrap().eq("0xf500") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
+    if packetver >= 20040726 && packet_id.value.unwrap().eq("0xf300") {
+        return  PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
     if packetver >= 20040726 && packet_id.value.unwrap().eq("0x9001") {
         return  PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -3363,6 +4216,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20040705 && packet_id.value.unwrap().eq("0xa700") {
         return  PacketCzUseItem::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20040705 && packet_id.value.unwrap().eq("0x8c00") {
+        return  PacketCzPlayerChat::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20040705 && packet_id.value.unwrap().eq("0xf500") {
         return  PacketCzMoveItemFromStoreToBody::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

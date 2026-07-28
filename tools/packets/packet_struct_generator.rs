@@ -60,6 +60,7 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
 
     write_packet_parser(&mut file_packets_parser, &packets);
     write_variable_length_check(&mut file_packets_parser, &packets);
+    write_packet_len_lookup(&mut file_packets_parser, &packets);
     write_packet_parser_json(&mut file_packets_parser, &packets);
     write_packet_trait(&mut file_packets);
     for packet in packets {
@@ -147,6 +148,78 @@ fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
     file.write_all("    Box::new(PacketUnknown::from(buffer))\n".to_string().as_bytes())
         .unwrap();
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
+}
+
+/// Total wire length of every fixed-length packet, so a reader can tell whether
+/// a whole packet has arrived before parsing it. Variable-length packets carry
+/// their length in the header and are left out (`None`).
+fn write_packet_len_lookup(file: &mut File, packets: &[PacketStructDefinition]) {
+    file.write_all(
+        "pub fn packet_len(packet_id: [u8; 2], packetver: u32) -> Option<usize> {\n".as_bytes(),
+    )
+    .unwrap();
+    #[derive(Clone)]
+    struct PacketAndVersion {
+        id: String,
+        version: Option<u32>,
+        struct_name: String,
+    }
+    let mut fixed_packets = vec![];
+    for struct_def in packets.iter() {
+        let has_variable_field = struct_def.struct_def.fields.iter().any(|f| {
+            (f.data_type.name == "Vec" && f.data_type.length.is_none())
+                || f.data_type.name == "String"
+                || (f.data_type.name == "Array" && f.length == -1)
+        });
+        if has_variable_field {
+            continue;
+        }
+        for pid in struct_def.ids.iter() {
+            fixed_packets.push(PacketAndVersion {
+                id: pid.id.clone(),
+                version: pid.packetver,
+                struct_name: struct_def.struct_def.name.clone(),
+            });
+        }
+    }
+    let mut with_version = fixed_packets
+        .iter()
+        .filter(|p| p.version.is_some())
+        .cloned()
+        .collect::<Vec<PacketAndVersion>>();
+    let without_version = fixed_packets
+        .iter()
+        .filter(|p| p.version.is_none())
+        .cloned()
+        .collect::<Vec<PacketAndVersion>>();
+    with_version.sort_by(|a, b| b.version.unwrap().cmp(&a.version.unwrap()));
+    for packet in with_version.iter() {
+        let id = packet_id(&packet.id).replace("0x", "");
+        let (first_byte, second_byte) = id.split_at(2);
+        file.write_all(
+            format!(
+                "    if packetver >= {} && packet_id == [0x{first_byte}, 0x{second_byte}] {{ return Some({}::base_len(packetver)); }}\n",
+                packet.version.unwrap(),
+                packet.struct_name
+            )
+            .as_bytes(),
+        )
+        .unwrap();
+    }
+    for packet in without_version.iter() {
+        let id = packet_id(&packet.id).replace("0x", "");
+        let (first_byte, second_byte) = id.split_at(2);
+        file.write_all(
+            format!(
+                "    if packet_id == [0x{first_byte}, 0x{second_byte}] {{ return Some({}::base_len(packetver)); }}\n",
+                packet.struct_name
+            )
+            .as_bytes(),
+        )
+        .unwrap();
+    }
+    file.write_all("    None\n".as_bytes()).unwrap();
+    file.write_all("}\n\n".as_bytes()).unwrap();
 }
 
 fn write_variable_length_check(file: &mut File, packets: &[PacketStructDefinition]) {

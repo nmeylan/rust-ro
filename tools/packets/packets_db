@@ -1399,7 +1399,7 @@ struct PACKET_ZC_NOTIFY_STOREITEM_COUNTINFO {
   short curCount
   short maxCount
  }
-0xf3
+0x00f3, 0x008c:20040705, 0x00f3:20040726, 0x009f:20040906, 0x0085:20041129, 0x00f3:20050110
 struct PACKET_CZ_PLAYER_CHAT {
   short PacketId
   short PacketLength
