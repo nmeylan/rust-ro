@@ -2961,7 +2961,7 @@ impl PacketHcAcceptMakecharNeoUnion {
                 field
             },
             charinfo_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + CharacterInfoNeoUnion::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -2969,7 +2969,8 @@ impl PacketHcAcceptMakecharNeoUnion {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += CharacterInfoNeoUnion::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -3468,7 +3469,7 @@ impl PacketHcNotifyZonesvr {
                 field
             },
             addr_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + ZserverAddr::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -3476,7 +3477,8 @@ impl PacketHcNotifyZonesvr {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 22;
+        let mut base_len: usize = 22;
+        base_len += ZserverAddr::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -15571,7 +15573,7 @@ impl PacketZcNpcackServermove {
                 field
             },
             addr_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + ZserverAddr::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -15579,7 +15581,8 @@ impl PacketZcNpcackServermove {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 22;
+        let mut base_len: usize = 22;
+        base_len += ZserverAddr::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -61874,7 +61877,7 @@ impl PacketZcAutorunSkill {
                 field
             },
             data_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + SKILLINFO::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -61882,7 +61885,8 @@ impl PacketZcAutorunSkill {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += SKILLINFO::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -69969,7 +69973,7 @@ impl PacketZcAckGuildMemberInfo {
                 field
             },
             info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + GuildMemberInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -69977,7 +69981,8 @@ impl PacketZcAckGuildMemberInfo {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += GuildMemberInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -71734,7 +71739,7 @@ impl PacketZcMemberAdd {
                 field
             },
             info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + GuildMemberInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -71742,7 +71747,8 @@ impl PacketZcMemberAdd {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += GuildMemberInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -72171,7 +72177,7 @@ impl PacketZcAddRelatedGuild {
                 field
             },
             info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + RelatedGuildInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -72179,7 +72185,8 @@ impl PacketZcAddRelatedGuild {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += RelatedGuildInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -73200,7 +73207,7 @@ impl PacketZcMonsterInfo {
                 field
             },
             property_table_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + MonsterInfoElement::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -73208,7 +73215,8 @@ impl PacketZcMonsterInfo {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 20;
+        let mut base_len: usize = 20;
+        base_len += MonsterInfoElement::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -73636,7 +73644,7 @@ impl PacketCzReqmakingitem {
                 field
             },
             info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + MakableitemInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -73644,7 +73652,8 @@ impl PacketCzReqmakingitem {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += MakableitemInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -95826,7 +95835,7 @@ impl PacketCzReqItemrepair {
                 field
             },
             target_item_info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + RepairitemInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -95834,7 +95843,8 @@ impl PacketCzReqItemrepair {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += RepairitemInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -99059,7 +99069,7 @@ impl PacketZcAckPvppoint {
                 field
             },
             pvp_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PVPINFO::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -99067,7 +99077,8 @@ impl PacketZcAckPvppoint {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 10;
+        let mut base_len: usize = 10;
+        base_len += PVPINFO::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -101894,7 +101905,7 @@ impl PacketZcNotifyPkinfo {
                 field
             },
             expire_time_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + Filetime::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -101902,7 +101913,8 @@ impl PacketZcNotifyPkinfo {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 58;
+        let mut base_len: usize = 58;
+        base_len += Filetime::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -127208,7 +127220,7 @@ impl PacketZcGameguardLingoKey {
                 field
             },
             lingo_key_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PggLingoKeyTemp::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -127216,7 +127228,8 @@ impl PacketZcGameguardLingoKey {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += PggLingoKeyTemp::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -130276,7 +130289,7 @@ impl PacketCzShortcutKeyChange {
                 field
             },
             short_cut_key_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + ShortCutKey::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -130284,7 +130297,8 @@ impl PacketCzShortcutKeyChange {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 4;
+        let mut base_len: usize = 4;
+        base_len += ShortCutKey::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -157850,7 +157864,7 @@ impl PacketCzPartyBookingReqRegister {
                 field
             },
             register_info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PartyBookingDetail::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -157858,7 +157872,8 @@ impl PacketCzPartyBookingReqRegister {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += PartyBookingDetail::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -158906,7 +158921,7 @@ impl PacketZcPartyBookingNotifyInsert {
                 field
             },
             info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PartyBookingAdInfo::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -158914,7 +158929,8 @@ impl PacketZcPartyBookingNotifyInsert {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 2;
+        let mut base_len: usize = 2;
+        base_len += PartyBookingAdInfo::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -168121,7 +168137,7 @@ impl PacketHcAcceptEnterNeoUnionHeader {
                 field
             },
             char_info_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PacketHcAcceptEnterNeoUnion::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -168129,7 +168145,8 @@ impl PacketHcAcceptEnterNeoUnionHeader {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 29;
+        let mut base_len: usize = 29;
+        base_len += PacketHcAcceptEnterNeoUnion::base_len(packetver);
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -187838,7 +187855,7 @@ impl PartyBookingAdInfo {
                 field
             },
             detail_raw: {
-                let raw = buffer[offset..buffer.len()].to_vec();
+                let raw = buffer[offset..offset + PartyBookingDetail::base_len(packetver)].to_vec();
                 offset += raw.len();
                 raw
             },
@@ -187846,7 +187863,8 @@ impl PartyBookingAdInfo {
         }
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 32;
+        let mut base_len: usize = 32;
+        base_len += PartyBookingDetail::base_len(packetver);
         base_len
     }
     pub fn set_index(&mut self, value: u32) {

@@ -689,7 +689,12 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
             file.write_all("            },\n".to_string().as_bytes()).unwrap();
         } else {
             file.write_all(format!("            {}_raw: {{\n", field.name).as_bytes()).unwrap();
-            file.write_all(format!("                let raw = buffer[offset..{}].to_vec();\n", field_length(field)).as_bytes())
+            let raw_end = if field.data_type.name == "Struct" {
+                format!("offset + {}::base_len(packetver)", field.complex_type.as_ref().unwrap())
+            } else {
+                field_length(field)
+            };
+            file.write_all(format!("                let raw = buffer[offset..{raw_end}].to_vec();\n").as_bytes())
                 .unwrap();
             file.write_all("                offset += raw.len();\n".to_string().as_bytes())
                 .unwrap();
@@ -798,7 +803,16 @@ fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefin
         .iter()
         .filter(|f| f.condition.is_none() && f.data_type.name == "Vec" && f.array_count.is_some())
         .collect();
-    let base_len_is_mut = struct_definition.fields.iter().any(|f| f.condition.is_some()) || !fixed_count_vecs.is_empty();
+    // A nested struct whose db entry carries no `// Size` comment has no static length,
+    // so its bytes are counted through its own base_len, exactly as `from` reads them.
+    let sized_nested_structs: Vec<&StructField> = struct_definition
+        .fields
+        .iter()
+        .filter(|f| f.condition.is_none() && f.data_type.name == "Struct" && f.length < 0)
+        .collect();
+    let base_len_is_mut = struct_definition.fields.iter().any(|f| f.condition.is_some())
+        || !fixed_count_vecs.is_empty()
+        || !sized_nested_structs.is_empty();
     file.write_all(
         format!(
             "        let {} base_len: usize = {};\n",
@@ -821,6 +835,12 @@ fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefin
                 f.complex_type.as_ref().unwrap()
             )
             .as_bytes(),
+        )
+        .unwrap();
+    }
+    for f in sized_nested_structs {
+        file.write_all(
+            format!("        base_len += {}::base_len(packetver);\n", f.complex_type.as_ref().unwrap()).as_bytes(),
         )
         .unwrap();
     }
