@@ -226,6 +226,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20080910 && buffer[0] == 0x36 && buffer[1] == 0x04 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
+    if packetver >= 20050530 && buffer[0] == 0x3b && buffer[1] == 0x02 {
+        return Box::new(PacketCzAckStorePassword::from(buffer, packetver));
+    }
     if packetver >= 20050110 && buffer[0] == 0x90 && buffer[1] == 0x01 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
@@ -3041,6 +3044,7 @@ pub fn packet_len(packet_id: [u8; 2], packetver: u32) -> Option<usize> {
     if packetver >= 20080910 && packet_id == [0x39, 0x04] { return Some(PacketCzUseItem::base_len(packetver)); }
     if packetver >= 20080910 && packet_id == [0x38, 0x04] { return Some(PacketCzUseSkill::base_len(packetver)); }
     if packetver >= 20080910 && packet_id == [0x36, 0x04] { return Some(PacketCzEnter2::base_len(packetver)); }
+    if packetver >= 20050530 && packet_id == [0x3b, 0x02] { return Some(PacketCzAckStorePassword::base_len(packetver)); }
     if packetver >= 20050110 && packet_id == [0x90, 0x01] { return Some(PacketCzRequestAct::base_len(packetver)); }
     if packetver >= 20050110 && packet_id == [0x85, 0x00] { return Some(PacketCzChangeDirection::base_len(packetver)); }
     if packetver >= 20050110 && packet_id == [0xf5, 0x00] { return Some(PacketCzItemPickup::base_len(packetver)); }
@@ -4015,6 +4019,9 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     }
     if packetver >= 20080910 && packet_id.value.unwrap().eq("0x3604") {
         return  PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
+    }
+    if packetver >= 20050530 && packet_id.value.unwrap().eq("0x3b02") {
+        return  PacketCzAckStorePassword::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packetver >= 20050110 && packet_id.value.unwrap().eq("0x9001") {
         return  PacketCzRequestAct::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

@@ -108531,8 +108531,10 @@ impl PacketCzAckStorePassword {
             "0x6108"
         } else if packetver >= 20111102 {
             "0x8102"
+        } else if packetver >= 20050530 {
+            "0x3b02"
         } else {
-            "0x8102"
+            "0x3b02"
         }
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckStorePassword {
@@ -108626,8 +108628,10 @@ impl PacketCzAckStorePassword {
             (i16::from_le_bytes([0x61, 0x08]), [0x61, 0x08])
         } else if packetver >= 20111102 {
             (i16::from_le_bytes([0x81, 0x02]), [0x81, 0x02])
+        } else if packetver >= 20050530 {
+            (i16::from_le_bytes([0x3b, 0x02]), [0x3b, 0x02])
         } else {
-            (i16::from_le_bytes([0x81, 0x02]), [0x81, 0x02])
+            (i16::from_le_bytes([0x3b, 0x02]), [0x3b, 0x02])
         };
         PacketCzAckStorePassword {
         raw: vec![],
