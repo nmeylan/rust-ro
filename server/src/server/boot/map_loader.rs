@@ -7,9 +7,6 @@ use std::path::Path;
 use std::time::Instant;
 
 use byteorder::{LittleEndian, ReadBytesExt};
-use flate2::read::ZlibDecoder;
-use models::enums::EnumWithMaskValueU16;
-use models::enums::cell::CellType;
 
 use crate::server::model::map::{MAP_EXT, Map};
 use crate::server::model::map_item::MapItems;
@@ -82,36 +79,10 @@ impl MapLoader {
     // during boot it comes with 2 drawback:
     // - It slow done startup (yet it can be improved)
     // - We may store in memory cells for map that are not visited by player
-    pub fn generate_cells(name: &str, length: usize, map_dir: &'static str) -> Vec<u16> {
-        let file_path = Path::join(Path::new(map_dir), format!("{name}{MAPCACHE_EXT}"));
-        let file = File::open(file_path).unwrap();
-        let mut reader = BufReader::new(file);
-        let mut map_cache_zip_content_buf = Vec::new();
-        let mut map_cache_content_buf = Vec::new();
-        reader
-            .read_to_end(&mut map_cache_zip_content_buf)
-            .unwrap_or_else(|_| panic!("Fail to read map-cache zip content for map: {name}"));
-        let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder
-            .read_to_end(&mut map_cache_content_buf)
-            .unwrap_or_else(|_| panic!("Fail to read map-cache unzipped content for map: {name}"));
-
-        let mut cells: Vec<u16> = Vec::with_capacity(length);
-        for cell in map_cache_content_buf {
-            cells.push(match cell {
-                0 | 2 | 4 | 6 => CellType::Walkable.as_flag() | CellType::Shootable.as_flag(), /* 3 => bytes 0 and byte 1 are set.
-                                                                                                 * walkable ground values 2,4,6 are
-                                                                                                 * unknown, should not be present in
-                                                                                                 * mapcache file. but hercules set them
-                                                                                                 * to this value. */
-                3 => CellType::Walkable.as_flag() | CellType::Shootable.as_flag() | CellType::Water.as_flag(), /* 7 => bytes 0, 1 ,2 are
-                                                                                                                 * set. walkable water */
-                5 => CellType::Shootable.as_flag(), // 2 => byte 1 is set gap, (shootable)
-                _ => 0,                             // no walkable ground
-            })
-        }
-
-        cells
+    pub fn generate_cells(name: &str, _length: usize, map_dir: &'static str) -> Vec<u16> {
+        map_cache::read_mcache(Path::new(map_dir), name)
+            .unwrap_or_else(|e| panic!("{e}"))
+            .cells
     }
 
     fn name_with_ext(map_name: &str) -> String {

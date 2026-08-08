@@ -40,6 +40,7 @@ metrics = { path = "../lib/metrics" }
 packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
 skills = { path = "../lib/skills" }
+map-cache = { path = "../lib/map-cache" }
 models = { path = "../lib/models" }
 movement = { path = "../lib/movement" }
 log = "0.4.19"

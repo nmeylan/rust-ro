@@ -1341,6 +1341,21 @@ fn write_struct_from_json(file: &mut File, struct_definition: &StructDefinition)
     file.write_all("    }\n".as_bytes()).unwrap();
 }
 
+/// Little-endian read of one `size`-byte element starting at `base`.
+fn read_le_bytes_expr(type_name: &str, base: &str, size: i16) -> String {
+    let bytes = (0..size)
+        .map(|i| {
+            if i == 0 {
+                format!("buffer[{base}]")
+            } else {
+                format!("buffer[{base} + {i}]")
+            }
+        })
+        .collect::<Vec<String>>()
+        .join(", ");
+    format!("{type_name}::from_le_bytes([{bytes}])")
+}
+
 fn struct_impl_field_value(field: &StructField) -> String {
     match field.data_type.name.as_str() {
         "char" => String::from("buffer[offset] as char"),
@@ -1374,12 +1389,22 @@ fn struct_impl_field_value(field: &StructField) -> String {
                         format!("{array_block}                let mut dst: [{sub_type_name}; {length}] = [0_{sub_type_name}; {length}];\n");
                 }
 
-                array_block = format!(
-                    "{}                for (index, byte) in buffer[offset..offset + {}].iter().enumerate() {{\n",
-                    array_block, field.length
-                );
-                array_block = format!("{array_block}                    dst[index] = *byte as {sub_type_name};\n");
-                array_block = format!("{array_block}                }}\n");
+                let element_size = field.sub_type.unwrap().length.unwrap_or(1);
+                if element_size > 1 {
+                    let read_entry = read_le_bytes_expr(sub_type_name, "start", element_size);
+                    array_block = format!("{array_block}                for index in 0..{length} {{\n");
+                    array_block =
+                        format!("{array_block}                    let start = offset + index * {element_size};\n");
+                    array_block = format!("{array_block}                    dst[index] = {read_entry};\n");
+                    array_block = format!("{array_block}                }}\n");
+                } else {
+                    array_block = format!(
+                        "{}                for (index, byte) in buffer[offset..offset + {}].iter().enumerate() {{\n",
+                        array_block, field.length
+                    );
+                    array_block = format!("{array_block}                    dst[index] = *byte as {sub_type_name};\n");
+                    array_block = format!("{array_block}                }}\n");
+                }
             } else if field.length > -1 {
                 array_block = format!("{array_block}                let mut dst: [u8; {length}] = [0; {length}];\n");
                 array_block = format!(
@@ -1536,6 +1561,7 @@ fn field_serialization(field: &StructField) -> String {
                         res, sub_type.name
                     );
                     res = format!("{res}        }}\n");
+                    res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
                 } else {
                     res = format!(
                         "{}        self.{}_raw = self.{}.iter().flat_map(|&x| x.to_le_bytes()).collect::<Vec<u8>>();\n",

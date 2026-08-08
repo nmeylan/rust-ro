@@ -85493,8 +85493,9 @@ impl PacketZcAutospelllist {
             skid: {
                 let field =  {
                 let mut dst: [i32; 7] = [0_i32; 7];
-                for (index, byte) in buffer[offset..offset + 7].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..7 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -85599,7 +85600,7 @@ impl Packet for PacketZcAutospelllist {
         for item in self.skid {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.skid_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -85766,8 +85767,9 @@ impl PacketZcDevotionlist {
             aid: {
                 let field =  {
                 let mut dst: [u32; 5] = [0_u32; 5];
-                for (index, byte) in buffer[offset..offset + 5].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..5 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -85913,7 +85915,7 @@ impl Packet for PacketZcDevotionlist {
         for item in self.aid {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.aid_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.range).unwrap();
         self.range_raw = wtr.try_into().unwrap();
@@ -100943,8 +100945,9 @@ impl PacketZcBlacksmithRank {
             point: {
                 let field =  {
                 let mut dst: [i32; 10] = [0_i32; 10];
-                for (index, byte) in buffer[offset..offset + 10].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..10 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -101075,7 +101078,7 @@ impl Packet for PacketZcBlacksmithRank {
         for item in self.point {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.point_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -101121,8 +101124,9 @@ impl PacketZcAlchemistRank {
             point: {
                 let field =  {
                 let mut dst: [i32; 10] = [0_i32; 10];
-                for (index, byte) in buffer[offset..offset + 10].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..10 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -101253,7 +101257,7 @@ impl Packet for PacketZcAlchemistRank {
         for item in self.point {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.point_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -102998,8 +103002,9 @@ impl PacketZcTaekwonRank {
             point: {
                 let field =  {
                 let mut dst: [i32; 10] = [0_i32; 10];
-                for (index, byte) in buffer[offset..offset + 10].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..10 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -103130,7 +103135,7 @@ impl Packet for PacketZcTaekwonRank {
         for item in self.point {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.point_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -103160,8 +103165,9 @@ impl PacketZcGameGuard {
             auth_data: {
                 let field =  {
                 let mut dst: [u32; 4] = [0_u32; 4];
-                for (index, byte) in buffer[offset..offset + 4].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..4 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -103266,7 +103272,7 @@ impl Packet for PacketZcGameGuard {
         for item in self.auth_data {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.auth_data_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -103295,8 +103301,9 @@ impl PacketCzAckGameGuard {
             auth_data: {
                 let field =  {
                 let mut dst: [u32; 4] = [0_u32; 4];
-                for (index, byte) in buffer[offset..offset + 4].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..4 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -103401,7 +103408,7 @@ impl Packet for PacketCzAckGameGuard {
         for item in self.auth_data {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.auth_data_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -120678,8 +120685,9 @@ impl PacketZcGangsiRank {
             point: {
                 let field =  {
                 let mut dst: [i32; 10] = [0_i32; 10];
-                for (index, byte) in buffer[offset..offset + 10].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..10 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -120834,7 +120842,7 @@ impl Packet for PacketZcGangsiRank {
         for item in self.point {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.point_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_switch).unwrap();
         self.packet_switch_raw = wtr.try_into().unwrap();
@@ -122203,8 +122211,9 @@ impl PacketChSelectCharGoingtobeused {
             ardw_selected_gid: {
                 let field =  {
                 let mut dst: [u32; 9] = [0_u32; 9];
-                for (index, byte) in buffer[offset..offset + 9].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..9 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -122343,7 +122352,7 @@ impl Packet for PacketChSelectCharGoingtobeused {
         for item in self.ardw_selected_gid {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.ardw_selected_gid_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -141606,8 +141615,9 @@ impl PacketAhcGameGuard {
             auth_data: {
                 let field =  {
                 let mut dst: [u32; 4] = [0_u32; 4];
-                for (index, byte) in buffer[offset..offset + 4].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..4 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -141712,7 +141722,7 @@ impl Packet for PacketAhcGameGuard {
         for item in self.auth_data {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.auth_data_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -141741,8 +141751,9 @@ impl PacketCahAckGameGuard {
             auth_data: {
                 let field =  {
                 let mut dst: [u32; 4] = [0_u32; 4];
-                for (index, byte) in buffer[offset..offset + 4].iter().enumerate() {
-                    dst[index] = *byte as u32;
+                for index in 0..4 {
+                    let start = offset + index * 4;
+                    dst[index] = u32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -141847,7 +141858,7 @@ impl Packet for PacketCahAckGameGuard {
         for item in self.auth_data {
             wtr.write_u32::<LittleEndian>(item).unwrap();
         }
-
+        self.auth_data_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -145106,8 +145117,9 @@ impl PacketZcMsgStateChange2 {
             val: {
                 let field =  {
                 let mut dst: [i32; 3] = [0_i32; 3];
-                for (index, byte) in buffer[offset..offset + 3].iter().enumerate() {
-                    dst[index] = *byte as i32;
+                for index in 0..3 {
+                    let start = offset + index * 4;
+                    dst[index] = i32::from_le_bytes([buffer[start], buffer[start + 1], buffer[start + 2], buffer[start + 3]]);
                 }
                 dst
             };
@@ -145280,7 +145292,7 @@ impl Packet for PacketZcMsgStateChange2 {
         for item in self.val {
             wtr.write_i32::<LittleEndian>(item).unwrap();
         }
-
+        self.val_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -158788,8 +158800,9 @@ impl PacketCzPartyBookingReqUpdate {
             job: {
                 let field =  {
                 let mut dst: [i16; 6] = [0_i16; 6];
-                for (index, byte) in buffer[offset..offset + 6].iter().enumerate() {
-                    dst[index] = *byte as i16;
+                for index in 0..6 {
+                    let start = offset + index * 2;
+                    dst[index] = i16::from_le_bytes([buffer[start], buffer[start + 1]]);
                 }
                 dst
             };
@@ -158894,7 +158907,7 @@ impl Packet for PacketCzPartyBookingReqUpdate {
         for item in self.job {
             wtr.write_i16::<LittleEndian>(item).unwrap();
         }
-
+        self.job_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -167657,8 +167670,9 @@ impl PacketCzRequestMove2 {
             dest: {
                 let field =  {
                 let mut dst: [u16; 3] = [0_u16; 3];
-                for (index, byte) in buffer[offset..offset + 3].iter().enumerate() {
-                    dst[index] = *byte as u16;
+                for index in 0..3 {
+                    let start = offset + index * 2;
+                    dst[index] = u16::from_le_bytes([buffer[start], buffer[start + 1]]);
                 }
                 dst
             };
@@ -167774,7 +167788,7 @@ impl Packet for PacketCzRequestMove2 {
         for item in self.dest {
             wtr.write_u16::<LittleEndian>(item).unwrap();
         }
-
+        self.dest_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -184114,8 +184128,9 @@ impl MakableitemInfo {
             material_id: {
                 let field =  {
                 let mut dst: [u16; 3] = [0_u16; 3];
-                for (index, byte) in buffer[offset..offset + 3].iter().enumerate() {
-                    dst[index] = *byte as u16;
+                for index in 0..3 {
+                    let start = offset + index * 2;
+                    dst[index] = u16::from_le_bytes([buffer[start], buffer[start + 1]]);
                 }
                 dst
             };
@@ -184181,7 +184196,7 @@ impl MakableitemInfo {
         for item in self.material_id {
             wtr.write_u16::<LittleEndian>(item).unwrap();
         }
-
+        self.material_id_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.itid_raw.to_vec());
@@ -187721,8 +187736,9 @@ impl PartyBookingDetail {
             job: {
                 let field =  {
                 let mut dst: [i16; 6] = [0_i16; 6];
-                for (index, byte) in buffer[offset..offset + 6].iter().enumerate() {
-                    dst[index] = *byte as i16;
+                for index in 0..6 {
+                    let start = offset + index * 2;
+                    dst[index] = i16::from_le_bytes([buffer[start], buffer[start + 1]]);
                 }
                 dst
             };
@@ -187804,7 +187820,7 @@ impl PartyBookingDetail {
         for item in self.job {
             wtr.write_i16::<LittleEndian>(item).unwrap();
         }
-
+        self.job_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.level_raw.to_vec());
