@@ -1,0 +1,9 @@
+[package]
+name = "map-cache"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+models = { path = "../models" }
+flate2 = { workspace = true }
+md5 = { workspace = true }
