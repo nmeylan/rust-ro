@@ -1294,6 +1294,25 @@ fn generate_skills_enum(
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     // End from_id
 
+    // Start try_from_value
+    file.write_all("    pub fn try_from_value(id: u32) -> Result<Self, String> {\n".to_string().as_bytes())
+        .unwrap();
+    file.write_all("        match id {\n".to_string().as_bytes()).unwrap();
+    for skill in skills.iter() {
+        let enum_name = to_enum_name(skill);
+        file.write_all(format!("            {} => Ok(Self::{}),\n", skill.id, enum_name).as_bytes())
+            .unwrap();
+    }
+    file.write_all(
+        "            _ => Err(format!(\"unknown skill with id {}\", id))\n"
+            .to_string()
+            .as_bytes(),
+    )
+    .unwrap();
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End try_from_value
+
     // Start from_name
     file.write_all("    pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes())
         .unwrap();

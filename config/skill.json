@@ -18597,6 +18597,968 @@
       "effectClientIcon": "Energycoat"
     },
 {
+      "description": "Piercing Attack",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 158,
+      "maxLevel": 10,
+      "name": "NPC_PIERCINGATT",
+      "range": 3,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreDefense": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Spirit Destruction",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 159,
+      "maxLevel": 5,
+      "name": "NPC_MENTALBREAKER",
+      "range": -1,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreFlee": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Stand off attack",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 160,
+      "maxLevel": 10,
+      "name": "NPC_RANGEATTACK",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Attribute Change",
+      "duration1": 1800000,
+      "hitCount": 1,
+      "id": 161,
+      "maxLevel": 1,
+      "name": "NPC_ATTRICHANGE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Water Attribute Change",
+      "duration1": 1800000,
+      "element": "Water",
+      "hitCount": 1,
+      "id": 162,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEWATER",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Earth Attribute Change",
+      "duration1": 1800000,
+      "element": "Earth",
+      "hitCount": 1,
+      "id": 163,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEGROUND",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Fire Attribute Change",
+      "duration1": 1800000,
+      "element": "Fire",
+      "hitCount": 1,
+      "id": 164,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEFIRE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Wind Attribute Change",
+      "duration1": 1800000,
+      "element": "Wind",
+      "hitCount": 1,
+      "id": 165,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEWIND",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Poison Attribute Change",
+      "duration1": 1800000,
+      "element": "Poison",
+      "hitCount": 1,
+      "id": 166,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEPOISON",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Holy Attribute Change",
+      "duration1": 1800000,
+      "element": "Holy",
+      "hitCount": 1,
+      "id": 167,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEHOLY",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Shadow Attribute Change",
+      "duration1": 1800000,
+      "element": "Dark",
+      "hitCount": 1,
+      "id": 168,
+      "maxLevel": 1,
+      "name": "NPC_CHANGEDARKNESS",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Ghost Attribute Change",
+      "duration1": 1800000,
+      "element": "Ghost",
+      "hitCount": 1,
+      "id": 169,
+      "maxLevel": 1,
+      "name": "NPC_CHANGETELEKINESIS",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Defense disregard attack",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 170,
+      "maxLevel": 10,
+      "name": "NPC_CRITICALSLASH",
+      "range": -9,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreDefense": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Multi-stage Attack",
+      "element": "Weapon",
+      "damageType": "MultiHit",
+      "id": 171,
+      "maxLevel": 10,
+      "name": "NPC_COMBOATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "hitCountPerLevel": [
+        {
+          "count": -2,
+          "level": 1
+        },
+        {
+          "count": -3,
+          "level": 2
+        },
+        {
+          "count": -4,
+          "level": 3
+        },
+        {
+          "count": -5,
+          "level": 4
+        },
+        {
+          "count": -6,
+          "level": 5
+        },
+        {
+          "count": -7,
+          "level": 6
+        },
+        {
+          "count": -8,
+          "level": 7
+        },
+        {
+          "count": -9,
+          "level": 8
+        },
+        {
+          "count": -10,
+          "level": 9
+        },
+        {
+          "count": -11,
+          "level": 10
+        }
+      ],
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Guided Attack",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 172,
+      "maxLevel": 10,
+      "name": "NPC_GUIDEDATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreFlee": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Suicide bombing",
+      "duration1": 3500,
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 173,
+      "knockback": 3,
+      "maxLevel": 10,
+      "name": "NPC_SELFDESTRUCTION",
+      "range": 5,
+      "splashArea": 5,
+      "targetType": "Self",
+      "damageflags": {
+        "ignoreDefCard": true,
+        "ignoreDefense": true,
+        "ignoreFlee": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "targetTrap": true
+      }
+    },
+{
+      "description": "Splash attack",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 174,
+      "maxLevel": 1,
+      "name": "NPC_SPLASHATTACK",
+      "range": -9,
+      "splashArea": 3,
+      "targetType": "Target",
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "targetTrap": true
+      }
+    },
+{
+      "description": "Suicide",
+      "hitCount": 1,
+      "id": 175,
+      "maxLevel": 10,
+      "name": "NPC_SUICIDE",
+      "targetType": "Self",
+      "damageflags": {
+        "ignoreFlee": true,
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Poison Attack",
+      "duration2": 60000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 176,
+      "maxLevel": 5,
+      "name": "NPC_POISON",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Blind Attack",
+      "duration2": 30000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 177,
+      "maxLevel": 5,
+      "name": "NPC_BLINDATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Silence Attack",
+      "duration2": 30000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 178,
+      "maxLevel": 5,
+      "name": "NPC_SILENCEATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Stun Attack",
+      "duration2": 5000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 179,
+      "maxLevel": 5,
+      "name": "NPC_STUNATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Petrify Attack",
+      "duration2": 20000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 180,
+      "maxLevel": 5,
+      "name": "NPC_PETRIFYATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Curse Attack",
+      "duration2": 30000,
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 181,
+      "maxLevel": 5,
+      "name": "NPC_CURSEATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Sleep attack",
+      "duration2": 30000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 182,
+      "maxLevel": 5,
+      "name": "NPC_SLEEPATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Random Attack",
+      "element": "Random",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 183,
+      "maxLevel": 10,
+      "name": "NPC_RANDOMATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Water Attribute Attack",
+      "element": "Water",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 184,
+      "maxLevel": 10,
+      "name": "NPC_WATERATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Earth Attribute Attack",
+      "element": "Earth",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 185,
+      "maxLevel": 10,
+      "name": "NPC_GROUNDATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true,
+        "targetHidden": true
+      }
+    },
+{
+      "description": "Fire Attribute Attack",
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 186,
+      "maxLevel": 10,
+      "name": "NPC_FIREATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Wind Attribute Attack",
+      "element": "Wind",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 187,
+      "maxLevel": 10,
+      "name": "NPC_WINDATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Poison Attribute Attack",
+      "element": "Poison",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 188,
+      "maxLevel": 10,
+      "name": "NPC_POISONATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Holy Attribute Attack",
+      "element": "Holy",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 189,
+      "maxLevel": 10,
+      "name": "NPC_HOLYATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Shadow Attribute Attack",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 190,
+      "maxLevel": 10,
+      "name": "NPC_DARKNESSATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Ghost Attribute Attack",
+      "element": "Ghost",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 191,
+      "maxLevel": 10,
+      "name": "NPC_TELEKINESISATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Demon Shock Attack",
+      "duration1": 15000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 192,
+      "maxLevel": 10,
+      "name": "NPC_MAGICALATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Metamorphosis",
+      "hitCount": 1,
+      "id": 193,
+      "maxLevel": 10,
+      "name": "NPC_METAMORPHOSIS",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Provocation",
+      "hitCount": 1,
+      "id": 194,
+      "maxLevel": 10,
+      "name": "NPC_PROVOCATION",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Smoking",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 195,
+      "maxLevel": 10,
+      "name": "NPC_SMOKING",
+      "targetType": "Self",
+      "damageflags": {
+        "ignoreElement": true,
+        "ignoreFlee": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Follower Summons",
+      "hitCount": 1,
+      "id": 196,
+      "maxLevel": 10,
+      "name": "NPC_SUMMONSLAVE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Emotion",
+      "hitCount": 1,
+      "id": 197,
+      "maxLevel": 10,
+      "name": "NPC_EMOTION",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Transformation",
+      "hitCount": 1,
+      "id": 198,
+      "maxLevel": 10,
+      "name": "NPC_TRANSFORMATION",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Sucking Blood",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 199,
+      "maxLevel": 1,
+      "name": "NPC_BLOODDRAIN",
+      "range": 9,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreFlee": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Energy Drain",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 200,
+      "maxLevel": 1,
+      "name": "NPC_ENERGYDRAIN",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Keeping",
+      "hitCount": 1,
+      "id": 201,
+      "maxLevel": 1,
+      "name": "NPC_KEEPING",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 60000
+        },
+        {
+          "level": 2,
+          "time": 70000
+        },
+        {
+          "level": 3,
+          "time": 80000
+        },
+        {
+          "level": 4,
+          "time": 90000
+        },
+        {
+          "level": 5,
+          "time": 100000
+        },
+        {
+          "level": 6,
+          "time": 110000
+        },
+        {
+          "level": 7,
+          "time": 120000
+        },
+        {
+          "level": 8,
+          "time": 130000
+        },
+        {
+          "level": 9,
+          "time": 140000
+        },
+        {
+          "level": 10,
+          "time": 150000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Dark Breath",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 202,
+      "maxLevel": 5,
+      "name": "NPC_DARKBREATH",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Dark Blessing",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 203,
+      "maxLevel": 10,
+      "name": "NPC_DARKBLESSING",
+      "range": 9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Barrier",
+      "hitCount": 1,
+      "id": 204,
+      "maxLevel": 1,
+      "name": "NPC_BARRIER",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 60000
+        },
+        {
+          "level": 2,
+          "time": 70000
+        },
+        {
+          "level": 3,
+          "time": 80000
+        },
+        {
+          "level": 4,
+          "time": 90000
+        },
+        {
+          "level": 5,
+          "time": 100000
+        },
+        {
+          "level": 6,
+          "time": 110000
+        },
+        {
+          "level": 7,
+          "time": 120000
+        },
+        {
+          "level": 8,
+          "time": 130000
+        },
+        {
+          "level": 9,
+          "time": 140000
+        },
+        {
+          "level": 10,
+          "time": 150000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Defender",
+      "hitCount": 1,
+      "id": 205,
+      "maxLevel": 1,
+      "name": "NPC_DEFENDER",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 60000
+        },
+        {
+          "level": 2,
+          "time": 70000
+        },
+        {
+          "level": 3,
+          "time": 80000
+        },
+        {
+          "level": 4,
+          "time": 90000
+        },
+        {
+          "level": 5,
+          "time": 100000
+        },
+        {
+          "level": 6,
+          "time": 110000
+        },
+        {
+          "level": 7,
+          "time": 120000
+        },
+        {
+          "level": 8,
+          "time": 130000
+        },
+        {
+          "level": 9,
+          "time": 140000
+        },
+        {
+          "level": 10,
+          "time": 150000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Lick",
+      "duration2": 5000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 206,
+      "maxLevel": 5,
+      "name": "NPC_LICK",
+      "range": 1,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Hallucination",
+      "duration2": 30000,
+      "hitCount": 1,
+      "id": 207,
+      "maxLevel": 5,
+      "name": "NPC_HALLUCINATION",
+      "range": 9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Rebirth",
+      "hitCount": 1,
+      "id": 208,
+      "maxLevel": 1,
+      "name": "NPC_REBIRTH",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Monster Summons",
+      "hitCount": 1,
+      "id": 209,
+      "maxLevel": 10,
+      "name": "NPC_SUMMONMONSTER",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
       "description": "Gank",
       "element": "Weapon",
       "id": 210,
@@ -29529,6 +30491,48 @@
       "effectClientIcon": "Serviceforyou"
     },
 {
+      "description": "Random Move",
+      "damageType": "Single",
+      "id": 331,
+      "maxLevel": 10,
+      "name": "NPC_RANDOMMOVE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Speed UP",
+      "damageType": "Single",
+      "id": 332,
+      "maxLevel": 10,
+      "name": "NPC_SPEEDUP",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Revenge",
+      "damageType": "Single",
+      "id": 333,
+      "maxLevel": 1,
+      "name": "NPC_REVENGE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "I Will Protect You",
@@ -29626,6 +30630,457 @@
       },
       "damageflags": {
         "isPhysical": true
+      }
+    },
+{
+      "description": "Cross of Darkness",
+      "duration2": 30000,
+      "element": "Dark",
+      "damageType": "MultiHit",
+      "hitCount": -2,
+      "id": 338,
+      "maxLevel": 10,
+      "name": "NPC_DARKCROSS",
+      "range": -1,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "afterCastWalkDelay": 1000,
+      "description": "Grand cross of Darkness",
+      "duration1": 30000,
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 339,
+      "maxLevel": 10,
+      "name": "NPC_GRANDDARKNESS",
+      "range": 5,
+      "targetType": "Self",
+      "damageflags": {
+        "ignoreAtkCard": true,
+        "ignoreFlee": true
+      },
+      "flags": {
+        "isNpc": true,
+        "targetSelf": true
+      },
+      "unit": {
+        "id": "Dummyskill",
+        "interval": 300,
+        "layout": -1,
+        "target": "Enemy"
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Soul Strike of Darkness",
+      "element": "Dark",
+      "damageType": "MultiHit",
+      "id": 340,
+      "maxLevel": 10,
+      "name": "NPC_DARKSTRIKE",
+      "range": 9,
+      "targetType": "Target",
+      "hitCountPerLevel": [
+        {
+          "count": 1,
+          "level": 1
+        },
+        {
+          "count": 1,
+          "level": 2
+        },
+        {
+          "count": 2,
+          "level": 3
+        },
+        {
+          "count": 2,
+          "level": 4
+        },
+        {
+          "count": 3,
+          "level": 5
+        },
+        {
+          "count": 3,
+          "level": 6
+        },
+        {
+          "count": 4,
+          "level": 7
+        },
+        {
+          "count": 4,
+          "level": 8
+        },
+        {
+          "count": 5,
+          "level": 9
+        },
+        {
+          "count": 5,
+          "level": 10
+        }
+      ],
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Darkness Jupitel",
+      "element": "Dark",
+      "damageType": "MultiHit",
+      "id": 341,
+      "maxLevel": 10,
+      "name": "NPC_DARKTHUNDER",
+      "range": 9,
+      "targetType": "Target",
+      "hitCountPerLevel": [
+        {
+          "count": 3,
+          "level": 1
+        },
+        {
+          "count": 4,
+          "level": 2
+        },
+        {
+          "count": 5,
+          "level": 3
+        },
+        {
+          "count": 6,
+          "level": 4
+        },
+        {
+          "count": 7,
+          "level": 5
+        },
+        {
+          "count": 8,
+          "level": 6
+        },
+        {
+          "count": 9,
+          "level": 7
+        },
+        {
+          "count": 10,
+          "level": 8
+        },
+        {
+          "count": 11,
+          "level": 9
+        },
+        {
+          "count": 12,
+          "level": 10
+        }
+      ],
+      "knockbackPerLevel": [
+        {
+          "amount": 2,
+          "level": 1
+        },
+        {
+          "amount": 3,
+          "level": 2
+        },
+        {
+          "amount": 3,
+          "level": 3
+        },
+        {
+          "amount": 4,
+          "level": 4
+        },
+        {
+          "amount": 4,
+          "level": 5
+        },
+        {
+          "amount": 5,
+          "level": 6
+        },
+        {
+          "amount": 5,
+          "level": 7
+        },
+        {
+          "amount": 6,
+          "level": 8
+        },
+        {
+          "amount": 6,
+          "level": 9
+        },
+        {
+          "amount": 7,
+          "level": 10
+        }
+      ],
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Stop",
+      "duration1": 15000,
+      "damageType": "Single",
+      "id": 342,
+      "maxLevel": 1,
+      "name": "NPC_STOP",
+      "range": 9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Break weapon",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 343,
+      "maxLevel": 10,
+      "name": "NPC_WEAPONBRAKER",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Break armor",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 344,
+      "maxLevel": 10,
+      "name": "NPC_ARMORBRAKE",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Break helm",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 345,
+      "maxLevel": 10,
+      "name": "NPC_HELMBRAKE",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Break shield",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 346,
+      "maxLevel": 10,
+      "name": "NPC_SHIELDBRAKE",
+      "range": 9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Undead Element Attack",
+      "element": "Undead",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 347,
+      "maxLevel": 10,
+      "name": "NPC_UNDEADATTACK",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Undead Attribute Change",
+      "duration1": 30000,
+      "element": "Undead",
+      "hitCount": 1,
+      "id": 348,
+      "maxLevel": 5,
+      "name": "NPC_CHANGEUNDEAD",
+      "range": 9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Power Up",
+      "damageType": "Single",
+      "id": 349,
+      "maxLevel": 10,
+      "name": "NPC_POWERUP",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 10000
+        },
+        {
+          "level": 2,
+          "time": 15000
+        },
+        {
+          "level": 3,
+          "time": 20000
+        },
+        {
+          "level": 4,
+          "time": 25000
+        },
+        {
+          "level": 5,
+          "time": 30000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Agility UP",
+      "damageType": "Single",
+      "id": 350,
+      "maxLevel": 10,
+      "name": "NPC_AGIUP",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 10000
+        },
+        {
+          "level": 2,
+          "time": 15000
+        },
+        {
+          "level": 3,
+          "time": 20000
+        },
+        {
+          "level": 4,
+          "time": 25000
+        },
+        {
+          "level": 5,
+          "time": 30000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Siege Mode",
+      "id": 351,
+      "maxLevel": 1,
+      "name": "NPC_SIEGEMODE",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Recall Slaves",
+      "id": 352,
+      "maxLevel": 1,
+      "name": "NPC_CALLSLAVE",
+      "range": 2,
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Invisible",
+      "duration1": 30000,
+      "id": 353,
+      "maxLevel": 1,
+      "name": "NPC_INVISIBLE",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Run",
+      "damageType": "Single",
+      "id": 354,
+      "maxLevel": 10,
+      "name": "NPC_RUN",
+      "range": 2,
+      "targetType": "Self",
+      "afterCastActDelayPerLevel": [
+        {
+          "level": 1,
+          "time": 0
+        },
+        {
+          "level": 2,
+          "time": 500
+        },
+        {
+          "level": 3,
+          "time": 1000
+        },
+        {
+          "level": 4,
+          "time": 1500
+        },
+        {
+          "level": 5,
+          "time": 2000
+        },
+        {
+          "level": 6,
+          "time": 2500
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
       }
     },
 {
@@ -39842,6 +41297,20 @@
       }
     },
 {
+      "description": "Emotion ON",
+      "hitCount": 1,
+      "id": 474,
+      "maxLevel": 10,
+      "name": "NPC_EMOTION_ON",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
   "castCancel": true,
   "castTime": 1000,
   "description": "Preserve",
@@ -47692,6 +49161,1125 @@
   "type": "Support"
 },
 {
+      "description": "Earthquake",
+      "duration1": 910,
+      "damageType": "MultiHit",
+      "hitCount": 1,
+      "id": 653,
+      "maxLevel": 10,
+      "name": "NPC_EARTHQUAKE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 5,
+          "level": 1
+        },
+        {
+          "area": 7,
+          "level": 2
+        },
+        {
+          "area": 9,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 13,
+          "level": 5
+        },
+        {
+          "area": 5,
+          "level": 6
+        },
+        {
+          "area": 7,
+          "level": 7
+        },
+        {
+          "area": 9,
+          "level": 8
+        },
+        {
+          "area": 11,
+          "level": 9
+        },
+        {
+          "area": 13,
+          "level": 10
+        }
+      ],
+      "damageflags": {
+        "ignoreDefense": true,
+        "splash": true,
+        "splashSplit": true
+      },
+      "flags": {
+        "ignoreLandProtector": true,
+        "isNpc": true,
+        "showScale": true,
+        "targetTrap": true
+      },
+      "unit": {
+        "id": "Earthquake",
+        "interval": 300,
+        "target": "Enemy",
+        "rangePerLevel": [
+          {
+            "level": 1,
+            "size": 5
+          },
+          {
+            "level": 2,
+            "size": 7
+          },
+          {
+            "level": 3,
+            "size": 9
+          },
+          {
+            "level": 4,
+            "size": 11
+          },
+          {
+            "level": 5,
+            "size": 13
+          },
+          {
+            "level": 6,
+            "size": 5
+          },
+          {
+            "level": 7,
+            "size": 7
+          },
+          {
+            "level": 8,
+            "size": 9
+          },
+          {
+            "level": 9,
+            "size": 11
+          },
+          {
+            "level": 10,
+            "size": 13
+          }
+        ],
+        "flag": {
+          "pathCheck": true
+        }
+      }
+    },
+{
+      "activeInstance": 14,
+      "description": "Fire Breath",
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 654,
+      "maxLevel": 10,
+      "name": "NPC_FIREBREATH",
+      "range": 6,
+      "splashArea": 3,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "activeInstance": 14,
+      "description": "Ice Breath",
+      "duration2": 12000,
+      "element": "Water",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 655,
+      "maxLevel": 10,
+      "name": "NPC_ICEBREATH",
+      "range": 6,
+      "splashArea": 3,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "activeInstance": 14,
+      "description": "Thunder Breath",
+      "element": "Wind",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 656,
+      "maxLevel": 10,
+      "name": "NPC_THUNDERBREATH",
+      "range": 6,
+      "splashArea": 3,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "activeInstance": 14,
+      "description": "Acid Breath",
+      "duration2": 60000,
+      "element": "Poison",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 657,
+      "maxLevel": 10,
+      "name": "NPC_ACIDBREATH",
+      "range": 6,
+      "splashArea": 3,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "activeInstance": 14,
+      "description": "Darkness Breath",
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 658,
+      "maxLevel": 10,
+      "name": "NPC_DARKNESSBREATH",
+      "range": 6,
+      "splashArea": 3,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Dragon Fear",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 659,
+      "maxLevel": 5,
+      "name": "NPC_DRAGONFEAR",
+      "targetType": "Self",
+      "duration2PerLevel": [
+        {
+          "level": 1,
+          "time": 5000
+        },
+        {
+          "level": 2,
+          "time": 30000
+        },
+        {
+          "level": 3,
+          "time": 30000
+        },
+        {
+          "level": 4,
+          "time": 120000
+        }
+      ],
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Bleeding",
+      "duration2": 120000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 660,
+      "maxLevel": 5,
+      "name": "NPC_BLEEDING",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Pulse Strike",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 661,
+      "knockback": 7,
+      "maxLevel": 5,
+      "name": "NPC_PULSESTRIKE",
+      "splashArea": 7,
+      "targetType": "Self",
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true,
+        "targetTrap": true
+      }
+    },
+{
+      "description": "Hell's Judgement",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 662,
+      "maxLevel": 10,
+      "name": "NPC_HELLJUDGEMENT",
+      "splashArea": 14,
+      "targetType": "Self",
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true,
+        "targetTrap": true
+      }
+    },
+{
+      "description": "Wide Silence",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 663,
+      "maxLevel": 5,
+      "name": "NPC_WIDESILENCE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Freeze",
+      "duration2": 12000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 664,
+      "maxLevel": 5,
+      "name": "NPC_WIDEFREEZE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Bleeding",
+      "duration2": 120000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 665,
+      "maxLevel": 5,
+      "name": "NPC_WIDEBLEEDING",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Petrify",
+      "duration2": 20000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 666,
+      "maxLevel": 5,
+      "name": "NPC_WIDESTONE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Confusion",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 667,
+      "maxLevel": 5,
+      "name": "NPC_WIDECONFUSE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Sleep",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 668,
+      "maxLevel": 5,
+      "name": "NPC_WIDESLEEP",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Sight",
+      "duration1": 10000,
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 669,
+      "maxLevel": 1,
+      "name": "NPC_WIDESIGHT",
+      "splashArea": 5,
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Evil Land",
+      "duration2": 30000,
+      "element": "Dark",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 670,
+      "maxLevel": 10,
+      "name": "NPC_EVILLAND",
+      "range": 7,
+      "targetType": "Ground",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 3900
+        },
+        {
+          "level": 2,
+          "time": 4900
+        },
+        {
+          "level": 3,
+          "time": 5900
+        },
+        {
+          "level": 4,
+          "time": 6900
+        },
+        {
+          "level": 5,
+          "time": 7900
+        },
+        {
+          "level": 6,
+          "time": 8900
+        },
+        {
+          "level": 7,
+          "time": 9900
+        },
+        {
+          "level": 8,
+          "time": 10900
+        },
+        {
+          "level": 9,
+          "time": 11900
+        },
+        {
+          "level": 10,
+          "time": 12900
+        }
+      ],
+      "damageflags": {
+        "ignoreDefCard": true,
+        "ignoreElement": true,
+        "ignoreFlee": true,
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      },
+      "unit": {
+        "id": "Evilland",
+        "interval": 1000,
+        "layout": 1,
+        "rangePerLevel": [
+          {
+            "level": 1,
+            "size": 5
+          },
+          {
+            "level": 2,
+            "size": 5
+          },
+          {
+            "level": 3,
+            "size": 5
+          },
+          {
+            "level": 4,
+            "size": 5
+          },
+          {
+            "level": 5,
+            "size": 5
+          },
+          {
+            "level": 6,
+            "size": 5
+          },
+          {
+            "level": 7,
+            "size": 5
+          },
+          {
+            "level": 8,
+            "size": 5
+          },
+          {
+            "level": 9,
+            "size": 5
+          },
+          {
+            "level": 10,
+            "size": 13
+          }
+        ],
+        "flag": {
+          "noOverlap": true
+        }
+      }
+    },
+{
+      "description": "Magic Mirror",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 671,
+      "maxLevel": 5,
+      "name": "NPC_MAGICMIRROR",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 30000
+        },
+        {
+          "level": 2,
+          "time": 30000
+        },
+        {
+          "level": 3,
+          "time": 30000
+        },
+        {
+          "level": 4,
+          "time": 30000
+        },
+        {
+          "level": 5,
+          "time": 30000
+        },
+        {
+          "level": 6,
+          "time": 2000
+        },
+        {
+          "level": 7,
+          "time": 2000
+        },
+        {
+          "level": 8,
+          "time": 2000
+        },
+        {
+          "level": 9,
+          "time": 2000
+        },
+        {
+          "level": 10,
+          "time": 2000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Slow Cast",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 672,
+      "maxLevel": 5,
+      "name": "NPC_SLOWCAST",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Critical Wounds",
+      "duration2": 30000,
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 673,
+      "maxLevel": 5,
+      "name": "NPC_CRITICALWOUND",
+      "range": -9,
+      "targetType": "Target",
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Expulsion",
+      "element": "Weapon",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 674,
+      "maxLevel": 1,
+      "name": "NPC_EXPULSION",
+      "range": -9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Stone Skin",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 675,
+      "maxLevel": 5,
+      "name": "NPC_STONESKIN",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 30000
+        },
+        {
+          "level": 2,
+          "time": 30000
+        },
+        {
+          "level": 3,
+          "time": 30000
+        },
+        {
+          "level": 4,
+          "time": 30000
+        },
+        {
+          "level": 5,
+          "time": 30000
+        },
+        {
+          "level": 6,
+          "time": 2000
+        },
+        {
+          "level": 7,
+          "time": 2000
+        },
+        {
+          "level": 8,
+          "time": 2000
+        },
+        {
+          "level": 9,
+          "time": 2000
+        },
+        {
+          "level": 10,
+          "time": 2000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Anti Magic",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 676,
+      "maxLevel": 5,
+      "name": "NPC_ANTIMAGIC",
+      "targetType": "Self",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 30000
+        },
+        {
+          "level": 2,
+          "time": 30000
+        },
+        {
+          "level": 3,
+          "time": 30000
+        },
+        {
+          "level": 4,
+          "time": 30000
+        },
+        {
+          "level": 5,
+          "time": 30000
+        },
+        {
+          "level": 6,
+          "time": 2000
+        },
+        {
+          "level": 7,
+          "time": 2000
+        },
+        {
+          "level": 8,
+          "time": 2000
+        },
+        {
+          "level": 9,
+          "time": 2000
+        },
+        {
+          "level": 10,
+          "time": 2000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Wide Curse",
+      "duration2": 30000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 677,
+      "maxLevel": 5,
+      "name": "NPC_WIDECURSE",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Stun",
+      "duration2": 5000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 678,
+      "maxLevel": 5,
+      "name": "NPC_WIDESTUN",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 2,
+          "level": 1
+        },
+        {
+          "area": 5,
+          "level": 2
+        },
+        {
+          "area": 8,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 14,
+          "level": 5
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Vampire Gift",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 679,
+      "maxLevel": 10,
+      "name": "NPC_VAMPIRE_GIFT",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 5,
+          "level": 1
+        },
+        {
+          "area": 7,
+          "level": 2
+        },
+        {
+          "area": 9,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 13,
+          "level": 5
+        },
+        {
+          "area": 13,
+          "level": 6
+        },
+        {
+          "area": 13,
+          "level": 7
+        },
+        {
+          "area": 13,
+          "level": 8
+        },
+        {
+          "area": 13,
+          "level": 9
+        },
+        {
+          "area": 13,
+          "level": 10
+        }
+      ],
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "description": "Wide Soul Drain",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 680,
+      "maxLevel": 10,
+      "name": "NPC_WIDESOULDRAIN",
+      "targetType": "Self",
+      "splashAreaPerLevel": [
+        {
+          "area": 5,
+          "level": 1
+        },
+        {
+          "area": 7,
+          "level": 2
+        },
+        {
+          "area": 9,
+          "level": 3
+        },
+        {
+          "area": 11,
+          "level": 4
+        },
+        {
+          "area": 13,
+          "level": 5
+        },
+        {
+          "area": 13,
+          "level": 6
+        },
+        {
+          "area": 13,
+          "level": 7
+        },
+        {
+          "area": 13,
+          "level": 8
+        },
+        {
+          "area": 13,
+          "level": 9
+        },
+        {
+          "area": 13,
+          "level": 10
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
   "description": "Increase Weight Limit R",
   "id": 681,
   "maxLevel": 10,
@@ -47701,6 +50289,99 @@
   },
   "type": "Support"
 },
+{
+      "description": "Talk",
+      "hitCount": 1,
+      "id": 682,
+      "maxLevel": 1,
+      "name": "NPC_TALK",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Hell Power",
+      "duration2": 180000,
+      "hitCount": 1,
+      "id": 683,
+      "maxLevel": 5,
+      "name": "NPC_HELLPOWER",
+      "range": -9,
+      "targetType": "Target",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Hell Dignity",
+      "duration2": 180000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 684,
+      "maxLevel": 1,
+      "name": "NPC_WIDEHELLDIGNITY",
+      "splashArea": -1,
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Invincible",
+      "hitCount": 1,
+      "id": 685,
+      "maxLevel": 1,
+      "name": "NPC_INVINCIBLE",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Invincible off",
+      "duration1": 60000,
+      "hitCount": 1,
+      "id": 686,
+      "maxLevel": 1,
+      "name": "NPC_INVINCIBLEOFF",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Full Heal",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 687,
+      "maxLevel": 1,
+      "name": "NPC_ALLHEAL",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
 {
       "description": "GM Sandman",
       "damageType": "Single",
@@ -47961,6 +50642,421 @@
       },
       "requires": {
         "spcost": 1
+      }
+    },
+{
+      "description": "Venom Fog",
+      "duration1": 3000,
+      "element": "Poison",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 706,
+      "maxLevel": 10,
+      "name": "NPC_VENOMFOG",
+      "targetType": "Self",
+      "flags": {
+        "ignoreLandProtector": true,
+        "isNpc": true,
+        "showScale": true
+      },
+      "unit": {
+        "id": "Venomfog",
+        "interval": 1000,
+        "layout": 2,
+        "target": "Enemy",
+        "flag": {
+          "noOverlap": true,
+          "pathCheck": true
+        }
+      }
+    },
+{
+      "description": "Comet 2",
+      "id": 708,
+      "maxLevel": 1,
+      "name": "NPC_COMET",
+      "flags": {
+        "showScale": true
+      }
+    },
+{
+      "description": "Max Pain",
+      "duration1": 10000,
+      "damageType": "Single",
+      "id": 716,
+      "maxLevel": 10,
+      "name": "NPC_MAXPAIN",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Max Pain Attack",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 717,
+      "maxLevel": 10,
+      "name": "NPC_MAXPAIN_ATK",
+      "splashArea": 18,
+      "targetType": "Target",
+      "damageflags": {
+        "ignoreDefCard": true,
+        "ignoreElement": true,
+        "ignoreFlee": true,
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Jack Frost 2",
+      "id": 720,
+      "maxLevel": 1,
+      "name": "NPC_JACKFROST",
+      "flags": {
+        "showScale": true
+      }
+    },
+{
+      "description": "Reverberation 2",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 725,
+      "maxLevel": 5,
+      "name": "NPC_REVERBERATION",
+      "range": 1,
+      "splashArea": 2,
+      "targetType": "Ground",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 9000
+        },
+        {
+          "level": 2,
+          "time": 10000
+        },
+        {
+          "level": 3,
+          "time": 11000
+        },
+        {
+          "level": 4,
+          "time": 12000
+        },
+        {
+          "level": 5,
+          "time": 13000
+        }
+      ],
+      "damageflags": {
+        "noDamage": true,
+        "splash": true
+      },
+      "flags": {
+        "disableNearNpc": true,
+        "isNpc": true,
+        "isTrap": true,
+        "showScale": true
+      },
+      "unit": {
+        "id": "Reverberation",
+        "interval": 1000,
+        "target": "Enemy",
+        "flag": {
+          "noKnockback": true
+        }
+      }
+    },
+{
+      "description": "Reverberation Attack",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 726,
+      "maxLevel": 5,
+      "name": "NPC_REVERBERATION_ATK",
+      "range": 1,
+      "splashArea": 2,
+      "targetType": "Target",
+      "damageflags": {
+        "splash": true,
+        "splashSplit": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "description": "Lex Aeterna 2",
+      "id": 727,
+      "maxLevel": 1,
+      "name": "NPC_LEX_AETERNA",
+      "flags": {
+        "showScale": true
+      }
+    },
+{
+      "description": "NPC Arrow Storm",
+      "id": 728,
+      "maxLevel": 1,
+      "name": "NPC_ARROWSTORM"
+    },
+{
+      "castCancel": true,
+      "description": "Cloud Kill",
+      "element": "Poison",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 739,
+      "maxLevel": 5,
+      "name": "NPC_CLOUD_KILL",
+      "range": 9,
+      "targetType": "Ground",
+      "duration1PerLevel": [
+        {
+          "level": 1,
+          "time": 8000
+        },
+        {
+          "level": 2,
+          "time": 10000
+        },
+        {
+          "level": 3,
+          "time": 12000
+        },
+        {
+          "level": 4,
+          "time": 14000
+        },
+        {
+          "level": 5,
+          "time": 16000
+        }
+      ],
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      },
+      "unit": {
+        "id": "Cloud_Kill",
+        "interval": 500,
+        "target": "Enemy",
+        "rangePerLevel": [
+          {
+            "level": 1,
+            "size": 1
+          },
+          {
+            "level": 2,
+            "size": 2
+          },
+          {
+            "level": 3,
+            "size": 3
+          },
+          {
+            "level": 4,
+            "size": 3
+          },
+          {
+            "level": 5,
+            "size": 3
+          }
+        ],
+        "flag": {
+          "pathCheck": true,
+          "removedByFireRain": true
+        }
+      }
+    },
+{
+      "description": "Ignition Break",
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 740,
+      "maxLevel": 5,
+      "name": "NPC_IGNITIONBREAK",
+      "splashArea": 5,
+      "targetType": "Self",
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true,
+        "showScale": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Phantom Thrust",
+      "element": "Neutral",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 741,
+      "maxLevel": 5,
+      "name": "NPC_PHANTOMTHRUST",
+      "targetType": "Target",
+      "rangePerLevel": [
+        {
+          "level": 1,
+          "size": 7
+        },
+        {
+          "level": 2,
+          "size": 9
+        },
+        {
+          "level": 3,
+          "size": 11
+        },
+        {
+          "level": 4,
+          "size": 13
+        },
+        {
+          "level": 5,
+          "size": 15
+        }
+      ],
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Poison Buster",
+      "element": "Poison",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 742,
+      "maxLevel": 2,
+      "name": "NPC_POISON_BUSTER",
+      "range": 9,
+      "splashArea": 1,
+      "targetType": "Target",
+      "damageflags": {
+        "splash": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Hallucination Walk",
+      "duration1": 20000,
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 743,
+      "maxLevel": 5,
+      "name": "NPC_HALLUCINATIONWALK",
+      "targetType": "Self",
+      "damageflags": {
+        "noDamage": true
+      },
+      "flags": {
+        "isNpc": true
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Electric Walk",
+      "duration1": 12000,
+      "element": "Wind",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 744,
+      "maxLevel": 5,
+      "name": "NPC_ELECTRICWALK",
+      "targetType": "Self",
+      "activeInstancePerLevel": [
+        {
+          "level": 1,
+          "max": 8
+        },
+        {
+          "level": 2,
+          "max": 10
+        },
+        {
+          "level": 3,
+          "max": 12
+        },
+        {
+          "level": 4,
+          "max": 14
+        },
+        {
+          "level": 5,
+          "max": 16
+        }
+      ],
+      "flags": {
+        "ignoreHovering": true,
+        "isNpc": true
+      },
+      "unit": {
+        "id": "Electricwalk",
+        "interval": 1000,
+        "target": "Enemy",
+        "flag": {
+          "noOverlap": true,
+          "noReiteration": true
+        }
+      }
+    },
+{
+      "castCancel": true,
+      "description": "Fire Walk",
+      "duration1": 12000,
+      "element": "Fire",
+      "damageType": "Single",
+      "hitCount": 1,
+      "id": 745,
+      "maxLevel": 5,
+      "name": "NPC_FIREWALK",
+      "targetType": "Self",
+      "activeInstancePerLevel": [
+        {
+          "level": 1,
+          "max": 8
+        },
+        {
+          "level": 2,
+          "max": 10
+        },
+        {
+          "level": 3,
+          "max": 12
+        },
+        {
+          "level": 4,
+          "max": 14
+        },
+        {
+          "level": 5,
+          "max": 16
+        }
+      ],
+      "flags": {
+        "ignoreHovering": true,
+        "isNpc": true
+      },
+      "unit": {
+        "id": "Firewalk",
+        "interval": 1000,
+        "target": "Enemy",
+        "flag": {
+          "noOverlap": true,
+          "noReiteration": true
+        }
       }
     },
 {
