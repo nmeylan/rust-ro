@@ -99,6 +99,8 @@ pub enum JobName {
     Taekwon,
     #[value_string = "Star Gladiator"]
     StarGladiator,
+    #[value_string = "Star Gladiator Union"]
+    StarGladiatorUnion,
     #[value = 4049]
     #[value_string = "Soul Linker"]
     SoulLinker,
@@ -216,7 +218,7 @@ impl JobName {
     }
 
     pub fn is_taekwon(&self) -> bool {
-        matches!(self, JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker)
+        matches!(self, JobName::Taekwon | JobName::StarGladiator | JobName::StarGladiatorUnion | JobName::SoulLinker)
     }
 
     pub fn job_family(&self) -> JobFamily {
@@ -255,7 +257,7 @@ impl JobName {
 
             JobName::Dancer | JobName::BabyDancer | JobName::Gypsy => JobFamily::Dancer,
 
-            JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => JobFamily::Taekwon,
+            JobName::Taekwon | JobName::StarGladiator | JobName::StarGladiatorUnion | JobName::SoulLinker => JobFamily::Taekwon,
 
             JobName::Gunslinger => JobFamily::Gunslinger,
             JobName::Ninja => JobFamily::Ninja,
@@ -286,7 +288,8 @@ impl JobName {
             | JobName::Priest
             | JobName::Blacksmith
             | JobName::Assassin
-            | JobName::StarGladiator => JOB_2_1_MASK,
+            | JobName::StarGladiator
+            | JobName::StarGladiatorUnion => JOB_2_1_MASK,
 
             // 2-2
             JobName::Crusader
@@ -657,7 +660,7 @@ impl EquipClassFlag {
             JobName::Gunslinger => EquipClassFlag::Gunslinger.as_flag(),
             JobName::Ninja => EquipClassFlag::Ninja.as_flag(),
             JobName::SoulLinker => EquipClassFlag::SoulLinker.as_flag(),
-            JobName::StarGladiator => EquipClassFlag::StarGladiator.as_flag(),
+            JobName::StarGladiator | JobName::StarGladiatorUnion => EquipClassFlag::StarGladiator.as_flag(),
             JobName::SuperNovice => EquipClassFlag::SuperNovice.as_flag(),
             JobName::Taekwon => EquipClassFlag::Taekwon.as_flag(),
             JobName::Wedding => 0,
