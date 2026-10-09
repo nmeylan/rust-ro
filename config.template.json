@@ -173,6 +173,9 @@
       }
     ]
   },
+  "player_bot": {
+    "enabled": false
+  },
   "proxy": {
     "local_char_server_port": 6123,
     "local_map_server_port": 6124,

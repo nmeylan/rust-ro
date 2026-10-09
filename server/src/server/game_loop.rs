@@ -83,6 +83,10 @@ impl Server {
                         let char_map_item = character.to_map_item();
                         map_instance.add_to_next_tick(MapEvent::InsertCharToMap(char_map_item));
                         server_ref.add_to_next_tick(GameEvent::CharacterInitInventory(character.char_id));
+                        if character.is_player_bot {
+                            // No client will acknowledge the map load, same delay as handle_char_loaded_client_side.
+                            server_ref.add_to_tick(GameEvent::CharacterLoadedFromClientSide(character.char_id), 2);
+                        }
                         let account_id = character.account_id;
                         server_state_mut.insert_map_item(account_id, char_map_item);
                     }

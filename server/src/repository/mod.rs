@@ -129,6 +129,9 @@ pub trait CharacterRepository {
     async fn character_with_id_fetch(&self, _char_id: u32) -> Result<CharSelectModel, Error> {
         todo!()
     }
+    async fn character_with_name_fetch(&self, _name: &str) -> Result<CharSelectModel, Error> {
+        todo!()
+    }
     async fn character_reset_skills(&self, _char_id: i32, _skills: Vec<i32>) -> Result<(), Error> {
         todo!()
     }

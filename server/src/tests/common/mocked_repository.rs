@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+use models::status::KnownSkill;
 use sqlx::Error;
 use sqlx::postgres::PgQueryResult;
 
@@ -10,13 +11,23 @@ use crate::repository::{
 };
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
+use crate::server::model::hotkey::Hotkey;
+
+pub const MOCKED_UNKNOWN_CHAR_NAME: &str = "unknown";
+pub const MOCKED_CHAR_ID: u32 = 150_001;
+pub const MOCKED_ACCOUNT_ID: u32 = 2_000_001;
 
 #[derive(Default)]
 pub struct MockedRepository;
 
 impl Repository for MockedRepository {}
 
-impl HotKeyRepository for MockedRepository {}
+#[async_trait]
+impl HotKeyRepository for MockedRepository {
+    async fn load_hotkeys(&self, _char_id: u32) -> Result<Vec<Hotkey>, Error> {
+        Ok(vec![])
+    }
+}
 
 impl ItemRepository for MockedRepository {}
 
@@ -69,5 +80,25 @@ impl CharacterRepository for MockedRepository {
 
     async fn character_fetch(&self, _account_id: u32, _char_num: u8) -> Result<CharSelectModel, Error> {
         Ok(Default::default())
+    }
+
+    async fn character_with_name_fetch(&self, name: &str) -> Result<CharSelectModel, Error> {
+        if name == MOCKED_UNKNOWN_CHAR_NAME {
+            return Err(Error::RowNotFound);
+        }
+        Ok(CharSelectModel {
+            char_id: MOCKED_CHAR_ID as i32,
+            account_id: MOCKED_ACCOUNT_ID as i32,
+            name: name.to_string(),
+            last_map: "empty".to_string(),
+            last_x: 10,
+            last_y: 12,
+            sex: "M".to_string(),
+            ..Default::default()
+        })
+    }
+
+    async fn character_skills(&self, _char_id: u32) -> Result<Vec<KnownSkill>, Error> {
+        Ok(vec![])
     }
 }

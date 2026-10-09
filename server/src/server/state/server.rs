@@ -69,6 +69,10 @@ impl ServerState {
         self.characters.get(&char_id).unwrap()
     }
 
+    pub fn is_player_bot(&self, char_id: u32) -> bool {
+        self.get_character(char_id).is_some_and(|character| character.is_player_bot)
+    }
+
     pub fn insert_character(&mut self, character: Character) {
         self.map_items.insert(character.char_id, character.to_map_item());
         self.characters.insert(character.char_id, character);

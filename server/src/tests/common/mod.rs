@@ -159,6 +159,7 @@ pub fn before_all() {
             config.game.mob_move_frequency_when_no_player_around = 0.95;
             config.game.mob_spawn_refresh_frequency = 0.2;
             config.game.mob_action_refresh_frequency = 0.2;
+            config.player_bot.enabled = true;
             CONFIGS = Some(config);
             setup_logger(CONFIGS.as_ref().unwrap());
         }

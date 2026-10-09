@@ -25,13 +25,13 @@ use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::CountDownLatch;
 use crate::tests::common::{ServerBuilder, TestContext, create_mpsc, test_script_vm};
 
-struct ServerServiceTestContext {
+pub(crate) struct ServerServiceTestContext {
     test_context: TestContext,
-    client_notification_sender: SyncSender<Notification>,
-    server_task_queue: Arc<TasksQueue<GameEvent>>,
+    pub(crate) client_notification_sender: SyncSender<Notification>,
+    pub(crate) server_task_queue: Arc<TasksQueue<GameEvent>>,
     movement_task_queue: Arc<TasksQueue<GameEvent>>,
     status_service: &'static StatusService,
-    server: Server,
+    pub(crate) server: Server,
     runtime: Arc<Runtime>,
 }
 
@@ -41,7 +41,7 @@ impl ServerServiceTestContext {
     }
 }
 
-fn before_each() -> ServerServiceTestContext {
+pub(crate) fn before_each() -> ServerServiceTestContext {
     before_each_with_latch(0)
 }
 

@@ -45,6 +45,7 @@ mod game_loop;
 pub mod map_instance_loop;
 pub mod model;
 pub mod persistence;
+pub mod player_bot;
 pub mod request_handler;
 pub mod script;
 pub mod service;
@@ -502,11 +503,13 @@ impl Server {
                             match single_client_notification_receiver.recv_timeout(Duration::from_millis(16)) {
                                 Ok(response) => match response {
                                     Notification::Char(char_notification) => {
-                                        Self::buffer_packets(
-                                            &mut packets_by_session,
-                                            char_notification.char_id(),
-                                            char_notification.serialized_packet().as_slice(),
-                                        );
+                                        if !server_ref.state().is_player_bot(char_notification.char_id()) {
+                                            Self::buffer_packets(
+                                                &mut packets_by_session,
+                                                char_notification.char_id(),
+                                                char_notification.serialized_packet().as_slice(),
+                                            );
+                                        }
                                     }
                                     Notification::Area(area_notification) => match area_notification.range_type {
                                         AreaNotificationRangeType::Map => {}
@@ -520,6 +523,7 @@ impl Server {
                                                         && character.current_map_instance() == area_notification.map_instance_id
                                                         && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
                                                         && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
+                                                        && !character.is_player_bot
                                                 })
                                                 .for_each(|(_, character)| {
                                                     if GlobalConfigService::instance().config().server.trace_packet {

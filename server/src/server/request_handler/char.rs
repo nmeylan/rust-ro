@@ -249,33 +249,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
                 .unwrap()
         }
     });
-    let skills: Vec<KnownSkill> = server
-        .runtime()
-        .block_on(async { server.repository.character_skills(char_model.char_id as u32).await.unwrap() });
-    let hotkeys: Vec<Hotkey> = server
-        .runtime()
-        .block_on(async { server.repository.load_hotkeys(char_model.char_id as u32).await.unwrap() });
-
-    let char_id: u32 = char_model.char_id as u32;
-    let last_x: u16 = char_model.last_x as u16;
-    let last_y: u16 = char_model.last_y as u16;
-    let mut last_map: String = char_model.last_map.clone();
-    if last_map.is_empty() {
-        last_map = "prontera".to_string();
-    }
-
-    let character = Character::new(
-        char_model.name.clone(),
-        char_id,
-        session_id,
-        StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
-        last_x,
-        last_y,
-        0,
-        last_map,
-        if char_model.sex == "M" { 1 } else { 0 },
-        hotkeys,
-    );
+    let character = load_character(server, &char_model, session_id);
     let char_id = character.char_id;
     let mut map_name = [0 as char; 16];
     character.current_map_name().fill_char_array(map_name.as_mut());
@@ -303,6 +277,32 @@ pub fn handle_select_char(server: &Server, context: Request) {
         packet_ch_send_map_info.fill_raw();
         socket_send!(context, packet_ch_send_map_info);
     }
+}
+
+pub fn load_character(server: &Server, char_model: &CharSelectModel, account_id: u32) -> Character {
+    let char_id = char_model.char_id as u32;
+    let skills: Vec<KnownSkill> = server
+        .runtime()
+        .block_on(async { server.repository.character_skills(char_id).await.unwrap() });
+    let hotkeys: Vec<Hotkey> = server
+        .runtime()
+        .block_on(async { server.repository.load_hotkeys(char_id).await.unwrap() });
+    let mut last_map: String = char_model.last_map.clone();
+    if last_map.is_empty() {
+        last_map = "prontera".to_string();
+    }
+    Character::new(
+        char_model.name.clone(),
+        char_id,
+        account_id,
+        StatusFromDb::from_char_model(char_model, &server.configuration.game, skills),
+        char_model.last_x as u16,
+        char_model.last_y as u16,
+        0,
+        last_map,
+        if char_model.sex == "M" { 1 } else { 0 },
+        hotkeys,
+    )
 }
 
 pub fn handle_enter_game(server: &Server, context: Request) {

@@ -29,6 +29,8 @@ pub struct Config {
     pub database: DatabaseConfig,
     pub proxy: ProxyConfig,
     pub maps: MapConfig,
+    #[serde(default)]
+    pub player_bot: PlayerBotConfig,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
@@ -127,6 +129,11 @@ pub struct DatabaseConfig {
     pub username: String,
     #[set]
     pub password: Option<String>,
+}
+
+#[derive(Deserialize, Debug, Default, Clone)]
+pub struct PlayerBotConfig {
+    pub enabled: bool,
 }
 
 #[derive(Deserialize, Debug, Clone)]

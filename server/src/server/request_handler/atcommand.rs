@@ -15,6 +15,7 @@ use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChan
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
 use crate::server::model::session::Session;
+use crate::server::player_bot::lifecycle;
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::packet::chain_packets;
@@ -108,6 +109,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
         }
         "heal" => {
             let result = handle_heal(server, context.session(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "playerbot" => {
+            let result = handle_player_bot(server, args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -374,4 +379,41 @@ pub fn handle_heal(server: &Server, session: Arc<Session>, args: Vec<&str>) -> S
     }
     server.add_to_next_tick(GameEvent::CharacterRestoreAllHpAndSP(session.char_id()));
     "Restored all HP and SP".to_string()
+}
+
+pub fn handle_player_bot(server: &Server, args: Vec<&str>) -> String {
+    const USAGE: &str = "Usage: @playerbot spawn <char name> | @playerbot despawn <char name> | @playerbot list";
+    let sub_command = args.first().copied().unwrap_or_default();
+    let char_name = args.get(1..).map(|names| names.join(" ")).unwrap_or_default();
+    match sub_command {
+        "spawn" if !char_name.is_empty() => match lifecycle::spawn(server, &char_name) {
+            Ok(char_id) => format!("Player bot {char_name} ({char_id}) spawned"),
+            Err(error) => error,
+        },
+        "despawn" if !char_name.is_empty() => match lifecycle::despawn(server, &char_name) {
+            Ok(char_id) => format!("Player bot {char_name} ({char_id}) despawned"),
+            Err(error) => error,
+        },
+        "list" => {
+            let player_bots = lifecycle::player_bots(server);
+            if player_bots.is_empty() {
+                return "No player bot in game".to_string();
+            }
+            let mut msg = String::new();
+            for character in player_bots {
+                writeln!(
+                    msg,
+                    "{} ({}) {} {},{}",
+                    character.name,
+                    character.char_id,
+                    character.current_map_name(),
+                    character.x(),
+                    character.y()
+                )
+                .unwrap();
+            }
+            msg
+        }
+        _ => USAGE.to_string(),
+    }
 }

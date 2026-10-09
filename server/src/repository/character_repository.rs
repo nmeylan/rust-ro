@@ -122,6 +122,13 @@ impl CharacterRepository for PgRepository {
             .await
     }
 
+    async fn character_with_name_fetch(&self, name: &str) -> Result<CharSelectModel, Error> {
+        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE name = $1")
+            .bind(name)
+            .fetch_one(&self.pool)
+            .await
+    }
+
     async fn character_reset_skills(&self, char_id: i32, skills: Vec<i32>) -> Result<(), Error> {
         sqlx::query("DELETE FROM skill WHERE char_id = $1 and id IN (SELECT * FROM UNNEST($2::int4[]))")
             .bind(char_id)

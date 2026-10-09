@@ -23,6 +23,7 @@ pub struct Session {
     pub char_id: Option<u32>,
     pub packetver: u32,
     pub is_simulated: bool,
+    pub is_player_bot: bool,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>>, /* TODO keep track on creation. Abort script thread after X
                                                                         * minutes + abort on new script interaction */
 }
@@ -243,6 +244,7 @@ impl Session {
             char_id: None,
             packetver,
             is_simulated: false,
+            is_player_bot: false,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -257,6 +259,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            is_player_bot: self.is_player_bot,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -271,6 +274,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: false,
+            is_player_bot: false,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -290,6 +294,22 @@ impl Session {
             char_id: Some(char_id),
             packetver,
             is_simulated: true,
+            is_player_bot: false,
+            script_handler_channel_sender: Mutex::new(None),
+        }
+    }
+
+    pub fn create_for_player_bot(account_id: u32, char_id: u32, packetver: u32) -> Session {
+        Session {
+            char_server_socket: None,
+            map_server_socket: None,
+            account_id,
+            auth_code: 0,
+            user_level: 0,
+            char_id: Some(char_id),
+            packetver,
+            is_simulated: false,
+            is_player_bot: true,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -304,6 +324,7 @@ impl Session {
             char_id: Some(char_id),
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            is_player_bot: self.is_player_bot,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -318,6 +339,7 @@ impl Session {
             char_id: None,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            is_player_bot: self.is_player_bot,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -332,6 +354,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            is_player_bot: self.is_player_bot,
             script_handler_channel_sender: Mutex::new(None),
         }
     }

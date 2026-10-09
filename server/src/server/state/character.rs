@@ -145,6 +145,9 @@ pub struct Character {
     pub sex: u8,
     pub timing: CharacterTiming,
     pub action: CharacterAction,
+    /// Character driven by the server (player-bot module), no client is
+    /// connected behind it.
+    pub is_player_bot: bool,
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item = (usize, &'a InventoryItemModel)> + 'a>;
@@ -200,6 +203,7 @@ impl Character {
             sex,
             timing: CharacterTiming::new(),
             action: CharacterAction::Idle,
+            is_player_bot: false,
         }
     }
 
