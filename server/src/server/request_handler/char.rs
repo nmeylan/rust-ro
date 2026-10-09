@@ -341,6 +341,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     }
     let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
     packet_map_connection.set_aid(aid);
+    packet_map_connection.fill_raw();
 
     socket_send!(context, packet_map_connection);
 

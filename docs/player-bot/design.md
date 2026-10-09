@@ -140,6 +140,8 @@ A fila `TasksQueue` usa `Mutex` (`model/tasks_queue.rs`), então a thread do bot
 
 ## 7. IA
 
+Esta seção cobre a IA básica (M1 a M3). Personalidade, necessidades, objetivos, grupos e relacionamentos estão em [behavior.md](behavior.md).
+
 ### Ciclo de decisão
 A cada foto recebida, cada bot avalia as regras em ordem de prioridade. A primeira que se aplica decide o que acontece. A ordem é inspirada em `openkore/src/AI/CoreLogic.pm`:
 
