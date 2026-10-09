@@ -9,7 +9,7 @@ use packets::packets::{
     CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
     PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion,
     PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved,
-    PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2,
+    PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2,
     PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck,
     ZserverAddr,
 };
@@ -207,11 +207,23 @@ pub fn handle_make_char(server: &Server, context: Request) {
     let created_char = server.runtime().block_on(async {
         let char_model = char_model.unwrap();
         let name = char_model.name.as_str();
-        server.repository.character_insert(&char_model).await.unwrap();
+        server.repository.character_insert(&char_model).await?;
         // TODO add default stuff
-        let created_char: CharacterInfoNeoUnionWrapped = server.repository.character_info(char_model.account_id, name).await.unwrap();
-        created_char.data
+        let created_char: CharacterInfoNeoUnionWrapped = server.repository.character_info(char_model.account_id, name).await?;
+        Ok::<CharacterInfoNeoUnion, sqlx::Error>(created_char.data)
     });
+    let created_char = match created_char {
+        Ok(created_char) => created_char,
+        Err(error) => {
+            let name_already_exists = error.as_database_error().is_some_and(|db_error| db_error.is_unique_violation());
+            let mut packet_hc_refuse_makechar = PacketHcRefuseMakechar::new(GlobalConfigService::instance().packetver());
+            // 0x00: name already exists, 0xFF: char creation denied
+            packet_hc_refuse_makechar.set_error_code(if name_already_exists { 0x00 } else { 0xFF });
+            packet_hc_refuse_makechar.fill_raw();
+            socket_send!(context, packet_hc_refuse_makechar);
+            return;
+        }
+    };
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new(GlobalConfigService::instance().packetver());
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
