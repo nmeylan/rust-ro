@@ -8,9 +8,16 @@ use crate::server::request_handler::char::load_character;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 
+pub struct SpawnLocation {
+    pub map_name: String,
+    pub x: u16,
+    pub y: u16,
+}
+
 /// Put a saved character in game as a player bot, following the same steps
 /// than a client selecting a character then entering the map.
-pub fn spawn(server: &Server, char_name: &str) -> Result<u32, String> {
+/// Without `location` the bot spawns at its last saved position.
+pub fn spawn(server: &Server, char_name: &str, location: Option<SpawnLocation>) -> Result<u32, String> {
     if !server.configuration.player_bot.enabled {
         return Err("Player bots are disabled, set player_bot.enabled in config.json".to_string());
     }
@@ -41,8 +48,11 @@ pub fn spawn(server: &Server, char_name: &str) -> Result<u32, String> {
 
     let mut character = load_character(server, &char_model, account_id);
     character.is_player_bot = true;
-    let map_name = Map::name_without_ext(character.current_map_name());
-    let (x, y) = (character.x(), character.y());
+    let location = location.unwrap_or_else(|| SpawnLocation {
+        map_name: character.current_map_name().clone(),
+        x: character.x(),
+        y: character.y(),
+    });
     server.state_mut().insert_character(character);
     server.state().add_session(
         account_id,
@@ -56,7 +66,13 @@ pub fn spawn(server: &Server, char_name: &str) -> Result<u32, String> {
     server.add_to_next_tick(GameEvent::CharacterJoinGame(char_id));
     server
         .server_service()
-        .schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, char_id);
+        .schedule_warp_to_walkable_cell(
+            server.state_mut().as_mut(),
+            &Map::name_without_ext(&location.map_name),
+            location.x,
+            location.y,
+            char_id,
+        );
     Ok(char_id)
 }
 

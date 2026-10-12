@@ -8,7 +8,7 @@ mod tests {
     use crate::server::model::events::game_event::{CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
     use crate::server::model::session::Session;
     use crate::server::model::tasks_queue::TasksQueue;
-    use crate::server::player_bot::lifecycle;
+    use crate::server::player_bot::lifecycle::{self, SpawnLocation};
     use crate::tests::common::character_helper::create_character;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::mocked_repository::{MOCKED_ACCOUNT_ID, MOCKED_CHAR_ID, MOCKED_UNKNOWN_CHAR_NAME};
@@ -40,7 +40,7 @@ mod tests {
         // Given
         let context = before_each_with_empty_map();
         // When
-        let result = lifecycle::spawn(&context.server, "bot1");
+        let result = lifecycle::spawn(&context.server, "bot1", None);
         // Then
         assert_eq!(result, Ok(MOCKED_CHAR_ID));
         let character = context.server.state().get_character(MOCKED_CHAR_ID).unwrap();
@@ -57,7 +57,7 @@ mod tests {
         config.player_bot.enabled = false;
         context.server.configuration = Box::leak(Box::new(config));
         // When
-        let result = lifecycle::spawn(&context.server, "bot1");
+        let result = lifecycle::spawn(&context.server, "bot1", None);
         // Then
         assert!(result.is_err());
         assert!(context.server.state().get_character(MOCKED_CHAR_ID).is_none());
@@ -69,7 +69,7 @@ mod tests {
         // Given
         let context = before_each_with_empty_map();
         // When
-        lifecycle::spawn(&context.server, "bot1").unwrap();
+        lifecycle::spawn(&context.server, "bot1", None).unwrap();
         // Then
         let session = context.server.state().get_session(MOCKED_ACCOUNT_ID);
         assert!(session.is_player_bot);
@@ -83,7 +83,7 @@ mod tests {
         // Given
         let context = before_each_with_empty_map();
         // When
-        lifecycle::spawn(&context.server, "bot1").unwrap();
+        lifecycle::spawn(&context.server, "bot1", None).unwrap();
         // Then
         let events: Vec<GameEvent> = drain_events_by_tick(&context.server_task_queue).into_iter().flatten().collect();
         assert!(events.contains(&GameEvent::CharacterJoinGame(MOCKED_CHAR_ID)));
@@ -96,11 +96,32 @@ mod tests {
     }
 
     #[test]
+    fn spawn_should_warp_to_given_location() {
+        // Given
+        let context = before_each_with_empty_map();
+        let location = SpawnLocation {
+            map_name: "empty.gat".to_string(),
+            x: 20,
+            y: 25,
+        };
+        // When
+        lifecycle::spawn(&context.server, "bot1", Some(location)).unwrap();
+        // Then
+        let events: Vec<GameEvent> = drain_events_by_tick(&context.server_task_queue).into_iter().flatten().collect();
+        assert!(events.contains(&GameEvent::CharacterChangeMap(CharacterChangeMap {
+            char_id: MOCKED_CHAR_ID,
+            new_map_name: "empty".to_string(),
+            new_instance_id: 0,
+            new_position: Some(Position { x: 20, y: 25, dir: 3 }),
+        })));
+    }
+
+    #[test]
     fn spawn_should_fail_when_character_does_not_exist() {
         // Given
         let context = before_each_with_empty_map();
         // When
-        let result = lifecycle::spawn(&context.server, MOCKED_UNKNOWN_CHAR_NAME);
+        let result = lifecycle::spawn(&context.server, MOCKED_UNKNOWN_CHAR_NAME, None);
         // Then
         assert_eq!(result, Err(format!("Character {MOCKED_UNKNOWN_CHAR_NAME} not found")));
     }
@@ -109,9 +130,9 @@ mod tests {
     fn spawn_should_fail_when_character_is_already_in_game() {
         // Given
         let context = before_each_with_empty_map();
-        lifecycle::spawn(&context.server, "bot1").unwrap();
+        lifecycle::spawn(&context.server, "bot1", None).unwrap();
         // When
-        let result = lifecycle::spawn(&context.server, "bot1");
+        let result = lifecycle::spawn(&context.server, "bot1", None);
         // Then
         assert_eq!(result, Err("Character bot1 is already in game".to_string()));
     }
@@ -125,7 +146,7 @@ mod tests {
             .state()
             .add_session(MOCKED_ACCOUNT_ID, Arc::new(Session::create_empty(MOCKED_ACCOUNT_ID, 0, 0, 0)));
         // When
-        let result = lifecycle::spawn(&context.server, "bot1");
+        let result = lifecycle::spawn(&context.server, "bot1", None);
         // Then
         assert_eq!(
             result,
@@ -139,7 +160,7 @@ mod tests {
     fn despawn_should_remove_from_map_then_leave_game_and_remove_session() {
         // Given
         let context = before_each_with_empty_map();
-        lifecycle::spawn(&context.server, "bot1").unwrap();
+        lifecycle::spawn(&context.server, "bot1", None).unwrap();
         drain_events_by_tick(&context.server_task_queue);
         // When
         let result = lifecycle::despawn(&context.server, "bot1");
@@ -177,7 +198,7 @@ mod tests {
         // Given
         let context = before_each_with_empty_map();
         context.server.state_mut().insert_character(create_character());
-        lifecycle::spawn(&context.server, "bot1").unwrap();
+        lifecycle::spawn(&context.server, "bot1", None).unwrap();
         // When
         let player_bots = lifecycle::player_bots(&context.server);
         // Then

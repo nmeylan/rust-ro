@@ -6,6 +6,8 @@ use configuration::configuration::CityConfig;
 use lazy_static::lazy_static;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use movement::Movable;
+use movement::position::Position;
 use packets::packets::{Packet, PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use regex_lite::Regex;
 
@@ -15,10 +17,12 @@ use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChan
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
 use crate::server::model::session::Session;
-use crate::server::player_bot::lifecycle;
+use crate::server::player_bot::action;
+use crate::server::player_bot::lifecycle::{self, SpawnLocation};
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::packet::chain_packets;
+use crate::util::tick::get_tick;
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -112,7 +116,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             packet_zc_notify_playerchat.set_msg(result);
         }
         "playerbot" => {
-            let result = handle_player_bot(server, args);
+            let result = handle_player_bot(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -381,19 +385,65 @@ pub fn handle_heal(server: &Server, session: Arc<Session>, args: Vec<&str>) -> S
     "Restored all HP and SP".to_string()
 }
 
-pub fn handle_player_bot(server: &Server, args: Vec<&str>) -> String {
-    const USAGE: &str = "Usage: @playerbot spawn <char name> | @playerbot despawn <char name> | @playerbot list";
+fn handle_player_bot_move(server: &Server, args: &[&str]) -> String {
+    let (name_args, coordinates) = args.split_at(args.len() - 2);
+    let char_name = name_args.join(" ");
+    let (Ok(x), Ok(y)) = (coordinates[0].parse::<u16>(), coordinates[1].parse::<u16>()) else {
+        return format!("Invalid coordinates {} {}", coordinates[0], coordinates[1]);
+    };
+    let Some(character) = lifecycle::player_bots(server).into_iter().find(|character| character.name == char_name) else {
+        return format!("No player bot named {char_name} in game");
+    };
+    let Some(map_instance) = server.state().get_map_instance_from_character(character) else {
+        return format!("Player bot {char_name} is not on a map");
+    };
+    // When already walking, the new path starts from the next cell, like handle_char_move.
+    let current_position = character
+        .peek_movement()
+        .filter(|_| character.is_moving())
+        .map(|movement| *movement.position())
+        .unwrap_or(Position {
+            x: character.x(),
+            y: character.y(),
+            dir: 0,
+        });
+    match action::move_to(
+        server,
+        map_instance.as_ref(),
+        character.char_id,
+        current_position,
+        character.get_canmove_tick(),
+        get_tick(),
+        Position { x, y, dir: 0 },
+    ) {
+        Ok(()) => format!("Player bot {char_name} moving to {x},{y}"),
+        Err(error) => error,
+    }
+}
+
+pub fn handle_player_bot(server: &Server, session: Arc<Session>, args: Vec<&str>) -> String {
+    const USAGE: &str =
+        "Usage: @playerbot spawn <char name> | @playerbot despawn <char name> | @playerbot move <char name> <x> <y> | @playerbot list";
     let sub_command = args.first().copied().unwrap_or_default();
     let char_name = args.get(1..).map(|names| names.join(" ")).unwrap_or_default();
     match sub_command {
-        "spawn" if !char_name.is_empty() => match lifecycle::spawn(server, &char_name) {
-            Ok(char_id) => format!("Player bot {char_name} ({char_id}) spawned"),
-            Err(error) => error,
-        },
+        "spawn" if !char_name.is_empty() => {
+            let summoner = server.state().get_character_unsafe(session.char_id());
+            let location = SpawnLocation {
+                map_name: summoner.current_map_name().clone(),
+                x: summoner.x(),
+                y: summoner.y(),
+            };
+            match lifecycle::spawn(server, &char_name, Some(location)) {
+                Ok(char_id) => format!("Player bot {char_name} ({char_id}) spawned"),
+                Err(error) => error,
+            }
+        }
         "despawn" if !char_name.is_empty() => match lifecycle::despawn(server, &char_name) {
             Ok(char_id) => format!("Player bot {char_name} ({char_id}) despawned"),
             Err(error) => error,
         },
+        "move" if args.len() >= 4 => handle_player_bot_move(server, &args[1..]),
         "list" => {
             let player_bots = lifecycle::player_bots(server);
             if player_bots.is_empty() {

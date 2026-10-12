@@ -231,10 +231,15 @@ Com muitos bots pegando loot, cada item vira uma ida ao banco no meio do tick. A
 
 - **M0** — implementado em 2026-10-08 (branch `player-bot`), falta validar em jogo com um cliente.
   - `server/src/server/player_bot/lifecycle.rs`: `spawn`, `despawn`, `player_bots`
+  - `spawn` recebe uma `SpawnLocation` opcional. O `@playerbot spawn` passa a posição de quem digitou o comando; com `None`, o bot nasce na última posição salva, que é o caso do spawn no boot (M5)
   - `request_handler/char.rs::load_character`, extraído de `handle_select_char` e usado pelos dois caminhos
   - O game loop marca o bot como carregado sozinho após cada `CharacterChangeMap`, o que cobre spawn, `@warp`, portais e respawn
   - Testes: `server/src/tests/player_bot_lifecycle_test.rs`
   - Seção `player_bot` no `config.json` (`PlayerBotConfig` em `lib/configuration`). Por enquanto só tem `enabled`, que vem `false` por padrão; desligado, `lifecycle::spawn` recusa
+
+- **M1** — em andamento.
+  - Passo 1: `player_bot/action.rs::move_to` calcula o caminho e envia `CharacterMove`. Recebe posição, `can_move_at` e mapa por argumento, sem ler o `ServerState`, para a thread dos bots poder chamar. Exposto por `@playerbot move <char> <x> <y>`. Testes: `server/src/tests/player_bot_action_test.rs`
+  - Próximo: `player_bot_thread` com percepção mínima, depois a tarefa `RandomWalk`
 
 Testes: cada marco ganha testes em `server/src/tests/` (a IA pode ser testada pura, com `PlayerBotPerception` montada à mão, sem servidor).
 

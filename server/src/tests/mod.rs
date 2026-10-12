@@ -15,6 +15,7 @@ mod map_instance_service_test;
 #[cfg(test)]
 mod mob_service_test;
 #[cfg(test)]
+mod player_bot_action_test;
 mod player_bot_lifecycle_test;
 #[cfg(test)]
 mod server_service_test;
